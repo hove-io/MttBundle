@@ -1,0 +1,25 @@
+{
+    "name": "canaltp/meth-bundle",
+    "type": "symfony-bundle",
+    "description": "METH Bundle",
+    "keywords": [],
+    "homepage": "http://hg.prod.canaltp.fr/ctp/SymfonyBundles/CanalTPMethBundle/summary",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vincent Degroote",
+            "email": "vincent.degroote@canaltp.fr"
+        },
+        {
+            "name": "Rémy Abi-Khalil",
+            "email": "remy.abikhalil@canaltp.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-0": { "CanalTP\\MethBundle\\": "" }
+    },
+    "target-dir": "CanalTP/MethBundle/"
+}
