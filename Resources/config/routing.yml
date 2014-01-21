@@ -1,0 +1,3 @@
+canal_tp_meth_homepage:
+    pattern:  /
+    defaults: { _controller: CanalTPMethBundle:Default:index }
