@@ -1,0 +1,10 @@
+{% extends "::base.html.twig" %}
+
+{% block main_content %}
+    <h1>{{ 'welcome'|trans({}, 'default') }}</h1>
+    <ul>
+        {% for route in routes.route_schedules[0].table.rows %}
+            <li>{{ route.stop_point.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
