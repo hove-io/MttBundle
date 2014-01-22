@@ -16,7 +16,7 @@ class NetworkRepository extends EntityRepository
     {
         $sql = 'SELECT n.coverage_id, n.name_id';
         $sql .= ' FROM user_networks un, network n';
-        $sql .= ' WHERE un.user_id = ' . $userId;
+        $sql .= ' WHERE un.network_id = n.id AND un.user_id = ' . $userId;
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
 
         $stmt->execute();
