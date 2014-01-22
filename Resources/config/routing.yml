@@ -2,6 +2,10 @@ canal_tp_meth_homepage:
     pattern:  /
     defaults: { _controller: CanalTPMethBundle:Default:index }
 
+canal_tp_meth_menu:
+    pattern:  /navigation
+    defaults: { _controller: CanalTPMethBundle:Default:navigation }
+
 canal_tp_meth_stop_point_list:
     pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{route_id}/list
     defaults: { _controller: CanalTPMethBundle:StopPoint:list }
