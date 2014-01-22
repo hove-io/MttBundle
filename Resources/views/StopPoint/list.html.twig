@@ -1,5 +1,9 @@
 {% extends "CanalTPCoreBoBundle::generic_list.html.twig" %}
 
+{% block left_menu %}
+    {{ render(controller('CanalTPMethBundle:Default:navigation', { 'max': 3 })) }}
+{% endblock %}
+
 {% block list_title -%}
     {{'stop_point.list.header'|trans({}, 'default')}} ({{ routes.route_schedules[0].display_informations.label }})
 {% endblock %}
