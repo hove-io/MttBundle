@@ -10,3 +10,7 @@
         {% endfor %}
     </ul>
 {% endblock %}
+
+{% block left_menu %}
+    {{ render(controller('CanalTPMethBundle:Default:navigation', { 'max': 3 })) }}
+{% endblock %}

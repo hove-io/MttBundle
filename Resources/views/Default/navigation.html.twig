@@ -1,0 +1,27 @@
+<div class="panel-group" id="lines-accordion">
+    {% for mode,lines in result %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#lines-accordion" href="#mode-collapse-{{ loop.index0 }}">
+                        {{ lines[0].commercial_mode.name }}
+                    </a>
+            </div>
+            <div id="mode-collapse-{{ loop.index0 }}" class="panel-collapse collapse">
+                <div class="panel-body">
+                    {% for line in lines %}
+                            <div>
+                                {{ line.name }}
+                                <ul>
+                                {% for route in line.routes %}
+                                    <li><a href="">{{ route.name }}</a></li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                            <hr/>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
