@@ -1,0 +1,19 @@
+CanalTP\MethBundle\Entity\Network:
+    type: entity
+    table: network
+    repositoryClass: CanalTP\MethBundle\Entity\NetworkRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        coverageId:
+            type: string
+            length: 255
+            column: coverage_id
+        nameId:
+            type: string
+            length: 255
+            column: name_id
+    lifecycleCallbacks: {  }

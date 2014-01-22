@@ -1,5 +1,12 @@
 {% extends "::base.html.twig" %}
 
 {% block main_content %}
-    {{ 'welcome'|trans({}, 'default') }}
+    <h1>{{ 'welcome'|trans({}, 'default') }}</h1>
+    <br>
+    <h3>Networks</h3>
+    <ul>
+        {% for network in networks %}
+            <li>{{ network.coverage_id }} -> {{ network.name_id }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

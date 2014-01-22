@@ -8,6 +8,10 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('CanalTPMethBundle:Default:index.html.twig');
+        $networks = $this->getDoctrine()
+        ->getRepository('CanalTPMethBundle:Network', 'meth')
+        ->findNetworksByUserId($this->getUser()->getId());
+
+        return $this->render('CanalTPMethBundle:Default:index.html.twig', array('networks' => $networks));
     }
 }
