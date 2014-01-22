@@ -1,10 +1,42 @@
-{% extends "::base.html.twig" %}
+{% extends "CanalTPCoreBoBundle::generic_list.html.twig" %}
 
-{% block main_content %}
-    <h1>{{ 'welcome'|trans({}, 'default') }}</h1>
-    <ul>
-        {% for route in routes.route_schedules[0].table.rows %}
-            <li>{{ route.stop_point.name }}</li>
-        {% endfor %}
-    </ul>
+{% block list_title -%}
+    {{'stop_point.list.header'|trans({}, 'default')}} ({{ routes.route_schedules[0].display_informations.label }})
+{% endblock %}
+
+{% block table_head -%}
+    <th>{{'stop_point.header'|trans({}, 'default')}}</th>
+    <th class="text-center">{{'global.status'|trans}}</th>
+    <th>{{'stop_point.action.header'|trans({}, 'default')}}</th>
+{% endblock %}
+
+{% block table_body -%}
+
+    {% for route in routes.route_schedules[0].table.rows %}
+        <tr>
+            <td>
+                {{ route.stop_point.name }}
+            </td>
+            <td class="text-center">{{ macros.display_bool(false) }}</td>
+            <td class="action">
+                <div class="btn-group">
+                    <a href="#" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok"></span> {{'global.validate'|trans}}
+                    </a>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">{{'ctp_core.toggle_menu'|trans}}</span>
+                    </button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li>    
+                            <a class="danger" href="#">
+                                <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    
 {% endblock %}
