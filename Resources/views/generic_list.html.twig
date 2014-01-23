@@ -1,0 +1,23 @@
+{% extends "CanalTPMethBundle::base.html.twig" %}
+
+{% import "CanalTPCoreBoBundle::macros.html.twig" as macros %}
+
+{% block main_content -%}
+    <h1>{% block list_title -%}{% endblock %}</h1>
+    <hr/>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+               {% block table_head -%}{% endblock %}
+            </tr>
+        </thead>
+        <tbody>
+        {% block table_body -%}
+        {% endblock %}
+        </tbody>
+    </table>
+
+    {% block list_pagination -%}
+    {% endblock %}
+
+{% endblock %}

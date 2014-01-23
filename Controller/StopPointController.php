@@ -10,10 +10,17 @@ class StopPointController extends Controller
     {
         $navitia = $this->get('iussaad_navitia');
         $routes = $navitia->getStopPoints($coverage_id, $network_id, $line_id, $route_id);
-
+        
         return $this->render(
             'CanalTPMethBundle:StopPoint:list.html.twig',
-            array('routes' => $routes)
+            array(
+                'routes'        => $routes,
+                'current_route' => $route_id,
+                'coverage_id'   => $coverage_id,
+                'network_id'    => $network_id,
+                'line_id'       => $line_id,
+                'route_id'      => $route_id,
+            )
         );
     }
 }

@@ -1,8 +1,4 @@
-{% extends "::base.html.twig" %}
-
-{% block left_menu %}
-    {{ render(controller('CanalTPMethBundle:Default:navigation', { 'max': 3 })) }}
-{% endblock %}
+{% extends "CanalTPMethBundle::base.html.twig" %}
 
 {% block main_content %}
     <h1>{{ 'welcome'|trans({}, 'default') }}</h1>

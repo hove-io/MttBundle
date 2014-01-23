@@ -1,4 +1,4 @@
-<div class="panel-group" id="lines-accordion">
+<div id="lines-accordion" class="panel-group">
     {% for mode,lines in result %}
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -10,18 +10,30 @@
             <div id="mode-collapse-{{ loop.index0 }}" class="panel-collapse collapse">
                 <div class="panel-body">
                     {% for line in lines %}
-                            <div>
-                                {{ line.name }}
-                                <ul>
-                                {% for route in line.routes %}
-                                    <li><a href="">{{ route.name }}</a></li>
-                                {% endfor %}
-                                </ul>
-                            </div>
-                            <hr/>
+                        <div class="line-menu-wrapper clearfix">
+                            <a class="line-link-toggle" href="#">{{ line.name }}</a>
+                            <span class="badge pull-right">{{ line.routes|length }}</span>
+                            <ul class="display-none">
+                            {% for route in line.routes %}
+                                <li {% if route.id == current_route %} class="active"{% endif %}>
+                                    <a href="{{ path('canal_tp_meth_stop_point_list', {'coverage_id':coverageId,'network_id':line.network.id, 'line_id':line.id, 'route_id': route.id}) }}">
+                                        {{ route.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
     {% endfor %}
 </div>
+<script type="text/javascript">require(['meth_left_menu'],function(menu){
+    var $wrapper = $('#lines-accordion');
+    {% if current_route is not null %}
+        menu.init($wrapper, true);
+    {% else %}
+        menu.init($wrapper);
+    {% endif %}
+});</script>

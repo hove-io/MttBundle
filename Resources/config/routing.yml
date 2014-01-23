@@ -3,9 +3,13 @@ canal_tp_meth_homepage:
     defaults: { _controller: CanalTPMethBundle:Default:index }
 
 canal_tp_meth_menu:
-    pattern:  /navigation
-    defaults: { _controller: CanalTPMethBundle:Default:navigation }
+    pattern:  /navigation/{current_route}
+    defaults: { _controller: CanalTPMethBundle:Default:navigation, current_route: null }
 
 canal_tp_meth_stop_point_list:
     pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{route_id}/list
     defaults: { _controller: CanalTPMethBundle:StopPoint:list }
+    
+canal_tp_meth_choose_layout:
+    pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/choose_layout/route/{route_id}
+    defaults: { _controller: CanalTPMethBundle:Line:chooseLayout }

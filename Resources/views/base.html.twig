@@ -1,0 +1,25 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="btn-group-vertical">
+            {% block left_menu %}
+                {{ render(controller('CanalTPMethBundle:Default:navigation')) }}
+            {% endblock %}
+            </div>
+        </div>
+        <div class="col-md-9">            
+            {% block main_content %}
+            {% endblock %}
+        </div>
+    </div>
+    <div id="base-modal" class="modal fade">
+        {% include 'CanalTPMethBundle::modal.html.twig' %}
+    </div><!-- /.modal -->
+{% endblock %}
+
+{# Common javascripts for MethBundle #}
+{% block javascripts %}
+    
+{% endblock %}

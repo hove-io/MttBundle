@@ -1,11 +1,15 @@
-{% extends "CanalTPCoreBoBundle::generic_list.html.twig" %}
+{% extends "CanalTPMethBundle::generic_list.html.twig" %}
 
 {% block left_menu %}
-    {{ render(controller('CanalTPMethBundle:Default:navigation', { 'max': 3 })) }}
+    {{ render(controller('CanalTPMethBundle:Default:navigation', { 'current_route': current_route })) }}
 {% endblock %}
 
 {% block list_title -%}
     {{'stop_point.list.header'|trans({}, 'default')}} ({{ routes.route_schedules[0].display_informations.label }})
+    -
+    <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_meth_choose_layout', {'coverage_id':coverage_id, 'network_id': network_id, 'line_id': line_id, 'route_id': route_id}) }}" class="btn btn-success">
+        {{'line.choose_layout'|trans({}, 'default')}}
+    </a>
 {% endblock %}
 
 {% block table_head -%}

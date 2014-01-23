@@ -1,0 +1,25 @@
+CanalTP\MethBundle\Entity\Line:
+    type: entity
+    table: line
+    repositoryClass: CanalTP\MethBundle\Entity\LineRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        coverageId:
+            type: string
+            length: 255
+            column: coverage_id
+        networkId:
+            type: string
+            length: 255
+            column: network_id
+        navitiaLineId:
+            type: string
+            length: 255
+            column: navitia_line_id
+        layout:
+            type: string
+            column: layout

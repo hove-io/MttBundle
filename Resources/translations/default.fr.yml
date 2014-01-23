@@ -8,3 +8,6 @@ stop_point:
         header: Actions
         validate: Valider
         edit: Editer
+
+line:
+    choose_layout: Choisir un layout

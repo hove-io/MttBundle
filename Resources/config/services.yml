@@ -2,6 +2,17 @@ parameters:
     navitia_component.class: Navitia\Component\Service\ServiceFacade
     iussaad_navitia.class: CanalTP\IussaadBundle\Services\Navitia
     canal_tp_meth.navitia.class: CanalTP\MethBundle\Services\Navitia
+    layouts:
+        layout_1:
+            label: Layout 1 de type paysage (exemple Dijon)
+            data:
+                twig: layout_1.html.twig
+                preview: /bundles/canaltpmeth/img/layout_1.png
+        layout_2:
+            label: Layout 2 de type paysage (exemple Brest)
+            data:
+                twig: layout_2.html.twig
+                preview: /bundles/canaltpmeth/img/layout_2.png
 
 services:
     navitia_component:
@@ -16,3 +27,9 @@ services:
     canal_tp_meth.navitia:
        class: %canal_tp_meth.navitia.class%
        arguments: ['@navitia_component', '@iussaad_navitia']
+    form.type.layout:
+        class: CanalTP\MethBundle\Form\Type\LayoutType
+        arguments:
+            - "%layouts%"
+        tags:
+            - { name: form.type, alias: layout }

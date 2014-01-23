@@ -15,7 +15,7 @@ class DefaultController extends Controller
         return $this->render('CanalTPMethBundle:Default:index.html.twig', array('networks' => $networks));
     }
     
-    public function navigationAction()
+    public function navigationAction($current_route = null)
     {
         $meth_navitia = $this->get('canal_tp_meth.navitia');
         $networks = $this->getDoctrine()
@@ -24,9 +24,15 @@ class DefaultController extends Controller
 
          // Configuration
         $result = $meth_navitia->getLinesByMode($networks[0]['coverage_id'], $networks[0]['name_id']);
+
+        // var_dump($result);die;
         return $this->render(
             'CanalTPMethBundle:Default:navigation.html.twig',
-            array('result' => $result)
+            array(
+                'result' => $result,
+                'coverageId' => $networks[0]['coverage_id'],
+                'current_route' => $current_route
+            )
         );
     }
 }

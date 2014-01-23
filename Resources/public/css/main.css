@@ -1,3 +1,38 @@
-#lines-accordion .panel-group .panel{
-    margin-top:0;
+/* utilities classes */
+.modal-dialog {
+    width:800px;
+}
+.display-none{
+    display:none;
+}
+#left-menu{
+    padding-bottom:50px;
+}
+#lines-accordion.panel-group .panel{
+    border-radius:0px;
+    width:100%;
+}
+#lines-accordion.panel-group .panel + .panel{
+    margin-top:-1px;
+}
+#lines-accordion.panel-group .panel-body{
+    padding:15px 0px;
+}
+#lines-accordion .line-menu-wrapper{
+    padding:5px;
+    border-bottom:1px solid rgba(0,0,0,0.5);
+}
+#lines-accordion .line-menu-wrapper:last-child{
+    border-bottom:none;
+}
+#lines-accordion .line-menu-wrapper li.active,
+#lines-accordion .line-menu-wrapper li.active a{
+    background-color:#5cb85c;
+    color:white;
+}
+.layout-preview{
+    width:300px;
+}
+.layout-choice-item{
+    color:black;
 }
