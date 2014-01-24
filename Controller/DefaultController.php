@@ -21,11 +21,9 @@ class DefaultController extends Controller
         $networks = $this->getDoctrine()
         ->getRepository('CanalTPMethBundle:Network', 'meth')
         ->findNetworksByUserId($this->getUser()->getId());
-
-         // Configuration
+        // Configuration
         $result = $meth_navitia->getLinesByMode($networks[0]['coverage_id'], $networks[0]['name_id']);
 
-        // var_dump($result);die;
         return $this->render(
             'CanalTPMethBundle:Default:navigation.html.twig',
             array(
