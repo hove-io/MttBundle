@@ -10,4 +10,6 @@ stop_point:
         edit: Editer
 
 line:
-    choose_layout: Choisir un layout
+    choose_layout: Choisir un modèle
+    layout_chosen: Le modèle a bien été assigné à la ligne.
+    edit_layout: Modifier le modèle

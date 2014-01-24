@@ -5,7 +5,6 @@ namespace CanalTP\MethBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use CanalTP\MethBundle\Form\Type\LayoutType;
 use CanalTP\MethBundle\Entity\Line;
 
 class LineController extends Controller
@@ -30,7 +29,7 @@ class LineController extends Controller
             ->add('layout', 'layout', array(
                 'empty_value' => 'Choose a layout',
             ))
-            ->setAction($this->generateUrl('canal_tp_meth_choose_layout', $url_params))
+            ->setAction($this->generateUrl('canal_tp_meth_line_choose_layout', $url_params))
             ->setMethod('POST')
             ->getForm();
         $form->handleRequest($this->getRequest());
@@ -63,4 +62,26 @@ class LineController extends Controller
             );
         }
     }
+    
+    /*
+     * display a form to choose a layout for a given line or save this form and redirects
+     */
+    public function editLayoutAction($line_id)
+    {
+        $line = $this->getDoctrine()->getRepository('CanalTPMethBundle:Line', 'meth')->find($line_id);
+        $twig_path = $this->getDoctrine()->getRepository('CanalTPMethBundle:Line', 'meth')->getTwigPath(
+            $line, 
+            $this->get('form.type.layout')->getConfig()
+        );
+        $meth_navitia = $this->get('canal_tp_meth.navitia');
+        // $lineData = $meth_navitia->getLineData($line->getCoverageId(), $line->getNetworkId(), $line->getNavitiaLineId());
+        return $this->render(
+            'CanalTPMethBundle:Layouts:' . $twig_path,
+            array(
+                'line'  => $line,
+                // 'line_data'  => $lineData
+            )
+        );
+    }
+    
 }

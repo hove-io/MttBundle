@@ -12,5 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class LineRepository extends EntityRepository
 {
-    
+    /*
+     * display a form to choose a layout for a given line or save this form and redirects
+     */
+    public function getTwigPath($line, $layoutConfig)
+    {
+        return $layoutConfig[$line->getLayout()]['data']['twig'];
+    }
 }

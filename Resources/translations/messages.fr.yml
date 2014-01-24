@@ -4,6 +4,3 @@ global:
     save: Enregistrer
     close: Fermer
     status: Statut
-line:
-    flash:
-        layout_chosen: Le layout a bien été assigné à la ligne.

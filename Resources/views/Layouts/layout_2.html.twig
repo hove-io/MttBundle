@@ -1,0 +1,13 @@
+{% extends "CanalTPMethBundle:Layouts:base_layout.html.twig" %}
+
+{% block body %}
+
+<div id="header" class="row">
+    <div class="col-md-10">
+        {{ route.name }} 
+    </div>
+    <div class="col-md-2">
+        {{ stop_point.name }}
+    </div>
+</div>
+{% endblock %}

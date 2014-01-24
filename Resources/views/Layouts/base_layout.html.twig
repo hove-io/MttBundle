@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        {% stylesheets 'css/bootstrap.css'
+                        '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/layouts.css'
+                        '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/layouts/*'
+                       filter='cssrewrite' output='css/full_layouts.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    </head>
+    <body>
+        <div id="layout-main-wrapper">
+        {% block body %}
+            
+        {% endblock %}
+        </div>
+    </body>
+</html>

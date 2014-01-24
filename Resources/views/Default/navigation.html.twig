@@ -30,10 +30,5 @@
     {% endfor %}
 </div>
 <script type="text/javascript">require(['meth_left_menu'],function(menu){
-    var $wrapper = $('#lines-accordion');
-    {% if current_route is not null %}
-        menu.init($wrapper, true);
-    {% else %}
-        menu.init($wrapper);
-    {% endif %}
+    menu.init($('#lines-accordion'));
 });</script>
