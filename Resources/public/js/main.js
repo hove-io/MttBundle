@@ -1,6 +1,5 @@
 // contents of main.js:
 require.config({
-    baseUrl: Meth.config.basePath,
     paths: {
         jquery:         'js/jquery',
         bootstrap:      'js/bootstrap',
