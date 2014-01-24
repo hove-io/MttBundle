@@ -8,6 +8,7 @@
                        filter='cssrewrite' output='css/full_layouts.css' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
+        {{ require_js_initialize() }}
     </head>
     <body>
         <div id="layout-main-wrapper">
@@ -15,5 +16,8 @@
             
         {% endblock %}
         </div>
+        {% block scripts %}
+            
+        {% endblock %}
     </body>
 </html>

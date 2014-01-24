@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div id="map-wrapper" class="row">
-                <div id="line-map" class="col-md-10">
+                <div id="line-map-block" data-block-level="line" data-block-type="text" class="block col-md-10">
                     
                 </div>
                 <div id="small-right-blocks" class="col-md-2">
@@ -33,4 +33,13 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+    require(['meth_layout'], function(layout){
+        layout.init($('#layout-1-wrapper'));
+    });
+    </script>
 {% endblock %}
