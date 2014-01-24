@@ -35,20 +35,24 @@ class LineController extends Controller
         $form->handleRequest($this->getRequest());
         if ($form->isValid())
         {
-            $data = $form->getData();
             if (empty($line))
             {
+                $data = $form->getData();
                 $line = new Line();
                 $line->setCoverageId($coverage_id);
                 $line->setNetworkId($network_id);
                 $line->setNavitiaLineId($line_id);
                 $line->setLayout($data['layout']);
             }
-            $em = $this->getDoctrine()->getManager('meth');
-            $em->persist($line);
-            $em->flush();
-            
-            $this->get('session')->getFlashBag()->add('notice', 'line.flash.layout_chosen');
+            // $layout
+            if ($line->getLayout() != null)
+            {
+                $em = $this->getDoctrine()->getManager('meth');
+                $em->persist($line);
+                $em->flush();
+                
+                $this->get('session')->getFlashBag()->add('notice', 'line.flash.layout_chosen');
+            }
             return $this->redirect($this->generateUrl('canal_tp_meth_stop_point_list', $url_params));
         }
         else
