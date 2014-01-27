@@ -15,9 +15,9 @@ class LineController extends Controller
         {
             $data = $form->getData();
             $line = new Line();
-            $line->setCoverageId($params['coverageId']);
-            $line->setNetworkId($params['networkId']);
-            $line->setNavitiaLineId($params['navitiaLineId']);
+            $line->setCoverageId($params['coverage_id']);
+            $line->setNetworkId($params['network_id']);
+            $line->setNavitiaLineId($params['line_id']);
             $line->setLayout($data['layout']);
         }
         if ($line->getLayout() != null)
