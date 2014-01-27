@@ -1,0 +1,25 @@
+{% extends "CanalTPMethBundle::modal.html.twig" %}
+
+{% block open_form %}    
+    {{ form_start(form) }}
+{% endblock %}
+
+{% block modal_title %}
+    {{'block.get_form.title'|trans({}, 'default')}}
+{% endblock %}
+
+
+{% block modal_body %}
+        {{ form_errors(form) }}
+        
+        {{ form_row(form.title) }}
+        {{ form_row(form.content) }}
+        
+{% endblock %}
+
+{% block modal_actions %}
+    <button type="submit" class="btn btn-success">
+        <span class="glyphicon glyphicon-pencil"></span> {{'global.save'|trans}}
+    </button>
+    {{ form_end(form) }}
+{% endblock %}

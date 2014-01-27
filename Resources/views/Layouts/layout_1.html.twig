@@ -16,20 +16,18 @@
                 </div>
             </div>
             <div id="map-wrapper" class="row">
-                <div id="line-map-block" data-block-level="line" data-block-type="text" class="block col-md-10">
-                    
-                </div>
+                <div id="line-map-block" data-block-level="line" data-block-type="img" class="block col-md-10"></div>
                 <div id="small-right-blocks" class="col-md-2">
-                    <div class="small-block"></div>
-                    <div class="small-block"></div>
+                    <div id="text-block-1" data-block-level="line" data-block-type="text" class="small-block block"></div>
+                    <div id="text-block-2" data-block-level="line" data-block-type="text" class="small-block block"></div>
                     <div class="small-block"></div>
                 </div>
             </div>
             <div id="timetables-wrapper" class="row">
-                <div class="timetable-container col-md-6"></div>
-                <div class="timetable-container col-md-6"></div>
-                <div class="timetable-container col-md-6"></div>
-                <div class="timetable-container col-md-6"></div>
+                <div data-block-level="stop_point" class="timetable-container block col-md-6"></div>
+                <div data-block-level="stop_point" class="timetable-container block col-md-6"></div>
+                <div data-block-level="stop_point" class="timetable-container block col-md-6"></div>
+                <div data-block-level="stop_point" class="timetable-container block col-md-6"></div>
             </div>
         </div>
     </div>
@@ -38,8 +36,8 @@
 
 {% block scripts %}
     <script>
-    require(['meth_layout'], function(layout){
-        layout.init($('#layout-1-wrapper'));
+    require(['meth_layout'], function(Meth_Layout){
+        var layout = Meth_Layout.init($('#layout-1-wrapper'));
     });
     </script>
 {% endblock %}

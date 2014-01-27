@@ -36,17 +36,26 @@
             // waitSeconds: 1,
             // urlArgs : "bust="+new Date().getTime(),
             paths: {
+                // libs
                 jquery:         'js/jquery',
                 bootstrap:      'js/bootstrap',
+                fosjsrouting:   'bundles/fosjsrouting/js/router',
+                sf_routes:      '{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}',
+                // meth specific
                 meth_left_menu: 'bundles/canaltpmeth/js/left_menu',
                 meth_layout:    'bundles/canaltpmeth/js/layout',
             },
-            deps: ["jquery", "bootstrap"],
             shim: {
                 bootstrap: {
                     deps: ['jquery']
                 }
-            }
+            },
+            deps: ["jquery", "bootstrap", "fosjsrouting", "sf_routes"],
+            // callback: function($, bootstrap, fosjsrouting) {
+                //This function will be called when all the dependencies
+                //listed above in deps are loaded. 
+                // fos.Router.setData();
+            //}
         };
         </script>
     {% endblock configuration %}

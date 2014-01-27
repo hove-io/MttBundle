@@ -1,6 +1,7 @@
 /* common layouts */
 body,html{
     background-color:#e6e6e6;
+    min-height:101%;
 }
 #layout-main-wrapper{
     background-color:white;
@@ -26,17 +27,29 @@ body,html{
 #layout-1-wrapper #small-right-blocks{
     border: 1px solid black;
 }
-#layout-1-wrapper #line-map,
+#layout-1-wrapper #line-map-block,
 #layout-1-wrapper #small-right-blocks{
     height:250px;
-    cursor:pointer;
 }
 #layout-1-wrapper .small-block{
     border-bottom:1px solid black;
+    cursor:pointer;
     margin:5px 0;
     height:55px;
 }
 #timetables-wrapper .timetable-container{
     margin-top:5px;
     height:200px;
+}
+.block.disabled-block{
+    background-color:rgba(0,0,0,0.1);
+    text-align: center;
+    font-size: 20px;
+}
+.block .glyphicon{
+    color:#47a447;
+}
+.block.disabled-block .glyphicon{
+    color: red;
+    line-height: 210px;
 }

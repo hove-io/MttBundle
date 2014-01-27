@@ -9,7 +9,7 @@ canal_tp_meth_menu:
 canal_tp_meth_stop_point_list:
     pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{route_id}/list
     defaults: { _controller: CanalTPMethBundle:StopPoint:list }
-
+    
 canal_tp_meth_line_choose_layout:
     pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/choose_layout/route/{route_id}
     defaults: { _controller: CanalTPMethBundle:Line:chooseLayout }
@@ -19,7 +19,7 @@ canal_tp_meth_line_edit_layout:
     defaults: { _controller: CanalTPMethBundle:Line:editLayout }
     
 canal_tp_meth_block_get_form:
-    pattern: /get_form/{block_type}
+    pattern: /get_form/dom_id/{dom_id}/block_type/{block_type}
     defaults: { _controller: CanalTPMethBundle:Block:getForm, block_type: null }
     options:
         expose: true
