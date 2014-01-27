@@ -9,11 +9,11 @@ canal_tp_meth_menu:
 canal_tp_meth_stop_point_list:
     pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{route_id}/list
     defaults: { _controller: CanalTPMethBundle:StopPoint:list }
-    
+
 canal_tp_meth_line_choose_layout:
     pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/choose_layout/route/{route_id}
     defaults: { _controller: CanalTPMethBundle:Line:chooseLayout }
-    
+
 canal_tp_meth_line_edit_layout:
     pattern: /line/{line_id}/edit_layout
     defaults: { _controller: CanalTPMethBundle:Line:editLayout }

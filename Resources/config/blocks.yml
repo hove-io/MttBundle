@@ -1,0 +1,5 @@
+parameters:
+    blocks:
+        text:
+            label: Text block type
+            picto: /bundles/canaltpmeth/img/blocks/text.png

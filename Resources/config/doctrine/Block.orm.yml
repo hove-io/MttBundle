@@ -1,0 +1,23 @@
+CanalTP\MethBundle\Entity\Block:
+    type: entity
+    table: null
+    repositoryClass: CanalTP\MethBundle\Entity\BlockRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        typeId:
+            type: integer
+            column: type_id
+        domId:
+            type: string
+            length: '128'
+            column: dom_id
+        container:
+            type: text
+        title:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
