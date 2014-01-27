@@ -14,7 +14,7 @@ class StopPointController extends Controller
         $line = $this->getDoctrine()->getRepository('CanalTPMethBundle:Line', 'meth')->findOneBy(array(
             'coverageId'   => $coverage_id,
             'networkId'    => $network_id,
-            'navitiaLineId'=> $line_id,
+            'navitiaId'=> $line_id,
         ));
         
         return $this->render(

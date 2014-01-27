@@ -17,6 +17,6 @@ class LineRepository extends EntityRepository
      */
     public function getTwigPath($line, $layoutConfig)
     {
-        return $layoutConfig[$line->getLayout()]['data']['twig'];
+        return $layoutConfig[$line->getLayout()]['twig'];
     }
 }

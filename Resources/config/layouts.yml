@@ -1,0 +1,10 @@
+parameters:
+    layouts:
+        layout_1:
+            label: Layout 1 de type paysage (exemple Dijon)
+            twig: layout_1.html.twig
+            preview: /bundles/canaltpmeth/img/layout_1.png
+        layout_2:
+            label: Layout 2 de type paysage (exemple Brest)
+            twig: layout_2.html.twig
+            preview: /bundles/canaltpmeth/img/layout_2.png

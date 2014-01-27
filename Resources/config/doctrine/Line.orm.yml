@@ -16,10 +16,10 @@ CanalTP\MethBundle\Entity\Line:
             type: string
             length: 255
             column: network_id
-        navitiaLineId:
+        navitiaId:
             type: string
             length: 255
-            column: navitia_line_id
+            column: navitia_id
         layout:
             type: string
             column: layout

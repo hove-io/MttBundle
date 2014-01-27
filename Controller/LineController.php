@@ -17,7 +17,7 @@ class LineController extends Controller
             $line = new Line();
             $line->setCoverageId($params['coverage_id']);
             $line->setNetworkId($params['network_id']);
-            $line->setNavitiaLineId($params['line_id']);
+            $line->setNavitiaId($params['line_id']);
             $line->setLayout($data['layout']);
         }
         if ($line->getLayout() != null)
@@ -45,7 +45,7 @@ class LineController extends Controller
                 ->getRepository('CanalTPMethBundle:Line', 'meth')
                 ->findOneBy(array('coverageId'   => $coverage_id,
                                   'networkId'    => $network_id,
-                                  'navitiaLineId'=> $line_id)
+                                  'navitiaId'=> $line_id)
         );
 
         $form = $this->createFormBuilder($line)
@@ -70,24 +70,24 @@ class LineController extends Controller
     }
     
     /*
-     * display a form to choose a layout for a given line or save this form and redirects
+     * Display a form to choose a layout for a given line or save this form and redirects
      */
     public function editLayoutAction($line_id)
     {
+        $methNavitia = $this->get('canal_tp_meth.navitia');
         $line = $this->getDoctrine()->getRepository('CanalTPMethBundle:Line', 'meth')->find($line_id);
-        $twig_path = $this->getDoctrine()->getRepository('CanalTPMethBundle:Line', 'meth')->getTwigPath(
+
+        $twigPath = $this->getDoctrine()->getRepository('CanalTPMethBundle:Line', 'meth')->getTwigPath(
             $line, 
             $this->get('form.type.layout')->getConfig()
         );
-        $meth_navitia = $this->get('canal_tp_meth.navitia');
-        // $lineData = $meth_navitia->getLineData($line->getCoverageId(), $line->getNetworkId(), $line->getNavitiaLineId());
+        // $lineData = $meth_navitia->findLine($line->getCoverageId(), $line->getNetworkId(), $line->getNavitiaLineId());
         return $this->render(
-            'CanalTPMethBundle:Layouts:' . $twig_path,
+            'CanalTPMethBundle:Layouts:' . $twigPath,
             array(
                 'line'  => $line,
-                // 'line_data'  => $lineData
+                'blockTypes'  => $this->container->getParameter('blocks')
             )
         );
-    }
-    
+    }    
 }
