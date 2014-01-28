@@ -8,6 +8,8 @@ use CanalTP\MethBundle\Form\Type\Block\textType as blockTextType;
 class BlockTypeFactory
 {
     private $type = null;
+    private $data = null;
+    private $data_class = null;
     private $formFactory = null;
 
     public function __construct(FormFactoryInterface $formFactory)
@@ -15,9 +17,11 @@ class BlockTypeFactory
         $this->formFactory = $formFactory;
     }
 
-    public function init($type)
+    public function init($type, $data, $data_class)
     {
         $this->type = $type;
+        $this->data = $data;
+        $this->data_class = $data_class;
     }
 
     public function buildForm()
@@ -26,7 +30,8 @@ class BlockTypeFactory
 
         switch ($this->type) {
             case 'text':
-                $form = $this->formFactory->createBuilder(new blockTextType(), null, array('data' => array('dom_id' => 42, 'type_id' => 42)));
+                $form = $this->formFactory->createBuilder(new blockTextType(), null, array('data' => $this->data));
+                $form->setData($this->data_class);
                 break;
         }
         return ($form);

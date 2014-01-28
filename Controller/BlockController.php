@@ -15,10 +15,11 @@ class BlockController extends Controller
      */
     public function editAction($line_id, $dom_id, $block_type = 'text')
     {
-
         $blockTypeFactory = $this->get('canal_tp_meth.form.factory.block');
-
-        $blockTypeFactory->init($block_type);
+        $data = array('dom_id' => $dom_id, 'type_id' => $block_type);
+        $block = $this->getDoctrine()->getRepository('CanalTPMethBundle:Block', 'meth')->findByLineAndDomId($line_id, $dom_id);
+        // var_dump($block);die;
+        $blockTypeFactory->init($block_type, $data, $block);
         $form = $blockTypeFactory->buildForm()->getForm();
         $handler = $blockTypeFactory->buildHandler();
 
