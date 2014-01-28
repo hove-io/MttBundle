@@ -61,19 +61,16 @@ class LineController extends Controller
             ->getForm();
 
         $form->handleRequest($this->getRequest());
-        if ($form->isValid())
-        {
+        if ($form->isValid()) {
             return ($this->processForm($form, $line, $params));
-        }
-        else
-        {
+        } else {
             return $this->render(
                 'CanalTPMethBundle:Line:chooseLayout.html.twig',
                 array(
                     'form'        => $form->createView(),
                     'line_layout' => false
                 )
-            );            
+            );
         }
     }
 

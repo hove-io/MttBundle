@@ -3,10 +3,7 @@
 namespace CanalTP\MethBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 use CanalTP\MethBundle\Entity\Block;
 use CanalTP\MethBundle\Entity\Line;
@@ -28,15 +25,12 @@ class BlockController extends Controller
             ->setAction($this->getRequest()->getRequestUri())
             ->setMethod('POST')
             ->getForm();
-            
+
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid())
-        {
+        if ($form->isValid()) {
             return $this->processForm($form, $block, $line_id);
-        }
-        else
-        {
+        } else {
             return $this->render(
                 'CanalTPMethBundle:Block:get_form.html.twig',
                 array(
@@ -45,11 +39,10 @@ class BlockController extends Controller
             );
         }
     }
-    
+
     private function processForm($form, $block, $line_id)
     {
-        if (empty($block))
-        {
+        if (empty($block)) {
             $data = $form->getData();
             $block = new Block();
             // get partialreference to avoid SQL statement
@@ -60,15 +53,15 @@ class BlockController extends Controller
             $block->setDomId($data['dom_id']);
             $block->setTypeId($data['dom_id']);
         }
-        
+
         $em = $this->getDoctrine()->getManager('meth');
         $em->persist($block);
         $em->flush();
-        
+
         return $this->redirect($this->generateUrl(
-            'canal_tp_meth_line_edit_layout', 
+            'canal_tp_meth_line_edit_layout',
             array(
-                    'line_id' => $line_id, 
+                    'line_id' => $line_id,
                 )
             )
         );

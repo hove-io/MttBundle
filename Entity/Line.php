@@ -208,17 +208,7 @@ class Line
     {
         return $this->blocks;
     }
-    
-    /**
-     * Get block
-     * TODO: should be done by twig cf https://github.com/fabpot/Twig/issues/1326
-     * @return array 
-     */
-    public function getBlock($blocks, $domId)
-    {
-        return isset($blocks[$domId]) ? $blocks[$domId] : false;
-    }
-    
+        
     /**
      * Get twigPath
      *

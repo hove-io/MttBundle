@@ -23,11 +23,10 @@
                     {% for i in 1..3 %}
                         {% set id = 'text_block_' ~ i %}
                         <div id="{{ id }}" data-block-level="line" data-block-type="text" class="small-block block">
-                            {% set block = line.getBlock(line.blocks, id) %}
-                            
+                            {% set block = attribute(line.blocks, id) %}
                             {% if block %}
                                 <div class="title">{{ block.title }}</div>
-                                <div class="content">{{ block.content }}</div>
+                                <div class="content">{{ block.content|nl2br }}</div>
                             {% endif %}
                         </div>
                     {% endfor %}
