@@ -17,6 +17,11 @@ class Line
     /**
      * @var string
      */
+    private $title;
+
+    /**
+     * @var string
+     */
     private $coverageId;
     
     /**
@@ -35,10 +40,9 @@ class Line
     private $layout;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Array
      */
     private $blocks;
-
     
     /**
      * Get id
@@ -48,6 +52,29 @@ class Line
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $networkId
+     * @return Line
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    
+        return $this;
     }
 
     /**
@@ -141,11 +168,24 @@ class Line
     {
         return $this->layout;
     }
+    
+    /**
+     * Set blocks
+     *
+     * @param array $blocks
+     * @return Line
+     */
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+    
+        return $this;
+    }
 
     /**
-     * Get getBlocks
+     * Get blocks
      *
-     * @return Object
+     * @return array 
      */
     public function getBlocks()
     {

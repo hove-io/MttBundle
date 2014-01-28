@@ -9,15 +9,22 @@ CanalTP\MethBundle\Entity\Block:
             generator:
                 strategy: AUTO
         typeId:
-            type: integer
+            type: string
             column: type_id
         domId:
             type: string
             length: '128'
             column: dom_id
-        container:
+        content:
             type: text
         title:
             type: string
             length: 255
     lifecycleCallbacks: {  }
+    manyToOne:
+        line:
+            targetEntity: Line
+            inversedBy: blocks
+            joinColumn:
+                name: line_id
+                referencedColumnName: id

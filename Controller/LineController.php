@@ -74,11 +74,8 @@ class LineController extends Controller
      */
     public function editLayoutAction($line_id)
     {
-        // TODO: Get Title of Line (By Navitia)
-
-        $methNavitia = $this->get('canal_tp_meth.navitia');
-        $line = $this->getDoctrine()->getRepository('CanalTPMethBundle:Line', 'meth')->find($line_id);
-        // $lineData = $meth_navitia->findLine($line->getCoverageId(), $line->getNetworkId(), $line->getNavitiaLineId());
+        $lineManager = $this->get('canal_tp_meth.line_manager');
+        $line = $lineManager->getLine($line_id);
 
         return $this->render(
             'CanalTPMethBundle:Layouts:' . $line->getTwigPath($this->container->getParameter('layouts')),

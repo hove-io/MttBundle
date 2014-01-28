@@ -2,6 +2,7 @@ parameters:
     navitia_component.class: Navitia\Component\Service\ServiceFacade
     iussaad_navitia.class: CanalTP\IussaadBundle\Services\Navitia
     canal_tp_meth.navitia.class: CanalTP\MethBundle\Services\Navitia
+    canal_tp_meth.line_manager.class: CanalTP\MethBundle\Services\LineManager
 
 services:
     navitia_component:
@@ -16,6 +17,9 @@ services:
     canal_tp_meth.navitia:
        class: %canal_tp_meth.navitia.class%
        arguments: ['@navitia_component', '@iussaad_navitia']
+    canal_tp_meth.line_manager:
+       class: %canal_tp_meth.line_manager.class%
+       arguments: ['@doctrine.orm.meth_entity_manager', '@canal_tp_meth.navitia']
     form.type.layout:
         class: CanalTP\MethBundle\Form\Type\LayoutType
         arguments:

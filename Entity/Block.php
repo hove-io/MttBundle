@@ -27,13 +27,17 @@ class Block
     /**
      * @var string
      */
-    private $container;
+    private $content;
 
     /**
      * @var string
      */
     private $title;
 
+    /**
+     * @var Object
+     */
+    private $line;
 
     /**
      * Get id
@@ -92,26 +96,26 @@ class Block
     }
 
     /**
-     * Set container
+     * Set content
      *
-     * @param string $container
+     * @param string $content
      * @return Block
      */
-    public function setContainer($container)
+    public function setContent($content)
     {
-        $this->container = $container;
+        $this->content = $content;
     
         return $this;
     }
 
     /**
-     * Get container
+     * Get content
      *
      * @return string 
      */
-    public function getContainer()
+    public function getContent()
     {
-        return $this->container;
+        return $this->content;
     }
 
     /**
@@ -135,5 +139,28 @@ class Block
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set line
+     *
+     * @param string $title
+     * @return Block
+     */
+    public function setLine($line)
+    {
+        $this->line = $line;
+    
+        return $this;
+    }
+
+    /**
+     * Get line
+     *
+     * @return string 
+     */
+    public function getLine()
+    {
+        return $this->line;
     }
 }

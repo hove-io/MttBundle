@@ -23,15 +23,7 @@ CanalTP\MethBundle\Entity\Line:
         layout:
             type: string
             column: layout
-    manyToMany:
+    oneToMany:
         blocks:
             targetEntity: Block
-            joinTable:
-                name: lines_blocks
-                joinColumns:
-                    line_id:
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    block_id:
-                        referencedColumnName: id
-                        unique: true
+            mappedBy: line

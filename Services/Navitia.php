@@ -40,4 +40,19 @@ class Navitia
         }
         return $lines_by_modes;
     }
+
+    /**
+     * Returns line data
+     *
+     * @param  String $coverageId
+     * @param  String $networkId
+     * @param  String $lineId
+     * @return type
+     */
+    public function getLineTitle($coverageId, $networkId, $lineId)
+    {
+        $response = $this->navitia_iussaad->getLine($coverageId, $networkId, $lineId);
+
+        return ($response->lines[0]->name);
+    }
 }
