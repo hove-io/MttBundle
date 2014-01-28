@@ -8,12 +8,15 @@
                        filter='cssrewrite' output='css/full_layouts.css' %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
+        {{ require_js_initialize() }}
     </head>
     <body>
         <div id="layout-main-wrapper">
-        {% block body %}
-            
-        {% endblock %}
+        {% block body %}{% endblock %}
         </div>
+        <div id="base-modal" class="modal fade">
+            {% include 'CanalTPMethBundle::modal.html.twig' %}
+        </div><!-- /.modal -->
+        {% block scripts %}{% endblock %}
     </body>
 </html>
