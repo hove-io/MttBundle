@@ -72,3 +72,9 @@ body,html{
 #layout-1-wrapper .small-block:hover{
     border: 1px dashed black;
 }
+#small-right-blocks{
+    font-size:12px;
+}
+#small-right-blocks .block .title{
+    font-weight:bold;
+}

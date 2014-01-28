@@ -20,7 +20,7 @@
                 <div id="line_map_block" data-block-level="line" data-block-type="img" class="block col-md-10">
                 </div>
                 <div id="small-right-blocks" class="col-md-2">
-                    {% for i in 1..3 %}
+                    {% for i in 1..4 %}
                         {% set id = 'text_block_' ~ i %}
                         <div id="{{ id }}" data-block-level="line" data-block-type="text" class="small-block block">
                             {% set block = attribute(line.blocks, id) %}
