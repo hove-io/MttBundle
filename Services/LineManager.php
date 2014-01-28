@@ -25,7 +25,7 @@ class LineManager
         $this->navitia = $navitia;
         $this->repository = $om->getRepository('CanalTPMethBundle:Line');
     }
-    
+
     private function initTitle()
     {
         $this->line->setTitle($this->navitia->getLineTitle(
@@ -33,9 +33,9 @@ class LineManager
                 $this->line->getNetworkId(),
                 $this->line->getNavitiaId()
             )
-        );        
+        );
     }
-    
+
     private function initTwigPath()
     {
         $layouts = $this->container->getParameter('layouts');
@@ -66,7 +66,6 @@ class LineManager
         $this->initTitle();
         $this->initTwigPath();
         $this->initBlocks();
-
 
         return $this->line;
     }

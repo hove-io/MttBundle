@@ -1,6 +1,6 @@
 {% extends "CanalTPMethBundle::modal.html.twig" %}
 
-{% block open_form %}    
+{% block open_form %}
     {{ form_start(form) }}
 {% endblock %}
 
@@ -11,10 +11,10 @@
 
 {% block modal_body %}
         {{ form_errors(form) }}
-        
+
         {{ form_row(form.title) }}
         {{ form_row(form.content) }}
-        
+
 {% endblock %}
 
 {% block modal_actions %}

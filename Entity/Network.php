@@ -2,8 +2,6 @@
 
 namespace CanalTP\MethBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Network
  */
@@ -29,11 +27,10 @@ class Network
      */
     private $users;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -43,20 +40,20 @@ class Network
     /**
      * Set nameId
      *
-     * @param string $nameId
+     * @param  string  $nameId
      * @return Network
      */
     public function setNameId($nameId)
     {
         $this->nameId = $nameId;
-    
+
         return $this;
     }
 
     /**
      * Get nameId
      *
-     * @return string 
+     * @return string
      */
     public function getNameId()
     {
@@ -66,20 +63,20 @@ class Network
     /**
      * Set coverageId
      *
-     * @param string $coverageId
+     * @param  string  $coverageId
      * @return Network
      */
     public function setCoverageId($coverageId)
     {
         $this->coverageId = $coverageId;
-    
+
         return $this;
     }
 
     /**
      * Get coverageId
      *
-     * @return string 
+     * @return string
      */
     public function getCoverageId()
     {

@@ -4,7 +4,6 @@ namespace CanalTP\MethBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-
 class BlockController extends Controller
 {
     /*
@@ -20,16 +19,13 @@ class BlockController extends Controller
             ->setAction($this->getRequest()->getRequestUri())
             ->setMethod('POST')
             ->getForm();
-            
+
         $form->handleRequest($this->getRequest());
 
-        if ($form->isValid()) 
-        {
+        if ($form->isValid()) {
             //TODO save data
             $data = $form->getData();
-        }
-        else
-        {
+        } else {
             return $this->render(
                 'CanalTPMethBundle:Block:get_form.html.twig',
                 array(

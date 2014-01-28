@@ -20,6 +20,7 @@ class NetworkRepository extends EntityRepository
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
 
         $stmt->execute();
+
         return ($stmt->fetchAll());
     }
 }

@@ -14,7 +14,7 @@ class DefaultController extends Controller
 
         return $this->render('CanalTPMethBundle:Default:index.html.twig', array('networks' => $networks));
     }
-    
+
     public function navigationAction($current_route = null)
     {
         $meth_navitia = $this->get('canal_tp_meth.navitia');
