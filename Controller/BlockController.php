@@ -10,7 +10,7 @@ use CanalTP\MethBundle\Entity\Line;
 class BlockController extends Controller
 {
     /*
-     * @function 
+     * @function returns form for a given block type or save content of the block using Form factory
      */
     public function editAction($line_id, $dom_id, $block_type = 'text')
     {
@@ -19,7 +19,7 @@ class BlockController extends Controller
         $block = $this->getDoctrine()
             ->getRepository('CanalTPMethBundle:Block', 'meth')
             ->findByLineAndDomId($line_id, $dom_id);
-
+        
         $blockTypeFactory->init($block_type, $data, $block);
         $form = $blockTypeFactory->buildForm()
             ->setAction($this->getRequest()->getRequestUri())
@@ -32,7 +32,7 @@ class BlockController extends Controller
             return $this->redirect($this->generateUrl(
                     'canal_tp_meth_line_edit_layout',
                     array('line_id' => $line_id)
-                 )
+                )
             );
         }
 
@@ -42,25 +42,5 @@ class BlockController extends Controller
                 'form'        => $form->createView(),
             )
         );
-    }
-
-    private function processForm($form, $block, $line_id)
-    {
-        if (empty($block)) {
-            $data = $form->getData();
-            $block = new Block();
-            // get partialreference to avoid SQL statement
-            $line = $this->getDoctrine()->getEntityManager('meth')->getPartialReference('CanalTP\MethBundle\Entity\Line', $line_id);
-            $block->setLine($line);
-            $block->setContent($data['content']);
-            $block->setTitle($data['title']);
-            $block->setDomId($data['dom_id']);
-            $block->setTypeId($data['dom_id']);
-        }
-
-        $em = $this->getDoctrine()->getManager('meth');
-        $em->persist($block);
-        $em->flush();
-
     }
 }

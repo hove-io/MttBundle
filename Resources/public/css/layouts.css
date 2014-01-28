@@ -36,8 +36,8 @@ body,html{
 .line_map_img{
     max-height:100%;
     max-width:100%;
+    vertical-align:middle;
 }
-
 /* layout type Dijon (layout_1) */
 #layout-1-wrapper {
     padding:10px;
@@ -58,6 +58,16 @@ body,html{
 #layout-1-wrapper #line_map_block,
 #layout-1-wrapper #small-right-blocks{
     height:250px;
+}
+#layout-1-wrapper #line_map_block{
+    text-align:center;
+}
+/* to align image vertically */
+#layout-1-wrapper #line_map_block:before{
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
 #timetables-wrapper .timetable-container{
     margin-top:5px;

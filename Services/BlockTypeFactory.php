@@ -5,6 +5,9 @@ namespace CanalTP\MethBundle\Services;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Serializer\Serializer;
+
+use CanalTP\MethBundle\Normalizer\BlockNormalizer;
 use CanalTP\MethBundle\Form\Type\Block\TextType as TextBlockType;
 use CanalTP\MethBundle\Form\Handler\Block\TextHandler as TextBlockHandler;
 use CanalTP\MethBundle\Form\Type\Block\ImgType as ImgBlockType;
@@ -16,6 +19,7 @@ class BlockTypeFactory
     private $om = null;
     private $type = null;
     private $data = null;
+    private $oldData = null;
     private $instance = null;
     private $formFactory = null;
 
@@ -31,6 +35,8 @@ class BlockTypeFactory
         $this->type = $type;
         $this->data = $data;
         $this->instance = $instance;
+        $serializer = new Serializer(array(new BlockNormalizer()));
+        $this->oldData = $serializer->normalize($this->instance);
     }
 
     private function initForm()
@@ -71,7 +77,7 @@ class BlockTypeFactory
                 $handler = new TextBlockHandler($this->om, $this->instance);
                 break;
             case 'img':
-                $handler = new ImgBlockHandler($this->co, $this->om, $this->instance);
+                $handler = new ImgBlockHandler($this->co, $this->om, $this->instance, $this->oldData);
                 break;
         }
 
