@@ -10,13 +10,18 @@ class StopPointController extends Controller
     {
         $navitia = $this->get('iussaad_navitia');
         $routes = $navitia->getStopPoints($coverage_id, $network_id, $line_id, $route_id);
-        
-        $line = $this->getDoctrine()->getRepository('CanalTPMethBundle:Line', 'meth')->findOneBy(array(
-            'coverageId'    => $coverage_id,
-            'networkId'     => $network_id,
-            'navitiaId'     => $line_id,
-        ));
-        
+
+        $line = $this->getDoctrine()->getRepository(
+            'CanalTPMethBundle:Line',
+            'meth'
+            )->findOneBy(
+                array(
+                    'coverageId'    => $coverage_id,
+                    'networkId'     => $network_id,
+                    'navitiaId'     => $line_id,
+                )
+            );
+
         return $this->render(
             'CanalTPMethBundle:StopPoint:list.html.twig',
             array(

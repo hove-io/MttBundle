@@ -12,9 +12,12 @@ class DefaultController extends Controller
         ->getRepository('CanalTPMethBundle:Network', 'meth')
         ->findNetworksByUserId($this->getUser()->getId());
 
-        return $this->render('CanalTPMethBundle:Default:index.html.twig', array('networks' => $networks));
+        return $this->render(
+            'CanalTPMethBundle:Default:index.html.twig',
+            array('networks' => $networks)
+        );
     }
-    
+
     public function navigationAction($current_route = null)
     {
         $meth_navitia = $this->get('canal_tp_meth.navitia');
@@ -22,7 +25,10 @@ class DefaultController extends Controller
         ->getRepository('CanalTPMethBundle:Network', 'meth')
         ->findNetworksByUserId($this->getUser()->getId());
         // Configuration
-        $result = $meth_navitia->getLinesByMode($networks[0]['coverage_id'], $networks[0]['name_id']);
+        $result = $meth_navitia->getLinesByMode(
+            $networks[0]['coverage_id'],
+            $networks[0]['name_id']
+        );
 
         return $this->render(
             'CanalTPMethBundle:Default:navigation.html.twig',

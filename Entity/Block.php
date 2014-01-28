@@ -2,8 +2,6 @@
 
 namespace CanalTP\MethBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Block
  */
@@ -42,7 +40,7 @@ class Block
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -62,33 +60,33 @@ class Block
     /**
      * Set typeId
      *
-     * @param string $typeId
+     * @param  string $typeId
      * @return Block
      */
     public function setTypeId($typeId)
     {
         $this->typeId = $typeId;
-    
+
         return $this;
     }
 
     /**
      * Set domId
      *
-     * @param string $domId
+     * @param  string $domId
      * @return Block
      */
     public function setDomId($domId)
     {
         $this->domId = $domId;
-    
+
         return $this;
     }
 
     /**
      * Get domId
      *
-     * @return string 
+     * @return string
      */
     public function getDomId()
     {
@@ -98,20 +96,20 @@ class Block
     /**
      * Set content
      *
-     * @param string $content
+     * @param  string $content
      * @return Block
      */
     public function setContent($content)
     {
         $this->content = $content;
-    
+
         return $this;
     }
 
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -121,20 +119,20 @@ class Block
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string $title
      * @return Block
      */
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -145,19 +143,20 @@ class Block
      * Set line
      *
      * @param integer $line
+     *
      * @return Block
      */
     public function setLine($line)
     {
         $this->line = $line;
-    
+
         return $this;
     }
 
     /**
      * Get line
      *
-     * @return string 
+     * @return string
      */
     public function getLine()
     {
