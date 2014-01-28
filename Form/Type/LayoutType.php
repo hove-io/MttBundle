@@ -22,10 +22,12 @@ class LayoutType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'multiple'=> false,
-            'choices' => $this->layoutChoices
-        ));
+        $resolver->setDefaults(
+            array(
+                'multiple'=> false,
+                'choices' => $this->layoutChoices
+            )
+        );
     }
 
     /**

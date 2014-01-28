@@ -28,7 +28,8 @@ class LineManager
 
     private function initTitle()
     {
-        $this->line->setTitle($this->navitia->getLineTitle(
+        $this->line->setTitle(
+            $this->navitia->getLineTitle(
                 $this->line->getCoverageId(),
                 $this->line->getNetworkId(),
                 $this->line->getNavitiaId()

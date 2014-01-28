@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class BlockController extends Controller
 {
     /*
-     * @function display a form to choose a layout for a given line or save this form and redirects
+     * @function Display a form to choose a layout for a given line or save this form and redirects
      */
     public function getFormAction($block_type = 'text', $dom_id)
     {

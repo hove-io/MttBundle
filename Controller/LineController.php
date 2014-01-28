@@ -41,30 +41,40 @@ class LineController extends Controller
                         'route_id'      => $route_id);
         $line = $this->getDoctrine()
                 ->getRepository('CanalTPMethBundle:Line', 'meth')
-                ->findOneBy(array('coverageId'   => $coverage_id,
-                                  'networkId'    => $network_id,
-                                  'navitiaId'=> $line_id)
-        );
+                ->findOneBy(array(
+                    'coverageId'   => $coverage_id,
+                    'networkId'    => $network_id,
+                    'navitiaId'=> $line_id
+                    )
+                );
 
         $form = $this->createFormBuilder($line)
-            ->add('layout', 'layout', array(
-                'empty_value' => 'Choose a layout',
-            ))
+            ->add(
+                'layout',
+                'layout',
+                array(
+                    'empty_value' => 'Choose a layout',
+                )
+            )
             ->setAction($this->getRequest()->getRequestUri())
             ->setMethod('POST')
             ->getForm();
 
         $form->handleRequest($this->getRequest());
         if ($form->isValid())
+        {
             return ($this->processForm($form, $line, $params));
+        }
         else
+        {
             return $this->render(
                 'CanalTPMethBundle:Line:chooseLayout.html.twig',
                 array(
                     'form'        => $form->createView(),
                     'line_layout' => false
                 )
-            );
+            );            
+        }
     }
 
     /*

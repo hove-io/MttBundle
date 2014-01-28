@@ -4,7 +4,12 @@ namespace CanalTP\MethBundle\Doctrine\DBAL\Driver\PDOPgSql;
 
 class Driver extends \Doctrine\DBAL\Driver\PDOPgSql\Driver implements \Doctrine\DBAL\Driver
 {
-    public function connect(array $params, $username = null, $password = null, array $driverOptions = array())
+    public function connect(
+        array $params,
+        $username = null,
+        $password = null,
+        array $driverOptions = array()
+    )
     {
         $searchPath = $driverOptions['search_path'];
         unset($driverOptions['search_path']);
