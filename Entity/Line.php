@@ -27,7 +27,7 @@ class Line
     /**
      * @var string
      */
-    private $navitiaLineId;
+    private $navitiaId;
     
     /**
      * @var string
@@ -91,26 +91,26 @@ class Line
     }
 
     /**
-     * Set navitiaLineId
+     * Set navitiaId
      *
-     * @param string $navitiaLineId
+     * @param string $navitiaId
      * @return Line
      */
-    public function setNavitiaLineId($navitiaLineId)
+    public function setNavitiaId($navitiaId)
     {
-        $this->navitiaLineId = $navitiaLineId;
+        $this->navitiaId = $navitiaId;
     
         return $this;
     }
 
     /**
-     * Get getNavitiaLineId
+     * Get getNavitiaId
      *
      * @return string 
      */
-    public function getNavitiaLineId()
+    public function getNavitiaId()
     {
-        return $this->navitiaLineId;
+        return $this->navitiaId;
     }
     
     /**
