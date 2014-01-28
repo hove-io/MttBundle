@@ -2,6 +2,7 @@
 namespace CanalTP\MethBundle\Form\Type\Block;
 
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use CanalTP\MethBundle\Form\Type\BlockType;
 
 class ImgType extends BlockType
@@ -10,7 +11,7 @@ class ImgType extends BlockType
     {
         $builder
             ->add('title', 'text')
-            ->add('content', 'file')
+            ->add('content', 'file', array('data_class' => null))
         ;
         parent::buildForm($builder, $options);
     }

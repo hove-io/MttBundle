@@ -4,6 +4,7 @@ parameters:
     canal_tp_meth.navitia.class: CanalTP\MethBundle\Services\Navitia
     canal_tp_meth.line_manager.class: CanalTP\MethBundle\Services\LineManager
     canal_tp_meth.form.factory.class: CanalTP\MethBundle\Services\BlockTypeFactory
+    canal_tp_meth.form.image_type_extension.class: CanalTP\MethBundle\Form\Extension\ImageTypeExtension
 
 services:
     navitia_component:

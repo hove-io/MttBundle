@@ -18,6 +18,10 @@
             </div>
             <div id="map-wrapper" class="row">
                 <div id="line_map_block" data-block-level="line" data-block-type="img" class="block col-md-10">
+                {% set block = attribute(line.blocks, 'line_map_block') %}
+                {% if block %}
+                    <img class="line_map_img" src="{{ app.request.basePath ~ block.content }}" title="{{ block.title }}" title="{{ block.alt }}" />
+                {% endif %}
                 </div>
                 <div id="small-right-blocks" class="col-md-2">
                     {% for i in 1..4 %}

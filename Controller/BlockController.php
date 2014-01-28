@@ -10,7 +10,7 @@ use CanalTP\MethBundle\Entity\Line;
 class BlockController extends Controller
 {
     /*
-     * @function display a form to choose a layout for a given line or save this form and redirects
+     * @function 
      */
     public function editAction($line_id, $dom_id, $block_type = 'text')
     {

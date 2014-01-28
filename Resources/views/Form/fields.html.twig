@@ -8,5 +8,5 @@
             <input {% if form.vars.value == child.value %} checked="checked"{% endif %} type="radio" name="{{ full_name }}" id="layout-{{ child.value }}" value="{{ child.value }}"> {{ child.label }}
         </label>
     {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

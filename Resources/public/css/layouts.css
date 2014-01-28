@@ -33,6 +33,11 @@ body,html{
 .block.disabled-block .glyphicon{
     color: rgba(0,0,0,0.3);
 }
+.line_map_img{
+    max-height:100%;
+    max-width:100%;
+}
+
 /* layout type Dijon (layout_1) */
 #layout-1-wrapper {
     padding:10px;

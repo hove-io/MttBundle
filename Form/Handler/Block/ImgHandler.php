@@ -2,30 +2,41 @@
 
 namespace CanalTP\MethBundle\Form\Handler\Block;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MethBundle\Entity\Block;
+use Symfony\Component\DependencyInjection\Container;
 
 class ImgHandler
 {
-    private $om = null;
-    private $mediaManager = null;
+    private $co = null;
+    private $block = null;
 
-    public function __construct(Container $co)
+    public function __construct(Container $co, ObjectManager $om, $block)
     {
         $this->co = $co;
-        $this->mediaManager = $co->get('');
+        $this->om = $om;
+        $this->block = $block;
     }
 
-    public function process($data, $line_id)
+    public function process($data, $lineId)
     {
+        $relativePath = '/uploads' . '/' . $lineId . '/';
+        $filename = $data->getContent()->getBasename() . '.' . $data->getContent()->guessExtension();
+        $destDir = realpath($this->co->get('kernel')->getRootDir() . '/../web');        
+        $new_media = $data->getContent()->move($destDir . $relativePath, $filename);
+
         if (empty($this->block)) {
             $this->block = new Block();
             // get partialreference to avoid SQL statement
-            $line = $this->om->getPartialReference('CanalTP\MethBundle\Entity\Line', $line_id);
+            $line = $this->om->getPartialReference('CanalTP\MethBundle\Entity\Line', $lineId);
             $this->block->setLine($line);
-            $this->block->setContent($data['content']);
-            $this->block->setTitle($data['title']);
-            $this->block->setDomId($data['dom_id']);
-            $this->block->setTypeId($data['type_id']);
+            $this->block->setTitle($data->getTitle());
+            $this->block->setDomId($data->getDomId());
+            $this->block->setTypeId($data->getTypeId());
+        }
+        if (file_exists($new_media->getRealPath()))
+        {
+            $this->block->setContent($relativePath . $filename);
         }
         $this->om->persist($this->block);
         $this->om->flush();
