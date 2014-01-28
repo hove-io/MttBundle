@@ -2,8 +2,6 @@
 
 namespace CanalTP\MethBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Line
  */
@@ -23,17 +21,17 @@ class Line
      * @var string
      */
     private $coverageId;
-    
+
     /**
      * @var string
      */
     private $networkId;
-    
+
     /**
      * @var string
      */
     private $navitiaId;
-    
+
     /**
      * @var string
      */
@@ -48,23 +46,23 @@ class Line
      * @var Array
      */
     private $blocks;
-    
+
     /**
      * Set id
      *
-     * @return Object 
+     * @return Object
      */
     public function setId($id)
     {
         $this->id = $id;
-        
+
         return $this;
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -74,7 +72,7 @@ class Line
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -84,33 +82,33 @@ class Line
     /**
      * Set title
      *
-     * @param string $networkId
+     * @param  string $networkId
      * @return Line
      */
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Set coverageId
      *
-     * @param string $coverageId
+     * @param  string $coverageId
      * @return Line
      */
     public function setCoverageId($coverageId)
     {
         $this->coverageId = $coverageId;
-    
+
         return $this;
     }
 
     /**
      * Get nameId
      *
-     * @return string 
+     * @return string
      */
     public function getCoverageId()
     {
@@ -120,20 +118,20 @@ class Line
     /**
      * Set networkId
      *
-     * @param string $networkId
+     * @param  string $networkId
      * @return Line
      */
     public function setNetworkId($networkId)
     {
         $this->networkId = $networkId;
-    
+
         return $this;
     }
 
     /**
      * Get networkId
      *
-     * @return string 
+     * @return string
      */
     public function getNetworkId()
     {
@@ -143,72 +141,72 @@ class Line
     /**
      * Set navitiaId
      *
-     * @param string $navitiaId
+     * @param  string $navitiaId
      * @return Line
      */
     public function setNavitiaId($navitiaId)
     {
         $this->navitiaId = $navitiaId;
-    
+
         return $this;
     }
 
     /**
      * Get getNavitiaId
      *
-     * @return string 
+     * @return string
      */
     public function getNavitiaId()
     {
         return $this->navitiaId;
     }
-    
+
     /**
      * Set layout
      *
-     * @param string $layout
+     * @param  string $layout
      * @return Line
      */
     public function setLayout($layout)
     {
         $this->layout = $layout;
-    
+
         return $this;
     }
 
     /**
      * Get getLayout
      *
-     * @return string 
+     * @return string
      */
     public function getLayout()
     {
         return $this->layout;
     }
-    
+
     /**
      * Set blocks
      *
-     * @param array $blocks
+     * @param  array $blocks
      * @return Line
      */
     public function setBlocks($blocks)
     {
         $this->blocks = $blocks;
-    
+
         return $this;
     }
 
     /**
      * Get blocks
      *
-     * @return array 
+     * @return array
      */
     public function getBlocks()
     {
         return $this->blocks;
     }
-        
+
     /**
      * Get twigPath
      *
@@ -222,13 +220,13 @@ class Line
     /**
      * Set twigPath
      *
-     * @param string $twigPath
+     * @param  string $twigPath
      * @return Line
      */
     public function setTwigPath($twigPath)
     {
         $this->twigPath = $twigPath;
-    
+
         return $this;
     }
 }

@@ -73,21 +73,4 @@ class LineController extends Controller
             );
         }
     }
-
-    /*
-     * Display a form to choose a layout for a given line or save this form and redirects
-     */
-    public function editLayoutAction($line_id)
-    {
-        $lineManager = $this->get('canal_tp_meth.line_manager');
-        $line = $lineManager->getLine($line_id);
-
-        return $this->render(
-            'CanalTPMethBundle:Layouts:' . $line->getTwigPath(),
-            array(
-                'line'  => $line,
-                'blockTypes'  => $this->container->getParameter('blocks')
-            )
-        );
-    }
 }
