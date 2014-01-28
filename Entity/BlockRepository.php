@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class BlockRepository extends EntityRepository
 {
+    public function findByLineAndDomId($lineId, $domId)
+    {
+        return $this->findOneBy(array('line' => $lineId, 'domId' => $domId));
+    }
 }

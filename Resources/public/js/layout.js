@@ -3,18 +3,30 @@ define(['jquery'], function($) {
     
     var $icon_tpl = $('<span class="glyphicon"></span>');
     
-    layout.init = function($wrapper)
+    layout.init = function($wrapper, blockTypes, line_id)
     {
+        // console.dir(blockTypes);
+        $('#base-modal').on('hidden.bs.modal', function () {
+            console.log('destroy')
+            $(this).removeData('bs.modal');
+        });
         $('.block').each(function(){
            $elem = $(this);
            var data = $elem.data();
            var icon_class = 'glyphicon-';
             if (data.blockLevel == "line" && data.blockType == "text")
             {
-                icon_class += 'edit';
+                icon_class += blockTypes.text.icon;
                 // listener
                 $elem.click(function(){
-                    var url = Routing.generate('canal_tp_meth_block_get_form', { 'block_type': data.blockType, 'dom_id' : $elem.attr('id')});
+                    var url = Routing.generate(
+                        'canal_tp_meth_block_edit', 
+                        { 
+                            'block_type': data.blockType, 
+                            'line_id': line_id, 
+                            'dom_id' : $(this).attr('id')
+                        }
+                    );
                     $('#base-modal').modal({
                         keyboard:true,
                         remote: url

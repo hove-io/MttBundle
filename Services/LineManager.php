@@ -33,7 +33,7 @@ class LineManager
                 $this->line->getNetworkId(),
                 $this->line->getNavitiaId()
             )
-        );        
+        );
     }
     
     private function initTwigPath()
@@ -66,7 +66,6 @@ class LineManager
         $this->initTitle();
         $this->initTwigPath();
         $this->initBlocks();
-
 
         return $this->line;
     }

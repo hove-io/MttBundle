@@ -56,7 +56,7 @@ class Block
      */
     public function getTypeId()
     {
-        return $this->type_id;
+        return $this->typeId;
     }
 
     /**
@@ -144,7 +144,7 @@ class Block
     /**
      * Set line
      *
-     * @param string $title
+     * @param integer $line
      * @return Block
      */
     public function setLine($line)

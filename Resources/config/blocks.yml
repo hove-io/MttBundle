@@ -2,4 +2,7 @@ parameters:
     blocks:
         text:
             label: Text block type
-            picto: /bundles/canaltpmeth/img/blocks/text.png
+            icon: edit
+        img:
+            label: Image block type
+            icon: picture

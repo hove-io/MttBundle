@@ -1,26 +1,36 @@
 {% extends "CanalTPMethBundle:Layouts:base_layout.html.twig" %}
 
 {% block body %}
+    
     <div id="layout-1-wrapper">
         <div class="container">
             <div id="header" class="row">
-                <div class="col-md-10">
-                    {% if route is defined %}
-                        {{ route.name }} 
+                <div class="col-md-10" data-block-level="line" data-auto-filled="1">
+                    {% if line.title is defined %}
+                        {{ line.title }}
                     {% endif %}
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" data-block-level="stop_point" data-auto-filled="1">
                     {% if stop_point is defined %}
                         {{ stop_point.name }}
                     {% endif %}
                 </div>
             </div>
             <div id="map-wrapper" class="row">
-                <div id="line-map-block" data-block-level="line" data-block-type="img" class="block col-md-10"></div>
+                <div id="line_map_block" data-block-level="line" data-block-type="img" class="block col-md-10">
+                </div>
                 <div id="small-right-blocks" class="col-md-2">
-                    <div id="text-block-1" data-block-level="line" data-block-type="text" class="small-block block"></div>
-                    <div id="text-block-2" data-block-level="line" data-block-type="text" class="small-block block"></div>
-                    <div class="small-block"></div>
+                    {% for i in 1..3 %}
+                        {% set id = 'text_block_' ~ i %}
+                        <div id="{{ id }}" data-block-level="line" data-block-type="text" class="small-block block">
+                            {% set block = line.getBlock(line.blocks, id) %}
+                            
+                            {% if block %}
+                                <div class="title">{{ block.title }}</div>
+                                <div class="content">{{ block.content }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
             <div id="timetables-wrapper" class="row">
@@ -35,9 +45,15 @@
 
 
 {% block scripts %}
+    <pre>
+        {% for dom_id,block in line.blocks %}
+            {{ dump(dom_id) }}
+            {{ dump(block) }}
+        {% endfor %}
+    </pre>
     <script>
     require(['meth_layout'], function(Meth_Layout){
-        var layout = Meth_Layout.init($('#layout-1-wrapper'));
+        var layout = Meth_Layout.init($('#layout-1-wrapper'), {{ blockTypes|json_encode()|raw }}, {{line.id}});
     });
     </script>
 {% endblock %}
