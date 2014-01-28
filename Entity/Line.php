@@ -33,6 +33,12 @@ class Line
      * @var string
      */
     private $layout;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $blocks;
+
     
     /**
      * Get id
@@ -134,5 +140,20 @@ class Line
     public function getLayout()
     {
         return $this->layout;
+    }
+
+    /**
+     * Get getBlocks
+     *
+     * @return Object
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    public function getTwigPath($layouts)
+    {
+        return ($layouts[$this->getLayout()]['twig']);
     }
 }

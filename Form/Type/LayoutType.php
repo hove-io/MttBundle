@@ -10,11 +10,11 @@ class LayoutType extends AbstractType
 {
     private $layoutChoices;
     
-    private $_config;
+    private $layouts;
     
     public function __construct($layoutChoices)
     {
-        $this->_config = $layoutChoices;
+        $this->layouts = $layoutChoices;
         foreach ($layoutChoices as $db_value => $choice)
         {
             $this->layoutChoices[$db_value] = $choice['label'];
@@ -29,17 +29,12 @@ class LayoutType extends AbstractType
         ));
     }
     
-    public function getConfig()
-    {
-        return $this->_config;
-    }
-    
     /**
      * Passe la config du champ à la vue
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['fields_config'] = $this->_config;
+        $view->vars['layouts'] = $this->layouts;
     }
     
     public function getParent()

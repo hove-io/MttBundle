@@ -12,9 +12,9 @@ class StopPointController extends Controller
         $routes = $navitia->getStopPoints($coverage_id, $network_id, $line_id, $route_id);
         
         $line = $this->getDoctrine()->getRepository('CanalTPMethBundle:Line', 'meth')->findOneBy(array(
-            'coverageId'   => $coverage_id,
-            'networkId'    => $network_id,
-            'navitiaId'=> $line_id,
+            'coverageId'    => $coverage_id,
+            'networkId'     => $network_id,
+            'navitiaId'     => $line_id,
         ));
         
         return $this->render(
