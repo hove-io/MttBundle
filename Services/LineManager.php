@@ -7,6 +7,7 @@
  */
 namespace CanalTP\MethBundle\Services;
 
+use Symfony\Component\DependencyInjection\Container;
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MethBundle\Services\Navitia;
 
@@ -15,10 +16,12 @@ class LineManager
     private $line = null;
     private $navitia = null;
     private $repository = null;
+    private $container = null;
 
-    public function __construct(ObjectManager $om, Navitia $navitia)
+    public function __construct(ObjectManager $om, Container $co, Navitia $navitia)
     {
         $this->line = null;
+        $this->container = $co;
         $this->navitia = $navitia;
         $this->repository = $om->getRepository('CanalTPMethBundle:Line');
     }
@@ -35,8 +38,9 @@ class LineManager
     
     private function initTwigPath()
     {
-        // TODO : Get All Paths
-        // $this->line->setTwigPath("");
+        $layouts = $this->container->getParameter('layouts');
+
+        $this->line->setTwigPath($layouts[$this->line->getLayout()]['twig']);
     }
 
     private function initBlocks()

@@ -78,7 +78,7 @@ class LineController extends Controller
         $line = $lineManager->getLine($line_id);
 
         return $this->render(
-            'CanalTPMethBundle:Layouts:' . $line->getTwigPath($this->container->getParameter('layouts')),
+            'CanalTPMethBundle:Layouts:' . $line->getTwigPath(),
             array(
                 'line'  => $line,
                 'blockTypes'  => $this->container->getParameter('blocks')

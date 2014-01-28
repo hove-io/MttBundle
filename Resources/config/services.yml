@@ -19,7 +19,7 @@ services:
        arguments: ['@navitia_component', '@iussaad_navitia']
     canal_tp_meth.line_manager:
        class: %canal_tp_meth.line_manager.class%
-       arguments: ['@doctrine.orm.meth_entity_manager', '@canal_tp_meth.navitia']
+       arguments: ['@doctrine.orm.meth_entity_manager', '@service_container', '@canal_tp_meth.navitia']
     form.type.layout:
         class: CanalTP\MethBundle\Form\Type\LayoutType
         arguments:

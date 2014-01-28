@@ -40,6 +40,11 @@ class Line
     private $layout;
 
     /**
+     * @var string
+     */
+    private $twigPath;
+
+    /**
      * @var Array
      */
     private $blocks;
@@ -192,8 +197,26 @@ class Line
         return $this->blocks;
     }
 
-    public function getTwigPath($layouts)
+    /**
+     * Get twigPath
+     *
+     * @return string
+     */
+    public function getTwigPath()
     {
-        return ($layouts[$this->getLayout()]['twig']);
+        return ($this->twigPath);
+    }
+
+    /**
+     * Set twigPath
+     *
+     * @param string $twigPath
+     * @return Line
+     */
+    public function setTwigPath($twigPath)
+    {
+        $this->twigPath = $twigPath;
+    
+        return $this;
     }
 }
