@@ -18,7 +18,7 @@ class LineManager
     private $repository = null;
     private $container = null;
 
-    public function __construct(ObjectManager $om, Container $co, Navitia $navitia)
+    public function __construct(Container $co, ObjectManager $om, Navitia $navitia)
     {
         $this->line = null;
         $this->container = $co;

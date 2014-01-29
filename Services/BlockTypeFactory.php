@@ -2,6 +2,7 @@
 
 namespace CanalTP\MethBundle\Services;
 
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MethBundle\Form\Type\Block\textType as textBlockType;
@@ -9,14 +10,16 @@ use CanalTP\MethBundle\Form\Handler\Block\textHandler as textBlockHandler;
 
 class BlockTypeFactory
 {
+    private $co = null;
     private $om = null;
     private $type = null;
     private $data = null;
     private $instance = null;
     private $formFactory = null;
 
-    public function __construct(FormFactoryInterface $formFactory, ObjectManager $om)
+    public function __construct(Container $co, ObjectManager $om, FormFactoryInterface $formFactory)
     {
+        $this->co = $co;
         $this->om = $om;
         $this->formFactory = $formFactory;
     }
