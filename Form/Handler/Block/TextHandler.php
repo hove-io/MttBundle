@@ -5,7 +5,7 @@ namespace CanalTP\MethBundle\Form\Handler\Block;
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MethBundle\Entity\Block;
 
-class textHandler
+class TextHandler
 {
     private $om = null;
     private $block = null;

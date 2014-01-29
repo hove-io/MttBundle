@@ -45,6 +45,7 @@ class BlockTypeFactory
                 $objectType = new ImgBlockType();
                 break;
         }
+
         return ($objectType);
     }
 
@@ -57,6 +58,7 @@ class BlockTypeFactory
         );
 
         $form->setData($this->instance);
+
         return ($form);
     }
 

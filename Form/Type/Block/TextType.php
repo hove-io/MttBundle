@@ -1,11 +1,10 @@
 <?php
 namespace CanalTP\MethBundle\Form\Type\Block;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use CanalTP\MethBundle\Form\Type\BlockType;
 
-class textType extends BlockType
+class TextType extends BlockType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

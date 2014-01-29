@@ -14,14 +14,14 @@ class BlockType extends AbstractType
             ->add('type_id', 'hidden', array('data' => $options['data']['type_id']))
         ;
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'CanalTP\MethBundle\Entity\Block',
         ));
     }
-    
+
     public function getName()
     {
         return 'generic_block';

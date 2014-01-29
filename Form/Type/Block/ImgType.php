@@ -1,7 +1,6 @@
 <?php
 namespace CanalTP\MethBundle\Form\Type\Block;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use CanalTP\MethBundle\Form\Type\BlockType;
 

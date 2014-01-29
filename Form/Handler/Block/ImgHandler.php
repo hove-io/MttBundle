@@ -2,10 +2,9 @@
 
 namespace CanalTP\MethBundle\Form\Handler\Block;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MethBundle\Entity\Block;
 
-class TextHandler
+class ImgHandler
 {
     private $om = null;
     private $mediaManager = null;
