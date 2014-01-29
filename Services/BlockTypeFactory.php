@@ -5,9 +5,10 @@ namespace CanalTP\MethBundle\Services;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use CanalTP\MethBundle\Form\Type\Block\TextType as textBlockType;
-use CanalTP\MethBundle\Form\Handler\Block\textHandler as textBlockHandler;
-use CanalTP\MethBundle\Form\Type\Block\ImgType as imgBlockType;
+use CanalTP\MethBundle\Form\Type\Block\TextType as TextBlockType;
+use CanalTP\MethBundle\Form\Handler\Block\TextHandler as TextBlockHandler;
+use CanalTP\MethBundle\Form\Type\Block\ImgType as ImgBlockType;
+use CanalTP\MethBundle\Form\Handler\Block\ImgHandler as ImgBlockHandler;
 
 class BlockTypeFactory
 {
@@ -32,29 +33,30 @@ class BlockTypeFactory
         $this->instance = $instance;
     }
 
-    public function buildForm()
+    private function initForm()
     {
-        $form = null;
+        $objectType = null;
 
         switch ($this->type) {
             case 'text':
-                $form = $this->formFactory->createBuilder(
-                    new textBlockType(),
-                    null,
-                    array('data' => $this->data)
-                );
-                $form->setData($this->instance);
+                $objectType = new TextBlockType();
                 break;
             case 'img':
-                $form = $this->formFactory->createBuilder(
-                    new imgBlockType(),
-                    null,
-                    array('data' => $this->data)
-                );
-                $form->setData($this->instance);
+                $objectType = new ImgBlockType();
                 break;
         }
+        return ($objectType);
+    }
 
+    public function buildForm()
+    {
+        $form = $this->formFactory->createBuilder(
+            $this->initForm(),
+            null,
+            array('data' => $this->data)
+        );
+
+        $form->setData($this->instance);
         return ($form);
     }
 
@@ -64,7 +66,10 @@ class BlockTypeFactory
 
         switch ($this->type) {
             case 'text':
-                $handler = new textBlockHandler($this->om, $this->instance);
+                $handler = new TextBlockHandler($this->om, $this->instance);
+                break;
+            case 'img':
+                $handler = new ImgBlockHandler($this->co);
                 break;
         }
 
