@@ -15,29 +15,19 @@ class BlockController extends Controller
      */
     public function editAction($line_id, $dom_id, $block_type = 'text')
     {
-        $block = $this->getDoctrine()->getRepository('CanalTPMethBundle:Block', 'meth')->findByLineAndDomId($line_id, $dom_id);
-        // var_dump($block[0]->getDomId());die;
-        $form = $this->createFormBuilder($block)
-            ->add('title', 'text')
-            ->add('content', 'textarea', array('attr' => array('rows' => 5)))
-            ->add('dom_id', 'hidden', array('data' => $dom_id))
-            ->add('type_id', 'hidden', array('data' => $block_type))
-            ->setAction($this->getRequest()->getRequestUri())
-            ->setMethod('POST')
-            ->getForm();
 
-        $form->handleRequest($this->getRequest());
+        $blockTypeFactory = $this->get('canal_tp_meth.form.factory.block');
 
-        if ($form->isValid()) {
-            return $this->processForm($form, $block, $line_id);
-        } else {
-            return $this->render(
-                'CanalTPMethBundle:Block:get_form.html.twig',
-                array(
-                    'form'        => $form->createView(),
-                )
-            );
-        }
+        $blockTypeFactory->init($block_type);
+        $form = $blockTypeFactory->buildForm()->getForm();
+        $handler = $blockTypeFactory->buildHandler();
+
+        return $this->render(
+            'CanalTPMethBundle:Block:get_form.html.twig',
+            array(
+                'form'        => $form->createView(),
+            )
+        );
     }
 
     private function processForm($form, $block, $line_id)

@@ -3,6 +3,9 @@ parameters:
     iussaad_navitia.class: CanalTP\IussaadBundle\Services\Navitia
     canal_tp_meth.navitia.class: CanalTP\MethBundle\Services\Navitia
     canal_tp_meth.line_manager.class: CanalTP\MethBundle\Services\LineManager
+    canal_tp_meth.form.factory.class: CanalTP\MethBundle\Services\BlockTypeFactory
+    canal_tp_meth.form.block.text.class: CanalTP\MethBundle\Form\Type\Block\textType
+    canal_tp_meth.form.handler.block.text.class: CanalTP\MethBundle\Form\Handler\Block\textHandler
 
 services:
     navitia_component:
@@ -26,3 +29,9 @@ services:
             - "%layouts%"
         tags:
             - { name: form.type, alias: layout }
+    canal_tp_meth.form.factory.block:
+       class: %canal_tp_meth.form.factory.class%
+       arguments: ['@form.factory']
+    canal_tp_meth.form.handler.block.text:
+       class: %canal_tp_meth.form.handler.block.text.class%
+       arguments: ['@doctrine.orm.meth_entity_manager']
