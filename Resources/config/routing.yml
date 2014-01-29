@@ -19,7 +19,7 @@ canal_tp_meth_line_edit_layout:
     defaults: { _controller: CanalTPMethBundle:Timetable:edit, stop_point: null }
     requirements:
         stop_point: -?\d*
-    
+
 canal_tp_meth_block_edit:
     pattern: /edit/line_id/{line_id}/dom_id/{dom_id}/block_type/{block_type}
     defaults: { _controller: CanalTPMethBundle:Block:edit, block_type: null }

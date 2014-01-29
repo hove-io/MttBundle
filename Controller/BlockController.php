@@ -3,7 +3,6 @@
 namespace CanalTP\MethBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Serializer\Serializer;
 
 use CanalTP\MethBundle\Entity\Block;
 use CanalTP\MethBundle\Entity\Line;
@@ -17,11 +16,25 @@ class BlockController extends Controller
     {
         $blockTypeFactory = $this->get('canal_tp_meth.form.factory.block');
         $data = array('dom_id' => $dom_id, 'type_id' => $block_type);
-        $block = $this->getDoctrine()->getRepository('CanalTPMethBundle:Block', 'meth')->findByLineAndDomId($line_id, $dom_id);
-        // var_dump($block);die;
+        $block = $this->getDoctrine()
+            ->getRepository('CanalTPMethBundle:Block', 'meth')
+            ->findByLineAndDomId($line_id, $dom_id);
+
         $blockTypeFactory->init($block_type, $data, $block);
-        $form = $blockTypeFactory->buildForm()->getForm();
-        $handler = $blockTypeFactory->buildHandler();
+        $form = $blockTypeFactory->buildForm()
+            ->setAction($this->getRequest()->getRequestUri())
+            ->setMethod('POST')->getForm();
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isValid()) {
+            $blockTypeFactory->buildHandler()->process($form->getData(), $line_id);
+
+            return $this->redirect($this->generateUrl(
+                    'canal_tp_meth_line_edit_layout',
+                    array('line_id' => $line_id)
+                 )
+            );
+        }
 
         return $this->render(
             'CanalTPMethBundle:Block:get_form.html.twig',
@@ -49,12 +62,5 @@ class BlockController extends Controller
         $em->persist($block);
         $em->flush();
 
-        return $this->redirect($this->generateUrl(
-            'canal_tp_meth_line_edit_layout',
-            array(
-                    'line_id' => $line_id,
-                )
-            )
-        );
     }
 }

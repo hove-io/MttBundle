@@ -3,25 +3,29 @@
 namespace CanalTP\MethBundle\Services;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use CanalTP\MethBundle\Form\Type\Block\textType as blockTextType;
+use Doctrine\Common\Persistence\ObjectManager;
+use CanalTP\MethBundle\Form\Type\Block\textType as textBlockType;
+use CanalTP\MethBundle\Form\Handler\Block\textHandler as textBlockHandler;
 
 class BlockTypeFactory
 {
+    private $om = null;
     private $type = null;
     private $data = null;
-    private $data_class = null;
+    private $instance = null;
     private $formFactory = null;
 
-    public function __construct(FormFactoryInterface $formFactory)
+    public function __construct(FormFactoryInterface $formFactory, ObjectManager $om)
     {
+        $this->om = $om;
         $this->formFactory = $formFactory;
     }
 
-    public function init($type, $data, $data_class)
+    public function init($type, $data, $instance)
     {
         $this->type = $type;
         $this->data = $data;
-        $this->data_class = $data_class;
+        $this->instance = $instance;
     }
 
     public function buildForm()
@@ -30,10 +34,15 @@ class BlockTypeFactory
 
         switch ($this->type) {
             case 'text':
-                $form = $this->formFactory->createBuilder(new blockTextType(), null, array('data' => $this->data));
-                $form->setData($this->data_class);
+                $form = $this->formFactory->createBuilder(
+                    new textBlockType(),
+                    null,
+                    array('data' => $this->data)
+                );
+                $form->setData($this->instance);
                 break;
         }
+
         return ($form);
     }
 
@@ -41,12 +50,12 @@ class BlockTypeFactory
     {
         $handler = null;
 
-        //TODO: 
-        // switch ($this->type) {
-        //     case 'text':
-        //         $handler = $this->formFactory->get('canal_tp_meth.form.handler.block.text');
-        //         break;
-        // }
+        switch ($this->type) {
+            case 'text':
+                $handler = new textBlockHandler($this->om, $this->instance);
+                break;
+        }
+
         return ($handler);
     }
 }

@@ -5,12 +5,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 
-class TextType extends AbstractType
+class textType extends AbstractType
 {
-    public function __construct()
-    {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -27,7 +23,7 @@ class TextType extends AbstractType
             'data_class' => 'CanalTP\MethBundle\Entity\Block',
         ));
     }
-    
+
     public function getName()
     {
         return 'text_block';
