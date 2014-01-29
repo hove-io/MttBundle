@@ -5,18 +5,17 @@ define(['jquery'], function($) {
     
     layout.init = function($wrapper, blockTypes, line_id)
     {
-        // console.dir(blockTypes);
+        // to prevent modal to be cached by bootstrap
         $('#base-modal').on('hidden.bs.modal', function () {
-            console.log('destroy')
             $(this).removeData('bs.modal');
         });
         $('.block').each(function(){
            $elem = $(this);
            var data = $elem.data();
            var icon_class = 'glyphicon-';
-            if (data.blockLevel == "line" && data.blockType == "text")
+            if (data.blockLevel == "line")
             {
-                icon_class += blockTypes.text.icon;
+                icon_class += blockTypes[data.blockType].icon;
                 // listener
                 $elem.click(function(){
                     var url = Routing.generate(
@@ -27,10 +26,7 @@ define(['jquery'], function($) {
                             'dom_id' : $(this).attr('id')
                         }
                     );
-                    $('#base-modal').modal({
-                        keyboard:true,
-                        remote: url
-                    });
+                    $('#base-modal').modal({remote: url});
                 });
             }
             else

@@ -5,8 +5,9 @@ namespace CanalTP\MethBundle\Services;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use CanalTP\MethBundle\Form\Type\Block\textType as textBlockType;
+use CanalTP\MethBundle\Form\Type\Block\TextType as textBlockType;
 use CanalTP\MethBundle\Form\Handler\Block\textHandler as textBlockHandler;
+use CanalTP\MethBundle\Form\Type\Block\ImgType as imgBlockType;
 
 class BlockTypeFactory
 {
@@ -39,6 +40,14 @@ class BlockTypeFactory
             case 'text':
                 $form = $this->formFactory->createBuilder(
                     new textBlockType(),
+                    null,
+                    array('data' => $this->data)
+                );
+                $form->setData($this->instance);
+                break;
+            case 'img':
+                $form = $this->formFactory->createBuilder(
+                    new imgBlockType(),
                     null,
                     array('data' => $this->data)
                 );
