@@ -1,12 +1,15 @@
 {% extends "::base.html.twig" %}
 
+{% block title %}METH{% endblock %}
+{% block navbar_brand %}METH v0.1.1{% endblock %}
+
 {% block body %}
     <div class="row">
         <div class="col-md-3">
             <div class="btn-group-vertical">
-            {% block left_menu %}
-                {{ render(controller('CanalTPMethBundle:Default:navigation')) }}
-            {% endblock %}
+                {% block left_menu %}
+                    {{ render(controller('CanalTPMethBundle:Default:navigation')) }}
+                {% endblock %}
             </div>
         </div>
         <div class="col-md-9">

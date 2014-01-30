@@ -48,6 +48,11 @@ class Line
     private $blocks;
 
     /**
+     * @var Array
+     */
+    private $stopPoints;
+
+    /**
      * Set id
      *
      * @return Object
@@ -205,6 +210,30 @@ class Line
     public function getBlocks()
     {
         return $this->blocks;
+    }
+
+
+    /**
+     * Set stopPoints
+     *
+     * @param  array $stopPoints
+     * @return Line
+     */
+    public function setStopPoints($stopPoints)
+    {
+        $this->stopPoints = $stopPoints;
+
+        return $this;
+    }
+
+    /**
+     * Get stopPoints
+     *
+     * @return array
+     */
+    public function getStopPoints()
+    {
+        return $this->stopPoints;
     }
 
     /**

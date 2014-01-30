@@ -3,16 +3,16 @@
 {% block body %}
 
     <div id="layout-1-wrapper">
-        <div class="container">
+        <div class="layout-container">
             <div id="header" class="row">
-                <div class="col-md-10" data-block-level="line" data-auto-filled="1">
+                <div id="direction-title-wrapper" class="col-md-10" data-block-level="line" data-auto-filled="1">
                     {% if line.title is defined %}
                         {{ line.title }}
                     {% endif %}
                 </div>
-                <div class="col-md-2" data-block-level="stop_point" data-auto-filled="1">
-                    {% if stop_point is defined %}
-                        {{ stop_point.name }}
+                <div id="stop-point-title-wrapper" class="col-md-2" data-block-level="stop_point" data-auto-filled="1">
+                    {% if stopPoint is defined %}
+                        <div class="bold">{{'stop_point.label'|trans({}, 'default')}}:</div> {{ stopPoint.title }}
                     {% endif %}
                 </div>
             </div>
@@ -27,10 +27,10 @@
                     {% for i in 1..4 %}
                         {% set id = 'text_block_' ~ i %}
                         {% set block = attribute(line.blocks, id) %}
-                        <div id="{{ id }}" data-block-level="line" data-block-type="text" class="small-block block">
+                        <div id="{{ id }}" data-block-level="{% if i == 4 %}stop_point{% else %}line{% endif %}" data-block-type="text" class="small-block block">
                             {% if block %}
-                                    <div class="title">{{ block.title }}</div>
-                                    <div class="content">{{ block.content|nl2br }}</div>
+                                <div class="title">{{ block.title }}</div>
+                                <div class="content">{{ block.content|nl2br }}</div>
                             {% endif %}
                         </div>
                     {% endfor %}
@@ -48,15 +48,17 @@
 
 
 {% block scripts %}
+    {#
     <pre>
         {% for dom_id,block in line.blocks %}
             {{ dump(dom_id) }}
             {{ dump(block) }}
         {% endfor %}
     </pre>
+    #}
     <script>
     require(['meth_layout'], function(Meth_Layout){
-        var layout = Meth_Layout.init($('#layout-1-wrapper'), {{ blockTypes|json_encode()|raw }}, {{line.id}});
+        var layout = Meth_Layout.init($('#layout-1-wrapper'), {{ blockTypes|json_encode()|raw }}, {{line.id}}, {{stopPointLevel|json_encode()|raw}});
     });
     </script>
 {% endblock %}

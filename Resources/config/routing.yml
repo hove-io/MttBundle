@@ -15,13 +15,13 @@ canal_tp_meth_line_choose_layout:
     defaults: { _controller: CanalTPMethBundle:Line:chooseLayout }
 
 canal_tp_meth_line_edit_layout:
-    pattern: /timetable/line/{line_id}/stop_point/{stop_point}/edit
-    defaults: { _controller: CanalTPMethBundle:Timetable:edit, stop_point: null }
+    pattern: /timetable/line/{line_id}/stopPoint/{stopPoint}/edit
+    defaults: { _controller: CanalTPMethBundle:Timetable:edit, stopPoint: null }
     requirements:
-        stop_point: -?\d*
+        stopPoint: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_meth_block_edit:
-    pattern: /edit/line_id/{line_id}/dom_id/{dom_id}/block_type/{block_type}
-    defaults: { _controller: CanalTPMethBundle:Block:edit, block_type: null }
+    pattern: /edit/line_id/{line_id}/dom_id/{dom_id}/block_type/{block_type}/stop_point/{stop_point}
+    defaults: { _controller: CanalTPMethBundle:Block:edit, block_type: null, stop_point: null }
     options:
         expose: true

@@ -14,7 +14,7 @@ class ImgHandler
     private $block = null;
     private $previousData = null;
 
-    public function __construct(Container $co, ObjectManager $om, $block, array $previousData)
+    public function __construct(Container $co, ObjectManager $om, $block, $previousData)
     {
         $this->co = $co;
         $this->om = $om;

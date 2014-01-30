@@ -3,6 +3,7 @@ parameters:
     iussaad_navitia.class: CanalTP\IussaadBundle\Services\Navitia
     canal_tp_meth.navitia.class: CanalTP\MethBundle\Services\Navitia
     canal_tp_meth.line_manager.class: CanalTP\MethBundle\Services\LineManager
+    canal_tp_meth.stop_point_manager.class: CanalTP\MethBundle\Services\StopPointManager
     canal_tp_meth.form.factory.class: CanalTP\MethBundle\Services\BlockTypeFactory
     canal_tp_meth.form.image_type_extension.class: CanalTP\MethBundle\Form\Extension\ImageTypeExtension
 
@@ -21,6 +22,9 @@ services:
        arguments: ['@navitia_component', '@iussaad_navitia']
     canal_tp_meth.line_manager:
        class: %canal_tp_meth.line_manager.class%
+       arguments: ['@service_container', '@doctrine.orm.meth_entity_manager', '@canal_tp_meth.navitia']
+    canal_tp_meth.stop_point_manager:
+       class: %canal_tp_meth.stop_point_manager.class%
        arguments: ['@service_container', '@doctrine.orm.meth_entity_manager', '@canal_tp_meth.navitia']
     form.type.layout:
         class: CanalTP\MethBundle\Form\Type\LayoutType

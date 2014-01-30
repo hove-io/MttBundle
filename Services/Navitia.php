@@ -41,7 +41,7 @@ class Navitia
     }
 
     /**
-     * Returns line data
+     * Returns line title
      *
      * @param  String $coverageId
      * @param  String $networkId
@@ -53,5 +53,20 @@ class Navitia
         $response = $this->navitia_iussaad->getLine($coverageId, $networkId, $lineId);
 
         return ($response->lines[0]->name);
+    }
+
+    /**
+     * Returns Stop Point title
+     *
+     * @param  String $coverageId
+     * @param  String $networkId
+     * @param  String $lineId
+     * @return type
+     */
+    public function getStopPointTitle($coverageId, $stopPointId)
+    {
+        $response = $this->navitia_iussaad->getStopPoint($coverageId, $stopPointId);
+
+        return ($response->stop_points[0]->name);
     }
 }

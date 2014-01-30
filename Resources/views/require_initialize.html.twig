@@ -33,8 +33,6 @@
         <script type="text/javascript">
         var require = {
             baseUrl: '{{app.request.basePath}}/',
-            // waitSeconds: 1,
-            // urlArgs : "bust="+new Date().getTime(),
             paths: {
                 // libs
                 jquery:         'js/jquery',
@@ -51,11 +49,6 @@
                 }
             },
             deps: ["jquery", "bootstrap", "fosjsrouting", "sf_routes"],
-            // callback: function($, bootstrap, fosjsrouting) {
-                //This function will be called when all the dependencies
-                //listed above in deps are loaded.
-                // fos.Router.setData();
-            //}
         };
         </script>
     {% endblock configuration %}

@@ -27,3 +27,6 @@ CanalTP\MethBundle\Entity\Line:
         blocks:
             targetEntity: Block
             mappedBy: line
+        stopPoints:
+            targetEntity: StopPoint
+            mappedBy: line

@@ -5,6 +5,7 @@
 .display-none{
     display:none;
 }
+.bold{font-weight:bold;}
 #left-menu{
     padding-bottom:50px;
 }

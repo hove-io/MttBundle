@@ -19,10 +19,19 @@ body,html{
     border-style:dashed;
 }
 .block.disabled-block{
-    background-color:rgba(0,0,0,0.1);
     cursor: not-allowed;
-    text-align: center;
-    font-size: 20px;
+}
+
+.block.disabled-block:before{ 
+    background-color:black;
+    content: "";
+    display: inline-block;
+    height: 100%;
+    opacity:0.1;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
 }
 .block .glyphicon{
     color:#47a447;
@@ -38,6 +47,12 @@ body,html{
     max-width:100%;
     vertical-align:middle;
 }
+.layout-container{
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
 /* layout type Dijon (layout_1) */
 #layout-1-wrapper {
     padding:10px;
@@ -45,9 +60,14 @@ body,html{
 #layout-main-wrapper #header{
     background-color:black;
     color:white;
+}
+#layout-main-wrapper #header #direction-title-wrapper{
     font-size:30px;
     line-height:55px;
     height:55px;
+}
+#layout-main-wrapper #header #stop-point-title-wrapper{
+    padding-top:5px;
 }
 #map-wrapper{
     margin-top:15px;
@@ -76,7 +96,6 @@ body,html{
 #layout-1-wrapper .small-block{
     border:1px solid white;
     border-bottom-color:black;
-    cursor:pointer;
     margin:5px 0;
     height:55px;
 }

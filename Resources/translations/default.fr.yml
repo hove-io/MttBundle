@@ -1,6 +1,7 @@
 welcome: "Homepage of Meth !"
 
 stop_point:
+    label: Arrêt
     list:
         header: Liste des arrêts
     header: Arrêts

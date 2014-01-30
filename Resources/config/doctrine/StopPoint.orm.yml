@@ -1,0 +1,26 @@
+CanalTP\MethBundle\Entity\StopPoint:
+    type: entity
+    table: null
+    repositoryClass: CanalTP\MethBundle\Entity\StopPointRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        navitiaId:
+            type: string
+            length: 255
+            column: navitia_id
+    lifecycleCallbacks: {  }
+    manyToOne:
+        line:
+            targetEntity: Line
+            inversedBy: stopPoints
+            joinColumn:
+                name: line_id
+                referencedColumnName: id
+    oneToMany:
+        blocks:
+            targetEntity: Block
+            mappedBy: stopPoint

@@ -19,7 +19,7 @@ class BlockTypeFactory
     private $om = null;
     private $type = null;
     private $data = null;
-    private $oldData = null;
+    private $oldData = array();
     private $instance = null;
     private $formFactory = null;
 
@@ -36,6 +36,7 @@ class BlockTypeFactory
         $this->data = $data;
         $this->instance = $instance;
         $serializer = new Serializer(array(new BlockNormalizer()));
+        // store data before we give Entity to forms (used by ImgBlock so far)
         $this->oldData = $serializer->normalize($this->instance);
     }
 

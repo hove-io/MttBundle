@@ -36,6 +36,11 @@ class Block
      * @var Object
      */
     private $line;
+    
+    /**
+     * @var Object
+     */
+    private $stopPoint;
 
     /**
      * Get id
@@ -161,5 +166,29 @@ class Block
     public function getLine()
     {
         return $this->line;
+    }
+    
+    /**
+     * Set stopPoint
+     *
+     * @param integer $stopPoint
+     *
+     * @return Block
+     */
+    public function setStopPoint($stopPoint)
+    {
+        $this->stopPoint = $stopPoint;
+
+        return $this;
+    }
+
+    /**
+     * Get stopPoint
+     *
+     * @return string
+     */
+    public function getStopPoint()
+    {
+        return $this->stopPoint;
     }
 }

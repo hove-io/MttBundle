@@ -28,3 +28,9 @@ CanalTP\MethBundle\Entity\Block:
             joinColumn:
                 name: line_id
                 referencedColumnName: id
+        stopPoint:
+            targetEntity: StopPoint
+            inversedBy: blocks
+            joinColumn:
+                name: stop_point_id
+                referencedColumnName: id
