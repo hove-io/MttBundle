@@ -3,10 +3,11 @@
 namespace CanalTP\MethBundle\Form\Handler\Block;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use CanalTP\MethBundle\Form\Handler\Block\AbstractHandler;
 use CanalTP\MethBundle\Entity\Block;
 use CanalTP\MethBundle\Entity\StopPoint;
 
-class TextHandler
+class TextHandler extends AbstractHandler
 {
     private $om = null;
     private $block = null;
@@ -17,27 +18,27 @@ class TextHandler
         $this->block = $block;
     }
 
-    public function process($data, $line_id)
+    public function process(Block $block, $line_id)
     {
-        if (empty($this->block)) 
+        if (empty($this->block))
         {
             $this->block = new Block();
            
-            $this->block->setContent($data->getContent());
-            $this->block->setTitle($data->getTitle());
-            $this->block->setDomId($data->getDomId());
-            $this->block->setTypeId($data->getTypeId());
+            $this->block->setContent($block->getContent());
+            $this->block->setTitle($block->getTitle());
+            $this->block->setDomId($block->getDomId());
+            $this->block->setTypeId($block->getTypeId());
         }
-        $this->_checkRelations($data, $line_id);
+        $this->_checkRelations($block, $line_id);
         $this->om->persist($this->block);
         $this->om->flush();
     }
     
     // TODO put this in parent so other handlers could call it
-    private function _checkRelations($data, $line_id)
+    private function _checkRelations($block, $stopPointId)
     {
-         $stopPointId = $data->getStopPoint();
-            // should we link this block to a specific stop point?
+         $line_id = $block->getStopPoint();
+        // should we link this block to a specific stop point?
          if (!empty($stopPointId))
         {
             $stopPoint = $this->om

@@ -2,13 +2,14 @@
 
 namespace CanalTP\MethBundle\Form\Handler\Block;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use CanalTP\MethBundle\Entity\Block;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Doctrine\Common\Persistence\ObjectManager;
+use CanalTP\MethBundle\Form\Handler\Block\AbstractHandler;
+use CanalTP\MethBundle\Entity\Block;
 
-class ImgHandler
+class ImgHandler extends AbstractHandler
 {
     private $co = null;
     private $block = null;
@@ -22,13 +23,13 @@ class ImgHandler
         $this->previousData = $previousData;
     }
 
-    public function process($data, $lineId)
+    public function process(Block $block, $lineId)
     {
         $fs = new Filesystem();
         $relativePath = '/uploads' . '/line-' . $lineId . '/';
-        $filename = $data->getDomId() . '-' . $data->getContent()->getClientOriginalName();
+        $filename = $block->getDomId() . '-' . $block->getContent()->getClientOriginalName();
         $destDir = realpath($this->co->get('kernel')->getRootDir() . '/../web');        
-        $new_media = $data->getContent()->move($destDir . $relativePath, $filename);
+        $new_media = $block->getContent()->move($destDir . $relativePath, $filename);
 
         if (empty($this->block))
         {
@@ -36,15 +37,15 @@ class ImgHandler
             // get partialreference to avoid SQL statement
             $line = $this->om->getPartialReference('CanalTP\MethBundle\Entity\Line', $lineId);
             $this->block->setLine($line);
-            $this->block->setTitle($data->getTitle());
-            $this->block->setDomId($data->getDomId());
-            $this->block->setTypeId($data->getTypeId());
+            $this->block->setTitle($block->getTitle());
+            $this->block->setDomId($block->getDomId());
+            $this->block->setTypeId($block->getTypeId());
         }
         // remove previous file. Pb was: block->content already has new value
         else if (!empty($this->previousData))
         {
             $oldPath = $destDir . $this->previousData['content'];
-            // var_dump($this->previousData, $oldPath);die;
+
             if ($fs->exists($oldPath))
             {
                 $fs->remove($oldPath);
