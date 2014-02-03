@@ -28,7 +28,7 @@ abstract class AbstractHandler implements HandlerInterface
         $this->om->persist($this->block);
     }
 
-    private function saveStopPoint($lineId)
+    private function saveStopPoint($lineId, $stopPointId)
     {
         $this->stopPoint = new StopPoint();
         $line = $this->om->getPartialReference(
@@ -41,14 +41,14 @@ abstract class AbstractHandler implements HandlerInterface
         $this->om->persist($this->stopPoint);
     }
 
-    private function getStopPointReference()
+    private function getStopPointReference($lineId, $stopPointId)
     {
         $this->stopPoint = $this->om
             ->getRepository('CanalTPMethBundle:StopPoint', 'meth')
             ->findOneByNavitiaId($stopPointId);
         // do this stop_point exists?
         if (empty($this->stopPoint)) {
-            $this->saveStopPoint($lineId);
+            $this->saveStopPoint($lineId, $stopPointId);
         }
 
         return ($this->om->getPartialReference(
@@ -64,7 +64,10 @@ abstract class AbstractHandler implements HandlerInterface
         // should we link this block to a specific stop point?
          if (!empty($stopPointId)) {
             // link block to this stop point
-            $this->block->setStopPoint($this->getStopPointReference());
+            $this->block->setStopPoint($this->getStopPointReference(
+                $lineId,
+                $stopPointId
+            ));
         } else {
             // get partialreference to avoid SQL statement
             $line = $this->om->getPartialReference(
