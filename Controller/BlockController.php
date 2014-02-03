@@ -5,7 +5,6 @@ namespace CanalTP\MethBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CanalTP\MethBundle\Entity\Block;
-use CanalTP\MethBundle\Entity\Line;
 
 class BlockController extends Controller
 {
@@ -18,15 +17,12 @@ class BlockController extends Controller
         $data = array('dom_id' => $dom_id, 'type_id' => $block_type, 'stop_point' => $stop_point);
         $repo = $this->getDoctrine()->getRepository('CanalTPMethBundle:Block', 'meth');
 
-        if (empty($stop_point))
-        {
+        if (empty($stop_point)) {
             $block = $repo->findByLineAndDomId($line_id, $dom_id);
-        }
-        else
-        {
+        } else {
             $block = $repo->findByStopPointAndDomId($stop_point, $dom_id);
         }
-        
+
         $blockTypeFactory->init($block_type, $data, $block);
         $form = $blockTypeFactory->buildForm()
             ->setAction($this->getRequest()->getRequestUri())

@@ -13,8 +13,7 @@ class BlockType extends AbstractType
             ->add('dom_id', 'hidden', array('data' => $options['data']['dom_id']))
             ->add('type_id', 'hidden', array('data' => $options['data']['type_id']))
         ;
-        if (isset($options['data']['stop_point']) && $options['data']['stop_point'] != null)
-        {
+        if (isset($options['data']['stop_point']) && $options['data']['stop_point'] != null) {
             $builder
                 ->add('stop_point', 'hidden', array('data' => $options['data']['stop_point']));
         }

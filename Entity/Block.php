@@ -36,7 +36,7 @@ class Block
      * @var Object
      */
     private $line;
-    
+
     /**
      * @var Object
      */
@@ -167,7 +167,7 @@ class Block
     {
         return $this->line;
     }
-    
+
     /**
      * Set stopPoint
      *

@@ -36,7 +36,7 @@ class StopPointManager
             )
         );
     }
-    
+
     // TODO: mutualize with line manager?
     private function initBlocks()
     {
@@ -57,14 +57,11 @@ class StopPointManager
     public function getStopPoint($stopPointNavitiaId, $line)
     {
         $this->stopPoint = $this->repository->findOneByNavitiaId($stopPointNavitiaId);
-        if (!empty($this->stopPoint))
-        {
+        if (!empty($this->stopPoint)) {
             $this->initBlocks();
             // stop points blocks override line blocks regarding dom_id, sprint 5?
             $line->setBlocks(array_merge($line->getBlocks(), $this->stopPoint->getBlocks()));
-        }
-        else
-        {
+        } else {
             $this->stopPoint = new StopPoint();
             $this->stopPoint->setNavitiaId($stopPointNavitiaId);
         }

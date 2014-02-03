@@ -78,7 +78,7 @@ class BlockTypeFactory
                 $handler = new TextBlockHandler($this->om, $this->instance);
                 break;
             case 'img':
-                $handler = new ImgBlockHandler($this->co, $this->om, $this->instance, $this->oldData);
+                $handler = new ImgBlockHandler($this->co, $this->om, $this->instance, $this->oldData['content']);
                 break;
         }
 

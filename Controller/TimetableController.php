@@ -16,17 +16,15 @@ class TimetableController extends Controller
         $lineManager = $this->get('canal_tp_meth.line_manager');
         $line = $lineManager->getLine($line_id);
         // are we on stop_point level?
-        if ($stopPoint != '')
-        {
+        if ($stopPoint != '') {
             $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
             $stopPoint_instance = $stopPointManager->getStopPoint($stopPoint, $line);
             $stopPointLevel = true;
-        }
-        else
-        {
+        } else {
             $stopPointLevel = false;
             $stopPoint_instance = false;
         }
+
         return $this->render(
             'CanalTPMethBundle:Layouts:' . $line->getTwigPath(),
             array(

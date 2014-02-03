@@ -212,7 +212,6 @@ class Line
         return $this->blocks;
     }
 
-
     /**
      * Set stopPoints
      *

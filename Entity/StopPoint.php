@@ -21,12 +21,12 @@ class StopPoint
      * @var Object
      */
     private $line;
-    
+
     /**
      * @var Object
      */
     private $blocks;
-    
+
     /**
      * @var string
      */
@@ -88,7 +88,7 @@ class StopPoint
     {
         return $this->line;
     }
-    
+
     /**
      * Set blocks
      *
@@ -111,7 +111,7 @@ class StopPoint
     {
         return $this->blocks;
     }
-    
+
     /**
      * Get title
      *
@@ -125,7 +125,7 @@ class StopPoint
     /**
      * Set title
      *
-     * @param  string $title
+     * @param  string    $title
      * @return StopPoint
      */
     public function setTitle($title)
