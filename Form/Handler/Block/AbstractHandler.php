@@ -65,7 +65,6 @@ abstract class AbstractHandler implements HandlerInterface
                 $lineId
             );
             $this->block->setLine($line);
-            var_dump($stopPointId);die;
         } else {
 
             // link block to this stop point
