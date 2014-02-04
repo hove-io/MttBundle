@@ -6,5 +6,5 @@ use CanalTP\MethBundle\Entity\Block;
 
 interface HandlerInterface
 {
-    public function process(Block $block, $lineId);
+    public function process(Block $formBlock, $lineId);
 }

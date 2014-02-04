@@ -14,12 +14,11 @@ class TextHandler extends AbstractHandler
         $this->block = $block;
     }
 
-    public function process(Block $block, $lineId)
+    public function process(Block $formBlock, $lineId)
     {
         if (empty($this->block)) {
-            $this->saveBlock($block, $lineId);
+            $this->saveBlock($formBlock, $lineId);
         }
-        $this->initRelation($block, $lineId);
         $this->om->flush();
     }
 }

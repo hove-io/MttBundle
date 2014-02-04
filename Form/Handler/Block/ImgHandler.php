@@ -31,22 +31,22 @@ class ImgHandler extends AbstractHandler
         }
     }
 
-    public function process(Block $block, $lineId)
+    public function process(Block $formBlock, $lineId)
     {
         $fs = new Filesystem();
         $relativePath = '/uploads' . '/line-' . $lineId . '/';
-        $filename = $block->getDomId() . '-' . $block->getContent()->getClientOriginalName();
+        $filename = $formBlock->getDomId() . '-' . $formBlock->getContent()->getClientOriginalName();
         $destDir = realpath($this->co->get('kernel')->getRootDir() . '/../web');
-        $new_media = $block->getContent()->move($destDir . $relativePath, $filename);
+        $new_media = $formBlock->getContent()->move($destDir . $relativePath, $filename);
 
         if (!empty($this->lastImgPath) && $this->lastImgPath != $filename) {
             $this->removeOldImg($fs, $destDir);
         }
         if ($fs->exists($new_media->getRealPath())) {
-            $block->setContent($relativePath . $filename);
+            $formBlock->setContent($relativePath . $filename);
         }
         if (empty($this->block)) {
-            $this->saveBlock($block, $lineId);
+            $this->saveBlock($formBlock, $lineId);
         }
         $this->om->flush();
     }

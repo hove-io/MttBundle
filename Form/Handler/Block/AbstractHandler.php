@@ -12,19 +12,15 @@ abstract class AbstractHandler implements HandlerInterface
     protected $om = null;
     protected $block = null;
 
-    protected function saveBlock(Block $newBlock, $lineId)
+    protected function saveBlock(Block $formBlock, $lineId)
     {
         $this->block = new Block();
-        $line = $this->om->getPartialReference(
-            'CanalTP\MethBundle\Entity\Line',
-            $lineId
-        );
+        $this->initRelation($formBlock, $lineId);
 
-        $this->block->setLine($line);
-        $this->block->setTitle($newBlock->getTitle());
-        $this->block->setContent($newBlock->getContent());
-        $this->block->setTypeId($newBlock->getTypeId());
-        $this->block->setDomId($newBlock->getDomId());
+        $this->block->setTitle($formBlock->getTitle());
+        $this->block->setContent($formBlock->getContent());
+        $this->block->setTypeId($formBlock->getTypeId());
+        $this->block->setDomId($formBlock->getDomId());
         $this->om->persist($this->block);
     }
 
@@ -62,19 +58,21 @@ abstract class AbstractHandler implements HandlerInterface
          $stopPointId = $block->getStopPoint();
 
         // should we link this block to a specific stop point?
-         if (!empty($stopPointId)) {
-            // link block to this stop point
-            $this->block->setStopPoint($this->getStopPointReference(
-                $lineId,
-                $stopPointId
-            ));
-        } else {
+         if (empty($stopPointId)) {
             // get partialreference to avoid SQL statement
             $line = $this->om->getPartialReference(
                 'CanalTP\MethBundle\Entity\Line',
                 $lineId
             );
             $this->block->setLine($line);
+            var_dump($stopPointId);die;
+        } else {
+
+            // link block to this stop point
+            $this->block->setStopPoint($this->getStopPointReference(
+                $lineId,
+                $stopPointId
+            ));
         }
     }
 }
