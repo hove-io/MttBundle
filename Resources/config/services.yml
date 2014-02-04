@@ -6,6 +6,7 @@ parameters:
     canal_tp_meth.stop_point_manager.class: CanalTP\MethBundle\Services\StopPointManager
     canal_tp_meth.form.factory.class: CanalTP\MethBundle\Services\BlockTypeFactory
     canal_tp_meth.form.image_type_extension.class: CanalTP\MethBundle\Form\Extension\ImageTypeExtension
+    media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
 
 services:
     navitia_component:
@@ -14,6 +15,11 @@ services:
         factory_method: getInstance
         calls:
             - [ setConfiguration, [%config.navitia%]]
+
+    # Service media manager
+    canal_tp_meth.media_manager.meth:
+        class: %media_manager.class%
+        arguments: [%canal_tp_media_manager_meth%]
     iussaad_navitia:
         class: %iussaad_navitia.class%
         arguments: ['@navitia_component']

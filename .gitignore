@@ -2,3 +2,4 @@ vendor
 composer.lock
 *~
 docs/*
+Resources/config/config.media_manager.yml

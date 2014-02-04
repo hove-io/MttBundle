@@ -26,6 +26,8 @@ class CanalTPMethExtension extends Extension
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
+
+        $loader->load('config.yml');
         $loader->load('services.yml');
         $loader->load('layouts.yml');
         $loader->load('blocks.yml');
