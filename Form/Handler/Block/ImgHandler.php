@@ -5,6 +5,9 @@ namespace CanalTP\MethBundle\Form\Handler\Block;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\Common\Persistence\ObjectManager;
+use CanalTP\MediaManager\Category\CategoryType;
+use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector as MediaManager;
+use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MethBundle\Form\Handler\Block\AbstractHandler;
 use CanalTP\MethBundle\Entity\Block;
 
@@ -12,11 +15,19 @@ class ImgHandler extends AbstractHandler
 {
     private $co = null;
     private $lastImgPath = null;
+    private $mediaManager = null;
 
-    public function __construct(Container $co, ObjectManager $om, $block, $lastImgPath)
+    public function __construct(
+        Container $co,
+        ObjectManager $om,
+        MediaManager $mediaManager,
+        $block,
+        $lastImgPath
+    )
     {
         $this->co = $co;
         $this->om = $om;
+        $this->mediaManager = $mediaManager;
         $this->block = $block;
         $this->lastImgPath = $lastImgPath;
     }
@@ -31,20 +42,34 @@ class ImgHandler extends AbstractHandler
         }
     }
 
+    private function saveFile(Media $file)
+    {
+        $mediaManagerConfigs = $this->mediaManager->getConfigurations();
+        $fileName = $file->getFile()->getClientOriginalName();
+        $path = $mediaManagerConfigs['storage']['path'] . $fileName;
+
+        $file->getFile()->move(
+            $mediaManagerConfigs['storage']['path'],
+            $fileName
+        );
+        if (!$this->mediaManager->save($path, $file->getId())) {
+            throw new \Exception($path . ': Saving file fail.');
+        }
+    }
+
     public function process(Block $formBlock, $lineId)
     {
-        $fs = new Filesystem();
-        $relativePath = '/uploads' . '/line-' . $lineId . '/';
-        $filename = $formBlock->getDomId() . '-' . $formBlock->getContent()->getClientOriginalName();
-        $destDir = realpath($this->co->get('kernel')->getRootDir() . '/../web');
-        $new_media = $formBlock->getContent()->move($destDir . $relativePath, $filename);
+        $line = $this->getLineById($lineId);
+        $media = new Media(
+            CategoryType::NETWORK,
+            $line->getNetworkId(),
+            CategoryType::LINE,
+            $lineId
+        );
 
-        if (!empty($this->lastImgPath) && $this->lastImgPath != $filename) {
-            $this->removeOldImg($fs, $destDir);
-        }
-        if ($fs->exists($new_media->getRealPath())) {
-            $formBlock->setContent($relativePath . $filename);
-        }
+        $media->setFile($formBlock->getContent());
+        $this->saveFile($media);
+        $formBlock->setContent($this->mediaManager->getUrlByMedia($media));
         if (empty($this->block)) {
             $this->saveBlock($formBlock, $lineId);
         }

@@ -20,7 +20,7 @@
                 <div id="line_map_block" data-block-level="line" data-block-type="img" class="block">
                 {% set block = attribute(line.blocks, 'line_map_block') %}
                 {% if block %}
-                    <img class="line_map_img" src="{{ app.request.basePath ~ block.content }}" title="{{ block.title }}" title="{{ block.alt }}" />
+                    <img class="line_map_img" src="{{ block.content }}" title="{{ block.title }}" title="{{ block.alt }}" />
                 {% endif %}
                 </div>
                 <div id="small-right-blocks">

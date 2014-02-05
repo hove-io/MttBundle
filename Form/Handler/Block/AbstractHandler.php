@@ -12,6 +12,15 @@ abstract class AbstractHandler implements HandlerInterface
     protected $om = null;
     protected $block = null;
 
+    protected function getLineById($id)
+    {
+        $line = $this->om
+            ->getRepository('CanalTPMethBundle:Line', 'meth')
+            ->find($id);
+
+        return ($line);
+    }
+
     protected function saveBlock(Block $formBlock, $lineId)
     {
         $this->block = new Block();
