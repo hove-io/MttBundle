@@ -2,9 +2,10 @@
 
 namespace CanalTP\MethBundle\Controller;
 
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use CanalTP\MethBundle\Entity\Line;
+use CanalTP\MediaManagerBundle\Entity\Media;
 
 class TimetableController extends Controller
 {
@@ -68,5 +69,26 @@ class TimetableController extends Controller
                 'editable'        => true
             )
         );
+    }
+
+    private function save($lineId, $stopPointId, $path)
+    {
+        $media = new Media(
+            CategoryType::LINE,
+            $lineId,
+            CategoryType::STOP_POINT,
+            $stopPointId
+        );
+        $media->setFile(new File($path));
+        $this->mediaManager->save($media);
+        return ($media);
+    }
+
+    public function generatePdfAction($lineId, $stopPointId)
+    {
+        // TODO: Need to save Pdf in MediaManager ?
+        // $path = "";
+        // $media = $this->save($lineId, $stopPointId, $path);
+        // $url = $this->mediaManager->getUrlByMedia($media);
     }
 }

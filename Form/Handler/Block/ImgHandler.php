@@ -42,21 +42,6 @@ class ImgHandler extends AbstractHandler
         }
     }
 
-    private function saveFile(Media $file)
-    {
-        $mediaManagerConfigs = $this->mediaManager->getConfigurations();
-        $fileName = $file->getFile()->getClientOriginalName();
-        $path = $mediaManagerConfigs['storage']['path'] . $fileName;
-
-        $file->getFile()->move(
-            $mediaManagerConfigs['storage']['path'],
-            $fileName
-        );
-        if (!$this->mediaManager->save($path, $file->getId())) {
-            throw new \Exception($path . ': Saving file fail.');
-        }
-    }
-
     public function process(Block $formBlock, $lineId)
     {
         $line = $this->getLineById($lineId);
@@ -68,7 +53,7 @@ class ImgHandler extends AbstractHandler
         );
 
         $media->setFile($formBlock->getContent());
-        $this->saveFile($media);
+        $this->mediaManager->save($media);
         $formBlock->setContent($this->mediaManager->getUrlByMedia($media));
         if (empty($this->block)) {
             $this->saveBlock($formBlock, $lineId);
