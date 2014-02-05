@@ -2,28 +2,45 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        {% stylesheets 'css/bootstrap.css'
+        {% stylesheets  'css/bootstrap.css'
                         '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/main.css'
                         '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/layouts.css'
                         '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/layouts/*'
+                        
                        filter='cssrewrite' output='css/full_layouts.css' %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
+            <link rel="stylesheet" media="all" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        {% stylesheets  '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/print.css'
+                       filter='cssrewrite' output='css/full_layouts_print.css' %}
+            <link rel="stylesheet" media="print" href="{{ asset_url }}" />
         {% endstylesheets %}
         {{ require_js_initialize() }}
     </head>
-    <body>
+    <body{% if editable == true %} class="editable"{% endif %}>
         <div class="">
         {% block left_menu %}
-            {{ render(controller('CanalTPMethBundle:Default:navigation'), {'current_route': ''}) }}
+            {% if editable == true %}
+                {{ render(controller('CanalTPMethBundle:Default:navigation'), {'current_route': ''}) }}
+            {% endif %}
         {% endblock %}
         </div>
         <div id="layout-main-wrapper">
         {% block body %}{% endblock %}
         </div>
 
-        <div id="base-modal" class="modal fade">
-            {% include 'CanalTPMethBundle::modal.html.twig' %}
-        </div><!-- /.modal -->
-        {% block scripts %}{% endblock %}
+        {% if editable == true %}
+            <div id="base-modal" class="modal fade">
+                {% include 'CanalTPMethBundle::modal.html.twig' %}
+            </div><!-- /.modal -->
+            {% block scripts %}{% endblock %}
+        {% endif %}
+        {#
+        <pre>
+            {% for dom_id,block in line.blocks %}
+                {{ dump(dom_id) }}
+                {{ dump(block) }}
+            {% endfor %}
+        </pre>
+        #}
     </body>
 </html>

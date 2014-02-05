@@ -1,5 +1,6 @@
 global:
     edit: Editer
+    preview: Prévisualiser
     validate: Valider
     save: Enregistrer
     close: Fermer

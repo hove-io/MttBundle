@@ -46,8 +46,13 @@
                     </button>
                     <ul class="dropdown-menu pull-right" role="menu">
                         <li>
-                            <a class="danger" href="{{ path('canal_tp_meth_line_edit_layout', {'line_id': line.id, 'stopPoint' : route.stop_point.id}) }}">
+                            <a href="{{ path('canal_tp_meth_line_edit_layout', {'line_id': line.id, 'stopPoint' : route.stop_point.id}) }}">
                                 <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans}}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('canal_tp_meth_timetable_view', {'line_id': line.id, 'stopPoint' : route.stop_point.id}) }}">
+                                <span class="glyphicon glyphicon-eye-open"></span> {{'global.preview'|trans}}
                             </a>
                         </li>
                     </ul>

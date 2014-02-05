@@ -20,6 +20,12 @@ canal_tp_meth_line_edit_layout:
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
+canal_tp_meth_timetable_view:
+    pattern: /timetable/line/{line_id}/stopPoint/{stopPoint}/view
+    defaults: { _controller: CanalTPMethBundle:Timetable:view, stopPoint: null }
+    requirements:
+        stopPoint: -?[a-zA-Z0-9_\-:]*
+
 canal_tp_meth_block_edit:
     pattern: /edit/line_id/{line_id}/dom_id/{dom_id}/block_type/{block_type}/stop_point/{stop_point}
     defaults: { _controller: CanalTPMethBundle:Block:edit, block_type: null, stop_point: null }

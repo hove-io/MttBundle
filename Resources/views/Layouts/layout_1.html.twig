@@ -4,26 +4,26 @@
 
     <div id="layout-1-wrapper">
         <div class="layout-container">
-            <div id="header" class="row">
-                <div id="direction-title-wrapper" class="col-md-10" data-block-level="line" data-auto-filled="1">
+            <div id="header" class="clearfix">
+                <div id="direction-title-wrapper" data-block-level="line" data-auto-filled="1">
                     {% if line.title is defined %}
                         {{ line.title }}
                     {% endif %}
                 </div>
-                <div id="stop-point-title-wrapper" class="col-md-2" data-block-level="stop_point" data-auto-filled="1">
+                <div id="stop-point-title-wrapper" data-block-level="stop_point" data-auto-filled="1">
                     {% if stopPoint is defined %}
                         <div class="bold">{{'stop_point.label'|trans({}, 'default')}}:</div> {{ stopPoint.title }}
                     {% endif %}
                 </div>
             </div>
-            <div id="map-wrapper" class="row">
-                <div id="line_map_block" data-block-level="line" data-block-type="img" class="block col-md-10">
+            <div id="map-wrapper" class="clearfix">
+                <div id="line_map_block" data-block-level="line" data-block-type="img" class="block">
                 {% set block = attribute(line.blocks, 'line_map_block') %}
                 {% if block %}
                     <img class="line_map_img" src="{{ app.request.basePath ~ block.content }}" title="{{ block.title }}" title="{{ block.alt }}" />
                 {% endif %}
                 </div>
-                <div id="small-right-blocks" class="col-md-2">
+                <div id="small-right-blocks">
                     {% for i in 1..4 %}
                         {% set id = 'text_block_' ~ i %}
                         {% set block = attribute(line.blocks, id) %}
@@ -48,14 +48,6 @@
 
 
 {% block scripts %}
-    {#
-    <pre>
-        {% for dom_id,block in line.blocks %}
-            {{ dump(dom_id) }}
-            {{ dump(block) }}
-        {% endfor %}
-    </pre>
-    #}
     <script>
     require(['meth_layout'], function(Meth_Layout){
         var layout = Meth_Layout.init($('#layout-1-wrapper'), {{ blockTypes|json_encode()|raw }}, {{line.id}}, {{stopPointLevel|json_encode()|raw}});

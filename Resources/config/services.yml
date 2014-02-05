@@ -6,6 +6,7 @@ parameters:
     canal_tp_meth.stop_point_manager.class: CanalTP\MethBundle\Services\StopPointManager
     canal_tp_meth.form.factory.class: CanalTP\MethBundle\Services\BlockTypeFactory
     canal_tp_meth.form.image_type_extension.class: CanalTP\MethBundle\Form\Extension\ImageTypeExtension
+    canal_tp_meth.pdf_generator.class: CanalTP\MethBundle\Services\PdfGenerator
 
 services:
     navitia_component:
@@ -36,3 +37,6 @@ services:
     canal_tp_meth.form.factory.block:
        class: %canal_tp_meth.form.factory.class%
        arguments: ['@service_container', '@doctrine.orm.meth_entity_manager', '@form.factory']
+    canal_tp_meth.pdf_generator:
+       class: %canal_tp_meth.pdf_generator.class%
+       arguments: ['http://localhost/pdfGenerator/web/index.php']
