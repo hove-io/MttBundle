@@ -8,6 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Serializer\Serializer;
 
 use CanalTP\MethBundle\Normalizer\BlockNormalizer;
+use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector as MediaManager;
 use CanalTP\MethBundle\Form\Type\Block\TextType as TextBlockType;
 use CanalTP\MethBundle\Form\Handler\Block\TextHandler as TextBlockHandler;
 use CanalTP\MethBundle\Form\Type\Block\ImgType as ImgBlockType;
@@ -21,12 +22,19 @@ class BlockTypeFactory
     private $data = null;
     private $oldData = array();
     private $instance = null;
+    private $mediaManager = null;
     private $formFactory = null;
 
-    public function __construct(Container $co, ObjectManager $om, FormFactoryInterface $formFactory)
+    public function __construct(
+        Container $co,
+        ObjectManager $om,
+        FormFactoryInterface $formFactory,
+        MediaManager $mediaManager
+    )
     {
         $this->co = $co;
         $this->om = $om;
+        $this->mediaManager = $mediaManager;
         $this->formFactory = $formFactory;
     }
 
@@ -78,7 +86,13 @@ class BlockTypeFactory
                 $handler = new TextBlockHandler($this->om, $this->instance);
                 break;
             case 'img':
-                $handler = new ImgBlockHandler($this->co, $this->om, $this->instance, $this->oldData['content']);
+                $handler = new ImgBlockHandler(
+                    $this->co,
+                    $this->om,
+                    $this->mediaManager,
+                    $this->instance,
+                    $this->oldData['content']
+                );
                 break;
         }
 

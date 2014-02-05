@@ -1,6 +1,7 @@
 parameters:
     navitia_component.class: Navitia\Component\Service\ServiceFacade
     iussaad_navitia.class: CanalTP\IussaadBundle\Services\Navitia
+    media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
     canal_tp_meth.navitia.class: CanalTP\MethBundle\Services\Navitia
     canal_tp_meth.line_manager.class: CanalTP\MethBundle\Services\LineManager
     canal_tp_meth.stop_point_manager.class: CanalTP\MethBundle\Services\StopPointManager
@@ -18,6 +19,10 @@ services:
     iussaad_navitia:
         class: %iussaad_navitia.class%
         arguments: ['@navitia_component']
+    # Service of mediaManager
+    canaltp_media_manager_mtt:
+        class: %media_manager.class%
+        arguments: [%canal_tp_media_manager.configurations.mtt%]
     canal_tp_meth.navitia:
        class: %canal_tp_meth.navitia.class%
        arguments: ['@navitia_component', '@iussaad_navitia']
@@ -35,4 +40,4 @@ services:
             - { name: form.type, alias: layout }
     canal_tp_meth.form.factory.block:
        class: %canal_tp_meth.form.factory.class%
-       arguments: ['@service_container', '@doctrine.orm.meth_entity_manager', '@form.factory']
+       arguments: ['@service_container', '@doctrine.orm.meth_entity_manager', '@form.factory', '@canaltp_media_manager_mtt']
