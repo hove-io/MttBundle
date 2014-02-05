@@ -15,10 +15,6 @@ services:
         calls:
             - [ setConfiguration, [%config.navitia%]]
 
-    # Service media manager
-    canal_tp_meth.media_manager.meth:
-        class: %media_manager.class%
-        arguments: [%canal_tp_media_manager_meth%]
     iussaad_navitia:
         class: %iussaad_navitia.class%
         arguments: ['@navitia_component']
