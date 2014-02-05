@@ -6,7 +6,6 @@ parameters:
     canal_tp_meth.stop_point_manager.class: CanalTP\MethBundle\Services\StopPointManager
     canal_tp_meth.form.factory.class: CanalTP\MethBundle\Services\BlockTypeFactory
     canal_tp_meth.form.image_type_extension.class: CanalTP\MethBundle\Form\Extension\ImageTypeExtension
-    media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
 
 services:
     navitia_component:
