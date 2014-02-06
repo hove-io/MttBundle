@@ -1,0 +1,29 @@
+{% extends "CanalTPMethBundle::base.html.twig" %}
+
+{% block main_content %}
+    <h3>{{'distribution.stops_included'|trans({}, 'default')}}</h3>
+    <hr/>
+    <ul id="included-stops" class="list-group sortable">
+        {% for route in routes.route_schedules[0].table.rows %}
+            <li class="list-group-item">
+                {{ route.stop_point.name }}
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <h3>{{'distribution.stops_excluded'|trans({}, 'default')}}</h3>
+    <hr/>
+    <ul id="excluded-stops" class="list-group sortable">
+    </ul>
+{% endblock %}
+
+
+{% block javascripts %}
+<script type="text/javascript">require(['jquery', 'jquery_ui_sortable'],function(jQuery, sortable){
+    $('.list-group.sortable').sortable({
+        placeholder: "sortable-highlight list-group-item",
+        connectWith: "ul.list-group.sortable",
+    });
+    $('.list-group.sortable').disableSelection();
+});</script>
+{% endblock %}
