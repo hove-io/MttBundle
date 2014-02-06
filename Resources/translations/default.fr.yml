@@ -14,7 +14,12 @@ line:
     choose_layout: Choisir un modèle
     layout_chosen: Le modèle a bien été assigné à la ligne.
     edit_layout: Modifier le modèle
+    manage_distribution: Gérer la liste de distribution
 
 block:
     get_form:
         title: Éditer le block
+
+distribution:
+    stops_included: Arrêts inclus dans la liste de distribution
+    stops_excluded: Arrêts exclus de la liste de distribution
