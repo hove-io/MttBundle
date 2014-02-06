@@ -4,6 +4,8 @@ namespace CanalTP\MethBundle\Controller;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use CanalTP\MethBundle\Entity\Line;
 use CanalTP\MediaManagerBundle\Entity\Media;
 
@@ -87,6 +89,23 @@ class TimetableController extends Controller
     public function generatePdfAction($lineId, $stopPointId)
     {
         // TODO: Need to save Pdf in MediaManager ?
+        // var_dump($this->get('request')->getHttpHost());die;
+        $line = $this->getLine($lineId);
+        $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
+        
+        $url = $this->get('request')->getHttpHost() . $this->get('router')->generate('canal_tp_meth_timetable_view', array('line_id' => $lineId, 'stopPoint' => $stopPointId));
+        $pdfContent = $pdfGenerator->getPdf($url, $line->getLayout());
+        
+        
+        $response = new BinaryFileResponse($pdfContent);
+        $response->trustXSendfileTypeHeader();
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'file.pdf',
+            iconv('UTF-8', 'ASCII//TRANSLIT', 'file.pdf')
+        );
+
+        return $response;
         // $path = "";
         // $media = $this->save($lineId, $stopPointId, $path);
         // $url = $this->mediaManager->getUrlByMedia($media);

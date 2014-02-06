@@ -17,12 +17,17 @@
         {{ require_js_initialize() }}
     </head>
     <body{% if editable == true %} class="editable"{% endif %}>
-        <div class="">
+        <div class="navbar no-print">
         {% block left_menu %}
             {% if editable == true %}
                 {{ render(controller('CanalTPMethBundle:Default:navigation'), {'current_route': ''}) }}
             {% endif %}
         {% endblock %}
+        {% if stopPoint %}
+            <a class="btn btn-primary" href="{{ path('canal_tp_meth_timetable_generate_pdf', {'lineId': line.id, 'stopPointId' : stopPoint.navitiaId}) }}">
+                <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
+            </a>
+        {% endif %}
         </div>
         <div id="layout-main-wrapper">
         {% block body %}{% endblock %}

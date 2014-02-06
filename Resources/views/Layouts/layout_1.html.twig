@@ -36,21 +36,25 @@
                     {% endfor %}
                 </div>
             </div>
-            <div id="timetables-wrapper" class="row">
-                <div data-block-level="stop_point" class="timetable-container block col-md-6"></div>
-                <div data-block-level="stop_point" class="timetable-container block col-md-6"></div>
-                <div data-block-level="stop_point" class="timetable-container block col-md-6"></div>
-                <div data-block-level="stop_point" class="timetable-container block col-md-6"></div>
+            <div id="timetables-wrapper" class="clearfix">
+                {% for i in 1..4 %}
+                <div data-block-level="stop_point" class="timetable-container block"></div>
+                {% endfor %}
             </div>
         </div>
     </div>
 {% endblock %}
 
-
 {% block scripts %}
+    {# mutualize in base layout #}
+    {% if stopPointLevel == false %}
+        {% set stopPointJs = false %}
+    {% else %}
+        {% set stopPointJs = stopPoint.navitiaId %}
+    {% endif %}
     <script>
     require(['meth_layout'], function(Meth_Layout){
-        var layout = Meth_Layout.init($('#layout-1-wrapper'), {{ blockTypes|json_encode()|raw }}, {{line.id}}, {{stopPointLevel|json_encode()|raw}});
+        var layout = Meth_Layout.init($('#layout-1-wrapper'), {{ blockTypes|json_encode()|raw }}, {{line.id}}, {{stopPointJs|json_encode()|raw}});
     });
     </script>
 {% endblock %}

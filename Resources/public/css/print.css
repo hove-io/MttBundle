@@ -3,4 +3,12 @@ body {margin:0; padding:0;}
     margin: 0;
     padding: 0;
 }
+.no-print{
+    display:none;
+}
+#layout-main-wrapper{
+    border:none;
+    height:auto;
+    margin:0;
+}
 

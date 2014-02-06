@@ -5,3 +5,4 @@ global:
     save: Enregistrer
     close: Fermer
     status: Statut
+    generatePdf: Générer le PDF

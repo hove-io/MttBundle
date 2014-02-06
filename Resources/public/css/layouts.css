@@ -9,7 +9,7 @@ body.editable{
     width:1100px;
     -webkit-print-color-adjust: exact;
 }
-.editable #layout-main-wrapper{
+#layout-main-wrapper{
     border:1px solid black;
     height:800px;
     margin:10px auto;
@@ -47,8 +47,8 @@ body.editable{
     color: rgba(0,0,0,0.3);
 }
 .line_map_img{
-    max-height:100%;
-    max-width:100%;
+    max-height:95%;
+    max-width:95%;
     vertical-align:middle;
 }
 .layout-container{

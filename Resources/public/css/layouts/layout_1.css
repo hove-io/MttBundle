@@ -20,7 +20,7 @@
 }
 #layout-1-wrapper #small-right-blocks,
 #layout-main-wrapper #header #stop-point-title-wrapper{
-    width:165px;
+    width:192px;
 }
 #layout-main-wrapper #header #direction-title-wrapper{
     font-size:30px;
@@ -53,9 +53,15 @@
     height: 100%;
     vertical-align: middle;
 }
-#timetables-wrapper .timetable-container{
+#timetables-wrapper{
     margin-top:5px;
-    height:110px;
+    width:100%;
+}
+#timetables-wrapper .timetable-container{
+    float:left;
+    margin-top:5px;
+    height:200px;
+    width:50%;
 }
 #layout-1-wrapper .small-block{
     border:1px solid white;
