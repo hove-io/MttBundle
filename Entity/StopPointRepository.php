@@ -14,10 +14,34 @@ class StopPointRepository extends EntityRepository
 {
     public function updatePdfGenerationDate($lineId, $stopPointNavitiaId)
     {
-        $stop_point = $this->findOneBy(array('line' => $lineId, 'navitiaId' => $stopPointNavitiaId));
+        $stopPoint = $this->getStopPoint($lineId, $stopPointNavitiaId);
         
-        $stop_point->setPdfGenerationDate(new \DateTime());
-        $this->getEntityManager()->persist($stop_point);
+        $stopPoint->setPdfGenerationDate(new \DateTime());
+        $this->getEntityManager()->persist($stopPoint);
         $this->getEntityManager()->flush();
+    }
+    
+    public function getStopPoint($lineId, $stopPointNavitiaId)
+    {
+        $stopPoint = $this->findOneBy(array('line' => $lineId, 'navitiaId' => $stopPointNavitiaId));
+        // do this stop_point exists?
+        if (empty($stopPoint)) {
+            $stopPoint = $this->insertStopPoint($lineId, $stopPointNavitiaId);
+        }
+        return $stopPoint;
+    }
+    
+    private function insertStopPoint($lineId, $stopPointNavitiaId)
+    {
+        $stopPoint = new StopPoint();
+        $line = $this->getEntityManager()->getPartialReference(
+            'CanalTP\MethBundle\Entity\Line',
+            $lineId
+        );
+        $stopPoint->setNavitiaId($stopPointNavitiaId);
+        $stopPoint->setLine($line);
+        $this->getEntityManager()->persist($stopPoint);
+        
+        return $stopPoint;
     }
 }

@@ -40,28 +40,12 @@ abstract class AbstractHandler implements HandlerInterface
         $this->om->flush();
     }
     
-    private function saveStopPoint($lineId, $stopPointId)
-    {
-        $this->stopPoint = new StopPoint();
-        $line = $this->om->getPartialReference(
-            'CanalTP\MethBundle\Entity\Line',
-            $lineId
-        );
-
-        $this->stopPoint->setNavitiaId($stopPointId);
-        $this->stopPoint->setLine($line);
-        $this->om->persist($this->stopPoint);
-    }
-
     private function getStopPointReference($lineId, $stopPointId)
     {
         $this->stopPoint = $this->om
             ->getRepository('CanalTPMethBundle:StopPoint', 'meth')
-            ->findOneByNavitiaId($stopPointId);
-        // do this stop_point exists?
-        if (empty($this->stopPoint)) {
-            $this->saveStopPoint($lineId, $stopPointId);
-        }
+            ->getStopPoint($lineId, $stopPointId);
+        
         return ($this->om->getPartialReference(
             'CanalTP\MethBundle\Entity\StopPoint',
             $this->stopPoint->getId()
