@@ -39,3 +39,9 @@ canal_tp_meth_timetable_generate_pdf:
 canal_tp_meth_distribution_list:
     pattern: /coverage/{coverageId}/network/{networkId}/line/{lineId}/route/{routeId}/distribution/list
     defaults: { _controller: CanalTPMethBundle:Distribution:list}
+    
+canal_tp_meth_distribution_generate:
+    pattern: /line/{lineId}/route/{routeId}/distribution/generate
+    defaults: { _controller: CanalTPMethBundle:Distribution:generate}
+    options:
+        expose: true

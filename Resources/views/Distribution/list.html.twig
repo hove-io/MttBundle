@@ -1,7 +1,13 @@
 {% extends "CanalTPMethBundle::base.html.twig" %}
 
 {% block main_content %}
-    <h3>{{'distribution.stops_included'|trans({}, 'default')}}</h3>
+    <div>
+        <h3>{{'distribution.stops_included'|trans({}, 'default')}} - 
+            <button id="generate-distribution-list" type="button" class="btn btn-success">
+                <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
+            </button>
+        </h3>
+    </div>
     <hr/>
     <ul id="included-stops" class="list-group sortable">
         {% for route in routes.route_schedules[0].table.rows %}
@@ -27,21 +33,47 @@
 
 {% block javascripts %}
 <script type="text/javascript">
-require(['jquery', 'jquery_ui_sortable'],function(jQuery, sortable){
-    var line_id = {{line.id|raw}};
+require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable){
+    var lineId = {{line.id|raw}};
+    var url = Routing.generate(
+        'canal_tp_meth_distribution_generate', 
+        { 
+            'lineId': lineId, 
+            'routeId' : '{{route_id|raw}}'
+        }
+    );
     
     $('.list-group.sortable').sortable({
         placeholder: "sortable-highlight list-group-item",
-        connectWith: "ul.list-group.sortable",
+        connectWith: "ul.list-group.sortable"
     });
     $('.list-group.sortable').disableSelection();
     
     $('.sortable .toggle-stop-point-btn').click(function(){
         var $stopElement = $(this).parent();
         var $newContainer = $stopElement.parents('.sortable').siblings('.sortable');
-        // $stopElement.find('a').toggle();
         $stopElement.detach();
         $newContainer.append($stopElement);
+        return false;
+    });
+    
+    var $list = $('#included-stops');
+    $('#generate-distribution-list').click(function(){  
+        var stopPoints_ids = [];
+        $list.find('.list-group-item').each(function(){
+            stopPoints_ids.push($(this).data('stopPointNavitiaId'));
+        });
+        console.dir(stopPoints_ids);
+        console.dir(url);
+        if (stopPoints_ids.length > 0)
+        {
+            $.post(
+                url,
+                {"stopPointsIds[]" : stopPoints_ids}
+            ).done(function(data){
+                console.dir(data);
+            });
+        }
         return false;
     });
 });

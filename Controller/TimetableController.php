@@ -84,6 +84,7 @@ class TimetableController extends Controller
             CategoryType::LINE,
             $lineId,
             CategoryType::STOP_POINT,
+            // TODO: should be done by the media manager
             str_replace(':', '_', $stopPointId)
         );
         $media->setFile(new File($path));
@@ -113,28 +114,13 @@ class TimetableController extends Controller
         {
             $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'meth')->updatePdfGenerationDate($lineId, $stopPointId);
             $pdfMedia = $this->save($lineId, $stopPointId, $pdfPath);
-            // var_dump($pdfMedia);die;
+
             return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
-            // return new Response('', 200, array(
-                // 'X-Sendfile'          => $this->mediaManager->getUrlByMedia($pdfMedia),
-                // 'Content-type'        => 'application/octet-stream',
-                // 'Content-Disposition' => sprintf('attachment; filename="%s"', 'file.pdf'))
-            // );
         }
         else
         {
             throw new Exception('PdfGenerator Webservice gave an emtpy response.');
         }
-        // $response = new BinaryFileResponse($pdfPath);
-        // $response->trustXSendfileTypeHeader();
-        // $response->setContentDisposition(
-            // ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            // 'file.pdf',
-            // iconv('UTF-8', 'ASCII//TRANSLIT', 'file.pdf')
-        // );
-        // return $response;
-        // $path = "";
-        // $media = $this->save($lineId, $stopPointId, $path);
-        // $url = $this->mediaManager->getUrlByMedia($media);
+        
     }
 }

@@ -82,12 +82,13 @@ class StopPointManager
      */
     public function enhanceStopPoints($stopPoints, $line)
     {
-        // extract ids to prepare SQL where in and index by navitia Id to make it easy to walkthrough
         $ids = array();
         $stopPointsIndexed = array();
+        // extract ids to prepare SQL WHERE IN 
         foreach($stopPoints as $stopPoint_data)
         {
             $ids[] = $stopPoint_data->stop_point->id;
+            // and index by navitia Id to make it easy to find an item inside
             $stopPointsIndexed[$stopPoint_data->stop_point->id] = $stopPoint_data;
         }
         $query = $this->om

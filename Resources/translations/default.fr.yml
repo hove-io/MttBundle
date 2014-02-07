@@ -22,5 +22,6 @@ block:
         title: Éditer le block
 
 distribution:
+    generate_distribution_pdf: Télécharger le pdf de cette liste
     stops_included: Arrêts inclus dans la liste de distribution
     stops_excluded: Arrêts exclus de la liste de distribution

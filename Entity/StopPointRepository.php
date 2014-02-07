@@ -44,4 +44,24 @@ class StopPointRepository extends EntityRepository
         
         return $stopPoint;
     }
+    
+    public function hasPdfUpToDate($stopPointNavitiaId, $lineId)
+    {
+        $stop_point = $this->getStopPoint($lineId, $stopPointNavitiaId);
+        if (
+        // no pdf generated yet => return FALSE
+        $stop_point->getPdfGenerationDate() == NULL || 
+        // line was modified after pdf generation
+        $stop_point->getLine()->getLastModified() > $stop_point->getPdfGenerationDate() ||
+        // stop was modified after pdf generation
+        $stop_point->getLastModified() > $stop_point->getPdfGenerationDate()
+        )
+        {
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
 }
