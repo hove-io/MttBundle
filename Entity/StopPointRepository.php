@@ -12,5 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class StopPointRepository extends EntityRepository
 {
-
+    public function updatePdfGenerationDate($lineId, $stopPointNavitiaId)
+    {
+        $stop_point = $this->findOneBy(array('line' => $lineId, 'navitiaId' => $stopPointNavitiaId));
+        
+        $stop_point->setPdfGenerationDate(new \DateTime());
+        $this->getEntityManager()->persist($stop_point);
+        $this->getEntityManager()->flush();
+    }
 }

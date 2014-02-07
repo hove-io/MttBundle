@@ -16,9 +16,6 @@ class TextHandler extends AbstractHandler
 
     public function process(Block $formBlock, $lineId)
     {
-        if (empty($this->block)) {
-            $this->saveBlock($formBlock, $lineId);
-        }
-        $this->om->flush();
+        $this->saveBlock($formBlock, $lineId);
     }
 }

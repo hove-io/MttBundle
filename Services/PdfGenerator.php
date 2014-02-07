@@ -23,6 +23,7 @@ class PdfGenerator
     // calls the webservice http://hg.prod.canaltp.fr/ctp/pdfGenerator.git/summary
     private function callWebservice($url)
     {
+        // var_dump($url);die;
         $ch = curl_init();
 
         // set URL and other appropriate options
@@ -31,10 +32,11 @@ class PdfGenerator
 
         // grab URL and pass it to the browser
         $pdfContent = curl_exec($ch);
-
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         // close cURL resource, and free up system resources
         curl_close($ch);
-        return $pdfContent;
+        
+        return $http_code == 200 && !empty($pdfContent) ? $pdfContent : false;
     }
     
     public function getPdf($url, $layout)

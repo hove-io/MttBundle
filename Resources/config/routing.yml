@@ -31,6 +31,10 @@ canal_tp_meth_block_edit:
     defaults: { _controller: CanalTPMethBundle:Block:edit, block_type: null, stop_point: null }
     options:
         expose: true
+
+canal_tp_meth_timetable_generate_pdf:
+    pattern: /timetable/line/{lineId}/stopPoint/{stopPointId}/generatePdf
+    defaults: { _controller: CanalTPMethBundle:Timetable:generatePdf}
         
 canal_tp_meth_distribution_list:
     pattern: /coverage/{coverageId}/network/{networkId}/line/{lineId}/route/{routeId}/distribution/list

@@ -6,12 +6,11 @@
 
 {% block list_title -%}
     {{'stop_point.list.header'|trans({}, 'default')}} ({{ routes.route_schedules[0].display_informations.label }})
-
+    -
     {% if line is empty %}
         <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_meth_line_choose_layout', {'coverage_id':coverage_id, 'network_id': network_id, 'line_id': line_id, 'route_id': route_id}) }}" class="btn btn-default">
             {{'line.choose_layout'|trans({}, 'default')}}
         </a>
-        -
     {% else %}
         <div class="btn-group">
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -43,6 +42,7 @@
     <th>{{'stop_point.header'|trans({}, 'default')}}</th>
     {% if line is not empty %}
         <th class="text-center">{{'global.status'|trans}}</th>
+        <th>{{'stop_point.pdf_generation_date'|trans({}, 'default')}}</th>
         <th>{{'stop_point.action.header'|trans({}, 'default')}}</th>
     {% endif %}
 {% endblock %}
@@ -56,6 +56,11 @@
             </td>
             {% if line is not empty %}
             <td class="text-center">{{ macros.display_bool(false) }}</td>
+            <td>
+                 {% if route.stop_point.pdfGenerationDate is not empty %}
+                    {{ route.stop_point.pdfGenerationDate|date }}
+                {% endif %}
+            </td>
             <td class="action">
                 <div class="btn-group">
                     <a  class="btn btn-default" href="{{ path('canal_tp_meth_line_edit_layout', {'line_id': line.id, 'stopPoint' : route.stop_point.id}) }}">

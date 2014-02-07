@@ -51,6 +51,11 @@ class Line
      * @var Array
      */
     private $stopPoints;
+    
+    /**
+     * @var datetime
+     */
+    protected $lastModified;
 
     /**
      * Set id
@@ -254,6 +259,29 @@ class Line
     public function setTwigPath($twigPath)
     {
         $this->twigPath = $twigPath;
+
+        return $this;
+    }
+
+    /**
+     * Get lastModified
+     *
+     * @return string
+     */
+    public function getLastModified()
+    {
+        return ($this->lastModified);
+    }
+
+    /**
+     * Set lastModified
+     *
+     * @param  string $lastModified
+     * @return Line
+     */
+    public function setLastModified($lastModified)
+    {
+        $this->lastModified = $lastModified;
 
         return $this;
     }

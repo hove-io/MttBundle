@@ -6,3 +6,5 @@ global:
     close: Fermer
     status: Statut
     generatePdf: Générer le PDF
+    remove: Enlever
+    add: Ajouter

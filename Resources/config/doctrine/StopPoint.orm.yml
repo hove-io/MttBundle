@@ -12,6 +12,12 @@ CanalTP\MethBundle\Entity\StopPoint:
             type: string
             length: 255
             column: navitia_id
+        pdfGenerationDate:
+            type: datetime
+            column: pdf_generation_date
+        lastModified:
+            type: datetime
+            column: last_modified
     lifecycleCallbacks: {  }
     manyToOne:
         line:

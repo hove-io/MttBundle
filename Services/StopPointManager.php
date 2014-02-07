@@ -17,6 +17,7 @@ class StopPointManager
     private $stopPoint = null;
     private $navitia = null;
     private $repository = null;
+    private $om = null;
     private $container = null;
 
     public function __construct(Container $co, ObjectManager $om, Navitia $navitia)
@@ -25,6 +26,7 @@ class StopPointManager
         $this->container = $co;
         $this->navitia = $navitia;
         $this->repository = $om->getRepository('CanalTPMethBundle:StopPoint');
+        $this->om = $om;
     }
 
     private function initTitle($line)
@@ -49,10 +51,11 @@ class StopPointManager
     }
 
     /**
-     * Return Object of line
+     * Return StopPoint with data from navitia
      *
-     * @param  Integer $lineId
-     * @return line
+     * @param  String $stopPointNavitiaId
+     * @param  Line $line Line Entity
+     * @return stopPoint
      */
     public function getStopPoint($stopPointNavitiaId, $line)
     {
@@ -68,5 +71,41 @@ class StopPointManager
         $this->initTitle($line);
 
         return $this->stopPoint;
+    }
+    
+    /**
+     * Return StopPoints list with Data from navitia
+     *
+     * @param  array $stopPointNavitiaIds Array of Stoppoints NavitiaId
+     * @param  Line $line Object entity0
+     * @return array
+     */
+    public function enhanceStopPoints($stopPoints, $line)
+    {
+        // extract ids to prepare SQL where in and index by navitia Id to make it easy to walkthrough
+        $ids = array();
+        $stopPointsIndexed = array();
+        foreach($stopPoints as $stopPoint_data)
+        {
+            $ids[] = $stopPoint_data->stop_point->id;
+            $stopPointsIndexed[$stopPoint_data->stop_point->id] = $stopPoint_data;
+        }
+        $query = $this->om
+            ->createQueryBuilder()
+            ->addSelect('stopPoint')
+            ->where("stopPoint.navitiaId IN(:ids)")
+            ->from('CanalTPMethBundle:StopPoint', 'stopPoint')
+            ->setParameter('ids', array_values($ids))
+            ->getQuery();
+
+        $db_stop_points = $query->getResult();
+        foreach ($db_stop_points as $db_stop_point)
+        {
+            if (isset($stopPointsIndexed[$db_stop_point->getNavitiaId()]))
+            {
+                $stopPointsIndexed[$db_stop_point->getNavitiaId()]->stop_point->pdfGenerationDate = $db_stop_point->getPdfGenerationDate();
+            }
+        }
+        return $stopPointsIndexed;
     }
 }

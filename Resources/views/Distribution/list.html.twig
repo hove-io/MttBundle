@@ -5,8 +5,14 @@
     <hr/>
     <ul id="included-stops" class="list-group sortable">
         {% for route in routes.route_schedules[0].table.rows %}
-            <li class="list-group-item">
-                {{ route.stop_point.name }}
+            <li class="list-group-item" data-stop-point-navitia-id="{{ route.stop_point.id|raw }}">
+                <span class="glyphicon glyphicon-resize-vertical"></span> {{ route.stop_point.name }}
+                <a class="btn btn-xs btn-danger pull-right toggle-stop-point-btn remove-stop-point-btn" href="#">
+                    <span class="glyphicon glyphicon-minus-sign"></span> {{'global.remove'|trans}}
+                </a>
+                <a class="btn btn-xs btn-success pull-right toggle-stop-point-btn add-stop-point-btn" href="#">
+                    <span class="glyphicon glyphicon-plus-sign"></span> {{'global.add'|trans}}
+                </a>
             </li>
         {% endfor %}
     </ul>
@@ -15,15 +21,29 @@
     <hr/>
     <ul id="excluded-stops" class="list-group sortable">
     </ul>
+    
 {% endblock %}
 
 
 {% block javascripts %}
-<script type="text/javascript">require(['jquery', 'jquery_ui_sortable'],function(jQuery, sortable){
+<script type="text/javascript">
+require(['jquery', 'jquery_ui_sortable'],function(jQuery, sortable){
+    var line_id = {{line.id|raw}};
+    
     $('.list-group.sortable').sortable({
         placeholder: "sortable-highlight list-group-item",
         connectWith: "ul.list-group.sortable",
     });
     $('.list-group.sortable').disableSelection();
-});</script>
+    
+    $('.sortable .toggle-stop-point-btn').click(function(){
+        var $stopElement = $(this).parent();
+        var $newContainer = $stopElement.parents('.sortable').siblings('.sortable');
+        // $stopElement.find('a').toggle();
+        $stopElement.detach();
+        $newContainer.append($stopElement);
+        return false;
+    });
+});
+</script>
 {% endblock %}

@@ -8,6 +8,12 @@
 .bold{font-weight:bold;}
 #left-menu{
     padding-bottom:50px;
+    min-width:100%;
+}
+#left-menu.affix{
+    min-width:0;
+    position:fixed;
+    top:0;
 }
 #lines-accordion.panel-group .panel{
     border-radius:0px;
@@ -42,10 +48,27 @@
     cursor:move;
 }
 .sortable .sortable-highlight{
+    min-height:30px;
     background-color:black;
 }
+.sortable li > span{
+    display:none;
+}
+.sortable .ui-sortable-helper{
+    background-color:#f5f5f5;
+}
+.sortable li.ui-sortable-helper span{
+    display:inline;
+}
+#included-stops,
 #excluded-stops{
     /* border:1px solid black; */
     min-height:150px;
     width:100%;
+}
+#included-stops .add-stop-point-btn{
+    display:none;
+}
+#excluded-stops .remove-stop-point-btn{
+    display:none;
 }

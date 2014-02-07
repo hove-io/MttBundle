@@ -23,6 +23,9 @@ CanalTP\MethBundle\Entity\Line:
         layout:
             type: string
             column: layout
+        lastModified:
+            type: datetime
+            column: last_modified
     oneToMany:
         blocks:
             targetEntity: Block

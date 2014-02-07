@@ -23,16 +23,23 @@ abstract class AbstractHandler implements HandlerInterface
 
     protected function saveBlock(Block $formBlock, $lineId)
     {
-        $this->block = new Block();
+        if (empty($this->block)) {
+            $this->block = new Block();
+
+            $this->block->setTitle($formBlock->getTitle());
+            $this->block->setContent($formBlock->getContent());
+            $this->block->setTypeId($formBlock->getTypeId());
+            $this->block->setDomId($formBlock->getDomId());
+            $this->om->persist($this->block);
+        }
+        // we need to init the relations even if the block is already filled with the post values
+        // because stop_point_id in post contains the navitiaId value and doctrine expects a bdd ID
+        // Plus, init Relations updates modified dates of line entity or stopPoint
         $this->initRelation($formBlock, $lineId);
 
-        $this->block->setTitle($formBlock->getTitle());
-        $this->block->setContent($formBlock->getContent());
-        $this->block->setTypeId($formBlock->getTypeId());
-        $this->block->setDomId($formBlock->getDomId());
-        $this->om->persist($this->block);
+        $this->om->flush();
     }
-
+    
     private function saveStopPoint($lineId, $stopPointId)
     {
         $this->stopPoint = new StopPoint();
@@ -55,7 +62,6 @@ abstract class AbstractHandler implements HandlerInterface
         if (empty($this->stopPoint)) {
             $this->saveStopPoint($lineId, $stopPointId);
         }
-
         return ($this->om->getPartialReference(
             'CanalTP\MethBundle\Entity\StopPoint',
             $this->stopPoint->getId()
@@ -64,9 +70,9 @@ abstract class AbstractHandler implements HandlerInterface
 
     protected function initRelation(Block $block, $lineId)
     {
-         $stopPointId = $block->getStopPoint();
+        $stopPointId = $block->getStopPoint();
 
-        // should we link this block to a specific stop point?
+        // shall we link this block to a specific stop point?
          if (empty($stopPointId)) {
             // get partialreference to avoid SQL statement
             $line = $this->om->getPartialReference(
@@ -74,13 +80,19 @@ abstract class AbstractHandler implements HandlerInterface
                 $lineId
             );
             $this->block->setLine($line);
+            // update last modified time of the line
+            $line = $this->block->getLine();
+            $line->setLastModified(new \DateTime());
+            $this->om->persist($line);
         } else {
-
             // link block to this stop point
             $this->block->setStopPoint($this->getStopPointReference(
                 $lineId,
                 $stopPointId
             ));
+            //update last modified time of the stop point
+            $this->stopPoint->setLastModified(new \DateTime());
+            $this->om->persist($this->stopPoint);
         }
     }
 }

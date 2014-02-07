@@ -31,6 +31,16 @@ class StopPoint
      * @var string
      */
     private $title;
+    
+    /**
+     * @var datetime
+     */
+    protected $pdfGenerationDate;
+    
+    /**
+     * @var datetime
+     */
+    protected $lastModified;
 
     /**
      * Get id
@@ -131,6 +141,52 @@ class StopPoint
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get pdfGenerationDate
+     *
+     * @return string
+     */
+    public function getPdfGenerationDate()
+    {
+        return ($this->pdfGenerationDate);
+    }
+
+    /**
+     * Set pdfGenerationDate
+     *
+     * @param  string $pdfGenerationDate
+     * @return StopPoint
+     */
+    public function setPdfGenerationDate($pdfGenerationDate)
+    {
+        $this->pdfGenerationDate = $pdfGenerationDate;
+
+        return $this;
+    }
+    
+    /**
+     * Get lastModified
+     *
+     * @return string
+     */
+    public function getLastModified()
+    {
+        return ($this->lastModified);
+    }
+
+    /**
+     * Set lastModified
+     *
+     * @param  string $lastModified
+     * @return StopPoint
+     */
+    public function setLastModified($lastModified)
+    {
+        $this->lastModified = $lastModified;
 
         return $this;
     }
