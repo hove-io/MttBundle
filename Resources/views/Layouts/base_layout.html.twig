@@ -14,7 +14,10 @@
                        filter='cssrewrite' output='css/full_layouts_print.css' %}
             <link rel="stylesheet" media="print" href="{{ asset_url }}" />
         {% endstylesheets %}
-        {{ require_js_initialize() }}
+        
+        {% block head_config %}
+            {% include 'CanalTPMethBundle::config.js.html.twig' %}
+        {% endblock %}
     </head>
     <body{% if editable == true %} class="editable"{% endif %}>
         <div class="navbar no-print">
