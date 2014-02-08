@@ -53,9 +53,7 @@ class ImgHandler extends AbstractHandler
         );
 
         $media->setFile($formBlock->getContent());
-        // check with @Rémy why it was: (missing argument)
-        // $this->mediaManager->save($media);
-        $this->mediaManager->save($media->getFile()->getPathName(), $media->getId());
+        $this->mediaManager->save($media);
         $formBlock->setContent($this->mediaManager->getUrlByMedia($media));
         $this->saveBlock($formBlock, $lineId);
     }
