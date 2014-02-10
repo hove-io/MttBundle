@@ -19,11 +19,10 @@ class PdfGenerator
         $this->serverUrl = $server;
         $this->layoutsConfig = $layoutsConfig;
     }
-    
+
     // calls the webservice http://hg.prod.canaltp.fr/ctp/pdfGenerator.git/summary
     private function callWebservice($url)
     {
-        // var_dump($url);die;
         $ch = curl_init();
 
         // set URL and other appropriate options
@@ -60,8 +59,7 @@ class PdfGenerator
         $path = $dir . $filename;
         $fs = new Filesystem();
         $fs->dumpFile($path, $pdfContent);
-        
-        // var_dump($pdfContent, $generation_url);die;
+
         return $path;
     }
 }

@@ -45,7 +45,7 @@ class TimetableController extends Controller
     {
         $line = $this->getLine($line_id);
         $stopPointData = $this->getStopPoint($line, $stopPoint);
-        // var_dump($stopPointData);die;
+
         return $this->render(
             'CanalTPMethBundle:Layouts:' . $line->getTwigPath(),
             array(
@@ -77,20 +77,18 @@ class TimetableController extends Controller
         );
     }
 
-    // save Pdf in MediaManager 
     private function save($lineId, $stopPointId, $path)
     {
+        $this->mediaManager = $this->get('canaltp_media_manager_mtt');
         $media = new Media(
             CategoryType::LINE,
             $lineId,
             CategoryType::STOP_POINT,
-            // TODO: should be done by the media manager
-            str_replace(':', '_', $stopPointId)
+            $stopPointId
         );
+
         $media->setFile(new File($path));
-        $this->mediaManager = $this->get('canaltp_media_manager_mtt');
-        $this->mediaManager->save($media->getFile()->getPathName(), $media->getId());
-        
+        $this->mediaManager->save($media);
         return ($media);
     }
 
