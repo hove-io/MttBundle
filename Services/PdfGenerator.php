@@ -8,6 +8,7 @@
 namespace CanalTP\MethBundle\Services;
 
 use Symfony\Component\Filesystem\Filesystem;
+use fpdi;
 
 class PdfGenerator
 {
@@ -61,5 +62,37 @@ class PdfGenerator
         $fs->dumpFile($path, $pdfContent);
 
         return $path;
+    }
+    
+    /**
+     *  @function aggregate pdf files
+     *
+     *  @param $paths array Array with absolute path to pdf files
+     */
+    public function aggregatePdf($paths)
+    {
+        $fpdi = new \fpdi\FPDI();
+
+        foreach($paths as $file)
+        {
+            $pageCount = $fpdi->setSourceFile($file);
+            for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+                 $tplIdx = $fpdi->ImportPage($pageNo);
+                 $s = $fpdi->getTemplatesize($tplIdx);
+                 // Landscape/Portrait?
+                 $fpdi->AddPage($s['w'] > $s['h'] ? 'L' : 'P', array($s['w'], $s['h']));
+                 $fpdi->useTemplate($tplIdx);
+            }
+        }
+        $dir = $this->getUploadRootDir() . '/';
+        // TODO: should be generic and saved for later?
+        $fpdi->Output($dir . 'concat.pdf', 'F');
+        return '/uploads/concat.pdf';
+    }
+    
+    protected function getUploadRootDir()
+    {
+        // absolute path
+        return realpath(__DIR__.'/../../../../../../web/uploads/');
     }
 }

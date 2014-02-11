@@ -71,7 +71,7 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
                 url,
                 {"stopPointsIds[]" : stopPoints_ids}
             ).done(function(data){
-                console.dir(data);
+                window.location = data.path;
             });
         }
         return false;

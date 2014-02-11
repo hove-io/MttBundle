@@ -3,6 +3,7 @@
 namespace CanalTP\MethBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MediaManager\Category\CategoryType;
 
@@ -47,25 +48,28 @@ class DistributionController extends Controller
         // var_dump($stopPointsIds);die;
         $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'meth');
         $this->mediaManager = $this->get('canaltp_media_manager_mtt');
+        $paths = array();
         foreach ($stopPointsIds as $stopPointId)
         {
             //shall we regenerate pdf?
             if ($stopPointRepo->hasPdfUpToDate($stopPointId, $lineId) == false)
             {
-                echo "to generate\r\n";
+                $response = $this->forward('CanalTPMethBundle:Timetable:generatePdf', array(
+                    'lineId'  => $lineId,
+                    'stopPointId' => $stopPointId,
+                ));
+                // var_dump($response);
             }
-            else
-            {
-                $media = new Media(
-                    CategoryType::LINE,
-                    $lineId,
-                    CategoryType::STOP_POINT,
-                    // TODO: should be done by the media manager
-                    str_replace(':', '_', $stopPointId)
-                );
-                echo $this->mediaManager->getUrlByMedia($media);
-            }
+            $media = new Media(
+                CategoryType::LINE,
+                $lineId,
+                CategoryType::STOP_POINT,
+                $stopPointId
+            );
+            $paths[] = $this->mediaManager->getPathByMedia($media);
         }
-        die;
+        $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
+        $filePath = $pdfGenerator->aggregatePdf($paths);
+        return new JsonResponse(array('path' => $this->getRequest()->getBasePath() . $filePath));
     }
 }
