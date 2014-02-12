@@ -2,10 +2,12 @@
 
 namespace CanalTP\MethBundle\Entity;
 
+use CanalTP\MethBundle\Entity\AbstractEntity;
+
 /**
  * StopPoint
  */
-class StopPoint
+class StopPoint extends AbstractEntity
 {
     /**
      * @var integer

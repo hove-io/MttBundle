@@ -16,4 +16,14 @@ CanalTP\MethBundle\Entity\Network:
             type: string
             length: 255
             column: name_id
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     lifecycleCallbacks: {  }

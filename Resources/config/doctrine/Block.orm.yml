@@ -20,6 +20,16 @@ CanalTP\MethBundle\Entity\Block:
         title:
             type: string
             length: 255
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     lifecycleCallbacks: {  }
     manyToOne:
         line:

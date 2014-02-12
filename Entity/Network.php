@@ -2,10 +2,12 @@
 
 namespace CanalTP\MethBundle\Entity;
 
+use CanalTP\MethBundle\Entity\AbstractEntity;
+
 /**
  * Network
  */
-class Network
+class Network extends AbstractEntity
 {
     /**
      * @var integer

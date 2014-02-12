@@ -23,9 +23,16 @@ CanalTP\MethBundle\Entity\Line:
         layout:
             type: string
             column: layout
-        lastModified:
+        created:
             type: datetime
-            column: last_modified
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     oneToMany:
         blocks:
             targetEntity: Block

@@ -15,9 +15,16 @@ CanalTP\MethBundle\Entity\StopPoint:
         pdfGenerationDate:
             type: datetime
             column: pdf_generation_date
-        lastModified:
+        created:
             type: datetime
-            column: last_modified
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     lifecycleCallbacks: {  }
     manyToOne:
         line:
