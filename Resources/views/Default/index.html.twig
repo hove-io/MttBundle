@@ -6,7 +6,7 @@
     <h3>Networks</h3>
     <ul>
         {% for network in networks %}
-            <li>{{ network.coverage_id }} -> {{ network.name_id }}</li>
+            <li>{{ network.external_coverage_id }} -> {{ network.external_id }}</li>
         {% endfor %}
     </ul>
 {% endblock %}

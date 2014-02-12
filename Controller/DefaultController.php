@@ -28,8 +28,8 @@ class DefaultController extends Controller
         if (count($networks) > 0)
         {
             $result = $meth_navitia->getLinesByMode(
-                $networks[0]['coverage_id'],
-                $networks[0]['name_id']
+                $networks[0]['external_coverage_id'],
+                $networks[0]['external_id']
             );
         }
         else
@@ -41,7 +41,7 @@ class DefaultController extends Controller
             'CanalTPMethBundle:Default:navigation.html.twig',
             array(
                 'result' => $result,
-                'coverageId' => $networks[0]['coverage_id'],
+                'coverageId' => $networks[0]['external_coverage_id'],
                 'current_route' => $current_route
             )
         );
