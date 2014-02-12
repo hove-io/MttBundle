@@ -8,18 +8,18 @@ CanalTP\MethBundle\Entity\Line:
             id: true
             generator:
                 strategy: AUTO
-        coverageId:
+        externalCoverageId:
             type: string
             length: 255
-            column: coverage_id
-        networkId:
+            column: external_coverage_id
+        externalNetworkId:
             type: string
             length: 255
-            column: network_id
-        navitiaId:
+            column: external_network_id
+        externalId:
             type: string
             length: 255
-            column: navitia_id
+            column: external_id
         layout:
             type: string
             column: layout
@@ -33,10 +33,3 @@ CanalTP\MethBundle\Entity\Line:
             gedmo:
                 timestampable:
                     on: update
-    oneToMany:
-        blocks:
-            targetEntity: Block
-            mappedBy: line
-        stopPoints:
-            targetEntity: StopPoint
-            mappedBy: line

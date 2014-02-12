@@ -1,7 +1,7 @@
-CanalTP\MethBundle\Entity\StopPoint:
+CanalTP\MethBundle\Entity\Route:
     type: entity
-    table: stop_point
-    repositoryClass: CanalTP\MethBundle\Entity\StopPointRepository
+    table: null
+    repositoryClass: CanalTP\MethBundle\Entity\RouteRepository
     fields:
         id:
             type: integer
@@ -12,9 +12,6 @@ CanalTP\MethBundle\Entity\StopPoint:
             type: string
             length: 255
             column: external_id
-        pdfGenerationDate:
-            type: datetime
-            column: pdf_generation_date
         created:
             type: datetime
             gedmo:
@@ -28,4 +25,4 @@ CanalTP\MethBundle\Entity\StopPoint:
     oneToMany:
         blocks:
             targetEntity: Block
-            mappedBy: stopPoint
+            mappedBy: route

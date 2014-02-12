@@ -37,7 +37,7 @@ class Block extends AbstractEntity
     /**
      * @var Object
      */
-    private $line;
+    private $route;
 
     /**
      * @var Object
@@ -147,27 +147,27 @@ class Block extends AbstractEntity
     }
 
     /**
-     * Set line
+     * Set route
      *
-     * @param integer $line
+     * @param integer $route
      *
      * @return Block
      */
-    public function setLine($line)
+    public function setRoute($route)
     {
-        $this->line = $line;
+        $this->route = $route;
 
         return $this;
     }
 
     /**
-     * Get line
+     * Get route
      *
      * @return string
      */
-    public function getLine()
+    public function getRoute()
     {
-        return $this->line;
+        return $this->route;
     }
 
     /**

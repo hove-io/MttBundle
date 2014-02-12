@@ -8,14 +8,14 @@ CanalTP\MethBundle\Entity\Network:
             id: true
             generator:
                 strategy: AUTO
-        coverageId:
+        externalId:
             type: string
             length: 255
-            column: coverage_id
-        nameId:
+            column: external_id
+        externalCoverageId:
             type: string
             length: 255
-            column: name_id
+            column: external_coverage_id
         created:
             type: datetime
             gedmo:
@@ -26,4 +26,14 @@ CanalTP\MethBundle\Entity\Network:
             gedmo:
                 timestampable:
                     on: update
-    lifecycleCallbacks: {  }
+    manyToMany:
+        users:
+            targetEntity: CanalTP\CoreBoBundle\Entity\User
+            joinTable:
+                name: users_networks
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    network_id:
+                        referencedColumnName: id

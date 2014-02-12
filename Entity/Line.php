@@ -22,17 +22,17 @@ class Line extends AbstractEntity
     /**
      * @var string
      */
-    private $coverageId;
+    private $externalCoverageId;
 
     /**
      * @var string
      */
-    private $networkId;
+    private $externalNetworkId;
 
     /**
      * @var string
      */
-    private $navitiaId;
+    private $externalId;
 
     /**
      * @var string
@@ -53,11 +53,6 @@ class Line extends AbstractEntity
      * @var Array
      */
     private $stopPoints;
-    
-    /**
-     * @var datetime
-     */
-    protected $lastModified;
 
     /**
      * Set id
@@ -105,72 +100,72 @@ class Line extends AbstractEntity
     }
 
     /**
-     * Set coverageId
+     * Set externalCoverageId
      *
-     * @param  string $coverageId
+     * @param  string $externalCoverageId
      * @return Line
      */
-    public function setCoverageId($coverageId)
+    public function setExternalCoverageId($externalCoverageId)
     {
-        $this->coverageId = $coverageId;
+        $this->externalCoverageId = $externalCoverageId;
 
         return $this;
     }
 
     /**
-     * Get nameId
+     * Get externalCoverageId
      *
      * @return string
      */
-    public function getCoverageId()
+    public function getExternalCoverageId()
     {
-        return $this->coverageId;
+        return $this->externalCoverageId;
     }
 
     /**
-     * Set networkId
+     * Set externalNetworkId
      *
-     * @param  string $networkId
+     * @param  string $externalNetworkId
      * @return Line
      */
-    public function setNetworkId($networkId)
+    public function setExternalNetworkId($externalNetworkId)
     {
-        $this->networkId = $networkId;
+        $this->externalNetworkId = $externalNetworkId;
 
         return $this;
     }
 
     /**
-     * Get networkId
+     * Get externalNetworkId
      *
      * @return string
      */
-    public function getNetworkId()
+    public function getExternalNetworkId()
     {
-        return $this->networkId;
+        return $this->externalNetworkId;
     }
 
     /**
-     * Set navitiaId
+     * Set externalId
      *
-     * @param  string $navitiaId
+     * @param  string $externalId
      * @return Line
      */
-    public function setNavitiaId($navitiaId)
+    public function setExternalId($externalId)
     {
-        $this->navitiaId = $navitiaId;
+        $this->externalId = $externalId;
 
         return $this;
     }
 
     /**
-     * Get getNavitiaId
+     * Get getExternalId
      *
      * @return string
      */
-    public function getNavitiaId()
+    public function getExternalId()
     {
-        return $this->navitiaId;
+        return $this->externalId;
     }
 
     /**
@@ -261,29 +256,6 @@ class Line extends AbstractEntity
     public function setTwigPath($twigPath)
     {
         $this->twigPath = $twigPath;
-
-        return $this;
-    }
-
-    /**
-     * Get lastModified
-     *
-     * @return string
-     */
-    public function getLastModified()
-    {
-        return ($this->lastModified);
-    }
-
-    /**
-     * Set lastModified
-     *
-     * @param  string $lastModified
-     * @return Line
-     */
-    public function setLastModified($lastModified)
-    {
-        $this->lastModified = $lastModified;
 
         return $this;
     }

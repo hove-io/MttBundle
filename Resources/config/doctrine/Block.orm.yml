@@ -30,13 +30,12 @@ CanalTP\MethBundle\Entity\Block:
             gedmo:
                 timestampable:
                     on: update
-    lifecycleCallbacks: {  }
     manyToOne:
-        line:
-            targetEntity: Line
+        route:
+            targetEntity: Route
             inversedBy: blocks
             joinColumn:
-                name: line_id
+                name: route_id
                 referencedColumnName: id
         stopPoint:
             targetEntity: StopPoint

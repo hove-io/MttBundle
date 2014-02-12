@@ -17,12 +17,12 @@ class Network extends AbstractEntity
     /**
      * @var string
      */
-    private $coverageId;
+    private $externalId;
 
     /**
      * @var string
      */
-    private $nameId;
+    private $externalCoverageId;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -40,48 +40,48 @@ class Network extends AbstractEntity
     }
 
     /**
-     * Set nameId
+     * Set externalId
      *
-     * @param  string  $nameId
+     * @param  string  $externalId
      * @return Network
      */
-    public function setNameId($nameId)
+    public function setExternalId($externalId)
     {
-        $this->nameId = $nameId;
+        $this->externalId = $externalId;
 
         return $this;
     }
 
     /**
-     * Get nameId
+     * Get externalId
      *
      * @return string
      */
-    public function getNameId()
+    public function getExternalId()
     {
-        return $this->nameId;
+        return $this->externalId;
     }
 
     /**
-     * Set coverageId
+     * Set externalCoverageId
      *
-     * @param  string  $coverageId
+     * @param  string  $externalCoverageId
      * @return Network
      */
-    public function setCoverageId($coverageId)
+    public function setExternalCoverageId($externalCoverageId)
     {
-        $this->coverageId = $coverageId;
+        $this->externalCoverageId = $externalCoverageId;
 
         return $this;
     }
 
     /**
-     * Get coverageId
+     * Get externalCoverageId
      *
      * @return string
      */
-    public function getCoverageId()
+    public function getExternalCoverageId()
     {
-        return $this->coverageId;
+        return $this->externalCoverageId;
     }
 }

@@ -17,7 +17,7 @@ class StopPoint extends AbstractEntity
     /**
      * @var string
      */
-    private $navitiaId;
+    private $externalId;
 
     /**
      * @var Object
@@ -38,11 +38,6 @@ class StopPoint extends AbstractEntity
      * @var datetime
      */
     protected $pdfGenerationDate;
-    
-    /**
-     * @var datetime
-     */
-    protected $lastModified;
 
     /**
      * Get id
@@ -55,26 +50,26 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set navitiaId
+     * Set externalId
      *
-     * @param  string $navitiaId
+     * @param  string $externalId
      * @return Line
      */
-    public function setNavitiaId($navitiaId)
+    public function setExternalId($externalId)
     {
-        $this->navitiaId = $navitiaId;
+        $this->externalId = $externalId;
 
         return $this;
     }
 
     /**
-     * Get getNavitiaId
+     * Get external Id
      *
      * @return string
      */
-    public function getNavitiaId()
+    public function getExternalId()
     {
-        return $this->navitiaId;
+        return $this->externalId;
     }
 
     /**
@@ -166,29 +161,6 @@ class StopPoint extends AbstractEntity
     public function setPdfGenerationDate($pdfGenerationDate)
     {
         $this->pdfGenerationDate = $pdfGenerationDate;
-
-        return $this;
-    }
-    
-    /**
-     * Get lastModified
-     *
-     * @return string
-     */
-    public function getLastModified()
-    {
-        return ($this->lastModified);
-    }
-
-    /**
-     * Set lastModified
-     *
-     * @param  string $lastModified
-     * @return StopPoint
-     */
-    public function setLastModified($lastModified)
-    {
-        $this->lastModified = $lastModified;
 
         return $this;
     }
