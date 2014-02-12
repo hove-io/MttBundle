@@ -22,13 +22,20 @@ class DefaultController extends Controller
     {
         $meth_navitia = $this->get('canal_tp_meth.navitia');
         $networks = $this->getDoctrine()
-        ->getRepository('CanalTPMethBundle:Network', 'mtt')
-        ->findNetworksByUserId($this->getUser()->getId());
+            ->getRepository('CanalTPMethBundle:Network', 'mtt')
+            ->findNetworksByUserId($this->getUser()->getId());
         // Configuration
-        $result = $meth_navitia->getLinesByMode(
-            $networks[0]['coverage_id'],
-            $networks[0]['name_id']
-        );
+        if (count($networks) > 0)
+        {
+            $result = $meth_navitia->getLinesByMode(
+                $networks[0]['coverage_id'],
+                $networks[0]['name_id']
+            );
+        }
+        else
+        {
+            throw new \Exception($this->get('translator')->trans('controller.default.navigation.no_networks', array(), 'exceptions'));
+        }
 
         return $this->render(
             'CanalTPMethBundle:Default:navigation.html.twig',
