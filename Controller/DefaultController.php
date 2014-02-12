@@ -9,7 +9,7 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $networks = $this->getDoctrine()
-        ->getRepository('CanalTPMethBundle:Network', 'meth')
+        ->getRepository('CanalTPMethBundle:Network', 'mtt')
         ->findNetworksByUserId($this->getUser()->getId());
 
         return $this->render(
@@ -22,7 +22,7 @@ class DefaultController extends Controller
     {
         $meth_navitia = $this->get('canal_tp_meth.navitia');
         $networks = $this->getDoctrine()
-        ->getRepository('CanalTPMethBundle:Network', 'meth')
+        ->getRepository('CanalTPMethBundle:Network', 'mtt')
         ->findNetworksByUserId($this->getUser()->getId());
         // Configuration
         $result = $meth_navitia->getLinesByMode(
