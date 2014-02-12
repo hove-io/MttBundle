@@ -13,9 +13,9 @@ class LineController extends Controller
         if (empty($line)) {
             $data = $form->getData();
             $line = new Line();
-            $line->setCoverageId($params['coverage_id']);
-            $line->setNetworkId($params['network_id']);
-            $line->setNavitiaId($params['line_id']);
+            $line->setExternalCoverageId($params['coverage_id']);
+            $line->setExternalNetworkId($params['network_id']);
+            $line->setExternalId($params['line_id']);
             $line->setLayout($data['layout']);
         }
         if ($line->getLayout() != null) {
@@ -23,7 +23,11 @@ class LineController extends Controller
             $em->persist($line);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'line.flash.layout_chosen');
+            $this->get('session')->getFlashBag()->add(
+                'notice', 
+                // $this->get('translator')->trans('line.layout_chosen', array(), 'default')
+                'test'
+            );
         }
 
         return $this->redirect($this->generateUrl('canal_tp_meth_stop_point_list', $params));
@@ -42,9 +46,9 @@ class LineController extends Controller
         $line = $this->getDoctrine()
                 ->getRepository('CanalTPMethBundle:Line', 'mtt')
                 ->findOneBy(array(
-                    'coverageId'   => $coverage_id,
-                    'networkId'    => $network_id,
-                    'navitiaId'=> $line_id
+                    'externalCoverageId'    => $coverage_id,
+                    'externalNetworkId'     => $network_id,
+                    'externalId'            => $line_id
                     )
                 );
 

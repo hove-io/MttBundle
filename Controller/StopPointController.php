@@ -16,9 +16,9 @@ class StopPointController extends Controller
             'mtt'
             )->findOneBy(
                 array(
-                    'coverageId'    => $coverage_id,
-                    'networkId'     => $network_id,
-                    'navitiaId'     => $line_id,
+                    'externalCoverageId'    => $coverage_id,
+                    'externalNetworkId'     => $network_id,
+                    'externalId'            => $line_id,
                 )
             );
             

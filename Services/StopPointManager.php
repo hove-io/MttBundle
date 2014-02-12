@@ -94,7 +94,7 @@ class StopPointManager
         $query = $this->om
             ->createQueryBuilder()
             ->addSelect('stopPoint')
-            ->where("stopPoint.navitiaId IN(:ids)")
+            ->where("stopPoint.externalId IN(:ids)")
             ->from('CanalTPMethBundle:StopPoint', 'stopPoint')
             ->setParameter('ids', array_values($ids))
             ->getQuery();
@@ -102,9 +102,9 @@ class StopPointManager
         $db_stop_points = $query->getResult();
         foreach ($db_stop_points as $db_stop_point)
         {
-            if (isset($stopPointsIndexed[$db_stop_point->getNavitiaId()]))
+            if (isset($stopPointsIndexed[$db_stop_point->getExternalId()]))
             {
-                $stopPointsIndexed[$db_stop_point->getNavitiaId()]->stop_point->pdfGenerationDate = $db_stop_point->getPdfGenerationDate();
+                $stopPointsIndexed[$db_stop_point->getExternalId()]->stop_point->pdfGenerationDate = $db_stop_point->getPdfGenerationDate();
             }
         }
         return $stopPointsIndexed;
