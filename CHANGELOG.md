@@ -1,4 +1,16 @@
-Notes de publication - METH - Version 0.1.2
+Notes de publication - METH - Version 0.2.1
+
+** Sous-tâche
+    * [METH-59] - Service symfony pour la génération du pdf
+
+** Récit
+    * [METH-15] - Génération d'un fichier PDF pour tout une ligne
+    * [METH-16] - Génération d'un fichier PDF pour un arrêt
+    * [METH-30] - Liste des arrêts pour la gestion de la distribution
+    * [METH-31] - Ordonnancement des arrêts de la liste de gestion de la distribution
+
+
+Notes de publication - METH - Version 0.1.2 (4/02/2014)
 
 ** Sous-tâche
     * [METH-39] - Mise en place d'un layout pour les lignes
