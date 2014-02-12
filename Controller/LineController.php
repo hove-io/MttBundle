@@ -25,8 +25,7 @@ class LineController extends Controller
 
             $this->get('session')->getFlashBag()->add(
                 'notice', 
-                // $this->get('translator')->trans('line.layout_chosen', array(), 'default')
-                'test'
+                $this->get('translator')->trans('line.layout_chosen', array(), 'default')
             );
         }
 
