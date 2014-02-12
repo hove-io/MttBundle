@@ -32,8 +32,8 @@ CanalTP\MethBundle\Entity\Network:
             joinTable:
                 name: users_networks
                 joinColumns:
-                    user_id:
+                    network_id:
                         referencedColumnName: id
                 inverseJoinColumns:
-                    network_id:
+                    user_id:
                         referencedColumnName: id

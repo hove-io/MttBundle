@@ -15,7 +15,7 @@ class BlockController extends Controller
     {
         $blockTypeFactory = $this->get('canal_tp_meth.form.factory.block');
         $data = array('dom_id' => $dom_id, 'type_id' => $block_type, 'stop_point' => $stop_point);
-        $repo = $this->getDoctrine()->getRepository('CanalTPMethBundle:Block', 'meth');
+        $repo = $this->getDoctrine()->getRepository('CanalTPMethBundle:Block', 'mtt');
 
         if (empty($stop_point)) {
             $block = $repo->findByLineAndDomId($line_id, $dom_id);

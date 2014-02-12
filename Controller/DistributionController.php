@@ -16,7 +16,7 @@ class DistributionController extends Controller
 
         $line = $this->getDoctrine()->getRepository(
             'CanalTPMethBundle:Line',
-            'meth'
+            'mtt'
         )->findOneBy(
             array(
                 'coverageId'    => $coverageId,
@@ -46,7 +46,7 @@ class DistributionController extends Controller
     {
         $stopPointsIds = $this->get('request')->request->get('stopPointsIds');
         // var_dump($stopPointsIds);die;
-        $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'meth');
+        $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt');
         $this->mediaManager = $this->get('canaltp_media_manager_mtt');
         $paths = array();
         foreach ($stopPointsIds as $stopPointId)

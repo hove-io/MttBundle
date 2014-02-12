@@ -19,7 +19,7 @@ class LineController extends Controller
             $line->setLayout($data['layout']);
         }
         if ($line->getLayout() != null) {
-            $em = $this->getDoctrine()->getManager('meth');
+            $em = $this->getDoctrine()->getManager('mtt');
             $em->persist($line);
             $em->flush();
 
@@ -40,7 +40,7 @@ class LineController extends Controller
                         'line_id'       => $line_id,
                         'route_id'      => $route_id);
         $line = $this->getDoctrine()
-                ->getRepository('CanalTPMethBundle:Line', 'meth')
+                ->getRepository('CanalTPMethBundle:Line', 'mtt')
                 ->findOneBy(array(
                     'coverageId'   => $coverage_id,
                     'networkId'    => $network_id,

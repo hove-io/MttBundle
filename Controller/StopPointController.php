@@ -13,7 +13,7 @@ class StopPointController extends Controller
         
         $line = $this->getDoctrine()->getRepository(
             'CanalTPMethBundle:Line',
-            'meth'
+            'mtt'
             )->findOneBy(
                 array(
                     'coverageId'    => $coverage_id,
