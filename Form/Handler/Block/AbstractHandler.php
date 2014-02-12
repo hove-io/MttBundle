@@ -15,7 +15,7 @@ abstract class AbstractHandler implements HandlerInterface
     protected function getLineById($id)
     {
         $line = $this->om
-            ->getRepository('CanalTPMethBundle:Line', 'meth')
+            ->getRepository('CanalTPMethBundle:Line', 'mtt')
             ->find($id);
 
         return ($line);
@@ -43,7 +43,7 @@ abstract class AbstractHandler implements HandlerInterface
     private function getStopPointReference($lineId, $stopPointId)
     {
         $this->stopPoint = $this->om
-            ->getRepository('CanalTPMethBundle:StopPoint', 'meth')
+            ->getRepository('CanalTPMethBundle:StopPoint', 'mtt')
             ->getStopPoint($lineId, $stopPointId);
         
         return ($this->om->getPartialReference(

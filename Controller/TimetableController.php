@@ -110,7 +110,7 @@ class TimetableController extends Controller
         $pdfPath = $pdfGenerator->getPdf($url, $line->getLayout());
         if ($pdfPath)
         {
-            $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'meth')->updatePdfGenerationDate($lineId, $stopPointId);
+            $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt')->updatePdfGenerationDate($lineId, $stopPointId);
             $pdfMedia = $this->save($lineId, $stopPointId, $pdfPath);
 
             return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
