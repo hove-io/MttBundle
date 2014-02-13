@@ -92,6 +92,30 @@ class Route extends AbstractEntity
     }
     
     /**
+     * Set blocks
+     *
+     * @param  array $blocks
+     * @return Line
+     */
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+
+        return $this;
+    }
+
+    /**
+     * Get blocks
+     *
+     * @return array
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    
+    /**
      * Set line
      *
      * @param Object $line

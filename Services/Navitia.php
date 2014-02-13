@@ -30,8 +30,9 @@ class Navitia
     public function getLinesByMode($coverageId, $networkId, $commercial = true)
     {
         $result = $this->navitia_iussaad->getLines($coverageId, $networkId, 1);
+
         // no line found for this network
-        if (empty($result))
+        if (empty($result) || !isset($result->lines))
             throw new \Exception($this->translator->trans('services.navitia.no_lines_for_network', array('%network%'=>$networkId), 'exceptions'));
             
         $lines_by_modes = array();

@@ -4,6 +4,7 @@ namespace CanalTP\MethBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
+
 /**
  * RouteRepository
  *
@@ -12,4 +13,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class RouteRepository extends EntityRepository
 {
+    
+    public function getRoute($externalId)
+    {
+        $route = $this->findOneByExternalId($externalId);
+        // do we have a record for this route?
+        if (empty($route)) {
+            $route = $this->insertRoute($externalId);
+        }
+        return $route;
+    }
+    
+    private function insertRoute($externalId)
+    {
+        $route = new Route();
+        $route->setExternalId($externalId);
+        $this->getEntityManager()->persist($route);
+        
+        return $route;
+    }
 }

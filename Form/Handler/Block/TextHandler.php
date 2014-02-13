@@ -14,8 +14,8 @@ class TextHandler extends AbstractHandler
         $this->block = $block;
     }
 
-    public function process(Block $formBlock, $lineId)
+    public function process(Block $formBlock, $routeExternalId)
     {
-        $this->saveBlock($formBlock, $lineId);
+        $this->saveBlock($formBlock, $routeExternalId);
     }
 }

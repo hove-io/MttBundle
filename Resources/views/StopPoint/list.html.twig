@@ -8,7 +8,7 @@
     {{'stop_point.list.header'|trans({}, 'default')}} ({{ routes.route_schedules[0].display_informations.label }})
     -
     {% if line is empty %}
-        <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_meth_line_choose_layout', {'coverage_id':externalCoverageId, 'network_id': network_id, 'line_id': line_id, 'route_id': route_id}) }}" class="btn btn-default">
+        <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_meth_line_choose_layout', {'coverage_id':externalCoverageId, 'network_id': network_id, 'line_id': line_id, 'route_id': routeExternalId}) }}" class="btn btn-default">
             {{'line.choose_layout'|trans({}, 'default')}}
         </a>
     {% else %}

@@ -43,10 +43,10 @@ class LineController extends Controller
     public function chooseLayoutAction($coverage_id, $network_id, $line_id, $route_id)
     {
 
-        $params = array('coverage_id'   => $coverage_id,
-                        'network_id'    => $network_id,
-                        'line_id'       => $line_id,
-                        'route_id'      => $route_id);
+        $params = array('coverage_id'    => $coverage_id,
+                        'network_id'     => $network_id,
+                        'line_id'        => $line_id,
+                        'routeExternalId'=> $route_id);
         $line = $this->getDoctrine()
                 ->getRepository('CanalTPMethBundle:Line', 'mtt')
                 ->findOneBy(array(

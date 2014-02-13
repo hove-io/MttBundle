@@ -11,14 +11,14 @@ class BlockController extends Controller
     /*
      * @function returns form for a given block type or save content of the block using Form factory
      */
-    public function editAction($line_id, $dom_id, $block_type = 'text', $stop_point = null)
+    public function editAction($routeExternalId, $dom_id, $externalCoverageId, $block_type = 'text', $stop_point = null)
     {
         $blockTypeFactory = $this->get('canal_tp_meth.form.factory.block');
         $data = array('dom_id' => $dom_id, 'type_id' => $block_type, 'stop_point' => $stop_point);
         $repo = $this->getDoctrine()->getRepository('CanalTPMethBundle:Block', 'mtt');
 
         if (empty($stop_point)) {
-            $block = $repo->findByLineAndDomId($line_id, $dom_id);
+            $block = $repo->findByRouteAndDomId($routeExternalId, $dom_id);
         } else {
             $block = $repo->findByStopPointAndDomId($stop_point, $dom_id);
         }
@@ -30,11 +30,16 @@ class BlockController extends Controller
         $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
-            $blockTypeFactory->buildHandler()->process($form->getData(), $line_id);
+            
+            $blockTypeFactory->buildHandler()->process($form->getData(), $routeExternalId);
 
             return $this->redirect($this->generateUrl(
-                    'canal_tp_meth_line_edit_layout',
-                    array('line_id' => $line_id, 'stopPoint' => $stop_point)
+                    'canal_tp_meth_timetable_edit',
+                    array(
+                        'routeExternalId'   => $routeExternalId, 
+                        'externalCoverageId'=> $externalCoverageId, 
+                        'stopPoint'         => $stop_point
+                    )
                 )
             );
         }

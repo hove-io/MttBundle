@@ -27,7 +27,7 @@ canal_tp_meth_timetable_view:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_meth_block_edit:
-    pattern: /edit/line_id/{line_id}/dom_id/{dom_id}/block_type/{block_type}/stop_point/{stop_point}
+    pattern: /edit/route/{routeExternalId}/dom_id/{dom_id}/coverage/{externalCoverageId}/block_type/{block_type}/stop_point/{stop_point}
     defaults: { _controller: CanalTPMethBundle:Block:edit, block_type: null, stop_point: null }
     options:
         expose: true
@@ -39,7 +39,7 @@ canal_tp_meth_timetable_generate_pdf:
 canal_tp_meth_distribution_list:
     pattern: /coverage/{coverageId}/network/{networkId}/line/{lineId}/route/{routeId}/distribution/list
     defaults: { _controller: CanalTPMethBundle:Distribution:list}
-    
+
 canal_tp_meth_distribution_generate:
     pattern: /line/{lineId}/route/{routeId}/distribution/generate
     defaults: { _controller: CanalTPMethBundle:Distribution:generate}

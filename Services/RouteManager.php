@@ -45,7 +45,7 @@ class RouteManager
      */
     private function initRoute($externalId, $externalCoverageId)
     {
-        $this->route = $this->repository->findByExternalId($externalId);
+        $this->route = $this->repository->findOneByExternalId($externalId);
         if (empty($this->route))
         {
             $this->route = new Route();

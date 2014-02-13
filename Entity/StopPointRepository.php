@@ -34,12 +34,12 @@ class StopPointRepository extends EntityRepository
     private function insertStopPoint($lineId, $stopPointNavitiaId)
     {
         $stopPoint = new StopPoint();
-        $line = $this->getEntityManager()->getPartialReference(
-            'CanalTP\MethBundle\Entity\Line',
-            $lineId
-        );
+        // $line = $this->getEntityManager()->getPartialReference(
+            // 'CanalTP\MethBundle\Entity\Line',
+            // $lineId
+        // );
+        // $stopPoint->setLine($line);
         $stopPoint->setNavitiaId($stopPointNavitiaId);
-        $stopPoint->setLine($line);
         $this->getEntityManager()->persist($stopPoint);
         
         return $stopPoint;

@@ -21,7 +21,7 @@ abstract class AbstractHandler implements HandlerInterface
         return ($line);
     }
 
-    protected function saveBlock(Block $formBlock, $lineId)
+    protected function saveBlock(Block $formBlock, $routeExternalId)
     {
         if (empty($this->block)) {
             $this->block = new Block();
@@ -30,12 +30,12 @@ abstract class AbstractHandler implements HandlerInterface
             $this->block->setContent($formBlock->getContent());
             $this->block->setTypeId($formBlock->getTypeId());
             $this->block->setDomId($formBlock->getDomId());
-            $this->om->persist($this->block);
         }
         // we need to init the relations even if the block is already filled with the post values
         // because stop_point_id in post contains the navitiaId value and doctrine expects a bdd ID
         // Plus, init Relations updates modified dates of line entity or stopPoint
-        $this->initRelation($formBlock, $lineId);
+        $this->initRelation($formBlock, $routeExternalId);
+        $this->om->persist($this->block);
 
         $this->om->flush();
     }
@@ -52,31 +52,31 @@ abstract class AbstractHandler implements HandlerInterface
         ));
     }
 
-    protected function initRelation(Block $block, $lineId)
+    private function getRouteReference($routeExternalId)
+    {
+        $route = $this->om
+            ->getRepository('CanalTPMethBundle:Route', 'mtt')
+            ->getRoute($routeExternalId);
+        
+        return ($this->om->getPartialReference(
+            'CanalTP\MethBundle\Entity\Route',
+            $route->getId()
+        ));
+    }
+
+    protected function initRelation(Block $block, $routeId)
     {
         $stopPointId = $block->getStopPoint();
 
-        // shall we link this block to a specific stop point?
+        // shall we link this block to a specific stop point or a route?
          if (empty($stopPointId)) {
-            // get partialreference to avoid SQL statement
-            $line = $this->om->getPartialReference(
-                'CanalTP\MethBundle\Entity\Line',
-                $lineId
-            );
-            $this->block->setLine($line);
-            // update last modified time of the line
-            $line = $this->block->getLine();
-            $line->setLastModified(new \DateTime());
-            $this->om->persist($line);
+            $this->block->setRoute($this->getRouteReference($routeId));
         } else {
             // link block to this stop point
             $this->block->setStopPoint($this->getStopPointReference(
                 $lineId,
                 $stopPointId
             ));
-            //update last modified time of the stop point
-            $this->stopPoint->setLastModified(new \DateTime());
-            $this->om->persist($this->stopPoint);
         }
     }
 }

@@ -3,11 +3,10 @@ define(['jquery'], function($) {
     
     var $icon_tpl = $('<span class="glyphicon"></span>');
     
-    layout.init = function($wrapper, blockTypes, line_id, stop_point)
+    layout.init = function($wrapper, blockTypes, routeExternalId, externalCoverageId, stop_point)
     {
-        console.dir(stop_point);
         // needed properties
-        layout.blockLevel = stop_point == false ? 'line' : 'stop_point';
+        layout.blockLevel = stop_point == false ? 'route' : 'stop_point';
         layout.blockTypes = blockTypes;
         // to prevent modal content to be cached by bootstrap
         $('#base-modal').on('hidden.bs.modal', function () {
@@ -19,10 +18,11 @@ define(['jquery'], function($) {
             var url = Routing.generate(
                 'canal_tp_meth_block_edit', 
                 { 
-                    'block_type': $(this).data('block-type'), 
-                    'line_id': line_id, 
-                    'dom_id' : $(this).attr('id'),
-                    'stop_point': stop_point, 
+                    'block_type'        : $(this).data('block-type'), 
+                    'routeExternalId'   : routeExternalId, 
+                    'externalCoverageId': externalCoverageId, 
+                    'dom_id'            : $(this).attr('id'),
+                    'stop_point'        : stop_point, 
                 }
             );
             $('#base-modal').modal({remote: url});

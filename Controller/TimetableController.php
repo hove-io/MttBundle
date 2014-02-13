@@ -70,11 +70,12 @@ class TimetableController extends Controller
         return $this->render(
             'CanalTPMethBundle:Layouts:' . $route->getLine()->getTwigPath(),
             array(
-                'route'           => $route,
-                'stopPointLevel'  => $stopPointData['stopPointLevel'],
-                'stopPoint'       => $stopPointData['stopPointInstance'],
-                'blockTypes'      => $this->container->getParameter('blocks'),
-                'editable'        => true
+                'route'                 => $route,
+                'externalCoverageId'    => $externalCoverageId,
+                'stopPointLevel'        => $stopPointData['stopPointLevel'],
+                'stopPoint'             => $stopPointData['stopPointInstance'],
+                'blockTypes'            => $this->container->getParameter('blocks'),
+                'editable'              => true
             )
         );
     }
