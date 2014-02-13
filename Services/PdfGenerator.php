@@ -21,7 +21,9 @@ class PdfGenerator
         $this->layoutsConfig = $layoutsConfig;
     }
 
-    // calls the webservice http://hg.prod.canaltp.fr/ctp/pdfGenerator.git/summary
+    /*
+     * @function calls the webservice http://hg.prod.canaltp.fr/ctp/pdfGenerator.git/summary
+     */
     private function callWebservice($url)
     {
         $ch = curl_init();

@@ -7,15 +7,15 @@ canal_tp_meth_menu:
     defaults: { _controller: CanalTPMethBundle:Default:navigation, current_route: null }
 
 canal_tp_meth_stop_point_list:
-    pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{route_id}/list
+    pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{routeExternalId}/list
     defaults: { _controller: CanalTPMethBundle:StopPoint:list }
 
 canal_tp_meth_line_choose_layout:
     pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/choose_layout/route/{route_id}
     defaults: { _controller: CanalTPMethBundle:Line:chooseLayout }
 
-canal_tp_meth_line_edit_layout:
-    pattern: /timetable/line/{line_id}/stopPoint/{stopPoint}/edit
+canal_tp_meth_timetable_edit:
+    pattern: /timetable/coverage/{externalCoverageId}/route/{routeExternalId}/stopPoint/{stopPoint}/edit
     defaults: { _controller: CanalTPMethBundle:Timetable:edit, stopPoint: null }
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*

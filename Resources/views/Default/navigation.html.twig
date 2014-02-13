@@ -16,7 +16,7 @@
                             <ul class="display-none">
                             {% for route in line.routes %}
                                 <li {% if route.id == current_route %} class="active"{% endif %}>
-                                    <a href="{{ path('canal_tp_meth_stop_point_list', {'coverage_id':coverageId,'network_id':line.network.id, 'line_id':line.id, 'route_id': route.id}) }}">
+                                    <a href="{{ path('canal_tp_meth_stop_point_list', {'coverage_id':coverageId,'network_id':line.network.id, 'line_id':line.id, 'routeExternalId': route.id}) }}">
                                         {{ route.name }}
                                     </a>
                                 </li>

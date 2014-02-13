@@ -3,11 +3,16 @@
 namespace CanalTP\MethBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use CanalTP\MethBundle\Entity\Line;
 
+/*
+ * LineController
+ */
 class LineController extends Controller
 {
+    /*
+     * @function process a form to save a layout for a line. Insert a line in bdd if needed.
+     */
     private function processForm($form, $line, $params)
     {
         if (empty($line)) {

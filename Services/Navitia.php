@@ -12,10 +12,11 @@ class Navitia
     protected $navitia_component;
     protected $navitia_iussaad;
 
-    public function __construct($navitia_component, $navitia_iussaad)
+    public function __construct($navitia_component, $navitia_iussaad, $translator)
     {
         $this->navitia_component = $navitia_component;
         $this->navitia_iussaad = $navitia_iussaad;
+        $this->translator = $translator;
     }
 
     /**
@@ -29,6 +30,10 @@ class Navitia
     public function getLinesByMode($coverageId, $networkId, $commercial = true)
     {
         $result = $this->navitia_iussaad->getLines($coverageId, $networkId, 1);
+        // no line found for this network
+        if (empty($result))
+            throw new \Exception($this->translator->trans('services.navitia.no_lines_for_network', array('%network%'=>$networkId), 'exceptions'));
+            
         $lines_by_modes = array();
         foreach ($result->lines as $line) {
             if (!isset($lines_by_modes[$line->commercial_mode->id])) {
@@ -68,5 +73,20 @@ class Navitia
         $response = $this->navitia_iussaad->getStopPoint($coverageId, $stopPointId);
 
         return ($response->stop_points[0]->name);
+    }
+    
+    /**
+     * Returns Stop Point title
+     *
+     * @param  String $coverageId
+     * @param  String $networkId
+     * @param  String $lineId
+     * @return type
+     */
+    public function getRouteData($routeExternalId, $externalCoverageId)
+    {
+        $response = $this->navitia_iussaad->getRoute($externalCoverageId, $routeExternalId);
+        
+        return ($response->routes[0]);
     }
 }

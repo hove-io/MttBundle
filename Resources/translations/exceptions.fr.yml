@@ -2,3 +2,6 @@ controller:
     default:
         navigation:
             no_networks: Veuillez demander à l'administrateur de vous donner accès à un Réseau
+services:
+    navitia:
+        no_lines_for_network: Aucune ligne trouvée pour le réseau %network%

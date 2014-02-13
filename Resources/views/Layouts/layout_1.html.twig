@@ -1,7 +1,6 @@
 {% extends "CanalTPMethBundle:Layouts:base_layout.html.twig" %}
 
 {% block body %}
-
     <div id="layout-1-wrapper">
         <div class="layout-container">
             <div id="header" class="clearfix">
@@ -52,9 +51,11 @@
     {% else %}
         {% set stopPointJs = stopPoint.navitiaId %}
     {% endif %}
+    {% set route_id = route.id == false ? false:route.id %}
+
     <script>
     require(['meth_layout'], function(Meth_Layout){
-        var layout = Meth_Layout.init($('#layout-1-wrapper'), {{ blockTypes|json_encode()|raw }}, {{line.id}}, {{stopPointJs|json_encode()|raw}});
+        var layout = Meth_Layout.init($('#layout-1-wrapper'), {{ blockTypes|json_encode()|raw }}, {{route_id|json_encode()|raw}}, {{stopPointJs|json_encode()|raw}});
     });
     </script>
 {% endblock %}

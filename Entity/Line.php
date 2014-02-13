@@ -17,11 +17,6 @@ class Line extends AbstractEntity
     /**
      * @var string
      */
-    private $title;
-
-    /**
-     * @var string
-     */
     private $externalCoverageId;
 
     /**
@@ -74,29 +69,6 @@ class Line extends AbstractEntity
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set title
-     *
-     * @param  string $networkId
-     * @return Line
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     /**

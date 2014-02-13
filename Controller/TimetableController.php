@@ -3,10 +3,9 @@
 namespace CanalTP\MethBundle\Controller;
 
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MethBundle\Entity\Line;
 use CanalTP\MediaManagerBundle\Entity\Media;
@@ -15,19 +14,22 @@ class TimetableController extends Controller
 {
     private $mediaManager;
     
-    private function getLine($line_id)
+    /*
+     * @function retrieve a route by a route navitia id
+     */
+    private function getRoute($externalCoverageId, $routeExternalId)
     {
-        $lineManager = $this->get('canal_tp_meth.line_manager');
-        return $lineManager->getLine($line_id);
+        $routeManager = $this->get('canal_tp_meth.route_manager');
+        return $routeManager->getRoute($routeExternalId, $externalCoverageId);
     }
     
-    private function getStopPoint($line, $stopPoint)
+    private function getStopPoint($stopPointExternalId)
     {
         // are we on stop_point level?
-        if ($stopPoint != '') {
+        if ($stopPointExternalId != '') {
             $stopPointLevel = true;
             $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
-            $stopPointInstance = $stopPointManager->getStopPoint($stopPoint, $line);
+            $stopPointInstance = $stopPointManager->getStopPoint($stopPointExternalId);
         } else {
             $stopPointLevel = false;
             $stopPointInstance = false;
@@ -58,17 +60,17 @@ class TimetableController extends Controller
     }
     
     /*
-     * Display a layout and make editable via javascript
+     * @function Display a layout and make editable via javascript
      */
-    public function editAction($line_id, $stopPoint = null)
+    public function editAction($externalCoverageId, $routeExternalId, $stopPoint = null)
     {
-        $line = $this->getLine($line_id);
-        $stopPointData = $this->getStopPoint($line, $stopPoint);
+        $route = $this->getRoute($externalCoverageId, $routeExternalId);
+        $stopPointData = $this->getStopPoint($stopPoint);
         
         return $this->render(
-            'CanalTPMethBundle:Layouts:' . $line->getTwigPath(),
+            'CanalTPMethBundle:Layouts:' . $route->getLine()->getTwigPath(),
             array(
-                'line'            => $line,
+                'route'           => $route,
                 'stopPointLevel'  => $stopPointData['stopPointLevel'],
                 'stopPoint'       => $stopPointData['stopPointInstance'],
                 'blockTypes'      => $this->container->getParameter('blocks'),

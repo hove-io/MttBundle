@@ -24,6 +24,16 @@ class Route extends AbstractEntity
      * @var Object
      */
     private $blocks;
+    
+    /**
+     * @var string
+     */
+    private $title;
+    
+    /**
+     * @var Object
+     */
+    private $line;
 
     /**
      * Get id
@@ -56,5 +66,51 @@ class Route extends AbstractEntity
     public function getExternalId()
     {
         return $this->externalId;
+    }
+    
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set title
+     *
+     * @param  string $title
+     * @return Route
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+    
+    /**
+     * Set line
+     *
+     * @param Object $line
+     * @return Route
+     */
+    public function setLine($line)
+    {
+        $this->line = $line;
+    
+        return $this;
+    }
+
+    /**
+     * Get line
+     *
+     * @return Object  
+     */
+    public function getLine()
+    {
+        return $this->line;
     }
 }
