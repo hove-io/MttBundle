@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class StopPointController extends Controller
 {
-    public function listAction($coverage_id, $network_id, $line_id, $routeExternalId)
+    public function listAction($coverage_id, $network_id, $line_id, $externalRouteId)
     {
         $navitia = $this->get('iussaad_navitia');
-        $routes = $navitia->getStopPoints($coverage_id, $network_id, $line_id, $routeExternalId);
+        $routes = $navitia->getStopPoints($coverage_id, $network_id, $line_id, $externalRouteId);
         
         $line = $this->getDoctrine()->getRepository(
             'CanalTPMethBundle:Line',
@@ -30,11 +30,11 @@ class StopPointController extends Controller
             array(
                 'line'              => $line,
                 'routes'            => $routes,
-                'current_route'     => $routeExternalId,
-                'externalCoverageId'=> $coverage_id,
+                'current_route'     => $externalRouteId,
                 'network_id'        => $network_id,
                 'line_id'           => $line_id,
-                'routeExternalId'   => $routeExternalId,
+                'externalCoverageId'=> $coverage_id,
+                'externalRouteId'   => $externalRouteId,
             )
         );
     }

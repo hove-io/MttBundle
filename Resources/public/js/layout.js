@@ -1,9 +1,9 @@
 define(['jquery'], function($) {
+
     var layout = {};
-    
     var $icon_tpl = $('<span class="glyphicon"></span>');
     
-    layout.init = function($wrapper, blockTypes, routeExternalId, externalCoverageId, stop_point)
+    layout.init = function($wrapper, blockTypes, timetableId, externalCoverageId, stop_point)
     {
         // needed properties
         layout.blockLevel = stop_point == false ? 'route' : 'stop_point';
@@ -18,10 +18,10 @@ define(['jquery'], function($) {
             var url = Routing.generate(
                 'canal_tp_meth_block_edit', 
                 { 
-                    'block_type'        : $(this).data('block-type'), 
-                    'routeExternalId'   : routeExternalId, 
-                    'externalCoverageId': externalCoverageId, 
                     'dom_id'            : $(this).attr('id'),
+                    'timetableId'       : timetableId,
+                    'externalCoverageId': externalCoverageId,
+                    'block_type'        : $(this).data('block-type'), 
                     'stop_point'        : stop_point, 
                 }
             );

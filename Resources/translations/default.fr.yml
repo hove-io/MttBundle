@@ -16,8 +16,8 @@ line:
     layout_chosen: Le modèle a bien été assigné à la ligne.
     manage_distribution: Gérer la liste de distribution
 
-route:
-    edit_layout: Modifier le modèle pour cette route
+timetable:
+    edit: Modifier la fiche horaire
     
 block:
     get_form:

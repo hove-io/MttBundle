@@ -42,19 +42,20 @@ class ImgHandler extends AbstractHandler
         }
     }
 
-    public function process(Block $formBlock, $lineId)
+    public function process(Block $formBlock, $timetable)
     {
-        $line = $this->getLineById($lineId);
         $media = new Media(
+            // TODO: get network id
             CategoryType::NETWORK,
-            $line->getNetworkId(),
+            $timetable->getId(),
+            // TODO: change Category Type to Route
             CategoryType::LINE,
-            $lineId
+            $timetable->getExternalRouteId()
         );
 
         $media->setFile($formBlock->getContent());
         $this->mediaManager->save($media);
         $formBlock->setContent($this->mediaManager->getUrlByMedia($media));
-        $this->saveBlock($formBlock, $lineId);
+        $this->saveBlock($formBlock, $timetable);
     }
 }

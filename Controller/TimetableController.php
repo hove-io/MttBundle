@@ -14,73 +14,33 @@ class TimetableController extends Controller
 {
     private $mediaManager;
     
-    /*
-     * @function retrieve a route by a route navitia id
+    /**
+     * @function retrieve a timetable entity
      */
-    private function getRoute($externalCoverageId, $routeExternalId)
+    private function getTimetable($routeExternalId, $externalCoverageId)
     {
-        $routeManager = $this->get('canal_tp_meth.route_manager');
-        return $routeManager->getRoute($routeExternalId, $externalCoverageId);
+        $timetableManager = $this->get('canal_tp_meth.timetable_manager');
+        return $timetableManager->getTimetable($routeExternalId, $externalCoverageId);
     }
     
-    private function getStopPoint($stopPointExternalId)
+    private function getStopPoint($externalStopPointId, $externalCoverageId, $timetable)
     {
         // are we on stop_point level?
-        if ($stopPointExternalId != '') {
+        if ($externalStopPointId != '') {
             $stopPointLevel = true;
             $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
-            $stopPointInstance = $stopPointManager->getStopPoint($stopPointExternalId);
+            $stopPointInstance = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId, $timetable);
         } else {
             $stopPointLevel = false;
             $stopPointInstance = false;
         }
         return array(
-            'stopPointLevel' => $stopPointLevel,
+            'stopPointLevel'    => $stopPointLevel,
             'stopPointInstance' => $stopPointInstance
         );
     }
     
-    /*
-     * Display a layout
-     */
-    public function viewAction($line_id, $stopPoint = null)
-    {
-        $line = $this->getLine($line_id);
-        $stopPointData = $this->getStopPoint($line, $stopPoint);
-
-        return $this->render(
-            'CanalTPMethBundle:Layouts:' . $line->getTwigPath(),
-            array(
-                'line'            => $line,
-                'stopPointLevel'  => $stopPointData['stopPointLevel'],
-                'stopPoint'       => $stopPointData['stopPointInstance'],
-                'editable'        => false
-            )
-        );
-    }
-    
-    /*
-     * @function Display a layout and make editable via javascript
-     */
-    public function editAction($externalCoverageId, $routeExternalId, $stopPoint = null)
-    {
-        $route = $this->getRoute($externalCoverageId, $routeExternalId);
-        $stopPointData = $this->getStopPoint($stopPoint);
-        
-        return $this->render(
-            'CanalTPMethBundle:Layouts:' . $route->getLine()->getTwigPath(),
-            array(
-                'route'                 => $route,
-                'externalCoverageId'    => $externalCoverageId,
-                'stopPointLevel'        => $stopPointData['stopPointLevel'],
-                'stopPoint'             => $stopPointData['stopPointInstance'],
-                'blockTypes'            => $this->container->getParameter('blocks'),
-                'editable'              => true
-            )
-        );
-    }
-
-    private function save($lineId, $stopPointId, $path)
+    private function saveMedia($lineId, $stopPointId, $path)
     {
         $this->mediaManager = $this->get('canaltp_media_manager_mtt');
         $media = new Media(
@@ -94,8 +54,48 @@ class TimetableController extends Controller
         $this->mediaManager->save($media);
         return ($media);
     }
+    
+    /*
+     * @function Display a layout and make editable via javascript
+     */
+    public function editAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
+    {
+        $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
+        $stopPointData = $this->getStopPoint($externalStopPointId, $externalCoverageId, $timetable);
+        
+        return $this->render(
+            'CanalTPMethBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
+            array(
+                'timetable'             => $timetable,
+                'externalCoverageId'    => $externalCoverageId,
+                'stopPointLevel'        => $stopPointData['stopPointLevel'],
+                'stopPoint'             => $stopPointData['stopPointInstance'],
+                'blockTypes'            => $this->container->getParameter('blocks'),
+                'editable'              => true
+            )
+        );
+    }
+    
+    /*
+     * Display a layout
+     */
+    public function viewAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
+    {
+        $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
+        $stopPointData = $this->getStopPoint($externalStopPointId, $externalCoverageId, $timetable);
 
-    public function generatePdfAction($lineId, $stopPointId)
+        return $this->render(
+            'CanalTPMethBundle:Layouts:' .  $timetable->getLine()->getTwigPath(),
+            array(
+                'timetable'       => $timetable,
+                'stopPointLevel'  => $stopPointData['stopPointLevel'],
+                'stopPoint'       => $stopPointData['stopPointInstance'],
+                'editable'        => false
+            )
+        );
+    }
+
+    public function generatePdfAction($timetableId, $stopPointId)
     {
         $line = $this->getLine($lineId);
         $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
@@ -114,7 +114,7 @@ class TimetableController extends Controller
         if ($pdfPath)
         {
             $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt')->updatePdfGenerationDate($lineId, $stopPointId);
-            $pdfMedia = $this->save($lineId, $stopPointId, $pdfPath);
+            $pdfMedia = $this->saveMedia($lineId, $stopPointId, $pdfPath);
 
             return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
         }

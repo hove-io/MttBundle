@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use CanalTP\MethBundle\Entity\AbstractEntity;
 
 /**
- * Route
+ * Timetable
  */
-class Route extends AbstractEntity
+class Timetable extends AbstractEntity
 {
     /**
      * @var integer
@@ -18,7 +18,7 @@ class Route extends AbstractEntity
     /**
      * @var string
      */
-    private $externalId;
+    private $externalRouteId;
     
     /**
      * @var Object
@@ -26,12 +26,12 @@ class Route extends AbstractEntity
     private $blocks;
     
     /**
-     * @var string
+     * @var string - non persistent
      */
     private $title;
     
     /**
-     * @var Object
+     * @var Object - non persistent
      */
     private $line;
 
@@ -46,51 +46,28 @@ class Route extends AbstractEntity
     }
 
     /**
-     * Set externalId
+     * Set externalRouteId
      *
-     * @param string $externalId
-     * @return Route
+     * @param string $externalRouteId
+     * @return Timetable
      */
-    public function setExternalId($externalId)
+    public function setExternalRouteId($externalRouteId)
     {
-        $this->externalId = $externalId;
+        $this->externalRouteId = $externalRouteId;
     
         return $this;
     }
 
     /**
-     * Get externalId
+     * Get externalRouteId
      *
      * @return string 
      */
-    public function getExternalId()
+    public function getExternalRouteId()
     {
-        return $this->externalId;
-    }
-    
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
+        return $this->externalRouteId;
     }
 
-    /**
-     * Set title
-     *
-     * @param  string $title
-     * @return Route
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-    
     /**
      * Set blocks
      *
@@ -113,9 +90,31 @@ class Route extends AbstractEntity
     {
         return $this->blocks;
     }
-
     
     /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set title
+     *
+     * @param  string $networkId
+     * @return Line
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+    
+     /**
      * Set line
      *
      * @param Object $line

@@ -1,17 +1,16 @@
-CanalTP\MethBundle\Entity\Route:
+CanalTP\MethBundle\Entity\Timetable:
     type: entity
-    table: null
-    repositoryClass: CanalTP\MethBundle\Entity\RouteRepository
+    table: timetable
+    repositoryClass: CanalTP\MethBundle\Entity\TimetableRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        externalId:
+        externalRouteId:
             type: string
             length: 255
-            column: external_id
         created:
             type: datetime
             gedmo:
@@ -25,4 +24,4 @@ CanalTP\MethBundle\Entity\Route:
     oneToMany:
         blocks:
             targetEntity: Block
-            mappedBy: route
+            mappedBy: timetable

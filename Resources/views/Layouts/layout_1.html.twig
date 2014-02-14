@@ -5,8 +5,8 @@
         <div class="layout-container">
             <div id="header" class="clearfix">
                 <div id="direction-title-wrapper" data-block-level="route" data-auto-filled="1">
-                    {% if route.title is defined %}
-                        {{ route.title }}
+                    {% if timetable.title is defined %}
+                        {{ timetable.title }}
                     {% endif %}
                 </div>
                 <div id="stop-point-title-wrapper" data-block-level="stop_point" data-auto-filled="1">
@@ -17,7 +17,7 @@
             </div>
             <div id="map-wrapper" class="clearfix">
                 <div id="line_map_block" data-block-level="route" data-block-type="img" class="block">
-                {% set block = attribute(route.blocks, 'line_map_block') %}
+                {% set block = attribute(timetable.blocks, 'line_map_block') %}
                 {% if block %}
                     <img class="line_map_img" src="{{ block.content }}" title="{{ block.title }}" title="{{ block.alt }}" />
                 {% endif %}
@@ -25,7 +25,7 @@
                 <div id="small-right-blocks">
                     {% for i in 1..4 %}
                         {% set id = 'text_block_' ~ i %}
-                        {% set block = attribute(route.blocks, id) %}
+                        {% set block = attribute(timetable.blocks, id) %}
                         <div id="{{ id }}" data-block-level="{% if i == 4 %}stop_point{% else %}route{% endif %}" data-block-type="text" class="small-block block">
                             {% if block %}
                                 <div class="title">{{ block.title }}</div>
@@ -37,7 +37,7 @@
             </div>
             <div id="timetables-wrapper" class="clearfix">
                 {% for i in 1..4 %}
-                <div data-block-level="stop_point" class="timetable-container block"></div>
+                    <div data-block-level="stop_point" class="timetable-container block"></div>
                 {% endfor %}
             </div>
         </div>
@@ -49,16 +49,15 @@
     {% if stopPointLevel == false %}
         {% set stopPointJs = false %}
     {% else %}
-        {% set stopPointJs = stopPoint.navitiaId %}
+        {% set stopPointJs = stopPoint.externalId %}
     {% endif %}
-    {% set route_id = route.id == false ? 0 : route.id %}
 
     <script>
     require(['meth_layout'], function(Meth_Layout){
         var layout = Meth_Layout.init(
             $('#layout-1-wrapper'), 
             {{ blockTypes|json_encode()|raw }}, 
-            {{route.externalId|json_encode()|raw}}, 
+            {{timetable.id|raw}}, 
             {{externalCoverageId|json_encode()|raw}}, 
             {{stopPointJs|json_encode()|raw}}
         );

@@ -21,25 +21,21 @@ class StopPointRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
     
-    public function getStopPoint($lineId, $stopPointNavitiaId)
+    public function getStopPoint($externalStopPointId)
     {
-        $stopPoint = $this->findOneBy(array('line' => $lineId, 'navitiaId' => $stopPointNavitiaId));
+        $stopPoint = $this->findOneByExternalId($externalStopPointId);
         // do this stop_point exists?
         if (empty($stopPoint)) {
-            $stopPoint = $this->insertStopPoint($lineId, $stopPointNavitiaId);
+            $stopPoint = $this->insertStopPoint($externalStopPointId);
         }
         return $stopPoint;
     }
     
-    private function insertStopPoint($lineId, $stopPointNavitiaId)
+    private function insertStopPoint($externalStopPointId)
     {
         $stopPoint = new StopPoint();
-        // $line = $this->getEntityManager()->getPartialReference(
-            // 'CanalTP\MethBundle\Entity\Line',
-            // $lineId
-        // );
-        // $stopPoint->setLine($line);
-        $stopPoint->setNavitiaId($stopPointNavitiaId);
+        // $stopPoint->setTimetable($timetable);
+        $stopPoint->setExternalId($externalStopPointId);
         $this->getEntityManager()->persist($stopPoint);
         
         return $stopPoint;

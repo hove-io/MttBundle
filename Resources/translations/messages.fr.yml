@@ -8,3 +8,4 @@ global:
     generatePdf: Générer le PDF
     remove: Enlever
     add: Ajouter
+    line_label: Ligne

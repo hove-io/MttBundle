@@ -29,17 +29,17 @@ class StopPointManager
         $this->om = $om;
     }
 
-    private function initTitle($line)
+    private function initTitle($externalCoverageId)
     {
         $this->stopPoint->setTitle(
             $this->navitia->getStopPointTitle(
-                $line->getCoverageId(),
-                $this->stopPoint->getNavitiaId()
+                $externalCoverageId,
+                $this->stopPoint->getExternalId()
             )
         );
     }
 
-    // TODO: mutualize with line manager?
+    // TODO: mutualize with timetable manager?
     private function initBlocks()
     {
         $blocks = array();
@@ -53,22 +53,22 @@ class StopPointManager
     /**
      * Return StopPoint with data from navitia
      *
-     * @param  String $stopPointNavitiaId
+     * @param  String $externalStopPointId
      * @param  Line $line Line Entity
      * @return stopPoint
      */
-    public function getStopPoint($stopPointNavitiaId, $line)
+    public function getStopPoint($externalStopPointId, $externalCoverageId, $timetable)
     {
-        $this->stopPoint = $this->repository->findOneByNavitiaId($stopPointNavitiaId);
+        $this->stopPoint = $this->repository->findOneByExternalId($externalStopPointId);
         if (!empty($this->stopPoint)) {
             $this->initBlocks();
             // stop points blocks override line blocks regarding dom_id, sprint 5?
-            $line->setBlocks(array_merge($line->getBlocks(), $this->stopPoint->getBlocks()));
+            $timetable->setBlocks(array_merge($timetable->getBlocks(), $this->stopPoint->getBlocks()));
         } else {
             $this->stopPoint = new StopPoint();
-            $this->stopPoint->setNavitiaId($stopPointNavitiaId);
+            $this->stopPoint->setExternalId($externalStopPointId);
         }
-        $this->initTitle($line);
+        $this->initTitle($externalCoverageId);
 
         return $this->stopPoint;
     }

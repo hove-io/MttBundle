@@ -1,6 +1,6 @@
 CanalTP\MethBundle\Entity\Block:
     type: entity
-    table: null
+    table: block
     repositoryClass: CanalTP\MethBundle\Entity\BlockRepository
     fields:
         id:
@@ -31,11 +31,11 @@ CanalTP\MethBundle\Entity\Block:
                 timestampable:
                     on: update
     manyToOne:
-        route:
-            targetEntity: Route
+        timetable:
+            targetEntity: Timetable
             inversedBy: blocks
             joinColumn:
-                name: route_id
+                name: timetable_id
                 referencedColumnName: id
         stopPoint:
             targetEntity: StopPoint

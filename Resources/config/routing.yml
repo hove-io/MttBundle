@@ -7,33 +7,34 @@ canal_tp_meth_menu:
     defaults: { _controller: CanalTPMethBundle:Default:navigation, current_route: null }
 
 canal_tp_meth_stop_point_list:
-    pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{routeExternalId}/list
+    pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{externalRouteId}/list
     defaults: { _controller: CanalTPMethBundle:StopPoint:list }
 
 canal_tp_meth_line_choose_layout:
-    pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/choose_layout/route/{route_id}
+    pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/choose_layout/route/{externalRouteId}
     defaults: { _controller: CanalTPMethBundle:Line:chooseLayout }
 
 canal_tp_meth_timetable_edit:
-    pattern: /timetable/coverage/{externalCoverageId}/route/{routeExternalId}/stopPoint/{stopPoint}/edit
-    defaults: { _controller: CanalTPMethBundle:Timetable:edit, stopPoint: null }
+    pattern: /timetable/edit/coverage/{externalCoverageId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
+    defaults: { _controller: CanalTPMethBundle:Timetable:edit, externalStopPointId: null }
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_meth_timetable_view:
-    pattern: /timetable/line/{line_id}/stopPoint/{stopPoint}/view
-    defaults: { _controller: CanalTPMethBundle:Timetable:view, stopPoint: null }
+    pattern: /timetable/view/coverage/{externalCoverageId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
+    defaults: { _controller: CanalTPMethBundle:Timetable:view, externalStopPointId: null }
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_meth_block_edit:
-    pattern: /edit/route/{routeExternalId}/dom_id/{dom_id}/coverage/{externalCoverageId}/block_type/{block_type}/stop_point/{stop_point}
+    # stop point must be the last param so it will be empty
+    pattern: /block/edit/coverage/{externalCoverageId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
     defaults: { _controller: CanalTPMethBundle:Block:edit, block_type: null, stop_point: null }
     options:
         expose: true
 
 canal_tp_meth_timetable_generate_pdf:
-    pattern: /timetable/line/{lineId}/stopPoint/{stopPointId}/generatePdf
+    pattern: /timetable/{timetableId}/stopPoint/{stopPointId}/generatePdf
     defaults: { _controller: CanalTPMethBundle:Timetable:generatePdf}
         
 canal_tp_meth_distribution_list:

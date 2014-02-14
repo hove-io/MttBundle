@@ -37,7 +37,7 @@ class Block extends AbstractEntity
     /**
      * @var Object
      */
-    private $route;
+    private $timetable;
 
     /**
      * @var Object
@@ -147,27 +147,27 @@ class Block extends AbstractEntity
     }
 
     /**
-     * Set route
+     * Set timetable
      *
-     * @param integer $route
+     * @param integer $timetable
      *
      * @return Block
      */
-    public function setRoute($route)
+    public function setTimetable($timetable)
     {
-        $this->route = $route;
+        $this->timetable = $timetable;
 
         return $this;
     }
 
     /**
-     * Get route
+     * Get timetable
      *
      * @return string
      */
-    public function getRoute()
+    public function getTimetable()
     {
-        return $this->route;
+        return $this->timetable;
     }
 
     /**

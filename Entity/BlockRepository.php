@@ -19,17 +19,13 @@ class BlockRepository extends EntityRepository
      * @param  string $domId  Dom Id in layout
      * @return Block  Entity or null
      */
-    public function findByRouteAndDomId($routeId, $domId)
+    public function findByTimetableAndDomId($timetableId, $domId)
     {
-        $query = $this->getEntityManager()
-            ->createQuery('
-                SELECT block FROM CanalTPMethBundle:Block block
-                INNER JOIN block.route route
-                WHERE route.externalId = :externalId AND block.domId = :domId')
-            ->setParameter('domId', $domId)
-            ->setParameter('externalId', $routeId);
-        $block = $query->getOneOrNullResult();
-        // no route inserted yet so create a non persistent block
+        $block = $this->findOneBy(array(
+            'timetable' => $timetableId,
+            'domId' => $domId,
+        ));
+        // no block found so create first a non persistent block
         if (empty($block))
         {
             $block = new Block();
@@ -41,19 +37,19 @@ class BlockRepository extends EntityRepository
     /**
      * find a block By StopPoint Navitia Id And DomId
      *
-     * @param  string $navitiaId Stop point navitia Id
+     * @param  string $externalStopPointId Stop point navitia Id
      * @param  string $domId     Dom Id in layout
      * @return Block  Entity or null
      */
-    public function findByStopPointAndDomId($navitiaId, $domId)
+    public function findByStopPointAndDomId($externalStopPointId, $domId)
     {
         $query = $this->getEntityManager()
             ->createQuery('
                 SELECT block FROM CanalTPMethBundle:Block block
                 INNER JOIN block.stopPoint stop_point
-                WHERE stop_point.navitiaId = :navitiaId AND block.domId = :domId')
+                WHERE stop_point.externalId = :externalId AND block.domId = :domId')
             ->setParameter('domId', $domId)
-            ->setParameter('navitiaId', $navitiaId);
+            ->setParameter('externalId', $externalStopPointId);
 
         return $query->getOneOrNullResult();
     }

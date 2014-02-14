@@ -12,13 +12,13 @@ abstract class AbstractHandler implements HandlerInterface
     protected $om = null;
     protected $block = null;
 
-    protected function getLineById($id)
+    protected function getRouteByExternalId($routeExternalId)
     {
-        $line = $this->om
-            ->getRepository('CanalTPMethBundle:Line', 'mtt')
-            ->find($id);
+        $route = $this->om
+            ->getRepository('CanalTPMethBundle:Route', 'mtt')
+            ->findOneByExternalId($routeExternalId);
 
-        return ($line);
+        return ($route);
     }
 
     protected function saveBlock(Block $formBlock, $routeExternalId)
@@ -40,11 +40,11 @@ abstract class AbstractHandler implements HandlerInterface
         $this->om->flush();
     }
     
-    private function getStopPointReference($lineId, $stopPointId)
+    private function getStopPointReference($externalStopPointId)
     {
         $this->stopPoint = $this->om
             ->getRepository('CanalTPMethBundle:StopPoint', 'mtt')
-            ->getStopPoint($lineId, $stopPointId);
+            ->getStopPoint($externalStopPointId);
         
         return ($this->om->getPartialReference(
             'CanalTP\MethBundle\Entity\StopPoint',
@@ -52,30 +52,17 @@ abstract class AbstractHandler implements HandlerInterface
         ));
     }
 
-    private function getRouteReference($routeExternalId)
+    protected function initRelation(Block $block, $timetable)
     {
-        $route = $this->om
-            ->getRepository('CanalTPMethBundle:Route', 'mtt')
-            ->getRoute($routeExternalId);
-        
-        return ($this->om->getPartialReference(
-            'CanalTP\MethBundle\Entity\Route',
-            $route->getId()
-        ));
-    }
+        $externalStopPointId = $block->getStopPoint();
 
-    protected function initRelation(Block $block, $routeId)
-    {
-        $stopPointId = $block->getStopPoint();
-
-        // shall we link this block to a specific stop point or a route?
-         if (empty($stopPointId)) {
-            $this->block->setRoute($this->getRouteReference($routeId));
+        // shall we link this block to a specific stop point and/or a timetable?
+         if (empty($externalStopPointId)) {
+            $this->block->setTimetable($timetable);
         } else {
             // link block to this stop point
             $this->block->setStopPoint($this->getStopPointReference(
-                $lineId,
-                $stopPointId
+                $externalStopPointId
             ));
         }
     }
