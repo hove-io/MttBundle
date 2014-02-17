@@ -25,3 +25,6 @@ CanalTP\MethBundle\Entity\Timetable:
         blocks:
             targetEntity: Block
             mappedBy: timetable
+        ditribution_lists:
+            targetEntity: DistributionList
+            mappedBy: timetable

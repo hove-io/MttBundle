@@ -16,13 +16,13 @@ class DistributionController extends Controller
         $timetable = $this->get('canal_tp_meth.timetable_manager')->getTimetable($routeId, $coverageId);
 
         $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
-        $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows);
+        $schedules = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows);
         
         return $this->render(
             'CanalTPMethBundle:Distribution:list.html.twig',
             array(
                 'timetable'     => $timetable,
-                'routes'        => $routes,
+                'schedules'     => $schedules,
                 'current_route' => $routeId,
                 'coverage_id'   => $coverageId,
                 'network_id'    => $networkId,
