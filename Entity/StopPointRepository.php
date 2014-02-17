@@ -12,9 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class StopPointRepository extends EntityRepository
 {
-    public function updatePdfGenerationDate($lineId, $stopPointNavitiaId)
+    public function updatePdfGenerationDate($externalStopPointId)
     {
-        $stopPoint = $this->getStopPoint($lineId, $stopPointNavitiaId);
+        $stopPoint = $this->getStopPoint($externalStopPointId);
         
         $stopPoint->setPdfGenerationDate(new \DateTime());
         $this->getEntityManager()->persist($stopPoint);
@@ -41,19 +41,31 @@ class StopPointRepository extends EntityRepository
         return $stopPoint;
     }
     
-    public function hasPdfUpToDate($stopPointNavitiaId, $lineId)
+    private function getLastUpdate($timetable)
     {
-        $stopPoint = $this->findOneBy(array('line' => $lineId, 'navitiaId' => $stopPointNavitiaId));
-        // var_dump($stopPoint->getPdfGenerationDate(), $stopPoint->getLastModified(), $stopPoint->getLine()->getLastModified());die;
+        $lastUpdate = null;
+        foreach ($timetable->getBlocks() as $block)
+        {
+            if ($block->getUpdated() != NULL && $block->getUpdated() > $lastUpdate)
+            {
+                $lastUpdate = $block->getUpdated();
+            }
+        }
+        // if ($timetable->getUpdated() > $lastUpdate)
+            // $lastUpdate = $timetable->getUpdated();
+                
+        return $lastUpdate;
+    }
+    
+    public function hasPdfUpToDate($stopPoint, $timetable)
+    {
         if (
         // no stop point
         empty($stopPoint) ||
         // no pdf generated yet => return FALSE
         $stopPoint->getPdfGenerationDate() == NULL || 
         // line was modified after pdf generation
-        $stopPoint->getLine()->getLastModified() > $stopPoint->getPdfGenerationDate() ||
-        // stop was modified after pdf generation
-        $stopPoint->getLastModified() > $stopPoint->getPdfGenerationDate()
+        $this->getLastUpdate($timetable) > $stopPoint->getPdfGenerationDate()
         )
         {
             return FALSE;

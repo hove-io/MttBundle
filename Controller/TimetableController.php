@@ -40,14 +40,14 @@ class TimetableController extends Controller
         );
     }
     
-    private function saveMedia($lineId, $stopPointId, $path)
+    private function saveMedia($timetableId, $externalStopPointId, $path)
     {
         $this->mediaManager = $this->get('canaltp_media_manager_mtt');
         $media = new Media(
             CategoryType::LINE,
-            $lineId,
+            $timetableId,
             CategoryType::STOP_POINT,
-            $stopPointId
+            $externalStopPointId
         );
 
         $media->setFile(new File($path));
@@ -87,17 +87,18 @@ class TimetableController extends Controller
         return $this->render(
             'CanalTPMethBundle:Layouts:' .  $timetable->getLine()->getTwigPath(),
             array(
-                'timetable'       => $timetable,
-                'stopPointLevel'  => $stopPointData['stopPointLevel'],
-                'stopPoint'       => $stopPointData['stopPointInstance'],
-                'editable'        => false
+                'timetable'         => $timetable,
+                'externalCoverageId'=> $externalCoverageId,
+                'stopPointLevel'    => $stopPointData['stopPointLevel'],
+                'stopPoint'         => $stopPointData['stopPointInstance'],
+                'editable'          => false
             )
         );
     }
 
-    public function generatePdfAction($timetableId, $stopPointId)
+    public function generatePdfAction($timetableId, $externalCoverageId, $externalStopPointId)
     {
-        $line = $this->getLine($lineId);
+        $timetable = $this->get('canal_tp_meth.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
         $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
         
         $url = 
@@ -105,16 +106,18 @@ class TimetableController extends Controller
             $this->get('router')->generate(
                 'canal_tp_meth_timetable_view', 
                 array(
-                    'line_id' => $lineId, 
-                    'stopPoint' => $stopPointId
+                    'externalCoverageId' => $externalCoverageId, 
+                    'externalStopPointId'=> $externalStopPointId,
+                    'externalRouteId'    => $timetable->getExternalRouteId()
                 )
             )
         ;
-        $pdfPath = $pdfGenerator->getPdf($url, $line->getLayout());
+        $pdfPath = $pdfGenerator->getPdf($url, $timetable->getLine()->getLayout());
+        // var_dump($pdfPath);die;
         if ($pdfPath)
         {
-            $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt')->updatePdfGenerationDate($lineId, $stopPointId);
-            $pdfMedia = $this->saveMedia($lineId, $stopPointId, $pdfPath);
+            $pdfMedia = $this->saveMedia($timetable->getId(), $externalStopPointId, $pdfPath);
+            $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt')->updatePdfGenerationDate($externalStopPointId);
 
             return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
         }

@@ -1,5 +1,9 @@
 {% extends "CanalTPMethBundle::base.html.twig" %}
 
+{% block left_menu %}
+    {{ render(controller('CanalTPMethBundle:Default:navigation', { 'current_route': current_route })) }}
+{% endblock %}
+
 {% block main_content %}
     <div>
         <h3>{{'distribution.stops_included'|trans({}, 'default')}} - 
@@ -30,16 +34,36 @@
     
 {% endblock %}
 
+{% block base_modal %}
+    {% embed "CanalTPMethBundle::modal.html.twig" %}
+        {% block modal_title %}{{'distribution.generation_title'|trans({}, 'default')}}{% endblock %}
+        {% block modal_body %}
+        <div class="progress progress-striped active">
+            <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                <span>{{'distribution.generation_in_progress'|trans({}, 'default')}}</span>
+            </div>
+        </div>
+        <div class="center">
+            <a class="btn btn-primary" href="" target="_blank" style="display:none;">
+                <span class="glyphicon glyphicon-download-alt"></span> {{'global.downloadPdf'|trans}}
+            </a>
+        </div>
+        {% endblock %}
+        {% block modal_actions %}{% endblock %}
+        {% block modal_close_header %}{% endblock %}
+        {% block modal_close_footer %}{% endblock %}
+    {% endembed %}
+{% endblock %}
 
 {% block javascripts %}
 <script type="text/javascript">
 require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable){
-    var lineId = {{line.id|raw}};
+    
     var url = Routing.generate(
         'canal_tp_meth_distribution_generate', 
-        { 
-            'lineId': lineId, 
-            'routeId' : '{{route_id|raw}}'
+        {
+            'timetableId': {{timetable.id|raw}}, 
+            'externalCoverageId' : '{{coverage_id|raw}}'
         }
     );
     
@@ -63,15 +87,17 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
         $list.find('.list-group-item').each(function(){
             stopPoints_ids.push($(this).data('stopPointNavitiaId'));
         });
-        console.dir(stopPoints_ids);
-        console.dir(url);
+        $('#base-modal').find('a.btn').hide();
+        $('#base-modal').find('div.progress').show();
+        $('#base-modal').modal('show');
         if (stopPoints_ids.length > 0)
         {
             $.post(
                 url,
                 {"stopPointsIds[]" : stopPoints_ids}
             ).done(function(data){
-                window.location = data.path;
+                $('#base-modal').find('div.progress').hide();
+                $('#base-modal').find('a.btn').attr('href', data.path).show();
             });
         }
         return false;

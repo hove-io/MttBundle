@@ -9,3 +9,4 @@ global:
     remove: Enlever
     add: Ajouter
     line_label: Ligne
+    downloadPdf: Télécharger le PDF

@@ -13,25 +13,15 @@ class DistributionController extends Controller
     {
         $navitia = $this->get('iussaad_navitia');
         $routes = $navitia->getStopPoints($coverageId, $networkId, $lineId, $routeId);
-
-        $line = $this->getDoctrine()->getRepository(
-            'CanalTPMethBundle:Line',
-            'mtt'
-        )->findOneBy(
-            array(
-                'coverageId'    => $coverageId,
-                'networkId'     => $networkId,
-                'navitiaId'     => $lineId,
-            )
-        );
+        $timetable = $this->get('canal_tp_meth.timetable_manager')->getTimetable($routeId, $coverageId);
 
         $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
-        $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows, $line);
+        $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows);
         
         return $this->render(
             'CanalTPMethBundle:Distribution:list.html.twig',
             array(
-                'line'          => $line,
+                'timetable'     => $timetable,
                 'routes'        => $routes,
                 'current_route' => $routeId,
                 'coverage_id'   => $coverageId,
@@ -42,34 +32,48 @@ class DistributionController extends Controller
         );
     }
     
-    public function generateAction($lineId)
+    public function generateAction($timetableId, $externalCoverageId)
     {
-        $stopPointsIds = $this->get('request')->request->get('stopPointsIds');
-        // var_dump($stopPointsIds);die;
+        $timetable = $this->get('canal_tp_meth.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
+        $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
         $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt');
         $this->mediaManager = $this->get('canaltp_media_manager_mtt');
+        
+        $stopPointsIds = $this->get('request')->request->get('stopPointsIds', array());
         $paths = array();
-        foreach ($stopPointsIds as $stopPointId)
+        foreach ($stopPointsIds as $externalStopPointId)
         {
+            $stopPoint = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId, $timetable);
             //shall we regenerate pdf?
-            if ($stopPointRepo->hasPdfUpToDate($stopPointId, $lineId) == false)
+            if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false)
             {
                 $response = $this->forward('CanalTPMethBundle:Timetable:generatePdf', array(
-                    'lineId'  => $lineId,
-                    'stopPointId' => $stopPointId,
+                    'timetableId'           => $timetableId,
+                    'externalCoverageId'    => $externalCoverageId,
+                    'externalStopPointId'   => $externalStopPointId,
                 ));
-                // var_dump($response);
+                // echo 'generation:' . $externalStopPointId . "\r\n";
             }
             $media = new Media(
                 CategoryType::LINE,
-                $lineId,
+                $timetableId,
                 CategoryType::STOP_POINT,
-                $stopPointId
+                $externalStopPointId
             );
             $paths[] = $this->mediaManager->getPathByMedia($media);
+            // reset timetable because stop point blocks were added in StopPointManager
+            $this->getDoctrine()->getEntityManager('mtt')->refresh($timetable);
         }
-        $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
-        $filePath = $pdfGenerator->aggregatePdf($paths);
-        return new JsonResponse(array('path' => $this->getRequest()->getBasePath() . $filePath));
+        // die;
+        if (count($paths) > 0)
+        {
+            $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
+            $filePath = $pdfGenerator->aggregatePdf($paths);
+            return new JsonResponse(array('path' => $this->getRequest()->getBasePath() . $filePath));
+        }
+        else
+        {
+            throw new \Exception($this->get('translator')->trans('controller.distribution.generate.no_pdfs', array(), 'exceptions'));
+        }
     }
 }

@@ -11,4 +11,7 @@ body {margin:0; padding:0;}
     height:auto;
     margin:0;
 }
+body *{
+    -webkit-print-color-adjust: exact;
+}
 

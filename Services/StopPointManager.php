@@ -62,8 +62,9 @@ class StopPointManager
         $this->stopPoint = $this->repository->findOneByExternalId($externalStopPointId);
         if (!empty($this->stopPoint)) {
             $this->initBlocks();
-            // stop points blocks override line blocks regarding dom_id, sprint 5?
-            $timetable->setBlocks(array_merge($timetable->getBlocks(), $this->stopPoint->getBlocks()));
+            // stop points blocks override line blocks regarding dom_id
+            if (count($this->stopPoint->getBlocks()) > 0)
+                $timetable->setBlocks(array_merge($timetable->getBlocks(), $this->stopPoint->getBlocks()));
         } else {
             $this->stopPoint = new StopPoint();
             $this->stopPoint->setExternalId($externalStopPointId);
@@ -77,10 +78,10 @@ class StopPointManager
      * Return StopPoints list with Data from navitia
      *
      * @param  array $stopPointNavitiaIds Array of Stoppoints NavitiaId
-     * @param  Line $line Object entity0
+     *
      * @return array
      */
-    public function enhanceStopPoints($stopPoints, $line)
+    public function enhanceStopPoints($stopPoints)
     {
         $ids = array();
         $stopPointsIndexed = array();

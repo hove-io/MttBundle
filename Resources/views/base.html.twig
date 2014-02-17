@@ -22,11 +22,13 @@
         </div>
     </div>
     <div id="base-modal" class="modal fade">
+    {% block base_modal %}
         {% include 'CanalTPMethBundle::modal.html.twig' %}
+    {% endblock %}
     </div><!-- /.modal -->
+
 {% endblock %}
 
 {# Common javascripts for MethBundle #}
 {% block javascripts %}
-
 {% endblock %}

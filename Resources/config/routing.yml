@@ -34,7 +34,7 @@ canal_tp_meth_block_edit:
         expose: true
 
 canal_tp_meth_timetable_generate_pdf:
-    pattern: /timetable/{timetableId}/stopPoint/{stopPointId}/generatePdf
+    pattern: /timetable/{timetableId}/coverage/{externalCoverageId}/stopPoint/{externalStopPointId}/generatePdf
     defaults: { _controller: CanalTPMethBundle:Timetable:generatePdf}
         
 canal_tp_meth_distribution_list:
@@ -42,7 +42,7 @@ canal_tp_meth_distribution_list:
     defaults: { _controller: CanalTPMethBundle:Distribution:list}
 
 canal_tp_meth_distribution_generate:
-    pattern: /line/{lineId}/route/{routeId}/distribution/generate
+    pattern: /distribution/generate/timetable/{timetableId}/coverage/{externalCoverageId}
     defaults: { _controller: CanalTPMethBundle:Distribution:generate}
     options:
         expose: true

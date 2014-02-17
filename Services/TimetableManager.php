@@ -59,8 +59,23 @@ class TimetableManager
     /**
      * Return timetable Object with navitia data added
      *
+     * @param  Integer $id PK in bdd
+     * @return timetable
+     */
+    public function getTimetableById($timetableId, $externalCoverageId)
+    {
+        $this->timetable = $this->repository->find($timetableId);
+        $this->initAdditionalData($this->timetable->getExternalRouteId(), $externalCoverageId);
+        $this->initBlocks();
+
+       return $this->timetable;
+    }
+    
+    /**
+     * Return timetable Object with navitia data added
+     *
      * @param  Integer $externalId
-     * @return line
+     * @return timetable
      */
     public function getTimetable($externalRouteId, $externalCoverageId)
     {

@@ -24,6 +24,8 @@ block:
         title: Éditer le block
 
 distribution:
-    generate_distribution_pdf: Télécharger le pdf de cette liste
+    generation_title: Génération de la liste de distribution
+    generate_distribution_pdf: Générer le pdf de cette liste
+    generation_in_progress: Génération en cours
     stops_included: Arrêts inclus dans la liste de distribution
     stops_excluded: Arrêts exclus de la liste de distribution
