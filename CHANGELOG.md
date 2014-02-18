@@ -1,8 +1,8 @@
 Notes de publication - METH - Version 0.2.2 (18/02/2014)
 
 ** Récit
-    * [METH-57]	 Persistance des propriétés de la liste de gestion de la distribution	Aujourd'hui 10:28
-    * [METH-62]	 Gestion des blocs par route	Hier 15:44
+    * [METH-57]	 Persistance des propriétés de la liste de gestion de la distribution
+    * [METH-62]	 Gestion des blocs par route
 
 Notes de publication - METH - Version 0.2.1
 
