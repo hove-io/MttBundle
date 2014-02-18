@@ -97,7 +97,7 @@ class PdfGenerator
         // TODO: should be configured
         // absolute path
         // works if bundle is in vendor folder
-        // return realpath(__DIR__.'/../../../../../../web/uploads/');
-        return realpath(__DIR__.'/../../IussaadApp/web/uploads/');
+        return realpath(__DIR__.'/../../../../../../web/uploads/');
+        // return realpath(__DIR__.'/../../IussaadApp/web/uploads/');
     }
 }
