@@ -57,14 +57,11 @@ class StopPointManager
      * @param  Line $line Line Entity
      * @return stopPoint
      */
-    public function getStopPoint($externalStopPointId, $externalCoverageId, $timetable)
+    public function getStopPoint($externalStopPointId, $externalCoverageId)
     {
         $this->stopPoint = $this->repository->findOneByExternalId($externalStopPointId);
         if (!empty($this->stopPoint)) {
             $this->initBlocks();
-            // stop points blocks override line blocks regarding dom_id
-            if (count($this->stopPoint->getBlocks()) > 0)
-                $timetable->setBlocks(array_merge((array)$timetable->getBlocks(), $this->stopPoint->getBlocks()));
         } else {
             $this->stopPoint = new StopPoint();
             $this->stopPoint->setExternalId($externalStopPointId);

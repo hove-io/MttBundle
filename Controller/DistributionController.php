@@ -44,7 +44,7 @@ class DistributionController extends Controller
         $paths = array();
         foreach ($stopPointsIds as $externalStopPointId)
         {
-            $stopPoint = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId, $timetable);
+            $stopPoint = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
             //shall we regenerate pdf?
             if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false)
             {
@@ -61,8 +61,6 @@ class DistributionController extends Controller
                 $externalStopPointId
             );
             $paths[] = $this->mediaManager->getPathByMedia($media);
-            // reset timetable because stop point blocks were added in StopPointManager
-            $this->getDoctrine()->getEntityManager('mtt')->refresh($timetable);
         }
         
         if (count($paths) > 0)

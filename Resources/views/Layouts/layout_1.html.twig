@@ -25,7 +25,11 @@
                 <div id="small-right-blocks">
                     {% for i in 1..4 %}
                         {% set id = 'text_block_' ~ i %}
-                        {% set block = attribute(timetable.blocks, id) %}
+                        {% if i == 4 %}
+                            {% set block = attribute(stopPoint.blocks, id) %}
+                        {% else %}
+                            {% set block = attribute(timetable.blocks, id) %}
+                        {% endif %}
                         <div id="{{ id }}" data-block-level="{% if i == 4 %}stop_point{% else %}route{% endif %}" data-block-type="text" class="small-block block">
                             {% if block %}
                                 <div class="title">{{ block.title }}</div>
@@ -37,7 +41,7 @@
             </div>
             <div id="timetables-wrapper" class="clearfix">
                 {% for i in 1..4 %}
-                    <div data-block-level="stop_point" class="timetable-container block"></div>
+                    <div data-block-level="" class="timetable-container block"></div>
                 {% endfor %}
             </div>
         </div>

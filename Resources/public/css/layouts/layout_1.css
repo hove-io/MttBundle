@@ -3,8 +3,8 @@
     padding:10px;
 }
 #layout-main-wrapper #header{
-    background-color:black;
-    color:white;
+    background-color:black !important;
+    color:white !important;
     -webkit-print-color-adjust: exact;
 }
 #layout-main-wrapper #header #direction-title-wrapper,

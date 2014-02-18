@@ -34,7 +34,6 @@ class StopPointRepository extends EntityRepository
     private function insertStopPoint($externalStopPointId)
     {
         $stopPoint = new StopPoint();
-        // $stopPoint->setTimetable($timetable);
         $stopPoint->setExternalId($externalStopPointId);
         $this->getEntityManager()->persist($stopPoint);
         

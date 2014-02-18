@@ -23,13 +23,13 @@ class TimetableController extends Controller
         return $timetableManager->getTimetable($routeExternalId, $externalCoverageId);
     }
     
-    private function getStopPoint($externalStopPointId, $externalCoverageId, $timetable)
+    private function getStopPoint($externalStopPointId, $externalCoverageId)
     {
         // are we on stop_point level?
         if ($externalStopPointId != '') {
             $stopPointLevel = true;
             $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
-            $stopPointInstance = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId, $timetable);
+            $stopPointInstance = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
         } else {
             $stopPointLevel = false;
             $stopPointInstance = false;
@@ -61,7 +61,7 @@ class TimetableController extends Controller
     public function editAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
     {
         $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
-        $stopPointData = $this->getStopPoint($externalStopPointId, $externalCoverageId, $timetable);
+        $stopPointData = $this->getStopPoint($externalStopPointId, $externalCoverageId);
         
         return $this->render(
             'CanalTPMethBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
