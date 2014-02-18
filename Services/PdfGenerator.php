@@ -95,6 +95,8 @@ class PdfGenerator
     protected function getUploadRootDir()
     {
         // absolute path
-        return realpath(__DIR__.'/../../../../../../web/uploads/');
+        // return realpath(__DIR__.'/../../../../../../web/uploads/');
+        // TODO: should be configured
+        return realpath(__DIR__.'/../../IussaadApp/web/uploads/');
     }
 }

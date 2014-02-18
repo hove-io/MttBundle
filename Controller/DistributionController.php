@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MediaManager\Category\CategoryType;
+use CanalTP\MethBundle\Entity\DistributionList;
 
 class DistributionController extends Controller
 {
@@ -17,7 +18,7 @@ class DistributionController extends Controller
 
         $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
         $schedules = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows);
-        
+        $schedules = $this->getDoctrine()->getRepository('CanalTPMethBundle:DistributionList', 'mtt')->sortSchedules($schedules, $timetable);
         return $this->render(
             'CanalTPMethBundle:Distribution:list.html.twig',
             array(
@@ -52,7 +53,6 @@ class DistributionController extends Controller
                     'externalCoverageId'    => $externalCoverageId,
                     'externalStopPointId'   => $externalStopPointId,
                 ));
-                // echo 'generation:' . $externalStopPointId . "\r\n";
             }
             $media = new Media(
                 CategoryType::LINE,
@@ -64,9 +64,11 @@ class DistributionController extends Controller
             // reset timetable because stop point blocks were added in StopPointManager
             $this->getDoctrine()->getEntityManager('mtt')->refresh($timetable);
         }
-        // die;
+        
         if (count($paths) > 0)
         {
+            // save this list in db
+            $this->saveList($timetable, $stopPointsIds);
             $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
             $filePath = $pdfGenerator->aggregatePdf($paths);
             return new JsonResponse(array('path' => $this->getRequest()->getBasePath() . $filePath));
@@ -75,5 +77,19 @@ class DistributionController extends Controller
         {
             throw new \Exception($this->get('translator')->trans('controller.distribution.generate.no_pdfs', array(), 'exceptions'));
         }
+    }
+    
+    private function saveList($timetable, $stopPointsIncluded)
+    {
+        $distribList = $this->getDoctrine()->getRepository('CanalTPMethBundle:DistributionList', 'mtt');
+        $distribListInstance = $distribList->findOneByTimetable($timetable);
+        if (empty($distribListInstance))
+        {
+            $distribListInstance = new DistributionList();
+            $distribListInstance->setTimetable($timetable);
+        }
+        $distribListInstance->setIncludedStops($stopPointsIncluded);
+        $this->getDoctrine()->getEntityManager('mtt')->persist($distribListInstance);
+        $this->getDoctrine()->getEntityManager('mtt')->flush();
     }
 }

@@ -26,6 +26,11 @@ class Timetable extends AbstractEntity
     private $blocks;
     
     /**
+     * @var Object
+     */
+    private $ditributionLists;
+    
+    /**
      * @var string - non persistent
      */
     private $title;
@@ -34,6 +39,7 @@ class Timetable extends AbstractEntity
      * @var Object - non persistent
      */
     private $line;
+    
 
     /**
      * Get id

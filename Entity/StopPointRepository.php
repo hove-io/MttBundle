@@ -51,9 +51,7 @@ class StopPointRepository extends EntityRepository
                 $lastUpdate = $block->getUpdated();
             }
         }
-        // if ($timetable->getUpdated() > $lastUpdate)
-            // $lastUpdate = $timetable->getUpdated();
-                
+        
         return $lastUpdate;
     }
     

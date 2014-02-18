@@ -1,0 +1,33 @@
+CanalTP\MethBundle\Entity\DistributionList:
+    type: entity
+    table: null
+    repositoryClass: CanalTP\MethBundle\Entity\DistributionListRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        includedStops:
+            type: array
+            column: included_stops
+        excludedStops:
+            type: array
+            column: excluded_stops
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        timetable:
+            targetEntity: Timetable
+            inversedBy: ditributionLists
+            joinColumn:
+                name: timetable_id
+                referencedColumnName: id
