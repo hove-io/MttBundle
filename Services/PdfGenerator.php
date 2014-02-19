@@ -30,31 +30,31 @@ class PdfGenerator
 
         // set URL and other appropriate options
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
         // grab URL and pass it to the browser
         $pdfContent = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         // close cURL resource, and free up system resources
         curl_close($ch);
-        
+
         return $http_code == 200 && !empty($pdfContent) ? $pdfContent : false;
     }
-    
+
     public function getPdf($url, $layout)
     {
         $params = array();
         $params['url'] = $url;
-        if (isset($this->layoutsConfig[$layout])){
+        if (isset($this->layoutsConfig[$layout])) {
             $params['orientation'] = $this->layoutsConfig[$layout]['orientation'];
         }
         // TODO: make these parameters configurable via layout config?
         $params['zoom'] = 2;
         $params['margin'] = 0;
         $generation_url = $this->serverUrl . '?' . http_build_query($params);
-        
+
         $pdfContent = $this->callWebservice($generation_url);
-        
+
         // create File
         $dir = sys_get_temp_dir() . '/';
         $filename = md5($pdfContent) . '.pdf';
@@ -64,7 +64,7 @@ class PdfGenerator
 
         return $path;
     }
-    
+
     /**
      *  @function aggregate pdf files
      *
@@ -74,7 +74,7 @@ class PdfGenerator
     {
         $fpdi = new \fpdi\FPDI();
 
-        foreach($paths as $file){
+        foreach ($paths as $file) {
             $pageCount = $fpdi->setSourceFile($file);
             for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
                  $tplIdx = $fpdi->ImportPage($pageNo);
@@ -87,9 +87,10 @@ class PdfGenerator
         $dir = $this->getUploadRootDir() . '/';
         // TODO: should be generic and saved for later?
         $fpdi->Output($dir . 'concat.pdf', 'F');
+
         return '/uploads/concat.pdf';
     }
-    
+
     protected function getUploadRootDir()
     {
         // TODO: should be configured

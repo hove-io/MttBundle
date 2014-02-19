@@ -3,8 +3,6 @@
 namespace CanalTP\MethBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use CanalTP\MethBundle\Entity\Block;
-use CanalTP\MethBundle\Entity\StopPoint;
 
 /**
  * BlockRepository
@@ -26,11 +24,11 @@ class BlockRepository extends EntityRepository
             'domId' => $domId,
         ));
         // no block found so create first a non persistent block
-        if (empty($block))
-        {
+        if (empty($block)) {
             $block = new Block();
             $block->setDomId($domId);
         }
+
         return $block;
     }
 
@@ -38,7 +36,7 @@ class BlockRepository extends EntityRepository
      * find a block By StopPoint Navitia Id And DomId
      *
      * @param  string $externalStopPointId Stop point navitia Id
-     * @param  string $domId     Dom Id in layout
+     * @param  string $domId               Dom Id in layout
      * @return Block  Entity or null
      */
     public function findByStopPointAndDomId($externalStopPointId, $domId)

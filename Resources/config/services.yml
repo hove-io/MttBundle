@@ -6,6 +6,7 @@ parameters:
     canal_tp_meth.line_manager.class: CanalTP\MethBundle\Services\LineManager
     canal_tp_meth.timetable_manager.class: CanalTP\MethBundle\Services\TimetableManager
     canal_tp_meth.stop_point_manager.class: CanalTP\MethBundle\Services\StopPointManager
+    canal_tp_meth.calendar_manager.class: CanalTP\MethBundle\Services\CalendarManager
     canal_tp_meth.form.factory.class: CanalTP\MethBundle\Services\BlockTypeFactory
     canal_tp_meth.form.image_type_extension.class: CanalTP\MethBundle\Form\Extension\ImageTypeExtension
     canal_tp_meth.pdf_generator.class: CanalTP\MethBundle\Services\PdfGenerator
@@ -50,3 +51,6 @@ services:
        class: %canal_tp_meth.pdf_generator.class%
        arguments: ['http://wsd-ws.pdfgen.dev.canaltp.fr/', "%layouts%"]
        # arguments: ['http://localhost/pdfGenerator/web/index.php', "%layouts%"]
+    canal_tp_meth.calendar_manager:
+       class: %canal_tp_meth.calendar_manager.class%
+       arguments: ['@canal_tp_meth.navitia']

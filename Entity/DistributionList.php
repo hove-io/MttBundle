@@ -2,8 +2,6 @@
 
 namespace CanalTP\MethBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * DistributionList
  */
@@ -39,11 +37,10 @@ class DistributionList
      */
     private $timetable;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -53,20 +50,20 @@ class DistributionList
     /**
      * Set includedStops
      *
-     * @param array $includedStops
+     * @param  array            $includedStops
      * @return DistributionList
      */
     public function setIncludedStops($includedStops)
     {
         $this->includedStops = $includedStops;
-    
+
         return $this;
     }
 
     /**
      * Get includedStops
      *
-     * @return array 
+     * @return array
      */
     public function getIncludedStops()
     {
@@ -76,20 +73,20 @@ class DistributionList
     /**
      * Set excludedStops
      *
-     * @param array $excludedStops
+     * @param  array            $excludedStops
      * @return DistributionList
      */
     public function setExcludedStops($excludedStops)
     {
         $this->excludedStops = $excludedStops;
-    
+
         return $this;
     }
 
     /**
      * Get excludedStops
      *
-     * @return array 
+     * @return array
      */
     public function getExcludedStops()
     {
@@ -123,7 +120,7 @@ class DistributionList
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -133,7 +130,7 @@ class DistributionList
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {

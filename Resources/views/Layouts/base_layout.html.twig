@@ -6,7 +6,7 @@
                         '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/main.css'
                         '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/layouts.css'
                         '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/layouts/*'
-                        
+
                        filter='cssrewrite' output='css/full_layouts.css' %}
             <link rel="stylesheet" media="all" href="{{ asset_url }}" />
         {% endstylesheets %}
@@ -14,7 +14,7 @@
                        filter='cssrewrite' output='css/full_layouts_print.css' %}
             <link rel="stylesheet" media="print" href="{{ asset_url }}" />
         {% endstylesheets %}
-        
+
         {% block head_config %}
             {% include 'CanalTPMethBundle::config.js.html.twig' %}
         {% endblock %}

@@ -2,8 +2,6 @@
 
 namespace CanalTP\MethBundle\Entity;
 
-use CanalTP\MethBundle\Entity\AbstractEntity;
-
 /**
  * Network
  */

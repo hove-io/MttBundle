@@ -10,3 +10,8 @@ global:
     add: Ajouter
     line_label: Ligne
     downloadPdf: Télécharger le PDF
+    network: Réseau
+    direction: Direction
+    mode: Mode
+    hours: Heures
+    minutes: Minutes

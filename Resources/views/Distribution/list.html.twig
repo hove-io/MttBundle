@@ -6,7 +6,7 @@
 
 {% block main_content %}
     <div>
-        <h3>{{'distribution.stops_included'|trans({}, 'default')}} - 
+        <h3>{{'distribution.stops_included'|trans({}, 'default')}} -
             <button id="generate-distribution-list" type="button" class="btn btn-success">
                 <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
             </button>
@@ -26,7 +26,7 @@
             </li>
         {% endfor %}
     </ul>
-    
+
     <h3>{{'distribution.stops_excluded'|trans({}, 'default')}}</h3>
     <hr/>
     <ul id="excluded-stops" class="list-group sortable">
@@ -42,7 +42,7 @@
             </li>
         {% endfor %}
     </ul>
-    
+
 {% endblock %}
 
 {% block base_modal %}
@@ -69,21 +69,21 @@
 {% block javascripts %}
 <script type="text/javascript">
 require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable){
-    
+
     var url = Routing.generate(
-        'canal_tp_meth_distribution_generate', 
+        'canal_tp_meth_distribution_generate',
         {
-            'timetableId': {{timetable.id|raw}}, 
+            'timetableId': {{timetable.id|raw}},
             'externalCoverageId' : '{{coverage_id|raw}}'
         }
     );
-    
+
     $('.list-group.sortable').sortable({
         placeholder: "sortable-highlight list-group-item",
         connectWith: "ul.list-group.sortable"
     });
     $('.list-group.sortable').disableSelection();
-    
+
     $('.sortable .toggle-stop-point-btn').click(function(){
         var $stopElement = $(this).parent();
         var $newContainer = $stopElement.parents('.sortable').siblings('.sortable');
@@ -91,9 +91,9 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
         $newContainer.append($stopElement);
         return false;
     });
-    
+
     var $list = $('#included-stops');
-    $('#generate-distribution-list').click(function(){  
+    $('#generate-distribution-list').click(function(){
         var stopPoints_ids = [];
         $list.find('.list-group-item').each(function(){
             stopPoints_ids.push($(this).data('stopPointNavitiaId'));

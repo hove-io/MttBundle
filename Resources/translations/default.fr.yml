@@ -19,7 +19,7 @@ line:
 
 timetable:
     edit: Modifier la fiche horaire
-    
+
 block:
     get_form:
         title: Éditer le block
@@ -30,3 +30,10 @@ distribution:
     generation_in_progress: Génération en cours
     stops_included: Arrêts inclus dans la liste de distribution
     stops_excluded: Arrêts exclus de la liste de distribution
+
+calendar:
+    view_title: Vérifier les horaires
+    line_code: Ligne
+    line_color: Couleur
+    period_label: Période
+    days: Jours

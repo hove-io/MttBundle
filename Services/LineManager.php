@@ -9,7 +9,6 @@ namespace CanalTP\MethBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
 use Doctrine\Common\Persistence\ObjectManager;
-use CanalTP\MethBundle\Services\Navitia;
 
 class LineManager
 {
@@ -42,12 +41,12 @@ class LineManager
     public function getLineByExternalId($lineExternalId)
     {
         $this->line = $this->repository->findOneByExternalId($lineExternalId);
-        
+
         $this->initTwigPath();
-        
+
         return $this->line;
     }
-    
+
     /**
      * Return line Object with navitia data added
      *

@@ -19,13 +19,13 @@ class TimetableRepository extends EntityRepository
     {
         $timetable = $this->findOneByExternalRouteId($externalRouteId);
         // not found then insert it
-        if (empty($timetable))
-        {
+        if (empty($timetable)) {
             $timetable = new Timetable();
             $timetable->setExternalRouteId($externalRouteId);
             $this->getEntityManager()->persist($timetable);
             $this->getEntityManager()->flush();
         }
+
         return $timetable;
     }
 }

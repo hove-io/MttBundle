@@ -8,7 +8,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector as MediaManager;
 use CanalTP\MediaManagerBundle\Entity\Media;
-use CanalTP\MethBundle\Form\Handler\Block\AbstractHandler;
 use CanalTP\MethBundle\Entity\Block;
 
 class ImgHandler extends AbstractHandler

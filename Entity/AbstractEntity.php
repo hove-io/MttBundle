@@ -11,12 +11,12 @@ abstract class AbstractEntity
      * @var datetime $created
      */
     protected $created;
-    
+
     /**
      * @var datetime $updated
      */
     protected $updated;
-    
+
     /**
      * Get creation date
      *
@@ -26,7 +26,7 @@ abstract class AbstractEntity
     {
         return $this->created;
     }
-    
+
     /**
      * Get updated date
      *

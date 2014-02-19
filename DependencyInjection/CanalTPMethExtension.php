@@ -4,11 +4,9 @@ namespace CanalTP\MethBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
-use CanalTP\MethBundle\DependencyInjection\Configuration;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -36,7 +34,7 @@ class CanalTPMethExtension extends Extension implements ExtensionInterface
         // $container->registerExtension($this);
         // $container->prependExtensionConfig('CanalTPMethExtension', array());
     }
-    
+
     public function getAlias()
     {
         return 'canal_tp_meth';

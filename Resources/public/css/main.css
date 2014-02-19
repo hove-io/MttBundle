@@ -1,11 +1,13 @@
 /* utilities   classes */
-.modal-dialog {
-    width:800px;
-}
 .display-none{
     display:none;
 }
 .bold{font-weight:bold;}
+.pad10t{padding-top:10px;}
+.pad30t{padding-top:30px;}
+.modal-dialog {
+    width:800px;
+}
 #left-menu{
     padding-bottom:50px;
     min-width:100%;
@@ -71,4 +73,25 @@
 }
 #excluded-stops .remove-stop-point-btn{
     display:none;
+}
+/* Grid Time */
+.grid-label-column{
+    border-right:1px solid black;
+    width:10%;
+    height:100%;
+}
+.grid-time-column-wrapper{
+    width:90%;
+}
+.grid-label-column,
+.grid-time-column-wrapper,
+.grid-time-column{
+    float:left;
+    text-align:center;
+ }
+.grid-time-column{
+    border-right:1px solid #f5f5f5;
+}
+.grid-time-wrapper hr{
+    margin:5px 0;
 }

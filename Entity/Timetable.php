@@ -2,9 +2,6 @@
 
 namespace CanalTP\MethBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use CanalTP\MethBundle\Entity\AbstractEntity;
-
 /**
  * Timetable
  */
@@ -19,32 +16,31 @@ class Timetable extends AbstractEntity
      * @var string
      */
     private $externalRouteId;
-    
+
     /**
      * @var Object
      */
     private $blocks;
-    
+
     /**
      * @var Object
      */
     private $ditributionLists;
-    
+
     /**
      * @var string - non persistent
      */
     private $title;
-    
+
     /**
      * @var Object - non persistent
      */
     private $line;
-    
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -54,20 +50,20 @@ class Timetable extends AbstractEntity
     /**
      * Set externalRouteId
      *
-     * @param string $externalRouteId
+     * @param  string    $externalRouteId
      * @return Timetable
      */
     public function setExternalRouteId($externalRouteId)
     {
         $this->externalRouteId = $externalRouteId;
-    
+
         return $this;
     }
 
     /**
      * Get externalRouteId
      *
-     * @return string 
+     * @return string
      */
     public function getExternalRouteId()
     {
@@ -96,7 +92,7 @@ class Timetable extends AbstractEntity
     {
         return $this->blocks;
     }
-    
+
     /**
      * Get title
      *
@@ -119,24 +115,24 @@ class Timetable extends AbstractEntity
 
         return $this;
     }
-    
+
      /**
      * Set line
      *
-     * @param Object $line
+     * @param  Object $line
      * @return Route
      */
     public function setLine($line)
     {
         $this->line = $line;
-    
+
         return $this;
     }
 
     /**
      * Get line
      *
-     * @return Object  
+     * @return Object
      */
     public function getLine()
     {

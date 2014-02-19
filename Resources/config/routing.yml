@@ -41,7 +41,7 @@ canal_tp_meth_block_edit:
     options:
         expose: true
 
-#DistributionList 
+#DistributionList
 canal_tp_meth_distribution_list:
     pattern: /coverage/{coverageId}/network/{networkId}/line/{lineId}/route/{routeId}/distribution/list
     defaults: { _controller: CanalTPMethBundle:Distribution:list}

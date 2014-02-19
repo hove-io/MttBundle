@@ -2,7 +2,6 @@
 
 namespace CanalTP\MethBundle\Form\Handler\Block;
 
-use CanalTP\MethBundle\Form\Handler\Block\HandlerInterface;
 use CanalTP\MethBundle\Entity\Block;
 use CanalTP\MethBundle\Entity\StopPoint;
 
@@ -39,13 +38,13 @@ abstract class AbstractHandler implements HandlerInterface
 
         $this->om->flush();
     }
-    
+
     private function getStopPointReference($externalStopPointId)
     {
         $this->stopPoint = $this->om
             ->getRepository('CanalTPMethBundle:StopPoint', 'mtt')
             ->getStopPoint($externalStopPointId);
-        
+
         return ($this->om->getPartialReference(
             'CanalTP\MethBundle\Entity\StopPoint',
             $this->stopPoint->getId()

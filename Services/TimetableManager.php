@@ -8,7 +8,6 @@
 namespace CanalTP\MethBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use CanalTP\MethBundle\Services\Navitia;
 use CanalTP\MethBundle\Entity\Timetable;
 
 class TimetableManager
@@ -27,7 +26,7 @@ class TimetableManager
         $this->lineManager = $lineManager;
         $this->repository = $this->om->getRepository('CanalTPMethBundle:Timetable');
     }
-    
+
     /*
      * @function find twig path for parent line
      */
@@ -38,14 +37,13 @@ class TimetableManager
         $this->timetable->setLine($line);
         $this->timetable->setTitle($data->name);
     }
-    
+
     /*
      * @function if timetable has an id, get corresponding blocks and index them by dom_id
      */
     private function initBlocks()
     {
-        if ($this->timetable->getId() && count($this->timetable->getBlocks()) > 0)
-        {
+        if ($this->timetable->getId() && count($this->timetable->getBlocks()) > 0) {
             $blocks = array();
 
             foreach ($this->timetable->getBlocks() as $block) {
@@ -55,11 +53,11 @@ class TimetableManager
                 $this->timetable->setBlocks($blocks);
         }
     }
-    
+
     /**
      * Return timetable Object with navitia data added
      *
-     * @param  Integer $id PK in bdd
+     * @param  Integer   $id PK in bdd
      * @return timetable
      */
     public function getTimetableById($timetableId, $externalCoverageId)
@@ -70,11 +68,11 @@ class TimetableManager
 
        return $this->timetable;
     }
-    
+
     /**
      * Return timetable Object with navitia data added
      *
-     * @param  Integer $externalId
+     * @param  Integer   $externalId
      * @return timetable
      */
     public function getTimetable($externalRouteId, $externalCoverageId)

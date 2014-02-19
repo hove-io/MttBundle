@@ -25,13 +25,12 @@ class DefaultController extends Controller
             ->getRepository('CanalTPMethBundle:Network', 'mtt')
             ->findNetworksByUserId($this->getUser()->getId());
         // Configuration
-        if (count($networks) > 0){
+        if (count($networks) > 0) {
             $result = $meth_navitia->getLinesByMode(
                 $networks[0]['external_coverage_id'],
                 $networks[0]['external_id']
             );
-        }
-        else{
+        } else {
             throw new \Exception($this->get('translator')->trans('controller.default.navigation.no_networks', array(), 'exceptions'));
         }
 

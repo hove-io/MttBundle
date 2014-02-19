@@ -4,7 +4,6 @@ namespace CanalTP\MethBundle\Controller;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MethBundle\Entity\Line;
@@ -13,16 +12,17 @@ use CanalTP\MediaManagerBundle\Entity\Media;
 class TimetableController extends Controller
 {
     private $mediaManager;
-    
+
     /**
      * @function retrieve a timetable entity
      */
     private function getTimetable($routeExternalId, $externalCoverageId)
     {
         $timetableManager = $this->get('canal_tp_meth.timetable_manager');
+
         return $timetableManager->getTimetable($routeExternalId, $externalCoverageId);
     }
-    
+
     private function getStopPoint($externalStopPointId, $externalCoverageId)
     {
         // are we on stop_point level?
@@ -34,12 +34,13 @@ class TimetableController extends Controller
             $stopPointLevel = false;
             $stopPointInstance = false;
         }
+
         return array(
             'stopPointLevel'    => $stopPointLevel,
             'stopPointInstance' => $stopPointInstance
         );
     }
-    
+
     private function saveMedia($timetableId, $externalStopPointId, $path)
     {
         $this->mediaManager = $this->get('canaltp_media_manager_mtt');
@@ -52,9 +53,10 @@ class TimetableController extends Controller
 
         $media->setFile(new File($path));
         $this->mediaManager->save($media);
+
         return ($media);
     }
-    
+
     /*
      * @function Display a layout and make editable via javascript
      */
@@ -62,7 +64,7 @@ class TimetableController extends Controller
     {
         $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
         $stopPointData = $this->getStopPoint($externalStopPointId, $externalCoverageId);
-        
+
         return $this->render(
             'CanalTPMethBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
             array(
@@ -75,7 +77,7 @@ class TimetableController extends Controller
             )
         );
     }
-    
+
     /*
      * Display a layout
      */
@@ -100,13 +102,13 @@ class TimetableController extends Controller
     {
         $timetable = $this->get('canal_tp_meth.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
         $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
-        
-        $url = 
-            $this->get('request')->getHttpHost() . 
+
+        $url =
+            $this->get('request')->getHttpHost() .
             $this->get('router')->generate(
-                'canal_tp_meth_timetable_view', 
+                'canal_tp_meth_timetable_view',
                 array(
-                    'externalCoverageId' => $externalCoverageId, 
+                    'externalCoverageId' => $externalCoverageId,
                     'externalStopPointId'=> $externalStopPointId,
                     'externalRouteId'    => $timetable->getExternalRouteId()
                 )
@@ -114,15 +116,14 @@ class TimetableController extends Controller
         ;
         $pdfPath = $pdfGenerator->getPdf($url, $timetable->getLine()->getLayout());
         // var_dump($pdfPath);die;
-        if ($pdfPath){
+        if ($pdfPath) {
             $pdfMedia = $this->saveMedia($timetable->getId(), $externalStopPointId, $pdfPath);
             $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt')->updatePdfGenerationDate($externalStopPointId);
 
             return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
-        }
-        else{
+        } else {
             throw new Exception('PdfGenerator Webservice gave an emtpy response.');
         }
-        
+
     }
 }

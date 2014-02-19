@@ -29,7 +29,7 @@ class LineController extends Controller
             $em->flush();
 
             $this->get('session')->getFlashBag()->add(
-                'notice', 
+                'notice',
                 $this->get('translator')->trans('line.layout_chosen', array(), 'default')
             );
         }

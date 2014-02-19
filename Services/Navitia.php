@@ -33,7 +33,7 @@ class Navitia
         // no line found for this network
         if (empty($result) || !isset($result->lines))
             throw new \Exception($this->translator->trans('services.navitia.no_lines_for_network', array('%network%'=>$networkId), 'exceptions'));
-            
+
         $lines_by_modes = array();
         foreach ($result->lines as $line) {
             if (!isset($lines_by_modes[$line->commercial_mode->id])) {
@@ -74,7 +74,7 @@ class Navitia
 
         return ($response->stop_points[0]->name);
     }
-    
+
     /**
      * Returns Stop Point title
      *
@@ -86,23 +86,43 @@ class Navitia
     public function getRouteData($routeExternalId, $externalCoverageId)
     {
         $response = $this->navitia_iussaad->getRoute($externalCoverageId, $routeExternalId);
-        
+
         return ($response->routes[0]);
     }
-    
+
     /**
      * Returns Calendars for a stop point and a route
      *
-     * @param  String $externalCoverageId
-     * @param  String $externalRouteId
-     * @param  String $externalStopPointId
+     * @param String $externalCoverageId
+     * @param String $externalRouteId
+     * @param String $externalStopPointId
      *
      * @return object
      */
     public function getStopPointCalendarsData($externalCoverageId, $externalRouteId, $externalStopPointId)
     {
         //TODO call navitia calendars api
-        $response = json_decode(file_get_contents(dirname(__FILE__) . '/tmp/calendars.json'));
-        return ($response);
+        $calendarsResponse = json_decode(file_get_contents(dirname(__FILE__) . '/tmp/calendars.json'));
+
+        return ($calendarsResponse);
+    }
+
+    /**
+     * Returns Schedules for a calendar, a stop point and a route
+     *
+     * @param String $externalCoverageId
+     * @param String $externalRouteId
+     * @param String $externalStopPointId
+     * @param String $externalCalendarId
+     *
+     * @return object
+     */
+    public function getCalendarStopSchedules($externalCoverageId, $externalRouteId, $externalStopPointId, $externalCalendarId)
+    {
+        // TODO call navitia stop schedules api
+        $stop_schedulesResponse = json_decode(file_get_contents(dirname(__FILE__) . '/tmp/stop_schedules.json'));
+        $randomIdx = rand ( 0, 2 );
+
+        return ($stop_schedulesResponse->stop_schedules[$randomIdx]);
     }
 }

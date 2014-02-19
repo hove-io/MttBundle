@@ -2,8 +2,6 @@
 
 namespace CanalTP\MethBundle\Entity;
 
-use CanalTP\MethBundle\Entity\AbstractEntity;
-
 /**
  * StopPoint
  */
@@ -33,7 +31,7 @@ class StopPoint extends AbstractEntity
      * @var string
      */
     private $title;
-    
+
     /**
      * @var datetime
      */
@@ -155,7 +153,7 @@ class StopPoint extends AbstractEntity
     /**
      * Set pdfGenerationDate
      *
-     * @param  string $pdfGenerationDate
+     * @param  string    $pdfGenerationDate
      * @return StopPoint
      */
     public function setPdfGenerationDate($pdfGenerationDate)
