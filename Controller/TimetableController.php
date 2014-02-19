@@ -114,15 +114,13 @@ class TimetableController extends Controller
         ;
         $pdfPath = $pdfGenerator->getPdf($url, $timetable->getLine()->getLayout());
         // var_dump($pdfPath);die;
-        if ($pdfPath)
-        {
+        if ($pdfPath){
             $pdfMedia = $this->saveMedia($timetable->getId(), $externalStopPointId, $pdfPath);
             $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt')->updatePdfGenerationDate($externalStopPointId);
 
             return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
         }
-        else
-        {
+        else{
             throw new Exception('PdfGenerator Webservice gave an emtpy response.');
         }
         

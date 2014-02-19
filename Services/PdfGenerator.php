@@ -45,8 +45,7 @@ class PdfGenerator
     {
         $params = array();
         $params['url'] = $url;
-        if (isset($this->layoutsConfig[$layout]))
-        {
+        if (isset($this->layoutsConfig[$layout])){
             $params['orientation'] = $this->layoutsConfig[$layout]['orientation'];
         }
         // TODO: make these parameters configurable via layout config?
@@ -75,8 +74,7 @@ class PdfGenerator
     {
         $fpdi = new \fpdi\FPDI();
 
-        foreach($paths as $file)
-        {
+        foreach($paths as $file){
             $pageCount = $fpdi->setSourceFile($file);
             for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
                  $tplIdx = $fpdi->ImportPage($pageNo);
@@ -95,9 +93,7 @@ class PdfGenerator
     protected function getUploadRootDir()
     {
         // TODO: should be configured
-        // absolute path
         // works if bundle is in vendor folder
         return realpath(__DIR__.'/../../../../../../web/uploads/');
-        // return realpath(__DIR__.'/../../IussaadApp/web/uploads/');
     }
 }

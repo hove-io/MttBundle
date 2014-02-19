@@ -6,14 +6,17 @@ canal_tp_meth_menu:
     pattern:  /navigation/{current_route}
     defaults: { _controller: CanalTPMethBundle:Default:navigation, current_route: null }
 
+#StopPoint
 canal_tp_meth_stop_point_list:
     pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{externalRouteId}/list
     defaults: { _controller: CanalTPMethBundle:StopPoint:list }
 
+#Line
 canal_tp_meth_line_choose_layout:
     pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/choose_layout/route/{externalRouteId}
     defaults: { _controller: CanalTPMethBundle:Line:chooseLayout }
 
+#Timetable
 canal_tp_meth_timetable_edit:
     pattern: /timetable/edit/coverage/{externalCoverageId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
     defaults: { _controller: CanalTPMethBundle:Timetable:edit, externalStopPointId: null }
@@ -26,17 +29,19 @@ canal_tp_meth_timetable_view:
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
+canal_tp_meth_timetable_generate_pdf:
+    pattern: /timetable/{timetableId}/coverage/{externalCoverageId}/stopPoint/{externalStopPointId}/generatePdf
+    defaults: { _controller: CanalTPMethBundle:Timetable:generatePdf}
+
+#Block
 canal_tp_meth_block_edit:
-    # stop point must be the last param so it will be empty
+    # stop point must be the last param so it can be empty
     pattern: /block/edit/coverage/{externalCoverageId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
     defaults: { _controller: CanalTPMethBundle:Block:edit, block_type: null, stop_point: null }
     options:
         expose: true
 
-canal_tp_meth_timetable_generate_pdf:
-    pattern: /timetable/{timetableId}/coverage/{externalCoverageId}/stopPoint/{externalStopPointId}/generatePdf
-    defaults: { _controller: CanalTPMethBundle:Timetable:generatePdf}
-        
+#DistributionList 
 canal_tp_meth_distribution_list:
     pattern: /coverage/{coverageId}/network/{networkId}/line/{lineId}/route/{routeId}/distribution/list
     defaults: { _controller: CanalTPMethBundle:Distribution:list}
@@ -46,3 +51,8 @@ canal_tp_meth_distribution_generate:
     defaults: { _controller: CanalTPMethBundle:Distribution:generate}
     options:
         expose: true
+
+#Calendar
+canal_tp_meth_calendar_view:
+    pattern: /calendars/view/coverage/{externalCoverageId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
+    defaults: { _controller: CanalTPMethBundle:Calendar:view}

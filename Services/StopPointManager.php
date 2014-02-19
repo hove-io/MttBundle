@@ -83,8 +83,7 @@ class StopPointManager
         $ids = array();
         $stopPointsIndexed = array();
         // extract ids to prepare SQL WHERE IN 
-        foreach($stopPoints as $stopPoint_data)
-        {
+        foreach($stopPoints as $stopPoint_data){
             $ids[] = $stopPoint_data->stop_point->id;
             // and index by navitia Id to make it easy to find an item inside
             $stopPointsIndexed[$stopPoint_data->stop_point->id] = $stopPoint_data;
@@ -98,10 +97,8 @@ class StopPointManager
             ->getQuery();
 
         $db_stop_points = $query->getResult();
-        foreach ($db_stop_points as $db_stop_point)
-        {
-            if (isset($stopPointsIndexed[$db_stop_point->getExternalId()]))
-            {
+        foreach ($db_stop_points as $db_stop_point){
+            if (isset($stopPointsIndexed[$db_stop_point->getExternalId()])){
                 $stopPointsIndexed[$db_stop_point->getExternalId()]->stop_point->pdfGenerationDate = $db_stop_point->getPdfGenerationDate();
             }
         }

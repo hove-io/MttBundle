@@ -43,8 +43,8 @@
     {% if line is not empty %}
         <th class="text-center">{{'global.status'|trans}}</th>
         <th>{{'stop_point.pdf_generation_date'|trans({}, 'default')}}</th>
-        <th>{{'stop_point.action.header'|trans({}, 'default')}}</th>
     {% endif %}
+    <th>{{'stop_point.action.header'|trans({}, 'default')}}</th>
 {% endblock %}
 
 {% block table_body -%}
@@ -61,10 +61,15 @@
                     {{ route.stop_point.pdfGenerationDate|date }}
                 {% endif %}
             </td>
+            {% endif %}
             <td class="action">
                 <div class="btn-group">
+                    <a  class="btn btn-default" href="{{ path('canal_tp_meth_calendar_view', {'externalCoverageId':externalCoverageId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id}) }}">
+                        <span class="glyphicon glyphicon-calendar"></span> {{'stop_point.view_calendars'|trans({}, 'default')}}
+                    </a>
+                    {% if line is not empty %}
                     <a  class="btn btn-default" href="{{ path('canal_tp_meth_timetable_edit', {'externalCoverageId':externalCoverageId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id}) }}">
-                        <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans}}
+                        <span class="glyphicon glyphicon-edit"></span> {{'stop_point.action.edit'|trans({}, 'default')}}
                     </a>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
@@ -82,9 +87,9 @@
                             </a>
                         </li>
                     </ul>
+                    {% endif %}
                 </div>
             </td>
-            {% endif %}
         </tr>
     {% endfor %}
 

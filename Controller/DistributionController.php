@@ -42,12 +42,10 @@ class DistributionController extends Controller
         
         $stopPointsIds = $this->get('request')->request->get('stopPointsIds', array());
         $paths = array();
-        foreach ($stopPointsIds as $externalStopPointId)
-        {
+        foreach ($stopPointsIds as $externalStopPointId){
             $stopPoint = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
             //shall we regenerate pdf?
-            if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false)
-            {
+            if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false){
                 $response = $this->forward('CanalTPMethBundle:Timetable:generatePdf', array(
                     'timetableId'           => $timetableId,
                     'externalCoverageId'    => $externalCoverageId,
@@ -63,16 +61,14 @@ class DistributionController extends Controller
             $paths[] = $this->mediaManager->getPathByMedia($media);
         }
         
-        if (count($paths) > 0)
-        {
+        if (count($paths) > 0){
             // save this list in db
             $this->saveList($timetable, $stopPointsIds);
             $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
             $filePath = $pdfGenerator->aggregatePdf($paths);
             return new JsonResponse(array('path' => $this->getRequest()->getBasePath() . $filePath));
         }
-        else
-        {
+        else{
             throw new \Exception($this->get('translator')->trans('controller.distribution.generate.no_pdfs', array(), 'exceptions'));
         }
     }
@@ -81,8 +77,7 @@ class DistributionController extends Controller
     {
         $distribList = $this->getDoctrine()->getRepository('CanalTPMethBundle:DistributionList', 'mtt');
         $distribListInstance = $distribList->findOneByTimetable($timetable);
-        if (empty($distribListInstance))
-        {
+        if (empty($distribListInstance)){
             $distribListInstance = new DistributionList();
             $distribListInstance->setTimetable($timetable);
         }

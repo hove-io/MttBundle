@@ -19,21 +19,16 @@ class DistributionListRepository extends EntityRepository
         $sortedSchedules['included'] = array();
         $sortedSchedules['excluded'] = array();
         
-        if (empty($distributionList))
-        {
+        if (empty($distributionList)){
             $sortedSchedules['included'] = $schedules;
         }
-        else
-        {
+        else{
             $includedStops = $distributionList->getIncludedStops();
-            foreach($schedules as $schedule)
-            {
-                if (in_array($schedule->stop_point->id, $includedStops))
-                {
+            foreach($schedules as $schedule){
+                if (in_array($schedule->stop_point->id, $includedStops)){
                     $sortedSchedules['included'][] = $schedule;
                 }
-                else
-                {
+                else{
                     $sortedSchedules['excluded'][] = $schedule;
                 }
             }

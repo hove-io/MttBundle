@@ -1,4 +1,4 @@
-welcome: "Homepage of MTT !"
+welcome: "Welcome to MTT !"
 
 stop_point:
     label: Arrêt
@@ -8,9 +8,10 @@ stop_point:
     action:
         header: Actions
         validate: Valider
-        edit: Editer
+        edit: Éditer la fiche horaire
     pdf_generation_date: Date de génération du pdf
-    
+    view_calendars: Voir les horaires
+
 line:
     choose_layout: Choisir un modèle
     layout_chosen: Le modèle a bien été assigné à la ligne.

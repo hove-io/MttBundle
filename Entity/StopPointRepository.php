@@ -43,10 +43,8 @@ class StopPointRepository extends EntityRepository
     private function getLastUpdate($timetable)
     {
         $lastUpdate = null;
-        foreach ($timetable->getBlocks() as $block)
-        {
-            if ($block->getUpdated() != NULL && $block->getUpdated() > $lastUpdate)
-            {
+        foreach ($timetable->getBlocks() as $block){
+            if ($block->getUpdated() != NULL && $block->getUpdated() > $lastUpdate){
                 $lastUpdate = $block->getUpdated();
             }
         }
@@ -63,12 +61,10 @@ class StopPointRepository extends EntityRepository
         $stopPoint->getPdfGenerationDate() == NULL || 
         // line was modified after pdf generation
         $this->getLastUpdate($timetable) > $stopPoint->getPdfGenerationDate()
-        )
-        {
+        ){
             return FALSE;
         }
-        else
-        {
+        else{
             return TRUE;
         }
     }
