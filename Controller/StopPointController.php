@@ -12,8 +12,8 @@ class StopPointController extends Controller
         $routes = $navitia->getStopPoints($coverage_id, $network_id, $line_id, $externalRouteId);
 
         $line = $this->getDoctrine()->getRepository(
-            'CanalTPMethBundle:Line',
-            'mtt'
+                'CanalTPMethBundle:Line',
+                'mtt'
             )->findOneBy(
                 array(
                     'externalCoverageId'    => $coverage_id,

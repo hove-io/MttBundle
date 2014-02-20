@@ -16,7 +16,9 @@ class BlockNormalizer extends SerializerAwareNormalizer implements NormalizerInt
         );
     }
 
-    public function denormalize($data, $class, $format = null) {}
+    public function denormalize($data, $class, $format = null) 
+    {
+    }
 
     public function supportsNormalization($data, $format = null)
     {

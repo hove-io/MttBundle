@@ -47,7 +47,8 @@ class BlockRepository extends EntityRepository
             ->createQuery(
                 'SELECT block FROM CanalTPMethBundle:Block block
                 INNER JOIN block.stopPoint stop_point
-                WHERE stop_point.externalId = :externalId AND block.domId = :domId')
+                WHERE stop_point.externalId = :externalId AND block.domId = :domId'
+            )
             ->setParameter('domId', $domId)
             ->setParameter('externalId', $externalStopPointId);
 

@@ -48,7 +48,7 @@ class DistributionController extends Controller
             //shall we regenerate pdf?
             if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false) {
                 $response = $this->forward(
-                    'CanalTPMethBundle:Timetable:generatePdf', 
+                    'CanalTPMethBundle:Timetable:generatePdf',
                     array(
                         'timetableId'           => $timetableId,
                         'externalCoverageId'    => $externalCoverageId,

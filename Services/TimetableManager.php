@@ -49,8 +49,9 @@ class TimetableManager
             foreach ($this->timetable->getBlocks() as $block) {
                 $blocks[$block->getDomId()] = $block;
             }
-            if (count($blocks) > 0)
+            if (count($blocks) > 0){
                 $this->timetable->setBlocks($blocks);
+            }
         }
     }
 
