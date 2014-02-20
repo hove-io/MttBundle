@@ -1,10 +1,13 @@
 /* layout type Dijon (layout_1) */
+body,html{
+    min-height:101%;
+}
 #layout-1-wrapper{
-    padding:10px;
+    padding:8px;
 }
 #layout-main-wrapper #header{
-    background-color:black !important;
-    color:white !important;
+    background-color:black;
+    color:white;
     -webkit-print-color-adjust: exact;
 }
 #layout-main-wrapper #header #direction-title-wrapper,
@@ -36,9 +39,9 @@
 #layout-1-wrapper #small-right-blocks{
     border-left: 1px solid black;
 }
-.editable #layout-1-wrapper #small-right-blocks{
+/* .editable #layout-1-wrapper #small-right-blocks{
     border: 1px solid black;
-}
+} */
 #layout-1-wrapper #line_map_block,
 #layout-1-wrapper #small-right-blocks{
     height:250px;
@@ -57,11 +60,40 @@
     margin-top:5px;
     width:100%;
 }
-#timetables-wrapper .timetable-container{
+#timetables-wrapper .timegrid-container{
     float:left;
+    font-size:12px;
     margin-top:5px;
-    height:200px;
+    height:220px;
+    line-height:20px;
+    padding:2px;
     width:50%;
+}
+#timetables-wrapper .timegrid-header{
+    background-color:black;
+    color:white;
+    font-weight:bold;
+    font-size:14px;
+    line-height:25px;
+    padding:0px 5px;
+    height:25px;
+    width:100%;
+}
+#timetables-wrapper .timegrid-body{
+    background-color: white;
+    background-image: linear-gradient(transparent 50%, rgb(249, 231, 241) 50%);
+    background-size:27px 27px;
+    height: 190px;
+    width:100%;
+}
+#layout-1-wrapper .timegrid-body .hour-label{
+    font-weight:bold;
+    line-height:15px;
+}
+#layout-1-wrapper .timegrid-column{
+    float:left;
+    width:4.5454%;
+    text-align:center;
 }
 #layout-1-wrapper .small-block{
     border:1px solid white;

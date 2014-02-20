@@ -24,7 +24,7 @@ class BlockController extends Controller
             $block = $repo->findByStopPointAndDomId($stop_point, $dom_id);
         }
 
-        $blockTypeFactory->init($block_type, $data, $block);
+        $blockTypeFactory->init($block_type, $data, $block, $externalCoverageId);
         $form = $blockTypeFactory->buildForm()
             ->setAction($this->getRequest()->getRequestUri())
             ->setMethod('POST')->getForm();

@@ -12,6 +12,10 @@ define(['jquery'], function($) {
         $('#base-modal').on('hidden.bs.modal', function () {
             $(this).removeData('bs.modal');
         });
+        $('#base-modal').on('loaded.bs.modal', function () {
+            var $field = $(this).find('*[data-fill-title]');
+            console.dir($field, $(this));
+        });
         var $blocks = _get_blocks();
         // bind click listener
         $blocks.click(function(){

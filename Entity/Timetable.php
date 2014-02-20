@@ -26,6 +26,11 @@ class Timetable extends AbstractEntity
      * @var Object
      */
     private $ditributionLists;
+    
+    /**
+     * @var Object
+     */
+    private $network;
 
     /**
      * @var string - non persistent
@@ -114,6 +119,29 @@ class Timetable extends AbstractEntity
         $this->title = $title;
 
         return $this;
+    }
+
+     /**
+     * Set line
+     *
+     * @param  Object $line
+     * @return Timetable
+     */
+    public function setNetwork($network)
+    {
+        $this->network = $network;
+
+        return $this;
+    }
+
+    /**
+     * Get network
+     *
+     * @return Object
+     */
+    public function getNetwork()
+    {
+        return $this->network;
     }
 
      /**

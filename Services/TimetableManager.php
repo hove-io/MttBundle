@@ -17,6 +17,7 @@ class TimetableManager
     private $navitia = null;
     private $repository = null;
     private $om = null;
+    private $calendars = null;
 
     public function __construct(ObjectManager $om, Navitia $navitia, LineManager $lineManager)
     {
@@ -36,6 +37,7 @@ class TimetableManager
         $line = $this->lineManager->getLineByExternalId($data->line->id);
         $this->timetable->setLine($line);
         $this->timetable->setTitle($data->name);
+        $this->calendars = $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId);
     }
 
     /*
@@ -48,6 +50,14 @@ class TimetableManager
 
             foreach ($this->timetable->getBlocks() as $block) {
                 $blocks[$block->getDomId()] = $block;
+                // TODO maybe we should use block factory and add a renderer to get html corresponding to a block
+                if ($block->getTypeId() == 'timegrid'){
+                    foreach ($this->calendars as $calendar){
+                        if ($calendar->id == $block->getContent()){
+                            $block->setContent($calendar->name);
+                        }
+                    }
+                }
             }
             if (count($blocks) > 0){
                 $this->timetable->setBlocks($blocks);

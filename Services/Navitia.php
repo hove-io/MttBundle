@@ -92,6 +92,22 @@ class Navitia
     }
 
     /**
+     * Returns Calendars for a route
+     *
+     * @param String $externalCoverageId
+     * @param String $externalRouteId
+     *
+     * @return object
+     */
+    public function getRouteCalendars($externalCoverageId, $externalRouteId)
+    {
+        //TODO call navitia calendars api
+        $calendarsResponse = json_decode(file_get_contents(dirname(__FILE__) . '/tmp/calendars.json'));
+
+        return ($calendarsResponse->calendars);
+    }
+
+    /**
      * Returns Calendars for a stop point and a route
      *
      * @param String $externalCoverageId

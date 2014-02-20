@@ -9,21 +9,27 @@ use Symfony\Component\Serializer\Serializer;
 
 use CanalTP\MethBundle\Normalizer\BlockNormalizer;
 use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector as MediaManager;
+// Text Block
 use CanalTP\MethBundle\Form\Type\Block\TextType as TextBlockType;
 use CanalTP\MethBundle\Form\Handler\Block\TextHandler as TextBlockHandler;
+// Image Block
 use CanalTP\MethBundle\Form\Type\Block\ImgType as ImgBlockType;
 use CanalTP\MethBundle\Form\Handler\Block\ImgHandler as ImgBlockHandler;
+// Timegrid Block
+use CanalTP\MethBundle\Form\Type\Block\TimegridType as TimegridBlockType;
 
 class BlockTypeFactory
 {
     private $co = null;
     private $om = null;
-    private $type = null;
-    private $data = null;
-    private $oldData = array();
-    private $instance = null;
     private $mediaManager = null;
     private $formFactory = null;
+    
+    private $type = null;
+    private $data = null;
+    private $externalCoverageId = null;
+    private $oldData = array();
+    private $instance = null;
 
     public function __construct(
         Container $co,
@@ -38,11 +44,12 @@ class BlockTypeFactory
         $this->formFactory = $formFactory;
     }
 
-    public function init($type, $data, $instance)
+    public function init($type, $data, $instance, $externalCoverageId)
     {
         $this->type = $type;
         $this->data = $data;
         $this->instance = $instance;
+        $this->externalCoverageId = $externalCoverageId;
         $serializer = new Serializer(array(new BlockNormalizer()));
         // store data before we give Entity to forms (used by ImgBlock so far)
         $this->oldData = $serializer->normalize($this->instance);
@@ -53,6 +60,13 @@ class BlockTypeFactory
         $objectType = null;
 
         switch ($this->type) {
+            case 'timegrid':
+                $objectType = new TimegridBlockType(
+                    $this->co->get('canal_tp_meth.calendar_manager'), 
+                    $this->instance, 
+                    $this->externalCoverageId
+                );
+                break;
             case 'text':
                 $objectType = new TextBlockType();
                 break;
@@ -82,6 +96,9 @@ class BlockTypeFactory
         $handler = null;
 
         switch ($this->type) {
+            case 'timegrid':
+                $handler = new TextBlockHandler($this->om, $this->instance);
+                break;
             case 'text':
                 $handler = new TextBlockHandler($this->om, $this->instance);
                 break;

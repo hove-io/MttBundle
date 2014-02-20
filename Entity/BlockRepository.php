@@ -29,6 +29,11 @@ class BlockRepository extends EntityRepository
         if (empty($block)) {
             $block = new Block();
             $block->setDomId($domId);
+            $timetable = $this->getEntityManager()->getPartialReference(
+                'CanalTP\MethBundle\Entity\Timetable',
+                $timetableId
+            );
+            $block->setTimetable($timetable);
         }
 
         return $block;

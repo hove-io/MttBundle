@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class TimetableRepository extends EntityRepository
 {
     /*
-     * @function init timetable object, if not found in dbb create a non persistent yet entity
+     * @function init timetable object, if not found in db create an entity
      */
     public function getTimetableByRouteExternalId($externalRouteId)
     {
@@ -22,6 +22,7 @@ class TimetableRepository extends EntityRepository
         if (empty($timetable)) {
             $timetable = new Timetable();
             $timetable->setExternalRouteId($externalRouteId);
+            
             $this->getEntityManager()->persist($timetable);
             $this->getEntityManager()->flush();
         }

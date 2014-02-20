@@ -41,7 +41,23 @@
             </div>
             <div id="timetables-wrapper" class="clearfix">
                 {% for i in 1..4 %}
-                    <div data-block-level="" class="timetable-container block"></div>
+                    {% set id = 'timegrid_block_' ~ i %}
+                    {% set block = attribute(timetable.blocks, id) %}
+                    <div id="{{ id }}" data-block-level="route" data-block-type="timegrid" class="timegrid-container block">
+                        <div class="timegrid-header">
+                            {% if block %}{{ block.title }}{% endif %}
+                        </div>
+                        <div class="timegrid-body clearfix">
+                            {% for i in 4..23 %}
+                                <div class="timegrid-column hour-label">{{i}}{{ 'global.hour_label'|trans }}</div>
+                            {% endfor %}
+                            <div class="timegrid-column hour-label">0{{ 'global.hour_label'|trans }}</div>
+                            <div class="timegrid-column hour-label">1{{ 'global.hour_label'|trans }}</div>
+                            {% if stopPointLevel == false and block %}
+                                <div class="external-calendar-name">{{ block.content }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
         </div>

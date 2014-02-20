@@ -43,6 +43,7 @@ class CalendarManager
 
         return $sortedDateTimes;
     }
+
     /**
      * Returns Calendars for a stop point and a route
      * Datetimes are parsed and response formatted for template
@@ -65,5 +66,19 @@ class CalendarManager
         }
 
         return $calendarsData;
+    }
+    
+    /**
+     * Returns Calendars for a route
+     * Datetimes are not parsed
+     *
+     * @param String $externalCoverageId
+     * @param String $externalRouteId
+     *
+     * @return object
+     */
+    public function getCalendarsForRoute($externalCoverageId, $externalRouteId)
+    {
+        return $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId);
     }
 }
