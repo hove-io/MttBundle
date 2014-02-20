@@ -47,11 +47,14 @@ class DistributionController extends Controller
             $stopPoint = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
             //shall we regenerate pdf?
             if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false) {
-                $response = $this->forward('CanalTPMethBundle:Timetable:generatePdf', array(
-                    'timetableId'           => $timetableId,
-                    'externalCoverageId'    => $externalCoverageId,
-                    'externalStopPointId'   => $externalStopPointId,
-                ));
+                $response = $this->forward(
+                    'CanalTPMethBundle:Timetable:generatePdf', 
+                    array(
+                        'timetableId'           => $timetableId,
+                        'externalCoverageId'    => $externalCoverageId,
+                        'externalStopPointId'   => $externalStopPointId,
+                    )
+                );
             }
             $media = new Media(
                 CategoryType::LINE,

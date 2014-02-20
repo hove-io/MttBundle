@@ -19,10 +19,12 @@ class BlockRepository extends EntityRepository
      */
     public function findByTimetableAndDomId($timetableId, $domId)
     {
-        $block = $this->findOneBy(array(
-            'timetable' => $timetableId,
-            'domId' => $domId,
-        ));
+        $block = $this->findOneBy(
+            array(
+                'timetable' => $timetableId,
+                'domId' => $domId,
+            )
+        );
         // no block found so create first a non persistent block
         if (empty($block)) {
             $block = new Block();
@@ -42,8 +44,8 @@ class BlockRepository extends EntityRepository
     public function findByStopPointAndDomId($externalStopPointId, $domId)
     {
         $query = $this->getEntityManager()
-            ->createQuery('
-                SELECT block FROM CanalTPMethBundle:Block block
+            ->createQuery(
+                'SELECT block FROM CanalTPMethBundle:Block block
                 INNER JOIN block.stopPoint stop_point
                 WHERE stop_point.externalId = :externalId AND block.domId = :domId')
             ->setParameter('domId', $domId)

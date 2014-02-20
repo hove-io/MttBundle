@@ -103,17 +103,14 @@ class TimetableController extends Controller
         $timetable = $this->get('canal_tp_meth.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
         $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
 
-        $url =
-            $this->get('request')->getHttpHost() .
-            $this->get('router')->generate(
-                'canal_tp_meth_timetable_view',
-                array(
-                    'externalCoverageId' => $externalCoverageId,
-                    'externalStopPointId'=> $externalStopPointId,
-                    'externalRouteId'    => $timetable->getExternalRouteId()
-                )
+        $url = $this->get('request')->getHttpHost() . $this->get('router')->generate(
+            'canal_tp_meth_timetable_view',
+            array(
+                'externalCoverageId' => $externalCoverageId,
+                'externalStopPointId'=> $externalStopPointId,
+                'externalRouteId'    => $timetable->getExternalRouteId()
             )
-        ;
+        );
         $pdfPath = $pdfGenerator->getPdf($url, $timetable->getLine()->getLayout());
         // var_dump($pdfPath);die;
         if ($pdfPath) {

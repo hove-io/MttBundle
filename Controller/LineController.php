@@ -49,10 +49,11 @@ class LineController extends Controller
                         'externalRouteId'=> $externalRouteId);
         $line = $this->getDoctrine()
                 ->getRepository('CanalTPMethBundle:Line', 'mtt')
-                ->findOneBy(array(
-                    'externalCoverageId'    => $coverage_id,
-                    'externalNetworkId'     => $network_id,
-                    'externalId'            => $line_id
+                ->findOneBy(
+                    array(
+                        'externalCoverageId'    => $coverage_id,
+                        'externalNetworkId'     => $network_id,
+                        'externalId'            => $line_id
                     )
                 );
 

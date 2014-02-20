@@ -30,7 +30,7 @@ class PdfGenerator
 
         // set URL and other appropriate options
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         // grab URL and pass it to the browser
         $pdfContent = curl_exec($ch);

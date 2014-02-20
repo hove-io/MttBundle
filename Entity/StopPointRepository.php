@@ -45,7 +45,7 @@ class StopPointRepository extends EntityRepository
     {
         $lastUpdate = null;
         foreach ($timetable->getBlocks() as $block) {
-            if ($block->getUpdated() != NULL && $block->getUpdated() > $lastUpdate) {
+            if ($block->getUpdated() != null && $block->getUpdated() > $lastUpdate) {
                 $lastUpdate = $block->getUpdated();
             }
         }
@@ -59,13 +59,13 @@ class StopPointRepository extends EntityRepository
         // no stop point
         empty($stopPoint) ||
         // no pdf generated yet => return FALSE
-        $stopPoint->getPdfGenerationDate() == NULL ||
+        $stopPoint->getPdfGenerationDate() == null ||
         // line was modified after pdf generation
         $this->getLastUpdate($timetable) > $stopPoint->getPdfGenerationDate()
         ){
-            return FALSE;
+            return false;
         } else {
-            return TRUE;
+            return true;
         }
     }
 }

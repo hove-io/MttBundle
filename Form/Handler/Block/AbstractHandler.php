@@ -60,9 +60,11 @@ abstract class AbstractHandler implements HandlerInterface
             $this->block->setTimetable($timetable);
         } else {
             // link block to this stop point
-            $this->block->setStopPoint($this->getStopPointReference(
-                $externalStopPointId
-            ));
+            $this->block->setStopPoint(
+                $this->getStopPointReference(
+                    $externalStopPointId
+                )
+            );
         }
     }
 }
