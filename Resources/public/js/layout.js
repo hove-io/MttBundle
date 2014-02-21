@@ -46,7 +46,7 @@ define(['jquery'], function($) {
                 icon_class += 'ban-circle';
                 $elem.addClass('disabled-block');
             }
-            $elem.append($icon_tpl.clone().addClass(icon_class));
+            $elem.prepend($icon_tpl.clone().addClass(icon_class));
         });
         // return editable blocks only
         return $blocks.filter(function() { 

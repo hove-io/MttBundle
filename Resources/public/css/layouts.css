@@ -35,7 +35,7 @@ body.editable{
     left:0;
     width:100%;
 }
-.block .glyphicon{
+.block > .glyphicon{
     color:#398439;
     position:absolute;
     right:5px;
