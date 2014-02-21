@@ -23,7 +23,11 @@
     </div>
     <div id="base-modal" class="modal fade">
     {% block base_modal %}
-        {% include 'CanalTPMethBundle::modal.html.twig' %}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {% include 'CanalTPMethBundle::modal.html.twig' %}
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
     {% endblock %}
     </div><!-- /.modal -->
 

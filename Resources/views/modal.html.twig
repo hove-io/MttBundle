@@ -1,20 +1,16 @@
 {% block common_modal %}
-    <div class="modal-dialog">
-        {% block open_form %}{% endblock %}
-        <div class="modal-content">
-            <div class="modal-header">
-                {% block modal_close_header %}<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>{% endblock %}
-                <h4 class="modal-title">{% block modal_title %}{% endblock %}</h4>
-            </div>
-            <div class="modal-body">
-                {% block modal_body %}{% endblock %}
-            </div>
-            <div class="modal-footer">
-                {% block modal_close_footer %}<button type="button" class="btn btn-default" data-dismiss="modal">{{'global.close'|trans}}</button>{% endblock %}
-                {% block modal_actions %}
-                    <button type="button" class="btn btn-primary">{{'global.save'|trans}}</button>
-                {% endblock %}
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+    {% block open_form %}{% endblock %}
+    <div class="modal-header">
+        {% block modal_close_header %}<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>{% endblock %}
+        <h4 class="modal-title">{% block modal_title %}{% endblock %}</h4>
+    </div>
+    <div class="modal-body">
+        {% block modal_body %}{% endblock %}
+    </div>
+    <div class="modal-footer">
+        {% block modal_close_footer %}<button type="button" class="btn btn-default" data-dismiss="modal">{{'global.close'|trans}}</button>{% endblock %}
+        {% block modal_actions %}
+            <button type="button" class="btn btn-primary">{{'global.save'|trans}}</button>
+        {% endblock %}
+    </div>
 {% endblock %}

@@ -4,6 +4,7 @@ global:
     validate: Valider
     save: Enregistrer
     close: Fermer
+    delete: Supprimer
     status: Statut
     generatePdf: Générer le PDF
     remove: Enlever

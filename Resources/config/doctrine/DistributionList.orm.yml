@@ -1,6 +1,6 @@
 CanalTP\MethBundle\Entity\DistributionList:
     type: entity
-    table: null
+    table: distributionlist
     repositoryClass: CanalTP\MethBundle\Entity\DistributionListRepository
     fields:
         id:

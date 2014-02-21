@@ -41,6 +41,12 @@ canal_tp_meth_block_edit:
     options:
         expose: true
 
+canal_tp_meth_block_delete:
+    # stop point must be the last param so it can be empty
+    pattern: /block/delete/coverage/{externalCoverageId}/timetable/{timetableId}/blockId/{blockId}
+    defaults: { _controller: CanalTPMethBundle:Block:delete }
+
+        
 #DistributionList
 canal_tp_meth_distribution_list:
     pattern: /coverage/{coverageId}/network/{networkId}/line/{lineId}/route/{routeId}/distribution/list

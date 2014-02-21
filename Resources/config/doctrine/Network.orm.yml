@@ -30,7 +30,7 @@ CanalTP\MethBundle\Entity\Network:
         users:
             targetEntity: CanalTP\CoreBoBundle\Entity\User
             joinTable:
-                name: users_networks
+                name: mtt.users_networks
                 joinColumns:
                     network_id:
                         referencedColumnName: id

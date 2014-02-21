@@ -38,7 +38,11 @@
 
         {% if editable == true %}
             <div id="base-modal" class="modal fade">
-                {% include 'CanalTPMethBundle::modal.html.twig' %}
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        {% include 'CanalTPMethBundle::modal.html.twig' %}
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             {% block scripts %}{% endblock %}
         {% endif %}

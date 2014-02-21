@@ -94,8 +94,8 @@ class StopPointManager
             ->from('CanalTPMethBundle:StopPoint', 'stopPoint')
             ->setParameter('ids', array_values($ids))
             ->getQuery();
-
         $db_stop_points = $query->getResult();
+        // add pdf generation date to stop points
         foreach ($db_stop_points as $db_stop_point) {
             if (isset($stopPointsIndexed[$db_stop_point->getExternalId()])) {
                 $stopPointsIndexed[$db_stop_point->getExternalId()]->stop_point->pdfGenerationDate = $db_stop_point->getPdfGenerationDate();

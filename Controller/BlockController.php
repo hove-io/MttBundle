@@ -53,4 +53,33 @@ class BlockController extends Controller
             )
         );
     }
+    
+    public function deleteAction($timetableId, $blockId, $externalCoverageId)
+    {
+        $timetableManager = $this->get('canal_tp_meth.timetable_manager');
+        $repo = $this->getDoctrine()->getRepository('CanalTPMethBundle:Block', 'mtt');
+        
+        $block = $repo->find($blockId);
+        if (!$block) {
+            throw $this->createNotFoundException(
+                $this->get('translator')->trans('controller.block.delete.block_not_found', array('%blockid%'=>$blockId), 'exceptions')
+            );
+        }
+        else {
+            $this->getDoctrine()->getEntityManager('mtt')->remove($block);
+            $this->getDoctrine()->getEntityManager('mtt')->flush();
+        }
+        $timetable = $timetableManager->getTimetableById($timetableId, $externalCoverageId);
+        
+        return $this->redirect(
+                $this->generateUrl(
+                    'canal_tp_meth_timetable_edit',
+                    array(
+                        'externalCoverageId'    => $timetable->getLine()->getExternalCoverageId(),
+                        'externalRouteId'       => $timetable->getExternalRouteId(),
+                        'externalStopPointId'   => null
+                    )
+                )
+            );
+    }
 }

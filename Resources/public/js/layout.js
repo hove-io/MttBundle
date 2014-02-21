@@ -8,14 +8,7 @@ define(['jquery'], function($) {
         // needed properties
         layout.blockLevel = stop_point == false ? 'route' : 'stop_point';
         layout.blockTypes = blockTypes;
-        // to prevent modal content to be cached by bootstrap
-        $('#base-modal').on('hidden.bs.modal', function () {
-            $(this).removeData('bs.modal');
-        });
-        $('#base-modal').on('loaded.bs.modal', function () {
-            var $field = $(this).find('*[data-fill-title]');
-            console.dir($field, $(this));
-        });
+        _bind_listeners();
         var $blocks = _get_blocks();
         // bind click listener
         $blocks.click(function(){
@@ -26,10 +19,15 @@ define(['jquery'], function($) {
                     'timetableId'       : timetableId,
                     'externalCoverageId': externalCoverageId,
                     'block_type'        : $(this).data('block-type'), 
-                    'stop_point'        : stop_point, 
+                    'stop_point'        : stop_point 
                 }
             );
             $('#base-modal').modal({remote: url});
+        });
+        // berk
+        $blocks.find('.no-ajax').click(function(){
+            window.location = $(this).attr('href');
+            return false;
         });
     };
     
@@ -53,6 +51,34 @@ define(['jquery'], function($) {
         // return editable blocks only
         return $blocks.filter(function() { 
             return $(this).data("block-level") == layout.blockLevel;
+        });
+    };
+    
+    var _bind_listeners = function()
+    {
+        // to prevent modal content to be cached by bootstrap
+        $('#base-modal').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
+            $(this).find('.modal-header, .modal-body, .modal-footer').empty();
+        });
+        $('#base-modal').on('loaded.bs.modal', function () {
+            var $field = $(this).find('*[data-fill-title]');
+            if ($field.length == 1)
+            {
+                var $titleField = $field.parents('form').find("input[name*='[title]']");
+                if ($titleField.length == 1 && $titleField.val() == '')
+                {
+                    $field.change(function(){
+                        $titleField.val($field.find(':selected').text());
+                    });
+                    // set default value
+                    $field.change();
+                    // unbind if user types sthg in this title field
+                    $titleField.keypress(function(){
+                        $field.unbind('change');
+                    });
+                }
+            }
         });
     };
     

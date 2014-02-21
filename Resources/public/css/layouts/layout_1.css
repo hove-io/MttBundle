@@ -1,7 +1,5 @@
 /* layout type Dijon (layout_1) */
-body,html{
-    min-height:101%;
-}
+
 #layout-1-wrapper{
     padding:8px;
 }
@@ -64,7 +62,7 @@ body,html{
     float:left;
     font-size:12px;
     margin-top:5px;
-    height:220px;
+    height:210px;
     line-height:20px;
     padding:2px;
     width:50%;
@@ -82,8 +80,8 @@ body,html{
 #timetables-wrapper .timegrid-body{
     background-color: white;
     background-image: linear-gradient(transparent 50%, rgb(249, 231, 241) 50%);
-    background-size:27px 27px;
-    height: 190px;
+    background-size:28px 28px;
+    height: 180px;
     width:100%;
 }
 #layout-1-wrapper .timegrid-body .hour-label{
@@ -91,9 +89,8 @@ body,html{
     line-height:15px;
 }
 #layout-1-wrapper .timegrid-column{
-    float:left;
+    line-height: 14px;
     width:4.5454%;
-    text-align:center;
 }
 #layout-1-wrapper .small-block{
     border:1px solid white;

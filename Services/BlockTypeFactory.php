@@ -54,7 +54,7 @@ class BlockTypeFactory
         // store data before we give Entity to forms (used by ImgBlock so far)
         $this->oldData = $serializer->normalize($this->instance);
     }
-
+    
     private function initForm()
     {
         $objectType = null;

@@ -23,21 +23,31 @@ class TimetableController extends Controller
         return $timetableManager->getTimetable($routeExternalId, $externalCoverageId);
     }
 
-    private function getStopPoint($externalStopPointId, $externalCoverageId)
+    private function getStopPoint($externalStopPointId, $externalRouteId, $externalCoverageId)
     {
-        // are we on stop_point level?
+        // are we on a specific stop_point 
         if ($externalStopPointId != '') {
             $stopPointLevel = true;
             $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
             $stopPointInstance = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
+            $calendars = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForStopPoint(
+                $externalCoverageId, 
+                $externalRouteId, 
+                $externalStopPointId
+            );
         } else {
             $stopPointLevel = false;
             $stopPointInstance = false;
+            $calendars = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForRoute(
+                $externalCoverageId, 
+                $externalRouteId
+            );
         }
 
         return array(
             'stopPointLevel'    => $stopPointLevel,
-            'stopPointInstance' => $stopPointInstance
+            'stopPointInstance' => $stopPointInstance,
+            'calendars'         => $calendars
         );
     }
 
@@ -63,7 +73,7 @@ class TimetableController extends Controller
     public function editAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
     {
         $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
-        $stopPointData = $this->getStopPoint($externalStopPointId, $externalCoverageId);
+        $stopPointData = $this->getStopPoint($externalStopPointId, $externalRouteId, $externalCoverageId);
 
         return $this->render(
             'CanalTPMethBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
@@ -72,6 +82,7 @@ class TimetableController extends Controller
                 'externalCoverageId'    => $externalCoverageId,
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],
+                'calendars'             => $stopPointData['calendars'],
                 'blockTypes'            => $this->container->getParameter('blocks'),
                 'editable'              => true
             )
@@ -84,7 +95,7 @@ class TimetableController extends Controller
     public function viewAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
     {
         $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
-        $stopPointData = $this->getStopPoint($externalStopPointId, $externalCoverageId, $timetable);
+        $stopPointData = $this->getStopPoint($externalStopPointId, $externalRouteId, $externalCoverageId);
 
         return $this->render(
             'CanalTPMethBundle:Layouts:' .  $timetable->getLine()->getTwigPath(),
@@ -93,6 +104,7 @@ class TimetableController extends Controller
                 'externalCoverageId'=> $externalCoverageId,
                 'stopPointLevel'    => $stopPointData['stopPointLevel'],
                 'stopPoint'         => $stopPointData['stopPointInstance'],
+                'calendars'         => $stopPointData['calendars'],
                 'editable'          => false
             )
         );
@@ -112,14 +124,14 @@ class TimetableController extends Controller
             )
         );
         $pdfPath = $pdfGenerator->getPdf($url, $timetable->getLine()->getLayout());
-        // var_dump($pdfPath);die;
+
         if ($pdfPath) {
             $pdfMedia = $this->saveMedia($timetable->getId(), $externalStopPointId, $pdfPath);
             $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt')->updatePdfGenerationDate($externalStopPointId);
 
             return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
         } else {
-            throw new Exception('PdfGenerator Webservice gave an emtpy response.');
+            throw new Exception('PdfGenerator Webservice returned an empty response.');
         }
 
     }

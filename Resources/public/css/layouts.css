@@ -1,7 +1,6 @@
 /* common layouts */
 body.editable{
     background-color:#e6e6e6;
-    min-height:101%;
     min-width:1100px;
 }
 #layout-main-wrapper{
@@ -24,7 +23,8 @@ body.editable{
 }
 .block.disabled-block{
     cursor: not-allowed;
-}.block.disabled-block:before{ 
+}
+.block.disabled-block:before{ 
     background-color:black;
     content: "";
     display: inline-block;
@@ -36,7 +36,7 @@ body.editable{
     width:100%;
 }
 .block .glyphicon{
-    color:#47a447;
+    color:#398439;
     position:absolute;
     right:5px;
     top:5px;
@@ -57,5 +57,12 @@ body.editable{
     text-align:center;
     font-size:20px;
     font-weight:bold;
-    margin-top:60px;
+    padding-top:50px;
+}
+.timegrid-body table{
+    width:100%;
+}
+.timegrid-body .timegrid-column{
+    text-align:center;
+    vertical-align: top;
 }

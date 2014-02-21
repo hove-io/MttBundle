@@ -50,14 +50,6 @@ class TimetableManager
 
             foreach ($this->timetable->getBlocks() as $block) {
                 $blocks[$block->getDomId()] = $block;
-                // TODO maybe we should use block factory and add a renderer to get html corresponding to a block
-                if ($block->getTypeId() == 'timegrid'){
-                    foreach ($this->calendars as $calendar){
-                        if ($calendar->id == $block->getContent()){
-                            $block->setContent($calendar->name);
-                        }
-                    }
-                }
             }
             if (count($blocks) > 0){
                 $this->timetable->setBlocks($blocks);
@@ -65,6 +57,21 @@ class TimetableManager
         }
     }
 
+    //TO DELETE
+    private function setCalendarsName()
+    {
+        // TODO maybe we should use block factory and add a renderer to get html corresponding to a block
+        foreach ($this->timetable->getBlocks() as $block) {
+            if ($block->getTypeId() == 'timegrid'){
+                foreach ($this->calendars as $calendar){
+                    if ($calendar->id == $block->getContent()){
+                        $block->setContent($calendar->name);
+                    }
+                }
+            }
+        }
+    }
+    
     /**
      * Return timetable Object with navitia data added
      *

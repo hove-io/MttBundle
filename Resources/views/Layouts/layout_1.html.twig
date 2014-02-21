@@ -47,15 +47,44 @@
                         <div class="timegrid-header">
                             {% if block %}{{ block.title }}{% endif %}
                         </div>
-                        <div class="timegrid-body clearfix">
-                            {% for i in 4..23 %}
-                                <div class="timegrid-column hour-label">{{i}}{{ 'global.hour_label'|trans }}</div>
-                            {% endfor %}
-                            <div class="timegrid-column hour-label">0{{ 'global.hour_label'|trans }}</div>
-                            <div class="timegrid-column hour-label">1{{ 'global.hour_label'|trans }}</div>
+                        <div class="timegrid-body">
+                            <table>
+                                <tr>
+                                {% set hours_range = [] %}
+                                {% for i in 4..23 %}
+                                    {% set hours_range = hours_range|merge([i]) %}
+                                    <td class="timegrid-column hour-label">{{i}}{{ 'global.hour_label'|trans }}</td>
+                                {% endfor %}
+                                    <td class="timegrid-column hour-label">0{{ 'global.hour_label'|trans }}</td>
+                                    {% set hours_range = hours_range|merge([0]) %}
+                                    <td class="timegrid-column hour-label">1{{ 'global.hour_label'|trans }}</td>
+                                    {% set hours_range = hours_range|merge([1]) %}
+                                </tr>
+                            {% set calendar = attribute(calendars, block.content) %}
                             {% if stopPointLevel == false and block %}
-                                <div class="external-calendar-name">{{ block.content }}</div>
+                                <tr><td colspan="22" class="external-calendar-name">{{ calendar.name }}</td></tr>
+                                <tr>
+                                    <td colspan="22" class="text-center">
+                                        <a class="btn btn-danger no-ajax" href="{{ path('canal_tp_meth_block_delete', {'externalCoverageId':externalCoverageId, 'timetableId': timetable.id, 'blockId': block.id}) }}">
+                                        <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans}}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% elseif calendar %}
+                                <tr>
+                                {% for hour in hours_range %}
+                                    {% set datetime = attribute(calendar.schedules.date_times, hour) %}
+                                    <td class="timegrid-column">
+                                    {% if datetime %}
+                                        {% for journey in datetime %}
+                                            <div>{{ journey.date_time.getTimestamp()|date('i')|raw }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    </td>
+                                {% endfor %}
+                                </tr>
                             {% endif %}
+                            </table>
                         </div>
                     </div>
                 {% endfor %}
@@ -65,6 +94,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <pre>{{ dump(calendars) }}</pre>
     {# mutualize in base layout #}
     {% if stopPointLevel == false %}
         {% set stopPointJs = false %}

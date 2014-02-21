@@ -34,7 +34,7 @@ class CalendarManager
         $parsedDateTimes = $this->parseDateTimes($datetimes);
         $sortedDateTimes = array();
         foreach ($parsedDateTimes as $parsedDateTime) {
-            $hour = date('H', $parsedDateTime->date_time->getTimestamp());
+            $hour = date('G', $parsedDateTime->date_time->getTimestamp());
             if (!isset($sortedDateTimes[$hour])) {
                 $sortedDateTimes[$hour] = array();
             }
@@ -54,18 +54,20 @@ class CalendarManager
      *
      * @return object
      */
-    public function getCalendarsAndSchedules($externalCoverageId, $externalRouteId, $externalStopPointId)
+    public function getCalendarsForStopPoint($externalCoverageId, $externalRouteId, $externalStopPointId)
     {
         $calendarsData = $this->navitia->getStopPointCalendarsData($externalCoverageId, $externalRouteId, $externalStopPointId);
+        $calendarsSorted = array();
 
-        foreach ($calendarsData->calendars as &$calendar) {
+        foreach ($calendarsData->calendars as $calendar) {
             //make it easier for template
             $calendar->week_pattern = (array) $calendar->week_pattern;
             $calendar->schedules = $this->navitia->getCalendarStopSchedules($externalCoverageId, $externalRouteId, $externalStopPointId, $calendar->id);
             $calendar->schedules->date_times = $this->prepareDateTimes($calendar->schedules->date_times);
+            $calendarsSorted[$calendar->id] = $calendar;
         }
 
-        return $calendarsData;
+        return $calendarsSorted;
     }
     
     /**
@@ -79,6 +81,12 @@ class CalendarManager
      */
     public function getCalendarsForRoute($externalCoverageId, $externalRouteId)
     {
-        return $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId);
+        $calendarsData = $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId);
+        $calendarsSorted = array();
+        foreach ($calendarsData->calendars as $calendar) {
+            //make it easier for template
+            $calendarsSorted[$calendar->id] = $calendar;
+        }
+        return $calendarsSorted;
     }
 }

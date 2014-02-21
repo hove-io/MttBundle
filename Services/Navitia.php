@@ -104,7 +104,7 @@ class Navitia
         //TODO call navitia calendars api
         $calendarsResponse = json_decode(file_get_contents(dirname(__FILE__) . '/tmp/calendars.json'));
 
-        return ($calendarsResponse->calendars);
+        return ($calendarsResponse);
     }
 
     /**

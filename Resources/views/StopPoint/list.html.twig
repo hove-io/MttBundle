@@ -41,7 +41,6 @@
 {% block table_head -%}
     <th>{{'stop_point.header'|trans({}, 'default')}}</th>
     {% if line is not empty %}
-        <th class="text-center">{{'global.status'|trans}}</th>
         <th>{{'stop_point.pdf_generation_date'|trans({}, 'default')}}</th>
     {% endif %}
     <th>{{'stop_point.action.header'|trans({}, 'default')}}</th>
@@ -55,7 +54,6 @@
                 {{ route.stop_point.name }}
             </td>
             {% if line is not empty %}
-            <td class="text-center">{{ macros.display_bool(false) }}</td>
             <td>
                  {% if route.stop_point.pdfGenerationDate is not empty %}
                     {{ route.stop_point.pdfGenerationDate|date }}
@@ -71,22 +69,9 @@
                     <a  class="btn btn-default" href="{{ path('canal_tp_meth_timetable_edit', {'externalCoverageId':externalCoverageId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id}) }}">
                         <span class="glyphicon glyphicon-edit"></span> {{'stop_point.action.edit'|trans({}, 'default')}}
                     </a>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">{{'ctp_core.toggle_menu'|trans}}</span>
-                    </button>
-                    <ul class="dropdown-menu pull-right" role="menu">
-                        <li>
-                            <a href="#">
-                                <span class="glyphicon glyphicon-ok"></span> {{'global.validate'|trans}}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('canal_tp_meth_timetable_view',  {'externalCoverageId':externalCoverageId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id}) }}">
-                                <span class="glyphicon glyphicon-eye-open"></span> {{'global.preview'|trans}}
-                            </a>
-                        </li>
-                    </ul>
+                    <a class="btn btn-default" href="{{ path('canal_tp_meth_timetable_view',  {'externalCoverageId':externalCoverageId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id}) }}">
+                        <span class="glyphicon glyphicon-eye-open"></span> {{'global.preview'|trans}}
+                    </a>
                     {% endif %}
                 </div>
             </td>
