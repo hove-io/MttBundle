@@ -23,7 +23,8 @@ class BlockType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'CanalTP\MethBundle\Entity\Block',
+                'data_class'         => 'CanalTP\MethBundle\Entity\Block',
+                'translation_domain' => 'default',
             )
         );
     }

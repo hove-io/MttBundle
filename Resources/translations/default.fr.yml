@@ -37,3 +37,7 @@ calendar:
     line_color: Couleur
     period_label: Période
     days: Jours
+    form:
+        label: Période
+        error:
+            all_calendars_selected: "Vous ne pouvez pas modifier ce calendrier car toutes les périodes sont actuellement sélectionnées."

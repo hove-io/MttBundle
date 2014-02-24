@@ -12,8 +12,9 @@ var require = {
         fosjsrouting:       'bundles/fosjsrouting/js/router',
         sf_routes:          '{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}',
         // meth specific
-        meth_left_menu:     'bundles/canaltpmeth/js/left_menu',
-        meth_layout:        'bundles/canaltpmeth/js/layout'
+        meth_left_menu:         'bundles/canaltpmeth/js/left_menu',
+        'mtt/layout':           'bundles/canaltpmeth/js/layout',
+        'mtt/layout/validator': 'bundles/canaltpmeth/js/layout/validator'
     },
     shim: {
         sf_routes: {

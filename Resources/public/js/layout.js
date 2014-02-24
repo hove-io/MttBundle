@@ -63,7 +63,7 @@ define(['jquery'], function($) {
         });
         $('#base-modal').on('loaded.bs.modal', function () {
             var $field = $(this).find('*[data-fill-title]');
-            if ($field.length == 1)
+            if ($field.length == 1 && $field.data('fillTitle') == true)
             {
                 var $titleField = $field.parents('form').find("input[name*='[title]']");
                 if ($titleField.length == 1 && $titleField.val() == '')

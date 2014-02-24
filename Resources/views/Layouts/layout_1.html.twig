@@ -47,7 +47,7 @@
                         <div class="timegrid-header">
                             {% if block %}{{ block.title }}{% endif %}
                         </div>
-                        <div class="timegrid-body">
+                        <div class="timegrid-body" data-validate-height="1">
                             <table>
                                 <tr>
                                 {% set hours_range = [] %}
@@ -103,8 +103,8 @@
     {% endif %}
 
     <script>
-    require(['meth_layout'], function(Meth_Layout){
-        var layout = Meth_Layout.init(
+    require(['mtt/layout'], function(Layout){
+        var layout = Layout.init(
             $('#layout-1-wrapper'),
             {{ blockTypes|json_encode()|raw }},
             {{timetable.id|raw}},
@@ -112,5 +112,13 @@
             {{stopPointJs|json_encode()|raw}}
         );
     });
+    {% if stopPointLevel != false %}
+        require(['mtt/layout/validator'], function(Validator){
+            var validator = Validator.init({
+                'wrapper'       : $('#layout-1-wrapper')
+            });
+            validator.validate();
+        });
+    {% endif %}
     </script>
 {% endblock %}

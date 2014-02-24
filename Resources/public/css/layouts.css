@@ -66,3 +66,7 @@ body.editable{
     text-align:center;
     vertical-align: top;
 }
+.block.error:hover,
+.block.error{
+    border:3px solid red;
+}

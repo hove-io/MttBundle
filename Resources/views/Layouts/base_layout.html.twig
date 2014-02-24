@@ -32,6 +32,7 @@
             </a>
         {% endif %}
         </div>
+        
         <div id="layout-main-wrapper">
         {% block body %}{% endblock %}
         </div>
@@ -46,13 +47,5 @@
             </div><!-- /.modal -->
             {% block scripts %}{% endblock %}
         {% endif %}
-        {#
-        <pre>
-            {% for dom_id,block in line.blocks %}
-                {{ dump(dom_id) }}
-                {{ dump(block) }}
-            {% endfor %}
-        </pre>
-        #}
     </body>
 </html>
