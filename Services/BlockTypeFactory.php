@@ -15,8 +15,8 @@ use CanalTP\MethBundle\Form\Handler\Block\TextHandler as TextBlockHandler;
 // Image Block
 use CanalTP\MethBundle\Form\Type\Block\ImgType as ImgBlockType;
 use CanalTP\MethBundle\Form\Handler\Block\ImgHandler as ImgBlockHandler;
-// Timegrid Block
-use CanalTP\MethBundle\Form\Type\Block\TimegridType as TimegridBlockType;
+// Calendar Block
+use CanalTP\MethBundle\Form\Type\Block\CalendarType as CalendarBlockType;
 
 class BlockTypeFactory
 {
@@ -60,8 +60,8 @@ class BlockTypeFactory
         $objectType = null;
 
         switch ($this->type) {
-            case 'timegrid':
-                $objectType = new TimegridBlockType(
+            case 'calendar':
+                $objectType = new CalendarBlockType(
                     $this->co->get('canal_tp_meth.calendar_manager'), 
                     $this->instance, 
                     $this->externalCoverageId
@@ -96,9 +96,7 @@ class BlockTypeFactory
         $handler = null;
 
         switch ($this->type) {
-            case 'timegrid':
-                $handler = new TextBlockHandler($this->om, $this->instance);
-                break;
+            case 'calendar':
             case 'text':
                 $handler = new TextBlockHandler($this->om, $this->instance);
                 break;

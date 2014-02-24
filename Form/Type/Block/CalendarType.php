@@ -4,7 +4,7 @@ namespace CanalTP\MethBundle\Form\Type\Block;
 use Symfony\Component\Form\FormBuilderInterface;
 use CanalTP\MethBundle\Form\Type\BlockType;
 
-class TimegridType extends BlockType
+class CalendarType extends BlockType
 {
     private $calendarManager = null;
     private $externalCoverageId = null;
@@ -23,16 +23,17 @@ class TimegridType extends BlockType
             $this->externalCoverageId,
             $this->blockInstance->getTimetable()->getExternalRouteId()
         );
-        
+        $choices = $this->getChoices($calendars);
         $builder
             ->add('title', 'text')
             ->add(
                 'content', 
                 'choice', 
                 array(
-                    'choices'   => $this->getChoices($calendars),
+                    'choices'   => $choices,
                     'attr'      => array(
-                        // attribute to tell javascript to fill title when a change occurs on this field
+                        // attribute to tell javascript to fill automatically title 
+                        // when a change occurs on this field
                         'data-fill-title'   => true
                     )
                 )
@@ -45,21 +46,17 @@ class TimegridType extends BlockType
      */
     private function getChoices($calendars)
     {
-        // TODO Specifications not clear enough
         // retrieve other blocks on this timetable
         $blocks = $this->blockInstance->getTimetable()->getBlocks();
-        // keep only timegrid blocks
+        // keep only calendar blocks
         $usedCalendars = array();
         for ($i = 0; $i < count($blocks);$i++)
         {
-            if ($blocks[$i]->getTypeId() == 'timegrid')
+            if ($blocks[$i]->getTypeId() == 'calendar')
             {
                 $usedCalendars[] = $blocks[$i]->getContent();
             }
-            // echo '<br/>';
         }
-        // var_dump(count($blocks), $blocks->count());
-        // die;
         $choices = array();
         foreach($calendars as $calendar){
             foreach ($blocks as $block)
@@ -74,6 +71,6 @@ class TimegridType extends BlockType
     
     public function getName()
     {
-        return 'timegrid_block';
+        return 'calendar_block';
     }
 }

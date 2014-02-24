@@ -43,7 +43,7 @@
                 {% for i in 1..4 %}
                     {% set id = 'timegrid_block_' ~ i %}
                     {% set block = attribute(timetable.blocks, id) %}
-                    <div id="{{ id }}" data-block-level="route" data-block-type="timegrid" class="timegrid-container block">
+                    <div id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
                         <div class="timegrid-header">
                             {% if block %}{{ block.title }}{% endif %}
                         </div>
@@ -65,7 +65,7 @@
                                 <tr><td colspan="22" class="external-calendar-name">{{ calendar.name }}</td></tr>
                                 <tr>
                                     <td colspan="22" class="text-center">
-                                        <a class="btn btn-danger no-ajax" href="{{ path('canal_tp_meth_block_delete', {'externalCoverageId':externalCoverageId, 'timetableId': timetable.id, 'blockId': block.id}) }}">
+                                        <a class="btn btn-danger btn-xs no-ajax" href="{{ path('canal_tp_meth_block_delete', {'externalCoverageId':externalCoverageId, 'timetableId': timetable.id, 'blockId': block.id}) }}">
                                             <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans}}
                                         </a>
                                     </td>

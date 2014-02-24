@@ -6,6 +6,6 @@ parameters:
         img:
             label: Image block type
             icon: picture
-        timegrid:
-            label: Timegrid block type
+        calendar:
+            label: Calendar block type
             icon: calendar
