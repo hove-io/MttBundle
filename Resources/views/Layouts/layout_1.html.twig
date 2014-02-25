@@ -94,7 +94,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <pre>{{ dump(calendars) }}</pre>
+    
     {# mutualize in base layout #}
     {% if stopPointLevel == false %}
         {% set stopPointJs = false %}
@@ -115,7 +115,7 @@
     });
     {% endif %}
     {% if stopPointLevel != false %}
-        require(['jquery', 'mtt/layout/validator'], function($, Validator){
+        require(['jquery', 'mtt/layout/validator', 'bootstrap'], function($, Validator){
             var validator = Validator.init({
                 'wrapper'       : $('#layout-1-wrapper')
             });
