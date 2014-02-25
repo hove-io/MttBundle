@@ -69,12 +69,14 @@ class CalendarType extends BlockType
         }
         $choices = array();
         foreach ($calendars as $calendar) {
+            $choices[$calendar->id] = $calendar->name;
             foreach ($blocks as $block) {
                 if (
-                    !in_array($calendar->id, $usedCalendars) ||
-                    $calendar->id == $this->blockInstance->getContent()
+                    in_array($calendar->id, $usedCalendars) &&
+                    $calendar->id != $this->blockInstance->getContent()
                     ) {
-                    $choices[$calendar->id] = $calendar->name;
+                    unset($choices[$calendar->id]);
+                    break;
                 }
             }
         }
