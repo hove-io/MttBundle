@@ -1,3 +1,10 @@
+Notes de publication - MTT - Version 0.3.1 (25/02/2014)
+
+** Récit
+    * [METH-32]	    Affichage d'un Tableau Horaire dans une page dédiée
+    * [METH-24]	    Choisir, au niveau route, les périodes pour chaque tableau horaire
+    * [METH-48]     Affichage du tableau horaire dans la fiche horaire
+
 Notes de publication - METH - Version 0.2.2 (18/02/2014)
 
 ** Récit
