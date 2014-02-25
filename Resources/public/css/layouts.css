@@ -21,6 +21,9 @@ body.editable{
 .editable .block:hover{
     border:1px dashed black;
 }
+.editable .block.disabled-block:hover{
+    border:1px solid transparent;
+}
 .block.disabled-block{
     cursor: not-allowed;
 }
@@ -66,7 +69,7 @@ body.editable{
     text-align:center;
     vertical-align: top;
 }
-.block.error:hover,
-.block.error{
-    border:3px solid red;
+.editable .block.error:hover,
+.editable .block.error{
+    border:1px solid red;
 }

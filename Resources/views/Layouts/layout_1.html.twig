@@ -103,7 +103,8 @@
     {% endif %}
 
     <script>
-    require(['mtt/layout'], function(Layout){
+    {% if editable == true %}
+    require(['jquery', 'mtt/layout'], function($, Layout){
         var layout = Layout.init(
             $('#layout-1-wrapper'),
             {{ blockTypes|json_encode()|raw }},
@@ -112,8 +113,9 @@
             {{stopPointJs|json_encode()|raw}}
         );
     });
+    {% endif %}
     {% if stopPointLevel != false %}
-        require(['mtt/layout/validator'], function(Validator){
+        require(['jquery', 'mtt/layout/validator'], function($, Validator){
             var validator = Validator.init({
                 'wrapper'       : $('#layout-1-wrapper')
             });

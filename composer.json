@@ -27,6 +27,7 @@
         "canaltp/core-bo-bundle": "dev-master",
         "canaltp/navitia": "0.13",
         "canaltp/media-manager": "dev-ci",
+        "willdurand/js-translation-bundle":"2.0.0",
         "canaltp/media-manager-bundle": "dev-ci"
     },
     "autoload": {

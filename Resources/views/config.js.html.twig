@@ -9,16 +9,32 @@ var require = {
         jquery_ui_mouse:    'components/jquery-ui/ui/minified/jquery.ui.mouse.min',
         jquery_ui_widget:   'components/jquery-ui/ui/minified/jquery.ui.widget.min',
         bootstrap:          'js/bootstrap',
+        // routes
         fosjsrouting:       'bundles/fosjsrouting/js/router',
-        sf_routes:          '{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}',
-        // meth specific
-        meth_left_menu:         'bundles/canaltpmeth/js/left_menu',
-        'mtt/layout':           'bundles/canaltpmeth/js/layout',
-        'mtt/layout/validator': 'bundles/canaltpmeth/js/layout/validator'
+        sf_routes:          '{{ path("fos_js_routing_js", {"callback": "fos.Router.setData"}) }}',
+        // translations
+        translator:                 'bundles/bazingajstranslation/js/translator.min',
+        'mtt/translations/default': 'js/translations/default/{{ app.request.locale }}',
+        'mtt/translations/messages':'js/translations/messages/{{ app.request.locale }}',
+        // mtt specific
+        meth_left_menu:             'bundles/canaltpmeth/js/left_menu',
+        'mtt/layout':               'bundles/canaltpmeth/js/layout',
+        'mtt/layout/validator':     'bundles/canaltpmeth/js/layout/validator'
     },
     shim: {
         sf_routes: {
             deps: ['fosjsrouting']
+        },
+        translator: {
+            exports: "Translator"
+        },
+        "mtt/translations/default":{
+            deps: ["translator"],
+            exports: "Translator"
+        },
+        "mtt/translations/messages":{
+            deps: ["translator"],
+            exports: "Translator"
         },
         bootstrap: {
             deps: ['jquery']
@@ -40,7 +56,7 @@ var require = {
             exports: "jQuery"
         }
     },
-    deps: ["jquery", "sf_routes"]
+    deps: ["jquery", "sf_routes", "translator"]
 };
 </script>
 <script type="text/javascript" src="{{app.request.basePath}}/bundles/canaltpmeth/js/require.js"></script>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale }}">
     <head>
         <meta charset="UTF-8" />
         {% stylesheets  'css/bootstrap.css'
@@ -45,7 +45,7 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-            {% block scripts %}{% endblock %}
         {% endif %}
+        {% block scripts %}{% endblock %}
     </body>
 </html>
