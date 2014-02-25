@@ -22,7 +22,7 @@ class TimetableRepository extends EntityRepository
         if (empty($timetable)) {
             $timetable = new Timetable();
             $timetable->setExternalRouteId($externalRouteId);
-            
+
             $this->getEntityManager()->persist($timetable);
             $this->getEntityManager()->flush();
         }

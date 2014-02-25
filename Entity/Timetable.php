@@ -26,7 +26,7 @@ class Timetable extends AbstractEntity
      * @var Object
      */
     private $ditributionLists;
-    
+
     /**
      * @var Object
      */
@@ -124,7 +124,7 @@ class Timetable extends AbstractEntity
      /**
      * Set line
      *
-     * @param  Object $line
+     * @param  Object    $line
      * @return Timetable
      */
     public function setNetwork($network)

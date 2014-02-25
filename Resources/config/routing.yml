@@ -46,7 +46,7 @@ canal_tp_meth_block_delete:
     pattern: /block/delete/coverage/{externalCoverageId}/timetable/{timetableId}/blockId/{blockId}
     defaults: { _controller: CanalTPMethBundle:Block:delete }
 
-        
+
 #DistributionList
 canal_tp_meth_distribution_list:
     pattern: /coverage/{coverageId}/network/{networkId}/line/{lineId}/route/{routeId}/distribution/list

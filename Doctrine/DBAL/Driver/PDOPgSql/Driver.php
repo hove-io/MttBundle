@@ -11,7 +11,7 @@ class Driver extends \Doctrine\DBAL\Driver\PDOPgSql\Driver implements \Doctrine\
         array $driverOptions = array()
     )
     {
-        if (isset($driverOptions['search_path'])){
+        if (isset($driverOptions['search_path'])) {
             $searchPath = $driverOptions['search_path'];
             unset($driverOptions['search_path']);
         }
@@ -22,8 +22,8 @@ class Driver extends \Doctrine\DBAL\Driver\PDOPgSql\Driver implements \Doctrine\
             $password,
             $driverOptions
         );
-        
-        if (isset($searchPath)){
+
+        if (isset($searchPath)) {
             $connection->exec("SET SEARCH_PATH TO {$searchPath};");
         }
 

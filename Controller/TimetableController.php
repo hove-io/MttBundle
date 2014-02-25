@@ -25,21 +25,21 @@ class TimetableController extends Controller
 
     private function getStopPoint($externalStopPointId, $externalRouteId, $externalCoverageId)
     {
-        // are we on a specific stop_point 
+        // are we on a specific stop_point
         if ($externalStopPointId != '') {
             $stopPointLevel = true;
             $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
             $stopPointInstance = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
             $calendars = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForStopPoint(
-                $externalCoverageId, 
-                $externalRouteId, 
+                $externalCoverageId,
+                $externalRouteId,
                 $externalStopPointId
             );
         } else {
             $stopPointLevel = false;
             $stopPointInstance = false;
             $calendars = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForRoute(
-                $externalCoverageId, 
+                $externalCoverageId,
                 $externalRouteId
             );
         }

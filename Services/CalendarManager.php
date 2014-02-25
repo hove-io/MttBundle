@@ -69,7 +69,7 @@ class CalendarManager
 
         return $calendarsSorted;
     }
-    
+
     /**
      * Returns Calendars for a route
      * Datetimes are not parsed
@@ -87,6 +87,7 @@ class CalendarManager
             //make it easier for template
             $calendarsSorted[$calendar->id] = $calendar;
         }
+
         return $calendarsSorted;
     }
 }

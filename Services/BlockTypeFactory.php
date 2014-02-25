@@ -24,7 +24,7 @@ class BlockTypeFactory
     private $om = null;
     private $mediaManager = null;
     private $formFactory = null;
-    
+
     private $type = null;
     private $data = null;
     private $externalCoverageId = null;
@@ -54,7 +54,7 @@ class BlockTypeFactory
         // store data before we give Entity to forms (used by ImgBlock so far)
         $this->oldData = $serializer->normalize($this->instance);
     }
-    
+
     private function initForm()
     {
         $objectType = null;
@@ -62,8 +62,8 @@ class BlockTypeFactory
         switch ($this->type) {
             case 'calendar':
                 $objectType = new CalendarBlockType(
-                    $this->co->get('canal_tp_meth.calendar_manager'), 
-                    $this->instance, 
+                    $this->co->get('canal_tp_meth.calendar_manager'),
+                    $this->instance,
                     $this->externalCoverageId
                 );
                 break;
