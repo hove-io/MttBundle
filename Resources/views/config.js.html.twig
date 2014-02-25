@@ -1,7 +1,7 @@
 <script>
 var require = {
     baseUrl: '{{app.request.basePath}}/',
-    urlArgs: '{{ assets_version}}',
+    urlArgs: '{{ assets_version }}',
     paths: {
         // libs
         jquery:             'components/jquery/jquery',
@@ -60,4 +60,4 @@ var require = {
     deps: ["jquery", "sf_routes", "translator"]
 };
 </script>
-<script type="text/javascript" src="{{app.request.basePath}}/bundles/canaltpmeth/js/require.js"></script>
+<script type="text/javascript" src="{{app.request.basePath}}/bundles/canaltpmeth/js/require.js?{{ assets_version }}"></script>
