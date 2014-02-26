@@ -47,15 +47,16 @@ class CalendarManager
 
     private function computeNotes($notes, $notesToAdd)
     {
-        foreach ($notesToAdd as $note){
-            if (!in_array($note->id, $this->computedNotesId)){
+        foreach ($notesToAdd as $note) {
+            if (!in_array($note->id, $this->computedNotesId)) {
                 $this->computedNotesId[] = $note->id;
                 $notes[] = $note;
             }
         }
+
         return $notes;
     }
-    
+
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template

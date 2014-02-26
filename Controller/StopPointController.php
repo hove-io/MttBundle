@@ -16,7 +16,6 @@ class StopPointController extends Controller
             'mtt'
         )->findOneBy(array('externalId' => $line_id));
 
-
         $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
         $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows, $line);
 

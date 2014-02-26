@@ -146,6 +146,7 @@ class Navitia
         $response = new \stdClass;
         $response->stop_schedules = $stop_schedulesResponse->stop_schedules[0];
         $response->notes = isset($stop_schedulesResponse->notes) ? $stop_schedulesResponse->notes : array();
+
         return $response;
     }
 }
