@@ -54,3 +54,7 @@ services:
     canal_tp_meth.calendar_manager:
        class: %canal_tp_meth.calendar_manager.class%
        arguments: ['@canal_tp_meth.navitia']
+    canal_tp_meth.twig.schedule_extension:
+        class: CanalTP\MethBundle\Twig\ScheduleExtension
+        tags:
+            - { name: twig.extension }

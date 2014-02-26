@@ -41,4 +41,4 @@ calendar:
         label: Période
     error:
         all_calendars_selected: "Vous ne pouvez pas modifier ce calendrier car toutes les périodes sont actuellement sélectionnées."
-        content_higher_than_wrapper: Au moins un block dépasse la hauteur prévue.
+        content_higher_than_wrapper: Au moins un bloc dépasse la hauteur prévue.

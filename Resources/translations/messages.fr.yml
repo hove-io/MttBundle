@@ -17,3 +17,4 @@ global:
     hours: Heures
     minutes: Minutes
     hour_label: h
+    annotations: Annotations

@@ -32,11 +32,11 @@
                             {% set width = 100 / calendar.schedules.date_times|length %}
                             <div class="clearfix">
                             {% for hour,journeys in calendar.schedules.date_times %}
-                                <div class="grid-time-column" style="width:{{ width}}%;">
+                                <div class="grid-time-column" style="width:{{ width }}%;">
                                     <div>{{ hour }}h</div>
                                     <hr/>
                                 {% for journey in journeys %}
-                                    <div>{{ journey.date_time.getTimestamp()|date('i') }}</div>
+                                    {{ journey|schedule(notes)|raw }}
                                 {% endfor %}
                                 </div>
                             {% endfor %}
@@ -48,6 +48,13 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
+                        {% if calendar.notes|length > 0 %}
+                            <div class="bold">{{ global.annotations|trans({}, 'messages') }}</div>
+                            {% for note in calendar.notes %}
+                                <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
+                            {% endfor %}
+                            <hr/>
+                        {% endif %}
                         <div><label class="bold">{{'global.mode'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.commercial_mode }}</div>
                         <div><label class="bold">{{'global.direction'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.direction }}</div>
                         <div><label class="bold">{{'calendar.line_code'|trans}}</label>: {{ calendar.schedules.display_informations.code }}</div>

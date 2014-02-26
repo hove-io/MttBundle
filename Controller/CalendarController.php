@@ -12,12 +12,13 @@ class CalendarController extends Controller
     public function viewAction($externalCoverageId, $externalRouteId, $externalStopPointId)
     {
         $calendarManager = $this->get('canal_tp_meth.calendar_manager');
-        $calendars = $calendarManager->getCalendarsForStopPoint($externalCoverageId, $externalRouteId, $externalStopPointId);
+        $calendarsAndNotes = $calendarManager->getCalendarsForStopPoint($externalCoverageId, $externalRouteId, $externalStopPointId);
 
         return $this->render(
             'CanalTPMethBundle:Calendar:view.html.twig',
             array(
-                'calendars'     => $calendars,
+                'calendars'     => $calendarsAndNotes['calendars'],
+                'notes'         => $calendarsAndNotes['notes'],
                 'current_route' => $externalRouteId,
             )
         );

@@ -1,0 +1,438 @@
+{
+    "stop_schedules": [
+        {
+            "display_informations": {
+                "direction": "Perray",
+                "code": "11",
+                "network": "Tan",
+                "color": "e9c389",
+                "label": "11",
+                "commercial_mode": "Bus"
+            },
+            "stop_point": {
+                "name": "Commerce",
+                "coord": {
+                    "lat": "47.213684",
+                    "lon": "-1.556497"
+                },
+                "equipments": [
+                    "has_wheelchair_boarding"
+                ],
+                "id": "stop_point:TAN:SP:COMA6"
+            },
+            "route": {
+                "name": "Perray",
+                "is_frequence": "False",
+                "line": {
+                    "code": "11",
+                    "name": "Tertre < > Perray",
+                    "color": "e9c389",
+                    "id": "line:TAN:11"
+                },
+                "id": "route:TAN:110077"
+            },
+            "links": [
+                {
+                    "type": "line",
+                    "id": "line:TAN:11"
+                },
+                {
+                    "type": "route",
+                    "id": "route:TAN:110077"
+                },
+                {
+                    "type": "commercial_mode",
+                    "id": "commercial_mode:Bus"
+                },
+                {
+                    "type": "network",
+                    "id": "network:TAN"
+                }
+            ],
+            "date_times": [
+                {
+                    "date_time": "T061900",
+                    "additional_informations": [],
+                    "links": [
+                        {
+                            "id": "1bca6d9a2f987cb7d2f942ceb632b915",
+                            "type": "note"
+                        },
+                        {
+                            "id": "vehicles_journeys:TRNDUASN121878F010012789004014",
+                            "type": "vehiclejourney"
+                        }
+                    ]
+                },
+                {
+                    "date_time": "T063600",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T065400",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T071100",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T072800",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T074500",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T080200",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T081900",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T083600",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T085300",
+                    "additional_informations": [],
+                    "links": [
+                        {
+                            "id": "a79b87e9184b193a24df9b02f03e411a",
+                            "type": "note"
+                        }
+                    ]
+                },
+                {
+                    "date_time": "T091200",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T093000",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T094700",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T100500",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T102300",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T104100",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T105900",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T111700",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T113500",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T115300",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T121100",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T122900",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T124700",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T130500",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T132300",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T134100",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T135900",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T141800",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T143300",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T143700",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T145400",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T151100",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T152600",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T154000",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T155500",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T161000",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T162300",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T163600",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T164900",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T170200",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T171500",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T172800",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T174100",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T174200",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T174300",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T174400",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T174500",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T175400",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T175500",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T175600",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T175700",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T175800",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T175900",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T180800",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T182200",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T183600",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T185000",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T190400",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T192200",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T194100",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T200000",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T202000",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T204000",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T210100",
+                    "additional_informations": [],
+                    "links": []
+                }
+            ]
+        }
+    ],
+    "pagination": {
+        "items_per_page": 10,
+        "items_on_page": 10,
+        "start_page": 0,
+        "total_result": 51
+    },
+    "links": [
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/stop_points/{stop_point.id}",
+            "rel": "stop_point",
+            "templated": true
+        },
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/routes/{route.id}",
+            "rel": "route",
+            "templated": true
+        },
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/lines/{line.id}",
+            "rel": "line",
+            "templated": true
+        },
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/stop_areas/stop_area:TAN:SA:COMM/stop_schedules?start_page=1",
+            "type": "next",
+            "templated": false
+        },
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/stop_areas/stop_area:TAN:SA:COMM/stop_schedules?start_page=5",
+            "type": "last",
+            "templated": false
+        },
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/stop_areas/stop_area:TAN:SA:COMM/stop_schedules",
+            "type": "first",
+            "templated": false
+        }
+    ],
+    "notes": [
+        {
+            "id": "1bca6d9a2f987cb7d2f942ceb632b915",
+            "value": "au plus tard la veille du déplacement du lundi au vendredi de 9h à 12h30 et de 13h30 à 16h30."
+        },
+        {
+            "id": "a79b87e9184b193a24df9b02f03e411a",
+            "value": "ceci est une autre note."
+        }
+    ]
+}

@@ -1,0 +1,105 @@
+{
+    "stop_schedules": [
+        {
+            "display_informations": {
+                "direction": "François Mitterrand",
+                "code": "1",
+                "network": "Tan",
+                "color": "008751",
+                "label": "1",
+                "commercial_mode": "Tramway"
+            },
+            "stop_point": {
+                "name": "Commerce",
+                "coord": {
+                    "lat": "47.213469",
+                    "lon": "-1.55635"
+                },
+                "equipments": [
+                    "has_wheelchair_boarding"
+                ],
+                "id": "stop_point:TAN:SP:COMB2"
+            },
+            "route": {
+                "name": "François Mitterrand",
+                "is_frequence": "False",
+                "line": {
+                    "code": "1",
+                    "name": "François Mitterrand < > Beaujoire / Ranzay",
+                    "color": "008751",
+                    "id": "line:TAN:1"
+                },
+                "id": "route:TAN:10095"
+            },
+            "links": [
+                {
+                    "type": "line",
+                    "id": "line:TAN:1"
+                },
+                {
+                    "type": "route",
+                    "id": "route:TAN:10095"
+                },
+                {
+                    "type": "commercial_mode",
+                    "id": "commercial_mode:Tramway"
+                },
+                {
+                    "type": "network",
+                    "id": "network:TAN"
+                }
+            ],
+            "date_times": [
+                {
+                    "date_time": "T235100",
+                    "additional_informations": [],
+                    "links": []
+                },
+                {
+                    "date_time": "T001100",
+                    "additional_informations": [],
+                    "links": []
+                }
+            ]
+        }
+    ],
+    "pagination": {
+        "items_per_page": 10,
+        "items_on_page": 10,
+        "start_page": 0,
+        "total_result": 51
+    },
+    "links": [
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/stop_points/{stop_point.id}",
+            "rel": "stop_point",
+            "templated": true
+        },
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/routes/{route.id}",
+            "rel": "route",
+            "templated": true
+        },
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/lines/{line.id}",
+            "rel": "line",
+            "templated": true
+        },
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/stop_areas/stop_area:TAN:SA:COMM/stop_schedules?start_page=1",
+            "type": "next",
+            "templated": false
+        },
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/stop_areas/stop_area:TAN:SA:COMM/stop_schedules?start_page=5",
+            "type": "last",
+            "templated": false
+        },
+        {
+            "href": "http://navitia2-ws.ctp.dev.canaltp.fr/v1/coverage/PaysDeLaLoire/stop_areas/stop_area:TAN:SA:COMM/stop_schedules",
+            "type": "first",
+            "templated": false
+        }
+    ],
+    "notes": []
+}

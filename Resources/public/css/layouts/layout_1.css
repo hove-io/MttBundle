@@ -111,3 +111,11 @@
 #small-right-blocks .block .title{
     font-weight:bold;
 }
+.timegrid-body{
+    position:relative;
+}
+.timetable-notes{
+    position:absolute;
+    bottom:0;
+    left:0;
+}

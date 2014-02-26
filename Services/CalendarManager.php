@@ -10,6 +10,7 @@ namespace CanalTP\MethBundle\Services;
 class CalendarManager
 {
     private $navitia = null;
+    private $computedNotesId = array();
 
     public function __construct(Navitia $navitia)
     {
@@ -44,8 +45,19 @@ class CalendarManager
         return $sortedDateTimes;
     }
 
+    private function computeNotes($notes, $notesToAdd)
+    {
+        foreach ($notesToAdd as $note){
+            if (!in_array($note->id, $this->computedNotesId)){
+                $this->computedNotesId[] = $note->id;
+                $notes[] = $note;
+            }
+        }
+        return $notes;
+    }
+    
     /**
-     * Returns Calendars for a stop point and a route
+     * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template
      *
      * @param String $externalCoverageId
@@ -58,16 +70,22 @@ class CalendarManager
     {
         $calendarsData = $this->navitia->getStopPointCalendarsData($externalCoverageId, $externalRouteId, $externalStopPointId);
         $calendarsSorted = array();
+        $notesComputed = array();
 
         foreach ($calendarsData->calendars as $calendar) {
             //make it easier for template
             $calendar->week_pattern = (array) $calendar->week_pattern;
-            $calendar->schedules = $this->navitia->getCalendarStopSchedules($externalCoverageId, $externalRouteId, $externalStopPointId, $calendar->id);
+            $stopSchedulesData = $this->navitia->getCalendarStopSchedules($externalCoverageId, $externalRouteId, $externalStopPointId, $calendar->id);
+            $calendar->schedules = $stopSchedulesData->stop_schedules;
             $calendar->schedules->date_times = $this->prepareDateTimes($calendar->schedules->date_times);
             $calendarsSorted[$calendar->id] = $calendar;
+            // notes
+            $calendar->notes = $stopSchedulesData->notes;
+            // compute notes for the timetable
+            $notesComputed = $this->computeNotes($notesComputed, $stopSchedulesData->notes);
         }
 
-        return $calendarsSorted;
+        return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
     }
 
     /**
@@ -88,6 +106,6 @@ class CalendarManager
             $calendarsSorted[$calendar->id] = $calendar;
         }
 
-        return $calendarsSorted;
+        return array('calendars' => $calendarsSorted, 'notes' => $calendarsData->notes);
     }
 }

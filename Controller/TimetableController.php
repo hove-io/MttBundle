@@ -30,7 +30,7 @@ class TimetableController extends Controller
             $stopPointLevel = true;
             $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
             $stopPointInstance = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
-            $calendars = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForStopPoint(
+            $calendarsAndNotes = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForStopPoint(
                 $externalCoverageId,
                 $externalRouteId,
                 $externalStopPointId
@@ -47,7 +47,8 @@ class TimetableController extends Controller
         return array(
             'stopPointLevel'    => $stopPointLevel,
             'stopPointInstance' => $stopPointInstance,
-            'calendars'         => $calendars
+            'calendars'         => $calendarsAndNotes['calendars'],
+            'notes'             => $calendarsAndNotes['notes']
         );
     }
 
@@ -83,6 +84,7 @@ class TimetableController extends Controller
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],
                 'calendars'             => $stopPointData['calendars'],
+                'notes'                 => $stopPointData['notes'],
                 'blockTypes'            => $this->container->getParameter('blocks'),
                 'editable'              => true
             )
@@ -105,6 +107,7 @@ class TimetableController extends Controller
                 'stopPointLevel'    => $stopPointData['stopPointLevel'],
                 'stopPoint'         => $stopPointData['stopPointInstance'],
                 'calendars'         => $stopPointData['calendars'],
+                'notes'             => $stopPointData['notes'],
                 'editable'          => false
             )
         );

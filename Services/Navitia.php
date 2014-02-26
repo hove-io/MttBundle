@@ -137,10 +137,15 @@ class Navitia
     public function getCalendarStopSchedules($externalCoverageId, $externalRouteId, $externalStopPointId, $externalCalendarId)
     {
         // TODO call navitia stop schedules api
-        $stop_schedulesResponse = json_decode(file_get_contents(dirname(__FILE__) . '/tmp/stop_schedules.json'));
-        // TOREMOVE pick randomly inside cork file
-        $randomIdx = rand(0, 2);
-
-        return ($stop_schedulesResponse->stop_schedules[$randomIdx]);
+        $path = dirname(__FILE__) . '/tmp/schedules/';
+        if (file_exists($path . $externalCalendarId . '.json'))
+            $stop_schedulesResponse = json_decode(file_get_contents($path . $externalCalendarId . '.json'));
+        else
+            $stop_schedulesResponse = json_decode(file_get_contents($path . 'idcalendar1.json'));
+        // TOREMOVE pick randomly inside cork file and keep notes...
+        $response = new \stdClass;
+        $response->stop_schedules = $stop_schedulesResponse->stop_schedules[0];
+        $response->notes = isset($stop_schedulesResponse->notes) ? $stop_schedulesResponse->notes : array();
+        return $response;
     }
 }

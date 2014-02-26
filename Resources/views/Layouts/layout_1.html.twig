@@ -77,7 +77,7 @@
                                     <td class="timegrid-column">
                                     {% if datetime %}
                                         {% for journey in datetime %}
-                                            <div>{{ journey.date_time.getTimestamp()|date('i')|raw }}</div>
+                                            {{ journey|schedule(notes)|raw }}
                                         {% endfor %}
                                     {% endif %}
                                     </td>
@@ -85,6 +85,15 @@
                                 </tr>
                             {% endif %}
                             </table>
+                            
+                            {# specific to this layout #}
+                            {% if i == 1 and notes|length > 0 %}
+                                <div class="timetable-notes">
+                                {% for note in notes %}
+                                    <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
+                                {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

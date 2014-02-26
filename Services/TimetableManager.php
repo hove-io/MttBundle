@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of RouteManager
+ * Description of TimetableManager
  *
  * @author vdegroote
  */
@@ -53,21 +53,6 @@ class TimetableManager
             }
             if (count($blocks) > 0) {
                 $this->timetable->setBlocks($blocks);
-            }
-        }
-    }
-
-    //TO DELETE
-    private function setCalendarsName()
-    {
-        // TODO maybe we should use block factory and add a renderer to get html corresponding to a block
-        foreach ($this->timetable->getBlocks() as $block) {
-            if ($block->getTypeId() == 'timegrid') {
-                foreach ($this->calendars as $calendar) {
-                    if ($calendar->id == $block->getContent()) {
-                        $block->setContent($calendar->name);
-                    }
-                }
             }
         }
     }

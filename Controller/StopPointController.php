@@ -12,15 +12,15 @@ class StopPointController extends Controller
         $routes = $navitia->getStopPoints($coverage_id, $network_id, $line_id, $externalRouteId);
 
         $line = $this->getDoctrine()->getRepository(
-                'CanalTPMethBundle:Line',
-                'mtt'
-            )->findOneBy(
-                array(
-                    'externalCoverageId'    => $coverage_id,
-                    'externalNetworkId'     => $network_id,
-                    'externalId'            => $line_id,
-                )
-            );
+            'CanalTPMethBundle:Line',
+            'mtt'
+        )->findOneBy(
+            array(
+                'externalCoverageId'    => $coverage_id,
+                'externalNetworkId'     => $network_id,
+                'externalId'            => $line_id,
+            )
+        );
 
         $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
         $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows, $line);
