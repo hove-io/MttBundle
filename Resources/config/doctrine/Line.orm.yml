@@ -8,14 +8,6 @@ CanalTP\MethBundle\Entity\Line:
             id: true
             generator:
                 strategy: AUTO
-        externalCoverageId:
-            type: string
-            length: 255
-            column: external_coverage_id
-        externalNetworkId:
-            type: string
-            length: 255
-            column: external_network_id
         externalId:
             type: string
             length: 255
