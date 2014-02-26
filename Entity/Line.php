@@ -15,16 +15,6 @@ class Line extends AbstractEntity
     /**
      * @var string
      */
-    private $externalCoverageId;
-
-    /**
-     * @var string
-     */
-    private $externalNetworkId;
-
-    /**
-     * @var string
-     */
     private $externalId;
 
     /**
@@ -67,52 +57,6 @@ class Line extends AbstractEntity
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set externalCoverageId
-     *
-     * @param  string $externalCoverageId
-     * @return Line
-     */
-    public function setExternalCoverageId($externalCoverageId)
-    {
-        $this->externalCoverageId = $externalCoverageId;
-
-        return $this;
-    }
-
-    /**
-     * Get externalCoverageId
-     *
-     * @return string
-     */
-    public function getExternalCoverageId()
-    {
-        return $this->externalCoverageId;
-    }
-
-    /**
-     * Set externalNetworkId
-     *
-     * @param  string $externalNetworkId
-     * @return Line
-     */
-    public function setExternalNetworkId($externalNetworkId)
-    {
-        $this->externalNetworkId = $externalNetworkId;
-
-        return $this;
-    }
-
-    /**
-     * Get externalNetworkId
-     *
-     * @return string
-     */
-    public function getExternalNetworkId()
-    {
-        return $this->externalNetworkId;
     }
 
     /**
