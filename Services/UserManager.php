@@ -28,6 +28,9 @@ class UserManager
         $this->translator = $translator;
     }
     
+    /**
+     * Retrieve current user networks
+     */
     public function getNetworks()
     {
         $networks = $this->om
