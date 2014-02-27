@@ -2,6 +2,7 @@ parameters:
     navitia_component.class: Navitia\Component\Service\ServiceFacade
     iussaad_navitia.class: CanalTP\IussaadBundle\Services\Navitia
     media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
+    canal_tp_mtt.user.class: CanalTP\MethBundle\Services\UserManager
     canal_tp_meth.navitia.class: CanalTP\MethBundle\Services\Navitia
     canal_tp_meth.line_manager.class: CanalTP\MethBundle\Services\LineManager
     canal_tp_meth.timetable_manager.class: CanalTP\MethBundle\Services\TimetableManager
@@ -26,6 +27,9 @@ services:
     canaltp_media_manager_mtt:
         class: %media_manager.class%
         arguments: [%canal_tp_media_manager.configurations.mtt%]
+    canal_tp_mtt.user:
+       class: %canal_tp_mtt.user.class%
+       arguments: ['@doctrine.orm.mtt_entity_manager', '@security.context', '@translator']
     canal_tp_meth.navitia:
        class: %canal_tp_meth.navitia.class%
        arguments: ['@navitia_component', '@iussaad_navitia', '@translator']

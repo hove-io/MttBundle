@@ -29,7 +29,10 @@ class TimetableController extends Controller
         if ($externalStopPointId != '') {
             $stopPointLevel = true;
             $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
-            $stopPointInstance = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
+            $stopPointInstance = $stopPointManager->getStopPoint(
+                $externalStopPointId, 
+                $externalCoverageId
+            );
             $calendarsAndNotes = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForStopPoint(
                 $externalCoverageId,
                 $externalRouteId,
@@ -74,7 +77,11 @@ class TimetableController extends Controller
     public function editAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
     {
         $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
-        $stopPointData = $this->getStopPoint($externalStopPointId, $externalRouteId, $externalCoverageId);
+        $stopPointData = $this->getStopPoint(
+            $externalStopPointId, 
+            $externalRouteId, 
+            $externalCoverageId
+        );
 
         return $this->render(
             'CanalTPMethBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
@@ -97,7 +104,11 @@ class TimetableController extends Controller
     public function viewAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
     {
         $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
-        $stopPointData = $this->getStopPoint($externalStopPointId, $externalRouteId, $externalCoverageId);
+        $stopPointData = $this->getStopPoint(
+            $externalStopPointId, 
+            $externalRouteId, 
+            $externalCoverageId
+        );
 
         return $this->render(
             'CanalTPMethBundle:Layouts:' .  $timetable->getLine()->getTwigPath(),

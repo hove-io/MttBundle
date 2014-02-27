@@ -40,7 +40,7 @@ class CalendarType extends BlockType
                 'choice',
                 array(
                     'choices'       => $this->choices,
-                    'disabled'      => count($this->choices) == 1 && $this->blockInstance->getContent() != NULL,
+                    'disabled'      => count($this->choices) == 1 && $this->blockInstance->getContent() != null,
                     'label'         => 'calendar.form.label',
                     'attr'      => array(
                         // attribute to tell javascript to fill automatically title
@@ -62,7 +62,7 @@ class CalendarType extends BlockType
         $blocks = $this->blockInstance->getTimetable()->getBlocks();
         // keep only calendar blocks
         $usedCalendars = array();
-        for ($i = 0; $i < count($blocks);$i++) {
+        for ($i = 0; $i < count($blocks); $i++) {
             if ($blocks[$i]->getTypeId() == 'calendar') {
                 $usedCalendars[] = $blocks[$i]->getContent();
             }

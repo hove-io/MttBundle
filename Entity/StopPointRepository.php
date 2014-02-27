@@ -55,14 +55,12 @@ class StopPointRepository extends EntityRepository
 
     public function hasPdfUpToDate($stopPoint, $timetable)
     {
-        if (
-        // no stop point
-        empty($stopPoint) ||
-        // no pdf generated yet => return FALSE
-        $stopPoint->getPdfGenerationDate() == null ||
-        // line was modified after pdf generation
-        $this->getLastUpdate($timetable) > $stopPoint->getPdfGenerationDate()
-        ){
+            // no stop point
+        if (empty($stopPoint) ||
+            // no pdf generated yet => return FALSE
+            $stopPoint->getPdfGenerationDate() == null ||
+            // line was modified after pdf generation
+            $this->getLastUpdate($timetable) > $stopPoint->getPdfGenerationDate()) {
             return false;
         } else {
             return true;
