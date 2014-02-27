@@ -5,3 +5,5 @@ controller:
 services:
     navitia:
         no_lines_for_network: Aucune ligne trouvée pour le réseau %network%
+    calendar_manager:
+        calendar_in_block_not_found: Le calendrier ayant pour id %calendarId% associé à un bloc ne peut être trouvé à cet arrêt.

@@ -53,7 +53,7 @@ services:
        # arguments: ['http://localhost/pdfGenerator/web/index.php', "%layouts%"]
     canal_tp_meth.calendar_manager:
        class: %canal_tp_meth.calendar_manager.class%
-       arguments: ['@canal_tp_meth.navitia']
+       arguments: ['@canal_tp_meth.navitia', '@translator']
     canal_tp_meth.twig.schedule_extension:
         class: CanalTP\MethBundle\Twig\ScheduleExtension
         tags:

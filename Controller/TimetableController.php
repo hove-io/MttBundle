@@ -30,25 +30,24 @@ class TimetableController extends Controller
             $stopPointLevel = true;
             $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
             $stopPointInstance = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
-            $calendarsAndNotes = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForStopPoint(
-                $externalCoverageId,
-                $externalRouteId,
-                $externalStopPointId
-            );
+            
+        // route level
         } else {
             $stopPointLevel = false;
             $stopPointInstance = false;
-            $calendars = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForRoute(
-                $externalCoverageId,
-                $externalRouteId
-            );
+            $calendarsAndNotes = array();
+            $calendarsAndNotes['notes'] = array();
+            // $calendarsAndNotes['calendars'] = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForRoute(
+                // $externalCoverageId,
+                // $externalRouteId
+            // );
         }
 
         return array(
             'stopPointLevel'    => $stopPointLevel,
             'stopPointInstance' => $stopPointInstance,
-            'calendars'         => $calendarsAndNotes['calendars'],
-            'notes'             => $calendarsAndNotes['notes']
+            // 'calendars'         => $calendarsAndNotes['calendars'],
+            // 'notes'             => $calendarsAndNotes['notes']
         );
     }
 
@@ -75,7 +74,11 @@ class TimetableController extends Controller
     {
         $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
         $stopPointData = $this->getStopPoint($externalStopPointId, $externalRouteId, $externalCoverageId);
-
+        $calendarsAndNotes = $this->get('canal_tp_meth.calendar_manager')->getCalendars(
+            $externalCoverageId,
+            $timetable,
+            $stopPointData['stopPointInstance']
+        );
         return $this->render(
             'CanalTPMethBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
             array(
@@ -83,8 +86,8 @@ class TimetableController extends Controller
                 'externalCoverageId'    => $externalCoverageId,
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],
-                'calendars'             => $stopPointData['calendars'],
-                'notes'                 => $stopPointData['notes'],
+                'calendars'             => $calendarsAndNotes['calendars'],
+                'notes'                 => $calendarsAndNotes['notes'],
                 'blockTypes'            => $this->container->getParameter('blocks'),
                 'editable'              => true
             )
@@ -98,7 +101,11 @@ class TimetableController extends Controller
     {
         $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
         $stopPointData = $this->getStopPoint($externalStopPointId, $externalRouteId, $externalCoverageId);
-
+        $calendarsAndNotes = $this->get('canal_tp_meth.calendar_manager')->getCalendars(
+            $externalCoverageId,
+            $timetable,
+            $stopPointData['stopPointInstance']
+        );
         return $this->render(
             'CanalTPMethBundle:Layouts:' .  $timetable->getLine()->getTwigPath(),
             array(
@@ -106,8 +113,8 @@ class TimetableController extends Controller
                 'externalCoverageId'=> $externalCoverageId,
                 'stopPointLevel'    => $stopPointData['stopPointLevel'],
                 'stopPoint'         => $stopPointData['stopPointInstance'],
-                'calendars'         => $stopPointData['calendars'],
-                'notes'             => $stopPointData['notes'],
+                'calendars'         => $calendarsAndNotes['calendars'],
+                'notes'             => $calendarsAndNotes['notes'],
                 'editable'          => false
             )
         );

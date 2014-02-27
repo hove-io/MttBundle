@@ -7,14 +7,18 @@
  */
 namespace CanalTP\MethBundle\Services;
 
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+
 class CalendarManager
 {
     private $navitia = null;
+    private $translator = null;
     private $computedNotesId = array();
 
-    public function __construct(Navitia $navitia)
+    public function __construct(Navitia $navitia, Translator $translator)
     {
         $this->navitia = $navitia;
+        $this->translator = $translator;
     }
 
     private function parseDateTimes($datetimes)
@@ -57,6 +61,35 @@ class CalendarManager
         return $notes;
     }
 
+    private function findCalendar($calendarId, $calendars)
+    {
+        foreach ($calendars as $calendar){
+            if ($calendar->id == $calendarId) {
+                return $calendar;
+            }
+        }
+        throw new Exception(
+            $this->translator('services.calendar_manager.calendar_in_block_not_found'), 
+            array('%calendarId%' => $calendarId), 
+            'exceptions'
+        );
+    }
+    
+    public function getCalendars($externalCoverageId, $timetable, $stopPointInstance)
+    {
+        if (empty($stopPointInstance))
+        {
+            return array(
+                'calendars' => $this->getCalendarsForRoute($externalCoverageId, $timetable->getExternalRouteId()),
+                'notes'     => array()
+            );
+        }
+        else
+        {
+            return $this->getCalendarsForStopPointTimetable($externalCoverageId, $timetable, $stopPointInstance);
+        }
+    }
+    
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template
@@ -67,25 +100,36 @@ class CalendarManager
      *
      * @return object
      */
-    public function getCalendarsForStopPoint($externalCoverageId, $externalRouteId, $externalStopPointId)
+    public function getCalendarsForStopPointTimetable($externalCoverageId, $timetable, $stopPointInstance)
     {
-        $calendarsData = $this->navitia->getStopPointCalendarsData($externalCoverageId, $externalRouteId, $externalStopPointId);
         $calendarsSorted = array();
         $notesComputed = array();
-
-        foreach ($calendarsData->calendars as $calendar) {
-            //make it easier for template
-            $calendar->week_pattern = (array) $calendar->week_pattern;
-            $stopSchedulesData = $this->navitia->getCalendarStopSchedules($externalCoverageId, $externalRouteId, $externalStopPointId, $calendar->id);
-            $calendar->schedules = $stopSchedulesData->stop_schedules;
-            $calendar->schedules->date_times = $this->prepareDateTimes($calendar->schedules->date_times);
-            $calendarsSorted[$calendar->id] = $calendar;
-            // notes
-            $calendar->notes = $stopSchedulesData->notes;
-            // compute notes for the timetable
-            $notesComputed = $this->computeNotes($notesComputed, $stopSchedulesData->notes);
+        // calendar blocks are defined on route/timetable level
+        if (count($timetable->getBlocks()) > 0) {
+            $calendarsData = $this->navitia->getStopPointCalendarsData(
+                $externalCoverageId, 
+                $timetable->getExternalRouteId(), 
+                $stopPointInstance->getExternalId()
+            );
+            foreach ($timetable->getBlocks() as $block){
+                if ($block->getTypeId() == 'calendar') {
+                    $calendar = $this->findCalendar($block->getContent(), $calendarsData->calendars);
+                    $stopSchedulesData = $this->navitia->getCalendarStopSchedules(
+                        $externalCoverageId,
+                        $timetable->getExternalRouteId(),
+                        $stopPointInstance->getExternalId(),
+                        $block->getContent()
+                    );
+                    //make it easier for template
+                    $calendar->week_pattern = (array) $calendar->week_pattern;
+                    $calendar->schedules = $stopSchedulesData->stop_schedules;
+                    $calendar->schedules->date_times = $this->prepareDateTimes($calendar->schedules->date_times);
+                    $calendarsSorted[$calendar->id] = $calendar;
+                    //compute notes for the current timetable
+                    $notesComputed = $this->computeNotes($notesComputed, $stopSchedulesData->notes);
+                }
+            }
         }
-
         return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
     }
 
@@ -107,6 +151,6 @@ class CalendarManager
             $calendarsSorted[$calendar->id] = $calendar;
         }
 
-        return array('calendars' => $calendarsSorted, 'notes' => $calendarsData->notes);
+        return $calendarsSorted;
     }
 }
