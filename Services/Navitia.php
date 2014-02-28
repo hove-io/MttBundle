@@ -11,6 +11,7 @@ class Navitia
 {
     protected $navitia_component;
     protected $navitia_iussaad;
+    protected $translator;
 
     public function __construct($navitia_component, $navitia_iussaad, $translator)
     {
