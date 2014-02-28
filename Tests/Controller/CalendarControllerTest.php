@@ -47,8 +47,12 @@ class DefaultControllerTest extends AbstractControllerTest
     {
         $this->setService('canal_tp_meth.navitia', $this->getMockedNavitia());
         $crawler = $this->client->request('GET', $this->getViewRoute());
-        // Vérifie un status spécifique
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Response status NOK:' . $this->client->getResponse()->getStatusCode());
+        // check response with 200 code
+        $this->assertEquals(
+            200, 
+            $this->client->getResponse()->getStatusCode(), 
+            'Response status NOK:' . $this->client->getResponse()->getStatusCode()
+        );
         
         return $crawler;
     }
@@ -66,7 +70,10 @@ class DefaultControllerTest extends AbstractControllerTest
         // comes from the stub
         $calendarsName = array('Semaine scolaire', 'Semaine hors scolaire', "Samedi", "Dimanche et fêtes");
         foreach ($calendarsName as $name) {
-            $this->assertTrue($crawler->filter('html:contains("' . $name . '")')->count() == 1, "Calendar $name not found in answer");
+            $this->assertTrue(
+                $crawler->filter('html:contains("' . $name . '")')->count() == 1, 
+                "Calendar $name not found in answer"
+            );
         }
     }
     
@@ -77,8 +84,14 @@ class DefaultControllerTest extends AbstractControllerTest
             return (int)substr($node->text(), 0, strlen($node->text() - 1));
         });
         foreach($nodeValues as $value){
-            $this->assertTrue(is_numeric($value), 'Hour not numeric found.');
-            $this->assertTrue($value >= 0 && $value < 24, "Hour $value not in the range 0<->23.");
+            $this->assertTrue(
+                is_numeric($value), 
+                'Hour not numeric found.'
+            );
+            $this->assertTrue(
+                $value >= 0 && $value < 24, 
+                "Hour $value not in the range 0<->23."
+            );
         }
         
     }
@@ -87,15 +100,22 @@ class DefaultControllerTest extends AbstractControllerTest
         $crawler = $this->initialization();
         $nodeValues = $crawler->filter('.grid-time-column > div:not(:first-child)')->each(function ($node, $i) {
             $count = preg_match('/^([\d]+)/', $node->text(), $matches);
-            if ($count == 1)
+            if ($count == 1) {
                 return (int)$matches[0];
-            else
+            } else {
                 return false;
+            }
         });
 
         foreach($nodeValues as $value){
-            $this->assertTrue(is_numeric($value), 'Minute not numeric found.');
-            $this->assertTrue($value >= 0 && $value < 60, "Minute $value not in the range 0<->59.");
+            $this->assertTrue(
+                is_numeric($value), 
+                'Minute not numeric found.'
+            );
+            $this->assertTrue(
+                $value >= 0 && $value < 60, 
+                "Minute $value not in the range 0<->59."
+            );
         }
         
     }
