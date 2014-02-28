@@ -2,7 +2,7 @@
 
 namespace CanalTP\MethBundle\Tests\Controller;
 
-class DefaultControllerTest extends AbstractControllerTest
+class CalendarControllerTest extends AbstractControllerTest
 {
     private function getMockedNavitia()
     {
@@ -47,7 +47,7 @@ class DefaultControllerTest extends AbstractControllerTest
     {
         $this->setService('canal_tp_meth.navitia', $this->getMockedNavitia());
         $crawler = $this->client->request('GET', $this->getViewRoute());
-        // check response with 200 code
+        // check response code is 200
         $this->assertEquals(
             200, 
             $this->client->getResponse()->getStatusCode(), 
@@ -95,6 +95,7 @@ class DefaultControllerTest extends AbstractControllerTest
         }
         
     }
+
     public function testMinutesConsistencyViewAction()
     {
         $crawler = $this->initialization();
@@ -106,7 +107,6 @@ class DefaultControllerTest extends AbstractControllerTest
                 return false;
             }
         });
-
         foreach($nodeValues as $value){
             $this->assertTrue(
                 is_numeric($value), 
@@ -117,6 +117,53 @@ class DefaultControllerTest extends AbstractControllerTest
                 "Minute $value not in the range 0<->59."
             );
         }
+    }
+    
+    public function testfootnotesConsistencyViewAction()
+    {
+        $crawler = $this->initialization();
         
+        $this->assertTrue(
+            $crawler->filter('html:contains("au plus tard la veille du déplacement du lundi au vendredi de 9h à 12h30 et de 13h30 à 16h30.")')->count() > 0, 
+            "the note value was not found in html."
+        );
+        
+        $this->assertTrue(
+            $crawler->filter(
+                'html:contains("au plus tard la veille du déplacement du lundi au vendredi de 9h à 12h30 et de 13h30 à 16h30.")')->count() == 1, 
+                "the note value was found in html more than once."
+        );
+        
+        $this->assertTrue(
+            $crawler->filter(
+                '.tab-content > .tab-pane:first-child .notes-wrapper > div:not(:first-child)')->count() == 2, 
+                "Expected 2 notes label, found " . $crawler->filter('.notes-wrapper > div:not(:first-child)')->count()
+        );
+        
+        $notesLabels = $crawler
+            ->filter(
+                '.tab-content > .tab-pane:first-child .notes-wrapper > div:not(:first-child) > span.bold'
+            )->each(function ($node, $i) {
+                return $node->text();
+            });
+            
+        $asciiStart = 97;
+        foreach ($notesLabels as $label){
+            $this->assertTrue(ord($label) == $asciiStart, "Note label $label should be " . chr($asciiStart));
+            $asciiStart++;
+        }
+        // check if we find consistent note in timegrid
+        $notes = $crawler->filter('.grid-time-column > div:not(:first-child)')->each(function ($node, $i) {
+            $count = preg_match('/^[\d]+([a-z]{1})/', $node->text(), $matches);
+            if ($count == 1) {
+                return $matches[1];
+            } 
+        });
+
+        foreach ($notes as $note) {
+            if (!empty($note)) {
+                $this->assertTrue(in_array($note, $notesLabels), "Found note label $note in timegrid not present in notes wrapper.");
+            }
+        }
     }
 }

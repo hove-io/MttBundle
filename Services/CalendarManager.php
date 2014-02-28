@@ -37,6 +37,9 @@ class CalendarManager
         return $datetimes;
     }
     
+    /**
+     * groups datetimes by hours
+     */
     private function prepareDateTimes($datetimes)
     {
         $parsedDateTimes = $this->parseDateTimes($datetimes);
@@ -51,6 +54,9 @@ class CalendarManager
         return $sortedDateTimes;
     }
 
+    /**
+     * gather notes and ensure these notes are unique. (based on Navitia ID)
+     */
     private function computeNotes($notes, $notesToAdd)
     {
         foreach ($notesToAdd as $note) {
@@ -61,7 +67,10 @@ class CalendarManager
         }
         return $notes;
     }
-
+    
+    /**
+     * find a calendar or throws an exception if a calendar is not found
+     */
     private function findCalendar($calendarId, $calendars)
     {
         if (isset($calendars[$calendarId])) {
@@ -75,8 +84,8 @@ class CalendarManager
         }
     }
     
-    /*
-     * Index calendars by Id and cast week_patterns into array for template
+    /**
+     * Index calendars by Id and cast week_patterns into array for templates
      */
     private function sortCalendars($calendars)
     {
@@ -87,7 +96,8 @@ class CalendarManager
         }
         return $calendarsSorted;
     }
-    /*
+    
+    /**
      * Add schedules coming from Navitia to calendar object
      */
     private function addSchedulesToCalendar($calendar, $schedules)
