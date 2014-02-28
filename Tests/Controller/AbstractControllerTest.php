@@ -8,8 +8,8 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 abstract class AbstractControllerTest extends WebTestCase
 {
-    private $client = null;
-
+    protected $client = null;
+    
     public function setUp()
     {
         $this->client = static::createClient(array(), array(
