@@ -21,10 +21,13 @@ class CalendarManager
         $this->translator = $translator;
     }
 
+    /** 
+     * Converts strings coming from Navitia as T230200 into php DateTime objects
+     */
     private function parseDateTimes($datetimes)
     {
         foreach ($datetimes as &$datetime) {
-            // TODO: period format not defined by the RO Team
+            // TODO: period format not defined by the RO Team yet
             // if (substr($datetime->date_time, 0 , 1) == "P")
                 // $datetime->date_time = new \DateInterval($datetime->date_time);
             // else
@@ -33,7 +36,7 @@ class CalendarManager
 
         return $datetimes;
     }
-
+    
     private function prepareDateTimes($datetimes)
     {
         $parsedDateTimes = $this->parseDateTimes($datetimes);
@@ -45,7 +48,6 @@ class CalendarManager
             }
             $sortedDateTimes[$hour][] = $parsedDateTime;
         }
-
         return $sortedDateTimes;
     }
 
@@ -57,74 +59,132 @@ class CalendarManager
                 $notes[] = $note;
             }
         }
-
         return $notes;
     }
 
     private function findCalendar($calendarId, $calendars)
     {
-        foreach ($calendars as $calendar){
-            if ($calendar->id == $calendarId) {
-                return $calendar;
-            }
+        if (isset($calendars[$calendarId])) {
+            return $calendars[$calendarId];
+        } else {
+            throw new Exception(
+                $this->translator('services.calendar_manager.calendar_in_block_not_found'), 
+                array('%calendarId%' => $calendarId), 
+                'exceptions'
+            );
         }
-        throw new Exception(
-            $this->translator('services.calendar_manager.calendar_in_block_not_found'), 
-            array('%calendarId%' => $calendarId), 
-            'exceptions'
-        );
     }
     
-    public function getCalendars($externalCoverageId, $timetable, $stopPointInstance)
+    /*
+     * Index calendars by Id and cast week_patterns into array for template
+     */
+    private function sortCalendars($calendars)
+    {
+        $calendarsSorted = array();
+        foreach ($calendars as $calendar){
+            $calendarsSorted[$calendar->id] = $calendar;
+            $calendarsSorted[$calendar->id]->week_pattern = (array) $calendarsSorted[$calendar->id]->week_pattern;
+        }
+        return $calendarsSorted;
+    }
+    /*
+     * Add schedules coming from Navitia to calendar object
+     */
+    private function addSchedulesToCalendar($calendar, $schedules)
+    {
+        $calendar->schedules = $schedules;
+        $calendar->schedules->date_times = $this->prepareDateTimes($calendar->schedules->date_times);
+        return $calendar;
+    }
+    
+    public function getCalendars($externalCoverageId, $timetable, $stopPointInstance = false)
     {
         if (empty($stopPointInstance))
         {
             return array(
-                'calendars' => $this->getCalendarsForRoute($externalCoverageId, $timetable->getExternalRouteId()),
+                'calendars' => $this->getCalendarsForRoute(
+                    $externalCoverageId, 
+                    $timetable->getExternalRouteId()
+                ),
                 'notes'     => array()
             );
         }
         else
         {
-            return $this->getCalendarsForStopPointTimetable($externalCoverageId, $timetable, $stopPointInstance);
+            return $this->getCalendarsForStopPointAndTimetable($externalCoverageId, $timetable, $stopPointInstance);
         }
     }
     
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template
+     * *All* calendars coming from Navitia for this stoppoint are returned
      *
      * @param String $externalCoverageId
-     * @param String $externalRouteId
-     * @param String $externalStopPointId
+     * @param Object $timetable
+     * @param Object $stopPointInstance
      *
      * @return object
      */
-    public function getCalendarsForStopPointTimetable($externalCoverageId, $timetable, $stopPointInstance)
+    public function getCalendarsForStopPoint($externalCoverageId, $externalRouteId, $externalStopPointId)
     {
-        $calendarsSorted = array();
         $notesComputed = array();
+        $calendarsData = $this->navitia->getStopPointCalendarsData(
+            $externalCoverageId, 
+            $externalRouteId,
+            $externalStopPointId
+        );
+        $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
+        foreach ($calendarsSorted as $calendar) {
+            $stopSchedulesData = $this->navitia->getCalendarStopSchedules(
+                $externalCoverageId,
+                $externalRouteId,
+                $externalStopPointId,
+                $calendar->id
+            );
+            $calendar = $this->addSchedulesToCalendar($calendar, $stopSchedulesData->stop_schedules);
+            $calendar->notes = $stopSchedulesData->notes;
+            $calendarsSorted[$calendar->id] = $calendar;
+            //compute notes for the current timetable
+            $notesComputed = $this->computeNotes($notesComputed, $stopSchedulesData->notes);
+        }
+        return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
+    }
+    
+    /**
+     * Returns Calendars enhanced with schedules for a stop point and a route
+     * Datetimes are parsed and response formatted for template
+     * Only calendars added to timetable are kept
+     *
+     * @param String $externalCoverageId
+     * @param Object $timetable
+     * @param Object $stopPointInstance
+     *
+     * @return object
+     */
+    public function getCalendarsForStopPointAndTimetable($externalCoverageId, $timetable, $stopPointInstance)
+    {
+        $notesComputed = array();
+        $calendarsFiltered = array();
+        $calendarsData = $this->navitia->getStopPointCalendarsData(
+            $externalCoverageId, 
+            $timetable->getExternalRouteId(), 
+            $stopPointInstance->getExternalId()
+        );
+        $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
         // calendar blocks are defined on route/timetable level
         if (count($timetable->getBlocks()) > 0) {
-            $calendarsData = $this->navitia->getStopPointCalendarsData(
-                $externalCoverageId, 
-                $timetable->getExternalRouteId(), 
-                $stopPointInstance->getExternalId()
-            );
             foreach ($timetable->getBlocks() as $block){
                 if ($block->getTypeId() == 'calendar') {
-                    $calendar = $this->findCalendar($block->getContent(), $calendarsData->calendars);
+                    $calendar = $this->findCalendar($block->getContent(), $calendarsSorted);
                     $stopSchedulesData = $this->navitia->getCalendarStopSchedules(
                         $externalCoverageId,
                         $timetable->getExternalRouteId(),
                         $stopPointInstance->getExternalId(),
                         $block->getContent()
                     );
-                    //make it easier for template
-                    $calendar->week_pattern = (array) $calendar->week_pattern;
-                    $calendar->schedules = $stopSchedulesData->stop_schedules;
-                    $calendar->schedules->date_times = $this->prepareDateTimes($calendar->schedules->date_times);
-                    $calendarsSorted[$calendar->id] = $calendar;
+                    $calendar = $this->addSchedulesToCalendar($calendar, $stopSchedulesData->stop_schedules);
+                    $calendarsFiltered[$calendar->id] = $calendar;
                     //compute notes for the current timetable
                     $notesComputed = $this->computeNotes($notesComputed, $stopSchedulesData->notes);
                 }
