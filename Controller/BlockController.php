@@ -31,9 +31,8 @@ class BlockController extends Controller
         $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
-
             $blockTypeFactory->buildHandler()->process($form->getData(), $timetable);
-            // var_dump($timetable->getExternalRouteId());die;
+
             return $this->redirect(
                 $this->generateUrl(
                     'canal_tp_meth_timetable_edit',

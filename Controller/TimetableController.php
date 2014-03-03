@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MethBundle\Entity\Line;
 use CanalTP\MediaManagerBundle\Entity\Media;
+use CanalTP\MediaManagerBundle\Entity\Category;
 
 class TimetableController extends Controller
 {
@@ -48,13 +49,14 @@ class TimetableController extends Controller
     private function saveMedia($timetableId, $externalStopPointId, $path)
     {
         $this->mediaManager = $this->get('canaltp_media_manager_mtt');
-        $media = new Media(
-            CategoryType::LINE,
-            $timetableId,
-            CategoryType::STOP_POINT,
-            $externalStopPointId
-        );
 
+        $stopPointCategory = new Category($externalStopPointId, CategoryType::STOP_POINT);
+        $lineCategory = new Category($timetableId, CategoryType::LINE);
+        $media = new Media();
+
+        $stopPointCategory->setParent($lineCategory);
+        $media->setCategory($stopPointCategory);
+        $media->setFileName($externalStopPointId);
         $media->setFile(new File($path));
         $this->mediaManager->save($media);
 

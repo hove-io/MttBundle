@@ -5,6 +5,7 @@ namespace CanalTP\MethBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use CanalTP\MediaManagerBundle\Entity\Media;
+use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MethBundle\Entity\DistributionList;
 
@@ -61,14 +62,19 @@ class DistributionController extends Controller
                     )
                 );
             }
-            $media = new Media(
-                CategoryType::LINE,
-                $timetableId,
-                CategoryType::STOP_POINT,
-                $externalStopPointId
-            );
+
+            $stopPointCategory = new Category($externalStopPointId, CategoryType::STOP_POINT);
+            $lineCategory = new Category($timetableId, CategoryType::LINE);
+            $media = new Media();
+
+            $stopPointCategory->setParent($lineCategory);
+            $media->setCategory($stopPointCategory);
+            $media->setFileName($externalStopPointId);
             $paths[] = $this->mediaManager->getPathByMedia($media);
         }
+
+
+
 
         if (count($paths) > 0) {
             // save this list in db
