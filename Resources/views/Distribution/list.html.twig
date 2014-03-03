@@ -46,24 +46,28 @@
 {% endblock %}
 
 {% block base_modal %}
-    {% embed "CanalTPMethBundle::modal.html.twig" %}
-        {% block modal_title %}{{'distribution.generation_title'|trans({}, 'default')}}{% endblock %}
-        {% block modal_body %}
-        <div class="progress progress-striped active">
-            <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                <span>{{'distribution.generation_in_progress'|trans({}, 'default')}}</span>
-            </div>
-        </div>
-        <div class="center">
-            <a class="btn btn-primary" href="" target="_blank" style="display:none;">
-                <span class="glyphicon glyphicon-download-alt"></span> {{'global.downloadPdf'|trans}}
-            </a>
-        </div>
-        {% endblock %}
-        {% block modal_actions %}{% endblock %}
-        {% block modal_close_header %}{% endblock %}
-        {% block modal_close_footer %}{% endblock %}
-    {% endembed %}
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {% embed "CanalTPMethBundle::modal.html.twig" %}
+                {% block modal_title %}{{'distribution.generation_title'|trans({}, 'default')}}{% endblock %}
+                {% block modal_body %}
+                <div class="progress progress-striped active">
+                    <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        <span>{{'distribution.generation_in_progress'|trans({}, 'default')}}</span>
+                    </div>
+                </div>
+                <div class="center">
+                    <a class="btn btn-primary" href="" target="_blank" style="display:none;">
+                        <span class="glyphicon glyphicon-download-alt"></span> {{'global.downloadPdf'|trans}}
+                    </a>
+                </div>
+                {% endblock %}
+                {% block modal_actions %}{% endblock %}
+                {% block modal_close_header %}{% endblock %}
+                {% block modal_close_footer %}{% endblock %}
+            {% endembed %}
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 {% endblock %}
 
 {% block javascripts %}
