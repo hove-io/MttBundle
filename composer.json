@@ -27,7 +27,7 @@
         "oyejorge/less.php": "1.5.1.2",
         "twbs/bootstrap": "3.1.0",
         "braincrafted/bootstrap-bundle": "2.0.0",
-        "itbz/fpdi": "1.4.4",
+        "itbz/fpdi": "1.4.4"
     },
     "autoload": {
         "psr-0": { "CanalTP\\MethBundle\\": "" }
