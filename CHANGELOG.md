@@ -1,3 +1,9 @@
+Notes de publication - MTT - Version 0.3.2 (03/03/2014)
+
+** Récit
+    * [METH-27]     Affichage des renvois et annotations dans un TH (page dédiée TH)
+    * [METH-53]     Affichage des renvois et annotations dans un TH (dans la fiche horaire)
+
 Notes de publication - MTT - Version 0.3.1 (25/02/2014)
 
 ** Récit
