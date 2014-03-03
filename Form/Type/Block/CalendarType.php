@@ -91,7 +91,7 @@ class CalendarType extends BlockType
     {
         if ($form->get('content')->isDisabled()) {
             $form->addError(new FormError(''));
-            $form->get('content')->addError(new FormError('calendar.form.error.all_calendars_selected'));
+            $form->get('content')->addError(new FormError('calendar.error.all_calendars_selected'));
         }
     }
 

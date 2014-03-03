@@ -4,32 +4,6 @@ namespace CanalTP\MethBundle\Tests\Controller;
 
 class CalendarControllerTest extends AbstractControllerTest
 {
-    private function getMockedNavitia()
-    {
-        $navitia = $this->getMockBuilder('CanalTP\MethBundle\Services\Navitia')
-            ->setMethods(array('getLinesByMode', 'getStopPointCalendarsData', 'getCalendarStopSchedules', 'getRouteCalendars'))
-            ->setConstructorArgs(array(false,false,false))
-            ->getMock();
-
-        $navitia->expects($this->any())
-            ->method('getLinesByMode')
-            ->will($this->returnValue(array()));
-            
-        $navitia->expects($this->any())
-            ->method('getStopPointCalendarsData')
-            ->will($this->returnValue(json_decode($this->readStub('calendars.json'))));
-            
-        $navitia->expects($this->any())
-            ->method('getCalendarStopSchedules')
-            ->will($this->returnCallback(
-                function(){
-                    return json_decode(file_get_contents(dirname(__FILE__) . '/stubs/stop_schedules.json'));
-                }
-            ));
-
-        return $navitia;
-    }
-    
     private function getViewRoute()
     {
         return $this->generateRoute(
