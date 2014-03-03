@@ -1,0 +1,124 @@
+{
+    "calendars": [
+        {
+            "id": "idcalendar1",
+            "name": "Semaine scolaire",
+            "week_pattern": {
+                "monday": true,
+                "tuesday": true,
+                "wednesday": true,
+                "thursday": true,
+                "friday": true,
+                "saturday": false,
+                "sunday": false
+            },
+            "active_periods": [
+                {
+                    "begin": "20130901T",
+                    "end": "20131110T"
+                },
+                {
+                    "begin": "20131125T",
+                    "end": "20131221T"
+                },
+                {
+                    "begin": "20140110T",
+                    "end": "20140220T"
+                }
+            ],
+            "exceptions": [
+                {
+                    "datetime": "20131225T",
+                    "type": "remove"
+                }
+            ]
+        },
+        {
+            "id": "idcalendar2",
+            "name": "Semaine hors scolaire",
+            "week_pattern": {
+                "monday": true,
+                "tuesday": true,
+                "wednesday": true,
+                "thursday": true,
+                "friday": true,
+                "saturday": false,
+                "sunday": false
+            },
+            "active_periods": [
+                {
+                    "begin": "20131111T",
+                    "end": "20131124T"
+                },
+                {
+                    "begin": "20131222T",
+                    "end": "20140109T"
+                }
+            ],
+            "exceptions": [
+                {
+                    "datetime": "20140101T",
+                    "type": "remove"
+                }
+            ]
+        },
+        {
+            "id": "idcalendar3",
+            "name": "Samedi",
+            "week_pattern": {
+                "monday": false,
+                "tuesday": false,
+                "wednesday": false,
+                "thursday": false,
+                "friday": false,
+                "saturday": true,
+                "sunday": false
+            },
+            "active_periods": [
+                {
+                    "begin": "20130901T",
+                    "end": "20140220T"
+                }
+            ],
+            "exceptions": [
+            ]
+        },
+        {
+            "id": "idcalendar4",
+            "name": "Dimanche et fêtes",
+            "week_pattern": {
+                "monday": false,
+                "tuesday": false,
+                "wednesday": false,
+                "thursday": false,
+                "friday": false,
+                "saturday": false,
+                "sunday": true
+            },
+            "active_periods": [
+                {
+                    "begin": "20130901T",
+                    "end": "20140220T"
+                }
+            ],
+            "exceptions": [
+                {
+                    "datetime": "20131225T",
+                    "type": "add"
+                },
+                {
+                    "datetime": "20140101T",
+                    "type": "add"
+                }
+            ]
+        }
+    ],
+    "links": [
+    ],
+    "pagination": {
+        "items_per_page": 10,
+        "items_on_page": 10,
+        "start_page": 0,
+        "total_result": 51
+    }
+ }

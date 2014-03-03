@@ -14,11 +14,16 @@ class DistributionController extends Controller
     {
         $navitia = $this->get('iussaad_navitia');
         $routes = $navitia->getStopPoints($coverageId, $networkId, $lineId, $routeId);
-        $timetable = $this->get('canal_tp_meth.timetable_manager')->getTimetable($routeId, $coverageId);
+        $timetable = $this
+            ->get('canal_tp_meth.timetable_manager')
+            ->getTimetable($routeId, $coverageId);
 
         $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
         $schedules = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows);
-        $schedules = $this->getDoctrine()->getRepository('CanalTPMethBundle:DistributionList', 'mtt')->sortSchedules($schedules, $timetable);
+        $schedules = $this
+            ->getDoctrine()
+            ->getRepository('CanalTPMethBundle:DistributionList', 'mtt')
+            ->sortSchedules($schedules, $timetable);
 
         return $this->render(
             'CanalTPMethBundle:Distribution:list.html.twig',
@@ -71,9 +76,19 @@ class DistributionController extends Controller
             $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
             $filePath = $pdfGenerator->aggregatePdf($paths);
 
-            return new JsonResponse(array('path' => $this->getRequest()->getBasePath() . $filePath));
+            return new JsonResponse(
+                array(
+                    'path' => $this->getRequest()->getBasePath() . $filePath
+                )
+            );
         } else {
-            throw new \Exception($this->get('translator')->trans('controller.distribution.generate.no_pdfs', array(), 'exceptions'));
+            throw new \Exception(
+                $this->get('translator')->trans(
+                    'controller.distribution.generate.no_pdfs', 
+                    array(), 
+                    'exceptions'
+                )
+            );
         }
     }
 
@@ -86,7 +101,7 @@ class DistributionController extends Controller
             $distribListInstance->setTimetable($timetable);
         }
         $distribListInstance->setIncludedStops($stopPointsIncluded);
-        $this->getDoctrine()->getEntityManager('mtt')->persist($distribListInstance);
-        $this->getDoctrine()->getEntityManager('mtt')->flush();
+        $this->getDoctrine()->getManager('mtt')->persist($distribListInstance);
+        $this->getDoctrine()->getManager('mtt')->flush();
     }
 }

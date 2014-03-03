@@ -69,7 +69,7 @@ class TimetableManager
         $this->initAdditionalData($this->timetable->getExternalRouteId(), $externalCoverageId);
         $this->initBlocks();
 
-       return $this->timetable;
+        return $this->timetable;
     }
 
     /**
@@ -84,6 +84,6 @@ class TimetableManager
         $this->initAdditionalData($externalRouteId, $externalCoverageId);
         $this->initBlocks();
 
-       return $this->timetable;
+        return $this->timetable;
     }
 }

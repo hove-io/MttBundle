@@ -21,13 +21,13 @@
         "canaltp/media-manager": "dev-ci",
         "canaltp/media-manager-bundle": "dev-ci",
         "friendsofsymfony/jsrouting-bundle": "1.5.3",
+        "willdurand/js-translation-bundle":"2.0.0",
         "components/jquery": "1.11.0",
         "components/jqueryui": "1.10.3",
         "oyejorge/less.php": "1.5.1.2",
         "twbs/bootstrap": "3.1.0",
         "braincrafted/bootstrap-bundle": "2.0.0",
         "itbz/fpdi": "1.4.4",
-        "willdurand/js-translation-bundle":"2.0.0"
     },
     "autoload": {
         "psr-0": { "CanalTP\\MethBundle\\": "" }

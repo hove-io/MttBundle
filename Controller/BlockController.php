@@ -71,14 +71,14 @@ class BlockController extends Controller
         $timetable = $timetableManager->getTimetableById($timetableId, $externalCoverageId);
 
         return $this->redirect(
-                $this->generateUrl(
-                    'canal_tp_meth_timetable_edit',
-                    array(
-                        'externalCoverageId'    => $timetable->getLine()->getExternalCoverageId(),
-                        'externalRouteId'       => $timetable->getExternalRouteId(),
-                        'externalStopPointId'   => null
-                    )
+            $this->generateUrl(
+                'canal_tp_meth_timetable_edit',
+                array(
+                    'externalCoverageId'    => $timetable->getLine()->getExternalCoverageId(),
+                    'externalRouteId'       => $timetable->getExternalRouteId(),
+                    'externalStopPointId'   => null
                 )
-            );
+            )
+        );
     }
 }
