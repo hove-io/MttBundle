@@ -18,8 +18,6 @@ class LineController extends Controller
         if (empty($line)) {
             $data = $form->getData();
             $line = new Line();
-            $line->setExternalCoverageId($params['coverage_id']);
-            $line->setExternalNetworkId($params['network_id']);
             $line->setExternalId($params['line_id']);
             $line->setLayout($data['layout']);
         }
@@ -50,11 +48,7 @@ class LineController extends Controller
         $line = $this->getDoctrine()
                 ->getRepository('CanalTPMethBundle:Line', 'mtt')
                 ->findOneBy(
-                    array(
-                        'externalCoverageId'    => $coverage_id,
-                        'externalNetworkId'     => $network_id,
-                        'externalId'            => $line_id
-                    )
+                    array('externalId' => $line_id)
                 );
 
         $form = $this->createFormBuilder($line)
