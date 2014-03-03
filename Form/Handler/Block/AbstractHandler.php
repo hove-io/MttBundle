@@ -56,7 +56,7 @@ abstract class AbstractHandler implements HandlerInterface
         $externalStopPointId = $block->getStopPoint();
 
         // shall we link this block to a specific stop point and/or a timetable?
-         if (empty($externalStopPointId)) {
+        if (empty($externalStopPointId)) {
             $this->block->setTimetable($timetable);
         } else {
             // link block to this stop point

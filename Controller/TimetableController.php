@@ -29,25 +29,19 @@ class TimetableController extends Controller
         if ($externalStopPointId != '') {
             $stopPointLevel = true;
             $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
-            $stopPointInstance = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
-            
+            $stopPointInstance = $stopPointManager->getStopPoint(
+                $externalStopPointId, 
+                $externalCoverageId
+            );
         // route level
         } else {
             $stopPointLevel = false;
             $stopPointInstance = false;
-            $calendarsAndNotes = array();
-            $calendarsAndNotes['notes'] = array();
-            // $calendarsAndNotes['calendars'] = $this->get('canal_tp_meth.calendar_manager')->getCalendarsForRoute(
-                // $externalCoverageId,
-                // $externalRouteId
-            // );
         }
 
         return array(
             'stopPointLevel'    => $stopPointLevel,
             'stopPointInstance' => $stopPointInstance,
-            // 'calendars'         => $calendarsAndNotes['calendars'],
-            // 'notes'             => $calendarsAndNotes['notes']
         );
     }
 
@@ -73,7 +67,11 @@ class TimetableController extends Controller
     public function editAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
     {
         $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
-        $stopPointData = $this->getStopPoint($externalStopPointId, $externalRouteId, $externalCoverageId);
+        $stopPointData = $this->getStopPoint(
+            $externalStopPointId, 
+            $externalRouteId, 
+            $externalCoverageId
+        );
         $calendarsAndNotes = $this->get('canal_tp_meth.calendar_manager')->getCalendars(
             $externalCoverageId,
             $timetable,
@@ -100,7 +98,11 @@ class TimetableController extends Controller
     public function viewAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
     {
         $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
-        $stopPointData = $this->getStopPoint($externalStopPointId, $externalRouteId, $externalCoverageId);
+        $stopPointData = $this->getStopPoint(
+            $externalStopPointId, 
+            $externalRouteId, 
+            $externalCoverageId
+        );
         $calendarsAndNotes = $this->get('canal_tp_meth.calendar_manager')->getCalendars(
             $externalCoverageId,
             $timetable,

@@ -2,16 +2,21 @@
 
 namespace CanalTP\MethBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class DefaultControllerTest extends WebTestCase
+class DefaultControllerTest extends AbstractControllerTest
 {
     public function testIndex()
     {
-        $client = static::createClient();
-
-        $crawler = $client->request('GET', '/hello/Fabien');
-
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+        $route = $this->generateRoute('canal_tp_meth_homepage');
+        $crawler = $this->client->request('GET', $route);
+        
+        $this->assertTrue($crawler->filter('html:contains("MTT")')->count() > 0);
+    }
+    
+    public function testNavigation()
+    {
+        $route = $this->generateRoute('canal_tp_meth_menu');
+        $crawler = $this->client->request('GET', $route);
+        
+        $this->assertTrue($crawler->filter('.panel-group > .panel')->count() > 0);
     }
 }

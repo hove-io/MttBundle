@@ -59,6 +59,6 @@ canal_tp_meth_distribution_generate:
         expose: true
 
 #Calendar
-canal_tp_meth_calendar_view:
+canal_tp_mtt_calendar_view:
     pattern: /calendars/view/coverage/{externalCoverageId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
     defaults: { _controller: CanalTPMethBundle:Calendar:view}
