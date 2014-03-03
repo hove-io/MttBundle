@@ -74,7 +74,7 @@ class BlockController extends Controller
             $this->generateUrl(
                 'canal_tp_meth_timetable_edit',
                 array(
-                    'externalCoverageId'    => $timetable->getLine()->getExternalCoverageId(),
+                    'externalCoverageId'    => $externalCoverageId,
                     'externalRouteId'       => $timetable->getExternalRouteId(),
                     'externalStopPointId'   => null
                 )
