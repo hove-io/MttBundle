@@ -14,11 +14,13 @@ class PdfGenerator
 {
     private $serverUrl = null;
     private $layoutsConfig = null;
+    private $uploadPath = null;
 
-    public function __construct($server, $layoutsConfig)
+    public function __construct($server, $layoutsConfig, $path)
     {
         $this->serverUrl = $server;
         $this->layoutsConfig = $layoutsConfig;
+        $this->uploadPath = $path;
     }
 
     /*
@@ -93,8 +95,9 @@ class PdfGenerator
 
     protected function getUploadRootDir()
     {
+        return $this->uploadPath;
         // TODO: should be configured
-        // works if bundle is in vendor folder
-        return realpath(__DIR__.'/../../../../../../web/uploads/');
+        // *works only if bundle is in vendor folder*
+        // return realpath(__DIR__.'/../../../../../../web/uploads/');
     }
 }
