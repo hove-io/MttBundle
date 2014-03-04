@@ -62,9 +62,10 @@
     float:left;
     font-size:12px;
     margin-top:5px;
-    height:210px;
+    height:212px;
     line-height:20px;
     padding:2px;
+    position: relative;
     width:50%;
 }
 #timetables-wrapper .timegrid-header{
@@ -79,9 +80,12 @@
 }
 #timetables-wrapper .timegrid-body{
     background-color: white;
-    background-image: linear-gradient(transparent 50%, rgb(249, 231, 241) 50%);
+    /* 
+    Not working with wkhtmltopdf
+    background-image: linear-gradient(transparent 50%, rgb(249, 231, 241) 50%); 
+    */
     background-size:28px 28px;
-    height: 180px;
+    height: 183px;
     width:100%;
 }
 #layout-1-wrapper .timegrid-body .hour-label{
@@ -119,3 +123,7 @@
     bottom:0;
     left:0;
 }
+.timegrid-body tr{
+    height:14px;
+}
+.timegrid-body tr.even {background: rgb(249, 231, 241)}

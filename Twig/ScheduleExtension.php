@@ -18,8 +18,9 @@ class ScheduleExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'schedule' => new \Twig_Filter_Method($this, 'scheduleFilter'),
-            'footnote' => new \Twig_Filter_Method($this, 'footnoteFilter'),
+            'schedule'      => new \Twig_Filter_Method($this, 'scheduleFilter'),
+            'footnote'      => new \Twig_Filter_Method($this, 'footnoteFilter'),
+            'calendarMax'   => new \Twig_Filter_Method($this, 'calendarMax'),
         );
     }
 
@@ -34,12 +35,23 @@ class ScheduleExtension extends \Twig_Extension
             }
         }
 
-        return '<div>' . $value . '</div>';
+        return $value;
     }
 
     public function footnoteFilter($index, $mode = 'letter', $colors = false)
     {
-         return chr($this->ascii_start + $index);
+        return chr($this->ascii_start + $index);
+    }
+
+    public function calendarMax($calendar, $min = 11)
+    {
+        $max = 0;
+        foreach($calendar->schedules->date_times as $HourDateTime){
+            if (count($HourDateTime) > $max) {
+                $max = count($HourDateTime);
+            }
+        }
+        return $max > $min ? $max : $min;
     }
 
     public function getName()

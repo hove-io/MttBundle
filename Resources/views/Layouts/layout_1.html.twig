@@ -71,18 +71,21 @@
                                     </td>
                                 </tr>
                             {% elseif calendar %}
-                                <tr>
-                                {% for hour in hours_range %}
-                                    {% set datetime = attribute(calendar.schedules.date_times, hour) %}
-                                    <td class="timegrid-column">
-                                    {% if datetime %}
-                                        {% for journey in datetime %}
-                                            {{ journey|schedule(notes)|raw }}
-                                        {% endfor %}
-                                    {% endif %}
-                                    </td>
+                                {% set loopMax = calendar|calendarMax %}
+                                {% for i in 0..loopMax %}
+                                    <tr class="{% if i % 2  == 0 %}even{% else %}odd{% endif %}">
+                                    {% for hour in hours_range %}
+                                        {% set datetime = attribute(calendar.schedules.date_times, hour) %}
+                                            <td class="timegrid-column">
+                                            {% if datetime and datetime|length > 0 %}
+                                                {% if datetime[i] %}
+                                                    {{ datetime[i]|schedule(notes)|raw }}
+                                                {% endif %}
+                                            {% endif %}
+                                            </td>
+                                    {% endfor %}
+                                    </tr>
                                 {% endfor %}
-                                </tr>
                             {% endif %}
                             </table>
 
@@ -103,7 +106,7 @@
 {% endblock %}
 
 {% block scripts %}
-
+    {# <pre>{{ dump(calendars) }}</pre> #}
     {# mutualize in base layout #}
     {% if stopPointLevel == false %}
         {% set stopPointJs = false %}

@@ -73,9 +73,6 @@ class DistributionController extends Controller
             $paths[] = $this->mediaManager->getPathByMedia($media);
         }
 
-
-
-
         if (count($paths) > 0) {
             // save this list in db
             $this->saveList($timetable, $stopPointsIds);
