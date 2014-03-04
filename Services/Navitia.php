@@ -5,7 +5,7 @@
  *
  * @author vdegroote
  */
-namespace CanalTP\MethBundle\Services;
+namespace CanalTP\MttBundle\Services;
 
 class Navitia
 {

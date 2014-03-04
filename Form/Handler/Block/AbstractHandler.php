@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\Form\Handler\Block;
+namespace CanalTP\MttBundle\Form\Handler\Block;
 
 use CanalTP\MethBundle\Entity\Block;
 use CanalTP\MethBundle\Entity\StopPoint;

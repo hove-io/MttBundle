@@ -1,5 +1,5 @@
 <?php
-namespace CanalTP\MethBundle\Form\Type\Block;
+namespace CanalTP\MttBundle\Form\Type\Block;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use CanalTP\MethBundle\Form\Type\BlockType;

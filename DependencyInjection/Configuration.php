@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\DependencyInjection;
+namespace CanalTP\MttBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

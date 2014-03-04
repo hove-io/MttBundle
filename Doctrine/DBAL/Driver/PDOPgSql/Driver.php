@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\Doctrine\DBAL\Driver\PDOPgSql;
+namespace CanalTP\MttBundle\Doctrine\DBAL\Driver\PDOPgSql;
 
 class Driver extends \Doctrine\DBAL\Driver\PDOPgSql\Driver implements \Doctrine\DBAL\Driver
 {

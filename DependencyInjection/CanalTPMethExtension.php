@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\DependencyInjection;
+namespace CanalTP\MttBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

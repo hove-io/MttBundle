@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\Controller;
+namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;

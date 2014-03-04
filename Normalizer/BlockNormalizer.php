@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\Normalizer;
+namespace CanalTP\MttBundle\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\SerializerAwareNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;

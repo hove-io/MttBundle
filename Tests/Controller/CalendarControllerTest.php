@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\Tests\Controller;
+namespace CanalTP\MttBundle\Tests\Controller;
 
 class CalendarControllerTest extends AbstractControllerTest
 {

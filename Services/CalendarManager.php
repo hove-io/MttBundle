@@ -5,7 +5,7 @@
  *
  * @author vdegroote
  */
-namespace CanalTP\MethBundle\Services;
+namespace CanalTP\MttBundle\Services;
 
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 

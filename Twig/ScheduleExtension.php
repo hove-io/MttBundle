@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\Twig;
+namespace CanalTP\MttBundle\Twig;
 
 class ScheduleExtension extends \Twig_Extension
 {

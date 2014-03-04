@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\Tests\Controller;
+namespace CanalTP\MttBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;

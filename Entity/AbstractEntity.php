@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\Entity;
+namespace CanalTP\MttBundle\Entity;
 
 /**
  * AbstractEntity

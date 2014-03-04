@@ -5,7 +5,7 @@
  *
  * @author vdegroote
  */
-namespace CanalTP\MethBundle\Services;
+namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MethBundle\Entity\Timetable;

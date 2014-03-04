@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\Services;
+namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\FormFactoryInterface;

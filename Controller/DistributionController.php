@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\MethBundle\Controller;
+namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;

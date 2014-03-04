@@ -1,5 +1,5 @@
 <?php
-namespace CanalTP\MethBundle\Form\Type;
+namespace CanalTP\MttBundle\Form\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
