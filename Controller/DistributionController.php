@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManager\Category\CategoryType;
-use CanalTP\MethBundle\Entity\DistributionList;
+use CanalTP\MttBundle\Entity\DistributionList;
 
 class DistributionController extends Controller
 {

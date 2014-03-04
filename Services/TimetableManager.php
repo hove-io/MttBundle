@@ -8,7 +8,7 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use CanalTP\MethBundle\Entity\Timetable;
+use CanalTP\MttBundle\Entity\Timetable;
 
 class TimetableManager
 {

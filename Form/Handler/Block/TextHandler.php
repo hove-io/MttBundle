@@ -3,7 +3,7 @@
 namespace CanalTP\MttBundle\Form\Handler\Block;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use CanalTP\MethBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\Block;
 
 class TextHandler extends AbstractHandler
 {

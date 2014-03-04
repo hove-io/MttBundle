@@ -9,8 +9,8 @@ use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector as MediaManager;
 use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManagerBundle\Entity\Media;
-use CanalTP\MethBundle\Entity\Block
-;
+use CanalTP\MttBundle\Entity\Block;
+
 class ImgHandler extends AbstractHandler
 {
     const ID_LINE_MAP = 'line_map';

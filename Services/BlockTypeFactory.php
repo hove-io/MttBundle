@@ -7,16 +7,16 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Serializer\Serializer;
 
-use CanalTP\MethBundle\Normalizer\BlockNormalizer;
+use CanalTP\MttBundle\Normalizer\BlockNormalizer;
 use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector as MediaManager;
 // Text Block
-use CanalTP\MethBundle\Form\Type\Block\TextType as TextBlockType;
-use CanalTP\MethBundle\Form\Handler\Block\TextHandler as TextBlockHandler;
+use CanalTP\MttBundle\Form\Type\Block\TextType as TextBlockType;
+use CanalTP\MttBundle\Form\Handler\Block\TextHandler as TextBlockHandler;
 // Image Block
-use CanalTP\MethBundle\Form\Type\Block\ImgType as ImgBlockType;
-use CanalTP\MethBundle\Form\Handler\Block\ImgHandler as ImgBlockHandler;
+use CanalTP\MttBundle\Form\Type\Block\ImgType as ImgBlockType;
+use CanalTP\MttBundle\Form\Handler\Block\ImgHandler as ImgBlockHandler;
 // Calendar Block
-use CanalTP\MethBundle\Form\Type\Block\CalendarType as CalendarBlockType;
+use CanalTP\MttBundle\Form\Type\Block\CalendarType as CalendarBlockType;
 
 class BlockTypeFactory
 {

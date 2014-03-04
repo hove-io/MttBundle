@@ -2,7 +2,7 @@
 namespace CanalTP\MttBundle\Form\Type\Block;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use CanalTP\MethBundle\Form\Type\BlockType;
+use CanalTP\MttBundle\Form\Type\BlockType;
 
 class ImgType extends BlockType
 {

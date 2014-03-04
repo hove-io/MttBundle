@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CanalTP\MediaManager\Category\CategoryType;
-use CanalTP\MethBundle\Entity\Line;
+use CanalTP\MttBundle\Entity\Line;
 use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MediaManagerBundle\Entity\Category;
 

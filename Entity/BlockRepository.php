@@ -30,7 +30,7 @@ class BlockRepository extends EntityRepository
             $block = new Block();
             $block->setDomId($domId);
             $timetable = $this->getEntityManager()->getPartialReference(
-                'CanalTP\MethBundle\Entity\Timetable',
+                'CanalTP\MttBundle\Entity\Timetable',
                 $timetableId
             );
             $block->setTimetable($timetable);

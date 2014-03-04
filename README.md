@@ -20,7 +20,7 @@ You need composer to install the MethBundle.
 
     // AppKernel.php
     ...
-    new CanalTP\MethBundle\CanalTPMethBundle(),
+    new CanalTP\MttBundle\CanalTPMethBundle(),
     ...
 
     // routing.yml

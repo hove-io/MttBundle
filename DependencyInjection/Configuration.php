@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
                     ->info('Pdf Generator configuration')
                     ->children()
                         ->scalarNode('class')->defaultValue(
-                            'CanalTP\MethBundle\Services\PdfGenerator'
+                            'CanalTP\MttBundle\Services\PdfGenerator'
                         )->end()
                         ->scalarNode('server')->defaultValue(
                             'http://localhost'

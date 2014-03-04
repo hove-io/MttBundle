@@ -6,7 +6,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormError;
 
-use CanalTP\MethBundle\Form\Type\BlockType;
+use CanalTP\MttBundle\Form\Type\BlockType;
 
 class CalendarType extends BlockType
 {

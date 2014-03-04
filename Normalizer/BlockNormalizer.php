@@ -4,7 +4,7 @@ namespace CanalTP\MttBundle\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\SerializerAwareNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use CanalTP\MethBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\Block;
 
 class BlockNormalizer extends SerializerAwareNormalizer implements NormalizerInterface
 {

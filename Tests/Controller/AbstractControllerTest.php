@@ -13,7 +13,7 @@ abstract class AbstractControllerTest extends WebTestCase
     
     protected function getMockedNavitia()
     {
-        $navitia = $this->getMockBuilder('CanalTP\MethBundle\Services\Navitia')
+        $navitia = $this->getMockBuilder('CanalTP\MttBundle\Services\Navitia')
             ->setMethods(array('getLinesByMode', 'getStopPointCalendarsData', 'getCalendarStopSchedules', 'getRouteCalendars'))
             ->setConstructorArgs(array(false,false,false))
             ->getMock();

@@ -2,8 +2,8 @@
 
 namespace CanalTP\MttBundle\Form\Handler\Block;
 
-use CanalTP\MethBundle\Entity\Block;
-use CanalTP\MethBundle\Entity\StopPoint;
+use CanalTP\MttBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\StopPoint;
 
 abstract class AbstractHandler implements HandlerInterface
 {
@@ -46,7 +46,7 @@ abstract class AbstractHandler implements HandlerInterface
             ->getStopPoint($externalStopPointId);
 
         return ($this->om->getPartialReference(
-            'CanalTP\MethBundle\Entity\StopPoint',
+            'CanalTP\MttBundle\Entity\StopPoint',
             $this->stopPoint->getId()
         ));
     }

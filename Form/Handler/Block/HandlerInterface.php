@@ -2,7 +2,7 @@
 
 namespace CanalTP\MttBundle\Form\Handler\Block;
 
-use CanalTP\MethBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\Block;
 
 interface HandlerInterface
 {

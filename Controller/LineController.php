@@ -3,7 +3,7 @@
 namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use CanalTP\MethBundle\Entity\Line;
+use CanalTP\MttBundle\Entity\Line;
 
 /*
  * LineController

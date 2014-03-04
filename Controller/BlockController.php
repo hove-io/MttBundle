@@ -4,7 +4,7 @@ namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use CanalTP\MethBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\Block;
 
 class BlockController extends Controller
 {
