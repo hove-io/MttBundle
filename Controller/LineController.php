@@ -22,7 +22,7 @@ class LineController extends Controller
             $line->setLayout($data['layout']);
         }
         if ($line->getLayout() != null) {
-            $em = $this->getDoctrine()->getManager('mtt');
+            $em = $this->getDoctrine()->getManager();
             $em->persist($line);
             $em->flush();
 
@@ -46,7 +46,7 @@ class LineController extends Controller
                         'line_id'        => $line_id,
                         'externalRouteId'=> $externalRouteId);
         $line = $this->getDoctrine()
-                ->getRepository('CanalTPMttBundle:Line', 'mtt')
+                ->getRepository('CanalTPMttBundle:Line')
                 ->findOneBy(
                     array('externalId' => $line_id)
                 );

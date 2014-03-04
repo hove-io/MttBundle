@@ -1,6 +1,6 @@
 CanalTP\MttBundle\Entity\Timetable:
     type: entity
-    table: timetable
+    table: mtt.timetable
     repositoryClass: CanalTP\MttBundle\Entity\TimetableRepository
     fields:
         id:

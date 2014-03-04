@@ -1,6 +1,6 @@
 CanalTP\MttBundle\Entity\StopPoint:
     type: entity
-    table: stop_point
+    table: mtt.stop_point
     repositoryClass: CanalTP\MttBundle\Entity\StopPointRepository
     fields:
         id:

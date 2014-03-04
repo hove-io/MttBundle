@@ -29,19 +29,19 @@ services:
         arguments: [%canal_tp_media_manager.configurations.mtt%]
     canal_tp_mtt.user:
        class: %canal_tp_mtt.user.class%
-       arguments: ['@doctrine.orm.mtt_entity_manager', '@security.context', '@translator']
+       arguments: ['@doctrine.orm.entity_manager', '@security.context', '@translator']
     canal_tp_meth.navitia:
        class: %canal_tp_meth.navitia.class%
        arguments: ['@navitia_component', '@iussaad_navitia', '@translator']
     canal_tp_meth.line_manager:
        class: %canal_tp_meth.line_manager.class%
-       arguments: ['@service_container', '@doctrine.orm.mtt_entity_manager', '@canal_tp_meth.navitia']
+       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_meth.navitia']
     canal_tp_meth.timetable_manager:
        class: %canal_tp_meth.timetable_manager.class%
-       arguments: ['@doctrine.orm.mtt_entity_manager', '@canal_tp_meth.navitia', '@canal_tp_meth.line_manager']
+       arguments: ['@doctrine.orm.entity_manager', '@canal_tp_meth.navitia', '@canal_tp_meth.line_manager']
     canal_tp_meth.stop_point_manager:
        class: %canal_tp_meth.stop_point_manager.class%
-       arguments: ['@service_container', '@doctrine.orm.mtt_entity_manager', '@canal_tp_meth.navitia']
+       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_meth.navitia']
     form.type.layout:
         class: CanalTP\MttBundle\Form\Type\LayoutType
         arguments:
@@ -50,7 +50,7 @@ services:
             - { name: form.type, alias: layout }
     canal_tp_meth.form.factory.block:
        class: %canal_tp_meth.form.factory.class%
-       arguments: ['@service_container', '@doctrine.orm.mtt_entity_manager', '@form.factory', '@canaltp_media_manager_mtt']
+       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canaltp_media_manager_mtt']
     canal_tp_meth.pdf_generator:
        class: %canal_tp_meth.pdf_generator.class%
        arguments: ['http://wsd-ws.pdfgen.dev.canaltp.fr/', "%layouts%"]

@@ -1,6 +1,6 @@
 CanalTP\MttBundle\Entity\Line:
     type: entity
-    table: line
+    table: mtt.line
     repositoryClass: CanalTP\MttBundle\Entity\LineRepository
     fields:
         id:

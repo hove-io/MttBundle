@@ -1,6 +1,6 @@
 CanalTP\MttBundle\Entity\DistributionList:
     type: entity
-    table: distributionlist
+    table: mtt.distributionlist
     repositoryClass: CanalTP\MttBundle\Entity\DistributionListRepository
     fields:
         id:
@@ -27,7 +27,7 @@ CanalTP\MttBundle\Entity\DistributionList:
     manyToOne:
         timetable:
             targetEntity: Timetable
-            inversedBy: ditributionLists
+            inversedBy: mtt.ditributionLists
             joinColumn:
                 name: timetable_id
                 referencedColumnName: id

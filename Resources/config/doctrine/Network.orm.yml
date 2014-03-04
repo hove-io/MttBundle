@@ -1,6 +1,6 @@
 CanalTP\MttBundle\Entity\Network:
     type: entity
-    table: network
+    table: mtt.network
     repositoryClass: CanalTP\MttBundle\Entity\NetworkRepository
     fields:
         id:
@@ -28,7 +28,7 @@ CanalTP\MttBundle\Entity\Network:
                     on: update
     manyToMany:
         users:
-            targetEntity: CanalTP\CoreBoBundle\Entity\User
+            targetEntity: CanalTP\IussaadCoreBundle\Entity\User
             joinTable:
                 name: mtt.users_networks
                 joinColumns:

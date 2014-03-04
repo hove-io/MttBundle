@@ -1,6 +1,6 @@
 CanalTP\MttBundle\Entity\Block:
     type: entity
-    table: block
+    table: mtt.block
     repositoryClass: CanalTP\MttBundle\Entity\BlockRepository
     fields:
         id:
@@ -33,13 +33,13 @@ CanalTP\MttBundle\Entity\Block:
     manyToOne:
         timetable:
             targetEntity: Timetable
-            inversedBy: blocks
+            inversedBy: mtt.blocks
             joinColumn:
                 name: timetable_id
                 referencedColumnName: id
         stopPoint:
             targetEntity: StopPoint
-            inversedBy: blocks
+            inversedBy: mtt.blocks
             joinColumn:
                 name: stop_point_id
                 referencedColumnName: id

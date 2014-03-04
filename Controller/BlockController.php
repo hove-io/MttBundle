@@ -15,8 +15,8 @@ class BlockController extends Controller
     {
         $blockTypeFactory = $this->get('canal_tp_meth.form.factory.block');
         $data = array('dom_id' => $dom_id, 'type_id' => $block_type, 'stop_point' => $stop_point);
-        $timetable = $this->getDoctrine()->getRepository('CanalTPMttBundle:Timetable', 'mtt')->find($timetableId);
-        $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block', 'mtt');
+        $timetable = $this->getDoctrine()->getRepository('CanalTPMttBundle:Timetable')->find($timetableId);
+        $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block');
 
         if (empty($stop_point)) {
             $block = $repo->findByTimetableAndDomId($timetableId, $dom_id);
@@ -56,7 +56,7 @@ class BlockController extends Controller
     public function deleteAction($timetableId, $blockId, $externalCoverageId)
     {
         $timetableManager = $this->get('canal_tp_meth.timetable_manager');
-        $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block', 'mtt');
+        $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block');
 
         $block = $repo->find($blockId);
         if (!$block) {
@@ -64,8 +64,8 @@ class BlockController extends Controller
                 $this->get('translator')->trans('controller.block.delete.block_not_found', array('%blockid%'=>$blockId), 'exceptions')
             );
         } else {
-            $this->getDoctrine()->getEntityManager('mtt')->remove($block);
-            $this->getDoctrine()->getEntityManager('mtt')->flush();
+            $this->getDoctrine()->getEntityManager()->remove($block);
+            $this->getDoctrine()->getEntityManager()->flush();
         }
         $timetable = $timetableManager->getTimetableById($timetableId, $externalCoverageId);
 
