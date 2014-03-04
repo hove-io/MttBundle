@@ -1,9 +1,9 @@
 {
-    "name": "canaltp/meth-bundle",
+    "name": "canaltp/mtt-bundle",
     "type": "symfony-bundle",
-    "description": "METH Bundle",
+    "description": "Mtt Bundle",
     "keywords": [],
-    "homepage": "http://hg.prod.canaltp.fr/ctp/SymfonyBundles/CanalTPMethBundle/summary",
+    "homepage": "http://hg.prod.canaltp.fr/ctp/SymfonyBundles/CanalTPMttBundle/summary",
     "license": "MIT",
     "authors": [
         {
@@ -30,7 +30,7 @@
         "itbz/fpdi": "1.4.4"
     },
     "autoload": {
-        "psr-0": { "CanalTP\\MethBundle\\": "" }
+        "psr-0": { "CanalTP\\MttBundle\\": "" }
     },
-    "target-dir": "CanalTP/MethBundle/"
+    "target-dir": "CanalTP/MttBundle/"
 }
