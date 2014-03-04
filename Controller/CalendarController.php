@@ -19,7 +19,7 @@ class CalendarController extends Controller
         );
 
         return $this->render(
-            'CanalTPMethBundle:Calendar:view.html.twig',
+            'CanalTPMttBundle:Calendar:view.html.twig',
             array(
                 'calendars'     => $calendarsAndNotes['calendars'],
                 'notes'         => $calendarsAndNotes['notes'],

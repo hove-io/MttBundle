@@ -25,7 +25,7 @@ class TimetableManager
         $this->om = $om;
         $this->navitia = $navitia;
         $this->lineManager = $lineManager;
-        $this->repository = $this->om->getRepository('CanalTPMethBundle:Timetable');
+        $this->repository = $this->om->getRepository('CanalTPMttBundle:Timetable');
     }
 
     /*

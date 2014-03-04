@@ -46,7 +46,7 @@ class LineController extends Controller
                         'line_id'        => $line_id,
                         'externalRouteId'=> $externalRouteId);
         $line = $this->getDoctrine()
-                ->getRepository('CanalTPMethBundle:Line', 'mtt')
+                ->getRepository('CanalTPMttBundle:Line', 'mtt')
                 ->findOneBy(
                     array('externalId' => $line_id)
                 );
@@ -68,7 +68,7 @@ class LineController extends Controller
             return ($this->processForm($form, $line, $params));
         } else {
             return $this->render(
-                'CanalTPMethBundle:Line:chooseLayout.html.twig',
+                'CanalTPMttBundle:Line:chooseLayout.html.twig',
                 array(
                     'form'        => $form->createView(),
                     'line_layout' => false

@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class CanalTPMethExtension extends Extension implements ExtensionInterface
+class CanalTPMttExtension extends Extension implements ExtensionInterface
 {
     /**
      * {@inheritDoc}
@@ -27,7 +27,7 @@ class CanalTPMethExtension extends Extension implements ExtensionInterface
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
-
+// die('test');
         $loader->load('services.yml');
         $loader->load('layouts.yml');
         $loader->load('blocks.yml');
@@ -35,8 +35,8 @@ class CanalTPMethExtension extends Extension implements ExtensionInterface
         // $container->prependExtensionConfig('CanalTPMethExtension', array());
     }
 
-    public function getAlias()
-    {
-        return 'canal_tp_meth';
-    }
+    // public function getAlias()
+    // {
+        // return 'canal_tp_mtt';
+    // }
 }

@@ -15,8 +15,8 @@ class BlockController extends Controller
     {
         $blockTypeFactory = $this->get('canal_tp_meth.form.factory.block');
         $data = array('dom_id' => $dom_id, 'type_id' => $block_type, 'stop_point' => $stop_point);
-        $timetable = $this->getDoctrine()->getRepository('CanalTPMethBundle:Timetable', 'mtt')->find($timetableId);
-        $repo = $this->getDoctrine()->getRepository('CanalTPMethBundle:Block', 'mtt');
+        $timetable = $this->getDoctrine()->getRepository('CanalTPMttBundle:Timetable', 'mtt')->find($timetableId);
+        $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block', 'mtt');
 
         if (empty($stop_point)) {
             $block = $repo->findByTimetableAndDomId($timetableId, $dom_id);
@@ -46,7 +46,7 @@ class BlockController extends Controller
         }
 
         return $this->render(
-            'CanalTPMethBundle:Block:get_form.html.twig',
+            'CanalTPMttBundle:Block:get_form.html.twig',
             array(
                 'form'        => $form->createView(),
             )
@@ -56,7 +56,7 @@ class BlockController extends Controller
     public function deleteAction($timetableId, $blockId, $externalCoverageId)
     {
         $timetableManager = $this->get('canal_tp_meth.timetable_manager');
-        $repo = $this->getDoctrine()->getRepository('CanalTPMethBundle:Block', 'mtt');
+        $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block', 'mtt');
 
         $block = $repo->find($blockId);
         if (!$block) {

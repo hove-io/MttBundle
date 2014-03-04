@@ -12,7 +12,7 @@ class StopPointController extends Controller
         $routes = $navitia->getStopPoints($coverage_id, $network_id, $line_id, $externalRouteId);
 
         $line = $this->getDoctrine()->getRepository(
-            'CanalTPMethBundle:Line',
+            'CanalTPMttBundle:Line',
             'mtt'
         )->findOneBy(array('externalId' => $line_id));
 
@@ -20,7 +20,7 @@ class StopPointController extends Controller
         $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows, $line);
 
         return $this->render(
-            'CanalTPMethBundle:StopPoint:list.html.twig',
+            'CanalTPMttBundle:StopPoint:list.html.twig',
             array(
                 'line'              => $line,
                 'routes'            => $routes,

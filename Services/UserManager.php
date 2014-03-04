@@ -34,7 +34,7 @@ class UserManager
     public function getNetworks()
     {
         $networks = $this->om
-            ->getRepository('CanalTPMethBundle:Network')
+            ->getRepository('CanalTPMttBundle:Network')
             ->findNetworksByUserId($this->sc->getToken()->getUser()->getId());
 
         if (count($networks) == 0) {

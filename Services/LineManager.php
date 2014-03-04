@@ -22,7 +22,7 @@ class LineManager
         $this->line = null;
         $this->container = $co;
         $this->navitia = $navitia;
-        $this->repository = $om->getRepository('CanalTPMethBundle:Line');
+        $this->repository = $om->getRepository('CanalTPMttBundle:Line');
     }
 
     private function initTwigPath()

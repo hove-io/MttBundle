@@ -24,7 +24,7 @@ class StopPointManager
         $this->stopPoint = null;
         $this->container = $co;
         $this->navitia = $navitia;
-        $this->repository = $om->getRepository('CanalTPMethBundle:StopPoint');
+        $this->repository = $om->getRepository('CanalTPMttBundle:StopPoint');
         $this->om = $om;
     }
 
@@ -91,7 +91,7 @@ class StopPointManager
             ->createQueryBuilder()
             ->addSelect('stopPoint')
             ->where("stopPoint.externalId IN(:ids)")
-            ->from('CanalTPMethBundle:StopPoint', 'stopPoint')
+            ->from('CanalTPMttBundle:StopPoint', 'stopPoint')
             ->setParameter('ids', array_values($ids))
             ->getQuery();
         $db_stop_points = $query->getResult();

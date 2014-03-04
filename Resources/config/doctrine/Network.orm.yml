@@ -1,7 +1,7 @@
-CanalTP\MethBundle\Entity\Network:
+CanalTP\MttBundle\Entity\Network:
     type: entity
     table: network
-    repositoryClass: CanalTP\MethBundle\Entity\NetworkRepository
+    repositoryClass: CanalTP\MttBundle\Entity\NetworkRepository
     fields:
         id:
             type: integer

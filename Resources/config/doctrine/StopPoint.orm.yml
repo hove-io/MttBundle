@@ -1,7 +1,7 @@
-CanalTP\MethBundle\Entity\StopPoint:
+CanalTP\MttBundle\Entity\StopPoint:
     type: entity
     table: stop_point
-    repositoryClass: CanalTP\MethBundle\Entity\StopPointRepository
+    repositoryClass: CanalTP\MttBundle\Entity\StopPointRepository
     fields:
         id:
             type: integer

@@ -14,7 +14,7 @@ abstract class AbstractHandler implements HandlerInterface
     protected function getRouteByExternalId($routeExternalId)
     {
         $route = $this->om
-            ->getRepository('CanalTPMethBundle:Route', 'mtt')
+            ->getRepository('CanalTPMttBundle:Route', 'mtt')
             ->findOneByExternalId($routeExternalId);
 
         return ($route);
@@ -42,7 +42,7 @@ abstract class AbstractHandler implements HandlerInterface
     private function getStopPointReference($externalStopPointId)
     {
         $this->stopPoint = $this->om
-            ->getRepository('CanalTPMethBundle:StopPoint', 'mtt')
+            ->getRepository('CanalTPMttBundle:StopPoint', 'mtt')
             ->getStopPoint($externalStopPointId);
 
         return ($this->om->getPartialReference(

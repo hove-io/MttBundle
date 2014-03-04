@@ -11,7 +11,7 @@ class DefaultController extends Controller
         $mtt_user = $this->get('canal_tp_mtt.user');
 
         return $this->render(
-            'CanalTPMethBundle:Default:index.html.twig',
+            'CanalTPMttBundle:Default:index.html.twig',
             array('networks' => $mtt_user->getNetworks())
         );
     }
@@ -29,7 +29,7 @@ class DefaultController extends Controller
         );
 
         return $this->render(
-            'CanalTPMethBundle:Default:navigation.html.twig',
+            'CanalTPMttBundle:Default:navigation.html.twig',
             array(
                 'result' => $result,
                 'coverageId' => $networks[0]['external_coverage_id'],

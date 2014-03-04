@@ -3,27 +3,27 @@
     <head>
         <meta charset="UTF-8" />
         {% stylesheets  'css/bootstrap.css'
-                        '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/main.css'
-                        '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/layouts.css'
-                        '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/layouts/*'
+                        '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/main.css'
+                        '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/layouts.css'
+                        '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/layouts/*'
 
                        filter='cssrewrite' output='css/full_layouts.css' %}
             <link rel="stylesheet" media="all" href="{{ asset_url }}" />
         {% endstylesheets %}
-        {% stylesheets  '../vendor/canaltp/meth-bundle/CanalTP/MethBundle/Resources/public/css/print.css'
+        {% stylesheets  '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/print.css'
                        filter='cssrewrite' output='css/full_layouts_print.css' %}
             <link rel="stylesheet" media="print" href="{{ asset_url }}" />
         {% endstylesheets %}
 
         {% block head_config %}
-            {% include 'CanalTPMethBundle::config.js.html.twig' %}
+            {% include 'CanalTPMttBundle::config.js.html.twig' %}
         {% endblock %}
     </head>
     <body{% if editable == true %} class="editable"{% endif %}>
         <div class="navbar no-print">
         {% block left_menu %}
             {% if editable == true %}
-                {{ render(controller('CanalTPMethBundle:Default:navigation'), {'current_route': ''}) }}
+                {{ render(controller('CanalTPMttBundle:Default:navigation'), {'current_route': ''}) }}
             {% endif %}
         {% endblock %}
         {% if stopPoint %}
@@ -41,7 +41,7 @@
             <div id="base-modal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        {% include 'CanalTPMethBundle::modal.html.twig' %}
+                        {% include 'CanalTPMttBundle::modal.html.twig' %}
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->

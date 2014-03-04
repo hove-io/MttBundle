@@ -1,7 +1,7 @@
-CanalTP\MethBundle\Entity\Timetable:
+CanalTP\MttBundle\Entity\Timetable:
     type: entity
     table: timetable
-    repositoryClass: CanalTP\MethBundle\Entity\TimetableRepository
+    repositoryClass: CanalTP\MttBundle\Entity\TimetableRepository
     fields:
         id:
             type: integer

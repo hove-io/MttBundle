@@ -23,11 +23,11 @@ class DistributionController extends Controller
         $schedules = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows);
         $schedules = $this
             ->getDoctrine()
-            ->getRepository('CanalTPMethBundle:DistributionList', 'mtt')
+            ->getRepository('CanalTPMttBundle:DistributionList', 'mtt')
             ->sortSchedules($schedules, $timetable);
 
         return $this->render(
-            'CanalTPMethBundle:Distribution:list.html.twig',
+            'CanalTPMttBundle:Distribution:list.html.twig',
             array(
                 'timetable'     => $timetable,
                 'schedules'     => $schedules,
@@ -44,7 +44,7 @@ class DistributionController extends Controller
     {
         $timetable = $this->get('canal_tp_meth.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
         $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
-        $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt');
+        $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint', 'mtt');
         $this->mediaManager = $this->get('canaltp_media_manager_mtt');
 
         $stopPointsIds = $this->get('request')->request->get('stopPointsIds', array());
@@ -54,7 +54,7 @@ class DistributionController extends Controller
             //shall we regenerate pdf?
             if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false) {
                 $response = $this->forward(
-                    'CanalTPMethBundle:Timetable:generatePdf',
+                    'CanalTPMttBundle:Timetable:generatePdf',
                     array(
                         'timetableId'           => $timetableId,
                         'externalCoverageId'    => $externalCoverageId,
@@ -97,7 +97,7 @@ class DistributionController extends Controller
 
     private function saveList($timetable, $stopPointsIncluded)
     {
-        $distribList = $this->getDoctrine()->getRepository('CanalTPMethBundle:DistributionList', 'mtt');
+        $distribList = $this->getDoctrine()->getRepository('CanalTPMttBundle:DistributionList', 'mtt');
         $distribListInstance = $distribList->findOneByTimetable($timetable);
         if (empty($distribListInstance)) {
             $distribListInstance = new DistributionList();

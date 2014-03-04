@@ -50,7 +50,7 @@ class BlockRepository extends EntityRepository
     {
         $query = $this->getEntityManager()
             ->createQuery(
-                'SELECT block FROM CanalTPMethBundle:Block block
+                'SELECT block FROM CanalTPMttBundle:Block block
                 INNER JOIN block.stopPoint stop_point
                 WHERE stop_point.externalId = :externalId AND block.domId = :domId'
             )

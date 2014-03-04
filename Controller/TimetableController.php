@@ -80,7 +80,7 @@ class TimetableController extends Controller
             $stopPointData['stopPointInstance']
         );
         return $this->render(
-            'CanalTPMethBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
+            'CanalTPMttBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
             array(
                 'timetable'             => $timetable,
                 'externalCoverageId'    => $externalCoverageId,
@@ -111,7 +111,7 @@ class TimetableController extends Controller
             $stopPointData['stopPointInstance']
         );
         return $this->render(
-            'CanalTPMethBundle:Layouts:' .  $timetable->getLine()->getTwigPath(),
+            'CanalTPMttBundle:Layouts:' .  $timetable->getLine()->getTwigPath(),
             array(
                 'timetable'         => $timetable,
                 'externalCoverageId'=> $externalCoverageId,
@@ -141,7 +141,7 @@ class TimetableController extends Controller
 
         if ($pdfPath) {
             $pdfMedia = $this->saveMedia($timetable->getId(), $externalStopPointId, $pdfPath);
-            $this->getDoctrine()->getRepository('CanalTPMethBundle:StopPoint', 'mtt')->updatePdfGenerationDate($externalStopPointId);
+            $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint', 'mtt')->updatePdfGenerationDate($externalStopPointId);
 
             return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
         } else {
