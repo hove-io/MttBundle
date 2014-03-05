@@ -18,9 +18,9 @@ var require = {
         'mtt/translations/default': 'js/translations/default/{{ app.request.locale }}',
         'mtt/translations/messages':'js/translations/messages/{{ app.request.locale }}',
         // mtt specific
-        meth_left_menu:             'bundles/canaltpmeth/js/left_menu',
-        'mtt/layout':               'bundles/canaltpmeth/js/layout',
-        'mtt/layout/validator':     'bundles/canaltpmeth/js/layout/validator'
+        meth_left_menu:             'bundles/canaltpmtt/js/left_menu',
+        'mtt/layout':               'bundles/canaltpmtt/js/layout',
+        'mtt/layout/validator':     'bundles/canaltpmtt/js/layout/validator'
     },
     shim: {
         sf_routes: {
@@ -60,4 +60,4 @@ var require = {
     deps: ["jquery", "sf_routes", "translator"]
 };
 </script>
-<script type="text/javascript" src="{{app.request.basePath}}/bundles/canaltpmeth/js/require.js?{{ assets_version }}"></script>
+<script type="text/javascript" src="{{app.request.basePath}}/bundles/canaltpmtt/js/require.js?{{ assets_version }}"></script>
