@@ -48,7 +48,7 @@ canal_tp_meth_block_delete:
 
 
 #DistributionList
-canal_tp_meth_distribution_list:
+canal_tp_mtt_distribution_list:
     pattern: /coverage/{coverageId}/network/{networkId}/line/{lineId}/route/{routeId}/distribution/list
     defaults: { _controller: CanalTPMttBundle:Distribution:list}
 
