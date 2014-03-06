@@ -24,7 +24,7 @@ class SeleneseBlockTest extends \PHPUnit_Extensions_SeleniumTestCase
         $baseUrl = 'http://iussaad.dev.canaltp.fr/';
 
         $this->setBrowserUrl($baseUrl);
-        $this->setSpeed(150);
+        $this->setSpeed(50);
         $this->setTimeout(200);
 
         $this->start();
