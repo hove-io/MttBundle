@@ -1,0 +1,9 @@
+<li class="list-group-item" data-stop-point-navitia-id="{{ schedule.stop_point.id|raw }}">
+    <span class="glyphicon glyphicon-resize-vertical"></span> {{ schedule.stop_point.name }}
+    <a class="btn btn-xs btn-danger pull-right toggle-stop-point-btn remove-stop-point-btn" href="#">
+        <span class="glyphicon glyphicon-minus-sign"></span> {{'global.remove'|trans}}
+    </a>
+    <a class="btn btn-xs btn-success pull-right toggle-stop-point-btn add-stop-point-btn" href="#">
+        <span class="glyphicon glyphicon-plus-sign"></span> {{'global.add'|trans}}
+    </a>
+</li>

@@ -50,7 +50,7 @@ class DistributionController extends Controller
         $stopPointsIds = $this->get('request')->request->get('stopPointsIds', array());
         $paths = array();
         foreach ($stopPointsIds as $externalStopPointId) {
-            $stopPoint = $stopPointManager->getStopPoint($externalStopPointId, $externalCoverageId);
+            $stopPoint = $stopPointManager->getStopPoint($externalStopPointId, $timetable, $externalCoverageId);
             //shall we regenerate pdf?
             if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false) {
                 $response = $this->forward(
