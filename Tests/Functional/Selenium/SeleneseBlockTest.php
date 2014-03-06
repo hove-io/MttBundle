@@ -21,17 +21,18 @@ class SeleneseBlockTest extends \PHPUnit_Extensions_SeleniumTestCase
         $this->captureScreenshotOnFailure = false;
 
         self::$seleneseDirectory = dirname(__FILE__). DIRECTORY_SEPARATOR . 'SeleneseBag';
-        $baseUrl = 'http://iussaad.dev.canaltp.fr/';
+        $baseUrl = 'http://iussaad.dev.canaltp.fr';
 
         $this->setBrowserUrl($baseUrl);
         $this->setSpeed(50);
-        $this->setTimeout(200);
+        // $this->setTimeout(10);
 
         $this->start();
     }
 
     public function testSeleneses()
     {
+        self::shareSession(true);
         if ($handle = opendir(self::$seleneseDirectory)) {
             // $this->open('/journey');
             while (false !== ($entry = readdir($handle))) {
