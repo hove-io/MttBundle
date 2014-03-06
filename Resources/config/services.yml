@@ -57,8 +57,7 @@ services:
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canaltp_media_manager_mtt']
     canal_tp_meth.pdf_generator:
        class: %canal_tp_mtt.pdf_generator.class%
-       # arguments: ['http://wsd-ws.pdfgen.dev.canaltp.fr/', "%layouts%"]
-       arguments: ['http://localhost/pdfGenerator/web/index.php', "%layouts%", "%kernel.root_dir%/../web/uploads/"]
+       arguments: ['%pdf_generator_url%', "%layouts%", "%kernel.root_dir%/../web/uploads/"]
     canal_tp_meth.calendar_manager:
        class: %canal_tp_mtt.calendar_manager.class%
        arguments: ['@canal_tp_meth.navitia', '@translator']
