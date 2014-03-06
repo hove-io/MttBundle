@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Description of TimetableManager
  *
@@ -9,6 +8,7 @@ namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Services\Navitia;
 
 class TimetableManager
 {
@@ -34,6 +34,7 @@ class TimetableManager
     private function initAdditionalData($externalRouteId, $externalCoverageId)
     {
         $data = $this->navitia->getRouteData($externalRouteId, $externalCoverageId);
+        // var_dump($data);die;
         $line = $this->lineManager->getLineByExternalId($data->line->id);
         $this->timetable->setLine($line);
         $this->timetable->setTitle($data->name);
@@ -41,14 +42,16 @@ class TimetableManager
     }
 
     /*
-     * @function if timetable has an id, get corresponding blocks and index them by dom_id
+     * get corresponding blocks and index them by dom_id
      */
     private function initBlocks()
     {
-        if ($this->timetable->getId() && count($this->timetable->getBlocks()) > 0) {
+        $timetableBlocks = $this->repository->getBlocks($this->timetable);
+
+        if (count($timetableBlocks) > 0) {
             $blocks = array();
 
-            foreach ($this->timetable->getBlocks() as $block) {
+            foreach ($timetableBlocks as $block) {
                 $blocks[$block->getDomId()] = $block;
             }
             if (count($blocks) > 0) {
@@ -66,6 +69,7 @@ class TimetableManager
     public function getTimetableById($timetableId, $externalCoverageId)
     {
         $this->timetable = $this->repository->find($timetableId);
+        // var_dump($this->timetable);die;
         $this->initAdditionalData($this->timetable->getExternalRouteId(), $externalCoverageId);
         $this->initBlocks();
 

@@ -14,6 +14,7 @@ CanalTP\MttBundle\Entity\StopPoint:
             column: external_id
         pdfGenerationDate:
             type: datetime
+            nullable: TRUE
             column: pdf_generation_date
         created:
             type: datetime

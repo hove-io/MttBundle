@@ -18,3 +18,4 @@ global:
     minutes: Minutes
     hour_label: h
     annotations: Annotations
+    direction: Direction

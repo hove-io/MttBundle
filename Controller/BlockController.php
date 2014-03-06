@@ -8,28 +8,25 @@ use CanalTP\MttBundle\Entity\Block;
 
 class BlockController extends Controller
 {
-    /*
-     * @function returns form for a given block type or save content of the block using Form factory
+    /**
+     * returns form for a given block type or save content of the block using Form factory
      */
     public function editAction($externalCoverageId, $dom_id, $timetableId, $block_type = 'text', $stop_point = null)
     {
         $blockTypeFactory = $this->get('canal_tp_meth.form.factory.block');
+        $blockManager = $this->get('canal_tp_mtt.block_manager');
+        $timetableManager = $this->get('canal_tp_meth.timetable_manager');
         $data = array('dom_id' => $dom_id, 'type_id' => $block_type, 'stop_point' => $stop_point);
-        $timetable = $this->getDoctrine()->getRepository('CanalTPMttBundle:Timetable')->find($timetableId);
-        $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block');
+        
 
-        if (empty($stop_point)) {
-            $block = $repo->findByTimetableAndDomId($timetableId, $dom_id);
-        } else {
-            $block = $repo->findByStopPointAndDomId($stop_point, $dom_id);
-        }
+        $block = $blockManager->getBlock($dom_id, $timetableId, $stop_point);
 
         $blockTypeFactory->init($block_type, $data, $block, $externalCoverageId);
         $form = $blockTypeFactory->buildForm()
             ->setAction($this->getRequest()->getRequestUri())
             ->setMethod('POST')->getForm();
         $form->handleRequest($this->getRequest());
-
+        $timetable = $timetableManager->getTimetableById($timetableId, $externalCoverageId);
         if ($form->isValid()) {
             $blockTypeFactory->buildHandler()->process($form->getData(), $timetable);
 

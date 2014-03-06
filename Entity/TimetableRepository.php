@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class TimetableRepository extends EntityRepository
 {
     /*
-     * @function init timetable object, if not found in db create an entity
+     * init timetable object, if not found in db create an entity
      */
     public function getTimetableByRouteExternalId($externalRouteId)
     {
@@ -28,5 +28,19 @@ class TimetableRepository extends EntityRepository
         }
 
         return $timetable;
+    }
+    
+    /*
+     * Return blocks defined for this timetable on route level
+     */
+    public function getBlocks($timetable)
+    {
+        $result = $this->getEntityManager()->getRepository('CanalTPMttBundle:Block')->findBy(
+            array(
+                'stopPoint' => null,
+                'timetable' => $timetable->getId()
+            )
+        );
+        return $result;
     }
 }

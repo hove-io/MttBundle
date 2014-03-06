@@ -12,6 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class StopPointRepository extends EntityRepository
 {
+    public function getBlocks($stopPoint, $timetable)
+    {
+        $result = $this->getEntityManager()->getRepository('CanalTPMttBundle:Block')->findBy(
+            array(
+                'stopPoint' => $stopPoint->getId(),
+                'timetable' => $timetable->getId()
+            )
+        );
+        return $result;
+    }
+    
     public function updatePdfGenerationDate($externalStopPointId)
     {
         $stopPoint = $this->getStopPoint($externalStopPointId);

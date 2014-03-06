@@ -6,7 +6,7 @@
             <div id="header" class="clearfix">
                 <div id="direction-title-wrapper" data-block-level="route" data-auto-filled="1">
                     {% if timetable.title is defined %}
-                        {{ timetable.title }}
+                        {{ 'global.direction'|trans }} {{ timetable.title }}
                     {% endif %}
                 </div>
                 <div id="stop-point-title-wrapper" data-block-level="stop_point" data-auto-filled="1">

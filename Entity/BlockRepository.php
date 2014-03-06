@@ -29,8 +29,7 @@ class BlockRepository extends EntityRepository
         if (empty($block)) {
             $block = new Block();
             $block->setDomId($domId);
-            $timetable = $this->getEntityManager()->getPartialReference(
-                'CanalTP\MttBundle\Entity\Timetable',
+            $timetable = $this->getEntityManager()->getRepository('CanalTPMttBundle:Timetable')->find(
                 $timetableId
             );
             $block->setTimetable($timetable);
@@ -46,16 +45,19 @@ class BlockRepository extends EntityRepository
      * @param  string $domId               Dom Id in layout
      * @return Block  Entity or null
      */
-    public function findByStopPointAndDomId($externalStopPointId, $domId)
+    public function findByTimetableAndStopPointAndDomId($timetableId, $externalStopPointId, $domId)
     {
         $query = $this->getEntityManager()
             ->createQuery(
                 'SELECT block FROM CanalTPMttBundle:Block block
                 INNER JOIN block.stopPoint stop_point
-                WHERE stop_point.externalId = :externalId AND block.domId = :domId'
+                WHERE stop_point.externalId = :externalStopPointId 
+                AND block.timetable = :timetable
+                AND block.domId = :domId'
             )
-            ->setParameter('domId', $domId)
-            ->setParameter('externalId', $externalStopPointId);
+            ->setParameter('externalStopPointId', $externalStopPointId)
+            ->setParameter('timetable', $timetableId)
+            ->setParameter('domId', $domId);
 
         return $query->getOneOrNullResult();
     }

@@ -3,14 +3,15 @@ parameters:
     iussaad_navitia.class: CanalTP\IussaadBundle\Services\Navitia
     media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
     canal_tp_mtt.user.class: CanalTP\MttBundle\Services\UserManager
-    canal_tp_meth.navitia.class: CanalTP\MttBundle\Services\Navitia
-    canal_tp_meth.line_manager.class: CanalTP\MttBundle\Services\LineManager
-    canal_tp_meth.timetable_manager.class: CanalTP\MttBundle\Services\TimetableManager
-    canal_tp_meth.stop_point_manager.class: CanalTP\MttBundle\Services\StopPointManager
-    canal_tp_meth.calendar_manager.class: CanalTP\MttBundle\Services\CalendarManager
-    canal_tp_meth.form.factory.class: CanalTP\MttBundle\Services\BlockTypeFactory
-    canal_tp_meth.form.image_type_extension.class: CanalTP\MttBundle\Form\Extension\ImageTypeExtension
-    canal_tp_meth.pdf_generator.class: CanalTP\MttBundle\Services\PdfGenerator
+    canal_tp_mtt.navitia.class: CanalTP\MttBundle\Services\Navitia
+    canal_tp_mtt.line_manager.class: CanalTP\MttBundle\Services\LineManager
+    canal_tp_mtt.timetable_manager.class: CanalTP\MttBundle\Services\TimetableManager
+    canal_tp_mtt.stop_point_manager.class: CanalTP\MttBundle\Services\StopPointManager
+    canal_tp_mtt.calendar_manager.class: CanalTP\MttBundle\Services\CalendarManager
+    canal_tp_mtt.form.factory.class: CanalTP\MttBundle\Services\BlockTypeFactory
+    canal_tp_mtt.form.image_type_extension.class: CanalTP\MttBundle\Form\Extension\ImageTypeExtension
+    canal_tp_mtt.pdf_generator.class: CanalTP\MttBundle\Services\PdfGenerator
+    canal_tp_mtt.block_manager.class: CanalTP\MttBundle\Services\BlockManager
 
 services:
     navitia_component:
@@ -31,16 +32,19 @@ services:
        class: %canal_tp_mtt.user.class%
        arguments: ['@doctrine.orm.entity_manager', '@security.context', '@translator']
     canal_tp_meth.navitia:
-       class: %canal_tp_meth.navitia.class%
+       class: %canal_tp_mtt.navitia.class%
        arguments: ['@navitia_component', '@iussaad_navitia', '@translator']
     canal_tp_meth.line_manager:
-       class: %canal_tp_meth.line_manager.class%
+       class: %canal_tp_mtt.line_manager.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_meth.navitia']
     canal_tp_meth.timetable_manager:
-       class: %canal_tp_meth.timetable_manager.class%
+       class: %canal_tp_mtt.timetable_manager.class%
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_meth.navitia', '@canal_tp_meth.line_manager']
+    canal_tp_mtt.block_manager:
+       class: %canal_tp_mtt.block_manager.class%
+       arguments: ['@doctrine.orm.entity_manager']
     canal_tp_meth.stop_point_manager:
-       class: %canal_tp_meth.stop_point_manager.class%
+       class: %canal_tp_mtt.stop_point_manager.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_meth.navitia']
     form.type.layout:
         class: CanalTP\MttBundle\Form\Type\LayoutType
@@ -49,14 +53,14 @@ services:
         tags:
             - { name: form.type, alias: layout }
     canal_tp_meth.form.factory.block:
-       class: %canal_tp_meth.form.factory.class%
+       class: %canal_tp_mtt.form.factory.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canaltp_media_manager_mtt']
     canal_tp_meth.pdf_generator:
-       class: %canal_tp_meth.pdf_generator.class%
+       class: %canal_tp_mtt.pdf_generator.class%
        # arguments: ['http://wsd-ws.pdfgen.dev.canaltp.fr/', "%layouts%"]
        arguments: ['http://localhost/pdfGenerator/web/index.php', "%layouts%", "%kernel.root_dir%/../web/uploads/"]
     canal_tp_meth.calendar_manager:
-       class: %canal_tp_meth.calendar_manager.class%
+       class: %canal_tp_mtt.calendar_manager.class%
        arguments: ['@canal_tp_meth.navitia', '@translator']
     canal_tp_meth.twig.schedule_extension:
         class: CanalTP\MttBundle\Twig\ScheduleExtension

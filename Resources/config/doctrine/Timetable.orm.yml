@@ -11,6 +11,8 @@ CanalTP\MttBundle\Entity\Timetable:
         externalRouteId:
             type: string
             length: 255
+            # TODO
+            # column: external_route_id
         created:
             type: datetime
             gedmo:

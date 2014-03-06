@@ -42,11 +42,14 @@ class StopPointManager
     private function initBlocks()
     {
         $blocks = array();
+        $stopPointBlocks = $this->repository->getBlocks($this->stopPoint, $this->timetable);
 
-        foreach ($this->stopPoint->getBlocks() as $block) {
-            $blocks[$block->getDomId()] = $block;
+        if (!empty($stopPointBlocks)) {
+            foreach ($stopPointBlocks as $block) {
+                $blocks[$block->getDomId()] = $block;
+            }
+            $this->stopPoint->setBlocks($blocks);
         }
-        $this->stopPoint->setBlocks($blocks);
     }
 
     /**
@@ -56,9 +59,10 @@ class StopPointManager
      * @param  Line      $line                Line Entity
      * @return stopPoint
      */
-    public function getStopPoint($externalStopPointId, $externalCoverageId)
+    public function getStopPoint($externalStopPointId, $timetable, $externalCoverageId)
     {
         $this->stopPoint = $this->repository->findOneByExternalId($externalStopPointId);
+        $this->timetable = $timetable;
         if (!empty($this->stopPoint)) {
             $this->initBlocks();
         } else {
