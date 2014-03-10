@@ -50,24 +50,58 @@
                         <div class="timegrid-body" data-validate-height="1">
                             <table>
                                 <tr>
-                                {% set hours_range = [] %}
-                                {% for i in 4..23 %}
-                                    {% set hours_range = hours_range|merge([i]) %}
+                                {% set hours_range = layoutConfig.calendar_range|calendarRange %}
+                                {% for i in hours_range %}
                                     <td class="timegrid-column hour-label">{{i}}{{ 'global.hour_label'|trans }}</td>
                                 {% endfor %}
-                                    <td class="timegrid-column hour-label">0{{ 'global.hour_label'|trans }}</td>
-                                    {% set hours_range = hours_range|merge([0]) %}
-                                    <td class="timegrid-column hour-label">1{{ 'global.hour_label'|trans }}</td>
-                                    {% set hours_range = hours_range|merge([1]) %}
                                 </tr>
                             {% set calendar = attribute(calendars, block.content) %}
                             {% if stopPointLevel == false and block %}
                                 <tr><td colspan="22" class="external-calendar-name">{{ calendar.name }}</td></tr>
                                 <tr>
                                     <td colspan="22" class="text-center">
-                                        <a class="btn btn-danger btn-xs no-ajax" href="{{ path('canal_tp_meth_block_delete', {'externalCoverageId':externalCoverageId, 'timetableId': timetable.id, 'blockId': block.id}) }}">
-                                            <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans}}
-                                        </a>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                {{'layout.actions'|trans({}, 'default')}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu text-left" role="menu">
+                                                <li>
+                                                    <a data-toggle="modal" href="{{ 
+                                                        path(
+                                                            'canal_tp_meth_block_edit', 
+                                                            {
+                                                                'externalCoverageId':externalCoverageId, 
+                                                                'timetableId': timetable.id, 
+                                                                'dom_id' : id,
+                                                                'blockId' : block.id,
+                                                                'block_type' : 'calendar'
+                                                            }
+                                                        ) 
+                                                    }}" data-target="#base-modal">
+                                                        <span class="glyphicon glyphicon-calendar"></span> {{'calendar.form.label'|trans({}, 'default')}}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a data-toggle="modal" href="{{ 
+                                                        path(
+                                                            'canal_tp_mtt_frequency_edit', 
+                                                            {
+                                                                'blockId':block.id, 
+                                                                'layoutId' : layout
+                                                            }
+                                                        ) 
+                                                    }}" data-target="#base-modal">
+                                                        <span class="glyphicon glyphicon-pencil"></span> {{'frequency.form.label'|trans({}, 'default')}}
+                                                    </a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <li>
+                                                    <a class="danger" href="{{ path('canal_tp_meth_block_delete', {'externalCoverageId':externalCoverageId, 'timetableId': timetable.id, 'blockId': block.id}) }}">
+                                                        <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             {% elseif calendar %}
@@ -105,9 +139,9 @@
     </div>
 {% endblock %}
 
+{# mutualize in base layout #}
 {% block scripts %}
     {# <pre>{{ dump(calendars) }}</pre> #}
-    {# mutualize in base layout #}
     {% if stopPointLevel == false %}
         {% set stopPointJs = false %}
     {% else %}
@@ -116,7 +150,7 @@
 
     <script>
     {% if editable == true %}
-    require(['jquery', 'mtt/layout'], function($, Layout){
+    require(['jquery', 'mtt/layout', 'bootstrap'], function($, Layout){
         var layout = Layout.init(
             $('#layout-1-wrapper'),
             {{ blockTypes|json_encode()|raw }},

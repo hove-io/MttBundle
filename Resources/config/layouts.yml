@@ -5,8 +5,14 @@ parameters:
             twig: layout_1.html.twig
             preview: /bundles/canaltpmtt/img/layout_1.png
             orientation: landscape
+            calendar_range:
+                start: 4
+                end: 1
         layout_2:
             label: Layout 2 de type paysage (exemple Brest)
-            twig: layout_2.html.twig
+            twig: layout_1.html.twig
             preview: /bundles/canaltpmtt/img/layout_2.png
             orientation: landscape
+            calendar_range:
+                start: 4
+                end: 1

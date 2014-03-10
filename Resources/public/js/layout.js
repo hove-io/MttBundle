@@ -1,34 +1,45 @@
 define(['jquery'], function($) {
 
     var layout = {};
+    var url_params = {};
     var $icon_tpl = $('<span class="glyphicon"></span>');
     
     layout.init = function($wrapper, blockTypes, timetableId, externalCoverageId, stop_point)
     {
+        // store url params for later
+        url_params.externalCoverageId = externalCoverageId;
+        url_params.timetableId        = timetableId;
+        url_params.stop_point         = stop_point;
         // needed properties
         layout.blockLevel = stop_point == false ? 'route' : 'stop_point';
         layout.blockTypes = blockTypes;
         _bind_listeners();
+        _bind_blocks_listeners();
+    };
+    
+    var _bind_blocks_listeners = function()
+    {
         var $blocks = _get_blocks();
-        // bind click listener
-        $blocks.click(function(){
-            var url = Routing.generate(
-                'canal_tp_meth_block_edit', 
-                { 
-                    'dom_id'            : $(this).attr('id'),
-                    'timetableId'       : timetableId,
-                    'externalCoverageId': externalCoverageId,
-                    'block_type'        : $(this).data('block-type'), 
-                    'stop_point'        : stop_point 
-                }
-            );
-            $('#base-modal').modal({remote: url});
+        $blocks.each(function(){
+            // bind click listener if there is no menu inside
+            if ($(this).find('*[role=menu]').length == 0) {
+                $(this).click(_get_remote_modal);
+            }
         });
-        // berk
-        $blocks.find('.no-ajax').click(function(){
-            window.location = $(this).attr('href');
-            return false;
-        });
+    };
+    
+    var _get_remote_modal = function()
+    {
+        var params = {
+            'dom_id'    : $(this).attr('id'),
+            'block_type': $(this).data('block-type')
+        };
+        $.extend(params, url_params);
+        var url = Routing.generate(
+            'canal_tp_meth_block_edit', 
+            params
+        );
+        $('#base-modal').modal({remote: url});
     };
     
     var _get_blocks = function()

@@ -41,6 +41,11 @@ class Block extends AbstractEntity
      * @var Object
      */
     private $stopPoint;
+    
+    /**
+     * @var Object
+     */
+    private $frequencies;
 
     /**
      * Get id
@@ -190,5 +195,29 @@ class Block extends AbstractEntity
     public function getStopPoint()
     {
         return $this->stopPoint;
+    }
+
+    /**
+     * Set frequencies
+     *
+     * @param array $frequencies
+     *
+     * @return Block
+     */
+    public function setFrequencies($frequencies)
+    {
+        $this->frequencies = $frequencies;
+
+        return $this;
+    }
+
+    /**
+     * Get frequencies
+     *
+     * @return array
+     */
+    public function getFrequencies()
+    {
+        return $this->frequencies;
     }
 }

@@ -62,3 +62,8 @@ canal_tp_meth_distribution_generate:
 canal_tp_mtt_calendar_view:
     pattern: /calendars/view/coverage/{externalCoverageId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Calendar:view}
+
+#Frequency
+canal_tp_mtt_frequency_edit:
+    pattern: /frequency/edit/block/{blockId}/layout/{layoutId}
+    defaults: { _controller: CanalTPMttBundle:Frequency:edit}

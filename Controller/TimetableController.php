@@ -80,6 +80,8 @@ class TimetableController extends Controller
             $timetable,
             $stopPointData['stopPointInstance']
         );
+        $layoutsConfig = $this->container->getParameter('layouts');
+        
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
             array(
@@ -90,6 +92,8 @@ class TimetableController extends Controller
                 'calendars'             => $calendarsAndNotes['calendars'],
                 'notes'                 => $calendarsAndNotes['notes'],
                 'blockTypes'            => $this->container->getParameter('blocks'),
+                'layoutConfig'          => $layoutsConfig[$timetable->getLine()->getLayout()],
+                'layout'                => $timetable->getLine()->getLayout(),
                 'editable'              => true
             )
         );

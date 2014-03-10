@@ -33,13 +33,15 @@ CanalTP\MttBundle\Entity\Block:
     manyToOne:
         timetable:
             targetEntity: Timetable
-            inversedBy: mtt.blocks
             joinColumn:
                 name: timetable_id
                 referencedColumnName: id
         stopPoint:
             targetEntity: StopPoint
-            inversedBy: mtt.blocks
             joinColumn:
                 name: stop_point_id
                 referencedColumnName: id
+    oneToMany:
+        frequencies:
+            targetEntity: Frequency
+            mappedBy: block

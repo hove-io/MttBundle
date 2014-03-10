@@ -12,6 +12,7 @@ parameters:
     canal_tp_mtt.form.image_type_extension.class: CanalTP\MttBundle\Form\Extension\ImageTypeExtension
     canal_tp_mtt.pdf_generator.class: CanalTP\MttBundle\Services\PdfGenerator
     canal_tp_mtt.block_manager.class: CanalTP\MttBundle\Services\BlockManager
+    canal_tp_mtt.frequency_manager.class: CanalTP\MttBundle\Services\FrequencyManager
 
 services:
     navitia_component:
@@ -20,7 +21,13 @@ services:
         factory_method: getInstance
         calls:
             - [ setConfiguration, [%config.navitia%]]
-
+    # FORMS
+    form.type.layout:
+        class: CanalTP\MttBundle\Form\Type\LayoutType
+        arguments:
+            - "%layouts%"
+        tags:
+            - { name: form.type, alias: layout }
     iussaad_navitia:
         class: %iussaad_navitia.class%
         arguments: ['@navitia_component']
@@ -46,12 +53,6 @@ services:
     canal_tp_meth.stop_point_manager:
        class: %canal_tp_mtt.stop_point_manager.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_meth.navitia']
-    form.type.layout:
-        class: CanalTP\MttBundle\Form\Type\LayoutType
-        arguments:
-            - "%layouts%"
-        tags:
-            - { name: form.type, alias: layout }
     canal_tp_meth.form.factory.block:
        class: %canal_tp_mtt.form.factory.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canaltp_media_manager_mtt']
@@ -65,3 +66,10 @@ services:
         class: CanalTP\MttBundle\Twig\ScheduleExtension
         tags:
             - { name: twig.extension }
+    canal_tp_meth.twig.calendar_extension:
+        class: CanalTP\MttBundle\Twig\CalendarExtension
+        tags:
+            - { name: twig.extension }
+    canal_tp_mtt.frequency_manager:
+       class: %canal_tp_mtt.frequency_manager.class%
+       arguments: ['@doctrine.orm.entity_manager']

@@ -20,6 +20,9 @@ line:
 timetable:
     edit: Modifier la fiche horaire
 
+layout:
+    actions: Actions
+    
 block:
     get_form:
         title: Éditer le block
@@ -38,7 +41,14 @@ calendar:
     period_label: Période
     days: Jours
     form:
-        label: Période
+        label: Modifier la Période
     error:
         all_calendars_selected: "Vous ne pouvez pas modifier ce calendrier car toutes les périodes sont actuellement sélectionnées."
         content_higher_than_wrapper: Au moins un bloc dépasse la hauteur prévue.
+
+frequency:
+    form:
+        label: Ajouter/Modifier les cadres
+        title: Ajouter des cadres de fréquence
+        subtitle: Cadre n°
+        add_btn: Ajouter un cadre

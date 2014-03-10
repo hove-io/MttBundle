@@ -1,0 +1,49 @@
+{% extends "CanalTPMttBundle::modal.html.twig" %}
+
+{% block open_form %}
+{% endblock %}
+
+{% block modal_title %}
+    {{'frequency.form.title'|trans({}, 'default')}}
+{% endblock %}
+
+
+{% block modal_body %}
+    {% for form in forms %}
+        <hr/>
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-lg-8">
+                <h4 class="bold">{{'frequency.form.subtitle'|trans({}, 'default')}} {{ loop.index }}</h4>
+            </div>
+            <div class="col-lg-4 text-right">
+                <button type="submit" class="btn btn-success btn-sm">
+                    <span class="glyphicon glyphicon-pencil"></span> {{'global.save'|trans}}
+                </button>
+            </div>
+        </div>
+        <div class="divider"></div>
+        {{ form_errors(form) }}
+        <div class="row">
+            <div class="col-lg-2">
+                {{ form_row(form.startTime) }}
+            </div>
+            <div class="col-lg-2">
+                {{ form_row(form.endTime) }}
+            </div>
+            <div class="col-lg-8">
+                {{ form_row(form.content) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    {% endfor %}
+    <hr/>
+    <div class="text-center">
+        <button type="submit" class="btn btn-success add-frequency">
+            <span class="glyphicon glyphicon-plus"></span> {{'frequency.form.add_btn'|trans({}, 'default')}}
+        </button>
+    </div>
+{% endblock %}
+
+{% block modal_actions %}
+{% endblock %}
