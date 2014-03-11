@@ -9,6 +9,7 @@ namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MttBundle\Entity\Frequency;
+// use CanalTP\MttBundle\Entity\Block;
 
 class FrequencyManager
 {
@@ -21,6 +22,11 @@ class FrequencyManager
     public function getByBlockId($blockId)
     {
         return $this->om->getRepository('CanalTPMttBundle:Frequency')->findByBlock($blockId);
+    }
+    
+    public function getParentEntity($blockId)
+    {
+        return $this->om->getRepository('CanalTPMttBundle:Block')->find($blockId);
     }
     
     public function getEntity($blockId)

@@ -3,32 +3,39 @@
 namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use CanalTP\MttBundle\Form\Type\FrequencyType;
+use CanalTP\MttBundle\Form\Type\FrequenciesType;
+use CanalTP\MttBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\Frequency;
 /*
- * CalendarController
+ * FrequencyController
  */
 class FrequencyController extends Controller
 {
     public function editAction($blockId, $layoutId)
     {
-        $frequencyManager = $this->get('canal_tp_mtt.frequency_manager');
+        $blockManager = $this->get('canal_tp_mtt.block_manager');
         $layoutsConfig = $this->container->getParameter('layouts');
         
-        $frequencies = $frequencyManager->getByBlockId($blockId);
-        $forms = array();
-        if (empty($frequencies)) {
-            $forms[] = $this->createForm(
-                new FrequencyType($layoutsConfig[$layoutId], $this->getRequest()->getRequestUri()), 
-                $frequencyManager->getEntity($blockId)
-            )
-            ->createView();
-        }
+        $block = $blockManager->findBlock($blockId);
         
-        return $this->render(
-            'CanalTPMttBundle:Frequency:form.html.twig',
+        $form = $this->createForm(
+            new FrequenciesType($layoutsConfig[$layoutId], $block), 
+            $block,
             array(
-                'forms'        => $forms,
+                'action' => $this->getRequest()->getRequestUri()
             )
         );
+        $form->handleRequest($this->getRequest());
+        if ($form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirect($this->generateUrl('default'));
+        } else {
+            return $this->render(
+                'CanalTPMttBundle:Frequency:form.html.twig',
+                array(
+                    'form'        => $form->createView(),
+                )
+            );
+        }
     }
 }

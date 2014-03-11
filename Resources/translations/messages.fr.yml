@@ -5,6 +5,7 @@ global:
     save: Enregistrer
     close: Fermer
     delete: Supprimer
+    cancel: Annuler
     status: Statut
     generatePdf: Générer le PDF
     remove: Enlever

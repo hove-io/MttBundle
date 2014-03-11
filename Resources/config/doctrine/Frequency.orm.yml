@@ -26,9 +26,13 @@ CanalTP\MttBundle\Entity\Frequency:
             gedmo:
                 timestampable:
                     on: update
+    lifecycleCallbacks: {  }
     manyToOne:
         block:
+            inversedBy: frequencies
             targetEntity: Block
-            joinColumn:
-                name: block_id
-                referencedColumnName: id
+            # joinColumn:
+                # name: block_id
+                # referencedColumnName: id
+                # cascade: 
+                    # - all

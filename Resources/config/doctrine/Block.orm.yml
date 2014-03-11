@@ -30,6 +30,7 @@ CanalTP\MttBundle\Entity\Block:
             gedmo:
                 timestampable:
                     on: update
+    lifecycleCallbacks: {  }
     manyToOne:
         timetable:
             targetEntity: Timetable
@@ -45,3 +46,5 @@ CanalTP\MttBundle\Entity\Block:
         frequencies:
             targetEntity: Frequency
             mappedBy: block
+            cascade: 
+                - all

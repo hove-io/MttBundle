@@ -8,9 +8,9 @@
         {% block modal_body %}{% endblock %}
     </div>
     <div class="modal-footer">
-        {% block modal_close_footer %}<button type="button" class="btn btn-default" data-dismiss="modal">{{'global.close'|trans}}</button>{% endblock %}
         {% block modal_actions %}
             <button type="button" class="btn btn-primary">{{'global.save'|trans}}</button>
         {% endblock %}
+        {% block modal_close_footer %}<button type="button" class="btn btn-default" data-dismiss="modal">{{'global.close'|trans}}</button>{% endblock %}
     </div>
 {% endblock %}

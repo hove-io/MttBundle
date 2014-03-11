@@ -8,29 +8,34 @@ use CanalTP\MttBundle\Twig\CalendarExtension;
 
 class FrequencyType extends AbstractType
 {
-    private $hoursRange;
+    private $startHours;
+    private $endHours;
 
-    public function __construct($layoutConfig, $action)
+    public function __construct($hoursRange)
     {
-        $calendarRange = $layoutConfig['calendar_range'];
-        $extension = new CalendarExtension();
-        $this->hoursRange = $extension->calendarRange($calendarRange);
-        $this->action = $action;
+        $this->startHours = $hoursRange;
+        $this->endHours = $hoursRange;
+        array_shift($this->endHours);
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('startTime', 'time', array(
             'with_minutes'  => false,
-            'hours' => $this->hoursRange
+            'hours' => $this->startHours
         ));
-        array_shift($this->hoursRange);
         $builder->add('endTime', 'time', array(
             'with_minutes'  => false,
-            'hours' => $this->hoursRange
+            'hours' => $this->endHours
         ));
         $builder->add('content', 'textarea');
-        $builder->setAction($this->action);
+    }
+    
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class'    => 'CanalTP\MttBundle\Entity\Frequency'
+        ));
     }
     
     public function getName()

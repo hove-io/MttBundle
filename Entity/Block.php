@@ -47,6 +47,12 @@ class Block extends AbstractEntity
      */
     private $frequencies;
 
+    
+    // public function __construct()
+    // {
+        // $this->frequencies = new ArrayCollection();
+    // }
+    
     /**
      * Get id
      *
@@ -207,6 +213,9 @@ class Block extends AbstractEntity
     public function setFrequencies($frequencies)
     {
         $this->frequencies = $frequencies;
+        foreach ($this->frequencies as $frequency) {
+            $frequency->setBlock($this);
+        }
 
         return $this;
     }

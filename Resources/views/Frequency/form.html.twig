@@ -1,6 +1,7 @@
 {% extends "CanalTPMttBundle::modal.html.twig" %}
 
 {% block open_form %}
+    {{ form_start(form) }}
 {% endblock %}
 
 {% block modal_title %}
@@ -9,41 +10,49 @@
 
 
 {% block modal_body %}
-    {% for form in forms %}
-        <hr/>
-        {{ form_start(form) }}
-        <div class="row">
-            <div class="col-lg-8">
-                <h4 class="bold">{{'frequency.form.subtitle'|trans({}, 'default')}} {{ loop.index }}</h4>
+    {{ form_errors(form) }}
+    <div id="block_frequencies_wrapper" data-count="{{ form.frequencies|length }}">
+        {% for frequency in form.frequencies %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="bold">{{'frequency.form.subtitle'|trans({}, 'default')}} <span class="count-label">{{ loop.index }}</span></h4>
+                </div>
+                <div class="col-lg-2">
+                    {{ form_row(frequency.startTime) }}
+                </div>
+                <div class="col-lg-2">
+                    {{ form_row(frequency.endTime) }}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_row(frequency.content) }}
+                </div>
             </div>
-            <div class="col-lg-4 text-right">
-                <button type="submit" class="btn btn-success btn-sm">
-                    <span class="glyphicon glyphicon-pencil"></span> {{'global.save'|trans}}
-                </button>
-            </div>
-        </div>
-        <div class="divider"></div>
-        {{ form_errors(form) }}
-        <div class="row">
-            <div class="col-lg-2">
-                {{ form_row(form.startTime) }}
-            </div>
-            <div class="col-lg-2">
-                {{ form_row(form.endTime) }}
-            </div>
-            <div class="col-lg-8">
-                {{ form_row(form.content) }}
-            </div>
-        </div>
-        {{ form_end(form) }}
-    {% endfor %}
-    <hr/>
+            <hr/>
+        {% endfor %}
+    </div>
     <div class="text-center">
-        <button type="submit" class="btn btn-success add-frequency">
+        {% if form.frequencies|length < 4 %}
+        <button type="button" class="btn btn-success add-item-collection-btn">
             <span class="glyphicon glyphicon-plus"></span> {{'frequency.form.add_btn'|trans({}, 'default')}}
         </button>
+        {% endif %}
     </div>
 {% endblock %}
 
+{% block modal_close_footer %}
+    <button type="button" class="btn btn-default" data-dismiss="modal">{{'global.cancel'|trans}}</button>
+{% endblock %}
+
 {% block modal_actions %}
+    <button type="submit" class="btn btn-success">
+        <span class="glyphicon glyphicon-pencil"></span> {{'global.save'|trans}}
+    </button>
+    {{ form_end(form) }}
+    <script>
+        require(['jquery'], function($){
+            $('.modal-dialog .form-with-collection').submit(function(){
+                
+            });
+        });
+    </script>
 {% endblock %}

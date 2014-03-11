@@ -29,4 +29,9 @@ class BlockManager
         }
         return $block;
     }
+    
+    public function findBlock($blockId)
+    {
+        return $this->repo->find($blockId);
+    }
 }

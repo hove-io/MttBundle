@@ -150,7 +150,7 @@
 
     <script>
     {% if editable == true %}
-    require(['jquery', 'mtt/layout', 'bootstrap'], function($, Layout){
+    require(['jquery', 'mtt/layout', 'bootstrap', 'mtt/form/collection'], function($, Layout){
         var layout = Layout.init(
             $('#layout-1-wrapper'),
             {{ blockTypes|json_encode()|raw }},

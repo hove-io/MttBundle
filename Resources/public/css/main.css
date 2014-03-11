@@ -92,6 +92,7 @@
 .grid-time-column{
     border-right:1px solid #DDD;
 }
+.form-with-collection hr,
 .grid-time-wrapper hr{
     margin:5px 0;
 }
