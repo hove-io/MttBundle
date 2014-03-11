@@ -18,6 +18,8 @@ var require = {
         'mtt/translations/default': 'js/translations/default/{{ app.request.locale }}',
         'mtt/translations/messages':'js/translations/messages/{{ app.request.locale }}',
         // mtt specific
+        'mtt/jq_addons':            'bundles/canaltpmtt/js/jquery_addons',
+        'mtt/utils':                'bundles/canaltpmtt/js/utils',
         meth_left_menu:             'bundles/canaltpmtt/js/left_menu',
         'mtt/layout':               'bundles/canaltpmtt/js/layout',
         'mtt/layout/validator':     'bundles/canaltpmtt/js/layout/validator',
@@ -58,7 +60,7 @@ var require = {
             exports: "jQuery"
         }
     },
-    deps: ["jquery", "sf_routes", "translator"]
+    deps: ["jquery", "sf_routes", "translator", 'mtt/utils', 'mtt/jq_addons']
 };
 </script>
 <script type="text/javascript" src="{{app.request.basePath}}/bundles/canaltpmtt/js/require.js?{{ assets_version }}"></script>

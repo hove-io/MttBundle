@@ -20,6 +20,13 @@ define(['jquery'], function($) {
                     $(this).hide();
             }
         );
+        $('.modal-dialog').on(
+            'click',
+            '.form-with-collection .delete-item-collection-btn',
+            function(){
+                $(this).parents('.row').remove();
+            }
+        );
     };
     
     var _reset_and_inc_tpl = function($tpl, count)

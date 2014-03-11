@@ -11,13 +11,19 @@ use CanalTP\MttBundle\Entity\Frequency;
  */
 class FrequencyController extends Controller
 {
-    public function editAction($blockId, $layoutId)
+    public function editAction($blockId, $layoutId, $externalCoverageId)
     {
         $blockManager = $this->get('canal_tp_mtt.block_manager');
         $layoutsConfig = $this->container->getParameter('layouts');
         
         $block = $blockManager->findBlock($blockId);
-        
+        if (!$block) {
+            throw $this->createNotFoundException('Block not found');
+        }
+        // store frequencies in db
+        foreach ($block->getFrequencies() as $frequency) {
+            $originalFrequencies[] = $frequency;
+        }
         $form = $this->createForm(
             new FrequenciesType($layoutsConfig[$layoutId], $block), 
             $block,
@@ -27,8 +33,31 @@ class FrequencyController extends Controller
         );
         $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-            return $this->redirect($this->generateUrl('default'));
+            $em = $this->getDoctrine()->getManager();
+            if (isset($originalFrequencies) && !empty($originalFrequencies)) {
+                // filter $originalFrequencies to keep only frequencies in form
+                foreach ($block->getFrequencies() as $frequency) {
+                    foreach ($originalFrequencies as $key => $toDel) {
+                        if ($toDel->getId() === $frequency->getId()) {
+                            unset($originalFrequencies[$key]);
+                        }
+                    }
+                }
+                foreach ($originalFrequencies as $frequency) {
+                    $em->remove($frequency);
+                }
+            }
+            $em->flush();
+            return $this->redirect(
+                $this->generateUrl(
+                    'canal_tp_meth_timetable_edit',
+                    array(
+                        'externalCoverageId'    => $externalCoverageId,
+                        'externalRouteId'       => $block->getTimetable()->getExternalRouteId(),
+                        'externalStopPointId'   => null
+                    )
+                )
+            );
         } else {
             return $this->render(
                 'CanalTPMttBundle:Frequency:form.html.twig',

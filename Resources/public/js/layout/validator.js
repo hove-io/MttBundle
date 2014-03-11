@@ -1,8 +1,7 @@
-define(['jquery', 'mtt/translations/default'], function($) {
+define(['jquery', 'mtt/utils', 'mtt/translations/default'], function($, utils) {
     var validator = {};
     var $wrapper,
-        $msgWrapperTpl = $('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
-    ;
+        $msgWrapperTpl = utils.getTpl('msgWrapperTpl');
     
     validator.init = function(params){
         $wrapper = params.wrapper;
@@ -15,7 +14,7 @@ define(['jquery', 'mtt/translations/default'], function($) {
         var msg_added = false;
         // check if content is bigger than block wrapper
         $wrapper.find('.block > *[data-validate-height="1"]').each(function(){
-            if ($(this).children().height() > $(this).height())
+            if ($(this).children('table:not(.frequencies-table)').height() > $(this).height())
             {
                 $(this).parents('.block').addClass('error');
                 if (msg_added == false)

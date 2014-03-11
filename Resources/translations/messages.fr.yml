@@ -20,6 +20,10 @@ global:
     hour_label: h
     annotations: Annotations
     direction: Direction
+
+error:
+    start_end_time_incoherent: L'heure de début et l'heure de fin en sont pas cohérentes
+    frequencies_conflict: Plusieurs fréquences se chevauchent
     
 help:
     edit_block: Cliquer pour éditer ce bloc
