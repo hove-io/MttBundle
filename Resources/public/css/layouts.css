@@ -77,3 +77,24 @@ body.editable{
     font-size: 12px;
     line-height: 14px;
 }
+.centered-dropdown{
+    margin-left:-100px;
+}
+.frequencies-table{
+    position: absolute;
+}
+.frequencies-row td.frequency-content{
+    text-align:center;
+    border:1px solid black;
+    padding: 10px;
+}
+.frequencies-row td.frequency-content > div{
+    display: table;
+    min-height:100px;
+    text-align: center;
+    width:100%;
+}
+.frequencies-row td.frequency-content > div > span{
+    display: table-cell;
+    vertical-align: middle;
+}

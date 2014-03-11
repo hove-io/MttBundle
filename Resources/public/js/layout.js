@@ -21,9 +21,18 @@ define(['jquery'], function($) {
     {
         var $blocks = _get_blocks();
         $blocks.each(function(){
+            var $block = $(this);
             // bind click listener if there is no menu inside
-            if ($(this).find('*[role=menu]').length == 0) {
-                $(this).click(_get_remote_modal);
+            if ($block.find('*[role=menu]').length == 0) {
+                $block.click(_get_remote_modal);
+            } else {
+                $block.find('*[role=menu]').siblings('button.btn').dropdown();
+                $block.click(function(event){
+                    if ($block.find('*[role=menu]').parents('.btn-group').hasClass('open') == false) {
+                        $block.find('*[role=menu]').siblings('button.btn').click();
+                        return false;
+                    }
+                });
             }
         });
     };

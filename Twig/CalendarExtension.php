@@ -7,7 +7,8 @@ class CalendarExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'calendarRange'      => new \Twig_Filter_Method($this, 'calendarRange'),
+            'calendarRange'     => new \Twig_Filter_Method($this, 'calendarRange'),
+            'hourIndex'         => new \Twig_Filter_Method($this, 'hourIndex'),
         );
     }
 
@@ -24,6 +25,15 @@ class CalendarExtension extends \Twig_Extension
             }
         }
         return $elements;
+    }
+    
+    public function hourIndex($datetime, $hours)
+    {
+        $searchedHour = date('G', $datetime->getTimestamp());
+        foreach($hours as $index => $hour) {
+            if ($hour == $searchedHour)
+                return $index;
+        }
     }
 
     public function getName()

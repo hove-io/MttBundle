@@ -43,28 +43,35 @@
                 {% for i in 1..4 %}
                     {% set id = 'timegrid_block_' ~ i %}
                     {% set block = attribute(timetable.blocks, id) %}
-                    <div id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
+                    <div title="{{ 'help.edit_block'|trans }}" id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
                         <div class="timegrid-header">
                             {% if block %}{{ block.title }}{% endif %}
                         </div>
-                        <div class="timegrid-body" data-validate-height="1">
+                        <div class="timegrid-body relative" data-validate-height="1">
+                            {% set hours_range = layoutConfig.calendar_range|calendarRange %}
+
+                            {% if block.frequencies|length > 0 %}
+                                {%  
+                                    include "CanalTPMttBundle:Frequency:display.html.twig" 
+                                    with { 'frequencies' : block.frequencies, 'hours_range' : hours_range } 
+                                %}
+                            {% endif %}
                             <table>
                                 <tr>
-                                {% set hours_range = layoutConfig.calendar_range|calendarRange %}
                                 {% for i in hours_range %}
                                     <td class="timegrid-column hour-label">{{i}}{{ 'global.hour_label'|trans }}</td>
                                 {% endfor %}
                                 </tr>
                             {% set calendar = attribute(calendars, block.content) %}
                             {% if stopPointLevel == false and block %}
-                                <tr><td colspan="22" class="external-calendar-name">{{ calendar.name }}</td></tr>
+                                <!--tr><td colspan="22" class="external-calendar-name">{{ calendar.name }}</td></tr-->
                                 <tr>
                                     <td colspan="22" class="text-center">
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle hide" data-toggle="dropdown">
                                                 {{'layout.actions'|trans({}, 'default')}} <span class="caret"></span>
                                             </button>
-                                            <ul class="dropdown-menu text-left" role="menu">
+                                            <ul class="dropdown-menu centered-dropdown text-left" role="menu">
                                                 <li>
                                                     <a data-toggle="modal" href="{{ 
                                                         path(
@@ -122,8 +129,8 @@
                                 {% endfor %}
                             {% endif %}
                             </table>
-
-                            {# specific to this layout #}
+                            
+                            {# position is specific to this layout ie i== 1... #}
                             {% if i == 1 and notes|length > 0 %}
                                 <div class="timetable-notes">
                                 {% for note in notes %}
@@ -139,7 +146,7 @@
     </div>
 {% endblock %}
 
-{# mutualize in base layout #}
+{# mutualize it #}
 {% block scripts %}
     {# <pre>{{ dump(calendars) }}</pre> #}
     {% if stopPointLevel == false %}

@@ -20,3 +20,6 @@ global:
     hour_label: h
     annotations: Annotations
     direction: Direction
+    
+help:
+    edit_block: Cliquer pour éditer ce bloc
