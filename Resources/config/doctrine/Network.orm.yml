@@ -26,6 +26,10 @@ CanalTP\MttBundle\Entity\Network:
             gedmo:
                 timestampable:
                     on: update
+    oneToMany:
+        seasons:
+            targetEntity: Season
+            mappedBy: network
     manyToMany:
         users:
             targetEntity: CanalTP\IussaadCoreBundle\Entity\User

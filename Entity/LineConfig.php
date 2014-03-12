@@ -5,7 +5,7 @@ namespace CanalTP\MttBundle\Entity;
 /**
  * Line
  */
-class Line extends AbstractEntity
+class LineConfig extends AbstractEntity
 {
     /**
      * @var integer
@@ -15,7 +15,7 @@ class Line extends AbstractEntity
     /**
      * @var string
      */
-    private $externalId;
+    private $externalLineId;
 
     /**
      * @var string
@@ -36,6 +36,16 @@ class Line extends AbstractEntity
      * @var Array
      */
     private $stopPoints;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $seasons;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $timetables;
 
     /**
      * Set id
@@ -60,14 +70,14 @@ class Line extends AbstractEntity
     }
 
     /**
-     * Set externalId
+     * Set externalLineId
      *
-     * @param  string $externalId
+     * @param  string $externalLineId
      * @return Line
      */
-    public function setExternalId($externalId)
+    public function setExternalLineId($externalLineId)
     {
-        $this->externalId = $externalId;
+        $this->externalLineId = $externalLineId;
 
         return $this;
     }
@@ -77,9 +87,9 @@ class Line extends AbstractEntity
      *
      * @return string
      */
-    public function getExternalId()
+    public function getExternalLineId()
     {
-        return $this->externalId;
+        return $this->externalLineId;
     }
 
     /**

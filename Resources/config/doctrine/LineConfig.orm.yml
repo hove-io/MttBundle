@@ -1,17 +1,17 @@
-CanalTP\MttBundle\Entity\Line:
+CanalTP\MttBundle\Entity\LineConfig:
     type: entity
-    table: mtt.line
-    repositoryClass: CanalTP\MttBundle\Entity\LineRepository
+    table: mtt.line_config
+    repositoryClass: CanalTP\MttBundle\Entity\LineConfigRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
-        externalId:
+        externalLineId:
             type: string
             length: 255
-            column: external_id
+            column: external_line_id
         layout:
             type: string
             column: layout
@@ -25,3 +25,14 @@ CanalTP\MttBundle\Entity\Line:
             gedmo:
                 timestampable:
                     on: update
+    oneToMany:
+        timetables:
+            targetEntity: Timetable
+            mappedBy: line_config
+    manyToOne:
+        seasons:
+            targetEntity: Season
+            joinColumn:
+                name: season_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

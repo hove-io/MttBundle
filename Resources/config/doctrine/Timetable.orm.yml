@@ -11,8 +11,7 @@ CanalTP\MttBundle\Entity\Timetable:
         externalRouteId:
             type: string
             length: 255
-            # TODO
-            # column: external_route_id
+            column: external_route_id
         created:
             type: datetime
             gedmo:
@@ -30,3 +29,9 @@ CanalTP\MttBundle\Entity\Timetable:
         ditributionLists:
             targetEntity: DistributionList
             mappedBy: timetable
+    manyToOne:
+        line_config:
+            targetEntity: LineConfig
+            joinColumn:
+                name: line_config_id
+                referencedColumnName: id

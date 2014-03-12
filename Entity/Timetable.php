@@ -43,6 +43,11 @@ class Timetable extends AbstractEntity
     private $line;
 
     /**
+     * @var Object - non persistent
+     */
+    private $line_config;
+
+    /**
      * Get id
      *
      * @return integer

@@ -1,0 +1,39 @@
+CanalTP\MttBundle\Entity\Season:
+    type: entity
+    table: mtt.season
+    repositoryClass: CanalTP\MttBundle\Entity\SeasonRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        title:
+            type: string
+            length: 255
+        startDate:
+            type: date
+            column: start_date
+        endDate:
+            type: date
+            column: end_date
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    uniqueConstraints:
+        network_season_idx:
+            columns: [ title, network_id ]
+    manyToOne:
+        network:
+            targetEntity: Network
+            joinColumn:
+                name: network_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

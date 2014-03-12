@@ -28,6 +28,11 @@ class Network extends AbstractEntity
     private $users;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $seasons;
+
+    /**
      * Get id
      *
      * @return integer
@@ -81,5 +86,27 @@ class Network extends AbstractEntity
     public function getExternalCoverageId()
     {
         return $this->externalCoverageId;
+    }
+
+    /**
+     * Get Object
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSeasons()
+    {
+        return $this->seasons;
+    }
+
+    /**
+     * Set Object
+     *
+     * @return Season
+     */
+    public function setSeasons($seasons)
+    {
+        $this->seasons = $seasons;
+
+        return ($this);
     }
 }
