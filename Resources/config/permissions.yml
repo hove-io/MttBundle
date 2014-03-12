@@ -13,5 +13,5 @@ parameters:
             label: Gerer les permissions
             description: Permet de modifier les permissions des differents roles
         BUSINESS_TOTO:
-            label: Gerer des chose
+            label: Gerer des choses
             description: Permet de faire plein de chose !
