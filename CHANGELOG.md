@@ -1,3 +1,11 @@
+Notes de publication - MTT - Version 0.4.1 (12/03/2014)
+
+** BugFix
+    * [METH-80] Bloc par arrêt et non par (arrêt, route)
+    * [METH-75] Non persistance de l'ordre des arrêts à la reconnexion
+** Récit
+    * [METH-25] Superposition de tables en fréquence sur une TH
+
 Notes de publication - MTT - Version 0.3.2 (03/03/2014)
 
 ** Récit
