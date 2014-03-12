@@ -1,30 +1,38 @@
 define(['jquery'], function($) {
     var regexp = /(.*?)\]\[(\d+)\]\[(.*?)/;
     
-    var _init = function()
+    var collection = {};
+    
+    collection.init = function($wrapper)
     {
-        $('.modal-dialog').on(
-            'click',
-            '.form-with-collection .add-item-collection-btn',
+        collection.tpl = $wrapper.find('div:first').clone(true, true);
+        $wrapper.parents('.form-with-collection').find('.add-item-collection-btn').click(
             function(){
-                var $wrapper = $(this).parents('form.form-with-collection').find('[data-count]');
-                // var $tpl = $($wrapper.data('prototype'));
-                var $tpl = $wrapper.find('div:first').clone();
                 var actual_count = $wrapper.data('count');
-                $tpl = _reset_and_inc_tpl($tpl, actual_count);
-                $wrapper.append($tpl);
+                var $currentTpl = collection.tpl.clone();
+                _reset_and_inc_tpl($currentTpl, actual_count);
+                $wrapper.append($currentTpl);
                 $wrapper.append('<hr/>');
-                actual_count++
+                actual_count++;
                 $wrapper.data('count', actual_count);
                 if (actual_count == 4)
                     $(this).hide();
             }
         );
-        $('.modal-dialog').on(
+        $wrapper.parents('.form-with-collection').on(
             'click',
-            '.form-with-collection .delete-item-collection-btn',
+            '.delete-item-collection-btn',
             function(){
-                $(this).parents('.row').remove();
+                var elem_wrapper = $(this).parents('.row');
+                var actual_count = $wrapper.data('count');
+                actual_count--;
+                $wrapper.data('count', actual_count);
+                // show add button if remaining less than 4 elements
+                if (actual_count < 4) {
+                    elem_wrapper.parents('.form-with-collection').find('.add-item-collection-btn').show();
+                }
+                elem_wrapper.next('hr').remove();
+                elem_wrapper.remove();
             }
         );
     };
@@ -41,5 +49,5 @@ define(['jquery'], function($) {
         return $tpl;
     };
     
-    _init();
+    return collection;
 });

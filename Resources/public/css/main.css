@@ -8,6 +8,10 @@
 .modal-dialog {
     width:800px;
 }
+textarea {
+    resize: none;
+}
+/* general display */
 #left-menu{
     padding-bottom:50px;
     min-width:100%;

@@ -49,22 +49,25 @@
                         </div>
                         <div class="timegrid-body relative" data-validate-height="1">
                             {% set hours_range = layoutConfig.calendar_range|calendarRange %}
-
-                            {% if block.frequencies|length > 0 %}
-                                {%  
-                                    include "CanalTPMttBundle:Frequency:display.html.twig" 
-                                    with { 'frequencies' : block.frequencies, 'hours_range' : hours_range } 
-                                %}
-                            {% endif %}
+                            <!-- Frequencies -->
                             <table>
                                 <tr>
                                 {% for i in hours_range %}
                                     <td class="timegrid-column hour-label">{{i}}{{ 'global.hour_label'|trans }}</td>
                                 {% endfor %}
                                 </tr>
+                                {% if block.frequencies|length > 0 %}
+                                    {%  
+                                        include "CanalTPMttBundle:Frequency:display.html.twig" 
+                                        with { 'frequencies' : block.frequencies, 'hours_range' : hours_range } 
+                                    %}
+                                {% endif %}
                             {% set calendar = attribute(calendars, block.content) %}
                             {% if stopPointLevel == false and block %}
-                                <!--tr><td colspan="22" class="external-calendar-name">{{ calendar.name }}</td></tr-->
+                                <!--
+                                TODO
+                                tr><td colspan="22" class="external-calendar-name">{{ calendar.name }}</td></tr
+                                -->
                                 <tr>
                                     <td colspan="22" class="text-center">
                                         <div class="btn-group">
@@ -116,10 +119,14 @@
                                 {% set loopMax = calendar|calendarMax %}
                                 {% for i in 0..loopMax %}
                                     <tr class="{% if i % 2  == 0 %}even{% else %}odd{% endif %}">
-                                    {% for hour in hours_range %}
-                                        {% set datetime = attribute(calendar.schedules.date_times, hour) %}
-                                            <td class="timegrid-column">
-                                            {% if datetime and datetime|length > 0 %}
+                                    {% for index,hour in hours_range %}
+                                        <td class="timegrid-column">
+                                            {% set datetime = attribute(calendar.schedules.date_times, hour) %}
+                                            {% if 
+                                                hour|isWithinFrequency(block.frequencies, hours_range) == false 
+                                                and datetime 
+                                                and datetime|length > 0 
+                                            %}
                                                 {% if datetime[i] %}
                                                     {{ datetime[i]|schedule(notes)|raw }}
                                                 {% endif %}

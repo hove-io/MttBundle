@@ -28,7 +28,11 @@ class FrequencyType extends AbstractType
             'with_minutes'  => false,
             'hours' => $this->endHours
         ));
-        $builder->add('content', 'textarea');
+        $builder->add('content', 'textarea', array(
+            'attr' => array(
+                'maxlength' => 150,
+            )
+        ));
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

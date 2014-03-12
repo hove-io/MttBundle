@@ -1,9 +1,9 @@
-<table class="frequencies-table">
+{# <table class="frequencies-table">
     <tr>
     {% for i in hours_range %}
         <td class="timegrid-column hour-label"></td>
     {% endfor %}
-    </tr>
+    </tr> #}
     <tr class="frequencies-row">
         {% set previous_time = hours_range|first - 1 %}
         {% for frequency in frequencies %}
@@ -23,4 +23,4 @@
             {% endif %}
         {% endfor %}
     </tr>
-</table>
+{# </table> #}

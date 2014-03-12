@@ -20,10 +20,11 @@ global:
     hour_label: h
     annotations: Annotations
     direction: Direction
+    remaining_chars: %nb_chars% caractères restant(s)
 
 error:
     start_end_time_incoherent: L'heure de début et l'heure de fin en sont pas cohérentes
-    frequencies_conflict: Plusieurs fréquences se chevauchent
+    frequencies_conflict: Plusieurs cadres se chevauchent
     
 help:
     edit_block: Cliquer pour éditer ce bloc

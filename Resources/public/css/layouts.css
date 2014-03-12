@@ -80,17 +80,21 @@ body.editable{
 .centered-dropdown{
     margin-left:-100px;
 }
-.frequencies-table{
-    position: absolute;
+.timegrid-body table .frequencies-row{
+    position: relative;
+    height: 0px;
 }
 .frequencies-row td.frequency-content{
     text-align:center;
-    border:1px solid black;
-    padding: 10px;
+    padding: 0 1px;
+    position: relative;
 }
 .frequencies-row td.frequency-content > div{
+    border:1px solid black;
     display: table;
     min-height:100px;
+    padding:10px;
+    position: absolute;
     text-align: center;
     width:100%;
 }
