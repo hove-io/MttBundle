@@ -13,7 +13,11 @@
             {% endif %}
             {% set interval = frequency.endTime|hourIndex(hours_range) - frequency.startTime|hourIndex(hours_range) + 1 %}
             <td class="frequency-content" colspan="{{interval}}">
-                <div><span>{{ frequency.content }}</span></div>
+                <div class="relative-wrapper">
+                    <div class="absolute-wrapper">
+                        <div class="min-height-wrapper"><span>{{ frequency.content|nl2br }}</span></div>
+                    </div>
+                </div>
             </td>
             {% if loop.last and frequency.endTime|hourIndex(hours_range) != hours_range|length - 1 %}
                 {% set offset = hours_range|length - frequency.endTime|hourIndex(hours_range) - 1 %}
