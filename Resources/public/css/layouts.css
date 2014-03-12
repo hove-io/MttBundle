@@ -81,24 +81,30 @@ body.editable{
     margin-left:-100px;
 }
 .timegrid-body table .frequencies-row{
-    position: relative;
     height: 0px;
 }
 .frequencies-row td.frequency-content{
     text-align:center;
     padding: 0 1px;
-    position: relative;
 }
-.frequencies-row td.frequency-content > div{
-    border:1px solid black;
-    display: table;
-    min-height:100px;
-    padding:10px;
-    position: absolute;
-    text-align: center;
+.frequencies-row td.frequency-content div.relative-wrapper,
+.frequencies-row td.frequency-content div.absolute-wrapper{
+    position:relative;
+    height:0px;
     width:100%;
 }
-.frequencies-row td.frequency-content > div > span{
-    display: table-cell;
+.frequencies-row td.frequency-content div.absolute-wrapper{
+    position:absolute;
+}
+.frequencies-row td.frequency-content div.min-height-wrapper{
+    border:1px solid black;
+    display:table;
+    height:100px;
+    text-align: center;
+    width: 100%;
+}
+.frequencies-row td.frequency-content div.min-height-wrapper > span{
+    display:table-cell;
+    padding:10px;
     vertical-align: middle;
 }
