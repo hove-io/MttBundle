@@ -39,6 +39,7 @@ abstract class AbstractControllerTest extends WebTestCase
     
     public function setUp()
     {
+        ini_set('xdebug.max_nesting_level', 200);
         $this->stubs_path = dirname(__FILE__) . '/stubs/';
         $this->client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'mtt@canaltp.fr',
