@@ -35,7 +35,7 @@ class TimetableManager
     {
         $data = $this->navitia->getRouteData($externalRouteId, $externalCoverageId);
         // var_dump($data);die;
-        $line = $this->lineManager->getLineByExternalId($data->line->id);
+        $line = $this->lineManager->getLineConfigByExternalLineId($data->line->id);
         $this->timetable->setLine($line);
         $this->timetable->setTitle($data->name);
         $this->calendars = $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId);

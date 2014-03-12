@@ -38,35 +38,35 @@ services:
     canal_tp_mtt.user:
        class: %canal_tp_mtt.user.class%
        arguments: ['@doctrine.orm.entity_manager', '@security.context', '@translator']
-    canal_tp_meth.navitia:
+    canal_tp_mtt.navitia:
        class: %canal_tp_mtt.navitia.class%
        arguments: ['@navitia_component', '@iussaad_navitia', '@translator']
-    canal_tp_meth.line_manager:
+    canal_tp_mtt.line_manager:
        class: %canal_tp_mtt.line_manager.class%
-       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_meth.navitia']
-    canal_tp_meth.timetable_manager:
+       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia']
+    canal_tp_mtt.timetable_manager:
        class: %canal_tp_mtt.timetable_manager.class%
-       arguments: ['@doctrine.orm.entity_manager', '@canal_tp_meth.navitia', '@canal_tp_meth.line_manager']
+       arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia', '@canal_tp_mtt.line_manager']
     canal_tp_mtt.block_manager:
        class: %canal_tp_mtt.block_manager.class%
        arguments: ['@doctrine.orm.entity_manager']
-    canal_tp_meth.stop_point_manager:
+    canal_tp_mtt.stop_point_manager:
        class: %canal_tp_mtt.stop_point_manager.class%
-       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_meth.navitia']
-    canal_tp_meth.form.factory.block:
+       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia']
+    canal_tp_mtt.form.factory.block:
        class: %canal_tp_mtt.form.factory.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canaltp_media_manager_mtt']
-    canal_tp_meth.pdf_generator:
+    canal_tp_mtt.pdf_generator:
        class: %canal_tp_mtt.pdf_generator.class%
        arguments: ['%pdf_generator_url%', "%layouts%", "%kernel.root_dir%/../web/uploads/"]
-    canal_tp_meth.calendar_manager:
+    canal_tp_mtt.calendar_manager:
        class: %canal_tp_mtt.calendar_manager.class%
-       arguments: ['@canal_tp_meth.navitia', '@translator']
-    canal_tp_meth.twig.schedule_extension:
+       arguments: ['@canal_tp_mtt.navitia', '@translator']
+    canal_tp_mtt.twig.schedule_extension:
         class: CanalTP\MttBundle\Twig\ScheduleExtension
         tags:
             - { name: twig.extension }
-    canal_tp_meth.twig.calendar_extension:
+    canal_tp_mtt.twig.calendar_extension:
         class: CanalTP\MttBundle\Twig\CalendarExtension
         tags:
             - { name: twig.extension }

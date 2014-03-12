@@ -62,7 +62,7 @@ class BlockTypeFactory
         switch ($this->type) {
             case 'calendar':
                 $objectType = new CalendarBlockType(
-                    $this->co->get('canal_tp_meth.calendar_manager'),
+                    $this->co->get('canal_tp_mtt.calendar_manager'),
                     $this->instance,
                     $this->externalCoverageId
                 );

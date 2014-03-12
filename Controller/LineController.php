@@ -3,7 +3,7 @@
 namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use CanalTP\MttBundle\Entity\Line;
+use CanalTP\MttBundle\Entity\LineConfig;
 
 /*
  * LineController
@@ -17,8 +17,8 @@ class LineController extends Controller
     {
         if (empty($line)) {
             $data = $form->getData();
-            $line = new Line();
-            $line->setExternalId($params['line_id']);
+            $line = new LineConfig();
+            $line->setExternalLineId($params['line_id']);
             $line->setLayout($data['layout']);
         }
         if ($line->getLayout() != null) {
@@ -46,9 +46,9 @@ class LineController extends Controller
                         'line_id'        => $line_id,
                         'externalRouteId'=> $externalRouteId);
         $line = $this->getDoctrine()
-                ->getRepository('CanalTPMttBundle:Line')
+                ->getRepository('CanalTPMttBundle:LineConfig')
                 ->findOneBy(
-                    array('externalId' => $line_id)
+                    array('externalLineId' => $line_id)
                 );
 
         $form = $this->createFormBuilder($line)

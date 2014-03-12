@@ -19,7 +19,7 @@ class TimetableController extends Controller
      */
     private function getTimetable($routeExternalId, $externalCoverageId)
     {
-        $timetableManager = $this->get('canal_tp_meth.timetable_manager');
+        $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
 
         return $timetableManager->getTimetable($routeExternalId, $externalCoverageId);
     }
@@ -29,7 +29,7 @@ class TimetableController extends Controller
         // are we on a specific stop_point
         if ($externalStopPointId != '') {
             $stopPointLevel = true;
-            $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
+            $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
             $stopPointInstance = $stopPointManager->getStopPoint(
                 $externalStopPointId, 
                 $timetable,
@@ -75,7 +75,7 @@ class TimetableController extends Controller
             $timetable, 
             $externalCoverageId
         );
-        $calendarsAndNotes = $this->get('canal_tp_meth.calendar_manager')->getCalendars(
+        $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
             $externalCoverageId,
             $timetable,
             $stopPointData['stopPointInstance']
@@ -110,7 +110,7 @@ class TimetableController extends Controller
             $timetable, 
             $externalCoverageId
         );
-        $calendarsAndNotes = $this->get('canal_tp_meth.calendar_manager')->getCalendars(
+        $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
             $externalCoverageId,
             $timetable,
             $stopPointData['stopPointInstance']
@@ -134,8 +134,8 @@ class TimetableController extends Controller
 
     public function generatePdfAction($timetableId, $externalCoverageId, $externalStopPointId)
     {
-        $timetable = $this->get('canal_tp_meth.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
-        $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
+        $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
+        $pdfGenerator = $this->get('canal_tp_mtt.pdf_generator');
 
         $url = $this->get('request')->getHttpHost() . $this->get('router')->generate(
             'canal_tp_meth_timetable_view',

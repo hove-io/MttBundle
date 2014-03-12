@@ -18,7 +18,7 @@ class DefaultController extends Controller
 
     public function navigationAction($current_route = null)
     {
-        $meth_navitia = $this->get('canal_tp_meth.navitia');
+        $meth_navitia = $this->get('canal_tp_mtt.navitia');
         $mtt_user = $this->get('canal_tp_mtt.user');
 
         $networks = $mtt_user->getNetworks();

@@ -22,7 +22,7 @@ class LineManager
         $this->line = null;
         $this->container = $co;
         $this->navitia = $navitia;
-        $this->repository = $om->getRepository('CanalTPMttBundle:Line');
+        $this->repository = $om->getRepository('CanalTPMttBundle:LineConfig');
     }
 
     private function initTwigPath()
@@ -35,12 +35,12 @@ class LineManager
     /**
      * Return line Object with navitia data added
      *
-     * @param  string $lineExternalId
+     * @param  string $externalLineId
      * @return line
      */
-    public function getLineByExternalId($lineExternalId)
+    public function getLineConfigByExternalLineId($externalLineId)
     {
-        $this->line = $this->repository->findOneByExternalId($lineExternalId);
+        $this->line = $this->repository->findOneByExternalLineId($externalLineId);
 
         $this->initTwigPath();
 

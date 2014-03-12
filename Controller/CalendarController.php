@@ -11,7 +11,7 @@ class CalendarController extends Controller
 {
     public function viewAction($externalCoverageId, $externalRouteId, $externalStopPointId)
     {
-        $calendarManager = $this->get('canal_tp_meth.calendar_manager');
+        $calendarManager = $this->get('canal_tp_mtt.calendar_manager');
         $calendarsAndNotes = $calendarManager->getCalendarsForStopPoint(
             $externalCoverageId, 
             $externalRouteId, 

@@ -13,9 +13,9 @@ class BlockController extends Controller
      */
     public function editAction($externalCoverageId, $dom_id, $timetableId, $block_type = 'text', $stop_point = null)
     {
-        $blockTypeFactory = $this->get('canal_tp_meth.form.factory.block');
+        $blockTypeFactory = $this->get('canal_tp_mtt.form.factory.block');
         $blockManager = $this->get('canal_tp_mtt.block_manager');
-        $timetableManager = $this->get('canal_tp_meth.timetable_manager');
+        $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
         $data = array('dom_id' => $dom_id, 'type_id' => $block_type, 'stop_point' => $stop_point);
         
 
@@ -52,7 +52,7 @@ class BlockController extends Controller
 
     public function deleteAction($timetableId, $blockId, $externalCoverageId)
     {
-        $timetableManager = $this->get('canal_tp_meth.timetable_manager');
+        $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
         $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block');
 
         $block = $repo->find($blockId);

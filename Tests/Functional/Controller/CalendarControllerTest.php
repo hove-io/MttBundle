@@ -19,7 +19,7 @@ class CalendarControllerTest extends AbstractControllerTest
     
     private function initialization()
     {
-        $this->setService('canal_tp_meth.navitia', $this->getMockedNavitia());
+        $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
         $crawler = $this->client->request('GET', $this->getViewRoute());
         // check response code is 200
         $this->assertEquals(

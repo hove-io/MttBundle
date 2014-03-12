@@ -16,10 +16,10 @@ class DistributionController extends Controller
         $navitia = $this->get('iussaad_navitia');
         $routes = $navitia->getStopPoints($coverageId, $networkId, $lineId, $routeId);
         $timetable = $this
-            ->get('canal_tp_meth.timetable_manager')
+            ->get('canal_tp_mtt.timetable_manager')
             ->getTimetable($routeId, $coverageId);
 
-        $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
+        $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $schedules = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows);
         $schedules = $this
             ->getDoctrine()
@@ -42,8 +42,8 @@ class DistributionController extends Controller
 
     public function generateAction($timetableId, $externalCoverageId)
     {
-        $timetable = $this->get('canal_tp_meth.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
-        $stopPointManager = $this->get('canal_tp_meth.stop_point_manager');
+        $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
+        $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint');
         $this->mediaManager = $this->get('canaltp_media_manager_mtt');
 
@@ -76,7 +76,7 @@ class DistributionController extends Controller
         if (count($paths) > 0) {
             // save this list in db
             $this->saveList($timetable, $stopPointsIds);
-            $pdfGenerator = $this->get('canal_tp_meth.pdf_generator');
+            $pdfGenerator = $this->get('canal_tp_mtt.pdf_generator');
             $filePath = $pdfGenerator->aggregatePdf($paths);
 
             return new JsonResponse(
