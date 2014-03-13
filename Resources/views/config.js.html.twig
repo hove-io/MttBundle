@@ -4,19 +4,21 @@ var require = {
     urlArgs: '{{ assets_version }}',
     paths: {
         // libs
-        jquery:             'components/jquery/jquery',
-        jquery_ui_sortable: 'components/jquery-ui/ui/minified/jquery.ui.sortable.min',
-        jquery_ui_core:     'components/jquery-ui/ui/minified/jquery.ui.core.min',
-        jquery_ui_mouse:    'components/jquery-ui/ui/minified/jquery.ui.mouse.min',
-        jquery_ui_widget:   'components/jquery-ui/ui/minified/jquery.ui.widget.min',
-        bootstrap:          'js/bootstrap',
+        jquery:                         'components/jquery/jquery',
+        jquery_ui_sortable:             'components/jquery-ui/ui/minified/jquery.ui.sortable.min',
+        jquery_ui_core:                 'components/jquery-ui/ui/minified/jquery.ui.core.min',
+        jquery_ui_mouse:                'components/jquery-ui/ui/minified/jquery.ui.mouse.min',
+        jquery_ui_widget:               'components/jquery-ui/ui/minified/jquery.ui.widget.min',
+        bootstrap:                      'js/bootstrap',
+        'bootstrap/datepicker':         'components/bootstrap-datepicker/bootstrap-datepicker-built',
+        'bootstrap/datepicker/fr':      'bundles/canaltpmtt/js/bootstrap-datepicker.fr',
         // routes
-        fosjsrouting:       'bundles/fosjsrouting/js/router',
-        sf_routes:          '{{ path("fos_js_routing_js", {"callback": "fos.Router.setData"}) }}',
+        fosjsrouting:                   'bundles/fosjsrouting/js/router',
+        sf_routes:                      '{{ path("fos_js_routing_js", {"callback": "fos.Router.setData"}) }}',
         // translations
-        translator:                 'bundles/bazingajstranslation/js/translator.min',
-        'mtt/translations/default': 'js/translations/default/{{ app.request.locale }}',
-        'mtt/translations/messages':'js/translations/messages/{{ app.request.locale }}',
+        translator:                     'bundles/bazingajstranslation/js/translator.min',
+        'mtt/translations/default':     'js/translations/default/{{ app.request.locale }}',
+        'mtt/translations/messages':    'js/translations/messages/{{ app.request.locale }}',
         // mtt specific
         'mtt/jq_addons':                'bundles/canaltpmtt/js/jquery_addons',
         'mtt/utils':                    'bundles/canaltpmtt/js/utils',
@@ -43,6 +45,12 @@ var require = {
         },
         bootstrap: {
             deps: ['jquery']
+        },
+        'bootstrap/datepicker': {
+            deps: ['bootstrap']
+        },
+        'bootstrap/datepicker/fr': {
+            deps: ['bootstrap/datepicker'],
         },
         jquery_ui_core: {
             deps: ['jquery'],

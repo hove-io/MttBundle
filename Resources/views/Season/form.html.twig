@@ -11,12 +11,24 @@
 
 {% block modal_body %}
         {{ form_errors(form) }}
-
         {{ form_row(form.title) }}
 
-        {{ form_row(form.startDate) }}
-
-        {{ form_row(form.endDate) }}
+        <div class="row input-range">
+            <div class="col-md-6">
+            {{ form_row(form.startDate) }}
+            </div>
+            <div class="col-md-6">
+            {{ form_row(form.endDate) }}
+            </div>
+        </div>
+        <script>
+            require(['bootstrap/datepicker', 'bootstrap/datepicker/{{ app.request.locale }}'], function(){
+                $('.input-range input').datepicker({
+                    language: '{{ app.request.locale }}',
+                    autoclose: true
+                });
+            });
+        </script>
 {% endblock %}
 
 {% block modal_actions %}
