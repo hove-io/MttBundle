@@ -8,13 +8,10 @@
         {% for network in networks %}
             <li>
                 {{ network.external_coverage_id }} -> {{ network.external_id }}
-                <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_create', {'coverage_id': network.external_coverage_id, 'network_id': network.external_id}) }}">
+                <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'coverage_id': network.external_coverage_id, 'network_id': network.external_id}) }}">
                     {{'season.create'|trans({}, 'default')}}
                 </a>
             </li>
         {% endfor %}
     </ul>
-
-
-
 {% endblock %}

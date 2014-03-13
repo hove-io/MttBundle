@@ -7,9 +7,9 @@ canal_tp_meth_menu:
     defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null }
 
 #Season
-canal_tp_mtt_season_create:
-    pattern: /coverage/{coverage_id}/network/{network_id}/create
-    defaults: { _controller: CanalTPMttBundle:Season:create }
+canal_tp_mtt_season_edit:
+    pattern: /coverage/{coverage_id}/network/{network_id}/edit/{season_id}
+    defaults: { _controller: CanalTPMttBundle:Season:edit, season_id: null }
     requirements:
         network_id: -?[a-zA-Z0-9_\-:]*
 

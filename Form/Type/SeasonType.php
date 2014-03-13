@@ -8,24 +8,15 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SeasonType extends AbstractType
 {
-    public function __construct()
-    {
-    }
-    
-    private function buildBusinessRightForm(FormBuilderInterface $builder)
-    {
-        $builder->add('title', 'text');
-        $builder->add('startDate', 'datepicker');
-        $builder->add('endDate', 'datepicker');
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->buildBusinessRightForm($builder);
+        $builder->add('title', 'text');
+        $builder->add('startDate', 'datepicker');
+        $builder->add('endDate', 'datepicker');
         $builder->setAction($options['action']);
     }
 

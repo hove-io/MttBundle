@@ -13,6 +13,7 @@ parameters:
     canal_tp_mtt.pdf_generator.class: CanalTP\MttBundle\Services\PdfGenerator
     canal_tp_mtt.block_manager.class: CanalTP\MttBundle\Services\BlockManager
     canal_tp_mtt.frequency_manager.class: CanalTP\MttBundle\Services\FrequencyManager
+    canal_tp_mtt.season.class: CanalTP\MttBundle\Services\SeasonManager
 
 services:
     navitia_component:
@@ -66,6 +67,9 @@ services:
     canal_tp_mtt.calendar_manager:
        class: %canal_tp_mtt.calendar_manager.class%
        arguments: ['@canal_tp_mtt.navitia', '@translator']
+    canal_tp_mtt.season_manager:
+       class: %canal_tp_mtt.season.class%
+       arguments: ['@doctrine.orm.entity_manager']
     canal_tp_mtt.twig.schedule_extension:
         class: CanalTP\MttBundle\Twig\ScheduleExtension
         tags:
