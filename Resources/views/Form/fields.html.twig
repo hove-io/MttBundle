@@ -10,3 +10,14 @@
     {% endfor %}
     </div>
 {% endblock %}
+
+{% block datepicker_widget %}
+    {% spaceless %}
+        datepicker field
+        <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        {%  set attr = attr|merge({'class': ((attr.class|default('') ~ ' acmeDatePicker')|trim)}) %}
+        {% set  id = id ~ "_datepicker" %}
+        {% set  full_name = "datepicker_" ~ full_name  %}
+        <input type="text" {{ block('widget_attributes') }}/>
+    {% endspaceless %}
+{% endblock datePicker_widget %}

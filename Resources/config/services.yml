@@ -28,6 +28,10 @@ services:
             - "%layouts%"
         tags:
             - { name: form.type, alias: layout }
+    form.type.datepicker:
+        class: CanalTP\MttBundle\Form\Type\DatepickerType
+        tags:
+            - { name: form.type, alias: datepicker }
     iussaad_navitia:
         class: %iussaad_navitia.class%
         arguments: ['@navitia_component']

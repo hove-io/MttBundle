@@ -15,8 +15,8 @@ class SeasonType extends AbstractType
     private function buildBusinessRightForm(FormBuilderInterface $builder)
     {
         $builder->add('title', 'text');
-        $builder->add('startDate', 'date');
-        $builder->add('endDate', 'date');
+        $builder->add('startDate', 'datepicker');
+        $builder->add('endDate', 'datepicker');
     }
 
     /**
