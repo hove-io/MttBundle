@@ -1,4 +1,5 @@
 global:
+    actions: Action(s)
     edit: Editer
     preview: Prévisualiser
     validate: Valider

@@ -54,4 +54,19 @@ class SeasonController extends Controller
         }
         return ($render);
     }
+
+    public function listAction(Request $request, $network_id, $coverage_id)
+    {
+        $this->seasonManager = $this->get('canal_tp_mtt.season_manager');
+
+        return $this->render(
+            'CanalTPMttBundle:Season:list.html.twig',
+            array(
+                'no_left_menu' => true,
+                'coverageId' => $coverage_id,
+                'networkId' => $network_id,
+                'seasons' => $this->seasonManager->findAllByNetworkId($network_id)
+            )
+        );
+    }
 }

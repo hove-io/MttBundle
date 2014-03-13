@@ -8,19 +8,8 @@
 {% block navbar_brand %}MTT{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-3">
-            <div id="left-menu" class="btn-group-vertical" role="navigation">
-                {% block left_menu %}
-                    {{ render(controller('CanalTPMttBundle:Default:navigation')) }}
-                {% endblock %}
-            </div>
-        </div>
-        <div class="col-md-9" role="main">
-            {% block main_content %}
-            {% endblock %}
-        </div>
-    </div>
+    {% block container %}
+    {% endblock %}
     <div id="base-modal" class="modal fade">
     {% block base_modal %}
         <div class="modal-dialog">
@@ -30,7 +19,6 @@
         </div><!-- /.modal-dialog -->
     {% endblock %}
     </div><!-- /.modal -->
-
 {% endblock %}
 
 {# Common javascripts for MethBundle #}

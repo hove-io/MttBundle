@@ -31,4 +31,11 @@ class SeasonManager
         $this->om->persist($season);
         $this->om->flush();
     }
+
+    public function findAllByNetworkId($networkId)
+    {
+        $networkRepository = $this->om->getRepository('CanalTPMttBundle:Network');
+
+        return ($networkRepository->findOneByExternalId($networkId)->getSeasons());
+    }
 }

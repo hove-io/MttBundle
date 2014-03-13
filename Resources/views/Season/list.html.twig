@@ -1,0 +1,42 @@
+{% extends "CanalTPMttBundle::generic_list.html.twig" %}
+
+{% block list_title -%}
+    {{'global.season_label'|trans}} - {{'season.list.header'|trans({}, 'default')}}
+    -
+    <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'coverage_id': coverageId, 'network_id': networkId}) }}" class="btn btn-default">
+        {{'season.create'|trans({}, 'default')}}
+    </a>
+{% endblock %}
+
+{% block table_head -%}
+    <th>{{'season.header'|trans({}, 'default')}}</th>
+    <th>{{'season.start_date'|trans({}, 'default')}}</th>
+    <th>{{'season.end_date'|trans({}, 'default')}}</th>
+    <th>{{'global.actions'|trans({}, 'messages')}}</th>
+{% endblock %}
+
+{% block table_body -%}
+
+    {% for season in seasons %}
+        <tr>
+            <td>
+                {{ season.title }}
+            </td>
+            <td>
+                {{ season.startDate|date }}
+            </td>
+            <td>
+                {{ season.endDate|date }}
+            </td>
+            <td class="action">
+                <div class="btn-group">
+                    <a  class="btn btn-default" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'coverage_id': coverageId, 'network_id': networkId, 'season_id': season.id }) }}">
+                        <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
+                    </a>
+                </a>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+
+{% endblock %}

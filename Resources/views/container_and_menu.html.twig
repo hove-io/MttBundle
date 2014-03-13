@@ -1,0 +1,17 @@
+{% extends "CanalTPMttBundle::base.html.twig" %}
+
+{% block container %}
+    <div class="row">
+        <div class="col-md-3">
+            <div id="left-menu" class="btn-group-vertical" role="navigation">
+                {% block left_menu %}
+                    {{ render(controller('CanalTPMttBundle:Default:navigation')) }}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="col-md-9" role="main">
+            {% block main_content %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

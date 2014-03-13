@@ -1,85 +1,87 @@
-{% extends "CanalTPMttBundle::base.html.twig" %}
+{% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
 
-{% block left_menu %}
-    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'current_route': current_route })) }}
-{% endblock %}
+{% block container %}
+    {% block left_menu %}
+        {{ render(controller('CanalTPMttBundle:Default:navigation', { 'current_route': current_route })) }}
+    {% endblock %}
 
-{% trans_default_domain "default" %}
+    {% trans_default_domain "default" %}
 
-{% block main_content %}
-    <div>
-        <h3>{{'calendar.view_title'|trans}}</h3>
-    </div>
-    <ul class="nav nav-tabs" id="calendars-tab-menu">
-    {% for calendar in calendars %}
-        <li{% if loop.index == 1 %} class="active"{% endif %}>
-            <a href="#calendar-{{ calendar.id }}" data-toggle="tab">{{ calendar.name }}</a>
-        </li>
-    {% endfor %}
-    </ul>
-    <div class="tab-content">
-    {% for calendar in calendars %}
-        <div class="tab-pane row pad30t{% if loop.index == 1 %} active{% endif %}" id="calendar-{{ calendar.id }}">
-            <div class="col-md-9">
-                <div class="grid-time-wrapper panel panel-default">
-                    <div class="panel-body clearfix">
-                        <div class="grid-label-column">
-                            <div>{{ 'global.hours'|trans({}, 'messages') }}</div>
-                            <hr/>
-                            <div>{{ 'global.minutes'|trans({}, 'messages') }}</div>
-                        </div>
-                        <div class="grid-time-column-wrapper">
-                            {% set width = 100 / calendar.schedules.date_times|length %}
-                            <div class="clearfix">
-                            {% for hour,journeys in calendar.schedules.date_times %}
-                                <div class="grid-time-column" style="width:{{ width }}%;">
-                                    <div>{{ hour }}h</div>
-                                    <hr/>
-                                    {% for journey in journeys %}
-                                        <div>{{ journey|schedule(notes)|raw }}</div>
-                                    {% endfor %}
+    {% block main_content %}
+        <div>
+            <h3>{{'calendar.view_title'|trans}}</h3>
+        </div>
+        <ul class="nav nav-tabs" id="calendars-tab-menu">
+        {% for calendar in calendars %}
+            <li{% if loop.index == 1 %} class="active"{% endif %}>
+                <a href="#calendar-{{ calendar.id }}" data-toggle="tab">{{ calendar.name }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+        <div class="tab-content">
+        {% for calendar in calendars %}
+            <div class="tab-pane row pad30t{% if loop.index == 1 %} active{% endif %}" id="calendar-{{ calendar.id }}">
+                <div class="col-md-9">
+                    <div class="grid-time-wrapper panel panel-default">
+                        <div class="panel-body clearfix">
+                            <div class="grid-label-column">
+                                <div>{{ 'global.hours'|trans({}, 'messages') }}</div>
+                                <hr/>
+                                <div>{{ 'global.minutes'|trans({}, 'messages') }}</div>
+                            </div>
+                            <div class="grid-time-column-wrapper">
+                                {% set width = 100 / calendar.schedules.date_times|length %}
+                                <div class="clearfix">
+                                {% for hour,journeys in calendar.schedules.date_times %}
+                                    <div class="grid-time-column" style="width:{{ width }}%;">
+                                        <div>{{ hour }}h</div>
+                                        <hr/>
+                                        {% for journey in journeys %}
+                                            <div>{{ journey|schedule(notes)|raw }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="notes-wrapper">
+                            {% if calendar.notes|length > 0 %}
+                                <div class="bold">{{ 'global.annotations'|trans({}, 'messages') }}</div>
+                                {% for note in calendar.notes %}
+                                    <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
+                                {% endfor %}
+                                <hr/>
+                            {% endif %}
+                            </div>
+                            <div><label class="bold">{{'global.mode'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.commercial_mode }}</div>
+                            <div><label class="bold">{{'global.direction'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.direction }}</div>
+                            <div><label class="bold">{{'calendar.line_code'|trans}}</label>: {{ calendar.schedules.display_informations.code }}</div>
+                            <div><label class="bold">{{'calendar.line_color'|trans}}</label>: {{ calendar.schedules.display_informations.color }}</div>
+                            <div><label class="bold">{{'global.network'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.network }}</div>
+                            <div><label class="bold">{{'stop_point.label'|trans}}</label>: {{ calendar.schedules.stop_point.name }}</div>
+                            <div><label class="bold">{{'calendar.period_label'|trans}}</label>: {{ calendar.name }}</div>
+                            <hr/>
+                            <div class="bold">{{'calendar.days'|trans}}</div>
+                            <div>
+                            {% for day, active in calendar.week_pattern %}
+                                {% if active %}
+                                    {{ day }}{% if loop.last != true %}-{% endif %}
+                                {% endif %}
                             {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="notes-wrapper">
-                        {% if calendar.notes|length > 0 %}
-                            <div class="bold">{{ 'global.annotations'|trans({}, 'messages') }}</div>
-                            {% for note in calendar.notes %}
-                                <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
-                            {% endfor %}
-                            <hr/>
-                        {% endif %}
-                        </div>
-                        <div><label class="bold">{{'global.mode'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.commercial_mode }}</div>
-                        <div><label class="bold">{{'global.direction'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.direction }}</div>
-                        <div><label class="bold">{{'calendar.line_code'|trans}}</label>: {{ calendar.schedules.display_informations.code }}</div>
-                        <div><label class="bold">{{'calendar.line_color'|trans}}</label>: {{ calendar.schedules.display_informations.color }}</div>
-                        <div><label class="bold">{{'global.network'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.network }}</div>
-                        <div><label class="bold">{{'stop_point.label'|trans}}</label>: {{ calendar.schedules.stop_point.name }}</div>
-                        <div><label class="bold">{{'calendar.period_label'|trans}}</label>: {{ calendar.name }}</div>
-                        <hr/>
-                        <div class="bold">{{'calendar.days'|trans}}</div>
-                        <div>
-                        {% for day, active in calendar.week_pattern %}
-                            {% if active %}
-                                {{ day }}{% if loop.last != true %}-{% endif %}
-                            {% endif %}
-                        {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {% endfor %}
         </div>
-    {% endfor %}
-    </div>
-{#
-    <pre>{{ dump(calendars) }}</pre>
-#}
+    {#
+        <pre>{{ dump(calendars) }}</pre>
+    #}
+    {% endblock %}
 {% endblock %}
