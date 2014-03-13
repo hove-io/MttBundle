@@ -8,13 +8,17 @@ require(
         error_msg = [];
         var $msgWrapperTpl = utils.getTpl('msgWrapperTpl');
         
-        $form.find('textarea').keyup(function(){
-            var maxlength = $(this).attr('maxlength');
-            var value = $(this).val();
-            var old_text = $(this).next('span').text();
-            var new_text = old_text.replace(/(\d+)/, maxlength - value.length);
-            $(this).next('span').text(new_text);
-        });
+        $form.on(
+            'keyup',
+            'textarea',
+            function(){
+                var maxlength = $(this).attr('maxlength');
+                var value = $(this).val();
+                var old_text = $(this).next('span').text();
+                var new_text = old_text.replace(/(\d+)/, maxlength - value.length);
+                $(this).next('span').text(new_text);
+            }
+        );
         
         $form.submit(function(){
             error_msg_keys = [];

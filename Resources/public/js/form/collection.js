@@ -12,6 +12,7 @@ define(['jquery'], function($) {
                 var $currentTpl = collection.tpl.clone();
                 _reset_and_inc_tpl($currentTpl, actual_count);
                 $wrapper.append($currentTpl);
+                $currentTpl.find('textarea').keyup();
                 $wrapper.append('<hr/>');
                 actual_count++;
                 $wrapper.data('count', actual_count);
