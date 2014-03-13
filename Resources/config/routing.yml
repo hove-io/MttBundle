@@ -6,6 +6,13 @@ canal_tp_meth_menu:
     pattern:  /navigation/{current_route}
     defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null }
 
+#Season
+canal_tp_mtt_season_create:
+    pattern: /coverage/{coverage_id}/network/{network_id}/create
+    defaults: { _controller: CanalTPMttBundle:Season:create }
+    requirements:
+        network_id: -?[a-zA-Z0-9_\-:]*
+
 #StopPoint
 canal_tp_meth_stop_point_list:
     pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{externalRouteId}/list
