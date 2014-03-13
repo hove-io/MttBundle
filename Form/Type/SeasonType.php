@@ -8,10 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SeasonType extends AbstractType
 {
-    public function __construct()
-    {
-    }
-    
     private function buildBusinessRightForm(FormBuilderInterface $builder)
     {
         $builder->add('title', 'text');

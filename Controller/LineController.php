@@ -2,6 +2,7 @@
 
 namespace CanalTP\MttBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CanalTP\MttBundle\Entity\LineConfig;
 

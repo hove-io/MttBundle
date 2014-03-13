@@ -12,4 +12,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class SeasonRepository extends EntityRepository
 {
+    public function getSeasonByNetworkIdAndSeasonId($networkId, $seasonId)
+    {
+        $season = null;
+        if ($seasonId) {
+            $season = $this->getEntityManager()->getRepository('CanalTPMttBundle:Season')->find($seasonId);
+        }
+        if ($season) {
+            $networkRepository = $this->getEntityManager()->getRepository('CanalTPMttBundle:Network');
+            $season = new Season();
+
+            $season->setNetwork($networkRepository->findByExternalId($networkId));
+        }
+        return ($season);
+    }
 }
