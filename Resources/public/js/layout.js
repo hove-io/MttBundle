@@ -76,11 +76,6 @@ define(['jquery'], function($) {
     
     var _bind_listeners = function()
     {
-        // to prevent modal content to be cached by bootstrap
-        $('#base-modal').on('hidden.bs.modal', function () {
-            $(this).removeData('bs.modal');
-            $(this).find('.modal-header, .modal-body, .modal-footer').empty();
-        });
         $('#base-modal').on('loaded.bs.modal', function () {
             var $field = $(this).find('*[data-fill-title]');
             if ($field.length == 1 && $field.data('fillTitle') == true)
