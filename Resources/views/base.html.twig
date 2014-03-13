@@ -1,5 +1,15 @@
 {% extends "::base.html.twig" %}
 
+{% block stylesheets %}
+    {% stylesheets 'css/bootstrap.css'
+                    '../src/CanalTP/IussaadBundle/Resources/public/css/*'
+                    '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/main.css'
+                    '../web/components/bootstrap-datepicker/css/datepicker3.css'
+                   filter='cssrewrite' output='css/full.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}?{{ assets_version }}" />
+    {% endstylesheets %}
+{% endblock %}
+
 {% block head_config %}
     {% include 'CanalTPMttBundle::config.js.html.twig' %}
 {% endblock %}
@@ -34,5 +44,4 @@
 {% endblock %}
 
 {# Common javascripts for MethBundle #}
-{% block javascripts %}
-{% endblock %}
+{% block javascripts %}{% endblock %}

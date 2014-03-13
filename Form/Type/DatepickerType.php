@@ -5,11 +5,12 @@ namespace CanalTP\MttBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class DatePickerType extends AbstractType
+class DatepickerType extends AbstractType
 {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+            'format' => 'dd/MM/yyyy',
             'widget' => 'single_text'
         ));
     }
@@ -20,6 +21,6 @@ class DatePickerType extends AbstractType
 
     public function getName()
     {
-        return 'datePicker';
+        return 'datepicker';
     }
 }
