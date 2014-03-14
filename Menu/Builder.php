@@ -26,6 +26,18 @@ class Builder extends ContainerAware
             );
         }
 
+        // TODO: Remove this and display menu buttons group in network page
+        $menu->addChild(
+            "Gestion des saisons",
+            array(
+                'route' => 'canal_tp_mtt_season_list',
+                'routeParameters' => array(
+                    'coverage_id' => $networks[0]['external_coverage_id'],
+                    'network_id' => $networks[0]['external_id']
+                )
+            )
+        );
+
         return $menu;
     }
 }
