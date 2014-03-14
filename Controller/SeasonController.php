@@ -21,7 +21,8 @@ class SeasonController extends Controller
                     'canal_tp_mtt_season_edit',
                     array(
                         'coverage_id' => $coverageId,
-                        'network_id' => $networkId
+                        'network_id' => $networkId,
+                        'season_id' => $seasonId
                     )
                 )
             )
@@ -29,13 +30,21 @@ class SeasonController extends Controller
         return ($form);
     }
 
-    private function processForm(Request $request, $form)
+    private function processForm(Request $request, $form, $coverageId, $networkId)
     {
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $this->seasonManager->save($form->getData());
-            return $this->redirect($this->generateUrl('canal_tp_meth_homepage'));
+            return $this->redirect(
+                $this->generateUrl(
+                    'canal_tp_mtt_season_list',
+                    array(
+                        'coverage_id' => $coverageId,
+                        'network_id' => $networkId,
+                    )
+                )
+            );
         }
         return (null);
     }
@@ -45,7 +54,7 @@ class SeasonController extends Controller
         $this->seasonManager = $this->get('canal_tp_mtt.season_manager');
 
         $form = $this->buildForm($coverage_id, $network_id, $season_id);
-        $render = $this->processForm($request, $form);
+        $render = $this->processForm($request, $form, $coverage_id, $network_id);
         if (!$render) {
             return $this->render(
                 'CanalTPMttBundle:Season:form.html.twig',

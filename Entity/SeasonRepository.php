@@ -16,7 +16,7 @@ class SeasonRepository extends EntityRepository
     {
         $season = null;
         if ($seasonId) {
-            $season = $this->getEntityManager()->getRepository('CanalTPMttBundle:Season')->find($seasonId);
+            $season = $this->find($seasonId);
         }
         if (!$season) {
             $networkRepository = $this->getEntityManager()->getRepository('CanalTPMttBundle:Network');
