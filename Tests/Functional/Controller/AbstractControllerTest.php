@@ -14,7 +14,7 @@ abstract class AbstractControllerTest extends WebTestCase
     protected function getMockedNavitia()
     {
         $navitia = $this->getMockBuilder('CanalTP\MttBundle\Services\Navitia')
-            ->setMethods(array('getLinesByMode', 'getStopPointCalendarsData', 'getCalendarStopSchedules', 'getRouteCalendars'))
+            ->setMethods(array('getLinesByMode', 'getStopPointCalendarsData', 'getCalendarStopSchedulesByRoute', 'getRouteCalendars'))
             ->setConstructorArgs(array(false,false,false))
             ->getMock();
 
@@ -27,7 +27,7 @@ abstract class AbstractControllerTest extends WebTestCase
             ->will($this->returnValue(json_decode($this->readStub('calendars.json'))));
             
         $navitia->expects($this->any())
-            ->method('getCalendarStopSchedules')
+            ->method('getCalendarStopSchedulesByRoute')
             ->will($this->returnCallback(
                 function(){
                     return json_decode(file_get_contents(dirname(__FILE__) . '/stubs/stop_schedules.json'));

@@ -76,10 +76,12 @@ class CalendarManager
         if (isset($calendars[$calendarId])) {
             return $calendars[$calendarId];
         } else {
-            throw new Exception(
-                $this->translator('services.calendar_manager.calendar_in_block_not_found'), 
-                array('%calendarId%' => $calendarId), 
-                'exceptions'
+            throw new \Exception(
+                $this->translator->trans(
+                    'services.calendar_manager.calendar_in_block_not_found', 
+                    array('%calendarId%' => $calendarId), 
+                    'exceptions'
+                )
             );
         }
     }
@@ -146,7 +148,7 @@ class CalendarManager
         );
         $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
         foreach ($calendarsSorted as $calendar) {
-            $stopSchedulesData = $this->navitia->getCalendarStopSchedules(
+            $stopSchedulesData = $this->navitia->getCalendarStopSchedulesByRoute(
                 $externalCoverageId,
                 $externalRouteId,
                 $externalStopPointId,
@@ -187,7 +189,7 @@ class CalendarManager
             foreach ($timetable->getBlocks() as $block){
                 if ($block->getTypeId() == 'calendar') {
                     $calendar = $this->findCalendar($block->getContent(), $calendarsSorted);
-                    $stopSchedulesData = $this->navitia->getCalendarStopSchedules(
+                    $stopSchedulesData = $this->navitia->getCalendarStopSchedulesByRoute(
                         $externalCoverageId,
                         $timetable->getExternalRouteId(),
                         $stopPointInstance->getExternalId(),
