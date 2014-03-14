@@ -11,7 +11,7 @@ class SeasonController extends Controller
 {
     private $seasonManager = null;
 
-    public function buildForm($coverageId, $networkId, $seasonId)
+    public function buildForm($networkId, $seasonId)
     {
         $form = $this->createForm(
             new SeasonType(),
@@ -20,7 +20,7 @@ class SeasonController extends Controller
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_season_edit',
                     array(
-                        'coverage_id' => $coverageId,
+                        // 'coverage_id' => $coverageId,
                         'network_id' => $networkId,
                         'season_id' => $seasonId
                     )
@@ -30,7 +30,7 @@ class SeasonController extends Controller
         return ($form);
     }
 
-    private function processForm(Request $request, $form, $coverageId, $networkId)
+    private function processForm(Request $request, $form, $networkId)
     {
         $form->handleRequest($request);
 
@@ -40,7 +40,7 @@ class SeasonController extends Controller
                 $this->generateUrl(
                     'canal_tp_mtt_season_list',
                     array(
-                        'coverage_id' => $coverageId,
+                        // 'coverage_id' => $coverageId,
                         'network_id' => $networkId,
                     )
                 )
@@ -49,12 +49,12 @@ class SeasonController extends Controller
         return (null);
     }
 
-    public function editAction(Request $request, $coverage_id, $network_id, $season_id)
+    public function editAction(Request $request, $network_id, $season_id)
     {
         $this->seasonManager = $this->get('canal_tp_mtt.season_manager');
 
-        $form = $this->buildForm($coverage_id, $network_id, $season_id);
-        $render = $this->processForm($request, $form, $coverage_id, $network_id);
+        $form = $this->buildForm($network_id, $season_id);
+        $render = $this->processForm($request, $form, $network_id);
         if (!$render) {
             return $this->render(
                 'CanalTPMttBundle:Season:form.html.twig',
@@ -64,7 +64,7 @@ class SeasonController extends Controller
         return ($render);
     }
 
-    public function listAction(Request $request, $network_id, $coverage_id)
+    public function listAction(Request $request, $network_id)
     {
         $this->seasonManager = $this->get('canal_tp_mtt.season_manager');
 
@@ -72,7 +72,6 @@ class SeasonController extends Controller
             'CanalTPMttBundle:Season:list.html.twig',
             array(
                 'no_left_menu' => true,
-                'coverageId' => $coverage_id,
                 'networkId' => $network_id,
                 'seasons' => $this->seasonManager->findAllByNetworkId($network_id)
             )

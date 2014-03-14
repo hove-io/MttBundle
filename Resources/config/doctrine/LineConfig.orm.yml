@@ -30,7 +30,7 @@ CanalTP\MttBundle\Entity\LineConfig:
             targetEntity: Timetable
             mappedBy: line_config
     manyToOne:
-        seasons:
+        season:
             targetEntity: Season
             joinColumn:
                 name: season_id

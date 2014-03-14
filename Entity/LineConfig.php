@@ -38,9 +38,9 @@ class LineConfig extends AbstractEntity
     private $stopPoints;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Object
      */
-    private $seasons;
+    private $season;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -180,6 +180,29 @@ class LineConfig extends AbstractEntity
     public function setTwigPath($twigPath)
     {
         $this->twigPath = $twigPath;
+
+        return $this;
+    }
+    
+    /**
+     * Get season
+     *
+     * @return object
+     */
+    public function getSeason()
+    {
+        return ($this->season);
+    }
+
+    /**
+     * Set season
+     *
+     * @param  string $season
+     * @return Season
+     */
+    public function setSeason($season)
+    {
+        $this->season = $season;
 
         return $this;
     }

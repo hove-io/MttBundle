@@ -14,15 +14,18 @@ class DefaultController extends Controller
         $network = $mtt_user->getNetworks();
         return $this->render(
             'CanalTPMttBundle:Default:index.html.twig',
-            array('network_id' => $network[0]['external_id'])
+            array(
+                'network'           => $network[0],
+                'externalNetworkId' => $network[0]['external_id']
+            )
         );
     }
 
-    public function navigationAction($network_id = 'network:Filbleu', $current_route = null)
+    public function navigationAction($externalNetworkId = 'network:Filbleu', $current_route = null)
     {
         $meth_navitia = $this->get('canal_tp_mtt.navitia');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
-        $network = $networkManager->findOneByExternalId($network_id);
+        $network = $networkManager->findOneByExternalId($externalNetworkId);
 
         $result = $meth_navitia->getLinesByMode(
             $network->getExternalCoverageId(),

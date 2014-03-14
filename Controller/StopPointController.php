@@ -6,29 +6,31 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class StopPointController extends Controller
 {
-    public function listAction($coverage_id, $network_id, $line_id, $externalRouteId)
+    public function listAction($network_id, $line_id, $externalRouteId, $seasonId = null)
     {
         $navitia = $this->get('iussaad_navitia');
-        $routes = $navitia->getStopPoints($coverage_id, $network_id, $line_id, $externalRouteId);
-
-        $line = $this->getDoctrine()->getRepository(
+        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($network_id);
+        $seasons = $this->get('canal_tp_mtt.season_manager')->findAllByNetworkId($network->getExternalId());
+        $selectedSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
+        $routes = $navitia->getStopPoints($network->getExternalCoverageId(), $network_id, $line_id, $externalRouteId);
+        $lineConfig = $this->getDoctrine()->getRepository(
             'CanalTPMttBundle:LineConfig'
-        )->findOneBy(array('externalLineId' => $line_id));
+        )->findOneBy(array('externalLineId' => $line_id, 'season' => $selectedSeason));
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
-        $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows, $line);
+        $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows, $lineConfig);
 
         return $this->render(
             'CanalTPMttBundle:StopPoint:list.html.twig',
             array(
-                'line'              => $line,
+                'lineConfig'        => $lineConfig,
                 'routes'            => $routes,
                 'current_route'     => $externalRouteId,
-                'network_id'        => $network_id,
-                'line_id'           => $line_id,
-                'externalCoverageId'=> $coverage_id,
+                'externalNetworkId' => $network->getExternalId(),
+                'externalLineId'    => $line_id,
+                'seasons'           => $seasons,
+                'selectedSeason'    => $selectedSeason,
                 'externalRouteId'   => $externalRouteId,
-                ''
             )
         );
     }

@@ -4,6 +4,8 @@ namespace CanalTP\MttBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SeasonType extends AbstractType
@@ -27,6 +29,17 @@ class SeasonType extends AbstractType
         ));
         $builder->setAction($options['action']);
     }
+    
+    /* public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $startDate = $form->getData()->getStartDate();
+        if (!empty($startDate)){
+            $children = $form->all();
+            print_r($children['endDate']->getConfig()->getAttributes());
+            // (array('attr'=> array('data-start-date' => (string)$startDate))));
+            die;
+        }
+    } */
 
     /**
      * @param OptionsResolverInterface $resolver

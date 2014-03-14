@@ -12,19 +12,20 @@ use CanalTP\MttBundle\Entity\LineConfig;
 class LineController extends Controller
 {
     /*
-     * @function process a form to save a layout for a line. Insert a line in bdd if needed.
+     * @function process a form to save a layout for a line and a season. Insert a lineConfig element in bdd if needed.
      */
-    private function processForm($form, $line, $params)
+    private function processForm($form, $LineConfig, $season, $params)
     {
-        if (empty($line)) {
+        if (empty($LineConfig)) {
             $data = $form->getData();
-            $line = new LineConfig();
-            $line->setExternalLineId($params['line_id']);
-            $line->setLayout($data['layout']);
+            $LineConfig = new LineConfig();
+            $LineConfig->setExternalLineId($params['line_id']);
+            $LineConfig->setLayout($data['layout']);
+            $LineConfig->setSeason($season);
         }
-        if ($line->getLayout() != null) {
+        if ($LineConfig->getLayout() != null) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($line);
+            $em->persist($LineConfig);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add(
@@ -33,26 +34,35 @@ class LineController extends Controller
             );
         }
 
-        return $this->redirect($this->generateUrl('canal_tp_meth_stop_point_list', $params));
+        return $this->redirect($this->generateUrl('canal_tp_meth_stop_point_list', array(
+            'network_id'        => $params['externalNetworkId'],
+            'line_id'           => $params['line_id'],
+            'seasonId'          => $season->getId(),
+            'externalRouteId'   => $params['externalRouteId'],
+        )));
     }
 
     /*
      * @function display a form to choose a layout for a given line or save this form and redirects
      */
-    public function chooseLayoutAction($coverage_id, $network_id, $line_id, $externalRouteId)
+    public function chooseLayoutAction($externalNetworkId, $line_id, $seasonId, $externalRouteId)
     {
+        $season = $this->get('canal_tp_mtt.season_manager')->getSeasonWithNetworkIdAndSeasonId($externalNetworkId, $seasonId);
 
-        $params = array('coverage_id'    => $coverage_id,
-                        'network_id'     => $network_id,
-                        'line_id'        => $line_id,
-                        'externalRouteId'=> $externalRouteId);
-        $line = $this->getDoctrine()
-                ->getRepository('CanalTPMttBundle:LineConfig')
-                ->findOneBy(
-                    array('externalLineId' => $line_id)
-                );
+        $params = array('externalNetworkId' => $externalNetworkId,
+                        'line_id'           => $line_id,
+                        'externalRouteId'   => $externalRouteId);
+                        
+        $lineConfig = $this->getDoctrine()
+            ->getRepository('CanalTPMttBundle:LineConfig')
+            ->findOneBy(
+                array(
+                    'externalLineId' => $line_id,
+                    'season' => $season
+                )
+            );
 
-        $form = $this->createFormBuilder($line)
+        $form = $this->createFormBuilder($lineConfig)
             ->add(
                 'layout',
                 'layout',
@@ -66,13 +76,12 @@ class LineController extends Controller
 
         $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
-            return ($this->processForm($form, $line, $params));
+            return ($this->processForm($form, $lineConfig, $season, $params));
         } else {
             return $this->render(
                 'CanalTPMttBundle:Line:chooseLayout.html.twig',
                 array(
-                    'form'        => $form->createView(),
-                    'line_layout' => false
+                    'form'        => $form->createView()
                 )
             );
         }

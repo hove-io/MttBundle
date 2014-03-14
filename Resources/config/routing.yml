@@ -3,48 +3,50 @@ canal_tp_meth_homepage:
     defaults: { _controller: CanalTPMttBundle:Default:index }
 
 canal_tp_meth_menu:
-    pattern:  /navigation/network/{network_id}/route/{current_route}
+    pattern:  /navigation/network/{externalNetworkId}/route/{current_route}
     defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null }
     requirements:
         network_id: -?[a-zA-Z0-9_\-:]*
 #Season
 canal_tp_mtt_season_list:
-    pattern: /coverage/{coverage_id}/network/{network_id}/seasons/list
+    pattern: /network/{network_id}/seasons/list
     defaults: { _controller: CanalTPMttBundle:Season:list }
     requirements:
         network_id: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_mtt_season_edit:
-    pattern: /coverage/{coverage_id}/network/{network_id}/edit/{season_id}
+    pattern: /network/{network_id}/edit/{season_id}
     defaults: { _controller: CanalTPMttBundle:Season:edit, season_id: null }
     requirements:
         network_id: -?[a-zA-Z0-9_\-:]*
 
 #StopPoint
 canal_tp_meth_stop_point_list:
-    pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/route/{externalRouteId}/list
-    defaults: { _controller: CanalTPMttBundle:StopPoint:list }
+    pattern: /network/{network_id}/line/{line_id}/route/{externalRouteId}/list/season/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:StopPoint:list, seasonId: null }
+    requirements:
+        seasonId: \d+
 
 #Line
-canal_tp_meth_line_choose_layout:
-    pattern: /coverage/{coverage_id}/network/{network_id}/line/{line_id}/choose_layout/route/{externalRouteId}
+canal_tp_mtt_line_choose_layout:
+    pattern: /network/{externalNetworkId}/season/{seasonId}/line/{line_id}/choose_layout/route/{externalRouteId}
     defaults: { _controller: CanalTPMttBundle:Line:chooseLayout }
 
 #Timetable
 canal_tp_meth_timetable_edit:
-    pattern: /timetable/edit/coverage/{externalCoverageId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
+    pattern: /timetable/edit/network/{externalNetworkId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Timetable:edit, externalStopPointId: null }
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_meth_timetable_view:
-    pattern: /timetable/view/coverage/{externalCoverageId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
+    pattern: /timetable/view/network/{externalNetworkId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Timetable:view, externalStopPointId: null }
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_meth_timetable_generate_pdf:
-    pattern: /timetable/{timetableId}/coverage/{externalCoverageId}/stopPoint/{externalStopPointId}/generatePdf
+    pattern: /timetable/{timetableId}/network/{externalNetworkId}/stopPoint/{externalStopPointId}/generatePdf
     defaults: { _controller: CanalTPMttBundle:Timetable:generatePdf}
 
 #Block
@@ -63,7 +65,7 @@ canal_tp_meth_block_delete:
 
 #DistributionList
 canal_tp_mtt_distribution_list:
-    pattern: /coverage/{coverageId}/network/{networkId}/line/{lineId}/route/{routeId}/distribution/list
+    pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/distribution/list
     defaults: { _controller: CanalTPMttBundle:Distribution:list}
 
 canal_tp_meth_distribution_generate:
@@ -74,7 +76,7 @@ canal_tp_meth_distribution_generate:
 
 #Calendar
 canal_tp_mtt_calendar_view:
-    pattern: /calendars/view/coverage/{externalCoverageId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
+    pattern: /calendars/view/network/{externalNetworkId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Calendar:view}
 
 #Frequency

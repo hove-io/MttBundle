@@ -38,4 +38,17 @@ class SeasonManager
 
         return ($networkRepository->findOneByExternalId($networkId)->getSeasons());
     }
+    
+    public function getSelected($seasonId, $seasons)
+    {
+        if ($seasonId == null && count($seasons) > 0) {
+            return $seasons[0];
+        } else {
+            foreach($seasons as $season) {
+                if ($seasonId == $season->getId()) {
+                    return $season;
+                }
+            }
+        }
+    }
 }
