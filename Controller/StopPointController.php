@@ -28,6 +28,7 @@ class StopPointController extends Controller
                 'line_id'           => $line_id,
                 'externalCoverageId'=> $coverage_id,
                 'externalRouteId'   => $externalRouteId,
+                ''
             )
         );
     }

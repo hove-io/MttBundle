@@ -1,9 +1,5 @@
 {% extends "CanalTPMttBundle::generic_list.html.twig" %}
 
-{% block left_menu %}
-    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'current_route': current_route })) }}
-{% endblock %}
-
 {% block list_title -%}
     {{'global.line_label'|trans}} {{ routes.route_schedules[0].display_informations.label }} - {{'stop_point.list.header'|trans({}, 'default')}}
     -

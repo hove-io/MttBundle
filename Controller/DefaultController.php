@@ -10,29 +10,30 @@ class DefaultController extends Controller
     {
         $mtt_user = $this->get('canal_tp_mtt.user');
 
+        // TODO: Put the current or default Network of User.
+        $network = $mtt_user->getNetworks();
         return $this->render(
             'CanalTPMttBundle:Default:index.html.twig',
-            array('networks' => $mtt_user->getNetworks())
+            array('network_id' => $network[0]['external_id'])
         );
     }
 
-    public function navigationAction($current_route = null)
+    public function navigationAction($network_id = 'network:Filbleu', $current_route = null)
     {
         $meth_navitia = $this->get('canal_tp_mtt.navitia');
-        $mtt_user = $this->get('canal_tp_mtt.user');
+        $networkManager = $this->get('canal_tp_mtt.network_manager');
+        $network = $networkManager->findOneByExternalId($network_id);
 
-        $networks = $mtt_user->getNetworks();
-        // TODO: get current network
         $result = $meth_navitia->getLinesByMode(
-            $networks[0]['external_coverage_id'],
-            $networks[0]['external_id']
+            $network->getExternalCoverageId(),
+            $network->getExternalId()
         );
 
         return $this->render(
             'CanalTPMttBundle:Default:navigation.html.twig',
             array(
                 'result' => $result,
-                'coverageId' => $networks[0]['external_coverage_id'],
+                'coverageId' => $network->getExternalCoverageId(),
                 'current_route' => $current_route
             )
         );

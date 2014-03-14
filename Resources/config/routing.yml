@@ -3,9 +3,10 @@ canal_tp_meth_homepage:
     defaults: { _controller: CanalTPMttBundle:Default:index }
 
 canal_tp_meth_menu:
-    pattern:  /navigation/{current_route}
+    pattern:  /navigation/network/{network_id}/route/{current_route}
     defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null }
-
+    requirements:
+        network_id: -?[a-zA-Z0-9_\-:]*
 #Season
 canal_tp_mtt_season_list:
     pattern: /coverage/{coverage_id}/network/{network_id}/seasons/list
@@ -80,3 +81,8 @@ canal_tp_mtt_calendar_view:
 canal_tp_mtt_frequency_edit:
     pattern: /frequency/edit/block/{blockId}/layout/{layoutId}/coverage/{externalCoverageId}/
     defaults: { _controller: CanalTPMttBundle:Frequency:edit}
+
+#Network
+canal_tp_mtt_network:
+    pattern: /coverage/{coverage_id}/network/{network_id}/seasons/list
+    defaults: { _controller: CanalTPMttBundle:Network:index }

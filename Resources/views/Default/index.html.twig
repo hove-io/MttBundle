@@ -3,15 +3,5 @@
 {% block main_content %}
     <h1>{{ 'welcome'|trans({}, 'default') }}</h1>
     <br>
-    <h3>Networks</h3>
-    <ul>
-        {% for network in networks %}
-            <li>
-                {{ network.external_coverage_id }} -> {{ network.external_id }}
-                <a href="{{ path('canal_tp_mtt_season_list', {'coverage_id': network.external_coverage_id, 'network_id': network.external_id}) }}">
-                    {{'season.list'|trans({}, 'default')}}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+    <h3>{{ network_id }}</h3>
 {% endblock %}

@@ -14,6 +14,7 @@ parameters:
     canal_tp_mtt.block_manager.class: CanalTP\MttBundle\Services\BlockManager
     canal_tp_mtt.frequency_manager.class: CanalTP\MttBundle\Services\FrequencyManager
     canal_tp_mtt.season.class: CanalTP\MttBundle\Services\SeasonManager
+    canal_tp_mtt.network.class: CanalTP\MttBundle\Services\NetworkManager
 
 services:
     navitia_component:
@@ -80,4 +81,7 @@ services:
             - { name: twig.extension }
     canal_tp_mtt.frequency_manager:
        class: %canal_tp_mtt.frequency_manager.class%
+       arguments: ['@doctrine.orm.entity_manager']
+    canal_tp_mtt.network_manager:
+       class: %canal_tp_mtt.network.class%
        arguments: ['@doctrine.orm.entity_manager']
