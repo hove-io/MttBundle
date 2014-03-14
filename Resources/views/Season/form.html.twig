@@ -26,6 +26,11 @@
                 $('.input-range input').datepicker({
                     language: '{{ app.request.locale }}',
                     autoclose: true
+                }).on('changeDate', function(){
+                    debugger;
+                    if ($(this).data('fromDate') == 1) {
+                        $(this).parents('.input-range').find('input[data-to-date=1]').datepicker('setStartDate', $(this).val());
+                    }
                 });
             });
         </script>

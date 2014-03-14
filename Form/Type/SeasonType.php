@@ -15,8 +15,16 @@ class SeasonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('title', 'text');
-        $builder->add('startDate', 'datepicker', array());
-        $builder->add('endDate', 'datepicker', array());
+        $builder->add('startDate', 'datepicker', array(
+            'attr' => array(
+                'data-from-date' => true
+            )
+        ));
+        $builder->add('endDate', 'datepicker', array(
+            'attr' => array(
+                'data-to-date' => true
+            )
+        ));
         $builder->setAction($options['action']);
     }
 
