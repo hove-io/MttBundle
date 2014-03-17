@@ -71,7 +71,7 @@ class TimetableController extends Controller
     /*
      * Display a layout and make editable via javascript
      */
-    public function editAction($externalNetworkId, $externalRouteId, $externalLineId, $externalStopPointId = null)
+    public function editAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
@@ -79,7 +79,7 @@ class TimetableController extends Controller
         $timetable = $this->getTimetable(
             $externalRouteId,
             $network->getExternalCoverageId(),
-            $lineManager->getLineConfigByExternalLineId($externalLineId)
+            $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
         $stopPointData = $this->getStopPoint(
             $externalStopPointId, 
@@ -114,7 +114,7 @@ class TimetableController extends Controller
     /*
      * Display a layout
      */
-    public function viewAction($externalNetworkId, $externalRouteId, $externalLineId, $externalStopPointId = null)
+    public function viewAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
@@ -122,7 +122,7 @@ class TimetableController extends Controller
         $timetable = $this->getTimetable(
             $externalRouteId,
             $network->getExternalCoverageId(),
-            $lineManager->getLineConfigByExternalLineId($externalLineId)
+            $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
         $stopPointData = $this->getStopPoint(
             $externalStopPointId, 
@@ -166,6 +166,7 @@ class TimetableController extends Controller
             'canal_tp_meth_timetable_view',
             array(
                 'externalNetworkId' => $externalNetworkId,
+                'seasonId'          => $timetable->getLineConfig()->getSeason()->getId(),
                 'externalLineId'    => $timetable->getLineConfig()->getExternalLineId(),
                 'externalStopPointId'=> $externalStopPointId,
                 'externalRouteId'    => $timetable->getExternalRouteId()

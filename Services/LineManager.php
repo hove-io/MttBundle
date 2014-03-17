@@ -50,6 +50,26 @@ class LineManager
     /**
      * Return line Object with navitia data added
      *
+     * @param  string $externalLineId
+     * @return line
+     */
+    public function getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
+    {
+        $this->line = $this->repository->findOneBy(
+            array(
+                'externalLineId' => $externalLineId,
+                'season' => $seasonId
+            )
+        );
+
+        $this->initTwigPath();
+
+        return $this->line;
+    }
+
+    /**
+     * Return line Object with navitia data added
+     *
      * @param  Integer $lineId
      * @return line
      */

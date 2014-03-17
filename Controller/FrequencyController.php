@@ -53,6 +53,7 @@ class FrequencyController extends Controller
                     'canal_tp_meth_timetable_edit',
                     array(
                         'externalNetworkId'     => $externalNetworkId,
+                        'seasonId'              => $block->getTimetable()->getLineConfig()->getSeason()->getId(),
                         'externalLineId'        => $block->getTimetable()->getLineConfig()->getExternalLineId(),
                         'externalRouteId'       => $block->getTimetable()->getExternalRouteId(),
                         'externalStopPointId'   => null

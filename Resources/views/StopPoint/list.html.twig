@@ -39,7 +39,7 @@
               </button>
               <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a href="{{ path('canal_tp_meth_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId}) }}">
+                    <a href="{{ path('canal_tp_meth_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':selectedSeason.id, 'externalRouteId': externalRouteId}) }}">
                         <span class="glyphicon glyphicon-edit"></span> {{'timetable.edit'|trans({}, 'default')}}
                     </a>
                 </li>
@@ -89,10 +89,10 @@
                         <span class="glyphicon glyphicon-calendar"></span> {{'stop_point.view_calendars'|trans({}, 'default')}}
                     </a>
                     {% if lineConfig is not empty %}
-                    <a  class="btn btn-default" href="{{ path('canal_tp_meth_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id}) }}">
+                    <a  class="btn btn-default" href="{{ path('canal_tp_meth_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id, 'seasonId':selectedSeason.id }) }}">
                         <span class="glyphicon glyphicon-edit"></span> {{'stop_point.action.edit'|trans({}, 'default')}}
                     </a>
-                    <a class="btn btn-default" href="{{ path('canal_tp_meth_timetable_view',  {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id}) }}">
+                    <a class="btn btn-default" href="{{ path('canal_tp_meth_timetable_view',  {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id , 'seasonId':selectedSeason.id }) }}">
                         <span class="glyphicon glyphicon-eye-open"></span> {{'global.preview'|trans}}
                     </a>
                     {% endif %}
