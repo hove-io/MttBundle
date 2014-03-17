@@ -1,7 +1,7 @@
 {% extends "CanalTPMttBundle::generic_list.html.twig" %}
 
 {% block list_title -%}
-    {{'global.line_label'|trans}} {{ routes.route_schedules[0].display_informations.label }} - {{'stop_point.list.header'|trans({}, 'default')}}
+    {{'global.line_label'|trans}} {{ routes.route_schedules[0].display_informations.label }} ({{ selectedSeason.title }}) - {{'stop_point.list.header'|trans({}, 'default')}}
 {% endblock %}
 
 {% block list_menu -%}
