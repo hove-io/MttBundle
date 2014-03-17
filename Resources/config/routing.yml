@@ -59,7 +59,7 @@ canal_tp_meth_block_edit:
 
 canal_tp_meth_block_delete:
     # stop point must be the last param so it can be empty
-    pattern: /block/delete/coverage/{externalCoverageId}/timetable/{timetableId}/blockId/{blockId}
+    pattern: /block/delete/network/{externalNetworkId}/timetable/{timetableId}/blockId/{blockId}
     defaults: { _controller: CanalTPMttBundle:Block:delete }
 
 
@@ -69,7 +69,7 @@ canal_tp_mtt_distribution_list:
     defaults: { _controller: CanalTPMttBundle:Distribution:list}
 
 canal_tp_meth_distribution_generate:
-    pattern: /distribution/generate/timetable/{timetableId}/coverage/{externalCoverageId}
+    pattern: /distribution/generate/timetable/{timetableId}/network/{externalNetworkId}
     defaults: { _controller: CanalTPMttBundle:Distribution:generate}
     options:
         expose: true

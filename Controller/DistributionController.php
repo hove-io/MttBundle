@@ -35,7 +35,6 @@ class DistributionController extends Controller
                 'timetable'     => $timetable,
                 'schedules'     => $schedules,
                 'current_route' => $routeId,
-                'coverage_id'   => $network->getExternalCoverageId(),
                 'network_id'    => $externalNetworkId,
                 'line_id'       => $lineId,
                 'route_id'      => $routeId,
@@ -43,9 +42,12 @@ class DistributionController extends Controller
         );
     }
 
-    public function generateAction($timetableId, $externalCoverageId)
+    public function generateAction($timetableId, $externalNetworkId)
     {
-        $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
+        $networkManager = $this->get('canal_tp_mtt.network_manager');
+
+        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById($timetableId, $network->getExternalCoverageId());
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint');
         $this->mediaManager = $this->get('canaltp_media_manager_mtt');
@@ -53,14 +55,14 @@ class DistributionController extends Controller
         $stopPointsIds = $this->get('request')->request->get('stopPointsIds', array());
         $paths = array();
         foreach ($stopPointsIds as $externalStopPointId) {
-            $stopPoint = $stopPointManager->getStopPoint($externalStopPointId, $timetable, $externalCoverageId);
+            $stopPoint = $stopPointManager->getStopPoint($externalStopPointId, $timetable, $network->getExternalCoverageId());
             //shall we regenerate pdf?
             if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false) {
                 $response = $this->forward(
                     'CanalTPMttBundle:Timetable:generatePdf',
                     array(
                         'timetableId'           => $timetableId,
-                        'externalCoverageId'    => $externalCoverageId,
+                        'externalNetworkId'     => $externalNetworkId,
                         'externalStopPointId'   => $externalStopPointId,
                     )
                 );

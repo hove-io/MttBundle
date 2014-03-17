@@ -52,8 +52,10 @@ class BlockController extends Controller
         );
     }
 
-    public function deleteAction($timetableId, $blockId, $externalCoverageId)
+    public function deleteAction($timetableId, $blockId, $externalNetworkId)
     {
+        $networkManager = $this->get('canal_tp_mtt.network_manager');
+        $network = $networkManager->findOneByExternalId($externalNetworkId);
         $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
         $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block');
 
@@ -66,13 +68,13 @@ class BlockController extends Controller
             $this->getDoctrine()->getEntityManager()->remove($block);
             $this->getDoctrine()->getEntityManager()->flush();
         }
-        $timetable = $timetableManager->getTimetableById($timetableId, $externalCoverageId);
+        $timetable = $timetableManager->getTimetableById($timetableId, $network->getExternalCoverageId());
 
         return $this->redirect(
             $this->generateUrl(
                 'canal_tp_meth_timetable_edit',
                 array(
-                    'externalCoverageId'    => $externalCoverageId,
+                    'externalNetworkId'     => $externalNetworkId,
                     'externalRouteId'       => $timetable->getExternalRouteId(),
                     'externalStopPointId'   => null
                 )
