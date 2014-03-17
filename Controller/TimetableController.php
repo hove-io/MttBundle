@@ -67,16 +67,21 @@ class TimetableController extends Controller
     /*
      * Display a layout and make editable via javascript
      */
-    public function editAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
+    public function editAction($externalNetworkId, $externalRouteId, $externalStopPointId = null)
     {
-        $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
+        $networkManager = $this->get('canal_tp_mtt.network_manager');
+        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $timetable = $this->getTimetable(
+            $externalRouteId,
+            $network->getExternalCoverageId()
+        );
         $stopPointData = $this->getStopPoint(
             $externalStopPointId, 
             $timetable, 
-            $externalCoverageId
+            $network->getExternalCoverageId()
         );
         $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
-            $externalCoverageId,
+            $network->getExternalCoverageId(),
             $timetable,
             $stopPointData['stopPointInstance']
         );
@@ -86,7 +91,8 @@ class TimetableController extends Controller
             'CanalTPMttBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
             array(
                 'timetable'             => $timetable,
-                'externalCoverageId'    => $externalCoverageId,
+                'externalNetworkId'     => $externalNetworkId,
+                'externalCoverageId'    => $network->getExternalCoverageId(),
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],
                 'calendars'             => $calendarsAndNotes['calendars'],
@@ -102,16 +108,18 @@ class TimetableController extends Controller
     /*
      * Display a layout
      */
-    public function viewAction($externalCoverageId, $externalRouteId, $externalStopPointId = null)
+    public function viewAction($externalNetworkId, $externalRouteId, $externalStopPointId = null)
     {
-        $timetable = $this->getTimetable($externalRouteId, $externalCoverageId);
+        $networkManager = $this->get('canal_tp_mtt.network_manager');
+        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $timetable = $this->getTimetable($externalRouteId, $network->getExternalCoverageId());
         $stopPointData = $this->getStopPoint(
             $externalStopPointId, 
             $timetable, 
-            $externalCoverageId
+            $network->getExternalCoverageId()
         );
         $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
-            $externalCoverageId,
+            $network->getExternalCoverageId(),
             $timetable,
             $stopPointData['stopPointInstance']
         );
@@ -120,7 +128,8 @@ class TimetableController extends Controller
             'CanalTPMttBundle:Layouts:' .  $timetable->getLine()->getTwigPath(),
             array(
                 'timetable'         => $timetable,
-                'externalCoverageId'=> $externalCoverageId,
+                'externalNetworkId' => $externalNetworkId,
+                'externalCoverageId'=> $network->getExternalCoverageId(),
                 'stopPointLevel'    => $stopPointData['stopPointLevel'],
                 'stopPoint'         => $stopPointData['stopPointInstance'],
                 'calendars'         => $calendarsAndNotes['calendars'],
@@ -132,15 +141,20 @@ class TimetableController extends Controller
         );
     }
 
-    public function generatePdfAction($timetableId, $externalCoverageId, $externalStopPointId)
+    public function generatePdfAction($timetableId, $externalNetworkId, $externalStopPointId)
     {
-        $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById($timetableId, $externalCoverageId);
+        $networkManager = $this->get('canal_tp_mtt.network_manager');
+        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById(
+            $timetableId,
+            $network->getExternalCoverageId()
+        );
         $pdfGenerator = $this->get('canal_tp_mtt.pdf_generator');
 
         $url = $this->get('request')->getHttpHost() . $this->get('router')->generate(
             'canal_tp_meth_timetable_view',
             array(
-                'externalCoverageId' => $externalCoverageId,
+                'externalNetworkId' => $externalNetworkId,
                 'externalStopPointId'=> $externalStopPointId,
                 'externalRouteId'    => $timetable->getExternalRouteId()
             )

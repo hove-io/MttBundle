@@ -11,13 +11,16 @@ use CanalTP\MttBundle\Entity\DistributionList;
 
 class DistributionController extends Controller
 {
-    public function listAction($coverageId, $networkId, $lineId, $routeId)
+    public function listAction($externalNetworkId, $lineId, $routeId)
     {
         $navitia = $this->get('iussaad_navitia');
-        $routes = $navitia->getStopPoints($coverageId, $networkId, $lineId, $routeId);
+        $networkManager = $this->get('canal_tp_mtt.network_manager');
+
+        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $routes = $navitia->getStopPoints($network->getExternalCoverageId(), $externalNetworkId, $lineId, $routeId);
         $timetable = $this
             ->get('canal_tp_mtt.timetable_manager')
-            ->getTimetable($routeId, $coverageId);
+            ->getTimetable($routeId, $network->getExternalCoverageId());
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $schedules = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows);
@@ -32,8 +35,8 @@ class DistributionController extends Controller
                 'timetable'     => $timetable,
                 'schedules'     => $schedules,
                 'current_route' => $routeId,
-                'coverage_id'   => $coverageId,
-                'network_id'    => $networkId,
+                'coverage_id'   => $network->getExternalCoverageId(),
+                'network_id'    => $externalNetworkId,
                 'line_id'       => $lineId,
                 'route_id'      => $routeId,
             )

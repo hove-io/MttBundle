@@ -11,7 +11,7 @@ use CanalTP\MttBundle\Entity\Frequency;
  */
 class FrequencyController extends Controller
 {
-    public function editAction($blockId, $layoutId, $externalCoverageId)
+    public function editAction($blockId, $layoutId, $externalNetworkId)
     {
         $blockManager = $this->get('canal_tp_mtt.block_manager');
         $layoutsConfig = $this->container->getParameter('layouts');
@@ -52,7 +52,7 @@ class FrequencyController extends Controller
                 $this->generateUrl(
                     'canal_tp_meth_timetable_edit',
                     array(
-                        'externalCoverageId'    => $externalCoverageId,
+                        'externalNetworkId'     => $externalNetworkId,
                         'externalRouteId'       => $block->getTimetable()->getExternalRouteId(),
                         'externalStopPointId'   => null
                     )

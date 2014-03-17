@@ -80,8 +80,8 @@
                                                         path(
                                                             'canal_tp_meth_block_edit', 
                                                             {
-                                                                'externalCoverageId':externalCoverageId, 
-                                                                'timetableId': timetable.id, 
+                                                                'externalNetworkId':externalNetworkId,
+                                                                'timetableId': timetable.id,
                                                                 'dom_id' : id,
                                                                 'blockId' : block.id,
                                                                 'block_type' : 'calendar'
@@ -96,7 +96,7 @@
                                                         path(
                                                             'canal_tp_mtt_frequency_edit', 
                                                             {
-                                                                'externalCoverageId':externalCoverageId, 
+                                                                'externalNetworkId':externalNetworkId,
                                                                 'blockId':block.id, 
                                                                 'layoutId' : layout
                                                             }
@@ -170,7 +170,7 @@
             $('#layout-1-wrapper'),
             {{ blockTypes|json_encode()|raw }},
             {{timetable.id|raw}},
-            {{externalCoverageId|json_encode()|raw}},
+            {{externalNetworkId|json_encode()|raw}},
             {{stopPointJs|json_encode()|raw}}
         );
     });

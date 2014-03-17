@@ -9,11 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 class CalendarController extends Controller
 {
-    public function viewAction($externalCoverageId, $externalRouteId, $externalStopPointId)
+    public function viewAction($externalNetworkId, $externalRouteId, $externalStopPointId)
     {
         $calendarManager = $this->get('canal_tp_mtt.calendar_manager');
+        $networkManager = $this->get('canal_tp_mtt.network_manager');
+
+        $network = $networkManager->findOneByExternalId($externalNetworkId);
         $calendarsAndNotes = $calendarManager->getCalendarsForStopPoint(
-            $externalCoverageId, 
+            $network->getExternalCoverageId(),
             $externalRouteId, 
             $externalStopPointId
         );

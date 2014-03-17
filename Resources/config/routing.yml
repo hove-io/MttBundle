@@ -52,7 +52,7 @@ canal_tp_meth_timetable_generate_pdf:
 #Block
 canal_tp_meth_block_edit:
     # stop point must be the last param so it can be empty
-    pattern: /block/edit/coverage/{externalCoverageId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
+    pattern: /block/edit/network/{externalNetworkId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
     defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null }
     options:
         expose: true
@@ -81,7 +81,7 @@ canal_tp_mtt_calendar_view:
 
 #Frequency
 canal_tp_mtt_frequency_edit:
-    pattern: /frequency/edit/block/{blockId}/layout/{layoutId}/coverage/{externalCoverageId}/
+    pattern: /frequency/edit/block/{blockId}/layout/{layoutId}/network/{externalNetworkId}/
     defaults: { _controller: CanalTPMttBundle:Frequency:edit}
 
 #Network
