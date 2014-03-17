@@ -15,13 +15,14 @@ class TimetableRepository extends EntityRepository
     /*
      * init timetable object, if not found in db create an entity
      */
-    public function getTimetableByRouteExternalId($externalRouteId)
+    public function getTimetableByRouteExternalId($externalRouteId, $lineConfig)
     {
         $timetable = $this->findOneByExternalRouteId($externalRouteId);
         // not found then insert it
         if (empty($timetable)) {
             $timetable = new Timetable();
             $timetable->setExternalRouteId($externalRouteId);
+            $timetable->setLineConfig($lineConfig);
 
             $this->getEntityManager()->persist($timetable);
             $this->getEntityManager()->flush();

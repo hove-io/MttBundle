@@ -150,6 +150,29 @@ class Timetable extends AbstractEntity
     }
 
      /**
+     * Set lineConfig
+     *
+     * @param  Object    $line
+     * @return Timetable
+     */
+    public function setLineConfig($lineConfig)
+    {
+        $this->line_config = $lineConfig;
+
+        return $this;
+    }
+
+    /**
+     * Get lineConfig
+     *
+     * @return Object
+     */
+    public function getLineConfig()
+    {
+        return $this->line_config;
+    }
+
+     /**
      * Set line
      *
      * @param  Object $line

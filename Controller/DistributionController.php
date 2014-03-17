@@ -15,12 +15,13 @@ class DistributionController extends Controller
     {
         $navitia = $this->get('iussaad_navitia');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
+        $lineManager = $this->get('canal_tp_mtt.line_manager');
 
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $routes = $navitia->getStopPoints($network->getExternalCoverageId(), $externalNetworkId, $lineId, $routeId);
         $timetable = $this
             ->get('canal_tp_mtt.timetable_manager')
-            ->getTimetable($routeId, $network->getExternalCoverageId());
+            ->getTimetable($routeId, $network->getExternalCoverageId(), $lineManager->getLineConfigByExternalLineId($lineId));
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $schedules = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows);
@@ -68,12 +69,14 @@ class DistributionController extends Controller
                 );
             }
 
-            $stopPointCategory = new Category($externalStopPointId, CategoryType::STOP_POINT);
-            $lineCategory = new Category($timetableId, CategoryType::LINE);
+            $timetableCategory = new Category($timetableId, CategoryType::NETWORK);
+            $networkCategory = new Category($timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(), CategoryType::NETWORK);
+            $seasonCategory = new Category($timetable->getLineConfig()->getSeason()->getId(), CategoryType::LINE);
             $media = new Media();
 
-            $stopPointCategory->setParent($lineCategory);
-            $media->setCategory($stopPointCategory);
+            $timetableCategory->setParent($networkCategory);
+            $networkCategory->setParent($seasonCategory);
+            $media->setCategory($timetableCategory);
             $media->setFileName($externalStopPointId);
             $paths[] = $this->mediaManager->getPathByMedia($media);
         }

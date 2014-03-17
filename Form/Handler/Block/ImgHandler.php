@@ -47,11 +47,13 @@ class ImgHandler extends AbstractHandler
     public function process(Block $formBlock, $timetable)
     {
         $timetableCategory = new Category($timetable->getId(), CategoryType::NETWORK);
-        $routeCategory = new Category($timetable->getExternalRouteId(), CategoryType::LINE);
+        $networkCategory = new Category($timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(), CategoryType::NETWORK);
+        $seasonCategory = new Category($timetable->getLineConfig()->getSeason()->getId(), CategoryType::LINE);
         $media = new Media();
 
-        $routeCategory->setParent($timetableCategory);
-        $media->setCategory($routeCategory);
+        $timetableCategory->setParent($networkCategory);
+        $networkCategory->setParent($seasonCategory);
+        $media->setCategory($timetableCategory);
         $media->setFile($formBlock->getContent());
         // TODO: Give img_label -> "ImgHandler::ID_LINE_MAP" as parameter
         $media->setFileName(ImgHandler::ID_LINE_MAP);

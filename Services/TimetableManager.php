@@ -34,8 +34,8 @@ class TimetableManager
     private function initAdditionalData($externalRouteId, $externalCoverageId)
     {
         $data = $this->navitia->getRouteData($externalRouteId, $externalCoverageId);
-        // var_dump($data);die;
         $line = $this->lineManager->getLineConfigByExternalLineId($data->line->id);
+
         $this->timetable->setLine($line);
         $this->timetable->setTitle($data->name);
         $this->calendars = $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId);
@@ -69,7 +69,6 @@ class TimetableManager
     public function getTimetableById($timetableId, $externalCoverageId)
     {
         $this->timetable = $this->repository->find($timetableId);
-        // var_dump($this->timetable);die;
         $this->initAdditionalData($this->timetable->getExternalRouteId(), $externalCoverageId);
         $this->initBlocks();
 
@@ -82,12 +81,23 @@ class TimetableManager
      * @param  Integer   $externalId
      * @return timetable
      */
-    public function getTimetable($externalRouteId, $externalCoverageId)
+    public function getTimetable($externalRouteId, $externalCoverageId, $lineConfig)
     {
-        $this->timetable = $this->repository->getTimetableByRouteExternalId($externalRouteId);
+        $this->timetable = $this->repository->getTimetableByRouteExternalId($externalRouteId, $lineConfig);
         $this->initAdditionalData($externalRouteId, $externalCoverageId);
         $this->initBlocks();
 
         return $this->timetable;
+    }
+
+    /**
+     * Return timetable Object
+     *
+     * @param  Integer   $externalId
+     * @return timetable
+     */
+    public function find($id)
+    {
+        return $this->repository->find($id);
     }
 }

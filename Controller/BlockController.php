@@ -37,6 +37,7 @@ class BlockController extends Controller
                     'canal_tp_meth_timetable_edit',
                     array(
                         'externalNetworkId'     => $externalNetworkId,
+                        'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
                         'externalRouteId'       => $timetable->getExternalRouteId(),
                         'externalStopPointId'   => $stop_point
                     )
@@ -75,6 +76,7 @@ class BlockController extends Controller
                 'canal_tp_meth_timetable_edit',
                 array(
                     'externalNetworkId'     => $externalNetworkId,
+                    'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
                     'externalRouteId'       => $timetable->getExternalRouteId(),
                     'externalStopPointId'   => null
                 )
