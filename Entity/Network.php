@@ -101,7 +101,7 @@ class Network extends AbstractEntity
     /**
      * Set Object
      *
-     * @return Season
+     * @return Network
      */
     public function setSeasons($seasons)
     {
@@ -109,4 +109,16 @@ class Network extends AbstractEntity
 
         return ($this);
     }
+
+    /**
+     * Set Object
+     *
+     * @return Network
+     */
+    public function addUser($user)
+    {
+        $this->users[] = $user;
+
+        return ($this);
+    }    
 }
