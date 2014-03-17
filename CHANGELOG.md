@@ -1,3 +1,9 @@
+Notes de publication - METH - Version 0.4.2 (18/03/2014)
+
+** Sous-tâche
+    * [METH-102] - Formulaire de création et édition d'une saison
+    * [METH-105] - Assigner un layout à une ligne ET une saison
+
 Notes de publication - MTT - Version 0.4.1 (12/03/2014)
 
 ** BugFix
