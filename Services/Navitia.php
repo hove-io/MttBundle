@@ -161,6 +161,7 @@ class Navitia
                 'region' => $externalCoverageId,
                 'action' => 'stop_schedules',
                 'filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId,
+                'parameters' => '?calendar=' . $externalCalendarId
             )
         );
         $stop_schedulesResponse = $this->navitia_component->call($query);

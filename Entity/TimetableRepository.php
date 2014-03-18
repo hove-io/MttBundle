@@ -17,7 +17,10 @@ class TimetableRepository extends EntityRepository
      */
     public function getTimetableByRouteExternalId($externalRouteId, $lineConfig)
     {
-        $timetable = $this->findOneByExternalRouteId($externalRouteId);
+        $timetable = $this->findOneBy(array(
+            'externalRouteId' => $externalRouteId,
+            'line_config' => $lineConfig->getId(),
+        ));
         // not found then insert it
         if (empty($timetable)) {
             $timetable = new Timetable();

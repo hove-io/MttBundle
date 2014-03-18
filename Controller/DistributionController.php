@@ -63,6 +63,7 @@ class DistributionController extends Controller
                     'CanalTPMttBundle:Timetable:generatePdf',
                     array(
                         'timetableId'           => $timetableId,
+                        'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
                         'externalNetworkId'     => $externalNetworkId,
                         'externalStopPointId'   => $externalStopPointId,
                     )

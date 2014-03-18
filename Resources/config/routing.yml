@@ -34,13 +34,13 @@ canal_tp_mtt_line_choose_layout:
 
 #Timetable
 canal_tp_meth_timetable_edit:
-    pattern: /timetable/edit/network/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
+    pattern: /timetable/edit/network/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/season/{seasonId}/stopPoint/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Timetable:edit, externalStopPointId: null }
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_meth_timetable_view:
-    pattern: /timetable/view/network/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
+    pattern: /timetable/view/network/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/season/{seasonId}/stopPoint/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Timetable:view, externalStopPointId: null }
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*
