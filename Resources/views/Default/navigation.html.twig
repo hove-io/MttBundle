@@ -11,7 +11,7 @@
                 <div class="panel-body">
                     {% for line in lines %}
                         <div class="line-menu-wrapper clearfix">
-                            <a class="line-link-toggle" href="#">{{ line.name }}</a>
+                            <a class="line-link-toggle" href="#">{{ line.code }} - {{ line.name }}</a>
                             <span class="badge pull-right">{{ line.routes|length }}</span>
                             <ul class="display-none">
                             {% for route in line.routes %}
