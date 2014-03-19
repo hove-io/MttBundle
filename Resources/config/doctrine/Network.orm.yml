@@ -32,7 +32,7 @@ CanalTP\MttBundle\Entity\Network:
             mappedBy: network
     manyToMany:
         users:
-            targetEntity: CanalTP\IussaadCoreBundle\Entity\User
+            targetEntity: CanalTP\SamCoreBundle\Entity\User
             joinTable:
                 name: mtt.users_networks
                 joinColumns:

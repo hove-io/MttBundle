@@ -1,6 +1,6 @@
 parameters:
     navitia_component.class: Navitia\Component\Service\ServiceFacade
-    iussaad_navitia.class: CanalTP\IussaadBundle\Services\Navitia
+    iussaad_navitia.class: CanalTP\SamBundle\Services\Navitia
     media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
     canal_tp_mtt.user.class: CanalTP\MttBundle\Services\UserManager
     canal_tp_mtt.navitia.class: CanalTP\MttBundle\Services\Navitia
