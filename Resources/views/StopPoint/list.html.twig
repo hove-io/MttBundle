@@ -79,7 +79,7 @@
             {% if lineConfig is not empty %}
             <td>
                  {% if route.stop_point.pdfGenerationDate is not empty %}
-                    {{ route.stop_point.pdfGenerationDate|date }}
+                    {{ route.stop_point.pdfGenerationDate|date('d/m/Y - g:ia') }}
                 {% endif %}
             </td>
             {% endif %}
