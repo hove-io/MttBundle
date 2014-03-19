@@ -9,6 +9,7 @@ class StopPointController extends Controller
     public function listAction($network_id, $line_id, $externalRouteId, $seasonId = null)
     {
         $navitia = $this->get('iussaad_navitia');
+        $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
         $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($network_id);
         $seasons = $this->get('canal_tp_mtt.season_manager')->findAllByNetworkId($network->getExternalId());
         $selectedSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
@@ -18,7 +19,10 @@ class StopPointController extends Controller
         )->findOneBy(array('externalLineId' => $line_id, 'season' => $selectedSeason));
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
-        $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows, $lineConfig);
+        $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints(
+            $routes->route_schedules[0]->table->rows,
+            $timetableManager->findTimetableByExternalRouteIdAndLineConfig($externalRouteId, $lineConfig)
+        );
 
         return $this->render(
             'CanalTPMttBundle:StopPoint:list.html.twig',

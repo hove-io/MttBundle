@@ -23,6 +23,7 @@ class DefaultController extends Controller
 
     public function navigationAction($externalNetworkId = 'network:Filbleu', $current_route = null)
     {
+        // TODO: Put the current or default Network of User. (for $externalNetworkId)
         $meth_navitia = $this->get('canal_tp_mtt.navitia');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $network = $networkManager->findOneByExternalId($externalNetworkId);

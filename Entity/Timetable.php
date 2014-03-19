@@ -25,6 +25,11 @@ class Timetable extends AbstractEntity
     /**
      * @var Object
      */
+    private $stopPoints;
+
+    /**
+     * @var Object
+     */
     private $ditributionLists;
 
     /**
@@ -101,6 +106,29 @@ class Timetable extends AbstractEntity
     public function getBlocks()
     {
         return $this->blocks;
+    }
+
+    /**
+     * Set stopPoints
+     *
+     * @param  array $blocks
+     * @return Timetable
+     */
+    public function setStopPoints($stopPoints)
+    {
+        $this->stopPoints = $stopPoints;
+
+        return $this;
+    }
+
+    /**
+     * Get stopPoints
+     *
+     * @return array
+     */
+    public function getStopPoints()
+    {
+        return $this->stopPoints;
     }
 
     /**

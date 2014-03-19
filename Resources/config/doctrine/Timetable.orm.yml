@@ -29,6 +29,9 @@ CanalTP\MttBundle\Entity\Timetable:
         ditributionLists:
             targetEntity: DistributionList
             mappedBy: timetable
+        stopPoints:
+            targetEntity: StopPoint
+            mappedBy: timetable
     manyToOne:
         line_config:
             targetEntity: LineConfig

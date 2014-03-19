@@ -20,6 +20,11 @@ class StopPoint extends AbstractEntity
     /**
      * @var Object
      */
+    private $timetable;
+
+    /**
+     * @var Object
+     */
     private $line;
 
     /**
@@ -68,6 +73,29 @@ class StopPoint extends AbstractEntity
     public function getExternalId()
     {
         return $this->externalId;
+    }
+
+    /**
+     * Set timetable
+     *
+     * @param  string $timetable
+     * @return StopPoint
+     */
+    public function setTimetable($timetable)
+    {
+        $this->timetable = $timetable;
+
+        return $this;
+    }
+
+    /**
+     * Get timetable
+     *
+     * @return Object
+     */
+    public function getTimetable()
+    {
+        return $this->timetable;
     }
 
     /**

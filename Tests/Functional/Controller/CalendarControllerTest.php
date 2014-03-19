@@ -10,9 +10,9 @@ class CalendarControllerTest extends AbstractControllerTest
             'canal_tp_mtt_calendar_view', 
             // fake params since we mock navitia
             array(
-                'externalCoverageId' => 'test',
-                'externalRouteId' => 'test',
-                'externalStopPointId' => 'test'
+                'externalNetworkId' => 'network:Filbleu',
+                'externalRouteId' => 'route:TTR:Nav155',
+                'externalStopPointId' => 'stop_point:TTR:SP:JUSTB-1'
             )
         );
     }

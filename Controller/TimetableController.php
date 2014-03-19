@@ -176,7 +176,7 @@ class TimetableController extends Controller
 
         if ($pdfPath) {
             $pdfMedia = $this->saveMedia($timetable->getId(), $externalStopPointId, $pdfPath);
-            $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint')->updatePdfGenerationDate($externalStopPointId);
+            $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint')->updatePdfGenerationDate($externalStopPointId, $timetable);
 
             return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
         } else {

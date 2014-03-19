@@ -14,7 +14,10 @@ class DefaultControllerTest extends AbstractControllerTest
     
     public function testNavigation()
     {
-        $route = $this->generateRoute('canal_tp_meth_menu');
+        $route = $this->generateRoute(
+            'canal_tp_meth_menu',
+            array('externalNetworkId' => 'network:Filbleu')
+        );
         $crawler = $this->client->request('GET', $route);
         
         $this->assertTrue($crawler->filter('.panel-group > .panel')->count() > 0, "Expected at least one mode for this user.");

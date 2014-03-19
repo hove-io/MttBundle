@@ -30,11 +30,14 @@ abstract class AbstractHandler implements HandlerInterface
         $this->om->flush();
     }
 
-    private function getStopPointReference($externalStopPointId)
+    private function getStopPointReference($externalStopPointId, $timetable)
     {
         $this->stopPoint = $this->om
             ->getRepository('CanalTPMttBundle:StopPoint')
-            ->getStopPoint($externalStopPointId);
+            ->getStopPoint(
+                $externalStopPointId,
+                $timetable
+            );
 
         return ($this->om->getPartialReference(
             'CanalTP\MttBundle\Entity\StopPoint',
@@ -52,7 +55,8 @@ abstract class AbstractHandler implements HandlerInterface
             // link block to this stop point
             $this->block->setStopPoint(
                 $this->getStopPointReference(
-                    $externalStopPointId
+                    $externalStopPointId,
+                    $timetable
                 )
             );
         }

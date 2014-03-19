@@ -90,6 +90,21 @@ class TimetableManager
         return $this->timetable;
     }
 
+
+    /**
+     * Return timetable Object with navitia data added
+     *
+     * @param  Integer   $externalId
+     * @return timetable
+     */
+    public function findTimetableByExternalRouteIdAndLineConfig($externalRouteId, $lineConfig)
+    {
+        $this->timetable = $this->repository->getTimetableByRouteExternalId($externalRouteId, $lineConfig);
+
+        return $this->timetable;
+    }
+
+
     /**
      * Return timetable Object
      *

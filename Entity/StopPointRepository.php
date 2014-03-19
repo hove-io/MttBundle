@@ -23,30 +23,39 @@ class StopPointRepository extends EntityRepository
         return $result;
     }
     
-    public function updatePdfGenerationDate($externalStopPointId)
+    public function updatePdfGenerationDate($externalStopPointId, $timetable)
     {
-        $stopPoint = $this->getStopPoint($externalStopPointId);
+        $stopPoint = $this->getStopPoint($externalStopPointId, $timetable);
 
         $stopPoint->setPdfGenerationDate(new \DateTime());
         $this->getEntityManager()->persist($stopPoint);
         $this->getEntityManager()->flush();
     }
 
-    public function getStopPoint($externalStopPointId)
+    public function getStopPoint($externalStopPointId, $timetable)
     {
-        $stopPoint = $this->findOneByExternalId($externalStopPointId);
+        $stopPoint = $this->findOneBy(array(
+            'externalId' => $externalStopPointId,
+            'timetable' => $timetable->getId(),
+
+        ));
+
         // do this stop_point exists?
         if (empty($stopPoint)) {
-            $stopPoint = $this->insertStopPoint($externalStopPointId);
+            $stopPoint = $this->insertStopPoint(
+                $externalStopPointId,
+                $timetable
+            );
         }
 
         return $stopPoint;
     }
 
-    private function insertStopPoint($externalStopPointId)
+    private function insertStopPoint($externalStopPointId, $timetable)
     {
         $stopPoint = new StopPoint();
         $stopPoint->setExternalId($externalStopPointId);
+        $stopPoint->setTimetable($timetable);
         $this->getEntityManager()->persist($stopPoint);
 
         return $stopPoint;

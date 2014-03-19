@@ -61,13 +61,18 @@ class StopPointManager
      */
     public function getStopPoint($externalStopPointId, $timetable, $externalCoverageId)
     {
-        $this->stopPoint = $this->repository->findOneByExternalId($externalStopPointId);
+        $this->stopPoint = $this->repository->findOneBy(array(
+            'externalId' => $externalStopPointId,
+            'timetable' => $timetable->getId()
+        ));
         $this->timetable = $timetable;
         if (!empty($this->stopPoint)) {
             $this->initBlocks();
         } else {
             $this->stopPoint = new StopPoint();
+
             $this->stopPoint->setExternalId($externalStopPointId);
+            $this->stopPoint->setTimetable($timetable);
         }
         $this->initTitle($externalCoverageId);
 
@@ -81,22 +86,24 @@ class StopPointManager
      *
      * @return array
      */
-    public function enhanceStopPoints($stopPoints)
+    public function enhanceStopPoints($stopPoints, $timetable)
     {
-        $ids = array();
+        $externalStopPointIds = array();
         $stopPointsIndexed = array();
-        // extract ids to prepare SQL WHERE IN
+        // extract externalStopPointIds to prepare SQL WHERE IN
         foreach ($stopPoints as $stopPoint_data) {
-            $ids[] = $stopPoint_data->stop_point->id;
+            $externalStopPointIds[] = $stopPoint_data->stop_point->id;
             // and index by navitia Id to make it easy to find an item inside
             $stopPointsIndexed[$stopPoint_data->stop_point->id] = $stopPoint_data;
         }
         $query = $this->om
             ->createQueryBuilder()
             ->addSelect('stopPoint')
-            ->where("stopPoint.externalId IN(:ids)")
+            ->where("stopPoint.externalId IN(:externalStopPointIds)")
             ->from('CanalTPMttBundle:StopPoint', 'stopPoint')
-            ->setParameter('ids', array_values($ids))
+            ->setParameter('externalStopPointIds', array_values($externalStopPointIds))
+            ->andWhere("stopPoint.timetable = :timetableId")
+            ->setParameter('timetableId', $timetable->getId())
             ->getQuery();
         $db_stop_points = $query->getResult();
         // add pdf generation date to stop points
