@@ -13,7 +13,7 @@ class DistributionController extends Controller
 {
     public function listAction($externalNetworkId, $lineId, $routeId)
     {
-        $navitia = $this->get('iussaad_navitia');
+        $navitia = $this->get('sam_navitia');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
 

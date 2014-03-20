@@ -17,6 +17,7 @@ You need composer to install the MethBundle.
 3. Add require "canaltp/meth-bundle": "dev-master"
 4. Add url of the repository, 'http://packagist.canaltp.fr'
 5. Add configuration in your app/config/routing.yml __(not required)__
+6. In your project don't forget to declare service of navitia component (in service.yml) /!\
 
     // AppKernel.php
     ...
@@ -40,10 +41,20 @@ You need composer to install the MethBundle.
         ],
         "require": {
             ...
-            "canaltp/meth-bundle": "dev-master"
+            "canaltp/mtt-bundle": "dev-master"
         },
         ...
     }
+
+    // service.yml
+    navitia_component.class: Navitia\Component\Service\ServiceFacade
+    ...
+    navitia_component:
+        class:          "%navitia_component.class%"
+        factory_class:  "%navitia_component.class%"
+        factory_method: getInstance
+        calls:
+            - [ setConfiguration, [%config.navitia%]]
 
 Contributing
 -------------

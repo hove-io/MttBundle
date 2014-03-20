@@ -1,6 +1,4 @@
 parameters:
-    navitia_component.class: Navitia\Component\Service\ServiceFacade
-    iussaad_navitia.class: CanalTP\SamBundle\Services\Navitia
     media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
     canal_tp_mtt.user.class: CanalTP\MttBundle\Services\UserManager
     canal_tp_mtt.navitia.class: CanalTP\MttBundle\Services\Navitia
@@ -17,12 +15,6 @@ parameters:
     canal_tp_mtt.network.class: CanalTP\MttBundle\Services\NetworkManager
 
 services:
-    navitia_component:
-        class:          "%navitia_component.class%"
-        factory_class:  "%navitia_component.class%"
-        factory_method: getInstance
-        calls:
-            - [ setConfiguration, [%config.navitia%]]
     # FORMS
     form.type.layout:
         class: CanalTP\MttBundle\Form\Type\LayoutType
@@ -34,9 +26,6 @@ services:
         class: CanalTP\MttBundle\Form\Type\DatepickerType
         tags:
             - { name: form.type, alias: datepicker }
-    iussaad_navitia:
-        class: %iussaad_navitia.class%
-        arguments: ['@navitia_component']
     # Service of mediaManager
     canaltp_media_manager_mtt:
         class: %media_manager.class%
@@ -46,7 +35,7 @@ services:
        arguments: ['@doctrine.orm.entity_manager', '@security.context', '@translator']
     canal_tp_mtt.navitia:
        class: %canal_tp_mtt.navitia.class%
-       arguments: ['@navitia_component', '@iussaad_navitia', '@translator']
+       arguments: ['@navitia_component', '@sam_navitia', '@translator']
     canal_tp_mtt.line_manager:
        class: %canal_tp_mtt.line_manager.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia']
