@@ -1,0 +1,61 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        <span class="icon"><img width="15" height="28" alt="navitia" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAFUAVQMBIgACEQEDEQH/xAAcAAACAgMBAQAAAAAAAAAAAAAGBwAFAQQIAwL/xABLEAABAwIDBQQGBQYKCwAAAAABAgMEBREABiEHEjFBURMiYYEUcZGhsfAVMlJiwSNCgpKi8RczQ3JzdLLC0eEWNDU2RFNWY5Oj0//EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AdhJvx+f8cYuevv8An24h4nAznnOMPKdPC1gPzngfRo17b33ldEjAXNYrECiw1TKpLbjMj85fEnoBxJ6AXOFjXtsqrray9TgRqBImk+0ISfioerAK01mPP9eJuubLOpWrutR0E+xCfDibczi7zPlOn5YjxKW0V1bMlQIShI7rbKSbXSkcSToCo20KrC2Ar5e0bN817u1ZbW9wajsoSPLQq9+NZGds2pCnE1udZJspRsQn13FsOzIWT4uVKcE2S7UXgPSZFuJ+wn7o/wAzgV2MoS6vNDbqUrQuSkLSsXChdy4PhgBOmbV80QykSno09A+sH2QlRHgUWt7Dhg5Z2p0asONxp4VTZayEpDqt5pajyC/wIHngNzxlKJlCrtVVFPE3L8le4/GJIVHJ5JUDdPVJvx7p4jGMwbMS7TkVbKEk1GC+jtExnLdpuHXunQK/mmx9Z0xA77n8MS564UuQM01efl6bS2Xr1mlNF2MmQLiS0nQtLB1uDZN9CLp42NzXJGcoOboBdjgsy2rdvGUblF+BB/OB5H4YoJ0k68cTGE+WJgNGt1SNRaXKqU1RDEdG+rqegHiTYAdTjndtFW2gZu1IMuWq6iblEdof3Ug+ZPU4O9u1aI9AobS7BV5T4B5XKUA+e+f0Ri32MUBNPy8qqvoHpNRO8kkfVZSbJHmbq8bjpgKmXkPMGUmZM7KuZeziIQXXmpPcG6kXKjoUK0HNIwMZeqeZ3K05nBNEerLqrtdqGVKCFWAO6lHAhOnC2p8cMfbJUzT8lvMpWUrnPIY/R1Ur2pSR54u8i00UjKFKiboSsRw44Pvr76veo4AMa2szmf8AaWUZrFui1D3KbHxwJ5FzujLK6qr6MemKmvJcSlC90ItvaHQ/a92H6CbjX5+eWFhsU/1jM39aR8XMBW1XaBW8wU+RTmslPusSUFs6PPaHn3UCx53vpbFDlR/OofVlGlTvo91redU3IAQpANiRcpJH1gqw6k4f9789Pn3YU20onL20PL+Y2u6lyyHz4IO6snxLblv0RgLrKOz+TQK0mu1CtLmTCFh8FBspKk/aUSSbgG5tpywpclVpVFzXAqDJsyt0NOjkWVkAg+rQ+tIw8dpNaRRMoTnQ4EvyUGNHsdSpYtceoXV5YSuTspu19xcqU76FRYl1S5yzuhKRxSk81fDieQIdKJ4nU3xjGlQqpErdKYqVPWVxnwSgqFjoSDcdbg3xMAgdq8p2ZnyqpTr2PZsNeoISf7RVjoGmw0U+nxYTKd1uM0hpAHIJSAPhjnbaIOzz7WgtRTaSCVcwClJv7Dg//gvzB/13OPj+W/8AtgPHbopT8nL9O/k3lulQ8btpH9pWGwE7oCQNBYD5/DHPmessVDLtQpTVQrr9RVKKuzec3wpkJUm9t5avtA6EcMGX8F+Yb/79zv8A3cf/ADYBpAajjhX7FP4/M39aR8XMaNQya5QEokZi2iz2Yhv3G3HUuueCLuKv+qcbORMyU93MjFDyjSPRYC952XLkqK33wkHXjpdRTqSbBR0GAaut+fz+OBTaBl2n1+NTU1ea1DhxpW+8pbgR2iN0goCjwubXPGwNsUdZ2eV+pVWXNRnOVGQ+6paGW0uhLaSdEizoGgtrbXAfn7JtTy9RmpdQzNJqba5CWhHd7S28UqO93nFC9geXPAMmqZQg5qqEWpVScqXTGmx6FDjq3Wik2O+pQN1lVhwIFrcdSR3bZF9CyrSmII9Hgtyg0YzPcbPcUpOg42KfacVuX9ndcqFCp02PnCZFakxW3W46Q7ZoKSCEizoFgD0GKfP+UKllykx5NQzNJqaHZIaQw72lgd1R3u84oaAEcOeAOthkvt8oyI5/4WatAHgpKV/FZxMauwNKvoCqrsd0zrDxs2j/ABxMANbactSo9adrrbIXAlpQl1af5NwDd7w6EBNj106XamTKqK1lamT94FbjCUu21s4nuq/aBtjxz5Ol0yhuT40NqdHZVebEdTcOsEEK9VtDwIsDpgayNmfJdPjyG6fUlU9l9ztjCnr3Qwsix3FHSxsNLm3hfAbe1KmUCezT38xVY09qIpwhLQBeeCgLpQNTe6RqAcCWZtrkySFRsuR/RGrbvpUhIU6R91OqU+d/UMWW06r5HqVOccDrE6rhG5HdgqBUDy31jTcF+BueNtcJ/Ae0yVInSlypr7siQv6zrqypR8zyw0dg9OCn6tVFAHcSiM2el+8v+5hUYdOSa3R8k5JpJrLymXaoXJSezaUveFxYmw+zuYgZvzwwqNvEpTjFGpbI3nXXVuhN+YAQkeZWfZgth7RcpTLdnWmWz/30LZt5rSPbgGaWnO+19D7BS7TaXuqCxqkpa1BHLV1WnVIxQ26fGTCgRoiLbrDKGh6kgAfDhhSbdqmHJ1MpLah+RQqQ8nxV3Ue4L9ow16xU4tGpkioz3Ozjx0lSzxJ6AdVE6AY53ZbnZ8zoQq6XZ7+84Un+IaFr/qpAA6m3XAOPZBAVByNDW4ndXLWuQQeijZJ80hJ88TBfEYbjR247COzaaQlCEjkkCwHsxMBlaQq6VAKB0IPA9cJ7OWyd9D7kzKu4thR3jAWoJLf9GToU9Em1up4BxK4n8cYWkLSUqBsdD1/f8MBzI5lLMjb3YqoFT3/uxVqT+sBb34t6ds1zDIT21Qbj0qKnVb015I3U9bAn32wd5wy/nODvyMr12fJh2uYa3butjnuqVqses7387CvmZlrjsKVSKxIelNLVdbFQSVOMucQpJV3kkdOFtLYgKa5somtwI8vLk9uqNutpKtAkm/56LGxTre17264YMSm0Wr1yoUqXT4cxijRosZlLzKV9mSlSjYkaXBRe3TC42fbRlZaiKp1UZflQBdTHYkdoySdUi5AKTx43Hnp7ZP2iRaNOrs2qRpUh6pSEupDCUAC28LG6hbQjhfhii42p0PKGX6H2rNMZaqUg7sZLTq0AfacKQbbqR1GpIGKiLkH6MyqxX5+YnaFMKe01BG6D9VA3SF75FtBc30tgVrGaJ1YzF9NzUNOOIUCzHcBU20kfVTbS9jr4njppj2ZYzPnyp715NRdToXV91lnz+qj1DU9DiDwq2Za7Xo8anz5701ttz8igIG8tR0FwBdR6XudcOXZjkz/RmnKlTkj6VlpHajj2COIbHjzPj1AGJkTZ7CyzuzJakzKr/wA3d7jN+SAefidfUDbBt88fn24oyn51xMROn7sTAZ3bnjzxjd08sTEwE3eOvPFdV8v0mtt7tWp8eVYWSpxHeSPBXEeRxMTACM3Y9lp+/oztQif0T4UP2wo+/GojYrRgoFdXqqgDwBaF/wBjExMBdU3ZflSApLioKpa085bqlj9XRJ9mC1iO1HaSzHbQ00jRKEJCUj1AaYziYD63fxxN3ExMB9JTbniYmJgP/9k=" /></span>
+        {% set status_color = "yellow" %}
+        <span class="sf-toolbar-status sf-toolbar-status-{{ status_color }}">42</span>
+    {% endset %}
+
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Request</b>
+            <span class="sf-toolbar-status sf-toolbar-status-red">Navitia Fail !</span>
+        </div>
+    {% endset %}
+    {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with { 'link': profiler_url } %}
+{% endblock %}
+
+{% block menu %}
+<span class="label">
+        <span class="icon"><img  width="34" height="34"  alt="navitia" src="data:image/jpeg;base64,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" /></span>
+</span>
+{% endblock %}
+
+{% block panel %}
+    <h2>Navitia Request</h2>
+    {% if true %}
+        {{ block('panelContent') }}
+    {% else %}
+        <p>
+            <em>No events have been recorded.</em>
+        </p>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block panelContent %}
+    <table>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <th>Coverage</th>
+            <td>Bon bah ok</td>
+        </tr>
+    </table>
+
+    <h2>Request(s)</h2>
+    <table>
+        <tr>
+            <th>Event name</th>
+            <th>Url</th>
+        </tr>
+        <tr>
+            <td><code>Test</code></td>
+            <td><code>ok</code></td>
+        </tr>
+    </table>
+{% endblock %}

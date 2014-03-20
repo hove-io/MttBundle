@@ -15,6 +15,14 @@ parameters:
     canal_tp_mtt.network.class: CanalTP\MttBundle\Services\NetworkManager
 
 services:
+    #Profiler
+    data_collector.navitia:
+        class: CanalTP\MttBundle\DataCollector\NavitiaDataCollector
+        tags:
+            - { name: data_collector, template: "CanalTPMttBundle:Collector:navitia", id: "navitia"  }
+    canal_tp_mtt.matcher.navitia_debug:
+        class: CanalTP\MttBundle\Profiler\NavitiaDebugMatcher
+        arguments: ["@security.context"]
     # FORMS
     form.type.layout:
         class: CanalTP\MttBundle\Form\Type\LayoutType
