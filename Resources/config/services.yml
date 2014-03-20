@@ -12,7 +12,7 @@ parameters:
     canal_tp_mtt.form.image_type_extension.class: CanalTP\MttBundle\Form\Extension\ImageTypeExtension
     canal_tp_mtt.pdf_generator.class: CanalTP\MttBundle\Services\PdfGenerator
     canal_tp_mtt.block_manager.class: CanalTP\MttBundle\Services\BlockManager
-    canal_tp.mtt.business_module.class: CanalTP\MttBundle\Api\BusinessModule
+    canal_tp.mtt.business_module.class: CanalTP\MttBundle\Security\BusinessModule
 
 services:
     navitia_component:
