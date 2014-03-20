@@ -1,0 +1,17 @@
+parameters:
+    permissions:
+        BUSINESS_USER_LIST:
+            label: Voir les utilisateurs
+            description: Voir la liste des utilisateurs.
+        BUSINESS_USER_PERIMETER:
+            label: Gerer les utilisateurs dans son perimetre
+            description: Permet de creer, modifier et supprimer des utilisateurs dans le perimetres qui lui sont isponible.
+        BUSINESS_ROLE:
+            label: Gerer les roles
+            description: Permet de creer et supprimer des roles
+        BUSINESS_PERMISSION:
+            label: Gerer les permissions
+            description: Permet de modifier les permissions des differents roles
+        BUSINESS_TOTO:
+            label: Gerer des choses
+            description: Permet de faire plein de chose !

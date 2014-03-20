@@ -13,7 +13,7 @@ parameters:
     canal_tp_mtt.frequency_manager.class: CanalTP\MttBundle\Services\FrequencyManager
     canal_tp_mtt.season.class: CanalTP\MttBundle\Services\SeasonManager
     canal_tp_mtt.network.class: CanalTP\MttBundle\Services\NetworkManager
-
+    canal_tp.mtt.business_module.class: CanalTP\MttBundle\Security\BusinessModule
 services:
     # FORMS
     form.type.layout:
@@ -74,3 +74,9 @@ services:
     canal_tp_mtt.network_manager:
        class: %canal_tp_mtt.network.class%
        arguments: ['@doctrine.orm.entity_manager']
+    # Business Objects
+    canal_tp.mtt.business.module:
+        class: %canal_tp.mtt.business_module.class%
+        arguments: ['@service_container']
+        tags:
+            -  { name: canal_tp.mtt.business_module }
