@@ -27,16 +27,10 @@ class CanalTPMttExtension extends Extension implements ExtensionInterface
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
-// die('test');
+
         $loader->load('services.yml');
         $loader->load('layouts.yml');
         $loader->load('blocks.yml');
-        // $container->registerExtension($this);
-        // $container->prependExtensionConfig('CanalTPMethExtension', array());
+        $loader->load('permissions.yml');
     }
-
-    // public function getAlias()
-    // {
-        // return 'canal_tp_mtt';
-    // }
 }
