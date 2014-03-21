@@ -17,7 +17,6 @@ class NavitiaDebugMatcher implements RequestMatcherInterface
 
     public function matches(Request $request)
     {
-        return (true);
-        // return $this->securityContext->isGranted('BUSINESS_NAVITIA_DEBUG');
+        return $this->securityContext->isGranted('BUSINESS_NAVITIA_DEBUG');
     }
 }
