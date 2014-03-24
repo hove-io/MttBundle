@@ -34,4 +34,23 @@ class BlockManager
     {
         return $this->repo->find($blockId);
     }
+    
+    /**
+     * Return Block
+     *
+     * @param  Object $block
+     * @param  Object $destTimetable
+     * @param  Object $destStopPoint
+     * @return block
+     */
+    public function copy($block, $destTimetable, $destStopPoint = false)
+    {
+        $blockCloned = clone $block;
+        $blockCloned->setTimetable($destTimetable);
+        if ($destStopPoint != false) {
+            $blockCloned->setStopPoint($destStopPoint);
+        }
+        
+        return $blockCloned;
+    }
 }

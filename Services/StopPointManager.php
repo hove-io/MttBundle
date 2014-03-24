@@ -115,4 +115,20 @@ class StopPointManager
 
         return $stopPointsIndexed;
     }
+    
+    /**
+     * Return StopPoint
+     *
+     * @param  Object $block
+     * @param  Object $destTimetable
+     * @param  Object $destStopPoint
+     * @return line
+     */
+    public function copy($stopPoint, $destTimetable)
+    {
+        $stopPointCloned = clone $stopPoint;
+        $stopPointCloned->setTimetable($destTimetable);
+        
+        return $stopPointCloned;
+    }
 }
