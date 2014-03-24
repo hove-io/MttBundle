@@ -11,10 +11,12 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class SeasonType extends AbstractType
 {
     private $seasons = null;
+    private $currentSeasonId = null;
 
-    public function __construct($seasons)
+    public function __construct($seasons, $seasonId)
     {
         $this->seasons = array();
+        $this->currentSeasonId = $seasonId;
 
         $this->fetchSeasons($seasons);
     }
@@ -43,10 +45,10 @@ class SeasonType extends AbstractType
                 'data-to-date' => true
             )
         ));
-        if (count($this->seasons) > 0) {
+        if (count($this->seasons) > 0 && !$this->currentSeasonId) {
             $builder->add('seasonToClone', 'choice', array(
                 'choices' => $this->seasons
-            ));            
+            ));
         }
         $builder->setAction($options['action']);
     }

@@ -14,7 +14,10 @@ class SeasonController extends Controller
     public function buildForm($networkId, $seasonId)
     {
         $form = $this->createForm(
-            new SeasonType($this->seasonManager->findAllByNetworkId($networkId)),
+            new SeasonType(
+                $this->seasonManager->findAllByNetworkId($networkId),
+                $seasonId
+            ),
             $this->seasonManager->getSeasonWithNetworkIdAndSeasonId($networkId, $seasonId),
             array(
                 'action' => $this->generateUrl(
