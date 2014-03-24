@@ -7,7 +7,7 @@ CanalTP\MttBundle\Entity\Season:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
         title:
             type: string
             length: 255

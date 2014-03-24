@@ -7,7 +7,7 @@ CanalTP\MttBundle\Entity\Network:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
         externalId:
             type: string
             length: 255

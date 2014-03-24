@@ -7,7 +7,7 @@ CanalTP\MttBundle\Entity\Frequency:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
         startTime:
             type: time
             column: start_time
@@ -31,8 +31,3 @@ CanalTP\MttBundle\Entity\Frequency:
         block:
             inversedBy: frequencies
             targetEntity: Block
-            # joinColumn:
-                # name: block_id
-                # referencedColumnName: id
-                # cascade: 
-                    # - all

@@ -7,7 +7,7 @@ CanalTP\MttBundle\Entity\Timetable:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
         externalRouteId:
             type: string
             length: 255
