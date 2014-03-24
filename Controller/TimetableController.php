@@ -49,7 +49,7 @@ class TimetableController extends Controller
 
     private function saveMedia($timetableId, $externalStopPointId, $path)
     {
-        $this->mediaManager = $this->get('canaltp_media_manager_mtt');
+        $this->mediaManager = $this->get('canal_tp.media_manager');
         $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
         $timetable = $timetableManager->find($timetableId);
 
