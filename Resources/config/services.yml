@@ -1,5 +1,5 @@
 parameters:
-    media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
+    canal_tp.media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
     canal_tp_mtt.user.class: CanalTP\MttBundle\Services\UserManager
     canal_tp_mtt.navitia.class: CanalTP\MttBundle\Services\Navitia
     canal_tp_mtt.line_manager.class: CanalTP\MttBundle\Services\LineManager
@@ -16,12 +16,17 @@ parameters:
     canal_tp.mtt.business_module.class: CanalTP\MttBundle\Security\BusinessModule
     canal_tp.mtt.navitia_debug_matcher.class: CanalTP\MttBundle\Profiler\NavitiaDebugMatcher
     canal_tp.mtt.season_copier.class: CanalTP\MttBundle\Services\SeasonCopier
+    canal_tp.mtt.media_manager.class: CanalTP\MttBundle\Services\MediaManager
 
 services:
+    # MediaManagerMtt
+    canal_tp_mtt.media_manager:
+        class: %canal_tp.mtt.media_manager.class%
+        arguments: ['@canal_tp.media_manager']
     # Copier
     canal_tp_mtt.season_copier:
         class: "%canal_tp.mtt.season_copier.class%"
-        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.line_manager', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.block_manager', '@canal_tp_mtt.frequency_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.line_manager', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.block_manager', '@canal_tp_mtt.frequency_manager', '@canal_tp_mtt.media_manager']
     #Profiler
     canal_tp_mtt.matcher.navitia_debug:
         class: "%canal_tp.mtt.navitia_debug_matcher.class%"
@@ -38,8 +43,8 @@ services:
         tags:
             - { name: form.type, alias: datepicker }
     # Service of mediaManager
-    canaltp_media_manager_mtt:
-        class: %media_manager.class%
+    canal_tp.media_manager:
+        class: %canal_tp.media_manager.class%
         arguments: [%canal_tp_media_manager.configurations.mtt%]
     canal_tp_mtt.user:
        class: %canal_tp_mtt.user.class%
@@ -61,7 +66,7 @@ services:
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia']
     canal_tp_mtt.form.factory.block:
        class: %canal_tp_mtt.form.factory.class%
-       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canaltp_media_manager_mtt']
+       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canal_tp.media_manager']
     canal_tp_mtt.pdf_generator:
        class: %canal_tp_mtt.pdf_generator.class%
        arguments: ['%pdf_generator_url%', "%layouts%", "%kernel.root_dir%/../web/uploads/"]

@@ -51,7 +51,7 @@ class DistributionController extends Controller
         $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById($timetableId, $network->getExternalCoverageId());
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint');
-        $this->mediaManager = $this->get('canaltp_media_manager_mtt');
+        $this->mediaManager = $this->get('canal_tp.media_manager');
 
         $stopPointsIds = $this->get('request')->request->get('stopPointsIds', array());
         $paths = array();
