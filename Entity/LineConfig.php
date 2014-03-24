@@ -206,4 +206,27 @@ class LineConfig extends AbstractEntity
 
         return $this;
     }
+    
+    /**
+     * Set timetables
+     *
+     * @param  array $timetables
+     * @return LineConfig
+     */
+    public function setTimetables($timetables)
+    {
+        $this->timetables = $timetables;
+
+        return $this;
+    }
+
+    /**
+     * Get timetables
+     *
+     * @return array
+     */
+    public function getTimetables()
+    {
+        return $this->timetables;
+    }
 }

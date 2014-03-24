@@ -115,4 +115,19 @@ class TimetableManager
     {
         return $this->repository->find($id);
     }
+    
+    /**
+     * Return timetable 
+     *
+     * @param  Object $timetable
+     * @param  Object $destLineConfig
+     * @return timetable
+     */
+    public function copy($timetable, $destLineConfig)
+    {
+        $timetableCloned = clone $timetable;
+        $timetableCloned->setLineConfig($destLineConfig);
+        
+        return $timetableCloned;
+    }
 }
