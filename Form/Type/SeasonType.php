@@ -46,9 +46,14 @@ class SeasonType extends AbstractType
             )
         ));
         if (count($this->seasons) > 0 && !$this->currentSeasonId) {
-            $builder->add('seasonToClone', 'choice', array(
-                'choices' => $this->seasons
-            ));
+            $builder->add(
+                'seasonToClone', 
+                'choice', 
+                    array(
+                        'choices' => $this->seasons,
+                        'empty_value' => 'global.please_choose'
+                )
+            );
         }
         $builder->setAction($options['action']);
     }

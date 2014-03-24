@@ -22,6 +22,8 @@ global:
     annotations: Annotations
     direction: Direction
     remaining_chars: %nb_chars% caractères restant(s)
+    please_choose: Veuillez choisir...
+    season_label: Saison(s)
 
 error:
     start_end_time_incoherent: L'heure de début et l'heure de fin en sont pas cohérentes

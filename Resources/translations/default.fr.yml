@@ -52,3 +52,10 @@ frequency:
         title: Ajouter des cadres de fréquence
         subtitle: Cadre n°
         add_btn: Ajouter un cadre
+
+season:
+    create: Créer une saison
+    title: Nom de la saison
+    start_date: Début
+    end_date: Fin
+    list: Liste des Saisons
