@@ -14,7 +14,7 @@
         <div class="btn-group btn-group-justified">
             {% for season in seasons %}
                 <div class="btn-group">
-                    <a class="btn btn-default" href="{{ path(
+                    <a class="btn btn-default{% if selectedSeason.id == season.id %} active{% endif %}" href="{{ path(
                         'canal_tp_meth_stop_point_list',
                         {
                             'network_id':externalNetworkId, 

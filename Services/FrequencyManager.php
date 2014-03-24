@@ -38,4 +38,19 @@ class FrequencyManager
         
         return $frequency;
     }
+    
+    /**
+     * Return Frequency
+     *
+     * @param  Object $frequency
+     * @param  Object $destBlock
+     * @return frequency
+     */
+    public function copy($frequency, $destBlock)
+    {
+        $frequencyCloned = clone $frequency;
+        $frequencyCloned->setBlock($destBlock);
+        
+        return $frequencyCloned;
+    }
 }
