@@ -24,7 +24,7 @@ class DistributionController extends Controller
             ->getTimetable($routeId, $network->getExternalCoverageId(), $lineManager->getLineConfigByExternalLineId($lineId));
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
-        $schedules = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows);
+        $schedules = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows, $timetable);
         $schedules = $this
             ->getDoctrine()
             ->getRepository('CanalTPMttBundle:DistributionList')

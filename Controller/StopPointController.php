@@ -19,10 +19,12 @@ class StopPointController extends Controller
         )->findOneBy(array('externalLineId' => $line_id, 'season' => $selectedSeason));
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
-        $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints(
-            $routes->route_schedules[0]->table->rows,
-            $timetableManager->findTimetableByExternalRouteIdAndLineConfig($externalRouteId, $lineConfig)
-        );
+        if (!empty($lineConfig)) {
+            $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints(
+                $routes->route_schedules[0]->table->rows,
+                $timetableManager->findTimetableByExternalRouteIdAndLineConfig($externalRouteId, $lineConfig)
+            );
+        }
 
         return $this->render(
             'CanalTPMttBundle:StopPoint:list.html.twig',
