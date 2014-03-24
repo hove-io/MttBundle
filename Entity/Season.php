@@ -35,6 +35,11 @@ class Season
     private $network;
 
     /**
+     * @var Array
+     */
+    private $lineConfigs;
+    
+    /**
      * @var Object
      */
     private $seasonToClone;
@@ -167,5 +172,28 @@ class Season
         $this->network = $network;
 
         return ($this);
+    }
+    
+    /**
+     * Set lineConfigs
+     *
+     * @param  array $lineConfigs
+     * @return Season
+     */
+    public function setLineConfigs($lineConfigs)
+    {
+        $this->lineConfigs = $lineConfigs;
+
+        return $this;
+    }
+
+    /**
+     * Get lineConfigs
+     *
+     * @return array
+     */
+    public function getLineConfigs()
+    {
+        return $this->lineConfigs;
     }
 }

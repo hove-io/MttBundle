@@ -37,9 +37,14 @@ class SeasonController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            // TODO: http://jira.canaltp.fr/browse/METH-114
-            // clone this season: $form->getData()->getSeasonToClone()
             $this->seasonManager->save($form->getData());
+            // TODO: http://jira.canaltp.fr/browse/METH-114
+            // clone this season
+            $seasonToClone = $form->getData()->getSeasonToClone();
+            if (!empty($seasonToClone)) {
+                $seasonCopier = $this->get('canal_tp_mtt.season_copier');
+                $seasonCopier->run($seasonToClone, $form->getData());
+            }
             return $this->redirect(
                 $this->generateUrl(
                     'canal_tp_mtt_season_list',

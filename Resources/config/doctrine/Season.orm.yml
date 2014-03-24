@@ -30,6 +30,10 @@ CanalTP\MttBundle\Entity\Season:
     uniqueConstraints:
         network_season_idx:
             columns: [ title, network_id ]
+    oneToMany:
+        lineConfigs:
+            targetEntity: LineConfig
+            mappedBy: season
     manyToOne:
         network:
             targetEntity: Network

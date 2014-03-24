@@ -21,7 +21,7 @@ services:
     # Copier
     canal_tp_mtt.season_copier:
         class: "%canal_tp.mtt.season_copier.class%"
-        arguments: ['@canal_tp_mtt.line_manager', 'canal_tp_mtt.timetable_manager', 'canal_tp_mtt.block_manager', 'canal_tp_mtt.frequency_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.line_manager', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.block_manager', '@canal_tp_mtt.frequency_manager']
     #Profiler
     canal_tp_mtt.matcher.navitia_debug:
         class: "%canal_tp.mtt.navitia_debug_matcher.class%"

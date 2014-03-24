@@ -81,4 +81,19 @@ class LineManager
 
         return $this->line;
     }
+    
+    /**
+     * Return line Object with navitia data added
+     *
+     * @param  Object $lineConfig
+     * @param  Object $destSeason
+     * @return line
+     */
+    public function copy($lineConfig, $destSeason)
+    {
+        $lineConfigCloned = clone $lineConfig;
+        $lineConfigCloned->setSeason($destSeason);
+        
+        return $lineConfigCloned;
+    }
 }
