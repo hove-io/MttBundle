@@ -46,7 +46,7 @@ class TimetableManager
      */
     private function initBlocks()
     {
-        $timetableBlocks = $this->repository->getBlocks($this->timetable);
+        $timetableBlocks = $this->repository->findBlocksByTimetableIdOnly($this->timetable->getId());
 
         if (count($timetableBlocks) > 0) {
             $blocks = array();

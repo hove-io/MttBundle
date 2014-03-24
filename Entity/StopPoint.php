@@ -190,4 +190,9 @@ class StopPoint extends AbstractEntity
 
         return $this;
     }
+    
+    public function __clone()
+    {
+        $this->pdfGenerationDate = null;
+    }
 }

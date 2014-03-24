@@ -41,12 +41,12 @@ class TimetableRepository extends EntityRepository
     /*
      * Return blocks defined for this timetable on route level
      */
-    public function getBlocks($timetable)
+    public function findBlocksByTimetableIdOnly($timetableId)
     {
         $result = $this->getEntityManager()->getRepository('CanalTPMttBundle:Block')->findBy(
             array(
                 'stopPoint' => null,
-                'timetable' => $timetable->getId()
+                'timetable' => $timetableId
             )
         );
         return $result;
