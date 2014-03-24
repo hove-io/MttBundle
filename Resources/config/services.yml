@@ -15,8 +15,13 @@ parameters:
     canal_tp_mtt.network.class: CanalTP\MttBundle\Services\NetworkManager
     canal_tp.mtt.business_module.class: CanalTP\MttBundle\Security\BusinessModule
     canal_tp.mtt.navitia_debug_matcher.class: CanalTP\MttBundle\Profiler\NavitiaDebugMatcher
+    canal_tp.mtt.season_copier.class: CanalTP\MttBundle\Services\SeasonCopier
 
 services:
+    # Copier
+    canal_tp_mtt.season_copier:
+        class: "%canal_tp.mtt.season_copier.class%"
+        arguments: ['@canal_tp_mtt.line_manager', 'canal_tp_mtt.timetable_manager', 'canal_tp_mtt.block_manager', 'canal_tp_mtt.frequency_manager']
     #Profiler
     canal_tp_mtt.matcher.navitia_debug:
         class: "%canal_tp.mtt.navitia_debug_matcher.class%"
