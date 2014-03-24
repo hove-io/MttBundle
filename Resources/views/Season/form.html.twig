@@ -21,6 +21,11 @@
         {{ form_row(form.endDate) }}
         </div>
     </div>
+
+    {% if (form.seasonToClone is not empty) %}
+        {{ form_row(form.seasonToClone) }}
+    {% endif %}
+
     <script>
         require(['bootstrap/datepicker', 'bootstrap/datepicker/{{ app.request.locale }}'], function(){
             

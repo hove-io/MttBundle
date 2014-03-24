@@ -14,13 +14,12 @@ class SeasonController extends Controller
     public function buildForm($networkId, $seasonId)
     {
         $form = $this->createForm(
-            new SeasonType(),
+            new SeasonType($this->seasonManager->findAllByNetworkId($networkId)),
             $this->seasonManager->getSeasonWithNetworkIdAndSeasonId($networkId, $seasonId),
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_season_edit',
                     array(
-                        // 'coverage_id' => $coverageId,
                         'network_id' => $networkId,
                         'season_id' => $seasonId
                     )
@@ -35,12 +34,13 @@ class SeasonController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            // TODO: http://jira.canaltp.fr/browse/METH-114
+            // clone this season: $form->getData()->getSeasonToClone()
             $this->seasonManager->save($form->getData());
             return $this->redirect(
                 $this->generateUrl(
                     'canal_tp_mtt_season_list',
                     array(
-                        // 'coverage_id' => $coverageId,
                         'network_id' => $networkId,
                     )
                 )

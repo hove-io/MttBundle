@@ -10,6 +10,22 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SeasonType extends AbstractType
 {
+    private $seasons = null;
+
+    public function __construct($seasons)
+    {
+        $this->seasons = array();
+
+        $this->fetchSeasons($seasons);
+    }
+
+    private function fetchSeasons($seasons)
+    {
+        foreach ($seasons as $season) {
+            $this->seasons[$season->getId()] = $season->getTitle();
+        }
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -27,19 +43,13 @@ class SeasonType extends AbstractType
                 'data-to-date' => true
             )
         ));
+        if (count($this->seasons) > 0) {
+            $builder->add('seasonToClone', 'choice', array(
+                'choices' => $this->seasons
+            ));            
+        }
         $builder->setAction($options['action']);
     }
-    
-    /* public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        $startDate = $form->getData()->getStartDate();
-        if (!empty($startDate)){
-            $children = $form->all();
-            print_r($children['endDate']->getConfig()->getAttributes());
-            // (array('attr'=> array('data-start-date' => (string)$startDate))));
-            die;
-        }
-    } */
 
     /**
      * @param OptionsResolverInterface $resolver

@@ -35,6 +35,11 @@ class Season
     private $network;
 
     /**
+     * @var Object
+     */
+    private $seasonToClone;
+
+    /**
      * @var \DateTime
      */
     private $created;
@@ -72,6 +77,28 @@ class Season
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return ($this);
+    }
+
+    /**
+     * Get seasons
+     *
+     * @return string
+     */
+    public function getSeasonToClone()
+    {
+        return $this->seasonToClone;
+    }
+
+    /**
+     * Set seasons
+     *
+     * @return object
+     */
+    public function setSeasonToClone($seasonToClone)
+    {
+        $this->seasonToClone = $seasonToClone;
 
         return ($this);
     }
