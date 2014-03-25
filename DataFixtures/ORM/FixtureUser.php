@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-use CanalTP\SamCoreBundle\Entity\User;
+use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 use CanalTP\MttBundle\Entity\Network;
 
 

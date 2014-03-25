@@ -34,7 +34,7 @@ CanalTP\MttBundle\Entity\Network:
                 startDate: ASC
     manyToMany:
         users:
-            targetEntity: CanalTP\SamCoreBundle\Entity\User
+            targetEntity: CanalTP\SamEcoreUserManagerBundle\Entity\User
             joinTable:
                 name: mtt.users_networks
                 joinColumns:
