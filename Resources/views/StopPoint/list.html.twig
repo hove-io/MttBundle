@@ -12,7 +12,7 @@
                 {% for season in seasons %}
                     <li{% if selectedSeason.id == season.id %} class="active"{% endif %}>
                         <a href="{{ path(
-                            'canal_tp_meth_stop_point_list',
+                            'canal_tp_mtt_stop_point_list',
                             {
                                 'network_id':externalNetworkId, 
                                 'line_id':externalLineId, 
@@ -31,10 +31,8 @@
 
 {% block list_title %}
     {{'global.line_label'|trans}} {{ routes.route_schedules[0].display_informations.label }} - {{'stop_point.list.header'|trans({}, 'default')}}
-{% endblock %}
-        
-{% block list_menu -%}
     {% if seasons|length != 0 %}
+        -
         {% if lineConfig is empty %}
             <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':selectedSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}" class="btn btn-default">
                 {{'line.choose_layout'|trans({}, 'default')}}
@@ -66,7 +64,7 @@
         {% endif %}
     {% endif %}
 {% endblock %}
-
+        
 {% block table_head -%}
     <th>{{'stop_point.header'|trans({}, 'default')}}</th>
     {% if lineConfig is not empty %}
