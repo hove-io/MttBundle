@@ -54,6 +54,7 @@ frequency:
         add_btn: Ajouter un cadre
 
 season:
+    please_create_before_continue: Vous devez créer une saison pour commencer à éditer les Fiches horaires.
     create: Créer une saison
     title: Nom de la saison
     start_date: Début

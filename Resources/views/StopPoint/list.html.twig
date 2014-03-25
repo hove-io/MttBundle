@@ -1,34 +1,38 @@
 {% extends "CanalTPMttBundle::generic_list.html.twig" %}
 
-{% block list_title -%}
-    {{'global.line_label'|trans}} {{ routes.route_schedules[0].display_informations.label }} {% if seasons|length > 0 %}({{ selectedSeason.title }}){% endif %} - {{'stop_point.list.header'|trans({}, 'default')}}
+{% block subheader %}
+    <div class="col-md-offset-3 col-md-9">
+        {% if seasons|length == 0 %}
+            {{'season.please_create_before_continue'|trans({}, 'default')}}
+            <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'network_id': externalNetworkId}) }}">
+                {{'season.create'|trans({}, 'default')}}
+            </a>
+        {% else %}
+            <ul class="nav nav-tabs nav-justified">
+                {% for season in seasons %}
+                    <li{% if selectedSeason.id == season.id %} class="active"{% endif %}>
+                        <a href="{{ path(
+                            'canal_tp_meth_stop_point_list',
+                            {
+                                'network_id':externalNetworkId, 
+                                'line_id':externalLineId, 
+                                'seasonId':season.id, 
+                                'externalRouteId': externalRouteId
+                            }
+                        ) }}">
+                            {{ season.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 {% endblock %}
 
-{% block list_menu -%}
-    <h5>{{'global.season_label'|trans}}</h5>
-    {% if seasons|length == 0 %}
-        <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'network_id': externalNetworkId}) }}">
-            {{'season.manage'|trans({}, 'default')}}
-        </a>
-    {% else %}
-        <div class="btn-group btn-group-justified">
-            {% for season in seasons %}
-                <div class="btn-group">
-                    <a class="btn btn-default{% if selectedSeason.id == season.id %} active{% endif %}" href="{{ path(
-                        'canal_tp_meth_stop_point_list',
-                        {
-                            'network_id':externalNetworkId, 
-                            'line_id':externalLineId, 
-                            'seasonId':season.id, 
-                            'externalRouteId': externalRouteId
-                        }
-                    ) }}">
-                        {{ season.title }}
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
-        <hr/>
+{% block list_title %}
+    {{'global.line_label'|trans}} {{ routes.route_schedules[0].display_informations.label }} - {{'stop_point.list.header'|trans({}, 'default')}}
+    {% if seasons|length != 0 %}
+        -
         {% if lineConfig is empty %}
             <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':selectedSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}" class="btn btn-default">
                 {{'line.choose_layout'|trans({}, 'default')}}
@@ -59,6 +63,10 @@
             </div>
         {% endif %}
     {% endif %}
+{% endblock %}
+
+{% block list_menu -%}
+    
     <hr/>
 {% endblock %}
 

@@ -23,7 +23,7 @@ global:
     direction: Direction
     remaining_chars: %nb_chars% caractères restant(s)
     please_choose: Veuillez choisir...
-    season_label: Saison(s)
+    no_items: Aucun élément à afficher
 
 error:
     start_end_time_incoherent: L'heure de début et l'heure de fin en sont pas cohérentes

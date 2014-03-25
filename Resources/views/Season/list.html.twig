@@ -16,27 +16,33 @@
 {% endblock %}
 
 {% block table_body -%}
-
-    {% for season in seasons %}
+    {% if seasons|length == 0 %}
         <tr>
-            <td>
-                {{ season.title }}
-            </td>
-            <td>
-                {{ season.startDate|date('d/m/Y') }}
-            </td>
-            <td>
-                {{ season.endDate|date('d/m/Y') }}
-            </td>
-            <td class="action">
-                <div class="btn-group">
-                    <a  class="btn btn-default" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'network_id': networkId, 'season_id': season.id }) }}">
-                        <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
-                    </a>
-                </a>
-                </div>
+            <td colspan="4">
+                {{'global.no_items'|trans}}
             </td>
         </tr>
-    {% endfor %}
-
+    {% else %}
+        {% for season in seasons %}
+            <tr>
+                <td>
+                    {{ season.title }}
+                </td>
+                <td>
+                    {{ season.startDate|date('d/m/Y') }}
+                </td>
+                <td>
+                    {{ season.endDate|date('d/m/Y') }}
+                </td>
+                <td class="action">
+                    <div class="btn-group">
+                        <a  class="btn btn-default" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'network_id': networkId, 'season_id': season.id }) }}">
+                            <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
+                        </a>
+                    </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
 {% endblock %}
