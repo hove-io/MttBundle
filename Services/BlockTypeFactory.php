@@ -8,6 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Serializer\Serializer;
 
 use CanalTP\MttBundle\Normalizer\BlockNormalizer;
+use CanalTP\MttBundle\Entity\BlockRepository;
 use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector as MediaManager;
 // Text Block
 use CanalTP\MttBundle\Form\Type\Block\TextType as TextBlockType;
@@ -60,17 +61,17 @@ class BlockTypeFactory
         $objectType = null;
 
         switch ($this->type) {
-            case 'calendar':
+            case BlockRepository::CALENDAR_TYPE:
                 $objectType = new CalendarBlockType(
                     $this->co->get('canal_tp_mtt.calendar_manager'),
                     $this->instance,
                     $this->externalCoverageId
                 );
                 break;
-            case 'text':
+            case BlockRepository::TEXT_TYPE:
                 $objectType = new TextBlockType();
                 break;
-            case 'img':
+            case BlockRepository::IMG_TYPE:
                 $objectType = new ImgBlockType();
                 break;
         }
@@ -96,11 +97,11 @@ class BlockTypeFactory
         $handler = null;
 
         switch ($this->type) {
-            case 'calendar':
-            case 'text':
+            case BlockRepository::CALENDAR_TYPE:
+            case BlockRepository::TEXT_TYPE:
                 $handler = new TextBlockHandler($this->om, $this->instance);
                 break;
-            case 'img':
+            case BlockRepository::IMG_TYPE:
                 $handler = new ImgBlockHandler(
                     $this->co,
                     $this->om,

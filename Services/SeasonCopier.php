@@ -11,7 +11,6 @@ class SeasonCopier
     private $timetableManager = null;
     private $blockManager = null;
     private $frequencyManager = null;
-    private $mediaManager = null;
     private $stopPointManager = null;
 
     public function __construct(
@@ -20,8 +19,7 @@ class SeasonCopier
         TimetableManager $timetableManager,
         StopPointManager $stopPointManager,
         BlockManager $blockManager,
-        FrequencyManager $frequencyManager,
-        MediaManager $mediaManager
+        FrequencyManager $frequencyManager
     )
     {
         $this->om = $om;
@@ -30,7 +28,6 @@ class SeasonCopier
         $this->stopPointManager = $stopPointManager;
         $this->blockManager = $blockManager;
         $this->frequencyManager = $frequencyManager;
-        $this->mediaManager = $mediaManager;
     }
 
 

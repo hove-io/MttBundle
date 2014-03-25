@@ -13,10 +13,12 @@ class BlockManager
 {
     private $repository = null;
     private $om = null;
+    private $mediaManager = null;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, MediaManager $mediaManager)
     {
         $this->om = $om;
+        $this->mediaManager = $mediaManager;
         $this->repo = $om->getRepository('CanalTPMttBundle:Block');
     }
     
@@ -50,7 +52,10 @@ class BlockManager
         if ($destStopPoint != false) {
             $blockCloned->setStopPoint($destStopPoint);
         }
-        
+        if ($block->isImg()) {
+            $this->mediaManager->copy($block, $blockCloned, $destTimetable);
+        }
+
         return $blockCloned;
     }
 }
