@@ -30,6 +30,8 @@ CanalTP\MttBundle\Entity\Network:
         seasons:
             targetEntity: Season
             mappedBy: network
+            orderBy: 
+                startDate: ASC
     manyToMany:
         users:
             targetEntity: CanalTP\SamCoreBundle\Entity\User

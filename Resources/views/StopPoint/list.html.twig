@@ -28,6 +28,7 @@
                 </div>
             {% endfor %}
         </div>
+        <hr/>
         {% if lineConfig is empty %}
             <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':selectedSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}" class="btn btn-default">
                 {{'line.choose_layout'|trans({}, 'default')}}

@@ -51,6 +51,8 @@ class BlockManager
             $blockCloned->setStopPoint($destStopPoint);
         }
         
+        $this->om->persist($blockCloned);
+        
         return $blockCloned;
     }
 }

@@ -128,6 +128,8 @@ class TimetableManager
         $timetableCloned = clone $timetable;
         $timetableCloned->setLineConfig($destLineConfig);
         
+        $this->om->persist($timetableCloned);
+        
         return $timetableCloned;
     }
 }
