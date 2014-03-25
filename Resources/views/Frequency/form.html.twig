@@ -55,6 +55,8 @@
     </button>
     {{ form_end(form) }}
     <script>
-        require(['mtt/form/validation/frequency']);
+        require(['mtt/form/validation/frequency'], function(frequencyForm){
+            frequencyForm.init();
+        });
     </script>
 {% endblock %}
