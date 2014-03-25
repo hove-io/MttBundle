@@ -35,8 +35,6 @@ class SeasonCopier
     {
         foreach ($origBlock->getFrequencies() as $origFrequency) {
             $destFrequency = $this->frequencyManager->copy($origFrequency, $destBlock);
-
-            $this->om->persist($destFrequency);
         }
     }
 
@@ -45,7 +43,6 @@ class SeasonCopier
         foreach ($origStopPoint->getBlocks() as $origBlock) {
             $destBlock = $this->blockManager->copy($origBlock, $destTimetable, $destStopPoint);
 
-            $this->om->persist($destBlock);
             $this->copyFrequencies($origBlock, $destBlock);
         }
     }
@@ -58,7 +55,6 @@ class SeasonCopier
         foreach ($origBlocks as $origBlock) {
             $destBlock = $this->blockManager->copy($origBlock, $destTimetable);
 
-            $this->om->persist($destBlock);
             $this->copyFrequencies($origBlock, $destBlock);
         }
     }
@@ -71,7 +67,6 @@ class SeasonCopier
         foreach ($stopPoints as $origStopPoint) {
             $destStopPoint = $this->stopPointManager->copy($origStopPoint, $destTimetable);
 
-            $this->om->persist($destStopPoint);
             $this->copyBlocksForStopPoint($origStopPoint, $destStopPoint, $destTimetable);
         }
         $this->copyBlocksForTimetable($origTimetable, $destTimetable);
@@ -82,7 +77,6 @@ class SeasonCopier
         foreach ($origLineConfig->getTimetables() as $origTimetable) {
             $destTimetable = $this->timetableManager->copy($origTimetable, $destLineConfig);
 
-            $this->om->persist($destTimetable);
             $this->copyStopPoints($origTimetable, $destTimetable);
         }
     }
@@ -92,7 +86,6 @@ class SeasonCopier
         foreach ($lineConfigs as $origLineConfig) {
             $destLineConfig = $this->lineManager->copy($origLineConfig, $destSeason);
 
-            $this->om->persist($destLineConfig);
             $this->copyTimetables($origLineConfig, $destLineConfig);
         }
     }

@@ -7,7 +7,7 @@ CanalTP\MttBundle\Entity\DistributionList:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
         includedStops:
             type: array
             column: included_stops

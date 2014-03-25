@@ -51,6 +51,8 @@ class FrequencyManager
         $frequencyCloned = clone $frequency;
         $frequencyCloned->setBlock($destBlock);
         
+        $this->om->persist($frequencyCloned);
+        
         return $frequencyCloned;
     }
 }

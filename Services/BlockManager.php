@@ -55,7 +55,7 @@ class BlockManager
         if ($block->isImg()) {
             $this->mediaManager->copy($block, $blockCloned, $destTimetable);
         }
-
+        $this->om->persist($blockCloned);
         return $blockCloned;
     }
 }

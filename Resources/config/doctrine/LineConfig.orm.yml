@@ -7,7 +7,7 @@ CanalTP\MttBundle\Entity\LineConfig:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
         externalLineId:
             type: string
             length: 255

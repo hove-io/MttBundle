@@ -15,6 +15,7 @@ class LineManager
     private $line = null;
     private $navitia = null;
     private $repository = null;
+    private $om = null;
     private $container = null;
 
     public function __construct(Container $co, ObjectManager $om, Navitia $navitia)
@@ -22,7 +23,8 @@ class LineManager
         $this->line = null;
         $this->container = $co;
         $this->navitia = $navitia;
-        $this->repository = $om->getRepository('CanalTPMttBundle:LineConfig');
+        $this->om = $om;
+        $this->repository = $this->om->getRepository('CanalTPMttBundle:LineConfig');
     }
 
     private function initTwigPath()
@@ -93,6 +95,8 @@ class LineManager
     {
         $lineConfigCloned = clone $lineConfig;
         $lineConfigCloned->setSeason($destSeason);
+        
+        $this->om->persist($lineConfigCloned);
         
         return $lineConfigCloned;
     }

@@ -7,7 +7,7 @@ CanalTP\MttBundle\Entity\Block:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
         typeId:
             type: string
             column: type_id

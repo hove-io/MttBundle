@@ -7,7 +7,7 @@ CanalTP\MttBundle\Entity\Network:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
         externalId:
             type: string
             length: 255
@@ -30,6 +30,8 @@ CanalTP\MttBundle\Entity\Network:
         seasons:
             targetEntity: Season
             mappedBy: network
+            orderBy: 
+                startDate: ASC
     manyToMany:
         users:
             targetEntity: CanalTP\SamCoreBundle\Entity\User
