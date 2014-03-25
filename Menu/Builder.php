@@ -15,14 +15,14 @@ class Builder extends ContainerAware
 
         $menu->addChild(
             "network",
-            array('route' => 'canal_tp_meth_homepage')
+            array('route' => 'canal_tp_mtt_homepage')
         );
 
         $networks = $userManager->getNetworks();
         foreach ($networks as $network) {
             $menu['network']->addChild(
                 $network['external_id'],
-                array('route' => 'canal_tp_meth_homepage')
+                array('route' => 'canal_tp_mtt_homepage')
             );
         }
 

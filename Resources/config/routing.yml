@@ -1,8 +1,8 @@
-canal_tp_meth_homepage:
+canal_tp_mtt_homepage:
     pattern:  /
     defaults: { _controller: CanalTPMttBundle:Default:index }
 
-canal_tp_meth_menu:
+canal_tp_mtt_menu:
     pattern:  /navigation/network/{externalNetworkId}/season/{current_season}/route/{current_route}
     defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null }
     requirements:
@@ -21,7 +21,7 @@ canal_tp_mtt_season_edit:
         network_id: -?[a-zA-Z0-9_\-:]*
 
 #StopPoint
-canal_tp_meth_stop_point_list:
+canal_tp_mtt_stop_point_list:
     pattern: /network/{network_id}/line/{line_id}/route/{externalRouteId}/list/season/{seasonId}
     defaults: { _controller: CanalTPMttBundle:StopPoint:list, seasonId: null }
     requirements:
@@ -33,31 +33,31 @@ canal_tp_mtt_line_choose_layout:
     defaults: { _controller: CanalTPMttBundle:Line:chooseLayout }
 
 #Timetable
-canal_tp_meth_timetable_edit:
+canal_tp_mtt_timetable_edit:
     pattern: /timetable/edit/network/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/season/{seasonId}/stopPoint/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Timetable:edit, externalStopPointId: null }
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
-canal_tp_meth_timetable_view:
+canal_tp_mtt_timetable_view:
     pattern: /timetable/view/network/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/season/{seasonId}/stopPoint/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Timetable:view, externalStopPointId: null }
     requirements:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
-canal_tp_meth_timetable_generate_pdf:
+canal_tp_mtt_timetable_generate_pdf:
     pattern: /timetable/{timetableId}/network/{externalNetworkId}/stopPoint/{externalStopPointId}/generatePdf
     defaults: { _controller: CanalTPMttBundle:Timetable:generatePdf}
 
 #Block
-canal_tp_meth_block_edit:
+canal_tp_mtt_block_edit:
     # stop point must be the last param so it can be empty
     pattern: /block/edit/network/{externalNetworkId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
     defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null }
     options:
         expose: true
 
-canal_tp_meth_block_delete:
+canal_tp_mtt_block_delete:
     # stop point must be the last param so it can be empty
     pattern: /block/delete/network/{externalNetworkId}/timetable/{timetableId}/blockId/{blockId}
     defaults: { _controller: CanalTPMttBundle:Block:delete }
@@ -68,7 +68,7 @@ canal_tp_mtt_distribution_list:
     pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/distribution/list
     defaults: { _controller: CanalTPMttBundle:Distribution:list}
 
-canal_tp_meth_distribution_generate:
+canal_tp_mtt_distribution_generate:
     pattern: /distribution/generate/timetable/{timetableId}/network/{externalNetworkId}
     defaults: { _controller: CanalTPMttBundle:Distribution:generate}
     options:

@@ -27,7 +27,7 @@
             {% endif %}
         {% endblock %}
         {% if stopPoint %}
-            <a class="btn btn-primary" href="{{ path('canal_tp_meth_timetable_generate_pdf', {'timetableId': timetable.id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
+            <a class="btn btn-primary" href="{{ path('canal_tp_mtt_timetable_generate_pdf', {'timetableId': timetable.id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
                 <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
             </a>
         {% endif %}

@@ -33,7 +33,7 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
     {
         $network = new Network();
         $network->setExternalId('network:Filbleu');
-        $network->setExternalCoverageId('centre');
+        $network->setExternalCoverageId('Centre');
 
         $em->persist($network);
         return ($network);
@@ -43,7 +43,7 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
     {
         $network = new UsersNetworks();
         $network->setExternalId('network:Filbleu');
-        $network->setExternalCoverageId('centre');
+        $network->setExternalCoverageId('Centre');
 
         $em->persist($network);
         return ($network);

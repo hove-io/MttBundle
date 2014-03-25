@@ -34,7 +34,7 @@ class LineController extends Controller
             );
         }
 
-        return $this->redirect($this->generateUrl('canal_tp_meth_stop_point_list', array(
+        return $this->redirect($this->generateUrl('canal_tp_mtt_stop_point_list', array(
             'network_id'        => $params['externalNetworkId'],
             'line_id'           => $params['line_id'],
             'seasonId'          => $season->getId(),

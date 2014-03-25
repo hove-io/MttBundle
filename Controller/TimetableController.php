@@ -165,7 +165,7 @@ class TimetableController extends Controller
         $pdfGenerator = $this->get('canal_tp_mtt.pdf_generator');
 
         $url = $this->get('request')->getHttpHost() . $this->get('router')->generate(
-            'canal_tp_meth_timetable_view',
+            'canal_tp_mtt_timetable_view',
             array(
                 'externalNetworkId' => $externalNetworkId,
                 'seasonId'          => $timetable->getLineConfig()->getSeason()->getId(),
