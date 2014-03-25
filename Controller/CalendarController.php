@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 class CalendarController extends Controller
 {
-    public function viewAction($externalNetworkId, $externalRouteId, $externalStopPointId)
+    public function viewAction($externalNetworkId, $externalRouteId, $externalStopPointId, $currentSeasonId)
     {
         $calendarManager = $this->get('canal_tp_mtt.calendar_manager');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
@@ -24,9 +24,11 @@ class CalendarController extends Controller
         return $this->render(
             'CanalTPMttBundle:Calendar:view.html.twig',
             array(
-                'calendars'     => $calendarsAndNotes['calendars'],
-                'notes'         => $calendarsAndNotes['notes'],
-                'current_route' => $externalRouteId,
+                'externalNetworkId' => $externalNetworkId,
+                'calendars'         => $calendarsAndNotes['calendars'],
+                'notes'             => $calendarsAndNotes['notes'],
+                'current_route'     => $externalRouteId,
+                'currentSeasonId'   => $currentSeasonId,
             )
         );
     }

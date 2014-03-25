@@ -86,7 +86,7 @@
             {% endif %}
             <td class="action">
                 <div class="btn-group">
-                    <a  class="btn btn-default" href="{{ path('canal_tp_mtt_calendar_view', {'externalNetworkId':externalNetworkId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id}) }}">
+                    <a  class="btn btn-default" href="{{ path('canal_tp_mtt_calendar_view', {'externalNetworkId':externalNetworkId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id, 'currentSeasonId':selectedSeason.id}) }}">
                         <span class="glyphicon glyphicon-calendar"></span> {{'stop_point.view_calendars'|trans({}, 'default')}}
                     </a>
                     {% if lineConfig is not empty %}
