@@ -1,3 +1,18 @@
+Notes de publication - METH - Version 0.5.1 (25/03/2014)
+
+** Bogue
+    * [METH-98] - Date de génération du pdf de l'arrêt incorrecte
+
+** Récit
+    * [METH-85] - Modification d'une saison existante
+    * [METH-113] - Champ saison existante dans le formulaire de création
+    * [METH-114] - Import des paramètres de la FH (hors info NAViTiA)
+    * [METH-116] - Import des paramètres de la FH (blocs images)
+
+** Tâche
+    * [METH-71] - Nommage des lignes et routes
+    * [METH-81] - Mode debug - afficher les appels NAViTiA
+
 Notes de publication - METH - Version 0.4.2 (18/03/2014)
 
 ** Sous-tâche
