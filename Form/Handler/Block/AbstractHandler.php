@@ -38,11 +38,7 @@ abstract class AbstractHandler implements HandlerInterface
                 $externalStopPointId,
                 $timetable
             );
-
-        return ($this->om->getPartialReference(
-            'CanalTP\MttBundle\Entity\StopPoint',
-            $this->stopPoint->getId()
-        ));
+        return $this->stopPoint;
     }
 
     protected function initRelation(Block $block, $timetable)
