@@ -29,21 +29,11 @@ class SeasonCopier
         $this->blockManager = $blockManager;
         $this->frequencyManager = $frequencyManager;
     }
-
-
-    public function copyFrequencies($origBlock, $destBlock)
-    {
-        foreach ($origBlock->getFrequencies() as $origFrequency) {
-            $destFrequency = $this->frequencyManager->copy($origFrequency, $destBlock);
-        }
-    }
-
+    
     public function copyBlocksForStopPoint($origStopPoint, $destStopPoint, $destTimetable)
     {
         foreach ($origStopPoint->getBlocks() as $origBlock) {
-            $destBlock = $this->blockManager->copy($origBlock, $destTimetable, $destStopPoint);
-
-            $this->copyFrequencies($origBlock, $destBlock);
+            $this->blockManager->copy($origBlock, $destTimetable, $destStopPoint);
         }
     }
 
@@ -53,9 +43,7 @@ class SeasonCopier
             ->findBlocksByTimetableIdOnly($origTimetable->getId());
 
         foreach ($origBlocks as $origBlock) {
-            $destBlock = $this->blockManager->copy($origBlock, $destTimetable);
-
-            $this->copyFrequencies($origBlock, $destBlock);
+            $this->blockManager->copy($origBlock, $destTimetable);
         }
     }
 

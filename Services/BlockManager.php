@@ -47,15 +47,17 @@ class BlockManager
      */
     public function copy($block, $destTimetable, $destStopPoint = false)
     {
-        $blockCloned = clone $block;
-        $blockCloned->setTimetable($destTimetable);
-        if ($destStopPoint != false) {
-            $blockCloned->setStopPoint($destStopPoint);
+        if ($block->isCalendar() == false) {
+            $blockCloned = clone $block;
+            $blockCloned->setTimetable($destTimetable);
+            if ($destStopPoint != false) {
+                $blockCloned->setStopPoint($destStopPoint);
+            }
+            if ($block->isImg()) {
+                $this->mediaManager->copy($block, $blockCloned, $destTimetable);
+            }
+            $this->om->persist($blockCloned);
         }
-        if ($block->isImg()) {
-            $this->mediaManager->copy($block, $blockCloned, $destTimetable);
-        }
-        $this->om->persist($blockCloned);
-        return $blockCloned;
+        return isset($blockCloned) ? $blockCloned : false;
     }
 }

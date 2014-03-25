@@ -32,7 +32,6 @@ class Builder extends ContainerAware
             array(
                 'route' => 'canal_tp_mtt_season_list',
                 'routeParameters' => array(
-                    'coverage_id' => $networks[0]['external_coverage_id'],
                     'network_id' => $networks[0]['external_id']
                 )
             )
