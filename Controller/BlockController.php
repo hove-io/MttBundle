@@ -34,7 +34,7 @@ class BlockController extends Controller
 
             return $this->redirect(
                 $this->generateUrl(
-                    'canal_tp_meth_timetable_edit',
+                    'canal_tp_mtt_timetable_edit',
                     array(
                         'externalNetworkId'     => $externalNetworkId,
                         'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
@@ -74,7 +74,7 @@ class BlockController extends Controller
 
         return $this->redirect(
             $this->generateUrl(
-                'canal_tp_meth_timetable_edit',
+                'canal_tp_mtt_timetable_edit',
                 array(
                     'externalNetworkId'     => $externalNetworkId,
                     'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),

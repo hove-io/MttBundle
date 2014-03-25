@@ -50,7 +50,7 @@ class FrequencyController extends Controller
             $em->flush();
             return $this->redirect(
                 $this->generateUrl(
-                    'canal_tp_meth_timetable_edit',
+                    'canal_tp_mtt_timetable_edit',
                     array(
                         'externalNetworkId'     => $externalNetworkId,
                         'seasonId'              => $block->getTimetable()->getLineConfig()->getSeason()->getId(),

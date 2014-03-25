@@ -6,7 +6,7 @@ class DefaultControllerTest extends AbstractControllerTest
 {
     public function testIndex()
     {
-        $route = $this->generateRoute('canal_tp_meth_homepage');
+        $route = $this->generateRoute('canal_tp_mtt_homepage');
         $crawler = $this->client->request('GET', $route);
         
         $this->assertTrue($crawler->filter('html:contains("MTT")')->count() > 0);
@@ -15,7 +15,7 @@ class DefaultControllerTest extends AbstractControllerTest
     public function testNavigation()
     {
         $route = $this->generateRoute(
-            'canal_tp_meth_menu',
+            'canal_tp_mtt_menu',
             array('externalNetworkId' => 'network:Filbleu')
         );
         $crawler = $this->client->request('GET', $route);

@@ -45,7 +45,7 @@ define(['jquery'], function($) {
         };
         $.extend(params, url_params);
         var url = Routing.generate(
-            'canal_tp_meth_block_edit', 
+            'canal_tp_mtt_block_edit', 
             params
         );
         $('#base-modal').modal({remote: url});
