@@ -55,7 +55,6 @@ class ImgHandler extends AbstractHandler
         $networkCategory->setParent($seasonCategory);
         $media->setCategory($timetableCategory);
         $media->setFile($formBlock->getContent());
-        // TODO: Give img_label -> "ImgHandler::ID_LINE_MAP" as parameter
         $media->setFileName(ImgHandler::ID_LINE_MAP);
 
         $this->mediaManager->save($media);

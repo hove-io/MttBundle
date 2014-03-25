@@ -47,12 +47,7 @@ class Block extends AbstractEntity
      */
     private $frequencies;
 
-    
-    // public function __construct()
-    // {
-        // $this->frequencies = new ArrayCollection();
-    // }
-    
+   
     /**
      * Get id
      *
@@ -228,5 +223,35 @@ class Block extends AbstractEntity
     public function getFrequencies()
     {
         return $this->frequencies;
+    }
+
+    /**
+     * Check if it is Img block
+     *
+     * @return boolean
+     */
+    public function isImg()
+    {
+        return ($this->getTypeId() == BlockRepository::IMG_TYPE);
+    }
+
+    /**
+     * Check if it is Text block
+     *
+     * @return boolean
+     */
+    public function isText()
+    {
+        return ($this->getTypeId() == BlockRepository::TEXT_TYPE);
+    }
+
+    /**
+     * Check if it is Calendar block
+     *
+     * @return boolean
+     */
+    public function isCalendar()
+    {
+        return ($this->getTypeId() == BlockRepository::CALENDAR_TYPE);
     }
 }
