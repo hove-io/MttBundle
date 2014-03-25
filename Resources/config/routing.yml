@@ -77,7 +77,7 @@ canal_tp_meth_distribution_generate:
 #Calendar
 canal_tp_mtt_calendar_view:
     pattern: /calendars/view/network/{externalNetworkId}/route/{externalRouteId}/stopPoint/{externalStopPointId}/season/{currentSeasonId}
-    defaults: { _controller: CanalTPMttBundle:Calendar:view}
+    defaults: { _controller: CanalTPMttBundle:Calendar:view, currentSeasonId: null}
 
 #Frequency
 canal_tp_mtt_frequency_edit:
