@@ -3,7 +3,7 @@ canal_tp_meth_homepage:
     defaults: { _controller: CanalTPMttBundle:Default:index }
 
 canal_tp_meth_menu:
-    pattern:  /navigation/network/{externalNetworkId}/route/{current_route}
+    pattern:  /navigation/network/{externalNetworkId}/season/{current_season}/route/{current_route}
     defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null }
     requirements:
         network_id: -?[a-zA-Z0-9_\-:]*

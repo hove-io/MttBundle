@@ -99,9 +99,10 @@ class TimetableManager
      */
     public function findTimetableByExternalRouteIdAndLineConfig($externalRouteId, $lineConfig)
     {
-        $this->timetable = $this->repository->getTimetableByRouteExternalId($externalRouteId, $lineConfig);
-
-        return $this->timetable;
+        return $this->repository->findOneBy(array(
+            'externalRouteId' => $externalRouteId,
+            'line_config' => $lineConfig->getId(),
+        ));
     }
 
 

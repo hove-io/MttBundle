@@ -33,12 +33,13 @@ class DistributionController extends Controller
         return $this->render(
             'CanalTPMttBundle:Distribution:list.html.twig',
             array(
-                'timetable'     => $timetable,
-                'schedules'     => $schedules,
-                'current_route' => $routeId,
-                'network_id'    => $externalNetworkId,
-                'line_id'       => $lineId,
-                'route_id'      => $routeId,
+                'timetable'         => $timetable,
+                'schedules'         => $schedules,
+                'current_route'     => $routeId,
+                'externalNetworkId' => $externalNetworkId,
+                'currentSeasonId'   => $timetable->getLineConfig()->getSeason()->getId(),
+                'line_id'           => $lineId,
+                'route_id'          => $routeId,
             )
         );
     }

@@ -1,7 +1,7 @@
 {% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
 
 {% block left_menu %}
-    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'current_route': current_route })) }}
+    {{ render(controller('CanalTPMttBundle:Default:navigation', {  'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season': currentSeasonId })) }}
 {% endblock %}
 
 {% block main_content %}
@@ -62,7 +62,7 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
         'canal_tp_meth_distribution_generate',
         {
             'timetableId': {{timetable.id|raw}},
-            'externalNetworkId' : '{{network_id|raw}}'
+            'externalNetworkId' : '{{externalNetworkId|raw}}'
         }
     );
 

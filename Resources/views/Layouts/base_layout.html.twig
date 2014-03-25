@@ -23,7 +23,7 @@
         <div class="navbar no-print">
         {% block left_menu %}
             {% if editable == true %}
-                {{ render(controller('CanalTPMttBundle:Default:navigation'), {'current_route': ''}) }}
+                {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season': currentSeasonId})) }}
             {% endif %}
         {% endblock %}
         {% if stopPoint %}

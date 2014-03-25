@@ -21,7 +21,7 @@ class DefaultController extends Controller
         );
     }
 
-    public function navigationAction($externalNetworkId = 'network:Filbleu', $current_route = null)
+    public function navigationAction($externalNetworkId = 'network:Filbleu', $current_season, $current_route = null)
     {
         // TODO: Put the current or default Network of User. (for $externalNetworkId)
         $meth_navitia = $this->get('canal_tp_mtt.navitia');
@@ -38,7 +38,8 @@ class DefaultController extends Controller
             array(
                 'result' => $result,
                 'coverageId' => $network->getExternalCoverageId(),
-                'current_route' => $current_route
+                'current_route' => $current_route,
+                'current_season' => $current_season
             )
         );
     }
