@@ -7,7 +7,11 @@ CanalTP\MttBundle\Entity\Timetable:
             type: integer
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: SEQUENCE
+            sequenceGenerator:
+                sequenceName: mtt.timetable_id_seq
+                allocationSize: 1
+                initialValue: 1
         externalRouteId:
             type: string
             length: 255
