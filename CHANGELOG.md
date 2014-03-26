@@ -1,4 +1,10 @@
-Notes de publication - METH - Version 0.5.1 (25/03/2014)
+Notes de publication - MTT - Version 0.5.1 (25/03/2014)
+
+** Sous-tâche
+    * [METH-110] - Mise en place d'un nouveau champ
+    * [METH-111] - Mise à jour du service SeasonCopier
+    * [METH-112] - Mise à jour de la médiathèque
+    * [METH-117] - Mise en place d'un nouveau champ
 
 ** Bogue
     * [METH-98] - Date de génération du pdf de l'arrêt incorrecte
@@ -13,7 +19,7 @@ Notes de publication - METH - Version 0.5.1 (25/03/2014)
     * [METH-71] - Nommage des lignes et routes
     * [METH-81] - Mode debug - afficher les appels NAViTiA
 
-Notes de publication - METH - Version 0.4.2 (18/03/2014)
+Notes de publication - MTT - Version 0.4.2 (18/03/2014)
 
 ** Sous-tâche
     * [METH-102] - Formulaire de création et édition d'une saison
