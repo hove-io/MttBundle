@@ -29,7 +29,7 @@ class ScheduleExtension extends \Twig_Extension
         $value = date('i', $journey->date_time->getTimestamp());
         if (count($journey->links) > 0) {
             foreach ($journey->links as $link) {
-                if ($link->type == "note") {
+                if ($link->type == "notes") {
                     $value .= $this->footnoteFilter($this->findNoteIndex($link->id, $notes), $mode, $colors);
                 }
             }
