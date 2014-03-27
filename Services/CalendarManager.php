@@ -178,12 +178,15 @@ class CalendarManager
     {
         $notesComputed = array();
         $calendarsFiltered = array();
+        $calendarsSorted = array();
         $calendarsData = $this->navitia->getStopPointCalendarsData(
             $externalCoverageId, 
             $timetable->getExternalRouteId(), 
             $stopPointInstance->getExternalId()
         );
-        $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
+        if (isset($calendarsData->calendars)) {
+            $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
+        }
         // calendar blocks are defined on route/timetable level
         if (count($timetable->getBlocks()) > 0) {
             foreach ($timetable->getBlocks() as $block){
@@ -218,9 +221,11 @@ class CalendarManager
     {
         $calendarsData = $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId);
         $calendarsSorted = array();
-        foreach ($calendarsData->calendars as $calendar) {
-            //make it easier for template
-            $calendarsSorted[$calendar->id] = $calendar;
+        if (isset($calendarsData->calendars) && !empty($calendarsData->calendars)) {
+            foreach ($calendarsData->calendars as $calendar) {
+                //make it easier for template
+                $calendarsSorted[$calendar->id] = $calendar;
+            }
         }
 
         return $calendarsSorted;

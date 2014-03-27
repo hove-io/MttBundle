@@ -3,6 +3,8 @@ body {margin:0; padding:0;}
     margin: 0;
     padding: 0;
 }
+.navbar,
+.breadcrumb,
 .no-print{
     display:none;
 }

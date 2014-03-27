@@ -68,8 +68,46 @@ class TimetableController extends Controller
         return ($media);
     }
 
+    private function renderLayout($timetable, $externalStopPointId, $editable = true)
+    {
+        $layoutsConfig = $this->container->getParameter('layouts');
+        $externalCoverageId = $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalCoverageId();
+        
+        $stopPointData = $this->getStopPoint(
+            $externalStopPointId, 
+            $timetable, 
+            $externalCoverageId
+        );
+        
+        $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
+            $externalCoverageId,
+            $timetable,
+            $stopPointData['stopPointInstance']
+        );
+        
+        return $this->render(
+            'CanalTPMttBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
+            array(
+                'timetable'             => $timetable,
+                'externalNetworkId'     => $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalId(),
+                'externalRouteId'       => $timetable->getExternalRouteId(),
+                'externalCoverageId'    => $externalCoverageId,
+                'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
+                'currentSeasonId'       => $timetable->getLineConfig()->getSeason()->getId(),
+                'stopPointLevel'        => $stopPointData['stopPointLevel'],
+                'stopPoint'             => $stopPointData['stopPointInstance'],
+                'calendars'             => $calendarsAndNotes['calendars'],
+                'notes'                 => $calendarsAndNotes['notes'],
+                'blockTypes'            => $this->container->getParameter('blocks'),
+                'layoutConfig'          => $layoutsConfig[$timetable->getLine()->getLayout()],
+                'layout'                => $timetable->getLine()->getLayout(),
+                'editable'              => $editable
+            )
+        );
+    }
+    
     /*
-     * Display a layout and make editable via javascript
+     * Display a layout and make it editable via javascript
      */
     public function editAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
@@ -81,37 +119,10 @@ class TimetableController extends Controller
             $network->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
-        $stopPointData = $this->getStopPoint(
-            $externalStopPointId, 
-            $timetable, 
-            $network->getExternalCoverageId()
-        );
-        $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
-            $network->getExternalCoverageId(),
-            $timetable,
-            $stopPointData['stopPointInstance']
-        );
-        $layoutsConfig = $this->container->getParameter('layouts');
         
-        return $this->render(
-            'CanalTPMttBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
-            array(
-                'timetable'             => $timetable,
-                'externalNetworkId'     => $externalNetworkId,
-                'externalCoverageId'    => $network->getExternalCoverageId(),
-                'currentSeasonId'       => $timetable->getLineConfig()->getSeason()->getId(),
-                'stopPointLevel'        => $stopPointData['stopPointLevel'],
-                'stopPoint'             => $stopPointData['stopPointInstance'],
-                'calendars'             => $calendarsAndNotes['calendars'],
-                'notes'                 => $calendarsAndNotes['notes'],
-                'blockTypes'            => $this->container->getParameter('blocks'),
-                'layoutConfig'          => $layoutsConfig[$timetable->getLine()->getLayout()],
-                'layout'                => $timetable->getLine()->getLayout(),
-                'editable'              => true
-            )
-        );
+        return $this->renderLayout($timetable, $externalStopPointId, true);
     }
-
+    
     /*
      * Display a layout
      */
@@ -125,33 +136,8 @@ class TimetableController extends Controller
             $network->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
-        $stopPointData = $this->getStopPoint(
-            $externalStopPointId, 
-            $timetable,
-            $network->getExternalCoverageId()
-        );
-        $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
-            $network->getExternalCoverageId(),
-            $timetable,
-            $stopPointData['stopPointInstance']
-        );
-        $layoutsConfig = $this->container->getParameter('layouts');
-        return $this->render(
-            'CanalTPMttBundle:Layouts:' .  $timetable->getLine()->getTwigPath(),
-            array(
-                'timetable'         => $timetable,
-                'externalNetworkId' => $externalNetworkId,
-                'externalCoverageId'=> $network->getExternalCoverageId(),
-                'currentSeasonId'   => $timetable->getLineConfig()->getSeason()->getId(),
-                'stopPointLevel'    => $stopPointData['stopPointLevel'],
-                'stopPoint'         => $stopPointData['stopPointInstance'],
-                'calendars'         => $calendarsAndNotes['calendars'],
-                'notes'             => $calendarsAndNotes['notes'],
-                'layoutConfig'      => $layoutsConfig[$timetable->getLine()->getLayout()],
-                'layout'            => $timetable->getLine()->getLayout(),
-                'editable'          => false
-            )
-        );
+        
+        return $this->renderLayout($timetable, $externalStopPointId, false);
     }
 
     public function generatePdfAction($timetableId, $externalNetworkId, $externalStopPointId)

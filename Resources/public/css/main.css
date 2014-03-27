@@ -12,35 +12,52 @@ textarea {
     resize: none;
 }
 /* general display */
+#left-menu .nav > li {
+    display:block;
+}
 #left-menu{
-    padding-bottom:50px;
+    border:1px solid #e7e7e7;
+    border-radius: 4px;
+    margin-bottom:50px;
     min-width:100%;
+    padding:0;
 }
 #left-menu.affix{
     min-width:0;
     position:fixed;
     top:0;
 }
-#lines-accordion.panel-group .panel{
-    border-radius:0px;
-    width:100%;
+#left-menu .submenu-wrapper > ul > li > a,
+#lines-accordion > li > a{
+    border-bottom:1px solid #e7e7e7;
+    padding: 10px 5px;
 }
-#lines-accordion.panel-group .panel + .panel{
-    margin-top:-1px;
+#lines-accordion .line-menu-wrapper > a{
+    border-radius: 0;
+    border-left:1px solid #e7e7e7;
+    padding: 10px 5px;
 }
-#lines-accordion.panel-group .panel-body{
-    padding:15px 0px;
+#lines-accordion .line-menu-wrapper li:not(:last-child){
+    border-bottom:1px solid #e7e7e7;
 }
 #lines-accordion .line-menu-wrapper{
-    padding:5px;
-    border-bottom:1px solid rgba(0,0,0,0.5);
+    margin-left: 10px;
+    
+}
+#lines-accordion .line-menu-wrapper ul{
+    border:1px solid #428bca;
+    margin-top: -1px;
+    margin-left: 10px;
+}
+#lines-accordion .line-menu-wrapper{
+    border-bottom:1px solid #e7e7e7;
 }
 #lines-accordion .line-menu-wrapper:last-child{
     border-bottom:none;
 }
 #lines-accordion .line-menu-wrapper li.active,
 #lines-accordion .line-menu-wrapper li.active a{
-    background-color:#000;
+    background-color:#5cb85c;
     padding-left:5px;
     color:white;
 }
@@ -102,4 +119,43 @@ textarea {
 }
 .datepicker.datepicker-dropdown.dropdown-menu{
     z-index:1060 !important;
+}
+#left-menu.toggable-left-menu .toggle-button{
+    height:100%;
+}
+#left-menu.toggable-left-menu{
+    position:relative;
+}
+#left-menu.toggable-left-menu{
+    background-color: white;
+    left: -300px;
+    min-width:initial;
+    position: absolute;
+    z-index: 200;
+    width:300px;
+}
+#left-menu.toggable-left-menu .submenu-wrapper{
+    position:relative;
+}
+#left-menu.toggable-left-menu .toggle-button{
+    background-color: #777777;
+    color:white;
+    cursor:pointer;
+    font-size: 20px;
+    height: 100%;
+    width: 20px;
+    position: absolute;
+    right: -20px;
+    top: 0;
+}
+#left-menu.toggable-left-menu .toggle-button:hover{
+    background-color: black;
+}
+#left-menu.toggable-left-menu .toggle-button span{
+    position:absolute;
+    top:50%;
+    margin-top:-10px;
+}
+#left-menu.toggable-left-menu ul.back-btn-wrapper{
+    border-bottom:1px solid black;
 }
