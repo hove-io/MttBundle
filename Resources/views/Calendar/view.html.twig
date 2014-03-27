@@ -36,7 +36,7 @@
                                     <div>{{ hour }}h</div>
                                     <hr/>
                                     {% for journey in journeys %}
-                                        <div>{{ journey|schedule(notes)|raw }}</div>
+                                        <div>{{ journey|schedule(calendar.notes)|raw }}</div>
                                     {% endfor %}
                                 </div>
                             {% endfor %}
