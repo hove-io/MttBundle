@@ -37,6 +37,29 @@ class CalendarManager
         return $datetimes;
     }
     
+    private function sortLinks($linkA, $linkB)
+    {
+        $result = 0;
+
+        if ($linkA->type != $linkB->type)
+           $result = ($linkA->type == 'notes' && $linkB->type == 'exceptions') ? -1 : 1;
+
+        return ($result);
+    }
+
+    private function hasExceptions($links)
+    {
+        $result = false;
+
+        foreach ($links as $link) {
+            if ($link->type == 'exceptions') {
+                $result = true;
+                break ;
+            }
+        }
+        return ($result);
+    }
+
     /**
      * groups datetimes by hours
      */
@@ -48,6 +71,9 @@ class CalendarManager
             $hour = date('G', $parsedDateTime->date_time->getTimestamp());
             if (!isset($sortedDateTimes[$hour])) {
                 $sortedDateTimes[$hour] = array();
+            }
+            if ($this->hasExceptions($parsedDateTime->links)) {
+                usort($parsedDateTime->links, array($this, "sortLinks"));
             }
             $sortedDateTimes[$hour][] = $parsedDateTime;
         }
@@ -97,8 +123,29 @@ class CalendarManager
             $calendarsSorted[$calendar->id]->week_pattern = (array) $calendarsSorted[$calendar->id]->week_pattern;
         }
         return $calendarsSorted;
+    }    
+
+    /**
+     * Generate value propriety of exceptions to display in view
+     */
+    private function generateExceptionsValues($navitiaExceptions)
+    {
+        $exceptions = array();
+
+        foreach ($navitiaExceptions as $exception) {
+
+            $date = new \DateTime($exception->date);
+
+            $exception->value = $this->translator->trans(
+                    'global.exceptions.' . strtolower($exception->type),
+                    array('%date%' => $date->format('d/m/Y')),
+                    'messages'
+            );
+            $exceptions[] = $exception;
+        }
+        return $exceptions;
     }
-    
+
     /**
      * Add schedules coming from Navitia to calendar object
      */
@@ -155,12 +202,13 @@ class CalendarManager
                 $calendar->id
             );
             $calendar = $this->addSchedulesToCalendar($calendar, $stopSchedulesData->stop_schedules);
-            $calendar->notes = $stopSchedulesData->notes;
+            $calendar->notes = array_merge(
+                $stopSchedulesData->notes,
+                $this->generateExceptionsValues($stopSchedulesData->exceptions)
+            );
             $calendarsSorted[$calendar->id] = $calendar;
-            //compute notes for the current timetable
-            $notesComputed = $this->computeNotes($notesComputed, $stopSchedulesData->notes);
         }
-        return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
+        return $calendarsSorted;
     }
     
     /**
@@ -201,7 +249,13 @@ class CalendarManager
                     $calendar = $this->addSchedulesToCalendar($calendar, $stopSchedulesData->stop_schedules);
                     $calendarsFiltered[$calendar->id] = $calendar;
                     //compute notes for the current timetable
-                    $notesComputed = $this->computeNotes($notesComputed, $stopSchedulesData->notes);
+                    $notesComputed = $this->computeNotes(
+                        $notesComputed,
+                        array_merge(
+                            $stopSchedulesData->notes,
+                            $this->generateExceptionsValues($stopSchedulesData->exceptions)
+                        )
+                    );
                 }
             }
         }
