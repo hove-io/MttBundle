@@ -1,52 +1,61 @@
-<!DOCTYPE html>
-<html lang="{{ app.request.locale }}">
-    <head>
-        <meta charset="UTF-8" />
-        {% stylesheets  'css/bootstrap.css'
-                        '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/main.css'
-                        '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/layouts.css'
-                        '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/layouts/*'
+{% extends "CanalTPMttBundle::container.html.twig" %}
 
-                       filter='cssrewrite' output='css/full_layouts.css' %}
-            <link rel="stylesheet" media="all" href="{{ asset_url }}" />
-        {% endstylesheets %}
-        {% stylesheets  '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/print.css'
-                       filter='cssrewrite' output='css/full_layouts_print.css' %}
-            <link rel="stylesheet" media="print" href="{{ asset_url }}" />
-        {% endstylesheets %}
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets  'css/bootstrap.css'
+                    '../src/CanalTP/SamBundle/Resources/public/css/*'
+                    '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/main.css'
+                    '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/layouts.css'
+                    '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/layouts/*'
 
-        {% block head_config %}
-            {% include 'CanalTPMttBundle::config.js.html.twig' %}
-        {% endblock %}
-    </head>
-    <body{% if editable == true %} class="editable"{% endif %}>
-        <div class="navbar no-print">
-        {% block left_menu %}
-            {% if editable == true %}
-                {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season': currentSeasonId})) }}
-            {% endif %}
-        {% endblock %}
-        {% if stopPoint %}
-            <a class="btn btn-primary" href="{{ path('canal_tp_mtt_timetable_generate_pdf', {'timetableId': timetable.id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
-                <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
-            </a>
-        {% endif %}
+                   filter='cssrewrite' output='css/full_layouts.css' %}
+        <link rel="stylesheet" media="all" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {% stylesheets  '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/print.css'
+                   filter='cssrewrite' output='css/full_layouts_print.css' %}
+        <link rel="stylesheet" media="print" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block main_content %}
+    <div id="left-menu" class="toggable-left-menu no-print">
+        <div class="submenu-wrapper">
+            <ul class="nav nav-pills nav-stacked back-btn-wrapper">
+                <li>
+                    <a href="{{ path(
+                        'canal_tp_mtt_stop_point_list',
+                        {
+                            'network_id'        :externalNetworkId, 
+                            'line_id'           :externalLineId, 
+                            'externalRouteId'   : externalRouteId,
+                            'seasonId'          : currentSeasonId
+                        }
+                    ) }}">
+                        <span class="glyphicon glyphicon-arrow-left"></span> 
+                        {{'stop_point.list.back'|trans({}, 'default')}}
+                    </a>
+                </li>
+                {% if stopPoint %}
+                <li>
+                    <a href="{{ path('canal_tp_mtt_timetable_generate_pdf', {'timetableId': timetable.id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
+                        <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+            {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': currentSeasonId})) }}
+            <div class="toggle-button">
+                <span class="glyphicon glyphicon-transfer"></span> 
+            </div>
         </div>
+    </div>
+    
+    <div>
+    </div>
 
-        <div id="layout-main-wrapper">
-        {% block body %}{% endblock %}
-        </div>
+    <div id="layout-main-wrapper"{% if editable == true %} class="editable"{% endif %}>
+        {% block timetable_content %}{% endblock %}
+    </div>
 
-        {% if editable == true %}
-            <div id="base-modal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        {% include 'CanalTPMttBundle::modal.html.twig' %}
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        {% endif %}
-        {% include 'CanalTPMttBundle::common.js.twig' %}
-        {% block scripts %}{% endblock %}
-    </body>
-</html>
+    {% block scripts %}{% endblock %}
+{% endblock %}

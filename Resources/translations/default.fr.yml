@@ -4,6 +4,7 @@ stop_point:
     label: Arrêt
     list:
         header: Liste des arrêts
+        back: Retour à la liste des arrêts
     header: Arrêts
     action:
         header: Actions

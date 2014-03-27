@@ -199,7 +199,9 @@ class Timetable extends AbstractEntity
     {
         return $this->line_config;
     }
-
+    
+    //TODO: remove setLine and getLine and use setLineConfig and getLineConfig in Timetable manager at least
+    
      /**
      * Set line
      *
