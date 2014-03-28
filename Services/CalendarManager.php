@@ -179,11 +179,15 @@ class CalendarManager
      */
     private function generateAdditionalInformations($additionalInformationsId)
     {
-        $additionalInformations = $this->translator->trans(
-                'calendar.schedules.additional_informations.' . $additionalInformationsId,
-                array(),
-                'messages'
-        );
+        $additionalInformations = null;
+
+        if (!empty($additionalInformationsId)) {
+            $additionalInformations = $this->translator->trans(
+                    'calendar.schedules.additional_informations.' . $additionalInformationsId,
+                    array(),
+                    'messages'
+            );
+        }
         return $additionalInformations;
     }
 
