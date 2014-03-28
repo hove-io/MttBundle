@@ -265,6 +265,7 @@ class CalendarManager
                         $block->getContent()
                     );
                     $calendar = $this->addSchedulesToCalendar($calendar, $stopSchedulesData->stop_schedules);
+                    $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
                     $calendarsFiltered[$calendar->id] = $calendar;
                     //compute notes for the current timetable
                     $notesComputed = $this->computeNotes(
