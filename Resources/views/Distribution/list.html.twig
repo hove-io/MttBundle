@@ -21,7 +21,8 @@
 
     <h3>{{'distribution.stops_excluded'|trans({}, 'default')}}</h3>
     <hr/>
-    <ul id="excluded-stops" class="list-group sortable">
+    <ul id="excluded-stops" class="list-group sortable{% if schedules.excluded|length == 0 %} empty-list{% endif %}">
+        <span class="help-block{% if schedules.excluded|length != 0 %} display-none{% endif %}">{{'help.drop_here'|trans}}</span>
         {% for schedule in schedules.excluded %}
             {% include 'CanalTPMttBundle:Distribution:scheduleItem.html.twig' with {'schedule': schedule} %}
         {% endfor %}
@@ -65,10 +66,18 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
             'externalNetworkId' : '{{externalNetworkId|raw}}'
         }
     );
-
+    var $excludedStops = $('#excluded-stops')
     $('.list-group.sortable').sortable({
         placeholder: "sortable-highlight list-group-item",
         connectWith: "ul.list-group.sortable"
+    }).on('sortupdate', function( event, ui ){
+        if ($excludedStops.find('.list-group-item').length > 0) {
+            $excludedStops.find('span').addClass('display-none');
+            $excludedStops.removeClass('empty-list');
+        } else {
+            $excludedStops.find('span').removeClass('display-none');
+            $excludedStops.addClass('empty-list');
+        }
     });
     $('.list-group.sortable').disableSelection();
 

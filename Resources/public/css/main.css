@@ -89,6 +89,16 @@ textarea {
     min-height:150px;
     width:100%;
 }
+#excluded-stops.empty-list span.help-block{
+    margin-top: 50px;
+}
+#excluded-stops.empty-list{
+    border: 10px dashed #777;
+    font-size: 35px;
+    color: #777;
+    line-height: 100%;
+    text-align: center;
+}
 #included-stops .add-stop-point-btn{
     display:none;
 }
