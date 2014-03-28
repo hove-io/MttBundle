@@ -23,6 +23,10 @@
             <div class="col-md-9">
                 <div class="grid-time-wrapper panel panel-default">
                     <div class="panel-body clearfix">
+                    {% if calendar.schedules.additional_informations is not empty %}
+                        <p class="text-center">{{ calendar.schedules.additional_informations }}</p>
+                    {% endif %}
+                    {% if calendar.schedules.date_times is not empty %}
                         <div class="grid-label-column">
                             <div>{{ 'global.hours'|trans({}, 'messages') }}</div>
                             <hr/>
@@ -42,6 +46,7 @@
                             {% endfor %}
                             </div>
                         </div>
+                    {% endif %}
                     </div>
                 </div>
             </div>

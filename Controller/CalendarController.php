@@ -2,12 +2,10 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 /*
  * CalendarController
  */
-class CalendarController extends Controller
+class CalendarController extends AbstractController
 {
     public function viewAction($externalNetworkId, $externalRouteId, $externalStopPointId, $currentSeasonId)
     {

@@ -3,13 +3,12 @@
 namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CanalTP\MttBundle\Entity\LineConfig;
 
 /*
  * LineController
  */
-class LineController extends Controller
+class LineController extends AbstractController
 {
     /*
      * @function process a form to save a layout for a line and a season. Insert a lineConfig element in bdd if needed.
@@ -47,6 +46,7 @@ class LineController extends Controller
      */
     public function chooseLayoutAction($externalNetworkId, $line_id, $seasonId, $externalRouteId)
     {
+        $this->isGranted(array('BUSINESS_CHOOSE_LAYOUT', 'BUSINESS_EDIT_LAYOUT'));
         $season = $this->get('canal_tp_mtt.season_manager')->getSeasonWithNetworkIdAndSeasonId($externalNetworkId, $seasonId);
 
         $params = array('externalNetworkId' => $externalNetworkId,
