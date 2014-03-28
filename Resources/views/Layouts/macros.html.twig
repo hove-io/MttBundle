@@ -5,3 +5,12 @@
     {% endif %}
     </div>
 {% endmacro %}
+
+{% macro text(id, block, level) %}
+    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text" class="small-block block">
+    {% if block %}
+        <div class="title">{{ block.title }}</div>
+        <div class="content">{{ block.content|nl2br }}</div>
+    {% endif %}
+    </div>
+{% endmacro %}

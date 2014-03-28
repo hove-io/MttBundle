@@ -23,15 +23,12 @@
                         {% set id = 'text_block_' ~ i %}
                         {% if i == 4 %}
                             {% set block = attribute(stopPoint.blocks, id) %}
+                            {% set level = 'stop_point' %}
                         {% else %}
                             {% set block = attribute(timetable.blocks, id) %}
+                            {% set level = 'route' %}
                         {% endif %}
-                        <div id="{{ id }}" data-block-level="{% if i == 4 %}stop_point{% else %}route{% endif %}" data-block-type="text" class="small-block block">
-                            {% if block %}
-                                <div class="title">{{ block.title }}</div>
-                                <div class="content">{{ block.content|nl2br }}</div>
-                            {% endif %}
-                        </div>
+                        {{ macros.text(id, block, level) }}
                     {% endfor %}
                 </div>
             </div>
