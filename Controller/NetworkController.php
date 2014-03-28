@@ -2,9 +2,7 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-class NetworkController extends Controller
+class NetworkController extends AbstractController
 {
     public function indexAction()
     {

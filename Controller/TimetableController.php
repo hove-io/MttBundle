@@ -4,13 +4,12 @@ namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MttBundle\Entity\Line;
 use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MediaManagerBundle\Entity\Category;
 
-class TimetableController extends Controller
+class TimetableController extends AbstractController
 {
     private $mediaManager;
 
@@ -142,6 +141,7 @@ class TimetableController extends Controller
 
     public function generatePdfAction($timetableId, $externalNetworkId, $externalStopPointId)
     {
+        $this->isGranted('BUSINESS_GENERATE_PDF');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById(

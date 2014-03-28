@@ -2,17 +2,17 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MttBundle\Entity\DistributionList;
 
-class DistributionController extends Controller
+class DistributionController extends AbstractController
 {
     public function listAction($externalNetworkId, $lineId, $routeId, $reset = false)
     {
+        $this->isGranted('BUSINESS_MANAGE_DISTRIBUTION_LIST');
         $navitia = $this->get('sam_navitia');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');

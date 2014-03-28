@@ -3,11 +3,10 @@
 namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CanalTP\MttBundle\Form\Type\SeasonType;
 use CanalTP\MttBundle\Entity\Season;
 
-class SeasonController extends Controller
+class SeasonController extends AbstractController
 {
     private $seasonManager = null;
 
@@ -57,6 +56,7 @@ class SeasonController extends Controller
 
     public function editAction(Request $request, $network_id, $season_id)
     {
+        $this->isGranted('BUSINESS_MANAGE_SEASON');
         $this->seasonManager = $this->get('canal_tp_mtt.season_manager');
 
         $form = $this->buildForm($network_id, $season_id);
@@ -72,6 +72,7 @@ class SeasonController extends Controller
 
     public function listAction(Request $request, $network_id)
     {
+        $this->isGranted('BUSINESS_MANAGE_SEASON');
         $this->seasonManager = $this->get('canal_tp_mtt.season_manager');
 
         return $this->render(

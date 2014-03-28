@@ -2,11 +2,9 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use CanalTP\MttBundle\Entity\Block;
 
-class BlockController extends Controller
+class BlockController extends AbstractController
 {
     /**
      * returns form for a given block type or save content of the block using Form factory

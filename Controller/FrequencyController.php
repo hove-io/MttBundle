@@ -2,14 +2,13 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CanalTP\MttBundle\Form\Type\FrequenciesType;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Frequency;
 /*
  * FrequencyController
  */
-class FrequencyController extends Controller
+class FrequencyController extends AbstractController
 {
     public function editAction($blockId, $layoutId, $externalNetworkId)
     {

@@ -2,9 +2,7 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-class StopPointController extends Controller
+class StopPointController extends AbstractController
 {
     public function listAction($network_id, $line_id, $externalRouteId, $seasonId = null)
     {
