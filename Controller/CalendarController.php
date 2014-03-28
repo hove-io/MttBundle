@@ -15,7 +15,7 @@ class CalendarController extends Controller
         $networkManager = $this->get('canal_tp_mtt.network_manager');
 
         $network = $networkManager->findOneByExternalId($externalNetworkId);
-        $calendarsAndNotes = $calendarManager->getCalendarsForStopPoint(
+        $calendars = $calendarManager->getCalendarsForStopPoint(
             $network->getExternalCoverageId(),
             $externalRouteId, 
             $externalStopPointId
@@ -25,8 +25,7 @@ class CalendarController extends Controller
             'CanalTPMttBundle:Calendar:view.html.twig',
             array(
                 'externalNetworkId' => $externalNetworkId,
-                'calendars'         => $calendarsAndNotes['calendars'],
-                'notes'             => $calendarsAndNotes['notes'],
+                'calendars'         => $calendars,
                 'current_route'     => $externalRouteId,
                 'currentSeasonId'   => $currentSeasonId,
             )

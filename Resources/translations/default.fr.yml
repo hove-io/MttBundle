@@ -23,7 +23,7 @@ timetable:
 
 layout:
     actions: Actions
-    
+
 block:
     get_form:
         title: Éditer le block

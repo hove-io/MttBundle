@@ -56,7 +56,7 @@
                     "links": [
                         {
                             "id": "1bca6d9a2f987cb7d2f942ceb632b915",
-                            "type": "note"
+                            "type": "notes"
                         },
                         {
                             "id": "vehicles_journeys:TRNDUASN121878F010012789004014",
@@ -110,8 +110,8 @@
                     "links": [
                         {
                             "id": "a79b87e9184b193a24df9b02f03e411a",
-                            "type": "note"
-                        }
+                            "type": "notes"
+                        } 
                     ]
                 },
                 {
@@ -432,7 +432,19 @@
         },
         {
             "id": "a79b87e9184b193a24df9b02f03e411a",
-            "value": "ceci est une autre note."
+            "value": "ceci est une autre notes."
+        }
+    ],
+    "exceptions": [
+        {
+            "date": "20140509",
+            "type": "Add",
+            "id": "exception:020140509"
+        },
+        {
+            "date": "20140509",
+            "type": "Remove",
+            "id": "exception:020140542"
         }
     ]
 }

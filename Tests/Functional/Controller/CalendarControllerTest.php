@@ -11,20 +11,21 @@ class CalendarControllerTest extends AbstractControllerTest
             // fake params since we mock navitia
             array(
                 'externalNetworkId' => 'network:Filbleu',
-                'externalRouteId' => 'route:TTR:Nav155',
-                'externalStopPointId' => 'stop_point:TTR:SP:JUSTB-1'
+                'externalRouteId' => 'test',
+                'externalStopPointId' => 'test'
             )
         );
     }
-    
+
     private function initialization()
     {
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
         $crawler = $this->client->request('GET', $this->getViewRoute());
         // check response code is 200
+        // var_dump($this->client->getResponse());die;
         $this->assertEquals(
-            200, 
-            $this->client->getResponse()->getStatusCode(), 
+            200,
+            $this->client->getResponse()->getStatusCode(),
             'Response status NOK:' . $this->client->getResponse()->getStatusCode()
         );
         
@@ -34,6 +35,7 @@ class CalendarControllerTest extends AbstractControllerTest
     public function testCalendarsPresentViewAction()
     {
         $crawler = $this->initialization();
+
         $this->assertTrue($crawler->filter('h3')->count() == 1, 'Expected h3 title.');
         $this->assertTrue($crawler->filter('.nav.nav-tabs > li')->count() == 4, 'Expected 4 calendars.');
     }
@@ -107,11 +109,11 @@ class CalendarControllerTest extends AbstractControllerTest
                 'html:contains("au plus tard la veille du déplacement du lundi au vendredi de 9h à 12h30 et de 13h30 à 16h30.")')->count() == 1, 
                 "the note value was found in html more than once."
         );
-        
+
         $this->assertTrue(
             $crawler->filter(
-                '.tab-content > .tab-pane:first-child .notes-wrapper > div:not(:first-child)')->count() == 2, 
-                "Expected 2 notes label, found " . $crawler->filter('.notes-wrapper > div:not(:first-child)')->count()
+                '.tab-content > .tab-pane:first-child .notes-wrapper > div:not(:first-child)')->count() == 4, 
+                "Expected 4 notes label, found " . $crawler->filter('.tab-content > .tab-pane:first-child .notes-wrapper > div:not(:first-child)')->count()
         );
         
         $notesLabels = $crawler
