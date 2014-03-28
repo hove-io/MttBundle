@@ -23,7 +23,7 @@ class DistributionListRepository extends EntityRepository
     
     private function compare($a, $b)
     {
-        return $a->stop_point->id === $b->stop_point->id ? 0 : -1;
+        return $a->stop_point->id === $b->stop_point->id ? 0 : 1;
     }
     
     public function sortSchedules($schedules, $timetable, $reset = false)

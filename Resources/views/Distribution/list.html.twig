@@ -11,6 +11,11 @@
                 <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
             </button>
             -
+            <a id="save-distribution-list" class="btn btn-primary" href="{{ path('canal_tp_mtt_distribution_list_save',{'externalNetworkId':externalNetworkId, 'lineId': line_id, 'routeId': current_route}) }}">
+                <span class="glyphicon glyphicon-refresh display-none"></span>
+                <span class="glyphicon glyphicon-floppy-disk"></span> {{'distribution.save_order'|trans({}, 'default')}}
+            </a>
+            -
             <a class="btn btn-default" href="{{ path('canal_tp_mtt_distribution_list',{'externalNetworkId':externalNetworkId, 'lineId': line_id, 'routeId': current_route, 'reset':true}) }}">
                 <span class="glyphicon glyphicon-sort-by-attributes"></span> {{'distribution.reset_order'|trans({}, 'default')}}
             </a>
@@ -97,11 +102,35 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
     });
 
     var $list = $('#included-stops');
-    $('#generate-distribution-list').click(function(){
+    
+    var _getStopPointIds = function()
+    {
         var stopPoints_ids = [];
         $list.find('.list-group-item').each(function(){
             stopPoints_ids.push($(this).data('stopPointNavitiaId'));
         });
+        return stopPoints_ids;
+    };
+    
+    $('#save-distribution-list').click(function(){
+        var $link = $(this);
+        $link.find('span.glyphicon-refresh').toggleClass('icon-refresh-animate display-none');
+        $link.find('span.glyphicon-floppy-disk').toggle();
+        var stopPoints_ids = _getStopPointIds();
+        if (stopPoints_ids.length > 0)
+        {
+            $.post(
+                $link.attr('href'),
+                {"stopPointsIds[]" : stopPoints_ids}
+            ).done(function(data, textStatus){
+                window.location = $link.attr('href');
+            });
+        }
+        return false;
+    });
+    $('#generate-distribution-list').click(function(){
+        var stopPoints_ids = _getStopPointIds();
+        
         $('#base-modal').find('a.btn').hide();
         $('#base-modal').find('div.progress').show();
         $('#base-modal').modal('show');

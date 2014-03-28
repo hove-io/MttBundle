@@ -74,6 +74,12 @@ canal_tp_mtt_distribution_generate:
     options:
         expose: true
 
+canal_tp_mtt_distribution_list_save:
+    pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/distribution/list/save/
+    defaults: { _controller: CanalTPMttBundle:Distribution:save}
+    options:
+        expose: true
+        
 #Calendar
 canal_tp_mtt_calendar_view:
     pattern: /calendars/view/network/{externalNetworkId}/route/{externalRouteId}/stopPoint/{externalStopPointId}/season/{currentSeasonId}

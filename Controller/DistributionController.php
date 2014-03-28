@@ -11,6 +11,25 @@ use CanalTP\MttBundle\Entity\DistributionList;
 
 class DistributionController extends Controller
 {
+    public function saveAction($externalNetworkId, $lineId, $routeId)
+    {
+        $stopPointsIds = $this->get('request')->request->get('stopPointsIds', array());
+        if (!empty($stopPointsIds)) {
+            $lineManager = $this->get('canal_tp_mtt.line_manager');
+            $networkManager = $this->get('canal_tp_mtt.network_manager');
+            $network = $networkManager->findOneByExternalId($externalNetworkId);
+            $timetable = $this
+                ->get('canal_tp_mtt.timetable_manager')
+                ->getTimetable($routeId, $network->getExternalCoverageId(), $lineManager->getLineConfigByExternalLineId($lineId));
+            $this->saveList($timetable, $stopPointsIds);
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                $this->get('translator')->trans('distribution.confirm_order_saved', array(), 'default')
+            );
+        }
+        return $this->redirect($this->generateUrl('canal_tp_mtt_distribution_list', array('externalNetworkId' => $externalNetworkId, 'lineId' => $lineId, 'routeId' => $routeId)));
+    }
+    
     public function listAction($externalNetworkId, $lineId, $routeId, $reset = false)
     {
         $navitia = $this->get('sam_navitia');
