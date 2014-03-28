@@ -1,3 +1,4 @@
+{% import "CanalTPMttBundle:Layouts:macros.html.twig" as macros %}
 {% extends "CanalTPMttBundle:Layouts:base_layout.html.twig" %}
 
 {% block timetable_content %}
@@ -16,12 +17,7 @@
                 </div>
             </div>
             <div id="map-wrapper" class="clearfix">
-                <div id="line_map_block" data-block-level="route" data-block-type="img" class="block">
-                {% set block = attribute(timetable.blocks, 'line_map_block') %}
-                {% if block %}
-                    <img class="line_map_img" src="{{ block.content }}" title="{{ block.title }}" title="{{ block.alt }}" />
-                {% endif %}
-                </div>
+                {{ macros.img('line_map_block', attribute(timetable.blocks, 'line_map_block'), 'line_map_img', 'route') }}
                 <div id="small-right-blocks">
                     {% for i in 1..4 %}
                         {% set id = 'text_block_' ~ i %}

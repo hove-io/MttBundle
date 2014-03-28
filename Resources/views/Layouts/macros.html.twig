@@ -1,0 +1,7 @@
+{% macro img(id, block, class, level) %}
+    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="img" class="block">
+    {% if block %}
+        <img class="{{ class }}" src="{{ block.content }}" title="{{ block.title }}" alt="{{ block.alt }}" />
+    {% endif %}
+    </div>
+{% endmacro %}
