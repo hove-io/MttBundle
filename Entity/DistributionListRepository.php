@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class DistributionListRepository extends EntityRepository
 {
-    public function sortSchedules($schedules, $timetable)
+    public function sortSchedules($schedules, $timetable, $reset = false)
     {
         $distributionList = $this->findOneByTimetable($timetable);
         $sortedSchedules = array();
@@ -25,7 +25,9 @@ class DistributionListRepository extends EntityRepository
             foreach ($includedStops as $scheduleId) {
                 while (list($key, $schedule) = each($schedules)) {
                     if ($schedule->stop_point->id == $scheduleId) {
-                        $sortedSchedules['included'][] = $schedule;
+                        if ($reset == false) {
+                            $sortedSchedules['included'][] = $schedule;
+                        }
                         unset($schedules[$key]);
                         reset($schedules);
                         break;

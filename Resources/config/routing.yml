@@ -65,8 +65,8 @@ canal_tp_mtt_block_delete:
 
 #DistributionList
 canal_tp_mtt_distribution_list:
-    pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/distribution/list
-    defaults: { _controller: CanalTPMttBundle:Distribution:list}
+    pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/distribution/list/{reset}
+    defaults: { _controller: CanalTPMttBundle:Distribution:list, reset: null}
 
 canal_tp_mtt_distribution_generate:
     pattern: /distribution/generate/timetable/{timetableId}/network/{externalNetworkId}

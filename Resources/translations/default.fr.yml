@@ -34,6 +34,7 @@ distribution:
     generation_in_progress: Génération en cours
     stops_included: Arrêts inclus dans la liste de distribution
     stops_excluded: Arrêts exclus de la liste de distribution
+    reset_order: Réinitialiser l'ordre des arrêts
 
 calendar:
     view_title: Vérifier les horaires

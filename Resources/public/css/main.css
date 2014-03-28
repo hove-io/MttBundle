@@ -93,7 +93,7 @@ textarea {
     margin-top: 50px;
 }
 #excluded-stops.empty-list{
-    border: 10px dashed #777;
+    border: 5px dashed #777;
     font-size: 35px;
     color: #777;
     line-height: 100%;

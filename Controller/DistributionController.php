@@ -11,7 +11,7 @@ use CanalTP\MttBundle\Entity\DistributionList;
 
 class DistributionController extends Controller
 {
-    public function listAction($externalNetworkId, $lineId, $routeId)
+    public function listAction($externalNetworkId, $lineId, $routeId, $reset = false)
     {
         $navitia = $this->get('sam_navitia');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
@@ -28,7 +28,7 @@ class DistributionController extends Controller
         $schedules = $this
             ->getDoctrine()
             ->getRepository('CanalTPMttBundle:DistributionList')
-            ->sortSchedules($schedules, $timetable);
+            ->sortSchedules($schedules, $timetable, $reset);
 
         return $this->render(
             'CanalTPMttBundle:Distribution:list.html.twig',

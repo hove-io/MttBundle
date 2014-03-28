@@ -10,10 +10,15 @@
             <button id="generate-distribution-list" type="button" class="btn btn-success">
                 <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
             </button>
+            -
+            <a class="btn btn-default" href="{{ path('canal_tp_mtt_distribution_list',{'externalNetworkId':externalNetworkId, 'lineId': line_id, 'routeId': current_route, 'reset':true}) }}">
+                <span class="glyphicon glyphicon-sort-by-attributes"></span> {{'distribution.reset_order'|trans({}, 'default')}}
+            </a>
         </h3>
     </div>
     <hr/>
-    <ul id="included-stops" class="list-group sortable">
+    <ul id="included-stops" class="list-group sortable{% if schedules.excluded|length == 0 %} empty-list{% endif %}">
+        <span class="help-block{% if schedules.included|length != 0 %} display-none{% endif %}">{{'help.drop_here'|trans}}</span>
         {% for schedule in schedules.included %}
             {% include 'CanalTPMttBundle:Distribution:scheduleItem.html.twig' with {'schedule': schedule} %}
         {% endfor %}
@@ -69,13 +74,14 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
     var $excludedStops = $('#excluded-stops')
     $('.list-group.sortable').sortable({
         placeholder: "sortable-highlight list-group-item",
+        items: "> li",
         connectWith: "ul.list-group.sortable"
     }).on('sortupdate', function( event, ui ){
         if ($excludedStops.find('.list-group-item').length > 0) {
-            $excludedStops.find('span').addClass('display-none');
+            $excludedStops.find('> span').addClass('display-none');
             $excludedStops.removeClass('empty-list');
         } else {
-            $excludedStops.find('span').removeClass('display-none');
+            $excludedStops.find('> span').removeClass('display-none');
             $excludedStops.addClass('empty-list');
         }
     });
@@ -86,6 +92,7 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
         var $newContainer = $stopElement.parents('.sortable').siblings('.sortable');
         $stopElement.detach();
         $newContainer.append($stopElement);
+        $newContainer.trigger('sortupdate');
         return false;
     });
 
