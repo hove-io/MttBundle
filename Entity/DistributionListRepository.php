@@ -12,29 +12,43 @@ use Doctrine\ORM\EntityRepository;
  */
 class DistributionListRepository extends EntityRepository
 {
+    private function findScheduleKey($scheduleId, $schedules)
+    {
+        while (list($key, $schedule) = each($schedules)) {
+            if ($schedule->stop_point->id == $scheduleId) {
+                return $key;
+            }
+        }
+    }
+    
+    private function compare($a, $b)
+    {
+        return $a->stop_point->id === $b->stop_point->id ? 0 : -1;
+    }
+    
     public function sortSchedules($schedules, $timetable, $reset = false)
     {
         $distributionList = $this->findOneByTimetable($timetable);
         $sortedSchedules = array();
         $sortedSchedules['included'] = array();
         $sortedSchedules['excluded'] = array();
-        if (empty($distributionList)) {
+        if (empty($distributionList) || $reset == 1) {
             $sortedSchedules['included'] = $schedules;
-        } else {
+        } 
+        if (!empty($distributionList)) {
             $includedStops = $distributionList->getIncludedStops();
             foreach ($includedStops as $scheduleId) {
-                while (list($key, $schedule) = each($schedules)) {
-                    if ($schedule->stop_point->id == $scheduleId) {
-                        if ($reset == false) {
-                            $sortedSchedules['included'][] = $schedule;
-                        }
-                        unset($schedules[$key]);
-                        reset($schedules);
-                        break;
-                    }
+                $key = $this->findScheduleKey($scheduleId, $schedules);
+                if ($reset == false) {
+                    $sortedSchedules['included'][] = clone $schedules[$key];
                 }
+                unset($schedules[$key]);
+                reset($schedules);
             }
             $sortedSchedules['excluded'] = $schedules;
+            if ($reset == 1) {
+                $sortedSchedules['included'] = array_udiff_assoc($sortedSchedules['included'], $schedules, array($this, "compare"));
+            }
         }
 
         return $sortedSchedules;
