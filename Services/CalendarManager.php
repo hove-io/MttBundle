@@ -173,7 +173,24 @@ class CalendarManager
             return $this->getCalendarsForStopPointAndTimetable($externalCoverageId, $timetable, $stopPointInstance);
         }
     }
-    
+
+    /**
+     * Generate value propriety of exceptions to display in view
+     */
+    private function generateAdditionalInformations($additionalInformationsId)
+    {
+        $additionalInformations = null;
+
+        if (!empty($additionalInformationsId)) {
+            $additionalInformations = $this->translator->trans(
+                    'calendar.schedules.additional_informations.' . $additionalInformationsId,
+                    array(),
+                    'messages'
+            );
+        }
+        return $additionalInformations;
+    }
+
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template
@@ -206,6 +223,7 @@ class CalendarManager
                 $stopSchedulesData->notes,
                 $this->generateExceptionsValues($stopSchedulesData->exceptions)
             );
+            $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
             $calendarsSorted[$calendar->id] = $calendar;
         }
         return $calendarsSorted;
@@ -247,6 +265,7 @@ class CalendarManager
                         $block->getContent()
                     );
                     $calendar = $this->addSchedulesToCalendar($calendar, $stopSchedulesData->stop_schedules);
+                    $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
                     $calendarsFiltered[$calendar->id] = $calendar;
                     //compute notes for the current timetable
                     $notesComputed = $this->computeNotes(

@@ -35,3 +35,9 @@ error:
 help:
     edit_block: Cliquer pour éditer ce bloc
     drop_here: Déposez les éléments ici
+
+calendar:
+    schedules:
+        additional_informations:
+            terminus: Terminus de ligne : pas d'horaires à cet arrêt
+            no_departure_this_day: Pas de départ prévu : pas d'horaires à cet arrêt
