@@ -1,7 +1,7 @@
 {% macro img(id, block, class, level) %}
     <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="img" class="block">
     {% if block %}
-        <img class="{{ class }}" src="{{ block.content }}" title="{{ block.title }}" alt="{{ block.alt }}" />
+        <img class="{{ class }}" src="{{ block.content }}" title="{{ block.title }}" alt="{{ block.title }}" />
     {% endif %}
     </div>
 {% endmacro %}
@@ -13,4 +13,96 @@
         <div class="content">{{ block.content|nl2br }}</div>
     {% endif %}
     </div>
+{% endmacro %}
+
+{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range) %}
+    {% if stopPointLevel == false and block %}
+        <tr>
+            <td colspan="{{hours_range|length}}" class="text-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle hide" data-toggle="dropdown">
+                        {{'layout.actions'|trans({}, 'default')}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu centered-dropdown text-left" role="menu">
+                        <li>
+                            <a data-toggle="modal" href="{{ 
+                                path(
+                                    'canal_tp_mtt_block_edit', 
+                                    {
+                                        'externalNetworkId':externalNetworkId,
+                                        'timetableId': timetable.id,
+                                        'dom_id' : dom_id,
+                                        'blockId' : block.id,
+                                        'block_type' : 'calendar'
+                                    }
+                                ) 
+                            }}" data-target="#base-modal">
+                                <span class="glyphicon glyphicon-calendar"></span> {{'calendar.form.label'|trans({}, 'default')}}
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="modal" href="{{ 
+                                path(
+                                    'canal_tp_mtt_frequency_edit', 
+                                    {
+                                        'externalNetworkId':externalNetworkId,
+                                        'blockId':block.id, 
+                                        'layoutId' : layout
+                                    }
+                                ) 
+                            }}" data-target="#base-modal">
+                                <span class="glyphicon glyphicon-pencil"></span> {{'frequency.form.label'|trans({}, 'default')}}
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="danger" href="{{ 
+                                path(
+                                    'canal_tp_mtt_block_delete', 
+                                    {
+                                        'externalNetworkId':externalNetworkId, 
+                                        'timetableId': timetable.id, 
+                                        'blockId': block.id
+                                    }
+                                ) 
+                            }}">
+                                <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    {% elseif calendar %}
+        {% set loopMax = calendar|calendarMax %}
+        {% for i in 0..loopMax %}
+            <tr class="{% if i % 2  == 0 %}even{% else %}odd{% endif %}">
+            {% for index,hour in hours_range %}
+                <td class="timegrid-column">
+                    {% set datetime = attribute(calendar.schedules.date_times, hour) %}
+                    {% if 
+                        hour|isWithinFrequency(block.frequencies, hours_range) == false 
+                        and datetime 
+                        and datetime|length > 0 
+                    %}
+                        {% if datetime[i] %}
+                            {{ datetime[i]|schedule(notes)|raw }}
+                        {% endif %}
+                    {% endif %}
+                    </td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% macro hours_thead(hours_range) %}
+    <tr>
+        {% for i in hours_range %}
+            <td class="timegrid-column hour-label">{{i}}{{ 'global.hour_label'|trans }}</td>
+        {% endfor %}
+    </tr>
+{% endmacro %}
+
+{% macro frequency(id, block, level) %}
 {% endmacro %}

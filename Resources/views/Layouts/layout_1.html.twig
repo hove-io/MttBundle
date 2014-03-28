@@ -1,4 +1,5 @@
 {% import "CanalTPMttBundle:Layouts:macros.html.twig" as macros %}
+
 {% extends "CanalTPMttBundle:Layouts:base_layout.html.twig" %}
 
 {% block timetable_content %}
@@ -38,96 +39,24 @@
                             {% if block %}{{ block.title }}{% endif %}
                         </div>
                         <div class="timegrid-body relative" data-validate-height="1">
-                            {% set hours_range = layoutConfig.calendar_range|calendarRange %}
                             {% set calendar = attribute(calendars, block.content) %}
                             <!-- Frequencies -->
                             {% if (calendar.schedules.additional_informations is not empty) %}
                                 <div class="external-additional-informations">{{ calendar.schedules.additional_informations }}</div>
                             {% endif %}
                             <table>
-                                <tr>
-                                {% for i in hours_range %}
-                                    <td class="timegrid-column hour-label">{{i}}{{ 'global.hour_label'|trans }}</td>
-                                {% endfor %}
-                                </tr>
+                                {% set hours_range = layoutConfig.calendar_range|calendarRange %}
+                                {{ macros.hours_thead(hours_range)}}
                                 {% if block.frequencies|length > 0 %}
                                     {%  
                                         include "CanalTPMttBundle:Frequency:display.html.twig" 
-                                        with { 'frequencies' : block.frequencies, 'hours_range' : hours_range } 
+                                        with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
                                     %}
                                 {% endif %}
-                            {% if stopPointLevel == false and block %}
-                                <tr>
-                                    <td colspan="{{hours_range|length}}" class="text-center">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle hide" data-toggle="dropdown">
-                                                {{'layout.actions'|trans({}, 'default')}} <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu centered-dropdown text-left" role="menu">
-                                                <li>
-                                                    <a data-toggle="modal" href="{{ 
-                                                        path(
-                                                            'canal_tp_mtt_block_edit', 
-                                                            {
-                                                                'externalNetworkId':externalNetworkId,
-                                                                'timetableId': timetable.id,
-                                                                'dom_id' : id,
-                                                                'blockId' : block.id,
-                                                                'block_type' : 'calendar'
-                                                            }
-                                                        ) 
-                                                    }}" data-target="#base-modal">
-                                                        <span class="glyphicon glyphicon-calendar"></span> {{'calendar.form.label'|trans({}, 'default')}}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a data-toggle="modal" href="{{ 
-                                                        path(
-                                                            'canal_tp_mtt_frequency_edit', 
-                                                            {
-                                                                'externalNetworkId':externalNetworkId,
-                                                                'blockId':block.id, 
-                                                                'layoutId' : layout
-                                                            }
-                                                        ) 
-                                                    }}" data-target="#base-modal">
-                                                        <span class="glyphicon glyphicon-pencil"></span> {{'frequency.form.label'|trans({}, 'default')}}
-                                                    </a>
-                                                </li>
-                                                <li class="divider"></li>
-                                                <li>
-                                                    <a class="danger" href="{{ path('canal_tp_mtt_block_delete', {'externalNetworkId':externalNetworkId, 'timetableId': timetable.id, 'blockId': block.id}) }}">
-                                                        <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans}}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% elseif calendar %}
-                                {% set loopMax = calendar|calendarMax %}
-                                {% for i in 0..loopMax %}
-                                    <tr class="{% if i % 2  == 0 %}even{% else %}odd{% endif %}">
-                                    {% for index,hour in hours_range %}
-                                        <td class="timegrid-column">
-                                            {% set datetime = attribute(calendar.schedules.date_times, hour) %}
-                                            {% if 
-                                                hour|isWithinFrequency(block.frequencies, hours_range) == false 
-                                                and datetime 
-                                                and datetime|length > 0 
-                                            %}
-                                                {% if datetime[i] %}
-                                                    {{ datetime[i]|schedule(notes)|raw }}
-                                                {% endif %}
-                                            {% endif %}
-                                            </td>
-                                    {% endfor %}
-                                    </tr>
-                                {% endfor %}
-                            {% endif %}
+                                {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range) }}
                             </table>
                             
-                            {# position is specific to this layout ie i== 1... #}
+                            {# position is specific to this layout ie i==1... #}
                             {% if i == 1 and notes|length > 0 %}
                                 <div class="timetable-notes">
                                 {% for note in notes %}
@@ -145,32 +74,15 @@
 
 {# mutualize it #}
 {% block scripts %}
-    {# <pre>{{ dump(calendars) }}</pre> #}
-    {% if stopPointLevel == false %}
-        {% set stopPointJs = false %}
-    {% else %}
-        {% set stopPointJs = stopPoint.externalId %}
-    {% endif %}
-
-    <script>
-    {% if editable == true %}
-    require(['jquery', 'mtt/layout', 'bootstrap'], function($, Layout){
-        var layout = Layout.init(
-            $('#layout-1-wrapper'),
-            {{ blockTypes|json_encode()|raw }},
-            {{timetable.id|raw}},
-            {{externalNetworkId|json_encode()|raw}},
-            {{stopPointJs|json_encode()|raw}}
-        );
-    });
-    {% endif %}
-    {% if stopPointLevel != false %}
-        require(['jquery', 'mtt/layout/validator', 'bootstrap'], function($, Validator){
-            var validator = Validator.init({
-                'wrapper'       : $('#layout-1-wrapper')
-            });
-            validator.validate();
-        });
-    {% endif %}
-    </script>
+    {% 
+        include 'CanalTPMttBundle:Layouts:common.js.twig' 
+        with { 
+            'editable'          : editable, 
+            'stopPointLevel'    : stopPointLevel, 
+            'externalNetworkId' : externalNetworkId, 
+            'blockTypes'        : blockTypes, 
+            'timetable'         : timetable, 
+            'stopPoint'         : stopPoint, 
+            'selector'          : '#layout-1-wrapper' }
+    %}
 {% endblock %}

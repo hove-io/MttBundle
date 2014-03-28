@@ -1,0 +1,28 @@
+{# <pre>{{ dump(calendars) }}</pre> #}
+{% if stopPointLevel == false %}
+    {% set stopPointJs = false %}
+{% else %}
+    {% set stopPointJs = stopPoint.externalId %}
+{% endif %}
+
+<script>
+{% if editable == true %}
+require(['jquery', 'mtt/layout', 'bootstrap'], function($, Layout){
+    var layout = Layout.init(
+        $('{{ selector }}'),
+        {{ blockTypes|json_encode()|raw }},
+        {{timetable.id|raw}},
+        {{externalNetworkId|json_encode()|raw}},
+        {{stopPointJs|json_encode()|raw}}
+    );
+});
+{% endif %}
+{% if stopPointLevel != false %}
+    require(['jquery', 'mtt/layout/validator', 'bootstrap'], function($, Validator){
+        var validator = Validator.init({
+            'wrapper'       : $('{{ selector }}')
+        });
+        validator.validate();
+    });
+{% endif %}
+</script>
