@@ -22,13 +22,10 @@
                     {% for i in 1..4 %}
                         {% set id = 'text_block_' ~ i %}
                         {% if i == 4 %}
-                            {% set block = attribute(stopPoint.blocks, id) %}
-                            {% set level = 'stop_point' %}
+                            {{ macros.text(id, attribute(stopPoint.blocks, id), 'stop_point') }}
                         {% else %}
-                            {% set block = attribute(timetable.blocks, id) %}
-                            {% set level = 'route' %}
+                            {{ macros.text(id, attribute(timetable.blocks, id), 'route') }}
                         {% endif %}
-                        {{ macros.text(id, block, level) }}
                     {% endfor %}
                 </div>
             </div>
