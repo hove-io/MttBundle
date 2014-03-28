@@ -49,6 +49,7 @@
                     "id": "network:TAN"
                 }
             ],
+            "additional_informations": "no_departure_this_day",
             "date_times": [
                 {
                     "date_time": "T061900",
