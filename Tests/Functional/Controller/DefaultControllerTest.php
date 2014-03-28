@@ -22,7 +22,8 @@ class DefaultControllerTest extends AbstractControllerTest
             )
         );
         $crawler = $this->client->request('GET', $route);
-        
-        $this->assertTrue($crawler->filter('.panel-group > .panel')->count() > 0, "Expected at least one mode for this user.");
+        $modes_count = $crawler->filter('ul#lines-accordion > li.mode-wrapper')->count();
+        // var_dump($this->client->getResponse());die;
+        $this->assertTrue($modes_count > 0, "Expected at least one mode for this user. Found :$modes_count");
     }
 }
