@@ -1,41 +1,41 @@
 parameters:
-    permissions:
-        BUSINESS_ASSIGN_USER_PERIMETER:
-            label: Assigner un périmètre à un utilisateur
-            description: Permet de lister les différents réseaux disponibles et d'attribuer une liste de réseaux à un utilisateur
-        BUSINESS_ASSIGN_NETWORK_LAYOUT:
-            label: Assigner un modèle à un réseau
-            description: Permet dans l'application d'indiquer quels templates sont utilisables pour chaque réseau
-        BUSINESS_SEE_USERS_PERIMETER:
-            label: Voir les utilisateurs
-            description: Permet de lister les utilisateurs du périmètre courant
-        BUSINESS_MANAGE_USER_PERIMETER:
-            label: Gérer les utilisateurs dans son périmètre (PROFIL)
-            description: Permet de créer modifier et supprimer des utilisateurs dans le périmètre courant. Un rôle par défaut leur est alors attribué.
-        BUSINESS_ASSIGN_USER_ROLE:
-            label: Assigner un rôle à un utilisateur
-            description: Permet de visualiser les permissions associées à chaque rôle et d'attribuer et de retirer un rôle à un utilisateur ROLE PAR DEFAUT = OBSERVATEUR
-        BUSINESS_MANAGE_ROLE:
-            label: Gérer les rôles
-            description: Permet de créer et supprimer des rôles
-        BUSINESS_MANAGE_PERMISSION:
-            label: Modifier les permissions des rôles
-            description: Permet de modifier les permissions des différents rôles
-        BUSINESS_VIEW_NAVITIA_LOG:
-            label: AJOUTER VISU INFO DEBUG
-            description: comming soon !
-        BUSINESS_CHOOSE_LAYOUT:
-            label: Choisir les modèles
-            description: Permet de choisir un modèle pour chaque ligne puis de le modifier ultérieurement
-        BUSINESS_EDIT_LAYOUT:
-            label: Éditer les fiches horaires
-            description: Permet d'éditer les fiches horaires au niveau arrêt et au niveau route.
-        BUSINESS_MANAGE_SEASON:
-            label: Gérer les saisons
-            description: Permet de créer de modifier (changer le nom le statut ou les dates) et supprimer une saison
-        BUSINESS_MANAGE_DISTRIBUTION_LIST:
-            label: Gérer la liste de distribution
-            description: Permet de modifier et de sauvergarder les modifications dans les listes de gestion de la distribution
-        BUSINESS_GENERATE_PDF:
-            label: Générer les PDF
-            description: Permet de générer les PDF d'une fiche horaire à l'arrêt et d'une liste de distribution
+    mtt.permissions:
+            BUSINESS_ASSIGN_USER_PERIMETER:
+                label: Assigner un périmètre à un utilisateur
+                description: Permet de lister les différents réseaux disponibles et d'attribuer une liste de réseaux à un utilisateur
+            BUSINESS_ASSIGN_NETWORK_LAYOUT:
+                label: Assigner un modèle à un réseau
+                description: Permet dans l'application d'indiquer quels templates sont utilisables pour chaque réseau
+            BUSINESS_SEE_USERS_PERIMETER:
+                label: Voir les utilisateurs
+                description: Permet de lister les utilisateurs du périmètre courant
+            BUSINESS_MANAGE_USER_PERIMETER:
+                label: Gérer les utilisateurs dans son périmètre (PROFIL)
+                description: Permet de créer modifier et supprimer des utilisateurs dans le périmètre courant. Un rôle par défaut leur est alors attribué.
+            BUSINESS_ASSIGN_USER_ROLE:
+                label: Assigner un rôle à un utilisateur
+                description: Permet de visualiser les permissions associées à chaque rôle et d'attribuer et de retirer un rôle à un utilisateur ROLE PAR DEFAUT = OBSERVATEUR
+            BUSINESS_MANAGE_ROLE:
+                label: Gérer les rôles
+                description: Permet de créer et supprimer des rôles
+            BUSINESS_MANAGE_PERMISSION:
+                label: Modifier les permissions des rôles
+                description: Permet de modifier les permissions des différents rôles
+            BUSINESS_VIEW_NAVITIA_LOG:
+                label: AJOUTER VISU INFO DEBUG
+                description: comming soon !
+            BUSINESS_CHOOSE_LAYOUT:
+                label: Choisir les modèles
+                description: Permet de choisir un modèle pour chaque ligne puis de le modifier ultérieurement
+            BUSINESS_EDIT_LAYOUT:
+                label: Éditer les fiches horaires
+                description: Permet d'éditer les fiches horaires au niveau arrêt et au niveau route.
+            BUSINESS_MANAGE_SEASON:
+                label: Gérer les saisons
+                description: Permet de créer de modifier (changer le nom le statut ou les dates) et supprimer une saison
+            BUSINESS_MANAGE_DISTRIBUTION_LIST:
+                label: Gérer la liste de distribution
+                description: Permet de modifier et de sauvergarder les modifications dans les listes de gestion de la distribution
+            BUSINESS_GENERATE_PDF:
+                label: Générer les PDF
+                description: Permet de générer les PDF d'une fiche horaire à l'arrêt et d'une liste de distribution
