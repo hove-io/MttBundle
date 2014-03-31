@@ -210,7 +210,7 @@ class CalendarManager
             $externalRouteId,
             $externalStopPointId
         );
-        $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
+        $calendarsSorted = isset($calendarsData->calendars) ? $this->sortCalendars($calendarsData->calendars) : array();
         foreach ($calendarsSorted as $calendar) {
             $stopSchedulesData = $this->navitia->getCalendarStopSchedulesByRoute(
                 $externalCoverageId,
