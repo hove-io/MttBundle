@@ -16,8 +16,9 @@
 {% endmacro %}
 
 {% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range) %}
+    {% set loopMax = calendar|calendarMax %}
     {% if stopPointLevel == false and block %}
-        <tr>
+        <tr style="height:0px;position:absolute;">
             <td colspan="{{hours_range|length}}" class="text-center">
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle hide" data-toggle="dropdown">
@@ -73,12 +74,12 @@
                 </div>
             </td>
         </tr>
-    {% elseif calendar %}
-        {% set loopMax = calendar|calendarMax %}
-        {% for i in 0..loopMax %}
-            <tr class="{% if i % 2  == 0 %}even{% else %}odd{% endif %}">
-            {% for index,hour in hours_range %}
-                <td class="timegrid-column">
+    {% endif %}
+    {% for i in 0..loopMax - 1 %}
+        <tr class="{% if i % 2  == 0 %}even{% else %}odd{% endif %}">
+        {% for index,hour in hours_range %}
+            <td class="timegrid-column">
+                {% if calendar and calendar.schedules.additional_informations is null %}
                     {% set datetime = attribute(calendar.schedules.date_times, hour) %}
                     {% if 
                         hour|isWithinFrequency(block.frequencies, hours_range) == false 
@@ -89,11 +90,11 @@
                             {{ datetime[i]|schedule(notes)|raw }}
                         {% endif %}
                     {% endif %}
-                    </td>
-            {% endfor %}
-            </tr>
+                {% endif %}
+            </td>
         {% endfor %}
-    {% endif %}
+        </tr>
+    {% endfor %}
 {% endmacro %}
 
 {% macro hours_thead(hours_range) %}

@@ -94,7 +94,15 @@ class Navitia
     public function getRouteData($routeExternalId, $externalCoverageId)
     {
         $response = $this->navitia_iussaad->getRoute($externalCoverageId, $routeExternalId);
-        
+        if (!isset($response->routes) || empty($response->routes)) {
+            throw new \Exception(
+                $this->translator->trans(
+                    'services.navitia.no_data_for_this_route', 
+                    array('%RouteId%' => $routeExternalId), 
+                    'exceptions'
+                )
+            );
+        }
         return ($response->routes[0]);
     }
 

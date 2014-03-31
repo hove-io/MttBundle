@@ -81,8 +81,8 @@
 #timetables-wrapper .timegrid-body{
     background-color: white;
     /* Not working with wkhtmltopdf */
-    background-image: linear-gradient(transparent 50%, rgb(249, 231, 241) 50%); 
-    background-size:28px 28px;
+    /* background-image: linear-gradient(transparent 50%, rgb(249, 231, 241) 50%);  */
+    /* background-size:28px 28px; */
     height: 183px;
     width:100%;
 }
@@ -124,4 +124,25 @@
 .timegrid-body tr{
     height:14px;
 }
-.timegrid-body tr.even {background: rgb(249, 231, 241)}
+.timegrid-body tr.even {background-color: #F9E7F1}
+
+.timegrid-body .empty-timegrid tr.odd,
+.timegrid-body .empty-timegrid tr.even{
+    background-color: #F9E7F1;
+}
+#timegrid_block_4.timegrid-container .timegrid-header{
+    background-color: #A8A9AD;
+}
+/**
+ * Layout 2
+ */
+#layout-1-wrapper.layout-2-overload .timegrid-body tr.even{
+    background-color:#E7E7F3;
+}
+#layout-1-wrapper.layout-2-overload #timegrid_block_2.timegrid-container .timegrid-header{
+    background-color: #6C6D70;
+}
+#layout-1-wrapper.layout-2-overload .timegrid-body .empty-timegrid tr.odd,
+#layout-1-wrapper.layout-2-overload .timegrid-body .empty-timegrid tr.even{
+    background-color: #E7E7F3;
+}

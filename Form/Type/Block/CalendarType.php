@@ -40,7 +40,7 @@ class CalendarType extends BlockType
                 'choice',
                 array(
                     'choices'       => $this->choices,
-                    'disabled'      => count($this->choices) == 1 && $this->blockInstance->getContent() != null,
+                    'disabled'      => $this->isDisabled(),
                     'label'         => 'calendar.form.label',
                     'attr'      => array(
                         // attribute to tell javascript to fill automatically title
@@ -53,6 +53,11 @@ class CalendarType extends BlockType
         parent::buildForm($builder, $options);
     }
 
+    private function isDisabled()
+    {
+        return (count($this->choices) == 1 && $this->blockInstance->getContent() != null);
+    }
+    
     /*
      * @function filter calendars and remove already used calendars by others in the parent timetable
      */
@@ -90,8 +95,10 @@ class CalendarType extends BlockType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         if ($form->get('content')->isDisabled()) {
-            $form->addError(new FormError(''));
             $form->get('content')->addError(new FormError('calendar.error.all_calendars_selected'));
+        }
+        else if (count($this->choices) == 0) {
+            $form->get('content')->addError(new FormError('calendar.error.no_calendars_found'));
         }
     }
 

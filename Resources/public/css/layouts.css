@@ -81,7 +81,8 @@ body.editable{
     line-height: 14px;
 }
 .centered-dropdown{
-    margin-left:-100px;
+    margin-left:150px;
+    margin-top: 10px;
 }
 .timegrid-body table .frequencies-row{
     height: 0px;
