@@ -60,29 +60,30 @@ class StopPointRepository extends EntityRepository
         return $stopPoint;
     }
 
-    private function getLastUpdate($timetable)
+    private function isUpToDate($pdfGenerationDate, $blocks)
     {
-        $lastUpdate = null;
-        foreach ($timetable->getBlocks() as $block) {
-            if ($block->getUpdated() != null && $block->getUpdated() > $lastUpdate) {
-                $lastUpdate = $block->getUpdated();
+        foreach ($blocks as $block) {
+            if ($block->getUpdated() != null && $block->getUpdated() > $pdfGenerationDate) {
+                return (false);
             }
         }
-
-        return $lastUpdate;
+        return (true);
     }
 
     public function hasPdfUpToDate($stopPoint, $timetable)
     {
-            // no stop point
-        if (empty($stopPoint) ||
+        $timetableRepo = $this->getEntityManager()->getRepository('CanalTPMttBundle:Timetable');
+
+        // no stop point
+        return (empty($stopPoint) ||
             // no pdf generated yet => return FALSE
             $stopPoint->getPdfGenerationDate() == null ||
-            // line was modified after pdf generation
-            $this->getLastUpdate($timetable) > $stopPoint->getPdfGenerationDate()) {
-            return false;
-        } else {
-            return true;
-        }
+            // timetable was modified after pdf generation
+            ($this->isUpToDate(
+                $stopPoint->getPdfGenerationDate(),
+                $timetableRepo->findBlocksByTimetableIdOnly($timetable->getId())
+            ) &&
+            $this->isUpToDate($stopPoint->getPdfGenerationDate(), $stopPoint->getBlocks()))
+        );
     }
 }
