@@ -17,12 +17,10 @@
 
 {% macro centered_text(id, block, level, class) %}
     <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text" class="centered-text-block {{ class }}">
-    {% if block %}
-        <div class="title">{{ block.title }}</div>
+        <div class="title">{% if block %}{{ block.title }}{% endif %}</div>
         <div class="relative">
-            <div class="content"><p>{{ block.content|nl2br }}</p></div>
+            <div class="content"><p>{% if block %}{{ block.content|nl2br }}{% endif %}</p></div>
         </div>
-    {% endif %}
     </div>
 {% endmacro %}
 
