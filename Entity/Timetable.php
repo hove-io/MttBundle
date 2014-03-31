@@ -45,11 +45,6 @@ class Timetable extends AbstractEntity
     /**
      * @var Object - non persistent
      */
-    private $line;
-
-    /**
-     * @var Object - non persistent
-     */
     private $line_config;
 
     /**
@@ -198,30 +193,5 @@ class Timetable extends AbstractEntity
     public function getLineConfig()
     {
         return $this->line_config;
-    }
-    
-    //TODO: remove setLine and getLine and use setLineConfig and getLineConfig in Timetable manager at least
-    
-     /**
-     * Set line
-     *
-     * @param  Object $line
-     * @return Route
-     */
-    public function setLine($line)
-    {
-        $this->line = $line;
-
-        return $this;
-    }
-
-    /**
-     * Get line
-     *
-     * @return Object
-     */
-    public function getLine()
-    {
-        return $this->line;
     }
 }

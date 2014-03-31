@@ -12,7 +12,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class LineManager
 {
-    private $line = null;
+    private $lineConfig = null;
     private $navitia = null;
     private $repository = null;
     private $om = null;
@@ -20,18 +20,18 @@ class LineManager
 
     public function __construct(Container $co, ObjectManager $om, Navitia $navitia)
     {
-        $this->line = null;
+        $this->lineConfig = null;
         $this->container = $co;
         $this->navitia = $navitia;
         $this->om = $om;
         $this->repository = $this->om->getRepository('CanalTPMttBundle:LineConfig');
     }
 
-    private function initTwigPath()
+    public function initTwigPath($lineConfig)
     {
         $layouts = $this->container->getParameter('layouts');
 
-        $this->line->setTwigPath($layouts[$this->line->getLayout()]['twig']);
+        $lineConfig->setTwigPath($layouts[$lineConfig->getLayout()]['twig']);
     }
 
     /**
@@ -40,13 +40,15 @@ class LineManager
      * @param  string $externalLineId
      * @return line
      */
+     // TODO: remove this when refactoring distribution List
+     // Actual problem: returns first line config for this externalLineId, was done before seasons...
     public function getLineConfigByExternalLineId($externalLineId)
     {
-        $this->line = $this->repository->findOneByExternalLineId($externalLineId);
+        $this->lineConfig = $this->repository->findOneByExternalLineId($externalLineId);
 
-        $this->initTwigPath();
+        $this->initTwigPath($this->lineConfig);
 
-        return $this->line;
+        return $this->lineConfig;
     }
 
     /**
@@ -57,16 +59,16 @@ class LineManager
      */
     public function getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
     {
-        $this->line = $this->repository->findOneBy(
+        $this->lineConfig = $this->repository->findOneBy(
             array(
                 'externalLineId' => $externalLineId,
                 'season' => $seasonId
             )
         );
 
-        $this->initTwigPath();
+        $this->initTwigPath($this->lineConfig);
 
-        return $this->line;
+        return $this->lineConfig;
     }
 
     /**
@@ -75,13 +77,13 @@ class LineManager
      * @param  Integer $lineId
      * @return line
      */
-    public function getLine($lineId)
+    public function getLineConfig($lineConfigId)
     {
-        $this->line = $this->repository->find($lineId);
+        $this->lineConfig = $this->repository->find($lineId);
 
         $this->initTwigPath();
 
-        return $this->line;
+        return $this->lineConfig;
     }
     
     /**

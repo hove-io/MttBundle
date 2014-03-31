@@ -3,7 +3,7 @@
 {% extends "CanalTPMttBundle:Layouts:base_layout.html.twig" %}
 
 {% block timetable_content %}
-    <div id="layout-1-wrapper">
+    <div id="layout-1-wrapper" class="{% block additionnal_wrapper_class %}{% endblock %}">
         <div class="layout-container">
             <div id="header" class="clearfix">
                 <div id="direction-title-wrapper" data-block-level="route" data-auto-filled="1">
@@ -72,7 +72,6 @@
     </div>
 {% endblock %}
 
-{# mutualize it #}
 {% block scripts %}
     {% 
         include 'CanalTPMttBundle:Layouts:common.js.twig' 

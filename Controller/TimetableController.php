@@ -83,9 +83,9 @@ class TimetableController extends AbstractController
             $timetable,
             $stopPointData['stopPointInstance']
         );
-        
+
         return $this->render(
-            'CanalTPMttBundle:Layouts:' . $timetable->getLine()->getTwigPath(),
+            'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getTwigPath(),
             array(
                 'timetable'             => $timetable,
                 'externalNetworkId'     => $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalId(),
@@ -98,8 +98,8 @@ class TimetableController extends AbstractController
                 'calendars'             => $calendarsAndNotes['calendars'],
                 'notes'                 => $calendarsAndNotes['notes'],
                 'blockTypes'            => $this->container->getParameter('blocks'),
-                'layoutConfig'          => $layoutsConfig[$timetable->getLine()->getLayout()],
-                'layout'                => $timetable->getLine()->getLayout(),
+                'layoutConfig'          => $layoutsConfig[$timetable->getLineConfig()->getLayout()],
+                'layout'                => $timetable->getLineConfig()->getLayout(),
                 'editable'              => $editable
             )
         );
@@ -160,7 +160,7 @@ class TimetableController extends AbstractController
                 'externalRouteId'    => $timetable->getExternalRouteId()
             )
         );
-        $pdfPath = $pdfGenerator->getPdf($url, $timetable->getLine()->getLayout());
+        $pdfPath = $pdfGenerator->getPdf($url, $timetable->getLineConfig()->getLayout());
 
         if ($pdfPath) {
             $pdfMedia = $this->saveMedia($timetable->getId(), $externalStopPointId, $pdfPath);

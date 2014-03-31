@@ -1,7 +1,7 @@
 parameters:
     layouts:
         layout_1:
-            label: Layout 1 de type paysage (exemple Dijon)
+            label: Layout 1 de type paysage (Dijon 1)
             twig: layout_1.html.twig
             preview: /bundles/canaltpmtt/img/layout_1.png
             orientation: landscape
@@ -9,8 +9,8 @@ parameters:
                 start: 4
                 end: 1
         layout_2:
-            label: Layout 2 de type paysage (exemple Brest)
-            twig: layout_1.html.twig
+            label: Layout 2 de type paysage (Dijon 2)
+            twig: layout_2.html.twig
             preview: /bundles/canaltpmtt/img/layout_2.png
             orientation: landscape
             calendar_range:

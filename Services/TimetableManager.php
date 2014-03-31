@@ -34,9 +34,9 @@ class TimetableManager
     private function initAdditionalData($externalRouteId, $externalCoverageId)
     {
         $data = $this->navitia->getRouteData($externalRouteId, $externalCoverageId);
-        $line = $this->lineManager->getLineConfigByExternalLineId($data->line->id);
+        $lineConfig = $this->timetable->getLineConfig();
+        $this->lineManager->initTwigPath($lineConfig);
 
-        $this->timetable->setLine($line);
         $this->timetable->setTitle($data->name);
         $this->calendars = $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId);
     }

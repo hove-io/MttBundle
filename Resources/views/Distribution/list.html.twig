@@ -111,8 +111,12 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
         });
         return stopPoints_ids;
     };
-    
+    var under_progress = false;
     $('#save-distribution-list').click(function(){
+        if (under_progress == true) {
+            return false;
+        }
+        under_progress = true;
         var $link = $(this);
         $link.find('span.glyphicon-refresh').toggleClass('icon-refresh-animate display-none');
         $link.find('span.glyphicon-floppy-disk').toggle();
@@ -123,6 +127,7 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
                 $link.attr('href'),
                 {"stopPointsIds[]" : stopPoints_ids}
             ).done(function(data, textStatus){
+                under_progress = false;
                 window.location = $link.attr('href');
             });
         }
