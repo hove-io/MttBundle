@@ -169,3 +169,22 @@ textarea {
 #left-menu.toggable-left-menu ul.back-btn-wrapper{
     border-bottom:1px solid black;
 }
+@-webkit-keyframes "rotateThis" {
+  from { -webkit-transform: rotate( 0deg );   }
+  to   { -webkit-transform: rotate( 360deg ); }
+}
+@keyframes "rotateThis" {
+  from { transform: rotate( 0deg );   }
+  to   { transform: rotate( 360deg ); }
+}
+.icon-refresh-animate {
+  animation-name: rotateThis;
+  -webkit-animation-name: rotateThis;
+  animation-duration: .5s;
+  -webkit-animation-duration: .5s;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  -webkit-animation-timing-function: linear;
+}
+ 
