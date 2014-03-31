@@ -5,6 +5,9 @@
 .bold{font-weight:bold;}
 .pad10t{padding-top:10px;}
 .pad30t{padding-top:30px;}
+.relative{
+    position:relative;
+}
 .modal-dialog {
     width:800px;
 }

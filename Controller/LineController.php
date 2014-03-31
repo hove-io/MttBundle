@@ -28,7 +28,7 @@ class LineController extends AbstractController
             $em->flush();
 
             $this->get('session')->getFlashBag()->add(
-                'notice',
+                'success',
                 $this->get('translator')->trans('line.layout_chosen', array(), 'default')
             );
         }

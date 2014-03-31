@@ -6,8 +6,8 @@
     </div>
 {% endmacro %}
 
-{% macro text(id, block, level) %}
-    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text" class="small-block block">
+{% macro text(id, block, level, class) %}
+    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text" class="{{ class }}">
     {% if block %}
         <div class="title">{{ block.title }}</div>
         <div class="content">{{ block.content|nl2br }}</div>
@@ -15,10 +15,21 @@
     </div>
 {% endmacro %}
 
+{% macro centered_text(id, block, level, class) %}
+    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text" class="centered-text-block {{ class }}">
+    {% if block %}
+        <div class="title">{{ block.title }}</div>
+        <div class="relative">
+            <div class="content"><p>{{ block.content|nl2br }}</p></div>
+        </div>
+    {% endif %}
+    </div>
+{% endmacro %}
+
 {% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range) %}
     {% set loopMax = calendar|calendarMax %}
     {% if stopPointLevel == false and block %}
-        <tr style="height:0px;position:absolute;">
+        <tr class="hidden-tr-4-dropdown">
             <td colspan="{{hours_range|length}}" class="text-center">
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle hide" data-toggle="dropdown">
