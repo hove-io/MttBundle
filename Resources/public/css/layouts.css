@@ -112,3 +112,7 @@ body.editable{
     padding:10px;
     vertical-align: middle;
 }
+.hidden-tr-4-dropdown{
+    height:0px;
+    position:absolute;
+}

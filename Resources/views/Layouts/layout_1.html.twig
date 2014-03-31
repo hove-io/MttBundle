@@ -23,53 +23,55 @@
                     {% for i in 1..4 %}
                         {% set id = 'text_block_' ~ i %}
                         {% if i == 4 %}
-                            {{ macros.text(id, attribute(stopPoint.blocks, id), 'stop_point') }}
+                            {{ macros.text(id, attribute(stopPoint.blocks, id), 'stop_point', 'small-block block') }}
                         {% else %}
-                            {{ macros.text(id, attribute(timetable.blocks, id), 'route') }}
+                            {{ macros.text(id, attribute(timetable.blocks, id), 'route', 'small-block block') }}
                         {% endif %}
                     {% endfor %}
                 </div>
             </div>
-            <div id="timetables-wrapper" class="clearfix">
-                {% for i in 1..4 %}
-                    {% set id = 'timegrid_block_' ~ i %}
-                    {% set block = attribute(timetable.blocks, id) %}
-                    <div title="{{ 'help.edit_block'|trans }}" id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
-                        <div class="timegrid-header">
-                            {% if block %}{{ block.title }}{% endif %}
-                        </div>
-                        <div class="timegrid-body relative" data-validate-height="1">
-                            {% set calendar = attribute(calendars, block.content) %}
-                            <!-- Frequencies -->
-                            {% if (calendar.schedules.additional_informations is not empty) %}
-                                <div class="external-additional-informations">{{ calendar.schedules.additional_informations }}</div>
-                                <table class="empty-timegrid">
-                            {% else %}
-                                <table>
-                            {% endif %}
-                                {% set hours_range = layoutConfig.calendar_range|calendarRange %}
-                                {{ macros.hours_thead(hours_range)}}
-                                {% if block.frequencies|length > 0 and (calendar.schedules.additional_informations is empty) %}
-                                    {%  
-                                        include "CanalTPMttBundle:Frequency:display.html.twig" 
-                                        with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
-                                    %}
+            {% block timetables_wrapper %}
+                <div id="timetables-wrapper" class="clearfix">
+                    {% for i in 1..4 %}
+                        {% set id = 'timegrid_block_' ~ i %}
+                        {% set block = attribute(timetable.blocks, id) %}
+                        <div title="{{ 'help.edit_block'|trans }}" id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
+                            <div class="timegrid-header">
+                                {% if block %}{{ block.title }}{% endif %}
+                            </div>
+                            <div class="timegrid-body relative" data-validate-height="1">
+                                {% set calendar = attribute(calendars, block.content) %}
+                                <!-- Frequencies -->
+                                {% if (calendar.schedules.additional_informations is not empty) %}
+                                    <div class="external-additional-informations">{{ calendar.schedules.additional_informations }}</div>
+                                    <table class="empty-timegrid">
+                                {% else %}
+                                    <table>
                                 {% endif %}
-                                {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range) }}
-                            </table>
-                            
-                            {# position is specific to this layout ie i==1... #}
-                            {% if i == 1 and notes|length > 0 %}
-                                <div class="timetable-notes">
-                                {% for note in notes %}
-                                    <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
-                                {% endfor %}
-                                </div>
-                            {% endif %}
+                                    {% set hours_range = layoutConfig.calendar_range|calendarRange %}
+                                    {{ macros.hours_thead(hours_range)}}
+                                    {% if block.frequencies|length > 0 and (calendar.schedules.additional_informations is empty) %}
+                                        {%  
+                                            include "CanalTPMttBundle:Frequency:display.html.twig" 
+                                            with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
+                                        %}
+                                    {% endif %}
+                                    {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range) }}
+                                </table>
+                                
+                                {# position is specific to this layout ie i==1... #}
+                                {% if i == 1 and notes|length > 0 %}
+                                    <div class="timetable-notes">
+                                    {% for note in notes %}
+                                        <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
+                                    {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
+                    {% endfor %}
+                </div>
+            {% endblock %}
         </div>
     </div>
 {% endblock %}
