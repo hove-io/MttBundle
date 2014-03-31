@@ -25,6 +25,9 @@ CanalTP\MttBundle\Entity\LineConfig:
             gedmo:
                 timestampable:
                     on: update
+    uniqueConstraints:
+        season_exernal_line_idx:
+            columns: [ season_id, external_line_id ]
     oneToMany:
         timetables:
             targetEntity: Timetable

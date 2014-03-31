@@ -55,7 +55,7 @@
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a href="{{ path('canal_tp_mtt_distribution_list', {'externalNetworkId': externalNetworkId, 'lineId': externalLineId, 'routeId': externalRouteId}) }}">
+                    <a href="{{ path('canal_tp_mtt_distribution_list', {'externalNetworkId': externalNetworkId, 'lineId': externalLineId, 'routeId': externalRouteId, 'currentSeasonId': selectedSeason.id}) }}">
                         <span class="glyphicon glyphicon-list"></span> {{'line.manage_distribution'|trans({}, 'default')}}
                     </a>
                 </li>

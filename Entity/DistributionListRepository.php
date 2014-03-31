@@ -26,9 +26,12 @@ class DistributionListRepository extends EntityRepository
         return $a->stop_point->id === $b->stop_point->id ? 0 : 1;
     }
     
-    public function sortSchedules($schedules, $timetable, $reset = false)
+    public function sortSchedules($schedules, $networkId, $externalRouteId, $reset = false)
     {
-        $distributionList = $this->findOneByTimetable($timetable);
+        $distributionList = $this->findOneBy(array(
+            'network' => $networkId,
+            'externalRouteId' => $externalRouteId
+        ));
         $sortedSchedules = array();
         $sortedSchedules['included'] = array();
         $sortedSchedules['excluded'] = array();

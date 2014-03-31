@@ -10,7 +10,7 @@ use CanalTP\MttBundle\Entity\DistributionList;
 
 class DistributionController extends AbstractController
 {
-    public function saveAction($externalNetworkId, $lineId, $routeId)
+    public function saveAction($externalNetworkId, $lineId, $routeId, $currentSeasonId)
     {
         $stopPointsIds = $this->get('request')->request->get('stopPointsIds', array());
         if (!empty($stopPointsIds)) {
@@ -19,17 +19,21 @@ class DistributionController extends AbstractController
             $network = $networkManager->findOneByExternalId($externalNetworkId);
             $timetable = $this
                 ->get('canal_tp_mtt.timetable_manager')
-                ->getTimetable($routeId, $network->getExternalCoverageId(), $lineManager->getLineConfigByExternalLineId($lineId));
+                ->getTimetable(
+                    $routeId,
+                    $network->getExternalCoverageId(),
+                    $lineManager->getLineConfigByExternalLineIdAndSeasonId($lineId, $currentSeasonId)
+                );
             $this->saveList($timetable, $stopPointsIds);
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 $this->get('translator')->trans('distribution.confirm_order_saved', array(), 'default')
             );
         }
-        return $this->redirect($this->generateUrl('canal_tp_mtt_distribution_list', array('externalNetworkId' => $externalNetworkId, 'lineId' => $lineId, 'routeId' => $routeId)));
+        return $this->redirect($this->generateUrl('canal_tp_mtt_distribution_list', array('externalNetworkId' => $externalNetworkId, 'lineId' => $lineId, 'routeId' => $routeId, 'currentSeasonId' => $currentSeasonId)));
     }
     
-    public function listAction($externalNetworkId, $lineId, $routeId, $reset = false)
+    public function listAction($externalNetworkId, $lineId, $routeId, $currentSeasonId, $reset = false)
     {
         $this->isGranted('BUSINESS_MANAGE_DISTRIBUTION_LIST');
         $navitia = $this->get('sam_navitia');
@@ -40,14 +44,18 @@ class DistributionController extends AbstractController
         $routes = $navitia->getStopPoints($network->getExternalCoverageId(), $externalNetworkId, $lineId, $routeId);
         $timetable = $this
             ->get('canal_tp_mtt.timetable_manager')
-            ->getTimetable($routeId, $network->getExternalCoverageId(), $lineManager->getLineConfigByExternalLineId($lineId));
+            ->getTimetable(
+                $routeId,
+                $network->getExternalCoverageId(),
+                $lineManager->getLineConfigByExternalLineIdAndSeasonId($lineId, $currentSeasonId)
+            );
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $schedules = $stopPointManager->enhanceStopPoints($routes->route_schedules[0]->table->rows, $timetable);
         $schedules = $this
             ->getDoctrine()
             ->getRepository('CanalTPMttBundle:DistributionList')
-            ->sortSchedules($schedules, $timetable, $reset);
+            ->sortSchedules($schedules, $network->getId(), $routeId, $reset);
 
         return $this->render(
             'CanalTPMttBundle:Distribution:list.html.twig',
@@ -56,9 +64,10 @@ class DistributionController extends AbstractController
                 'schedules'         => $schedules,
                 'current_route'     => $routeId,
                 'externalNetworkId' => $externalNetworkId,
+                'seasons'           => $network->getSeasons(),
                 'currentSeasonId'   => $timetable->getLineConfig()->getSeason()->getId(),
-                'line_id'           => $lineId,
-                'route_id'          => $routeId,
+                'externalLineId'    => $lineId,
+                'externalRouteId'   => $routeId,
             )
         );
     }
@@ -126,11 +135,14 @@ class DistributionController extends AbstractController
 
     private function saveList($timetable, $stopPointsIncluded)
     {
+        $distributionListManager = $this->get('canal_tp.mtt.distribution_list');
         $distribList = $this->getDoctrine()->getRepository('CanalTPMttBundle:DistributionList');
-        $distribListInstance = $distribList->findOneByTimetable($timetable);
+        $distribListInstance = $distributionListManager->findByTimetable($timetable);
+
         if (empty($distribListInstance)) {
             $distribListInstance = new DistributionList();
-            $distribListInstance->setTimetable($timetable);
+            $distribListInstance->setNetwork($timetable->getLineConfig()->getSeason()->getNetwork());
+            $distribListInstance->setExternalRouteId($timetable->getExternalRouteId());
         }
         $distribListInstance->setIncludedStops($stopPointsIncluded);
         $this->getDoctrine()->getManager()->persist($distribListInstance);

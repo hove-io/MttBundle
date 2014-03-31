@@ -65,7 +65,7 @@ canal_tp_mtt_block_delete:
 
 #DistributionList
 canal_tp_mtt_distribution_list:
-    pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/distribution/list/{reset}
+    pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/distribution/season/{currentSeasonId}/list/{reset}
     defaults: { _controller: CanalTPMttBundle:Distribution:list, reset: null}
 
 canal_tp_mtt_distribution_generate:
@@ -75,11 +75,10 @@ canal_tp_mtt_distribution_generate:
         expose: true
 
 canal_tp_mtt_distribution_list_save:
-    pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/distribution/list/save/
+    pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/season/{currentSeasonId}/distribution/list/save/
     defaults: { _controller: CanalTPMttBundle:Distribution:save}
     options:
         expose: true
-        
 #Calendar
 canal_tp_mtt_calendar_view:
     pattern: /calendars/view/network/{externalNetworkId}/route/{externalRouteId}/stopPoint/{externalStopPointId}/season/{currentSeasonId}

@@ -40,23 +40,6 @@ class LineManager
      * @param  string $externalLineId
      * @return line
      */
-     // TODO: remove this when refactoring distribution List
-     // Actual problem: returns first line config for this externalLineId, was done before seasons...
-    public function getLineConfigByExternalLineId($externalLineId)
-    {
-        $this->lineConfig = $this->repository->findOneByExternalLineId($externalLineId);
-
-        $this->initTwigPath($this->lineConfig);
-
-        return $this->lineConfig;
-    }
-
-    /**
-     * Return line Object with navitia data added
-     *
-     * @param  string $externalLineId
-     * @return line
-     */
     public function getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
     {
         $this->lineConfig = $this->repository->findOneBy(

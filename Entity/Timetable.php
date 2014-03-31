@@ -30,11 +30,6 @@ class Timetable extends AbstractEntity
     /**
      * @var Object
      */
-    private $ditributionLists;
-
-    /**
-     * @var Object
-     */
     private $network;
 
     /**

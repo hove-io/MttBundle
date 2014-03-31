@@ -32,6 +32,9 @@ CanalTP\MttBundle\Entity\Network:
             mappedBy: network
             orderBy: 
                 startDate: ASC
+        ditributionLists:
+            targetEntity: DistributionList
+            mappedBy: network
     manyToMany:
         users:
             targetEntity: CanalTP\SamEcoreUserManagerBundle\Entity\User

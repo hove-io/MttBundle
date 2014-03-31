@@ -17,6 +17,7 @@ parameters:
     canal_tp.mtt.navitia_debug_matcher.class: CanalTP\MttBundle\Profiler\NavitiaDebugMatcher
     canal_tp.mtt.season_copier.class: CanalTP\MttBundle\Services\SeasonCopier
     canal_tp.mtt.media_manager.class: CanalTP\MttBundle\Services\MediaManager
+    canal_tp.mtt.distribution_list.class: CanalTP\MttBundle\Services\DistributionListManager
 
 services:
     # Service of mediaManager
@@ -90,6 +91,10 @@ services:
     canal_tp_mtt.network_manager:
        class: %canal_tp_mtt.network.class%
        arguments: ['@doctrine.orm.entity_manager']
+    # Service of distribution list
+    canal_tp.mtt.distribution_list:
+        class: %canal_tp.mtt.distribution_list.class%
+        arguments: ['@doctrine.orm.entity_manager']
     # Business Objects
     canal_tp.mtt.business.module:
         class: %canal_tp.mtt.business_module.class%

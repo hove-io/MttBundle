@@ -1,6 +1,6 @@
 CanalTP\MttBundle\Entity\DistributionList:
     type: entity
-    table: mtt.distributionlist
+    table: mtt.distribution_list
     repositoryClass: CanalTP\MttBundle\Entity\DistributionListRepository
     fields:
         id:
@@ -8,12 +8,13 @@ CanalTP\MttBundle\Entity\DistributionList:
             id: true
             generator:
                 strategy: IDENTITY
+        externalRouteId:
+            type: string
+            length: 255
+            column: external_route_id
         includedStops:
             type: array
             column: included_stops
-        excludedStops:
-            type: array
-            column: excluded_stops
         created:
             type: datetime
             gedmo:
@@ -24,10 +25,13 @@ CanalTP\MttBundle\Entity\DistributionList:
             gedmo:
                 timestampable:
                     on: update
+    uniqueConstraints:
+        network_external_route_idx:
+            columns: [ network_id, external_route_id ]
     manyToOne:
-        timetable:
-            targetEntity: Timetable
-            inversedBy: mtt.ditributionLists
+        network:
+            targetEntity: Network
+            inversedBy: mtt.ditribution_lists
             joinColumn:
-                name: timetable_id
+                name: network_id
                 referencedColumnName: id

@@ -1,5 +1,34 @@
 {% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
 
+{% block subheader %}
+    <div class="col-md-offset-3 col-md-9">
+        {% if seasons|length == 0 %}
+            {{'season.please_create_before_continue'|trans({}, 'default')}}
+            <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'network_id': externalNetworkId}) }}">
+                {{'season.create'|trans({}, 'default')}}
+            </a>
+        {% else %}
+            <ul class="nav nav-tabs nav-justified">
+                {% for season in seasons %}
+                    <li{% if currentSeasonId == season.id %} class="active"{% endif %}>
+                        <a href="{{ path(
+                            'canal_tp_mtt_distribution_list',
+                            {
+                                'externalNetworkId':externalNetworkId, 
+                                'lineId':externalLineId,
+                                'routeId':externalRouteId,
+                                'currentSeasonId':season.id
+                            }
+                        ) }}">
+                            {{ season.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}
+
 {% block left_menu %}
     {{ render(controller('CanalTPMttBundle:Default:navigation', {  'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season': currentSeasonId })) }}
 {% endblock %}
@@ -11,12 +40,12 @@
                 <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
             </button>
             -
-            <a id="save-distribution-list" class="btn btn-primary" href="{{ path('canal_tp_mtt_distribution_list_save',{'externalNetworkId':externalNetworkId, 'lineId': line_id, 'routeId': current_route}) }}">
+            <a id="save-distribution-list" class="btn btn-primary" href="{{ path('canal_tp_mtt_distribution_list_save',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeasonId}) }}">
                 <span class="glyphicon glyphicon-refresh display-none"></span>
                 <span class="glyphicon glyphicon-floppy-disk"></span> {{'distribution.save_order'|trans({}, 'default')}}
             </a>
             -
-            <a class="btn btn-default" href="{{ path('canal_tp_mtt_distribution_list',{'externalNetworkId':externalNetworkId, 'lineId': line_id, 'routeId': current_route, 'reset':true}) }}">
+            <a class="btn btn-default" href="{{ path('canal_tp_mtt_distribution_list',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeasonId, 'reset':true}) }}">
                 <span class="glyphicon glyphicon-sort-by-attributes"></span> {{'distribution.reset_order'|trans({}, 'default')}}
             </a>
         </h3>

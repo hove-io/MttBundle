@@ -33,6 +33,11 @@ class Network extends AbstractEntity
     private $seasons;
 
     /**
+     * @var Object
+     */
+    private $ditributionLists;
+
+    /**
      * Get id
      *
      * @return integer
@@ -120,5 +125,29 @@ class Network extends AbstractEntity
         $this->users[] = $user;
 
         return ($this);
-    }    
+    }
+
+    /**
+     * Set distributionList
+     *
+     * @param integer $distributionList
+     *
+     * @return DistributionList
+     */
+    public function setDistributionList($distributionList)
+    {
+        $this->distributionList = $distributionList;
+
+        return $this;
+    }
+
+    /**
+     * Get distributionList
+     *
+     * @return Object
+     */
+    public function getDistributionList()
+    {
+        return $this->ditributionLists;
+    }
 }

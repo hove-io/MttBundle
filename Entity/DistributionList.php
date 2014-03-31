@@ -18,9 +18,14 @@ class DistributionList
     private $includedStops;
 
     /**
-     * @var array
+     * @var string
      */
-    private $excludedStops;
+    private $externalRouteId;
+
+    /**
+     * @var Object
+     */
+    private $network;
 
     /**
      * @var \DateTime
@@ -31,11 +36,6 @@ class DistributionList
      * @var \DateTime
      */
     private $updated;
-
-    /**
-     * @var Object
-     */
-    private $timetable;
 
     /**
      * Get id
@@ -71,50 +71,50 @@ class DistributionList
     }
 
     /**
-     * Set excludedStops
+     * Set externalRouteId
      *
-     * @param  array            $excludedStops
-     * @return DistributionList
+     * @param  string    $externalRouteId
+     * @return Timetable
      */
-    public function setExcludedStops($excludedStops)
+    public function setExternalRouteId($externalRouteId)
     {
-        $this->excludedStops = $excludedStops;
+        $this->externalRouteId = $externalRouteId;
 
         return $this;
     }
 
     /**
-     * Get excludedStops
-     *
-     * @return array
-     */
-    public function getExcludedStops()
-    {
-        return $this->excludedStops;
-    }
-
-    /**
-     * Set timetable
-     *
-     * @param integer $timetable
-     *
-     * @return Block
-     */
-    public function setTimetable($timetable)
-    {
-        $this->timetable = $timetable;
-
-        return $this;
-    }
-
-    /**
-     * Get timetable
+     * Get externalRouteId
      *
      * @return string
      */
-    public function getTimetable()
+    public function getExternalRouteId()
     {
-        return $this->timetable;
+        return $this->externalRouteId;
+    }
+
+    /**
+     * Set network
+     *
+     * @param integer $network
+     *
+     * @return DistributionList
+     */
+    public function setNetwork($network)
+    {
+        $this->network = $network;
+
+        return $this;
+    }
+
+    /**
+     * Get network
+     *
+     * @return string
+     */
+    public function getNetwork()
+    {
+        return $this->network;
     }
 
     /**

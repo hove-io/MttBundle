@@ -26,12 +26,12 @@ CanalTP\MttBundle\Entity\Timetable:
             gedmo:
                 timestampable:
                     on: update
+    uniqueConstraints:
+        timetable_external_route_idx:
+            columns: [ line_config_id, external_route_id ]
     oneToMany:
         blocks:
             targetEntity: Block
-            mappedBy: timetable
-        ditributionLists:
-            targetEntity: DistributionList
             mappedBy: timetable
         stopPoints:
             targetEntity: StopPoint
