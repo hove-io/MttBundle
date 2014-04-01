@@ -75,9 +75,8 @@ class StopPointRepository extends EntityRepository
         $timetableRepo = $this->getEntityManager()->getRepository('CanalTPMttBundle:Timetable');
 
         // no stop point
-        return (empty($stopPoint) ||
-            // no pdf generated yet => return FALSE
-            $stopPoint->getPdfGenerationDate() == null ||
+        // no pdf generated yet => return FALSE
+        return (!$stopPoint->getPdfGenerationDate() == null ||
             // timetable was modified after pdf generation
             ($this->isUpToDate(
                 $stopPoint->getPdfGenerationDate(),
