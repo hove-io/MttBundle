@@ -92,10 +92,10 @@ textarea {
     min-height:150px;
     width:100%;
 }
-#excluded-stops.empty-list span.help-block{
+.list-group.sortable.empty-list span.help-block{
     margin-top: 50px;
 }
-#excluded-stops.empty-list{
+.list-group.sortable.empty-list{
     border: 5px dashed #777;
     font-size: 35px;
     color: #777;
