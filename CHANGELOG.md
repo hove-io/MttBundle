@@ -1,3 +1,19 @@
+Notes de publication - MTT - Version 0.5.2 (01/04/2014)
+
+** Récit
+    * [METH-90] Prise en compte des exceptions (dates) dans les grilles horaires
+    * [METH-103] Menu navigation dans les pages d'édition des FH
+    * [METH-82] Texte spécifique à afficher aux arrêts Terminus
+    * [METH-97] Liste de distribution : rendre visible la possibilité de drag/drop
+    * [METH-69] Liste de distribution : trier les arrêts dans l'ordre de desserte
+    * [METH-70] Bouton sauvegarde de la liste de distribution
+    * [METH-108] Intégrer les permissions existantes
+    * [METH-100] Intégration d'un nouveau layout
+
+** Sous-tâche
+    * [METH-150] "Refactoring" du layout 
+    * [METH-149] Création d'un nouveau layout
+    
 Notes de publication - MTT - Version 0.5.1 (25/03/2014)
 
 ** Sous-tâche
