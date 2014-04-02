@@ -1,0 +1,25 @@
+{% extends "CanalTPMttBundle::modal.html.twig" %}
+
+{% block open_form %}
+    {{ form_start(form) }}
+{% endblock %}
+
+{% block modal_title %}
+    {{'network.create'|trans({}, 'default')}}
+{% endblock %}
+
+
+{% block modal_body %}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.external_coverage_id) }}
+
+    {{ form_row(form.external_id) }}
+{% endblock %}
+
+{% block modal_actions %}
+    <button type="submit" class="btn btn-success">
+        <span class="glyphicon glyphicon-pencil"></span> {{'global.save'|trans}}
+    </button>
+    {{ form_end(form) }}
+{% endblock %}

@@ -2,6 +2,10 @@
 
 {% block list_title -%}
     {{'network.list'|trans({}, 'default')}}
+    -
+    <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_network_edit') }}" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span> {{'network.create'|trans({}, 'default')}}
+    </a>
 {% endblock %}
 
 {% block table_head -%}
