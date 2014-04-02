@@ -20,7 +20,8 @@
             <div id="map-wrapper" class="clearfix">
                 {{ macros.img('line_map_block', attribute(timetable.blocks, 'line_map_block'), 'line_map_img', 'route') }}
                 <div id="small-right-blocks">
-                    {% for i in 1..4 %}
+                    {{ macros.season_validity(id, season, 'small-block') }}
+                    {% for i in 2..4 %}
                         {% set id = 'text_block_' ~ i %}
                         {% if i == 4 %}
                             {{ macros.text(id, attribute(stopPoint.blocks, id), 'stop_point', 'small-block block') }}

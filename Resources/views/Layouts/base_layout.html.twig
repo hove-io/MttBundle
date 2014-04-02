@@ -42,7 +42,7 @@
                 </li>
                 {% endif %}
             </ul>
-            {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': currentSeasonId})) }}
+            {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': season.id})) }}
             <div class="toggle-button">
                 <span class="glyphicon glyphicon-transfer"></span> 
             </div>

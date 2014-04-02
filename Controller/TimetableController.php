@@ -69,6 +69,10 @@ class TimetableController extends AbstractController
 
     private function renderLayout($timetable, $externalStopPointId, $editable = true)
     {
+        setlocale(LC_TIME, 'fr_FR.UTF-8');
+        putenv('LC_ALL=fr_FR');
+        setlocale(LC_ALL, 'fr_FR');
+        
         $layoutsConfig = $this->container->getParameter('layouts');
         $externalCoverageId = $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalCoverageId();
         
@@ -92,7 +96,7 @@ class TimetableController extends AbstractController
                 'externalRouteId'       => $timetable->getExternalRouteId(),
                 'externalCoverageId'    => $externalCoverageId,
                 'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
-                'currentSeasonId'       => $timetable->getLineConfig()->getSeason()->getId(),
+                'season'                => $timetable->getLineConfig()->getSeason(),
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],
                 'calendars'             => $calendarsAndNotes['calendars'],
