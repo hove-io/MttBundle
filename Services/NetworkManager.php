@@ -30,4 +30,14 @@ class NetworkManager
     {
         return ($this->repository->findOneByExternalId($networkId));
     }
+
+    /**
+     * Return networks Object
+     *
+     * @return networks
+     */
+    public function findAll()
+    {
+        return ($this->repository->findAll());
+    }
 }

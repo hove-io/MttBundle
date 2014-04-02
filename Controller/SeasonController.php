@@ -10,7 +10,7 @@ class SeasonController extends AbstractController
 {
     private $seasonManager = null;
 
-    public function buildForm($networkId, $seasonId)
+    private function buildForm($networkId, $seasonId)
     {
         $form = $this->createForm(
             new SeasonType(

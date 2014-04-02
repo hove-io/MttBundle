@@ -37,6 +37,13 @@ class Builder extends ContainerAware
             )
         );
 
+        $menu->addChild(
+            "Gestion des réseaux",
+            array(
+                'route' => 'canal_tp_mtt_network_list'
+            )
+        );
+
         return $menu;
     }
 }
