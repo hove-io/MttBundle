@@ -12,9 +12,12 @@
     {% include 'CanalTPMttBundle::config.js.html.twig' %}
 {% endblock %}
 
+{#
+A partir de désormais et de dorénavant, le menu est rendu par SAM
 {% block navbar %}
     {{ knp_menu_render('CanalTPMttBundle:Builder:mttMenu', { 'style': 'navbar' }) }}
 {% endblock %}
+#}
 
 {% block title %}MTT{% endblock %}
 {% block navbar_brand %}MTT{% endblock %}
