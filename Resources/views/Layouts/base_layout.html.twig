@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block main_content %}
+    {% if (displayMenu) %}
     <div id="left-menu" class="toggable-left-menu no-print">
         <div class="submenu-wrapper">
             <ul class="nav nav-pills nav-stacked back-btn-wrapper">
@@ -48,10 +49,8 @@
             </div>
         </div>
     </div>
+    {% endif %}
     
-    <div>
-    </div>
-
     <div id="layout-main-wrapper"{% if editable == true %} class="editable"{% endif %}>
         {% block timetable_content %}{% endblock %}
     </div>
