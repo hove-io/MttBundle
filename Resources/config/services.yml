@@ -106,9 +106,3 @@ services:
     canal_tp.mtt.distribution_list:
         class: %canal_tp.mtt.distribution_list.class%
         arguments: ['@doctrine.orm.entity_manager']
-    # Business Objects
-    canal_tp.mtt.business.module:
-        class: %canal_tp.mtt.business_module.class%
-        arguments: ['@service_container']
-        tags:
-            -  { name: canal_tp.mtt.business_module }
