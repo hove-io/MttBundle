@@ -12,7 +12,7 @@ class TimetableControllerTest extends AbstractControllerTest
             'canal_tp_mtt_timetable_view',
             array(
                 'externalNetworkId' => 'network:Filbleu',
-                'externalLineId' => 'line:TTR:Nav68',
+                'externalLineId' => 'line:TTR:Nav62',
                 'externalRouteId' => 'route:TTR:Nav168',
                 'externalStopPointId' => 'stop_point:TTR:SP:STPGB-2',
                 "seasonId" => 1
@@ -24,6 +24,7 @@ class TimetableControllerTest extends AbstractControllerTest
     {
         $options["-e"] = "test";
         $options["-q"] = null;
+        $options["-n"] = true;
         $options = array_merge($options, array('command' => $command));
         
         return $this->_application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
@@ -32,9 +33,9 @@ class TimetableControllerTest extends AbstractControllerTest
     public function setUp()
     {
         parent::setUp();
-
+        
         $kernel = $this->client->getKernel();
-        // $kernel->boot();
+        
         $this->_application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
         $this->_application->setAutoExit(false);
         $this->runConsole("doctrine:schema:drop", array("--force" => true));
@@ -44,8 +45,8 @@ class TimetableControllerTest extends AbstractControllerTest
     
     private function initialization()
     {
-        $this->setService('doctrine.orm.entity_manager', $this->getMockedEm($this->getMockedRepository('TimetableRepository', $this->getMockedTimetable())));
         $crawler = $this->client->request('GET', $this->getViewRoute());
+
         // check response code is 200
         $this->assertEquals(
             200,
