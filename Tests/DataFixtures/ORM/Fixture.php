@@ -46,6 +46,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $network->setExternalCoverageId(Fixture::EXTERNAL_COVERAGE_ID);
 
         $em->persist($network);
+        
         return ($network);
     }
 
@@ -58,7 +59,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $season->setEndDate(new \DateTime("+6 month"));
 
         $em->persist($season);
-
+        
         return ($season);
     }
 
