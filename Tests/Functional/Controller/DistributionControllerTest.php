@@ -2,7 +2,7 @@
 
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
-class DsitributionControllerTest extends AbstractControllerTest
+class DistributionControllerTest extends AbstractControllerTest
 {
     private function getListRoute()
     {

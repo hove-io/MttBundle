@@ -23,5 +23,7 @@ class TimetableControllerTest extends AbstractControllerTest
     public function testIndex()
     {
         $crawler = $this->doRequestRoute($this->getViewRoute());
+        $blockTitle = $this->client->getContainer()->get('translator')->trans('season.block.title', array(), 'default');
+        $this->assertTrue($crawler->filter('html:contains("' . $blockTitle . '")')->count() == 1);
     }
 }
