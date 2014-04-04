@@ -2,7 +2,7 @@
 
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
-class DsitributionControllerTest extends AbstractControllerTest
+class DistributionControllerTest extends AbstractControllerTest
 {
     private function getListRoute()
     {
@@ -18,24 +18,10 @@ class DsitributionControllerTest extends AbstractControllerTest
         );
     }
 
-    private function initialization()
-    {
-        $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
-        $crawler = $this->client->request('GET', $this->getListRoute());
-        // check response code is 200
-        // var_dump($this->client->getResponse());die;
-        $this->assertEquals(
-            200,
-            $this->client->getResponse()->getStatusCode(),
-            'Response status NOK:' . $this->client->getResponse()->getStatusCode()
-        );
-        
-        return $crawler;
-    }
     
     // TODO
     // public function testCalendarsPresentViewAction()
     // {
-
+        // $this->doRequestRoute($route);
     // }
 }

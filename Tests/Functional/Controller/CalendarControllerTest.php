@@ -16,32 +16,25 @@ class CalendarControllerTest extends AbstractControllerTest
             )
         );
     }
-
-    private function initialization()
+    
+    public function setUp()
     {
+        // no db needed
+        parent::setUp(false);
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
-        $crawler = $this->client->request('GET', $this->getViewRoute());
-        // check response code is 200
-        $this->assertEquals(
-            200,
-            $this->client->getResponse()->getStatusCode(),
-            'Response status NOK:' . $this->client->getResponse()->getStatusCode()
-        );
-        
-        return $crawler;
     }
     
     public function testCalendarsPresentViewAction()
     {
-        $crawler = $this->initialization();
+        $crawler = $this->doRequestRoute($this->getViewRoute());
 
         $this->assertTrue($crawler->filter('h3')->count() == 1, 'Expected h3 title.');
-        $this->assertTrue($crawler->filter('.nav.nav-tabs > li')->count() == 4, 'Expected 4 calendars.');
+        $this->assertTrue($crawler->filter('.nav.nav-tabs > li')->count() == 4, 'Expected 4 calendars. Found ' . $crawler->filter('.nav.nav-tabs > li')->count());
     }
     
     public function testCalendarsNamesViewAction()
     {
-        $crawler = $this->initialization();
+        $crawler = $this->doRequestRoute($this->getViewRoute());
         // comes from the stub
         $calendarsName = array('Semaine scolaire', 'Semaine hors scolaire', "Samedi", "Dimanche et fêtes");
         foreach ($calendarsName as $name) {
@@ -54,7 +47,7 @@ class CalendarControllerTest extends AbstractControllerTest
     
     public function testHoursConsistencyViewAction()
     {
-        $crawler = $this->initialization();
+        $crawler = $this->doRequestRoute($this->getViewRoute());
         $nodeValues = $crawler->filter('.grid-time-column > div:first-child')->each(function ($node, $i) {
             return (int)substr($node->text(), 0, strlen($node->text() - 1));
         });
@@ -73,7 +66,7 @@ class CalendarControllerTest extends AbstractControllerTest
 
     public function testMinutesConsistencyViewAction()
     {
-        $crawler = $this->initialization();
+        $crawler = $this->doRequestRoute($this->getViewRoute());
         $nodeValues = $crawler->filter('.grid-time-column > div:not(:first-child)')->each(function ($node, $i) {
             $count = preg_match('/^([\d]+)/', $node->text(), $matches);
             if ($count == 1) {
@@ -96,7 +89,7 @@ class CalendarControllerTest extends AbstractControllerTest
     
     public function testfootnotesConsistencyViewAction()
     {
-        $crawler = $this->initialization();
+        $crawler = $this->doRequestRoute($this->getViewRoute());
         
         $this->assertTrue(
             $crawler->filter('html:contains("au plus tard la veille du déplacement du lundi au vendredi de 9h à 12h30 et de 13h30 à 16h30.")')->count() > 0, 
