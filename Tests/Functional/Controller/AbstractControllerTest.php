@@ -61,6 +61,7 @@ abstract class AbstractControllerTest extends WebTestCase
     
     private function mockDb()
     {
+        $this->runConsole("doctrine:schema:drop", array("--force" => true));
         $this->runConsole("doctrine:schema:create");
         $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures"));
     }
@@ -92,6 +93,11 @@ abstract class AbstractControllerTest extends WebTestCase
         $options = array_merge($options, array('command' => $command));
         
         return $this->_application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
+    }
+    
+    protected function getRepository($repositoryName)
+    {
+        return $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository($repositoryName);
     }
     
     protected function readStub($filename)
