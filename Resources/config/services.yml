@@ -20,6 +20,19 @@ parameters:
     canal_tp.mtt.distribution_list.class: CanalTP\MttBundle\Services\DistributionListManager
 
 services:
+    #TWIG extensions
+    twig.extension.intl:
+       class: Twig_Extensions_Extension_Intl
+       tags:
+           - { name: twig.extension }
+    canal_tp_mtt.twig.schedule_extension:
+        class: CanalTP\MttBundle\Twig\ScheduleExtension
+        tags:
+            - { name: twig.extension }
+    canal_tp_mtt.twig.calendar_extension:
+        class: CanalTP\MttBundle\Twig\CalendarExtension
+        tags:
+            - { name: twig.extension }
     # Service of mediaManager
     canal_tp.media_manager:
         class: %canal_tp.media_manager.class%
@@ -77,14 +90,6 @@ services:
     canal_tp_mtt.season_manager:
        class: %canal_tp_mtt.season.class%
        arguments: ['@doctrine.orm.entity_manager']
-    canal_tp_mtt.twig.schedule_extension:
-        class: CanalTP\MttBundle\Twig\ScheduleExtension
-        tags:
-            - { name: twig.extension }
-    canal_tp_mtt.twig.calendar_extension:
-        class: CanalTP\MttBundle\Twig\CalendarExtension
-        tags:
-            - { name: twig.extension }
     canal_tp_mtt.frequency_manager:
        class: %canal_tp_mtt.frequency_manager.class%
        arguments: ['@doctrine.orm.entity_manager']

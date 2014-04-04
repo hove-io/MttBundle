@@ -10,6 +10,7 @@ abstract class AbstractControllerTest extends WebTestCase
 {
     protected $client = null;
     protected $stubs_path = null;
+    protected $with_db = null;
     
     protected function getMockedNavitia()
     {
@@ -36,15 +37,68 @@ abstract class AbstractControllerTest extends WebTestCase
 
         return $navitia;
     }
-    
-    public function setUp()
+
+    protected function doRequestRoute($route, $expectedStatusCode = 200, $method = 'GET')
     {
-        ini_set('xdebug.max_nesting_level', 200);
+        $crawler = $this->client->request($method, $route);
+
+        // check response code is expectedStatusCode
+        $this->assertEquals(
+            $expectedStatusCode,
+            $this->client->getResponse()->getStatusCode(),
+            'Response status NOK:' . $this->client->getResponse()->getStatusCode()
+        );
+        
+        return $crawler;
+    }
+    
+    private function initConsole()
+    {
+        $kernel = $this->client->getKernel();
+        $this->_application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
+        $this->_application->setAutoExit(false);
+    }
+    
+    private function mockDb()
+    {
+        $this->runConsole("doctrine:schema:drop", array("--force" => true));
+        $this->runConsole("doctrine:schema:create");
+        $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures"));
+    }
+    
+    public function setUp($with_db = true)
+    {
+        $this->with_db = $with_db;
         $this->stubs_path = dirname(__FILE__) . '/stubs/';
-        $this->client = static::createClient(array(), array(
+        $this->client = static::createClient(
+            array(), 
+            array(
             'PHP_AUTH_USER' => 'mtt@canaltp.fr',
             'PHP_AUTH_PW'   => 'mtt',
-        ));
+            )
+        );
+
+        ini_set('xdebug.max_nesting_level', 200);
+        $this->initConsole();
+        if ($this->with_db) {
+            $this->runConsole("doctrine:schema:drop", array("--force" => true));
+            $this->mockDb();
+        }
+    }
+    
+    protected function runConsole($command, Array $options = array())
+    {
+        $options["-e"] = "test";
+        $options["-q"] = null;
+        $options["-n"] = true;
+        $options = array_merge($options, array('command' => $command));
+        
+        return $this->_application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
+    }
+    
+    protected function getRepository($repositoryName)
+    {
+        return $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository($repositoryName);
     }
     
     protected function readStub($filename)
@@ -60,5 +114,12 @@ abstract class AbstractControllerTest extends WebTestCase
     protected function setService($serviceIdentifier, $service)
     {
         return $this->client->getContainer()->set($serviceIdentifier, $service);
+    }
+    
+    public function tearDown()
+    {
+        if ($this->with_db) {
+            $this->runConsole("doctrine:schema:drop", array("--force" => true));
+        }
     }
 }

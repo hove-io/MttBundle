@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block main_content %}
+    {% if (displayMenu) %}
     <div id="left-menu" class="toggable-left-menu no-print">
         <div class="submenu-wrapper">
             <ul class="nav nav-pills nav-stacked back-btn-wrapper">
@@ -42,16 +43,14 @@
                 </li>
                 {% endif %}
             </ul>
-            {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': currentSeasonId})) }}
+            {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': season.id})) }}
             <div class="toggle-button">
                 <span class="glyphicon glyphicon-transfer"></span> 
             </div>
         </div>
     </div>
+    {% endif %}
     
-    <div>
-    </div>
-
     <div id="layout-main-wrapper"{% if editable == true %} class="editable"{% endif %}>
         {% block timetable_content %}{% endblock %}
     </div>

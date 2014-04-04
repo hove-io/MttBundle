@@ -102,14 +102,14 @@
 #layout-1-wrapper .small-block:last-child{
     border-bottom:none;
 }
-.editable #layout-1-wrapper .small-block:last-child:hover,
-.editable #layout-1-wrapper .small-block:hover{
+.editable #layout-1-wrapper .block.small-block:last-child:hover,
+.editable #layout-1-wrapper .block.small-block:hover{
     border: 1px dashed black;
 }
 #small-right-blocks{
     font-size:12px;
 }
-#small-right-blocks .block .title{
+#small-right-blocks .small-block .title{
     font-weight:bold;
 }
 .timegrid-body{

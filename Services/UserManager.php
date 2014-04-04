@@ -31,11 +31,12 @@ class UserManager
     /**
      * Retrieve current user networks
      */
-    public function getNetworks()
+    public function getNetworks($user)
     {
+
         $networks = $this->om
             ->getRepository('CanalTPMttBundle:Network')
-            ->findNetworksByUserId($this->sc->getToken()->getUser()->getId());
+            ->findNetworksByUserId($user->getId());
 
         if (count($networks) == 0) {
             throw new \Exception(
