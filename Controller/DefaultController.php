@@ -9,7 +9,9 @@ class DefaultController extends AbstractController
         $mtt_user = $this->get('canal_tp_mtt.user');
 
         // TODO: Put the current or default Network of User.
-        $network = $mtt_user->getNetworks();
+        $network = $mtt_user->getNetworks(
+            $this->get('security.context')->getToken()->getUser()
+        );
         return $this->render(
             'CanalTPMttBundle:Default:index.html.twig',
             array(

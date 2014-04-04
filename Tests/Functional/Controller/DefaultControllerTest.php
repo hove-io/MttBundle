@@ -21,9 +21,9 @@ class DefaultControllerTest extends AbstractControllerTest
                 'current_season' => 1
             )
         );
-        $crawler = $this->client->request('GET', $route);
+        $crawler = $this->doRequestRoute($route);
         $modes_count = $crawler->filter('ul#lines-accordion > li.mode-wrapper')->count();
-        // var_dump($this->client->getResponse());die;
+
         $this->assertTrue($modes_count > 0, "Expected at least one mode for this user. Found :$modes_count");
     }
 }

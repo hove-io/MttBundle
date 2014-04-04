@@ -65,3 +65,6 @@ season:
     start_date: Début
     end_date: Fin
     list: Liste des Saisons
+    block:
+        title: Horaires valables
+        content: du %startDate% au %endDate%

@@ -67,7 +67,7 @@ class TimetableController extends AbstractController
         return ($media);
     }
 
-    private function renderLayout($timetable, $externalStopPointId, $editable = true)
+    private function renderLayout($timetable, $externalStopPointId, $editable = true, $displayMenu = true)
     {
         $layoutsConfig = $this->container->getParameter('layouts');
         $externalCoverageId = $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalCoverageId();
@@ -92,7 +92,7 @@ class TimetableController extends AbstractController
                 'externalRouteId'       => $timetable->getExternalRouteId(),
                 'externalCoverageId'    => $externalCoverageId,
                 'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
-                'currentSeasonId'       => $timetable->getLineConfig()->getSeason()->getId(),
+                'season'                => $timetable->getLineConfig()->getSeason(),
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],
                 'calendars'             => $calendarsAndNotes['calendars'],
@@ -100,7 +100,8 @@ class TimetableController extends AbstractController
                 'blockTypes'            => $this->container->getParameter('blocks'),
                 'layoutConfig'          => $layoutsConfig[$timetable->getLineConfig()->getLayout()],
                 'layout'                => $timetable->getLineConfig()->getLayout(),
-                'editable'              => $editable
+                'editable'              => $editable,
+                'displayMenu'           => $displayMenu
             )
         );
     }
@@ -119,11 +120,12 @@ class TimetableController extends AbstractController
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
         
-        return $this->renderLayout($timetable, $externalStopPointId, true);
+        return $this->renderLayout($timetable, $externalStopPointId, true, true);
     }
     
     /*
      * Display a layout
+     * This action needs to be accessible by an anonymous user
      */
     public function viewAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
@@ -135,8 +137,9 @@ class TimetableController extends AbstractController
             $network->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
-        
-        return $this->renderLayout($timetable, $externalStopPointId, false);
+        $displayMenu = ($this->get('security.context')->getToken()->getUser() != 'anon.');
+
+        return $this->renderLayout($timetable, $externalStopPointId, false, $displayMenu);
     }
 
     public function generatePdfAction($timetableId, $externalNetworkId, $externalStopPointId)

@@ -15,6 +15,20 @@
     </div>
 {% endmacro %}
 
+{% macro season_validity(id, season, class) %}
+    <div id="{{ id }}" class="{{ class }}">
+    {% if season %}
+        <div class="title">{{'season.block.title'|trans({}, 'default')}}</div>
+            
+        {% set startDate = season.startDate.timestamp|localizeddate('long', 'none') %}
+        {% set endDate = season.endDate.timestamp|localizeddate('long', 'none') %}
+        <div class="content">
+            {{'season.block.content'|trans({'%startDate%':startDate, '%endDate%':endDate}, 'default')}}
+        </div>
+    {% endif %}
+    </div>
+{% endmacro %}
+
 {% macro centered_text(id, block, level, class) %}
     <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text" class="centered-text-block {{ class }}">
         <div class="title">{% if block %}{{ block.title }}{% endif %}</div>
