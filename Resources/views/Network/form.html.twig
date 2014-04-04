@@ -22,4 +22,29 @@
         <span class="glyphicon glyphicon-pencil"></span> {{'global.save'|trans}}
     </button>
     {{ form_end(form) }}
+    <script type="text/javascript">
+    require(['navitia'], function(Navitia){
+        var nav_api = new Navitia({
+            host: '{{ navitia_url }}',
+            version: 'v1',
+            api: 'coverage',
+        });
+        $('#mtt_network_external_coverage_id').change(function(){
+            var $select = $(this);
+            if ($select.val() != '') {
+                nav_api.getCoverageNetworks(
+                    $select.val(), 
+                    function(networks){
+                        console.dir(networks);
+                        var $networkSelect = $('#mtt_network_external_id').empty();
+                        for (var i in networks) {
+                            $networkSelect.append('<option value="' + networks[i].id + '">' + networks[i].name + '</option>');
+                        }
+                        $networkSelect.show();
+                    }
+                );
+            }
+        });
+    });
+    </script>
 {% endblock %}

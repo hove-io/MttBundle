@@ -42,17 +42,17 @@ class NetworkType extends AbstractType
                     'empty_value' => 'global.please_choose'
             )
         );
-        if ($this->networkExist) {            
-            $builder->add(
-                'external_id',
-                'choice',
-                    array(
-                        'choices' => array(),
-                        'empty_value' => 'global.please_choose'
-                )
-            );
-        } else {
-            $builder->add('external_id', 'hidden');
+        $builder->add(
+            'external_id',
+            'choice',
+                array(
+                    'choices' => array(),
+                    'empty_value' => 'global.please_choose',
+                    
+            )
+        );
+        if (!$this->networkExist) {            
+            $builder->get('external_id')->setAttribute('class', 'display-none');
         }
         $builder->setAction($options['action']);
     }
@@ -72,6 +72,6 @@ class NetworkType extends AbstractType
      */
     public function getName()
     {
-        return 'mtt_season';
+        return 'mtt_network';
     }
 }
