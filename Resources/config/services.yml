@@ -62,7 +62,7 @@ services:
             - { name: form.type, alias: datepicker }
     canal_tp_mtt.user:
        class: %canal_tp_mtt.user.class%
-       arguments: ['@doctrine.orm.entity_manager', '@security.context', '@translator']
+       arguments: ['@doctrine.orm.entity_manager', '@translator']
     canal_tp_mtt.navitia:
        class: %canal_tp_mtt.navitia.class%
        arguments: ['@navitia_component', '@sam_navitia', '@translator']
