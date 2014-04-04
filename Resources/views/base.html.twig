@@ -1,3 +1,5 @@
+{% extends "::base.html.twig" %}
+
 {% block stylesheets %}
     {% stylesheets 'css/bootstrap.css'
                     '../src/CanalTP/SamBundle/Resources/public/css/*'
@@ -14,10 +16,11 @@
 
 {#
 A partir de désormais et de dorénavant, le menu est rendu par SAM
+mais de plus tard
+#}
 {% block navbar %}
     {{ knp_menu_render('CanalTPMttBundle:Builder:mttMenu', { 'style': 'navbar' }) }}
 {% endblock %}
-#}
 
 {% block title %}MTT{% endblock %}
 {% block navbar_brand %}MTT{% endblock %}
