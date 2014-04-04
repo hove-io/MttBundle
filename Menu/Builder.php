@@ -18,7 +18,9 @@ class Builder extends ContainerAware
             array('route' => 'canal_tp_mtt_homepage')
         );
 
-        $networks = $userManager->getNetworks();
+        $networks = $userManager->getNetworks(
+            $this->container->get('security.context')->getToken()->getUser()
+        );
         foreach ($networks as $network) {
             $menu['network']->addChild(
                 $network['external_id'],
