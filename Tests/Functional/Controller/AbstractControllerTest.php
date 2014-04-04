@@ -81,6 +81,7 @@ abstract class AbstractControllerTest extends WebTestCase
         ini_set('xdebug.max_nesting_level', 200);
         $this->initConsole();
         if ($this->with_db) {
+            $this->runConsole("doctrine:schema:drop", array("--force" => true));
             $this->mockDb();
         }
     }
