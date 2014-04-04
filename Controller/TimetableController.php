@@ -138,7 +138,7 @@ class TimetableController extends AbstractController
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
         $displayMenu = ($this->get('security.context')->getToken()->getUser() != 'anon.');
-        
+
         return $this->renderLayout($timetable, $externalStopPointId, false, $displayMenu);
     }
 

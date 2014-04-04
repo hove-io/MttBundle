@@ -17,6 +17,10 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     const EXTERNAL_COVERAGE_ID = 'Centre';
     const EXTERNAL_NETWORK_ID = 'network:Filbleu';
     const EXTERNAL_LINE_ID = 'line:TTR:Nav62';
+    const EXTERNAL_ROUTE_ID = 'route:TTR:Nav168';
+    const EXTERNAL_STOP_POINT_ID = 'stop_point:TTR:SP:STPGB-2';
+    const SEASON_ID = 1;
+    
     
     private function createUser(ObjectManager $em, $data)
     {
