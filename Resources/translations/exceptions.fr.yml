@@ -1,5 +1,6 @@
 controller:
     default:
+        network_not_found_4_user: Nous n'avons pas trouvé ce réseau dans la liste à laquelle vous avez accès.
         navigation:
             no_networks: Veuillez demander à l'administrateur de vous donner accès à un Réseau
 services:

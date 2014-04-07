@@ -24,7 +24,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     
     private function createUser(ObjectManager $em, $data)
     {
-        //  On crée l'utilisateur admin akambi
+        //  On crée l'utilisateur admin 
         $user = new User();
         $user->setUsername($data['username']);
         $user->setFirstName($data['firstname']);
@@ -39,11 +39,11 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($user);
     }
 
-    private function createNetwork(ObjectManager $em)
+    public function createNetwork(ObjectManager $em, $externalNetworkId = Fixture::EXTERNAL_NETWORK_ID, $externalCoverageId = Fixture::EXTERNAL_COVERAGE_ID)
     {
         $network = new Network();
-        $network->setExternalId(Fixture::EXTERNAL_NETWORK_ID);
-        $network->setExternalCoverageId(Fixture::EXTERNAL_COVERAGE_ID);
+        $network->setExternalId($externalNetworkId);
+        $network->setExternalCoverageId($externalCoverageId);
 
         $em->persist($network);
         
