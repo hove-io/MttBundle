@@ -1,6 +1,6 @@
 canal_tp_mtt_homepage:
-    pattern:  /
-    defaults: { _controller: CanalTPMttBundle:Default:index }
+    pattern:  /{externalNetworkId}
+    defaults: { _controller: CanalTPMttBundle:Default:index , externalNetworkId: null}
 
 canal_tp_mtt_menu:
     pattern:  /navigation/network/{externalNetworkId}/season/{current_season}/route/{current_route}
