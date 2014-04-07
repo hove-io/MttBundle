@@ -7,6 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+
 
 class NetworkType extends AbstractType
 {
@@ -37,25 +40,46 @@ class NetworkType extends AbstractType
         $builder->add(
             'external_coverage_id',
             'choice',
-                array(
-                    'choices' => $this->coverages,
-                    'empty_value' => 'global.please_choose'
+            array(
+                'choices' => $this->coverages,
+                'empty_value' => 'global.please_choose'
             )
         );
         $builder->add(
             'external_id',
             'choice',
-                array(
-                    'choices' => array(),
-                    'empty_value' => 'global.please_choose',
-                    
+            array(
+                'choices' => array(),
+                'empty_value' => 'global.please_choose'
             )
         );
-        if (!$this->networkExist) {            
-            $builder->get('external_id')->setAttribute('class', 'display-none');
-        }
+
+        $formFactory = $builder->getFormFactory();
+        $callback = function(FormEvent $event) use ($formFactory)
+        {
+            $data = $event->getData();
+            $form = $event->getForm();
+            $form->remove('external_id');
+
+            $form->add(
+                $formFactory->createNamed(
+                    'external_id',
+                    'choice',
+                    null,
+                    array(
+                        'auto_initialize' => false,
+                        'choices' => array($data['external_id'] => $data['external_id'])
+                    )
+                )
+            );
+        };
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, $callback);
+        $builder->addEventListener(FormEvents::PRE_BIND, $callback);
+
         $builder->setAction($options['action']);
     }
+
 
     /**
      * @param OptionsResolverInterface $resolver

@@ -14,7 +14,8 @@
 
     {{ form_row(form.external_coverage_id) }}
 
-    {{ form_row(form.external_id) }}
+    {{ form_label(form.external_id, null, { 'label_attr': {'style': 'display:none;'} }) }}
+    {{ form_widget(form.external_id, { 'attr': {'style': 'display:none;'} }) }}
 {% endblock %}
 
 {% block modal_actions %}
@@ -40,7 +41,7 @@
                         for (var i in networks) {
                             $networkSelect.append('<option value="' + networks[i].id + '">' + networks[i].name + '</option>');
                         }
-                        $networkSelect.show();
+                        $networkSelect.show().siblings('label').show();
                     }
                 );
             }
