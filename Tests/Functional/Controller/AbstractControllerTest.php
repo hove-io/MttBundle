@@ -98,8 +98,14 @@ abstract class AbstractControllerTest extends WebTestCase
     
     protected function getRepository($repositoryName)
     {
-        return $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository($repositoryName);
+        return $this->getEm()->getRepository($repositoryName);
     }
+    
+    protected function getEm()
+    {
+        return $this->client->getContainer()->get('doctrine.orm.entity_manager');
+    }
+
     
     protected function readStub($filename)
     {

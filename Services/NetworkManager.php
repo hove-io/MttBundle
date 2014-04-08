@@ -30,4 +30,31 @@ class NetworkManager
     {
         return ($this->repository->findOneByExternalId($networkId));
     }
+
+    /**
+     * Return networks Object
+     *
+     * @return networks
+     */
+    public function findAll()
+    {
+        return ($this->repository->findAll());
+    }
+
+    /**
+     * Return network Object
+     *
+     * @param Integer $lineId
+     * @return networks
+     */
+    public function find($networkId)
+    {
+        return ($networkId ? $this->repository->find($networkId) : null);
+    }
+
+    public function save($network)
+    {
+        $this->om->persist($network);
+        $this->om->flush();
+    }
 }

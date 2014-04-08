@@ -1,6 +1,6 @@
 canal_tp_mtt_homepage:
-    pattern:  /
-    defaults: { _controller: CanalTPMttBundle:Default:index }
+    pattern:  /{externalNetworkId}
+    defaults: { _controller: CanalTPMttBundle:Default:index , externalNetworkId: null}
 
 canal_tp_mtt_menu:
     pattern:  /navigation/network/{externalNetworkId}/season/{current_season}/route/{current_route}
@@ -93,3 +93,9 @@ canal_tp_mtt_frequency_edit:
 canal_tp_mtt_network:
     pattern: /coverage/{coverage_id}/network/{network_id}/seasons/list
     defaults: { _controller: CanalTPMttBundle:Network:index }
+canal_tp_mtt_network_list:
+    pattern: /network/list
+    defaults: { _controller: CanalTPMttBundle:Network:list }
+canal_tp_mtt_network_edit:
+    pattern: /network/edit/{network_id}
+    defaults: { _controller: CanalTPMttBundle:Network:edit, network_id: null}

@@ -1,0 +1,51 @@
+{% extends "CanalTPMttBundle::modal.html.twig" %}
+
+{% block open_form %}
+    {{ form_start(form) }}
+{% endblock %}
+
+{% block modal_title %}
+    {{'network.create'|trans({}, 'default')}}
+{% endblock %}
+
+
+{% block modal_body %}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.external_coverage_id) }}
+
+    {{ form_label(form.external_id, null, { 'label_attr': {'style': 'display:none;'} }) }}
+    {{ form_widget(form.external_id, { 'attr': {'style': 'display:none;'} }) }}
+{% endblock %}
+
+{% block modal_actions %}
+    <button type="submit" class="btn btn-success">
+        <span class="glyphicon glyphicon-pencil"></span> {{'global.save'|trans}}
+    </button>
+    {{ form_end(form) }}
+    <script type="text/javascript">
+    require(['navitia'], function(Navitia){
+        var nav_api = new Navitia({
+            host: '{{ navitia_url }}',
+            version: 'v1',
+            api: 'coverage',
+        });
+        $('#mtt_network_external_coverage_id').change(function(){
+            var $select = $(this);
+            if ($select.val() != '') {
+                nav_api.getCoverageNetworks(
+                    $select.val(), 
+                    function(networks){
+                        console.dir(networks);
+                        var $networkSelect = $('#mtt_network_external_id').empty();
+                        for (var i in networks) {
+                            $networkSelect.append('<option value="' + networks[i].id + '">' + networks[i].name + '</option>');
+                        }
+                        $networkSelect.show().siblings('label').show();
+                    }
+                );
+            }
+        });
+    });
+    </script>
+{% endblock %}

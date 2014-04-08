@@ -68,6 +68,19 @@ class Navitia
         return ($response->lines[0]->name);
     }
 
+    // TODO: Move this function in SamBundle
+    /**
+     * Returns coverages
+     *
+     * @return coverages
+     */
+    public function getCoverages()
+    {
+        $query = array('api' => 'coverage');
+
+        return $this->navitia_component->call($query);
+    }
+
     /**
      * Returns Stop Point title
      *

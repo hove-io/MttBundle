@@ -1,0 +1,35 @@
+{% extends "CanalTPMttBundle::generic_list.html.twig" %}
+
+{% block list_title -%}
+    {{'network.list'|trans({}, 'default')}}
+    -
+    <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_network_edit') }}" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span> {{'network.create'|trans({}, 'default')}}
+    </a>
+{% endblock %}
+
+{% block table_head -%}
+    <th>{{'network.external_coverage_id'|trans({}, 'default')}}</th>
+    <th>{{'network.external_id'|trans({}, 'default')}}</th>
+{% endblock %}
+
+{% block table_body -%}
+    {% if networks|length == 0 %}
+        <tr>
+            <td colspan="4">
+                {{'global.no_items'|trans}}
+            </td>
+        </tr>
+    {% else %}
+        {% for network in networks %}
+            <tr>
+                <td>
+                    {{ network.externalCoverageId }}
+                </td>
+                <td>
+                    {{ network.externalId }}
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

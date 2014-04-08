@@ -1,0 +1,4 @@
+CanalTP\MttBundle\Entity\Network:
+    properties:
+        externalId:
+            - CanalTP\MttBundle\Validator\Constraints\ConstainsNavitiaNetworkId: ~

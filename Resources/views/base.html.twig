@@ -19,7 +19,8 @@ A partir de désormais et de dorénavant, le menu est rendu par SAM
 mais de plus tard
 #}
 {% block navbar %}
-    {{ knp_menu_render('CanalTPMttBundle:Builder:mttMenu', { 'style': 'navbar' }) }}
+    {% set menuItem = knp_menu_get('CanalTPMttBundle:Builder:mttMenu', [], {'currentNetwork':externalNetworkId }) %}
+    {{ knp_menu_render(menuItem, {'style': 'navbar', 'currentClass': 'active'}) }}
 {% endblock %}
 
 {% block title %}MTT{% endblock %}

@@ -4,19 +4,38 @@ namespace CanalTP\MttBundle\Controller;
 
 class DefaultController extends AbstractController
 {
-    public function indexAction()
+    private function findNetwork($externalNetworkId, $networks)
+    {
+        foreach ($networks as $network) {
+            if ($network['external_id'] == $externalNetworkId) {
+                return $network;
+            }
+        }
+        throw new \Exception(
+            $this->get('translator')->trans(
+                'controller.default.network_not_found_4_user', 
+                array(), 
+                'exceptions'
+            )
+        );
+        
+    }
+    
+    public function indexAction($externalNetworkId = null)
     {
         $mtt_user = $this->get('canal_tp_mtt.user');
 
         // TODO: Put the current or default Network of User.
-        $network = $mtt_user->getNetworks(
+        $networks = $mtt_user->getNetworks(
             $this->get('security.context')->getToken()->getUser()
         );
+        $currentNetwork = $externalNetworkId == null ? $networks[0] : $this->findNetwork($externalNetworkId, $networks);
+
         return $this->render(
             'CanalTPMttBundle:Default:index.html.twig',
             array(
-                'network'           => $network[0],
-                'externalNetworkId' => $network[0]['external_id']
+                'network'           => $currentNetwork,
+                'externalNetworkId' => $currentNetwork['external_id']
             )
         );
     }
