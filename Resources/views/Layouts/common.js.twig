@@ -9,7 +9,7 @@
 {% if editable == true %}
 require(['jquery', 'mtt/layout', 'bootstrap'], function($, Layout){
     var layout = Layout.init(
-        $('{{ selector }}'),
+        $('{{ selector|raw }}'),
         {{ blockTypes|json_encode()|raw }},
         {{timetable.id|raw}},
         {{externalNetworkId|json_encode()|raw}},
@@ -17,12 +17,12 @@ require(['jquery', 'mtt/layout', 'bootstrap'], function($, Layout){
     );
 });
 {% endif %}
-{% if stopPointLevel != false %}
-    require(['jquery', 'mtt/layout/validator', 'bootstrap'], function($, Validator){
-        var validator = Validator.init({
-            'wrapper'       : $('{{ selector }}')
-        });
-        validator.validate();
+require(['jquery', 'mtt/layout/validator', 'bootstrap'], function($, Validator){
+    var validator = Validator.init({
+        'wrapper'       : $('{{ selector|raw }}')
     });
+    validator.validate();
+});
+{% if stopPointLevel != false %}
 {% endif %}
 </script>
