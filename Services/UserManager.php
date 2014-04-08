@@ -8,26 +8,22 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 class UserManager
 {
     private $om = null;
-    private $sc = null;
     private $translator = null;
-    
+
     public function __construct(
         ObjectManager $om,
-        SecurityContext $sc,
         Translator $translator
     )
     {
         $this->om = $om;
-        $this->sc = $sc;
         $this->translator = $translator;
     }
-    
+
     /**
      * Retrieve current user networks
      */
@@ -41,8 +37,8 @@ class UserManager
         if (count($networks) == 0) {
             throw new \Exception(
                 $this->translator->trans(
-                    'controller.default.navigation.no_networks', 
-                    array(), 
+                    'controller.default.navigation.no_networks',
+                    array(),
                     'exceptions'
                 )
             );

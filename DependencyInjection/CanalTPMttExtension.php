@@ -32,5 +32,8 @@ class CanalTPMttExtension extends Extension implements ExtensionInterface
         $loader->load('layouts.yml');
         $loader->load('blocks.yml');
         $loader->load('permissions.yml');
+        $loader->load('permissions.yml');
+
+        $container->setParameter('validator.mapping.loader.yaml_files_loader.mapping_files', array(__DIR__.'/../Resources/config/validation.yml'));
     }
 }
