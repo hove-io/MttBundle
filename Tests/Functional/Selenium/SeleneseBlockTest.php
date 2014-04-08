@@ -8,11 +8,10 @@ class SeleneseBlockTest extends \PHPUnit_Extensions_SeleniumTestCase
 
     public static $browsers = array(
         array(
-            'name' => 'Firefox on Windows',
-            'browser' => '*firefox
-                          C:\Program Files (x86)\Mozilla Firefox\firefox.exe',
-            'host' => '10.2.0.176',
-            // 'port' => 4444
+            'name' => 'Internet Explorer on Windows',
+            'browser' => '*iexplore C:\Program Files\Internet Explorer\iexplore.exe',
+            'host' => '10.2.16.20',
+            'port' => 4444
         )
     );
 
