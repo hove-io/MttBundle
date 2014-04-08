@@ -24,6 +24,7 @@ textarea {
     margin-bottom:50px;
     min-width:100%;
     padding:0;
+    overflow-y: auto;
 }
 #left-menu.affix{
     min-width:0;

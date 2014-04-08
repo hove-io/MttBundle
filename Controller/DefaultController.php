@@ -40,14 +40,14 @@ class DefaultController extends AbstractController
         );
     }
 
-    public function navigationAction($externalNetworkId = 'network:Filbleu', $current_season, $current_route = null)
+    public function navigationAction($externalNetworkId, $current_season, $current_route = null)
     {
-        // TODO: Put the current or default Network of User. (for $externalNetworkId)
+        // TODO: Put the default Network of User. (for $externalNetworkId)
         $mtt_navitia = $this->get('canal_tp_mtt.navitia');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $network = $networkManager->findOneByExternalId($externalNetworkId);
 
-        $result = $mtt_navitia->getLinesByMode(
+        $result = $mtt_navitia->findAllLinesByMode(
             $network->getExternalCoverageId(),
             $network->getExternalId()
         );

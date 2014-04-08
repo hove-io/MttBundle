@@ -28,9 +28,10 @@ class Navitia
      * @param  Boolean $commercial if true commercial_modes returned, else physical_modes
      * @return type
      */
-    public function getLinesByMode($coverageId, $networkId, $commercial = true)
+    public function findAllLinesByMode($coverageId, $networkId)
     {
-        $result = $this->navitia_iussaad->getLines($coverageId, $networkId, 1);
+        $count = 30;
+        $result = $this->navitia_iussaad->getLines($coverageId, $networkId, 1, $count);
         // no line found for this network
         if (empty($result) || !isset($result->lines)) {
             throw new \Exception(
@@ -39,6 +40,15 @@ class Navitia
                     array('%network%'=>$networkId), 
                     'exceptions'
                 )
+            );
+        }
+
+        if ($result->pagination->total_result > $count) {
+            $result = $this->navitia_iussaad->getLines(
+                $coverageId,
+                $networkId,
+                1,
+                $result->pagination->total_result
             );
         }
 
