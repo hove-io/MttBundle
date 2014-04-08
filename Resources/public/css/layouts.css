@@ -102,14 +102,25 @@ body.editable{
 }
 .frequencies-row td.frequency-content div.min-height-wrapper{
     border:1px solid black;
-    display:table;
-    height:100px;
+    clear:both;
+    display:block;
+    height:115px;
+    position:relative;
     text-align: center;
     width: 100%;
 }
+.frequencies-row td.frequency-content div.min-height-wrapper.error{
+    border-color:red;
+}
+.frequencies-row td.frequency-content div.min-height-wrapper span{
+    font-size: 11px;
+    line-height: 16px;
+    margin-top: 15px;
+    font-weight: bold;
+}
 .frequencies-row td.frequency-content div.min-height-wrapper > span{
-    display:table-cell;
-    padding:10px;
+    display:inline-block;
+    padding:2px;
     vertical-align: middle;
 }
 .hidden-tr-4-dropdown{

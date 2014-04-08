@@ -10,7 +10,9 @@ use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 use CanalTP\MttBundle\Entity\Network;
 use CanalTP\MttBundle\Entity\Season;
 use CanalTP\MttBundle\Entity\LineConfig;
-
+use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\BlockRepository;
 
 class Fixture extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -75,6 +77,31 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($lineConfig);
     }
 
+    private function createTimetable(ObjectManager $em, $lineConfig)
+    {
+        $timetable = new Timetable();
+        $timetable->setLineConfig($lineConfig);
+        $timetable->setExternalRouteId(Fixture::EXTERNAL_ROUTE_ID);
+
+        $em->persist($timetable);
+
+        return ($timetable);
+    }
+
+    private function createBlock(ObjectManager $em, $timetable, $typeId = BlockRepository::TEXT_TYPE)
+    {
+        $block = new Block();
+        $block->setTimetable($timetable);
+        $block->setTypeId($typeId);
+        $block->setDomId('timegrid_block_1');
+        $block->setContent('test');
+        $block->setTitle('title');
+
+        $em->persist($block);
+
+        return ($block);
+    }
+
 
     public function load(ObjectManager $em)
     {
@@ -94,6 +121,8 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $network->addUser($user);
         $season = $this->createSeason($em, $network);
         $lineConfig = $this->createLineConfig($em, $season);
+        $timetable = $this->createTimetable($em, $lineConfig);
+        $block = $this->createBlock($em, $timetable);
         
         $em->flush();
     }

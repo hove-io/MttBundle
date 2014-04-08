@@ -101,7 +101,7 @@
     {% for i in 0..loopMax - 1 %}
         <tr class="{% if i % 2  == 0 %}even{% else %}odd{% endif %}">
         {% for index,hour in hours_range %}
-            <td class="timegrid-column">
+            <td class="timegrid-column">{% spaceless %}
                 {% if calendar and calendar.schedules.additional_informations is null %}
                     {% set datetime = attribute(calendar.schedules.date_times, hour) %}
                     {% if 
@@ -114,7 +114,7 @@
                         {% endif %}
                     {% endif %}
                 {% endif %}
-            </td>
+            {% endspaceless %}</td>
         {% endfor %}
         </tr>
     {% endfor %}

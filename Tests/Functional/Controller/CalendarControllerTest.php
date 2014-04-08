@@ -20,7 +20,7 @@ class CalendarControllerTest extends AbstractControllerTest
     public function setUp()
     {
         // no db needed
-        parent::setUp(false);
+        parent::setUp();
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
     }
     
