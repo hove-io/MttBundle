@@ -53,7 +53,6 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="notes-wrapper">
                             {% for period in calendar.active_periods %}
                                 <div>
                                     <label class="bold">{{'global.startDate'|trans({}, 'messages')}}</label>: {{ period.begin }}
@@ -64,6 +63,7 @@
                             {% endfor %}
                         <hr/>
                         {% if calendar.notes|length > 0 %}
+                        <div class="notes-wrapper">
                             <div class="bold">{{ 'global.annotations'|trans({}, 'messages') }}</div>
                             {% for note in calendar.notes %}
                                 <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
