@@ -29,18 +29,17 @@
     </div>
 {% endmacro %}
 
-{% macro stop_point_code(id, stopPointCode, class) %}
+{% macro stop_point_code(id, stopPoint, class) %}
     <div id="{{ id }}"  class="{{ class }}">
         <div class="title">{{'stop_point_code.block.title'|trans({}, 'default')}}</div>
 
-        <div class="content">
-            {% if stopPointCode %}
-                {{'stop_point_code.block.content'|trans({'%code%':stopPointCode}, 'default')}}
+        <div class="content">{% spaceless %}
+            {% if stopPoint %}
+                {{'stop_point_code.block.content'|trans({'%code%':stopPoint.getExternalCode()}, 'default')}}
             {% else %}
                 {{'stop_point_code.block.default'|trans({}, 'default')}}
             {% endif %}
-        </div>
-        
+        {% endspaceless %}</div>
     </div>
 {% endmacro %}
 
@@ -141,7 +140,4 @@
             <td class="timegrid-column hour-label">{{i}}{{ 'global.hour_label'|trans }}</td>
         {% endfor %}
     </tr>
-{% endmacro %}
-
-{% macro frequency(id, block, level) %}
 {% endmacro %}
