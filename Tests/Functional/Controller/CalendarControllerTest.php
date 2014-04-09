@@ -19,7 +19,6 @@ class CalendarControllerTest extends AbstractControllerTest
     
     public function setUp()
     {
-        // no db needed
         parent::setUp();
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
     }
@@ -61,7 +60,6 @@ class CalendarControllerTest extends AbstractControllerTest
                 "Hour $value not in the range 0<->23."
             );
         }
-        
     }
 
     public function testMinutesConsistencyViewAction()

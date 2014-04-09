@@ -15,16 +15,37 @@ abstract class AbstractControllerTest extends WebTestCase
     protected function getMockedNavitia()
     {
         $navitia = $this->getMockBuilder('CanalTP\MttBundle\Services\Navitia')
-            ->setMethods(array('getLinesByMode', 'getStopPointCalendarsData', 'getCalendarStopSchedulesByRoute', 'getRouteCalendars'))
-            ->setConstructorArgs(array(false,false,false))
+            ->setMethods(
+                array(
+                    'findAllLinesByMode', 
+                    'getStopPointCalendarsData', 
+                    'getCalendarStopSchedulesByRoute', 
+                    'getRouteCalendars',
+                    'getRouteData'
+                )
+            )->setConstructorArgs(array(false,false,false))
             ->getMock();
 
         $navitia->expects($this->any())
-            ->method('getLinesByMode')
+            ->method('findAllLinesByMode')
             ->will($this->returnValue(array()));
-            
+
+        $navitia->expects($this->any())
+            ->method('getRouteData')
+            ->will($this->returnCallback(
+                function(){
+                    $return = new \stdClass;
+                    $return->name = 'toto';
+                    return $return;
+                }
+            ));
+
         $navitia->expects($this->any())
             ->method('getStopPointCalendarsData')
+            ->will($this->returnValue(json_decode($this->readStub('calendars.json'))));
+
+        $navitia->expects($this->once())
+            ->method('getRouteCalendars')
             ->will($this->returnValue(json_decode($this->readStub('calendars.json'))));
             
         $navitia->expects($this->any())

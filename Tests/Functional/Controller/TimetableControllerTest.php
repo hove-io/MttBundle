@@ -6,29 +6,18 @@ use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
 
 class TimetableControllerTest extends AbstractControllerTest
 {
-    private function getViewRoute($seasonId, $externalStopPointId = 'stop_point:TTR:SP:STPGB-2')
+    private function getViewRoute($seasonId, $externalStopPointId = Fixture::EXTERNAL_STOP_POINT_ID)
     {
         return $this->generateRoute(
             'canal_tp_mtt_timetable_view',
             array(
-                'externalNetworkId' => 'network:Filbleu',
-                'externalLineId' => 'line:TTR:Nav62',
-                'externalRouteId' => 'route:TTR:Nav155',
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+                'externalLineId' => Fixture::EXTERNAL_LINE_ID,
+                'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
                 'externalStopPointId' => $externalStopPointId,
                 "seasonId" => $seasonId
             )
         );
-    }
-    
-    public function testSeasonBlockDates()
-    {
-        $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
-        // check on stopPoint page
-        $crawler = $this->doRequestRoute($this->getViewRoute($season->getId()));
-        $this->checkBlockAndDates($crawler, $season);
-        // check on route page
-        $crawler = $this->doRequestRoute($this->getViewRoute($season->getId(), false));
-        $this->checkBlockAndDates($crawler, $season);
     }
     
     private function checkBlockAndDates($crawler, $season)
@@ -42,7 +31,18 @@ class TimetableControllerTest extends AbstractControllerTest
         $this->assertTrue($crawler->filter('html:contains("' . datefmt_format($fmt, $season->getStartDate()) . '")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("' . datefmt_format($fmt, $season->getEndDate()) . '")')->count() == 1);
     }
-
+    
+    public function testSeasonBlockDates()
+    {
+        $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
+        // check on stopPoint page
+        $crawler = $this->doRequestRoute($this->getViewRoute($season->getId()));
+        $this->checkBlockAndDates($crawler, $season);
+        // check on route page
+        $crawler = $this->doRequestRoute($this->getViewRoute($season->getId(), false));
+        $this->checkBlockAndDates($crawler, $season);
+    }
+    
     public function testAnonymousAccess()
     {
         $anonymous = static::createClient();
