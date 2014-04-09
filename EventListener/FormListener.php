@@ -12,20 +12,22 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FormListener
 {
+    private $newResponse = null;
+
     private function initData($response)
     {
         if ($response->getStatusCode() == 302) {
-            $data = array(
+            $this->newResponse->setData(array(
                 'status' => true,
                 'location' => $response->headers->get('location')
-            );
-        } else if ($response->getStatusCode() == 200) {
-            $data = array(
+            ));
+        } else {
+            $this->newResponse->setData(array(
                 'status' => false,
                 'content' => $response->getContent()
-            );
+            ));
+            $this->newResponse->setStatusCode($response->getStatusCode());
         }
-        return ($data);
     }
 
     public function onKernelResponse(FilterResponseEvent $event)
@@ -33,10 +35,10 @@ class FormListener
         $request = $event->getRequest();
 
         if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
-            $newResponse = new JsonResponse();
+            $this->newResponse = new JsonResponse();
 
-            $newResponse->setData($this->initData($event->getResponse()));
-            $event->setResponse($newResponse);
+            $this->initData($event->getResponse());
+            $event->setResponse($this->newResponse);
         }
     }
 }
