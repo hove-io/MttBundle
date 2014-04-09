@@ -9,6 +9,8 @@ namespace CanalTP\MttBundle\Services;
 
 class Navitia
 {
+    private $dateFormat = 'Ymd';
+
     protected $navitia_component;
     protected $navitia_iussaad;
     protected $translator;
@@ -137,7 +139,7 @@ class Navitia
      *
      * @return object
      */
-    public function getRouteCalendars($externalCoverageId, $externalRouteId)
+    public function getRouteCalendars($externalCoverageId, $externalRouteId, \DateTime $startDate, \DateTime $endDate)
     {
         $query = array(
             'api' => 'coverage',
@@ -145,6 +147,7 @@ class Navitia
                 'region' => $externalCoverageId,
                 'action' => 'calendars',
                 'filter' => 'routes/' . $externalRouteId,
+                'parameters' => '?start_date=' . $startDate->format($this->dateFormat) . '&end_date=' . $endDate->format($this->dateFormat)
             )
         );
 

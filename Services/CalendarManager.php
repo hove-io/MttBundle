@@ -156,22 +156,9 @@ class CalendarManager
         return $calendar;
     }
     
-    public function getCalendars($externalCoverageId, $timetable, $stopPointInstance = false)
+    public function getCalendars($externalCoverageId, $timetable, $stopPointInstance)
     {
-        if (empty($stopPointInstance))
-        {
-            return array(
-                'calendars' => $this->getCalendarsForRoute(
-                    $externalCoverageId, 
-                    $timetable->getExternalRouteId()
-                ),
-                'notes'     => array()
-            );
-        }
-        else
-        {
-            return $this->getCalendarsForStopPointAndTimetable($externalCoverageId, $timetable, $stopPointInstance);
-        }
+        return $this->getCalendarsForStopPointAndTimetable($externalCoverageId, $timetable, $stopPointInstance);
     }
 
     /**
@@ -290,9 +277,9 @@ class CalendarManager
      *
      * @return object
      */
-    public function getCalendarsForRoute($externalCoverageId, $externalRouteId)
+    public function getCalendarsForRoute($externalCoverageId, $externalRouteId, \DateTime $startDate, \DateTime $endDate)
     {
-        $calendarsData = $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId);
+        $calendarsData = $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId, $startDate, $endDate);
         $calendarsSorted = array();
         if (isset($calendarsData->calendars) && !empty($calendarsData->calendars)) {
             foreach ($calendarsData->calendars as $calendar) {

@@ -17,7 +17,6 @@ class TimetableManager
     private $navitia = null;
     private $repository = null;
     private $om = null;
-    private $calendars = null;
 
     public function __construct(ObjectManager $om, Navitia $navitia, LineManager $lineManager)
     {
@@ -38,7 +37,6 @@ class TimetableManager
         $this->lineManager->initTwigPath($lineConfig);
 
         $this->timetable->setTitle($data->name);
-        $this->calendars = $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId);
     }
 
     /*

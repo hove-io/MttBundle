@@ -32,8 +32,10 @@ define(['jquery', 'bootstrap'], function($) {
                 });
             });
 
-            resizeMenu();
-            $(window).resize(resizeMenu);
+            if ($menu.hasClass('toggable-left-menu') == false) {
+                resizeMenu();
+                $(window).resize(resizeMenu);
+            }
 
             var $current_item = $wrapper.find('.line-menu-wrapper li.active');
             // shall we open the menu and do we have an active item?

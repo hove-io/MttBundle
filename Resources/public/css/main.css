@@ -26,10 +26,8 @@ textarea {
     padding:0;
     overflow-y: auto;
 }
-#left-menu.affix{
-    min-width:0;
-    position:fixed;
-    top:0;
+#left-menu.toggable-left-menu{
+    overflow-y:visible;
 }
 #left-menu .submenu-wrapper > ul > li > a,
 #lines-accordion > li > a{

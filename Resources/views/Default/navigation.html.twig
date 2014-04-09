@@ -9,11 +9,11 @@
             <ul id="mode-collapse-{{ loop.index0 }}" class="nav nav-pills nav-stacked collapse in">
                 {% for line in lines %}
                     <li class="line-menu-wrapper clearfix">
-                        <a data-toggle="collapse" class="line-link-toggle" href="#mode-{{loop.parent.loop.index0}}-routes-collapse-{{ loop.index0 }}">
+                        <a data-toggle="collapse" class="line-link-toggle" href="#mode-{{loop.parent.loop.index0}}-routes-collapse-{{ loop.index0 }}">{% spaceless %}
                             <span class="glyphicon glyphicon-chevron-right"></span> 
                             <span class="glyphicon glyphicon-chevron-down display-none"></span> 
                             {% if line.code %}{{ line.code }} - {% endif %}{{ line.name }}
-                        </a>
+                        {% endspaceless %}</a>
                         <!--span class="badge pull-right">{{ line.routes|length }}</span-->
                         <ul id="mode-{{loop.parent.loop.index0}}-routes-collapse-{{ loop.index0 }}" class="nav nav-pills nav-stacked collapse in">
                         {% for route in line.routes %}

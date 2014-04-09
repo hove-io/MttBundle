@@ -77,12 +77,15 @@ class TimetableController extends AbstractController
             $timetable, 
             $externalCoverageId
         );
-        
-        $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
-            $externalCoverageId,
-            $timetable,
-            $stopPointData['stopPointInstance']
-        );
+        if (!empty($stopPointData['stopPointInstance'])) {
+            $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
+                $externalCoverageId,
+                $timetable,
+                $stopPointData['stopPointInstance']
+            );
+        } else {
+            $calendarsAndNotes = array('calendars'=>'', 'notes'=> '');
+        }
 
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getTwigPath(),

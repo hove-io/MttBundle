@@ -24,9 +24,12 @@ class CalendarType extends BlockType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $season = $this->blockInstance->getTimetable()->getLineConfig()->getSeason();
         $calendars = $this->calendarManager->getCalendarsForRoute(
             $this->externalCoverageId,
-            $this->blockInstance->getTimetable()->getExternalRouteId()
+            $this->blockInstance->getTimetable()->getExternalRouteId(),
+            $season->getStartDate(),
+            $season->getEndDate()
         );
         $this->choices = $this->getChoices($calendars);
 
