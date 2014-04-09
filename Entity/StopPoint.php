@@ -38,6 +38,11 @@ class StopPoint extends AbstractEntity
     private $title;
 
     /**
+     * @var string
+     */
+    private $external_code;
+
+    /**
      * @var datetime
      */
     protected $pdfGenerationDate;
@@ -164,6 +169,29 @@ class StopPoint extends AbstractEntity
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get external_code
+     *
+     * @return string
+     */
+    public function getExternalCode()
+    {
+        return $this->external_code;
+    }
+
+    /**
+     * Set external_code
+     *
+     * @param  string    $external_code
+     * @return StopPoint
+     */
+    public function setExternalCode($external_code)
+    {
+        $this->external_code = $external_code;
 
         return $this;
     }

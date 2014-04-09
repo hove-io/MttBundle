@@ -77,6 +77,7 @@ class TimetableController extends AbstractController
             $timetable, 
             $externalCoverageId
         );
+
         if (!empty($stopPointData['stopPointInstance'])) {
             $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
                 $externalCoverageId,

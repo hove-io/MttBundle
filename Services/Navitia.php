@@ -23,6 +23,29 @@ class Navitia
     }
 
     /**
+     * Get one Stop Point
+     *
+     * @param  type $coverageId
+     * @param  type $networkId
+     * @return type 
+     */
+    public function getStopPoint($coverageId, $stopPointId, $params)
+    {
+        $filter = 'stop_points/' . $stopPointId;
+        $parameters = http_build_query($params);
+        
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $coverageId,
+                'filter' => $filter,
+                'parameters' => $parameters
+            )
+        );
+        return $this->navitia_component->call($query);
+    }
+
+    /**
      * Returns Lines indexed by modes
      *
      * @param  String  $coverageId
@@ -97,8 +120,7 @@ class Navitia
      * Returns Stop Point title
      *
      * @param  String $coverageId
-     * @param  String $networkId
-     * @param  String $lineId
+     * @param  String $stopPointId
      * @return type
      */
     public function getStopPointTitle($coverageId, $stopPointId)
@@ -106,6 +128,27 @@ class Navitia
         $response = $this->navitia_iussaad->getStopPoint($coverageId, $stopPointId);
 
         return ($response->stop_points[0]->name);
+    }
+
+    /**
+     * Returns Stop Point external code
+     *
+     * @param  String $coverageId
+     * @param  String $stopPointId
+     * @return external_code
+     */
+    public function getStopPointExternalCode($coverageId, $stopPointId)
+    {
+        $response = $this->getStopPoint($coverageId, $stopPointId, array('depth' => 1, 'show_codes' => 'true'));
+        $externalCode = null;
+
+        foreach ($response->stop_points[0]->codes as $code) {
+            if ($code->type == 'external_code') {
+                $externalCode = substr($code->value, 3);
+                break ;
+            }
+        }
+        return ($externalCode);
     }
 
     /**

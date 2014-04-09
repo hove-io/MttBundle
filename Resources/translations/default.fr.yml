@@ -68,3 +68,9 @@ season:
     block:
         title: Horaires valables
         content: du %startDate% au %endDate%
+
+stop_point_code:
+    block:
+        title: Code TOTEM de cet arrêt :
+        content: %code%
+        default: (Code du poteau d'arrêt)

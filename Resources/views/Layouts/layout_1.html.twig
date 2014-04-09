@@ -12,9 +12,7 @@
                     {% endif %}
                 </div>
                 <div id="stop-point-title-wrapper" data-block-level="stop_point" data-auto-filled="1">
-                    {% if stopPoint is defined %}
-                        <div class="bold">{{'stop_point.label'|trans({}, 'default')}}:</div> {{ stopPoint.title }}
-                    {% endif %}
+                    <div class="bold">{{'stop_point.label'|trans({}, 'default')}}:</div> {{ stopPoint.title }}
                 </div>
             </div>
             <div id="map-wrapper" class="clearfix">
@@ -25,7 +23,7 @@
                         {% if i == 1 %}
                             {{ macros.season_validity(id, season, 'small-block') }}
                         {% elseif i == 4 %}
-                            {{ macros.text(id, attribute(stopPoint.blocks, id), 'stop_point', 'small-block block') }}
+                            {{ macros.stop_point_code(id, stopPoint, 'small-block') }}
                         {% else %}
                             {{ macros.text(id, attribute(timetable.blocks, id), 'route', 'small-block block') }}
                         {% endif %}
