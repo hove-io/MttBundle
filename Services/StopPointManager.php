@@ -38,6 +38,15 @@ class StopPointManager
         );
     }
 
+    private function initStopPointCode($externalCoverageId)
+    {
+        $externalCode = $this->navitia->getStopPointExternalCode(
+            $externalCoverageId,
+            $this->stopPoint->getExternalId()
+        );
+        $this->stopPoint->setExternalCode($externalCode);
+    }
+
     // TODO: mutualize with timetable manager?
     private function initBlocks()
     {
@@ -75,6 +84,7 @@ class StopPointManager
             $this->stopPoint->setTimetable($timetable);
         }
         $this->initTitle($externalCoverageId);
+        $this->initStopPointCode($externalCoverageId);
 
         return $this->stopPoint;
     }

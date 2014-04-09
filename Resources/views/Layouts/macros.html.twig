@@ -19,13 +19,28 @@
     <div id="{{ id }}" class="{{ class }}">
     {% if season %}
         <div class="title">{{'season.block.title'|trans({}, 'default')}}</div>
-            
+
         {% set startDate = season.startDate.timestamp|localizeddate('long', 'none') %}
         {% set endDate = season.endDate.timestamp|localizeddate('long', 'none') %}
         <div class="content">
             {{'season.block.content'|trans({'%startDate%':startDate, '%endDate%':endDate}, 'default')}}
         </div>
     {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro stop_point_code(id, stopPointCode, class) %}
+    <div id="{{ id }}"  class="{{ class }}">
+        <div class="title">{{'stop_point_code.block.title'|trans({}, 'default')}}</div>
+
+        <div class="content">
+            {% if stopPointCode %}
+                {{'stop_point_code.block.content'|trans({'%code%':stopPointCode}, 'default')}}
+            {% else %}
+                {{'stop_point_code.block.default'|trans({}, 'default')}}
+            {% endif %}
+        </div>
+        
     </div>
 {% endmacro %}
 
