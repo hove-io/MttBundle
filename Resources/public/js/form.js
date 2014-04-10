@@ -7,24 +7,20 @@ require(['jquery'], function($){
             $.ajax({
                 'type': 'POST',
                 'url':$(this).attr('action'),
-                'data':$(this).serialize(),
-                statusCode: {
-                    302: function() {
-                      alert( "302 found" );
+                'data':new FormData($form[0]),
+                'processData':false,
+                'contentType': false,
+                'success': function(data, textStatus){
+                    if (data.status == false) {
+                        $form.replaceWith(data.content);
+                    } else if (data.status == true) {
+                        window.location = data.location;
+                    } else {
+                        alert('error');
                     }
                 },
-                'success': function(data, textStatus){
-                    console.log('success');
-                    // console.dir(data);
-                    $form.replaceWith(data);
-                },
-                'complete':function(data){
-                    console.log('complete');
-                    // console.dir(data);
-                },
                 'error':function(data, textStatus){
-                    console.log('error');
-                    // console.dir(data);
+                    alert('error');
                 }
             });
             return false;

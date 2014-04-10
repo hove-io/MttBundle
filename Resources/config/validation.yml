@@ -2,3 +2,14 @@ CanalTP\MttBundle\Entity\Network:
     properties:
         externalId:
             - CanalTP\MttBundle\Validator\Constraints\ConstainsNavitiaNetworkId: ~
+                
+CanalTP\MttBundle\Entity\Season:
+    properties:
+        title:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        startDate:
+            - DateTime: ~
+        endDate:
+            - DateTime: ~
