@@ -4,6 +4,9 @@ require(['jquery'], function($){
         'form',
         function(){
             var $form = $(this);
+            var $submitBtn = $form.find('button[type=submit]');
+            $submitBtn.addClass('disabled').find('span.glyphicon').hide();
+            $submitBtn.prepend('<span class="glyphicon glyphicon-refresh icon-refresh-animate"></span>');
             $.ajax({
                 'type': 'POST',
                 'url':$(this).attr('action'),
