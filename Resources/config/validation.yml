@@ -5,6 +5,13 @@ CanalTP\MttBundle\Entity\Network:
         externalId:
             - CanalTP\MttBundle\Validator\Constraints\ConstainsNavitiaNetworkId: ~
 
+CanalTP\MttBundle\Entity\Block:
+    properties:
+        title:
+            - NotBlank: ~
+            - Length:
+                max: 255
+
 CanalTP\MttBundle\Entity\Season:
     properties:
         title:

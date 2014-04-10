@@ -17,6 +17,7 @@ CanalTP\MttBundle\Entity\Block:
             column: dom_id
         content:
             type: text
+            nullable: true
         title:
             type: string
             length: 255

@@ -2,9 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Validator\Constraints as Assert;
-
 /**
  * Block
  */
@@ -256,13 +253,5 @@ class Block extends AbstractEntity
     public function isCalendar()
     {
         return ($this->getTypeId() == BlockRepository::CALENDAR_TYPE);
-    }
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('title', new Assert\Length(array(
-            'max'        => 255
-        )));
-        $metadata->addPropertyConstraint('title', new Assert\NotBlank());
     }
 }
