@@ -19,11 +19,13 @@ require(['jquery'], function($){
                         alert('error');
                     }
                 },
-                'error':function(data, textStatus){
-                    alert('error');
+                'error':function(xhr){
+                    document.open();
+                    document.write(xhr.responseText);
+                    document.close();
                 }
             });
             return false;
         }
-    )
+    );
 });
