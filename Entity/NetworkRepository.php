@@ -23,4 +23,16 @@ class NetworkRepository extends EntityRepository
 
         return ($stmt->fetchAll());
     }
+
+    public function addUserToNetwork($userId, $networkId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $conn->insert(
+            ' mtt.users_networks',
+            array(
+                'network_id' => $networkId,
+                'user_id' => $userId,
+            )
+        );
+    }
 }
