@@ -32,7 +32,8 @@
         });
         $('#mtt_network_external_coverage_id').change(function(){
             var $select = $(this);
-            if ($select.val() != '') {
+
+            if ($select.val() != null) {
                 nav_api.getCoverageNetworks(
                     $select.val(), 
                     function(networks){
