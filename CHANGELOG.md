@@ -1,3 +1,27 @@
+Notes de publication - METH - Version 0.6.1 (10/04/2014)
+
+** Sous-tâche
+    * [METH-152] - Bloc liste de lignes déplié
+    * [METH-163] - Récupération en js du select Networks
+    * [METH-170] - Requêtes en ajax
+
+** Bogue
+    * [METH-55] - Session expirée -> page blanche
+    * [METH-72] - Menu de navigation : ne pas afficher le nombre de routes par ligne
+    * [METH-73] - arrêt desservi plusieurs fois, mais affiché qu'une fois
+    * [METH-119] - Menu de navigation incomplet
+    * [METH-128] - Cadre en fréquence qui déborde
+
+** Récit
+    * [METH-96] - Changement de périmètre
+    * [METH-121] - Affichage du bloc "dates de validité"
+    * [METH-144] - Création du périmètre
+
+** Tâche
+    * [METH-120] - Les calendriers ne sont pas par saison
+    * [METH-126] - Double affichage du message de confirmation d'ajout du layout
+    * [METH-157] - Intégrer les tests oubliés depuis le début
+
 Notes de publication - MTT - Version 0.5.2 (01/04/2014)
 
 ** Récit
