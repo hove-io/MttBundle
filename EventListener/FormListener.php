@@ -30,11 +30,20 @@ class FormListener
         }
     }
 
-    public function onKernelResponse(FilterResponseEvent $event)
+    private function isAjaxRequestForm(FilterResponseEvent $event)
     {
         $request = $event->getRequest();
+        $response = $event->getResponse();
 
-        if ($request->isXmlHttpRequest() && $request->getMethod() == 'POST') {
+        return (
+            $request->isXmlHttpRequest() && $request->getMethod() == 'POST' &&
+            ($response->getStatusCode() == 302 || $response->getStatusCode() == 200)
+        );
+    }
+
+    public function onKernelResponse(FilterResponseEvent $event)
+    {
+        if ($this->isAjaxRequestForm($event)) {
             $this->newResponse = new JsonResponse();
 
             $this->initData($event->getResponse());
