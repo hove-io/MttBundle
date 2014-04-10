@@ -1,8 +1,10 @@
 CanalTP\MttBundle\Entity\Network:
     properties:
+        externalCoverageId:
+            - NotBlank: ~
         externalId:
             - CanalTP\MttBundle\Validator\Constraints\ConstainsNavitiaNetworkId: ~
-                
+
 CanalTP\MttBundle\Entity\Season:
     properties:
         title:
