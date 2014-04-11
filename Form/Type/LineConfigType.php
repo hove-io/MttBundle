@@ -6,6 +6,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class LineConfigType extends AbstractType
 {
@@ -28,7 +29,10 @@ class LineConfigType extends AbstractType
             array(
                 'choices' => $this->layouts,
                 'layouts' => $this->layouts,
-                'empty_value' => 'global.please_choose'
+                'empty_value' => 'global.please_choose',
+                'constraints' => array(
+                    new NotBlank()
+                )
             )
         );
     }
