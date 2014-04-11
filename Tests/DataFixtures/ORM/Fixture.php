@@ -138,6 +138,8 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         );
 
         $network->addUser($user);
+        $network2 = $this->createNetwork($em, 'network:Agglobus');
+        $network2->addUser($user);
         $season = $this->createSeason($em, $network);
         $layout = $this->createLayout(
             $em,
@@ -148,6 +150,18 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
                 'orientation'   => 'landscape',
                 'calendarStart' => 4,
                 'calendarEnd'   => 1,
+            ),
+            array($network)
+        );
+        $layout2 = $this->createLayout(
+            $em,
+            array(
+                'label'         => 'Layout 2 de type paysage (Dijon 2)',
+                'twig'          => 'layout_2.html.twig',
+                'preview'       => '/bundles/canaltpmtt/img/layout_2.png',
+                'orientation'   => 'landscape',
+                'calendarStart'=> 4,
+                'calendarEnd'  => 1,
             ),
             array($network)
         );
