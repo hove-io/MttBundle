@@ -15,7 +15,7 @@ class LayoutType extends AbstractType
             array(
                 'multiple'=> false,
                 'layouts' => array(),
-                'class' => 'CanalTP\MttBundle\Entity\Layout'
+                'class' => 'CanalTP\MttBundle\Entity\Layout',
             )
         );
     }
