@@ -69,7 +69,6 @@ class TimetableController extends AbstractController
 
     private function renderLayout($timetable, $externalStopPointId, $editable = true, $displayMenu = true)
     {
-        $layoutsConfig = $this->container->getParameter('layouts');
         $externalCoverageId = $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalCoverageId();
         
         $stopPointData = $this->getStopPoint(
@@ -102,7 +101,6 @@ class TimetableController extends AbstractController
                 'calendars'             => $calendarsAndNotes['calendars'],
                 'notes'                 => $calendarsAndNotes['notes'],
                 'blockTypes'            => $this->container->getParameter('blocks'),
-                'layoutConfig'          => $layoutsConfig[$timetable->getLineConfig()->getLayout()],
                 'layout'                => $timetable->getLineConfig()->getLayout(),
                 'editable'              => $editable,
                 'displayMenu'           => $displayMenu

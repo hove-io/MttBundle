@@ -40,7 +40,15 @@ help:
     drop_here: Déposez les éléments ici
 
 calendar:
+    start: Heure de début des calendriers
+    end: Heure de fin des calendriers
     schedules:
         additional_informations:
             terminus: Terminus de ligne : pas d'horaires à cet arrêt
             no_departure_this_day: Pas de départ prévu : pas d'horaires à cet arrêt
+
+menu:
+    networks: Réseaux
+    seasons_manage: Gestion des Saisons
+    networks_manage: Gestion des Réseaux
+    layouts_manage: Gestion des Layouts

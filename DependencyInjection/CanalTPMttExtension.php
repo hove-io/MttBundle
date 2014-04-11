@@ -29,7 +29,6 @@ class CanalTPMttExtension extends Extension implements ExtensionInterface
         );
 
         $loader->load('services.yml');
-        $loader->load('layouts.yml');
         $loader->load('blocks.yml');
         $loader->load('permissions.yml');
         $loader->load('permissions.yml');

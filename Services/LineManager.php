@@ -29,9 +29,7 @@ class LineManager
 
     public function initTwigPath($lineConfig)
     {
-        $layouts = $this->container->getParameter('layouts');
-
-        $lineConfig->setTwigPath($layouts[$lineConfig->getLayout()]['twig']);
+        $lineConfig->setTwigPath($lineConfig->getLayout()->getTwig());
     }
 
     /**
@@ -67,6 +65,13 @@ class LineManager
         $this->initTwigPath();
 
         return $this->lineConfig;
+    }
+    
+    public function save($lineConfig)
+    {
+        // $lineConfig->setLayout($this->om->getPartialReference('CanalTP\MttBundle\Entity\Layout', $lineConfig->getLayout()));
+        $this->om->persist($lineConfig);
+        $this->om->flush();
     }
     
     /**

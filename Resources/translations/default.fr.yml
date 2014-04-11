@@ -23,6 +23,10 @@ timetable:
 
 layout:
     actions: Actions
+    list: Liste des layouts
+    label: Descriptif
+    preview: Prévisualisation
+    orientation: Orientation
 
 block:
     get_form:

@@ -8,18 +8,18 @@
 namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\Filesystem\Filesystem;
+
 use fpdi;
 
 class PdfGenerator
 {
     private $serverUrl = null;
-    private $layoutsConfig = null;
+    private $om = null;
     private $uploadPath = null;
 
-    public function __construct($server, $layoutsConfig, $path)
+    public function __construct($server, $path)
     {
         $this->serverUrl = $server;
-        $this->layoutsConfig = $layoutsConfig;
         $this->uploadPath = $path;
     }
 
@@ -47,14 +47,12 @@ class PdfGenerator
     {
         $params = array();
         $params['url'] = $url;
-        if (isset($this->layoutsConfig[$layout])) {
-            $params['orientation'] = $this->layoutsConfig[$layout]['orientation'];
-        }
-        // TODO: make these parameters configurable via layout config?
+        $params['orientation'] = $layout->getOrientation();
+        // TODO: make these parameters configurable via layout?
         $params['zoom'] = 2;
         $params['margin'] = 0;
         $generation_url = $this->serverUrl . '?' . http_build_query($params);
-
+// var_dump($url);die;
         $pdfContent = $this->callWebservice($generation_url);
 
         // create File

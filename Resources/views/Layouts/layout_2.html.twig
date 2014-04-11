@@ -21,7 +21,7 @@
                     {% else %}
                         <table>
                     {% endif %}
-                        {% set hours_range = layoutConfig.calendar_range|calendarRange %}
+                        {% set hours_range = layout|calendarRange %}
                         {{ macros.hours_thead(hours_range)}}
                         {% if block.frequencies|length > 0 and (calendar.schedules.additional_informations is empty) %}
                             {%  

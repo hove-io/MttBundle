@@ -39,3 +39,6 @@ parameters:
         BUSINESS_GENERATE_PDF:
             label: Générer les PDF
             description: Permet de générer les PDF d'une fiche horaire à l'arrêt et d'une liste de distribution
+        BUSINESS_MANAGE_LAYOUTS:
+            label: Gérer la liste des layouts par réseau
+            description: Permet d'attribuer des layouts existants à un réseau

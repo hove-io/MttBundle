@@ -12,9 +12,6 @@ CanalTP\MttBundle\Entity\LineConfig:
             type: string
             length: 255
             column: external_line_id
-        layout:
-            type: string
-            column: layout
         created:
             type: datetime
             gedmo:
@@ -33,6 +30,11 @@ CanalTP\MttBundle\Entity\LineConfig:
             targetEntity: Timetable
             mappedBy: line_config
     manyToOne:
+        layout:
+            targetEntity: Layout
+            joinColumn:
+                name: layout_id
+                referencedColumnName: id
         season:
             targetEntity: Season
             joinColumn:

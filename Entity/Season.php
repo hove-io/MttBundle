@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Season
  */
-class Season
+class Season extends AbstractEntity
 {
     /**
      * @var integer
@@ -43,16 +43,6 @@ class Season
      * @var Object
      */
     private $seasonToClone;
-
-    /**
-     * @var \DateTime
-     */
-    private $created;
-
-    /**
-     * @var \DateTime
-     */
-    private $updated;
 
     /**
      * Get id

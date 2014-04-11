@@ -1,0 +1,47 @@
+CanalTP\MttBundle\Entity\Layout:
+    type: entity
+    table: mtt.layout
+    repositoryClass: CanalTP\MttBundle\Entity\LayoutRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        label:
+            type: string
+            length: 255
+        twig:
+            type: string
+            length: 255
+        preview:
+            type: string
+            length: 255
+        orientation:
+            type: string
+            length: 255
+        calendarStart:
+            type: integer
+            column: calendar_start
+        calendarEnd:
+            type: integer
+            column: calendar_end
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    lifecycleCallbacks: {  }
+    oneToMany:
+        lineConfigs:
+            targetEntity: LineConfig
+            mappedBy: layout
+    manyToMany:
+        networks:
+            targetEntity: CanalTP\MttBundle\Entity\Network
+            mappedBy: layouts
