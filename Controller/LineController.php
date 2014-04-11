@@ -15,10 +15,9 @@ class LineController extends AbstractController
     /*
      * @function process a form to save a layout for a line and a season. Insert a lineConfig element in bdd if needed.
      */
-    private function processForm($form, $season, $params)
+    private function processForm($form, $season, $params, $externalLineId)
     {
-        $this->get('canal_tp_mtt.line_manager')->save($form->getData());
-
+        $this->get('canal_tp_mtt.line_manager')->save($form->getData(), $season, $externalLineId);
         $this->get('session')->getFlashBag()->add(
             'success',
             $this->get('translator')->trans('line.layout_chosen', array(), 'default')
@@ -63,7 +62,7 @@ class LineController extends AbstractController
 
         $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
-            return ($this->processForm($form, $season, $params));
+            return ($this->processForm($form, $season, $params, $line_id));
         } else {
             return $this->render(
                 'CanalTPMttBundle:Line:chooseLayout.html.twig',

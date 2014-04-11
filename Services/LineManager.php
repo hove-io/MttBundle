@@ -67,9 +67,11 @@ class LineManager
         return $this->lineConfig;
     }
     
-    public function save($lineConfig)
+    public function save($lineConfig, $season, $externalLineId)
     {
         // $lineConfig->setLayout($this->om->getPartialReference('CanalTP\MttBundle\Entity\Layout', $lineConfig->getLayout()));
+        $lineConfig->setExternalLineId($externalLineId);
+        $lineConfig->setSeason($season);
         $this->om->persist($lineConfig);
         $this->om->flush();
     }
