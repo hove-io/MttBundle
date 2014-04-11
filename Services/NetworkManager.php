@@ -57,4 +57,9 @@ class NetworkManager
         $this->om->persist($network);
         $this->om->flush();
     }
+
+    public function addUserToNetwork($userId, $networkId)
+    {
+        $this->repository->addUserToNetwork($userId, $networkId);
+    }
 }
