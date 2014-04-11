@@ -3,6 +3,7 @@ namespace CanalTP\MttBundle\Form\Type\Block;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use CanalTP\MttBundle\Form\Type\BlockType;
 
 class ImgType extends BlockType
@@ -22,7 +23,8 @@ class ImgType extends BlockType
                                     'image/jpeg'
                                 )
                             )
-                        )
+                        ),
+                        new NotBlank()
                     )
                 )
             );

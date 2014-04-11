@@ -5,6 +5,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 use CanalTP\MttBundle\Form\Type\BlockType;
 
@@ -49,6 +50,9 @@ class CalendarType extends BlockType
                         // attribute to tell javascript to fill automatically title
                         // when a change occurs on this field
                         'data-fill-title'   => true,
+                    ),
+                    'constraints' => array(
+                        new NotBlank()
                     )
                 )
             );
