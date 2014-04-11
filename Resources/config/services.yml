@@ -13,7 +13,6 @@ parameters:
     canal_tp_mtt.frequency_manager.class: CanalTP\MttBundle\Services\FrequencyManager
     canal_tp_mtt.season.class: CanalTP\MttBundle\Services\SeasonManager
     canal_tp_mtt.network.class: CanalTP\MttBundle\Services\NetworkManager
-    canal_tp.mtt.business_module.class: CanalTP\MttBundle\Security\BusinessModule
     canal_tp.mtt.navitia_debug_matcher.class: CanalTP\MttBundle\Profiler\NavitiaDebugMatcher
     canal_tp.mtt.season_copier.class: CanalTP\MttBundle\Services\SeasonCopier
     canal_tp.mtt.media_manager.class: CanalTP\MttBundle\Services\MediaManager
@@ -101,17 +100,11 @@ services:
     canal_tp_mtt.network_manager:
        class: %canal_tp_mtt.network.class%
        arguments: ['@doctrine.orm.entity_manager']
-    # Service of distribution list
-    canal_tp.mtt.distribution_list:
-        class: %canal_tp.mtt.distribution_list.class%
-        arguments: ['@doctrine.orm.entity_manager']
-    # Business Objects
-    canal_tp.mtt.business.module:
-        class: %canal_tp.mtt.business_module.class%
-        arguments: ['@service_container']
-        tags:
-            -  { name: canal_tp.mtt.business_module }
     canal_tp.mtt.form_listener:
         class: CanalTP\MttBundle\EventListener\FormListener
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+    # Service of distribution list
+    canal_tp.mtt.distribution_list:
+        class: %canal_tp.mtt.distribution_list.class%
+        arguments: ['@doctrine.orm.entity_manager']

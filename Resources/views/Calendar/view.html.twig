@@ -69,8 +69,8 @@
                                 <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
                             {% endfor %}
                             <hr/>
-                        {% endif %}
                         </div>
+                        {% endif %}
                         <div><label class="bold">{{'global.mode'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.commercial_mode }}</div>
                         <div><label class="bold">{{'global.direction'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.direction }}</div>
                         <div><label class="bold">{{'calendar.line_code'|trans}}</label>: {{ calendar.schedules.display_informations.code }}</div>

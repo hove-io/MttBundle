@@ -1,5 +1,5 @@
 parameters:
-    permissions:
+    mtt.permissions:
         BUSINESS_ASSIGN_USER_PERIMETER:
             label: Assigner un périmètre à un utilisateur
             description: Permet de lister les différents réseaux disponibles et d'attribuer une liste de réseaux à un utilisateur
