@@ -99,3 +99,8 @@ canal_tp_mtt_network_list:
 canal_tp_mtt_network_edit:
     pattern: /network/edit/{network_id}
     defaults: { _controller: CanalTPMttBundle:Network:edit, network_id: null}
+
+#Layouts
+canal_tp_mtt_layouts:
+    pattern: /layouts/network/{externalNetworkId}
+    defaults: { _controller: CanalTPMttBundle:Layout:index}

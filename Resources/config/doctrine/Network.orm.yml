@@ -46,3 +46,14 @@ CanalTP\MttBundle\Entity\Network:
                 inverseJoinColumns:
                     user_id:
                         referencedColumnName: id
+        layouts:
+            targetEntity: CanalTP\MttBundle\Entity\Layout
+            joinTable:
+                name: mtt.layouts_networks
+                joinColumns:
+                    network_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    layout_id:
+                        referencedColumnName: id
+

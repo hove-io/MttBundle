@@ -33,6 +33,11 @@ class Network extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
+    private $layouts;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
     private $seasons;
 
     /**
@@ -127,6 +132,28 @@ class Network extends AbstractEntity
     {
         $this->users[] = $user;
 
+        return ($this);
+    }
+
+    /**
+     * Set Object
+     *
+     * @return Network
+     */
+    public function getLayouts()
+    {
+        return ($this->layouts);
+    }
+
+    /**
+     * Set Layouts
+     *
+     * @return Network
+     */
+    public function setLayouts($layouts)
+    {
+        $this->layouts[] = $layouts;
+        
         return ($this);
     }
 

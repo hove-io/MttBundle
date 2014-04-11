@@ -21,8 +21,9 @@ class CalendarExtension extends \Twig_Extension
         }
     }
     
-    public function calendarRange($rangeConfig)
+    public function calendarRange($layout)
     {
+        $rangeConfig = array('start' => $layout->getCalendarStart(), 'end' => $layout->getCalendarEnd());
         $elements = array();
         $diurnalMax = $rangeConfig['end'] > $rangeConfig['start'] ? $rangeConfig['end'] : 23;
         for ($i = $rangeConfig['start'];$i <= $diurnalMax;$i++) {

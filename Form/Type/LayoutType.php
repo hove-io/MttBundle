@@ -8,39 +8,33 @@ use Symfony\Component\Form\FormInterface;
 
 class LayoutType extends AbstractType
 {
-    private $layoutChoices;
-
-    private $layouts;
-
-    public function __construct($layoutChoices)
-    {
-        $this->layouts = $layoutChoices;
-        foreach ($layoutChoices as $db_value => $choice) {
-            $this->layoutChoices[$db_value] = $choice['label'];
-        }
-    }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(
             array(
                 'multiple'=> false,
-                'choices' => $this->layoutChoices
+                'layouts' => array(),
+                'class' => 'CanalTP\MttBundle\Entity\Layout'
             )
         );
     }
-
+    
     /**
-     * Passe la config du champ Ã  la vue
+     * Passe la config du champ à la vue
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['layouts'] = $this->layouts;
+        $layouts = array();
+        foreach ($options['layouts'] as $layout) {
+            $layouts[$layout->getId()] = $layout;
+        }
+        $view->vars['layouts'] = $layouts;
     }
-
+    
     public function getParent()
     {
-        return 'choice';
+        return 'entity';
     }
 
     public function getName()

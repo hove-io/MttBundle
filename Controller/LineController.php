@@ -4,6 +4,8 @@ namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use CanalTP\MttBundle\Entity\LineConfig;
+use CanalTP\MttBundle\Entity\Layout;
+use CanalTP\MttBundle\Form\Type\LineConfigType;
 
 /*
  * LineController
@@ -13,25 +15,14 @@ class LineController extends AbstractController
     /*
      * @function process a form to save a layout for a line and a season. Insert a lineConfig element in bdd if needed.
      */
-    private function processForm($form, $LineConfig, $season, $params)
+    private function processForm($form, $season, $params)
     {
-        if (empty($LineConfig)) {
-            $data = $form->getData();
-            $LineConfig = new LineConfig();
-            $LineConfig->setExternalLineId($params['line_id']);
-            $LineConfig->setLayout($data['layout']);
-            $LineConfig->setSeason($season);
-        }
-        if ($LineConfig->getLayout() != null) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($LineConfig);
-            $em->flush();
+        $this->get('canal_tp_mtt.line_manager')->save($form->getData());
 
-            $this->get('session')->getFlashBag()->add(
-                'success',
-                $this->get('translator')->trans('line.layout_chosen', array(), 'default')
-            );
-        }
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $this->get('translator')->trans('line.layout_chosen', array(), 'default')
+        );
 
         return $this->redirect($this->generateUrl('canal_tp_mtt_stop_point_list', array(
             'network_id'        => $params['externalNetworkId'],
@@ -48,7 +39,8 @@ class LineController extends AbstractController
     {
         $this->isGranted(array('BUSINESS_CHOOSE_LAYOUT', 'BUSINESS_EDIT_LAYOUT'));
         $season = $this->get('canal_tp_mtt.season_manager')->getSeasonWithNetworkIdAndSeasonId($externalNetworkId, $seasonId);
-
+        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
+        
         $params = array('externalNetworkId' => $externalNetworkId,
                         'line_id'           => $line_id,
                         'externalRouteId'   => $externalRouteId);
@@ -61,22 +53,17 @@ class LineController extends AbstractController
                     'season' => $season
                 )
             );
-
-        $form = $this->createFormBuilder($lineConfig)
-            ->add(
-                'layout',
-                'layout',
-                array(
-                    'empty_value' => 'Choose a layout',
-                )
+        $form = $this->createForm(
+            new LineConfigType($network->getLayouts()),
+            $lineConfig,
+            array(
+                'action' => $this->getRequest()->getRequestUri()
             )
-            ->setAction($this->getRequest()->getRequestUri())
-            ->setMethod('POST')
-            ->getForm();
+        );
 
         $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
-            return ($this->processForm($form, $lineConfig, $season, $params));
+            return ($this->processForm($form, $season, $params));
         } else {
             return $this->render(
                 'CanalTPMttBundle:Line:chooseLayout.html.twig',

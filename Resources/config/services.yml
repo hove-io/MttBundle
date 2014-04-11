@@ -59,8 +59,6 @@ services:
     # FORMS
     form.type.layout:
         class: CanalTP\MttBundle\Form\Type\LayoutType
-        arguments:
-            - "%layouts%"
         tags:
             - { name: form.type, alias: layout }
     form.type.datepicker:
@@ -90,7 +88,7 @@ services:
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canal_tp.media_manager']
     canal_tp_mtt.pdf_generator:
        class: %canal_tp_mtt.pdf_generator.class%
-       arguments: ['%pdf_generator_url%', "%layouts%", "%kernel.root_dir%/../web/uploads/"]
+       arguments: ['%pdf_generator_url%', "%kernel.root_dir%/../web/uploads/"]
     canal_tp_mtt.calendar_manager:
        class: %canal_tp_mtt.calendar_manager.class%
        arguments: ['@canal_tp_mtt.navitia', '@translator']
