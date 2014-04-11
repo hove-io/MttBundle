@@ -12,8 +12,9 @@ class NetworkControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($route);
     }
     
-    public function testEdit()
+    public function testEditForm()
     {
+        // Check if the form is correctly display
         $route = $this->generateRoute('canal_tp_mtt_network_edit');
         $crawler = $this->doRequestRoute($route);
 

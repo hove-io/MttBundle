@@ -18,6 +18,7 @@ class FrequencyControllerTest extends AbstractControllerTest
             )
         );
     }
+
 	private function getFormRoute($block)
     {
         return $this->generateRoute(
