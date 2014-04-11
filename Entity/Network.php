@@ -150,9 +150,9 @@ class Network extends AbstractEntity
      *
      * @return Network
      */
-    public function setLayouts($layouts)
+    public function addLayout($layout)
     {
-        $this->layouts[] = $layouts;
+        $this->layouts[] = $layout;
         
         return ($this);
     }
