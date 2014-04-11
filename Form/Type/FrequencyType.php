@@ -5,6 +5,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use CanalTP\MttBundle\Twig\CalendarExtension;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class FrequencyType extends AbstractType
 {
@@ -22,15 +25,29 @@ class FrequencyType extends AbstractType
     {
         $builder->add('startTime', 'time', array(
             'with_minutes'  => false,
-            'hours' => $this->startHours
+            'hours' => $this->startHours,
+            'constraints' => array(
+                new NotBlank(),
+                new DateTime()
+            )
         ));
         $builder->add('endTime', 'time', array(
             'with_minutes'  => false,
-            'hours' => $this->endHours
+            'hours' => $this->endHours,
+            'constraints' => array(
+                new NotBlank(),
+                new DateTime()
+            )
         ));
         $builder->add('content', 'textarea', array(
             'attr' => array(
-                'maxlength' => 150,
+                'maxlength' => 150
+            ),
+            'constraints' => array(
+                new NotBlank(),
+                new Length(
+                    array('max' => 150)
+                )
             )
         ));
     }
