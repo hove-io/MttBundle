@@ -13,6 +13,7 @@ use CanalTP\MttBundle\Entity\LineConfig;
 use CanalTP\MttBundle\Entity\Timetable;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\BlockRepository;
+use CanalTP\MttBundle\Entity\Layout;
 
 class Fixture extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -65,11 +66,11 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($season);
     }
 
-    private function createLineConfig(ObjectManager $em, $season)
+    private function createLineConfig(ObjectManager $em, $season, $layout)
     {
         $lineConfig = new LineConfig();
         $lineConfig->setSeason($season);
-        $lineConfig->setLayout('layout_1');
+        $lineConfig->setLayout($layout);
         $lineConfig->setExternalLineId(Fixture::EXTERNAL_LINE_ID);
 
         $em->persist($lineConfig);
@@ -102,6 +103,24 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($block);
     }
 
+    private function createLayout(ObjectManager $em, $layoutProperties, $networks = array())
+    {
+        $layout = new Layout();
+        $layout->setLabel($layoutProperties['label']);
+        $layout->setTwig($layoutProperties['twig']);
+        $layout->setPreview($layoutProperties['preview']);
+        $layout->setOrientation($layoutProperties['orientation']);
+        $layout->setCalendarStart($layoutProperties['calendarStart']);
+        $layout->setCalendarEnd($layoutProperties['calendarEnd']);
+        $layout->setNetworks($networks);
+        foreach ($networks as $network) {
+            $network->addLayout($layout);
+            $em->persist($network);
+        }
+        
+        $em->persist($layout);
+        return ($layout);
+    }
 
     public function load(ObjectManager $em)
     {
@@ -120,7 +139,19 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
 
         $network->addUser($user);
         $season = $this->createSeason($em, $network);
-        $lineConfig = $this->createLineConfig($em, $season);
+        $layout = $this->createLayout(
+            $em,
+            array(
+                'label'         => 'Layout 1 de type paysage (Dijon 1)',
+                'twig'          => 'layout_1.html.twig',
+                'preview'       => '/bundles/canaltpmtt/img/layout_1.png',
+                'orientation'   => 'landscape',
+                'calendarStart' => 4,
+                'calendarEnd'   => 1,
+            ),
+            array($network)
+        );
+        $lineConfig = $this->createLineConfig($em, $season, $layout);
         $timetable = $this->createTimetable($em, $lineConfig);
         $block = $this->createBlock($em, $timetable);
         

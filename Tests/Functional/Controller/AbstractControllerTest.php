@@ -82,8 +82,8 @@ abstract class AbstractControllerTest extends WebTestCase
     
     private function mockDb()
     {
-        $this->runConsole("doctrine:schema:drop", array("--force" => true));
         $this->runConsole("doctrine:schema:create");
+        // $this->runConsole("doctrine:fixtures:load");
         $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures"));
     }
     
@@ -146,7 +146,7 @@ abstract class AbstractControllerTest extends WebTestCase
     public function tearDown()
     {
         if ($this->with_db) {
-            /*$this->runConsole("doctrine:schema:drop", array("--force" => true));*/
+            // $this->runConsole("doctrine:schema:drop", array("--force" => true));
         }
     }
 }
