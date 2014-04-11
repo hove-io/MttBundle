@@ -100,7 +100,6 @@ class TimetableControllerTest extends AbstractControllerTest
     public function testStopPointCodeBlock()
     {
         $translator = $this->client->getContainer()->get('translator');
-        var_dump($translator->trans('stop_point_code.block.default', array(), 'default'));
         $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
 
         $this->checkInTimetableViewPage($translator, $season->getId());
