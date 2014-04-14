@@ -22,3 +22,6 @@ CanalTP\MttBundle\Entity\Season:
             - DateTime: ~
         endDate:
             - DateTime: ~
+            - CanalTP\MttBundle\Validator\Constraints\GreaterThanField:
+                field: startDate
+                message: "La date est pas bonne"
