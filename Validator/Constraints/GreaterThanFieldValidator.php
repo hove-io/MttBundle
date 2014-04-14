@@ -21,7 +21,7 @@ class GreaterThanFieldValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if ($value < $this->context->getRoot()->get($constraint->field)->getData()) {
+        if ($value <= $this->context->getRoot()->get($constraint->field)->getData()) {
  
             $this->context->addViolation(
                 'error.greater_than_field', 
