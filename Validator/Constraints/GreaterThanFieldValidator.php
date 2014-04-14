@@ -11,13 +11,6 @@ use Symfony\Component\Validator\Constraint;
  */
 class GreaterThanFieldValidator extends ConstraintValidator
 {
-    private $translator = null;
-
-    public function __construct(Translator $translator)
-    {
-        $this->translator = $translator;
-    }
-    
     /**
      * Checks if the passed value is valid.
      *
