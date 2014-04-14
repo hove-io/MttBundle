@@ -1,4 +1,10 @@
 require(['jquery'], function($){
+    function displayError(responseText) {
+        document.open();
+        document.write(responseText);
+        document.close();
+    }
+
     $('.modal').on(
         'submit',
         'form',
@@ -19,13 +25,11 @@ require(['jquery'], function($){
                     } else if (data.status == true) {
                         window.location = data.location;
                     } else {
-                        alert('error');
+                        displayError(data);
                     }
                 },
-                'error':function(xhr){
-                    document.open();
-                    document.write(xhr.responseText);
-                    document.close();
+                'error':function(xhr) {
+                    displayError(xhr.responseText)
                 }
             });
             return false;

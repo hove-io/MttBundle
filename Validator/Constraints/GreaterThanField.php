@@ -10,9 +10,4 @@ use Symfony\Component\Validator\Constraint;
 class GreaterThanField extends Constraint
 {
     public $field = null;
-
-    public function validatedBy()
-    {
-        return 'validator_constraints_greater_than_field';
-    }
 }

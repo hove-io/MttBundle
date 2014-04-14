@@ -21,16 +21,6 @@ parameters:
     canal_tp.mtt.validator.constraints.greater_than_field.class: CanalTP\MttBundle\Validator\Constraints\GreaterThanFieldValidator
 
 services:
-    # constraints
-    canal_tp.mtt.validator.constraints.navitia_network_id:
-        class: %canal_tp.mtt.validator.constraints.navitia_network_id.class%
-        arguments: ['@translator']
-        tags:
-            - { name: validator.constraint_validator, alias: validator_constraints_navitia_network_id }
-    canal_tp.mtt.validator.constraints.greater_than_field:
-        class: %canal_tp.mtt.validator.constraints.greater_than_field.class%
-        tags:
-            - { name: validator.constraint_validator, alias: validator_constraints_greater_than_field }
     #TWIG extensions
     twig.extension.intl:
        class: Twig_Extensions_Extension_Intl
