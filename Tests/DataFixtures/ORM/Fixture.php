@@ -24,6 +24,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     const EXTERNAL_STOP_POINT_ID = 'stop_point:TTR:SP:STPGB-2';
     const SEASON_ID = 1;
     const EXTERNAL_LAYOUT_ID = 1;
+    public static $timetableId;
     
     private function createUser(ObjectManager $em, $data)
     {
@@ -85,7 +86,9 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $timetable->setExternalRouteId(Fixture::EXTERNAL_ROUTE_ID);
 
         $em->persist($timetable);
-
+        
+        self::$timetableId = $timetable->getId();
+        
         return ($timetable);
     }
 

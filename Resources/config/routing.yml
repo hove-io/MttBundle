@@ -46,8 +46,8 @@ canal_tp_mtt_timetable_view:
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_mtt_timetable_generate_pdf:
-    pattern: /timetable/{timetableId}/network/{externalNetworkId}/stopPoint/{externalStopPointId}/generatePdf
-    defaults: { _controller: CanalTPMttBundle:Timetable:generatePdf}
+    pattern: /pdf/generate/timetable/{timetableId}/network/{externalNetworkId}/stopPoint/{externalStopPointId}
+    defaults: { _controller: CanalTPMttBundle:Pdf:generate}
 
 #Block
 canal_tp_mtt_block_edit:
