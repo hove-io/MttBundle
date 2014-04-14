@@ -3,7 +3,7 @@ CanalTP\MttBundle\Entity\Network:
         externalCoverageId:
             - NotBlank: ~
         externalId:
-            - CanalTP\MttBundle\Validator\Constraints\ConstainsNavitiaNetworkId: ~
+            - CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkId: ~
 
 CanalTP\MttBundle\Entity\Block:
     properties:

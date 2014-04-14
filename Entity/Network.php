@@ -3,7 +3,7 @@
 namespace CanalTP\MttBundle\Entity;
 
 use Symfony\Component\Validator\Mapping\ClassMetadata;
-use CanalTP\MttBundle\Validator\Constraints\ConstainsNavitiaNetworkId;
+use CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkId;
 
 /**
  * Network

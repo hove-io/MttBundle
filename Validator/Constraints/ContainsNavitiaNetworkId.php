@@ -2,13 +2,12 @@
 
 namespace CanalTP\MttBundle\Validator\Constraints;
 
-// use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
  */
-class ConstainsNavitiaNetworkId extends Constraint
+class ContainsNavitiaNetworkId extends Constraint
 {
     public $message = null;
 

@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 /**
  * @Annotation
  */
-class ConstainsNavitiaNetworkIdValidator extends ConstraintValidator
+class ContainsNavitiaNetworkIdValidator extends ConstraintValidator
 {
     private $message = null;
 

@@ -17,7 +17,7 @@ parameters:
     canal_tp.mtt.season_copier.class: CanalTP\MttBundle\Services\SeasonCopier
     canal_tp.mtt.media_manager.class: CanalTP\MttBundle\Services\MediaManager
     canal_tp.mtt.distribution_list.class: CanalTP\MttBundle\Services\DistributionListManager
-    canal_tp.mtt.validator.constraints.navitia_network_id.class: CanalTP\MttBundle\Validator\Constraints\ConstainsNavitiaNetworkIdValidator
+    canal_tp.mtt.validator.constraints.navitia_network_id.class: CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkIdValidator
 
 services:
     # constraint
