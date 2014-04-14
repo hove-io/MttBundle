@@ -24,9 +24,3 @@ CanalTP\MttBundle\Entity\Season:
             - DateTime: ~
             - CanalTP\MttBundle\Validator\Constraints\GreaterThanField:
                 field: startDate
-
-CanalTP\MttBundle\Entity\Frequency:
-    properties:
-        endTime:
-            - CanalTP\MttBundle\Validator\Constraints\GreaterThanField:
-                field: startTime
