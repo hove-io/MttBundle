@@ -110,7 +110,7 @@ class DistributionController extends AbstractController
             $media->setFileName($externalStopPointId);
             $paths[] = $this->mediaManager->getPathByMedia($media);
         }
-var_dump($paths);die;
+
         if (count($paths) > 0) {
             // save this list in db
             $this->saveList($timetable, $stopPointsIds);
