@@ -26,7 +26,7 @@ class DistributionController extends AbstractController
                 );
             $this->saveList($timetable, $stopPointsIds);
             $this->get('session')->getFlashBag()->add(
-                'notice',
+                'success',
                 $this->get('translator')->trans('distribution.confirm_order_saved', array(), 'default')
             );
         }
