@@ -132,4 +132,18 @@ class CalendarControllerTest extends AbstractControllerTest
             }
         }
     }
+
+
+    public function testStopPointCodeBlock()
+    {
+        $translator = $this->client->getContainer()->get('translator');
+        $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
+
+        $crawler = $this->doRequestRoute($this->getViewRoute());
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('html:contains("MERMB-1")')->count(),
+            "Stop point code (external code) not found in stop point timetable view page"
+        );
+    }
 }

@@ -20,6 +20,7 @@ global:
     minutes: Minutes
     hour_label: h
     annotations: Annotations
+    stop_point_code: Code
     exceptions:
         add: Y compris le %date%
         remove: Sauf le %date%
