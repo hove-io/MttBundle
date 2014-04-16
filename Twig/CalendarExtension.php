@@ -12,7 +12,10 @@ class CalendarExtension extends \Twig_Extension
             'isWithinFrequency' => new \Twig_Filter_Method($this, 'isWithinFrequency'),
         );
     }
-
+    
+    /**
+     * returns index of the given value in array
+     */
     private function getIndex($searchedHour, $hours)
     {
         foreach ($hours as $index => $hour) {
@@ -20,10 +23,19 @@ class CalendarExtension extends \Twig_Extension
                 return $index;
         }
     }
-
+    
+    /**
+     * Based on Layout configuration, returns an array used to render a calendar
+     * also used to determine the index of a hour value (ex: when validating forms)
+     *
+     * @param $layout Layout entity object
+     */
     public function calendarRange($layout)
     {
-        $rangeConfig = array('start' => $layout->getCalendarStart(), 'end' => $layout->getCalendarEnd());
+        $rangeConfig = array(
+            'start' => $layout->getCalendarStart(), 
+            'end' => $layout->getCalendarEnd()
+        );
         $elements = array();
         $diurnalMax = $rangeConfig['end'] > $rangeConfig['start'] ? $rangeConfig['end'] : 23;
         for ($i = $rangeConfig['start'];$i <= $diurnalMax;$i++) {
@@ -38,6 +50,13 @@ class CalendarExtension extends \Twig_Extension
         return $elements;
     }
 
+    /**
+     * Check if an hour is under a frequency frame and should not be displayed.
+     *
+     * @param $hour String hour value in string
+     * @param $frequencies Array of frequency entities
+     * @param $hours array as returned by this->calendarRange
+     */
     public function isWithinFrequency($hour, $frequencies, $hours)
     {
         $hourIndex = $this->getIndex($hour, $hours);
@@ -52,6 +71,12 @@ class CalendarExtension extends \Twig_Extension
         return false;
     }
 
+    /**
+     * Returns the index values array for a given Datetime 
+     *
+     * @param $datetime DateTime object 
+     * @param $hours Array
+     */
     public function hourIndex($datetime, $hours)
     {
         $searchedHour = date('G', $datetime->getTimestamp());
