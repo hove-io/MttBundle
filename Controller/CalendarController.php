@@ -15,7 +15,7 @@ class CalendarController extends AbstractController
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $calendars = $calendarManager->getCalendarsForStopPoint(
             $network->getExternalCoverageId(),
-            $externalRouteId, 
+            $externalRouteId,
             $externalStopPointId
         );
 

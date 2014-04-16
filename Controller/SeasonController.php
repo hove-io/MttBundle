@@ -28,6 +28,7 @@ class SeasonController extends AbstractController
                 )
             )
         );
+
         return ($form);
     }
 
@@ -42,6 +43,7 @@ class SeasonController extends AbstractController
                 $seasonCopier = $this->get('canal_tp_mtt.season_copier');
                 $seasonCopier->run($seasonToClone, $form->getData());
             }
+
             return $this->redirect(
                 $this->generateUrl(
                     'canal_tp_mtt_season_list',
@@ -51,6 +53,7 @@ class SeasonController extends AbstractController
                 )
             );
         }
+
         return (null);
     }
 
@@ -67,6 +70,7 @@ class SeasonController extends AbstractController
                 array('form' => $form->createView())
             );
         }
+
         return ($render);
     }
 

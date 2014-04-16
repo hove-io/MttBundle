@@ -9,14 +9,14 @@ class LayoutControllerTest extends AbstractControllerTest
     private function getViewRoute($externalNetworkId = Fixture::EXTERNAL_NETWORK_ID)
     {
         return $this->generateRoute(
-            'canal_tp_mtt_layouts', 
+            'canal_tp_mtt_layouts',
             // fake params since we mock navitia
             array(
                 'externalNetworkId' => $externalNetworkId,
             )
         );
     }
-    
+
     public function testList()
     {
         $route = $this->getViewRoute();

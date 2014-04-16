@@ -2,8 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Season
  */
@@ -38,7 +36,7 @@ class Season extends AbstractEntity
      * @var Array
      */
     private $lineConfigs;
-    
+
     /**
      * @var Object
      */
@@ -47,7 +45,7 @@ class Season extends AbstractEntity
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -163,11 +161,11 @@ class Season extends AbstractEntity
 
         return ($this);
     }
-    
+
     /**
      * Set lineConfigs
      *
-     * @param  array $lineConfigs
+     * @param  array  $lineConfigs
      * @return Season
      */
     public function setLineConfigs($lineConfigs)

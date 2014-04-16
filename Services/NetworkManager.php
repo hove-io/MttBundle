@@ -44,7 +44,7 @@ class NetworkManager
     /**
      * Return network Object
      *
-     * @param Integer $lineId
+     * @param  Integer  $lineId
      * @return networks
      */
     public function find($networkId)

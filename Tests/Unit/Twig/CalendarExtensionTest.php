@@ -15,13 +15,13 @@ class CalendarExtensionTest extends \PHPUnit_Framework_TestCase
         $result = $extension->calendarRange($layout);
         $this->assertEquals($result, $expected);
     }
-    
+
     public function getCases()
     {
         $obj1 = $this->getMockBuilder('CanalTP\MttBundle\Entity\Layout')
             ->setMethods(
                 array(
-                    'getCalendarStart', 
+                    'getCalendarStart',
                     'getCalendarEnd'
                 )
             )
@@ -42,7 +42,7 @@ class CalendarExtensionTest extends \PHPUnit_Framework_TestCase
         $obj2->expects($this->any())
             ->method('getCalendarEnd')
             ->will($this->returnValue(22));
-        
+
         $obj3->expects($this->any())
             ->method('getCalendarStart')
             ->will($this->returnValue(10));

@@ -10,7 +10,7 @@ class SeasonControllerTest extends AbstractControllerTest
     private $title = 'Saison 1';
     private $startDate = '01/04/2015';
     private $endDate = '03/10/2016';
-    
+
     private function getRoute($route)
     {
         return $this->generateRoute(
@@ -34,10 +34,10 @@ class SeasonControllerTest extends AbstractControllerTest
         $form['mtt_season[title]'] = $this->title;
         $form['mtt_season[startDate]'] = $this->startDate;
         $form['mtt_season[endDate]'] = $this->endDate;
-        
+
         return $form;
     }
-    
+
     public function testEditForm()
     {
         $form = $this->getEditForm();
@@ -74,7 +74,7 @@ class SeasonControllerTest extends AbstractControllerTest
         $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
         $this->assertGreaterThan(0, $crawler->filter('div.form-group.has-error')->count());
     }
-    
+
     public function testUniqueConstraintOnSeasonTitleNetworkId()
     {
         $form = $this->getEditForm();

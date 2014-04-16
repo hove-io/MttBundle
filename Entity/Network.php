@@ -2,9 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkId;
-
 /**
  * Network
  */
@@ -34,7 +31,7 @@ class Network extends AbstractEntity
      * @var \Doctrine\Common\Collections\Collection
      */
     private $layouts;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -153,7 +150,7 @@ class Network extends AbstractEntity
     public function addLayout($layout)
     {
         $this->layouts[] = $layout;
-        
+
         return ($this);
     }
 

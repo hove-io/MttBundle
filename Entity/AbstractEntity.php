@@ -36,7 +36,7 @@ abstract class AbstractEntity
     {
         return $this->updated;
     }
-    
+
     public function __clone()
     {
         $this->created = new \DateTime();

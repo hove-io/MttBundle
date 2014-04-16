@@ -25,13 +25,13 @@
                     <a href="{{ path(
                         'canal_tp_mtt_stop_point_list',
                         {
-                            'network_id'        : externalNetworkId, 
-                            'line_id'           : externalLineId, 
+                            'network_id'        : externalNetworkId,
+                            'line_id'           : externalLineId,
                             'externalRouteId'   : externalRouteId,
                             'seasonId'          : currentSeasonId
                         }
                     ) }}">
-                        <span class="glyphicon glyphicon-arrow-left"></span> 
+                        <span class="glyphicon glyphicon-arrow-left"></span>
                         {{'stop_point.list.back'|trans({}, 'default')}}
                     </a>
                 </li>
@@ -45,12 +45,12 @@
             </ul>
             {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': season.id})) }}
             <div class="toggle-button">
-                <span class="glyphicon glyphicon-transfer"></span> 
+                <span class="glyphicon glyphicon-transfer"></span>
             </div>
         </div>
     </div>
     {% endif %}
-    
+
     <div id="layout-main-wrapper"{% if editable == true %} class="editable"{% endif %}>
         {% block timetable_content %}{% endblock %}
     </div>

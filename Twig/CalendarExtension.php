@@ -12,15 +12,15 @@ class CalendarExtension extends \Twig_Extension
             'isWithinFrequency' => new \Twig_Filter_Method($this, 'isWithinFrequency'),
         );
     }
-    
+
     private function getIndex($searchedHour, $hours)
     {
-        foreach($hours as $index => $hour) {
+        foreach ($hours as $index => $hour) {
             if ($hour == $searchedHour)
                 return $index;
         }
     }
-    
+
     public function calendarRange($layout)
     {
         $rangeConfig = array('start' => $layout->getCalendarStart(), 'end' => $layout->getCalendarEnd());
@@ -34,9 +34,10 @@ class CalendarExtension extends \Twig_Extension
                 $elements[] = $i;
             }
         }
+
         return $elements;
     }
-    
+
     public function isWithinFrequency($hour, $frequencies, $hours)
     {
         $hourIndex = $this->getIndex($hour, $hours);
@@ -47,12 +48,14 @@ class CalendarExtension extends \Twig_Extension
                 return true;
             }
         }
+
         return false;
     }
-    
+
     public function hourIndex($datetime, $hours)
     {
         $searchedHour = date('G', $datetime->getTimestamp());
+
         return $this->getIndex($searchedHour, $hours);
     }
 

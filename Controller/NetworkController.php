@@ -30,6 +30,7 @@ class NetworkController extends AbstractController
                 )
             )
         );
+
         return ($form);
     }
 
@@ -39,10 +40,12 @@ class NetworkController extends AbstractController
 
         if ($form->isValid()) {
             $this->networkManager->save($form->getData());
+
             return $this->redirect(
                 $this->generateUrl('canal_tp_mtt_network_list')
             );
         }
+
         return (null);
     }
 
@@ -58,6 +61,7 @@ class NetworkController extends AbstractController
                 array('form' => $form->createView())
             );
         }
+
         return ($render);
     }
 

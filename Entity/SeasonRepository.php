@@ -24,6 +24,7 @@ class SeasonRepository extends EntityRepository
 
             $season->setNetwork($networkRepository->findOneByExternalId($networkId));
         }
+
         return ($season);
     }
 }

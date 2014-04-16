@@ -29,7 +29,7 @@ class SeasonCopier
         $this->blockManager = $blockManager;
         $this->frequencyManager = $frequencyManager;
     }
-    
+
     public function copyBlocksForStopPoint($origStopPoint, $destStopPoint, $destTimetable)
     {
         foreach ($origStopPoint->getBlocks() as $origBlock) {

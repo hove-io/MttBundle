@@ -2,8 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Frequency
  */
@@ -34,11 +32,10 @@ class Frequency extends AbstractEntity
      */
     private $block;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -48,20 +45,20 @@ class Frequency extends AbstractEntity
     /**
      * Set startTime
      *
-     * @param \DateTime $startTime
+     * @param  \DateTime $startTime
      * @return Frequency
      */
     public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
-    
+
         return $this;
     }
 
     /**
      * Get startTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartTime()
     {
@@ -71,20 +68,20 @@ class Frequency extends AbstractEntity
     /**
      * Set endTime
      *
-     * @param \DateTime $endTime
+     * @param  \DateTime $endTime
      * @return Frequency
      */
     public function setEndTime($endTime)
     {
         $this->endTime = $endTime;
-    
+
         return $this;
     }
 
     /**
      * Get endTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndTime()
     {
@@ -94,20 +91,20 @@ class Frequency extends AbstractEntity
     /**
      * Set content
      *
-     * @param string $content
+     * @param  string    $content
      * @return Frequency
      */
     public function setContent($content)
     {
         $this->content = $content;
-    
+
         return $this;
     }
 
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -117,20 +114,20 @@ class Frequency extends AbstractEntity
     /**
      * Set block
      *
-     * @param Object Block $block
+     * @param  Object Block $block
      * @return Frequency
      */
     public function setBlock($block)
     {
         $this->block = $block;
-    
+
         return $this;
     }
 
     /**
      * Get block
      *
-     * @return Object 
+     * @return Object
      */
     public function getBlock()
     {

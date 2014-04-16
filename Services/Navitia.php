@@ -27,13 +27,13 @@ class Navitia
      *
      * @param  type $coverageId
      * @param  type $networkId
-     * @return type 
+     * @return type
      */
     public function getStopPoint($coverageId, $stopPointId, $params)
     {
         $filter = 'stop_points/' . $stopPointId;
         $parameters = http_build_query($params);
-        
+
         $query = array(
             'api' => 'coverage',
             'parameters' => array(
@@ -42,6 +42,7 @@ class Navitia
                 'parameters' => $parameters
             )
         );
+
         return $this->navitia_component->call($query);
     }
 
@@ -61,8 +62,8 @@ class Navitia
         if (empty($result) || !isset($result->lines)) {
             throw new \Exception(
                 $this->translator->trans(
-                    'services.navitia.no_lines_for_network', 
-                    array('%network%'=>$networkId), 
+                    'services.navitia.no_lines_for_network',
+                    array('%network%'=>$networkId),
                     'exceptions'
                 )
             );
@@ -133,8 +134,8 @@ class Navitia
     /**
      * Returns Stop Point external code
      *
-     * @param  String $coverageId
-     * @param  String $stopPointId
+     * @param  String        $coverageId
+     * @param  String        $stopPointId
      * @return external_code
      */
     public function getStopPointExternalCode($coverageId, $stopPointId)
@@ -148,6 +149,7 @@ class Navitia
                 break ;
             }
         }
+
         return ($externalCode);
     }
 
@@ -165,12 +167,13 @@ class Navitia
         if (!isset($response->routes) || empty($response->routes)) {
             throw new \Exception(
                 $this->translator->trans(
-                    'services.navitia.no_data_for_this_route', 
-                    array('%RouteId%' => $routeExternalId), 
+                    'services.navitia.no_data_for_this_route',
+                    array('%RouteId%' => $routeExternalId),
                     'exceptions'
                 )
             );
         }
+
         return ($response->routes[0]);
     }
 

@@ -101,7 +101,7 @@ class Timetable extends AbstractEntity
     /**
      * Set stopPoints
      *
-     * @param  array $blocks
+     * @param  array     $blocks
      * @return Timetable
      */
     public function setStopPoints($stopPoints)

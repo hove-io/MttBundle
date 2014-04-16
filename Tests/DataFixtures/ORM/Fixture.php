@@ -25,10 +25,10 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     const SEASON_ID = 1;
     const EXTERNAL_LAYOUT_ID = 1;
     public static $timetableId;
-    
+
     private function createUser(ObjectManager $em, $data)
     {
-        //  On crée l'utilisateur admin 
+        //  On crée l'utilisateur admin
         $user = new User();
         $user->setUsername($data['username']);
         $user->setFirstName($data['firstname']);
@@ -50,7 +50,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $network->setExternalCoverageId($externalCoverageId);
 
         $em->persist($network);
-        
+
         return ($network);
     }
 
@@ -63,7 +63,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $season->setEndDate(new \DateTime("+6 month"));
 
         $em->persist($season);
-        
+
         return ($season);
     }
 
@@ -86,9 +86,9 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $timetable->setExternalRouteId(Fixture::EXTERNAL_ROUTE_ID);
 
         $em->persist($timetable);
-        
+
         self::$timetableId = $timetable->getId();
-        
+
         return ($timetable);
     }
 
@@ -120,8 +120,9 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
             $network->addLayout($layout);
             $em->persist($network);
         }
-        
+
         $em->persist($layout);
+
         return ($layout);
     }
 
@@ -171,7 +172,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $lineConfig = $this->createLineConfig($em, $season, $layout);
         $timetable = $this->createTimetable($em, $lineConfig);
         $block = $this->createBlock($em, $timetable);
-        
+
         $em->flush();
     }
 

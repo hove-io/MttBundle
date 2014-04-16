@@ -14,7 +14,7 @@ use CanalTP\MttBundle\Entity\Frequency;
 class FrequencyManager
 {
     private $om = null;
-    
+
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
@@ -23,36 +23,36 @@ class FrequencyManager
     {
         return $this->om->getRepository('CanalTPMttBundle:Frequency')->findByBlock($blockId);
     }
-    
+
     public function getParentEntity($blockId)
     {
         return $this->om->getRepository('CanalTPMttBundle:Block')->find($blockId);
     }
-    
+
     public function getEntity($blockId)
     {
         // $builder = new FormBuilder($this->repo);
         // $builder->setMethod('POST')
         $frequency= new Frequency();
         $frequency->setBlock($blockId);
-        
+
         return $frequency;
     }
-    
+
     /**
      * Return Frequency
      *
-     * @param  Object $frequency
-     * @param  Object $destBlock
+     * @param  Object    $frequency
+     * @param  Object    $destBlock
      * @return frequency
      */
     public function copy($frequency, $destBlock)
     {
         $frequencyCloned = clone $frequency;
         $frequencyCloned->setBlock($destBlock);
-        
+
         $this->om->persist($frequencyCloned);
-        
+
         return $frequencyCloned;
     }
 }

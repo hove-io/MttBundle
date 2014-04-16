@@ -4,10 +4,12 @@ namespace CanalTP\MttBundle\Form\Type;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
+use Doctrine\Common\Collections\ArrayCollection;
+
 use CanalTP\MttBundle\Twig\CalendarExtension;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Frequency;
-use Doctrine\Common\Collections\ArrayCollection;
+use CanalTP\MttBundle\Validator\Constraints\NotOverlapping;
 
 /*
  * CalendarController
@@ -27,22 +29,25 @@ class FrequenciesType extends AbstractType
             $block->setFrequencies(new ArrayCollection(array($frequency)));
         }
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'frequencies', 
-            'collection', 
+            'frequencies',
+            'collection',
             array(
                 'type'          => new FrequencyType($this->hoursRange),
                 'allow_add'     => true,
                 'allow_delete'  => true,
-                'by_reference' => false,
+                'by_reference'  => false,
+                'constraints'   => array(
+                    new NotOverlapping(array('values' => $this->hoursRange, 'startField'=>'startTime', 'endField'=>'endTime'))
+                )
             )
         );
         $builder->setAction($options['action']);
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(
@@ -54,7 +59,7 @@ class FrequenciesType extends AbstractType
             )
         );
     }
-    
+
     public function getName()
     {
         return 'block_frequencies_coll';

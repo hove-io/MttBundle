@@ -44,7 +44,7 @@ class SeasonManager
         if ($seasonId == null && count($seasons) > 0) {
             return $seasons[0];
         } else {
-            foreach($seasons as $season) {
+            foreach ($seasons as $season) {
                 if ($seasonId == $season->getId()) {
                     return $season;
                 }

@@ -20,12 +20,12 @@ class DistributionListRepository extends EntityRepository
             }
         }
     }
-    
+
     private function compare($a, $b)
     {
         return $a->stop_point->id === $b->stop_point->id ? 0 : 1;
     }
-    
+
     public function sortSchedules($schedules, $networkId, $externalRouteId, $reset = false)
     {
         $distributionList = $this->findOneBy(array(
@@ -37,7 +37,7 @@ class DistributionListRepository extends EntityRepository
         $sortedSchedules['excluded'] = array();
         if (empty($distributionList) || $reset == 1) {
             $sortedSchedules['included'] = $schedules;
-        } 
+        }
         if (!empty($distributionList)) {
             $includedStops = $distributionList->getIncludedStops();
             foreach ($includedStops as $scheduleId) {

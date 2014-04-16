@@ -64,7 +64,7 @@ class CalendarType extends BlockType
     {
         return (count($this->choices) == 1 && $this->blockInstance->getContent() != null);
     }
-    
+
     /*
      * @function filter calendars and remove already used calendars by others in the parent timetable
      */
@@ -103,8 +103,7 @@ class CalendarType extends BlockType
     {
         if ($form->get('content')->isDisabled()) {
             $form->get('content')->addError(new FormError('calendar.error.all_calendars_selected'));
-        }
-        else if (count($this->choices) == 0) {
+        } elseif (count($this->choices) == 0) {
             $form->get('content')->addError(new FormError('calendar.error.no_calendars_found'));
         }
     }

@@ -11,7 +11,7 @@ use CanalTP\MediaManagerBundle\Entity\Category;
 class PdfController extends AbstractController
 {
     private $mediaManager;
-    
+
     private function saveMedia($timetableId, $externalStopPointId, $path)
     {
         $this->mediaManager = $this->get('canal_tp.media_manager');
@@ -32,7 +32,7 @@ class PdfController extends AbstractController
 
         return ($media);
     }
-    
+
     public function generateAction($timetableId, $externalNetworkId, $externalStopPointId)
     {
         $this->isGranted('BUSINESS_GENERATE_PDF');

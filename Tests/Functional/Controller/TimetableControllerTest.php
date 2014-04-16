@@ -19,7 +19,7 @@ class TimetableControllerTest extends AbstractControllerTest
             )
         );
     }
-    
+
     private function checkBlockAndDates($crawler, $season)
     {
         // Title present
@@ -31,7 +31,7 @@ class TimetableControllerTest extends AbstractControllerTest
         $this->assertTrue($crawler->filter('html:contains("' . datefmt_format($fmt, $season->getStartDate()) . '")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("' . datefmt_format($fmt, $season->getEndDate()) . '")')->count() == 1);
     }
-    
+
     public function testSeasonBlockDates()
     {
         $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
@@ -42,7 +42,7 @@ class TimetableControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $season->getId(), false));
         $this->checkBlockAndDates($crawler, $season);
     }
-    
+
     public function testAnonymousAccess()
     {
         $anonymous = static::createClient();

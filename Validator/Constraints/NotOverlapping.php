@@ -7,6 +7,9 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class ContainsNavitiaNetworkId extends Constraint
+class NotOverlapping extends Constraint
 {
+    public $startField = null;
+    public $endField = null;
+    public $values = null;
 }

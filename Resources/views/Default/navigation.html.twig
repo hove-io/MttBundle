@@ -2,16 +2,16 @@
     {% for mode,lines in result %}
         <li class="mode-wrapper">
             <a data-toggle="collapse" href="#mode-collapse-{{ loop.index0 }}">
-                <span class="glyphicon glyphicon-chevron-right"></span> 
-                <span class="glyphicon glyphicon-chevron-down display-none"></span> 
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="glyphicon glyphicon-chevron-down display-none"></span>
                 {{ lines[0].commercial_mode.name }}
             </a>
             <ul id="mode-collapse-{{ loop.index0 }}" class="nav nav-pills nav-stacked collapse in">
                 {% for line in lines %}
                     <li class="line-menu-wrapper clearfix">
                         <a data-toggle="collapse" class="line-link-toggle" href="#mode-{{loop.parent.loop.index0}}-routes-collapse-{{ loop.index0 }}">{% spaceless %}
-                            <span class="glyphicon glyphicon-chevron-right"></span> 
-                            <span class="glyphicon glyphicon-chevron-down display-none"></span> 
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <span class="glyphicon glyphicon-chevron-down display-none"></span>
                             {% if line.code %}{{ line.code }} - {% endif %}{{ line.name }}
                         {% endspaceless %}</a>
                         <!--span class="badge pull-right">{{ line.routes|length }}</span-->
@@ -21,8 +21,8 @@
                                 <a href="{{ path(
                                     'canal_tp_mtt_stop_point_list',
                                     {
-                                        'network_id':line.network.id, 
-                                        'line_id':line.id, 
+                                        'network_id':line.network.id,
+                                        'line_id':line.id,
                                         'externalRouteId': route.id,
                                         'seasonId': current_season
                                     }

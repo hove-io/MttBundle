@@ -32,8 +32,8 @@ global:
     endDate: Date de fin
 
 error:
-    start_end_time_incoherent: L'heure de début et l'heure de fin en sont pas cohérentes
-    frequencies_conflict: Plusieurs cadres se chevauchent
+    start_end_time_incoherent: L'heure de début et l'heure de fin ne sont pas cohérentes
+    entities_overlapping: Les éléments n°%firstElement% et n°%secondElement% se chevauchent
     navitia_network_id: "%string% n'est pas conforme au format navitia."
     greater_than_field: Ce champ doit être supérieur au champ %field%.
 

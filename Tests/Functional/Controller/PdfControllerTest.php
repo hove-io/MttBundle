@@ -17,7 +17,7 @@ class PdfControllerTest extends AbstractControllerTest
             )
         );
     }
-    
+
     public function testPdfGeneration()
     {
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_generate_pdf'), 302);
