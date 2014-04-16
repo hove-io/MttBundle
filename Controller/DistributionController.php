@@ -30,9 +30,10 @@ class DistributionController extends AbstractController
                 $this->get('translator')->trans('distribution.confirm_order_saved', array(), 'default')
             );
         }
+
         return $this->redirect($this->generateUrl('canal_tp_mtt_distribution_list', array('externalNetworkId' => $externalNetworkId, 'lineId' => $lineId, 'routeId' => $routeId, 'currentSeasonId' => $currentSeasonId)));
     }
-    
+
     public function listAction($externalNetworkId, $lineId, $routeId, $currentSeasonId, $reset = false)
     {
         $this->isGranted('BUSINESS_MANAGE_DISTRIBUTION_LIST');
@@ -125,8 +126,8 @@ class DistributionController extends AbstractController
         } else {
             throw new \Exception(
                 $this->get('translator')->trans(
-                    'controller.distribution.generate.no_pdfs', 
-                    array(), 
+                    'controller.distribution.generate.no_pdfs',
+                    array(),
                     'exceptions'
                 )
             );

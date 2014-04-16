@@ -8,7 +8,6 @@ namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MttBundle\Entity\Timetable;
-use CanalTP\MttBundle\Services\Navitia;
 
 class TimetableManager
 {
@@ -88,7 +87,6 @@ class TimetableManager
         return $this->timetable;
     }
 
-
     /**
      * Return timetable Object with navitia data added
      *
@@ -103,7 +101,6 @@ class TimetableManager
         ));
     }
 
-
     /**
      * Return timetable Object
      *
@@ -114,21 +111,21 @@ class TimetableManager
     {
         return $this->repository->find($id);
     }
-    
+
     /**
-     * Return timetable 
+     * Return timetable
      *
-     * @param  Object $timetable
-     * @param  Object $destLineConfig
+     * @param  Object    $timetable
+     * @param  Object    $destLineConfig
      * @return timetable
      */
     public function copy($timetable, $destLineConfig)
     {
         $timetableCloned = clone $timetable;
         $timetableCloned->setLineConfig($destLineConfig);
-        
+
         $this->om->persist($timetableCloned);
-        
+
         return $timetableCloned;
     }
 }

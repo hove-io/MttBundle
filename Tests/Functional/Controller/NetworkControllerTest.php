@@ -2,8 +2,6 @@
 
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
-use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
-
 class NetworkControllerTest extends AbstractControllerTest
 {
     public function testList()
@@ -11,7 +9,7 @@ class NetworkControllerTest extends AbstractControllerTest
         $route = $this->generateRoute('canal_tp_mtt_network_list');
         $crawler = $this->doRequestRoute($route);
     }
-    
+
     public function testEditForm()
     {
         // Check if the form is correctly display

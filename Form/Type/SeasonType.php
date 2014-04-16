@@ -4,8 +4,6 @@ namespace CanalTP\MttBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SeasonType extends AbstractType
@@ -30,7 +28,7 @@ class SeasonType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -47,8 +45,8 @@ class SeasonType extends AbstractType
         ));
         if (count($this->seasons) > 0 && !$this->currentSeasonId) {
             $builder->add(
-                'seasonToClone', 
-                'choice', 
+                'seasonToClone',
+                'choice',
                     array(
                         'choices' => $this->seasons,
                         'empty_value' => 'global.please_choose'

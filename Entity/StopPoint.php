@@ -83,7 +83,7 @@ class StopPoint extends AbstractEntity
     /**
      * Set timetable
      *
-     * @param  string $timetable
+     * @param  string    $timetable
      * @return StopPoint
      */
     public function setTimetable($timetable)
@@ -218,7 +218,7 @@ class StopPoint extends AbstractEntity
 
         return $this;
     }
-    
+
     public function __clone()
     {
         $this->pdfGenerationDate = null;

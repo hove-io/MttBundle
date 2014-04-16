@@ -35,7 +35,7 @@
 
             if ($select.val() != null) {
                 nav_api.getCoverageNetworks(
-                    $select.val(), 
+                    $select.val(),
                     function(networks){
                         var $networkSelect = $('#mtt_network_external_id').empty();
                         for (var i in networks) {

@@ -34,7 +34,7 @@ class FormListener
     {
         return $event->getResponse() instanceof JsonResponse;
     }
-    
+
     private function isAjaxRequestForm(FilterResponseEvent $event)
     {
         $request = $event->getRequest();

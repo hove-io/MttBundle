@@ -2,12 +2,10 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Layout
  */
-class Layout extends AbstractEntity 
+class Layout extends AbstractEntity
 {
     /**
      * @var integer
@@ -43,12 +41,12 @@ class Layout extends AbstractEntity
      * @var integer
      */
     private $calendarEnd;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $networks;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -57,7 +55,7 @@ class Layout extends AbstractEntity
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,20 +65,20 @@ class Layout extends AbstractEntity
     /**
      * Set label
      *
-     * @param string $label
+     * @param  string $label
      * @return Layout
      */
     public function setLabel($label)
     {
         $this->label = $label;
-    
+
         return $this;
     }
 
     /**
      * Get label
      *
-     * @return string 
+     * @return string
      */
     public function getLabel()
     {
@@ -90,20 +88,20 @@ class Layout extends AbstractEntity
     /**
      * Set twig
      *
-     * @param string $twig
+     * @param  string $twig
      * @return Layout
      */
     public function setTwig($twig)
     {
         $this->twig = $twig;
-    
+
         return $this;
     }
 
     /**
      * Get twig
      *
-     * @return string 
+     * @return string
      */
     public function getTwig()
     {
@@ -113,20 +111,20 @@ class Layout extends AbstractEntity
     /**
      * Set preview
      *
-     * @param string $preview
+     * @param  string $preview
      * @return Layout
      */
     public function setPreview($preview)
     {
         $this->preview = $preview;
-    
+
         return $this;
     }
 
     /**
      * Get preview
      *
-     * @return string 
+     * @return string
      */
     public function getPreview()
     {
@@ -136,20 +134,20 @@ class Layout extends AbstractEntity
     /**
      * Set orientation
      *
-     * @param string $orientation
+     * @param  string $orientation
      * @return Layout
      */
     public function setOrientation($orientation)
     {
         $this->orientation = $orientation;
-    
+
         return $this;
     }
 
     /**
      * Get orientation
      *
-     * @return string 
+     * @return string
      */
     public function getOrientation()
     {
@@ -159,20 +157,20 @@ class Layout extends AbstractEntity
     /**
      * Set calendarStart
      *
-     * @param integer $calendarStart
+     * @param  integer $calendarStart
      * @return Layout
      */
     public function setCalendarStart($calendarStart)
     {
         $this->calendarStart = $calendarStart;
-    
+
         return $this;
     }
 
     /**
      * Get calendarStart
      *
-     * @return integer 
+     * @return integer
      */
     public function getCalendarStart()
     {
@@ -182,20 +180,20 @@ class Layout extends AbstractEntity
     /**
      * Set calendarEnd
      *
-     * @param integer $calendarEnd
+     * @param  integer $calendarEnd
      * @return Layout
      */
     public function setCalendarEnd($calendarEnd)
     {
         $this->calendarEnd = $calendarEnd;
-    
+
         return $this;
     }
 
     /**
      * Get calendarEnd
      *
-     * @return integer 
+     * @return integer
      */
     public function getCalendarEnd()
     {
@@ -220,7 +218,7 @@ class Layout extends AbstractEntity
     public function setNetworks($networks)
     {
         $this->networks = $networks;
-        
+
         return ($this);
     }
 
@@ -242,10 +240,10 @@ class Layout extends AbstractEntity
     public function setLineConfigs($lineConfigs)
     {
         $this->lineConfigs = $lineConfigs;
-        
+
         return ($this);
     }
-    
+
     public function __toString()
     {
         return $this->label;

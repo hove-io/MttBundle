@@ -19,7 +19,7 @@ class LayoutType extends AbstractType
             )
         );
     }
-    
+
     /**
      * Passe la config du champ à la vue
      */
@@ -31,7 +31,7 @@ class LayoutType extends AbstractType
         }
         $view->vars['layouts'] = $layouts;
     }
-    
+
     public function getParent()
     {
         return 'entity';

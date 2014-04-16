@@ -30,7 +30,7 @@ CanalTP\MttBundle\Entity\Network:
         seasons:
             targetEntity: Season
             mappedBy: network
-            orderBy: 
+            orderBy:
                 startDate: ASC
         ditributionLists:
             targetEntity: DistributionList
@@ -56,4 +56,3 @@ CanalTP\MttBundle\Entity\Network:
                 inverseJoinColumns:
                     layout_id:
                         referencedColumnName: id
-

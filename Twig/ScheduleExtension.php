@@ -47,12 +47,13 @@ class ScheduleExtension extends \Twig_Extension
     {
         $max = 0;
         if (isset($calendar->schedules->date_times)) {
-            foreach($calendar->schedules->date_times as $HourDateTime){
+            foreach ($calendar->schedules->date_times as $HourDateTime) {
                 if (count($HourDateTime) > $max) {
                     $max = count($HourDateTime);
                 }
             }
         }
+
         return $max > $min ? $max : $min;
     }
 

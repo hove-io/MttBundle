@@ -4,12 +4,9 @@ namespace CanalTP\MttBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-
 
 class NetworkType extends AbstractType
 {
@@ -33,7 +30,7 @@ class NetworkType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -55,8 +52,7 @@ class NetworkType extends AbstractType
         );
 
         $formFactory = $builder->getFormFactory();
-        $callback = function(FormEvent $event) use ($formFactory)
-        {
+        $callback = function (FormEvent $event) use ($formFactory) {
             $data = $event->getData();
             $form = $event->getForm();
             $form->remove('external_id');
@@ -79,7 +75,6 @@ class NetworkType extends AbstractType
 
         $builder->setAction($options['action']);
     }
-
 
     /**
      * @param OptionsResolverInterface $resolver

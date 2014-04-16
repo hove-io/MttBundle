@@ -21,6 +21,7 @@ class StopPointExtension extends \Twig_Extension
                 break ;
             }
         }
+
         return ($externalCode);
     }
 

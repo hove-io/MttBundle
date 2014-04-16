@@ -41,13 +41,12 @@ class Block extends AbstractEntity
      * @var Object
      */
     private $stopPoint;
-    
+
     /**
      * @var Object
      */
     private $frequencies;
 
-   
     /**
      * Get id
      *

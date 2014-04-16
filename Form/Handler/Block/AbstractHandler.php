@@ -38,6 +38,7 @@ abstract class AbstractHandler implements HandlerInterface
                 $externalStopPointId,
                 $timetable
             );
+
         return $this->stopPoint;
     }
 

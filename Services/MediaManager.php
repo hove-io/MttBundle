@@ -30,6 +30,7 @@ class MediaManager
         $networkCategory->setParent($seasonCategory);
         $media->setCategory($timetableCategory);
         $media->setFileName($fileName);
+
         return ($this->mediaDataCollector->getPathByMedia($media));
     }
 
@@ -46,6 +47,7 @@ class MediaManager
         $media->setFileName($fileName);
         $media->setFile(new File($path));
         $this->mediaDataCollector->save($media);
+
         return ($media);
     }
 

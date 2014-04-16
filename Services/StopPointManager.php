@@ -125,7 +125,7 @@ class StopPointManager
 
         return $stopPointsIndexed;
     }
-    
+
     /**
      * Return StopPoint
      *
@@ -138,9 +138,9 @@ class StopPointManager
     {
         $stopPointCloned = clone $stopPoint;
         $stopPointCloned->setTimetable($destTimetable);
-        
+
         $this->om->persist($stopPointCloned);
-        
+
         return $stopPointCloned;
     }
 }

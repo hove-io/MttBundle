@@ -2,7 +2,6 @@
 
 namespace CanalTP\MttBundle\Validator\Constraints;
 
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 

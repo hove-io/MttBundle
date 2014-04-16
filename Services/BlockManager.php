@@ -21,7 +21,7 @@ class BlockManager
         $this->mediaManager = $mediaManager;
         $this->repo = $om->getRepository('CanalTPMttBundle:Block');
     }
-    
+
     public function getBlock($dom_id, $timetableId, $stop_point = null)
     {
         if (empty($stop_point)) {
@@ -29,14 +29,15 @@ class BlockManager
         } else {
             $block = $this->repo->findByTimetableAndStopPointAndDomId($timetableId, $stop_point, $dom_id);
         }
+
         return $block;
     }
-    
+
     public function findBlock($blockId)
     {
         return $this->repo->find($blockId);
     }
-    
+
     /**
      * Return Block
      *
@@ -58,6 +59,7 @@ class BlockManager
             }
             $this->om->persist($blockCloned);
         }
+
         return isset($blockCloned) ? $blockCloned : false;
     }
 }

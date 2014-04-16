@@ -63,9 +63,9 @@
                     </button>
                     <ul class="dropdown-menu centered-dropdown text-left" role="menu">
                         <li>
-                            <a data-toggle="modal" href="{{ 
+                            <a data-toggle="modal" href="{{
                                 path(
-                                    'canal_tp_mtt_block_edit', 
+                                    'canal_tp_mtt_block_edit',
                                     {
                                         'externalNetworkId':externalNetworkId,
                                         'timetableId': timetable.id,
@@ -73,35 +73,35 @@
                                         'blockId' : block.id,
                                         'block_type' : 'calendar'
                                     }
-                                ) 
+                                )
                             }}" data-target="#base-modal">
                                 <span class="glyphicon glyphicon-calendar"></span> {{'calendar.form.label'|trans({}, 'default')}}
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="modal" href="{{ 
+                            <a data-toggle="modal" href="{{
                                 path(
-                                    'canal_tp_mtt_frequency_edit', 
+                                    'canal_tp_mtt_frequency_edit',
                                     {
                                         'externalNetworkId':externalNetworkId,
                                         'blockId':block.id
                                     }
-                                ) 
+                                )
                             }}" data-target="#base-modal">
                                 <span class="glyphicon glyphicon-pencil"></span> {{'frequency.form.label'|trans({}, 'default')}}
                             </a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a class="danger" href="{{ 
+                            <a class="danger" href="{{
                                 path(
-                                    'canal_tp_mtt_block_delete', 
+                                    'canal_tp_mtt_block_delete',
                                     {
-                                        'externalNetworkId':externalNetworkId, 
-                                        'timetableId': timetable.id, 
+                                        'externalNetworkId':externalNetworkId,
+                                        'timetableId': timetable.id,
                                         'blockId': block.id
                                     }
-                                ) 
+                                )
                             }}">
                                 <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans}}
                             </a>
@@ -117,10 +117,10 @@
             <td class="timegrid-column">{% spaceless %}
                 {% if calendar and calendar.schedules.additional_informations is null %}
                     {% set datetime = attribute(calendar.schedules.date_times, hour) %}
-                    {% if 
-                        hour|isWithinFrequency(block.frequencies, hours_range) == false 
-                        and datetime 
-                        and datetime|length > 0 
+                    {% if
+                        hour|isWithinFrequency(block.frequencies, hours_range) == false
+                        and datetime
+                        and datetime|length > 0
                     %}
                         {% if datetime[i] %}
                             {{ datetime[i]|schedule(notes)|raw }}

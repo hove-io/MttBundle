@@ -2,9 +2,6 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use Symfony\Component\HttpFoundation\File\File;
-use CanalTP\MttBundle\Entity\Line;
-
 class TimetableController extends AbstractController
 {
     private $mediaManager;
@@ -26,7 +23,7 @@ class TimetableController extends AbstractController
             $stopPointLevel = true;
             $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
             $stopPointInstance = $stopPointManager->getStopPoint(
-                $externalStopPointId, 
+                $externalStopPointId,
                 $timetable,
                 $externalCoverageId
             );
@@ -45,10 +42,10 @@ class TimetableController extends AbstractController
     private function renderLayout($timetable, $externalStopPointId, $editable = true, $displayMenu = true)
     {
         $externalCoverageId = $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalCoverageId();
-        
+
         $stopPointData = $this->getStopPoint(
-            $externalStopPointId, 
-            $timetable, 
+            $externalStopPointId,
+            $timetable,
             $externalCoverageId
         );
 
@@ -82,7 +79,7 @@ class TimetableController extends AbstractController
             )
         );
     }
-    
+
     /*
      * Display a layout and make it editable via javascript
      */
@@ -96,10 +93,10 @@ class TimetableController extends AbstractController
             $network->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
-        
+
         return $this->renderLayout($timetable, $externalStopPointId, true, true);
     }
-    
+
     /*
      * Display a layout
      * This action needs to be accessible by an anonymous user

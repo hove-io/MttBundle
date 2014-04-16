@@ -13,14 +13,14 @@ class DefaultController extends AbstractController
         }
         throw new \Exception(
             $this->get('translator')->trans(
-                'controller.default.network_not_found_4_user', 
-                array(), 
+                'controller.default.network_not_found_4_user',
+                array(),
                 'exceptions'
             )
         );
-        
+
     }
-    
+
     public function indexAction($externalNetworkId = null)
     {
         $mtt_user = $this->get('canal_tp_mtt.user');

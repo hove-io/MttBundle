@@ -47,7 +47,7 @@ CanalTP\MttBundle\Entity\Block:
         frequencies:
             targetEntity: Frequency
             mappedBy: block
-            orderBy: 
+            orderBy:
                 startTime: 'ASC'
-            cascade: 
+            cascade:
                 - all

@@ -20,9 +20,10 @@ class StopPointRepository extends EntityRepository
                 'timetable' => $timetable->getId()
             )
         );
+
         return $result;
     }
-    
+
     public function updatePdfGenerationDate($externalStopPointId, $timetable)
     {
         $stopPoint = $this->getStopPoint($externalStopPointId, $timetable);
@@ -67,6 +68,7 @@ class StopPointRepository extends EntityRepository
                 return (false);
             }
         }
+
         return (true);
     }
 

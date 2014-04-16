@@ -21,7 +21,7 @@ class CalendarManager
         $this->translator = $translator;
     }
 
-    /** 
+    /**
      * Converts strings coming from Navitia as T230200 into php DateTime objects
      */
     private function parseDateTimes($datetimes)
@@ -36,7 +36,7 @@ class CalendarManager
 
         return $datetimes;
     }
-    
+
     private function sortLinks($linkA, $linkB)
     {
         $result = 0;
@@ -57,6 +57,7 @@ class CalendarManager
                 break ;
             }
         }
+
         return ($result);
     }
 
@@ -77,6 +78,7 @@ class CalendarManager
             }
             $sortedDateTimes[$hour][] = $parsedDateTime;
         }
+
         return $sortedDateTimes;
     }
 
@@ -91,9 +93,10 @@ class CalendarManager
                 $notes[] = $note;
             }
         }
+
         return $notes;
     }
-    
+
     /**
      * find a calendar or throws an exception if a calendar is not found
      */
@@ -104,26 +107,27 @@ class CalendarManager
         } else {
             throw new \Exception(
                 $this->translator->trans(
-                    'services.calendar_manager.calendar_in_block_not_found', 
-                    array('%calendarId%' => $calendarId), 
+                    'services.calendar_manager.calendar_in_block_not_found',
+                    array('%calendarId%' => $calendarId),
                     'exceptions'
                 )
             );
         }
     }
-    
+
     /**
      * Index calendars by Id and cast week_patterns into array for templates
      */
     private function sortCalendars($calendars)
     {
         $calendarsSorted = array();
-        foreach ($calendars as $calendar){
+        foreach ($calendars as $calendar) {
             $calendarsSorted[$calendar->id] = $calendar;
             $calendarsSorted[$calendar->id]->week_pattern = (array) $calendarsSorted[$calendar->id]->week_pattern;
         }
+
         return $calendarsSorted;
-    }    
+    }
 
     /**
      * Generate value propriety of exceptions to display in view
@@ -143,6 +147,7 @@ class CalendarManager
             );
             $exceptions[] = $exception;
         }
+
         return $exceptions;
     }
 
@@ -153,9 +158,10 @@ class CalendarManager
     {
         $calendar->schedules = $schedules;
         $calendar->schedules->date_times = $this->prepareDateTimes($calendar->schedules->date_times);
+
         return $calendar;
     }
-    
+
     public function getCalendars($externalCoverageId, $timetable, $stopPointInstance)
     {
         return $this->getCalendarsForStopPointAndTimetable($externalCoverageId, $timetable, $stopPointInstance);
@@ -175,6 +181,7 @@ class CalendarManager
                     'messages'
             );
         }
+
         return $additionalInformations;
     }
 
@@ -193,7 +200,7 @@ class CalendarManager
     {
         $notesComputed = array();
         $calendarsData = $this->navitia->getStopPointCalendarsData(
-            $externalCoverageId, 
+            $externalCoverageId,
             $externalRouteId,
             $externalStopPointId
         );
@@ -213,9 +220,10 @@ class CalendarManager
             $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
             $calendarsSorted[$calendar->id] = $calendar;
         }
+
         return $calendarsSorted;
     }
-    
+
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template
@@ -233,8 +241,8 @@ class CalendarManager
         $calendarsFiltered = array();
         $calendarsSorted = array();
         $calendarsData = $this->navitia->getStopPointCalendarsData(
-            $externalCoverageId, 
-            $timetable->getExternalRouteId(), 
+            $externalCoverageId,
+            $timetable->getExternalRouteId(),
             $stopPointInstance->getExternalId()
         );
         if (isset($calendarsData->calendars)) {
@@ -242,7 +250,7 @@ class CalendarManager
         }
         // calendar blocks are defined on route/timetable level
         if (count($timetable->getBlocks()) > 0) {
-            foreach ($timetable->getBlocks() as $block){
+            foreach ($timetable->getBlocks() as $block) {
                 if ($block->getTypeId() == 'calendar') {
                     $calendar = $this->findCalendar($block->getContent(), $calendarsSorted);
                     $stopSchedulesData = $this->navitia->getCalendarStopSchedulesByRoute(
@@ -265,6 +273,7 @@ class CalendarManager
                 }
             }
         }
+
         return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
     }
 

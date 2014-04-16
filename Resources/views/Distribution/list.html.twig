@@ -15,7 +15,7 @@
                         <a href="{{ path(
                             'canal_tp_mtt_distribution_list',
                             {
-                                'externalNetworkId':externalNetworkId, 
+                                'externalNetworkId':externalNetworkId,
                                 'lineId':externalLineId,
                                 'routeId':externalRouteId,
                                 'currentSeasonId':season.id
@@ -113,7 +113,7 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
         items: "> li",
         connectWith: "ul.list-group.sortable"
     }).on(
-        'sortupdate', 
+        'sortupdate',
         function( event, ui ){
             var $list = $(this);
             if ($list.find('.list-group-item').length > 0) {
@@ -145,7 +145,7 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
     });
 
     var $list = $('#included-stops');
-    
+
     var _getStopPointIds = function()
     {
         var stopPoints_ids = [];
@@ -178,7 +178,7 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
     });
     $('#generate-distribution-list').click(function(){
         var stopPoints_ids = _getStopPointIds();
-        
+
         $('#base-modal').find('a.btn').hide();
         $('#base-modal').find('div.progress').show();
         $('#base-modal').modal('show');

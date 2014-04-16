@@ -2,7 +2,6 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use CanalTP\MttBundle\Entity\LineConfig;
 use CanalTP\MttBundle\Entity\Layout;
 use CanalTP\MttBundle\Form\Type\LineConfigType;
@@ -39,11 +38,11 @@ class LineController extends AbstractController
         $this->isGranted(array('BUSINESS_CHOOSE_LAYOUT', 'BUSINESS_EDIT_LAYOUT'));
         $season = $this->get('canal_tp_mtt.season_manager')->getSeasonWithNetworkIdAndSeasonId($externalNetworkId, $seasonId);
         $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
-        
+
         $params = array('externalNetworkId' => $externalNetworkId,
                         'line_id'           => $line_id,
                         'externalRouteId'   => $externalRouteId);
-                        
+
         $lineConfig = $this->getDoctrine()
             ->getRepository('CanalTPMttBundle:LineConfig')
             ->findOneBy(

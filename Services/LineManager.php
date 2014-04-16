@@ -66,7 +66,7 @@ class LineManager
 
         return $this->lineConfig;
     }
-    
+
     public function save($lineConfig, $season, $externalLineId)
     {
         // $lineConfig->setLayout($this->om->getPartialReference('CanalTP\MttBundle\Entity\Layout', $lineConfig->getLayout()));
@@ -75,7 +75,7 @@ class LineManager
         $this->om->persist($lineConfig);
         $this->om->flush();
     }
-    
+
     /**
      * Return line Object with navitia data added
      *
@@ -87,9 +87,9 @@ class LineManager
     {
         $lineConfigCloned = clone $lineConfig;
         $lineConfigCloned->setSeason($destSeason);
-        
+
         $this->om->persist($lineConfigCloned);
-        
+
         return $lineConfigCloned;
     }
 }

@@ -183,7 +183,7 @@ class LineConfig extends AbstractEntity
 
         return $this;
     }
-    
+
     /**
      * Get season
      *
@@ -206,11 +206,11 @@ class LineConfig extends AbstractEntity
 
         return $this;
     }
-    
+
     /**
      * Set timetables
      *
-     * @param  array $timetables
+     * @param  array      $timetables
      * @return LineConfig
      */
     public function setTimetables($timetables)

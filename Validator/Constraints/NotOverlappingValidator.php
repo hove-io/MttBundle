@@ -2,7 +2,6 @@
 
 namespace CanalTP\MttBundle\Validator\Constraints;
 
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Form\FormError;
@@ -31,12 +30,12 @@ class NotOverlappingValidator extends ConstraintValidator
     {
         return $idx >= $otherEntityStartIdx && $idx <= $otherEntityEndIdx;
     }
-    
+
     private function entityIsIncludedInAnother($startIdx, $endIdx, $otherEntityStartIdx, $otherEntityEndIdx)
     {
         return $startIdx >= $otherEntityStartIdx && $endIdx <= $otherEntityEndIdx;
     }
-    
+
     /**
      * Checks if the passed value is valid.
      *
@@ -52,7 +51,7 @@ class NotOverlappingValidator extends ConstraintValidator
         $endMethod = 'get' . $constraint->endField;
         for ($i = 0; $i < count($value); $i++) {
             $entity = $value[$i];
-            
+
             $startIdx = $this->getIndex($entity->$startMethod());
             $endIdx = $this->getIndex($entity->$endMethod());
 
@@ -68,12 +67,13 @@ class NotOverlappingValidator extends ConstraintValidator
                 if ($this->idxIsInOtherEntity($startIdx, $startIdxToCheck, $endIdxToCheck) ||
                     $this->idxIsInOtherEntity($endIdx, $startIdxToCheck, $endIdxToCheck) ||
                     $this->entityIsIncludedInAnother($startIdx, $endIdx, $startIdxToCheck, $endIdxToCheck) ||
-                    $this->entityIsIncludedInAnother($startIdxToCheck, $endIdxToCheck, $startIdx, $endIdx) 
+                    $this->entityIsIncludedInAnother($startIdxToCheck, $endIdxToCheck, $startIdx, $endIdx)
                 ) {
                     $this->context->addViolation('error.entities_overlapping', array(
                         '%firstElement%' => $i + 1,
                         '%secondElement%' => $j + 1,
                     ));
+
                     return false;
                 }
             }

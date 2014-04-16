@@ -2,7 +2,6 @@
 
 namespace CanalTP\MttBundle\Validator\Constraints;
 
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 
@@ -26,15 +25,15 @@ class GreaterThanFieldValidator extends ConstraintValidator
         if ($value <= $field->getData()) {
 
             $this->context->addViolation(
-                'error.greater_than_field', 
+                'error.greater_than_field',
                 array(
                     '%field%' => $constraint->field,
                 )
             );
- 
+
             return false;
         }
- 
+
         return true;
     }
 }

@@ -10,10 +10,10 @@ class DefaultControllerTest extends AbstractControllerTest
     {
         $route = $this->generateRoute('canal_tp_mtt_homepage');
         $crawler = $this->client->request('GET', $route);
-        
+
         $this->assertTrue($crawler->filter('html:contains("MTT")')->count() > 0);
     }
-    
+
     public function testNavigation()
     {
         $route = $this->generateRoute(

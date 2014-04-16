@@ -17,7 +17,6 @@ class BlockController extends AbstractController
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $data = array('dom_id' => $dom_id, 'type_id' => $block_type, 'stop_point' => $stop_point);
-        
 
         $block = $blockManager->getBlock($dom_id, $timetableId, $stop_point);
 

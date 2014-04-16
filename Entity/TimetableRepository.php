@@ -18,8 +18,7 @@ class TimetableRepository extends EntityRepository
     public function getTimetableByRouteExternalId($externalRouteId, $lineConfig)
     {
         $timetable = null;
-        if ($lineConfig != null)
-        {
+        if ($lineConfig != null) {
             $timetable = $this->findOneBy(array(
                 'externalRouteId' => $externalRouteId,
                 'line_config' => $lineConfig->getId(),
@@ -37,7 +36,7 @@ class TimetableRepository extends EntityRepository
 
         return $timetable;
     }
-    
+
     /*
      * Return blocks defined for this timetable on route level
      */
@@ -49,6 +48,7 @@ class TimetableRepository extends EntityRepository
                 'timetable' => $timetableId
             )
         );
+
         return $result;
     }
 }

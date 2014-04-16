@@ -10,11 +10,10 @@ use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 use CanalTP\MttBundle\Entity\Network;
 use CanalTP\MttBundle\Entity\Layout;
 
-
-class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
+class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
 {
     private $em = null;
-    
+
     private function createUser($data)
     {
         //  On crée l'utilisateur admin akambi
@@ -46,18 +45,20 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
             $network->addLayout($layout);
             $this->em->persist($network);
         }
-        
+
         $this->em->persist($layout);
+
         return ($layout);
     }
-    
-    private function createNetwork($externalId = 'network:Filbleu', $externalCoverageId = 'Centre' )
+
+    private function createNetwork($externalId = 'network:Filbleu', $externalCoverageId = 'Centre')
     {
         $network = new Network();
         $network->setExternalId($externalId);
         $network->setExternalCoverageId($externalCoverageId);
 
         $this->em->persist($network);
+
         return ($network);
     }
 

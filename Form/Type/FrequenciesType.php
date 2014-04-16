@@ -29,12 +29,12 @@ class FrequenciesType extends AbstractType
             $block->setFrequencies(new ArrayCollection(array($frequency)));
         }
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'frequencies', 
-            'collection', 
+            'frequencies',
+            'collection',
             array(
                 'type'          => new FrequencyType($this->hoursRange),
                 'allow_add'     => true,
@@ -47,7 +47,7 @@ class FrequenciesType extends AbstractType
         );
         $builder->setAction($options['action']);
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(
@@ -59,7 +59,7 @@ class FrequenciesType extends AbstractType
             )
         );
     }
-    
+
     public function getName()
     {
         return 'block_frequencies_coll';

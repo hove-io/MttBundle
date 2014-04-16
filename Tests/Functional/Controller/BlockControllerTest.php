@@ -11,7 +11,7 @@ class BlockControllerTest extends AbstractControllerTest
     private function getFormRoute($type)
     {
         return $this->generateRoute(
-            'canal_tp_mtt_block_edit', 
+            'canal_tp_mtt_block_edit',
             // fake params since we mock navitia
             array(
                 'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
@@ -22,12 +22,12 @@ class BlockControllerTest extends AbstractControllerTest
             )
         );
     }
-    
+
     public function setUp()
     {
         parent::setUp();
     }
-    
+
     // METH-120
     public function testCalendarsBySeason()
     {
@@ -36,13 +36,13 @@ class BlockControllerTest extends AbstractControllerTest
         $navitiaMock->expects($this->once())
             ->method('getRouteCalendars')
             ->with(
-                $this->anything(), 
-                $this->equalTo(Fixture::EXTERNAL_ROUTE_ID), 
-                $this->equalTo($season->getStartDate()), 
+                $this->anything(),
+                $this->equalTo(Fixture::EXTERNAL_ROUTE_ID),
+                $this->equalTo($season->getStartDate()),
                 $this->equalTo($season->getEndDate())
             )
             ->will($this->returnValue(array()));
-            
+
         $this->setService('canal_tp_mtt.navitia', $navitiaMock);
         $crawler = $this->doRequestRoute($this->getFormRoute(BlockRepository::CALENDAR_TYPE));
     }

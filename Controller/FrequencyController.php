@@ -13,7 +13,7 @@ class FrequencyController extends AbstractController
     public function editAction($blockId, $externalNetworkId)
     {
         $blockManager = $this->get('canal_tp_mtt.block_manager');
-        
+
         $block = $blockManager->findBlock($blockId);
         if (!$block) {
             throw $this->createNotFoundException('Block not found');
@@ -23,7 +23,7 @@ class FrequencyController extends AbstractController
             $originalFrequencies[] = $frequency;
         }
         $form = $this->createForm(
-            new FrequenciesType($block), 
+            new FrequenciesType($block),
             $block,
             array(
                 'action' => $this->getRequest()->getRequestUri()
@@ -46,6 +46,7 @@ class FrequencyController extends AbstractController
                 }
             }
             $em->flush();
+
             return $this->redirect(
                 $this->generateUrl(
                     'canal_tp_mtt_timetable_edit',
