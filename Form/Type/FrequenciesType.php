@@ -4,10 +4,12 @@ namespace CanalTP\MttBundle\Form\Type;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
+use Doctrine\Common\Collections\ArrayCollection;
+
 use CanalTP\MttBundle\Twig\CalendarExtension;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Frequency;
-use Doctrine\Common\Collections\ArrayCollection;
+use CanalTP\MttBundle\Validator\Constraints\NotOverlapping;
 
 /*
  * CalendarController
@@ -37,7 +39,10 @@ class FrequenciesType extends AbstractType
                 'type'          => new FrequencyType($this->hoursRange),
                 'allow_add'     => true,
                 'allow_delete'  => true,
-                'by_reference' => false,
+                'by_reference'  => false,
+                'constraints'   => array(
+                    new NotOverlapping(array('values' => $this->hoursRange, 'startField'=>'startTime', 'endField'=>'endTime'))
+                )
             )
         );
         $builder->setAction($options['action']);

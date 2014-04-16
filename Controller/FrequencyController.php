@@ -10,7 +10,7 @@ use CanalTP\MttBundle\Entity\Frequency;
  */
 class FrequencyController extends AbstractController
 {
-    public function editAction($blockId, $layoutId, $externalNetworkId)
+    public function editAction($blockId, $externalNetworkId)
     {
         $blockManager = $this->get('canal_tp_mtt.block_manager');
         
