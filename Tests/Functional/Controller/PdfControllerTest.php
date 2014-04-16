@@ -13,7 +13,7 @@ class PdfControllerTest extends AbstractControllerTest
             array(
                 'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
                 'externalStopPointId' => $externalStopPointId,
-                "timetableId" => $timetableId ? $timetableId : Fixture::$timetableId
+                "timetableId" => $timetableId != false ? $timetableId : Fixture::$timetableId
             )
         );
     }
