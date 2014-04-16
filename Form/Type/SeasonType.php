@@ -34,8 +34,8 @@ class SeasonType extends AbstractType
     {
         $builder->add('title', 'text');
         $builder->add(
-            'startDate', 
-            'datepicker', 
+            'startDate',
+            'datepicker',
             array(
                 'attr' => array(
                     'data-from-date' => true
@@ -43,8 +43,8 @@ class SeasonType extends AbstractType
             )
         );
         $builder->add(
-            'endDate', 
-            'datepicker', 
+            'endDate',
+            'datepicker',
             array(
                 'attr' => array(
                     'data-to-date' => true

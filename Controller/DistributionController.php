@@ -11,14 +11,14 @@ use CanalTP\MttBundle\Entity\DistributionList;
 class DistributionController extends AbstractController
 {
     public function saveAction(
-        $externalNetworkId, 
-        $lineId, 
-        $routeId, 
+        $externalNetworkId,
+        $lineId,
+        $routeId,
         $currentSeasonId
     )
     {
         $stopPointsIds = $this->get('request')->request->get(
-            'stopPointsIds', 
+            'stopPointsIds',
             array()
         );
         if (!empty($stopPointsIds)) {
@@ -31,7 +31,7 @@ class DistributionController extends AbstractController
                     $routeId,
                     $network->getExternalCoverageId(),
                     $lineManager->getLineConfigByExternalLineIdAndSeasonId(
-                        $lineId, 
+                        $lineId,
                         $currentSeasonId
                     )
                 );
@@ -39,8 +39,8 @@ class DistributionController extends AbstractController
             $this->get('session')->getFlashBag()->add(
                 'success',
                 $this->get('translator')->trans(
-                    'distribution.confirm_order_saved', 
-                    array(), 
+                    'distribution.confirm_order_saved',
+                    array(),
                     'default'
                 )
             );
@@ -48,11 +48,11 @@ class DistributionController extends AbstractController
 
         return $this->redirect(
             $this->generateUrl(
-                'canal_tp_mtt_distribution_list', 
+                'canal_tp_mtt_distribution_list',
                 array(
-                    'externalNetworkId' => $externalNetworkId, 
-                    'lineId' => $lineId, 
-                    'routeId' => $routeId, 
+                    'externalNetworkId' => $externalNetworkId,
+                    'lineId' => $lineId,
+                    'routeId' => $routeId,
                     'currentSeasonId' => $currentSeasonId
                 )
             )
@@ -60,10 +60,10 @@ class DistributionController extends AbstractController
     }
 
     public function listAction(
-        $externalNetworkId, 
-        $lineId, 
-        $routeId, 
-        $currentSeasonId, 
+        $externalNetworkId,
+        $lineId,
+        $routeId,
+        $currentSeasonId,
         $reset = false
     )
     {
@@ -74,9 +74,9 @@ class DistributionController extends AbstractController
 
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $routes = $navitia->getStopPoints(
-            $network->getExternalCoverageId(), 
-            $externalNetworkId, 
-            $lineId, 
+            $network->getExternalCoverageId(),
+            $externalNetworkId,
+            $lineId,
             $routeId
         );
         $timetable = $this
@@ -85,14 +85,14 @@ class DistributionController extends AbstractController
                 $routeId,
                 $network->getExternalCoverageId(),
                 $lineManager->getLineConfigByExternalLineIdAndSeasonId(
-                    $lineId, 
+                    $lineId,
                     $currentSeasonId
                 )
             );
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $schedules = $stopPointManager->enhanceStopPoints(
-            $routes->route_schedules[0]->table->rows, 
+            $routes->route_schedules[0]->table->rows,
             $timetable
         );
         $schedules = $this
@@ -121,7 +121,7 @@ class DistributionController extends AbstractController
 
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById(
-            $timetableId, 
+            $timetableId,
             $network->getExternalCoverageId()
         );
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
@@ -134,8 +134,8 @@ class DistributionController extends AbstractController
         $paths = array();
         foreach ($stopPointsIds as $externalStopPointId) {
             $stopPoint = $stopPointManager->getStopPoint(
-                $externalStopPointId, 
-                $timetable, 
+                $externalStopPointId,
+                $timetable,
                 $network->getExternalCoverageId()
             );
             //shall we regenerate pdf?
@@ -153,11 +153,11 @@ class DistributionController extends AbstractController
 
             $timetableCategory = new Category($timetableId, CategoryType::NETWORK);
             $networkCategory = new Category(
-                $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(), 
+                $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(),
                 CategoryType::NETWORK
             );
             $seasonCategory = new Category(
-                $timetable->getLineConfig()->getSeason()->getId(), 
+                $timetable->getLineConfig()->getSeason()->getId(),
                 CategoryType::LINE
             );
             $media = new Media();

@@ -23,8 +23,8 @@ class FrequencyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'startTime', 
-            'time', 
+            'startTime',
+            'time',
             array(
                 'with_minutes'  => false,
                 'hours' => $this->hoursRange,
@@ -35,8 +35,8 @@ class FrequencyType extends AbstractType
             )
         );
         $builder->add(
-            'endTime', 
-            'time', 
+            'endTime',
+            'time',
             array(
                 'with_minutes'  => false,
                 'hours' => $this->endHours,
@@ -47,8 +47,8 @@ class FrequencyType extends AbstractType
             )
         );
         $builder->add(
-            'content', 
-            'textarea', 
+            'content',
+            'textarea',
             array(
                 'attr' => array(
                     'maxlength' => 150

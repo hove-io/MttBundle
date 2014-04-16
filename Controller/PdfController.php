@@ -20,11 +20,11 @@ class PdfController extends AbstractController
 
         $timetableCategory = new Category($timetableId, CategoryType::NETWORK);
         $networkCategory = new Category(
-            $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(), 
+            $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(),
             CategoryType::NETWORK
         );
         $seasonCategory = new Category(
-            $timetable->getLineConfig()->getSeason()->getId(), 
+            $timetable->getLineConfig()->getSeason()->getId(),
             CategoryType::LINE
         );
         $media = new Media();

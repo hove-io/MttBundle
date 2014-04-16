@@ -40,10 +40,11 @@ class CalendarManager
     private function sortLinks($linkA, $linkB)
     {
         $result = 0;
-        
+
         if ($linkA->type != $linkB->type) {
             $result = ($linkA->type == 'notes' && $linkB->type == 'exceptions') ? -1 : 1;
         }
+
         return ($result);
     }
 

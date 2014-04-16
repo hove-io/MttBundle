@@ -11,7 +11,7 @@ class LineControllerTest extends AbstractControllerTest
     private function getFormRoute($type)
     {
         return $this->generateRoute(
-            'canal_tp_mtt_block_edit', 
+            'canal_tp_mtt_block_edit',
             // fake params since we mock navitia
             array(
                 'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
@@ -22,12 +22,12 @@ class LineControllerTest extends AbstractControllerTest
             )
         );
     }
-    
+
     public function setUp()
     {
         parent::setUp();
     }
-    
+
     // METH-120
     public function testCalendarsBySeason()
     {
@@ -36,9 +36,9 @@ class LineControllerTest extends AbstractControllerTest
         $navitiaMock->expects($this->once())
             ->method('getRouteCalendars')
             ->with(
-                $this->anything(), 
-                $this->equalTo(Fixture::EXTERNAL_ROUTE_ID), 
-                $this->equalTo($season->getStartDate()), 
+                $this->anything(),
+                $this->equalTo(Fixture::EXTERNAL_ROUTE_ID),
+                $this->equalTo($season->getStartDate()),
                 $this->equalTo($season->getEndDate())
             )
             ->will($this->returnValue(array()));
@@ -106,7 +106,7 @@ class LineControllerTest extends AbstractControllerTest
     {
         // Check if the form is correctly display
         $route = $this->generateRoute(
-            'canal_tp_mtt_line_choose_layout', 
+            'canal_tp_mtt_line_choose_layout',
             array(
                 'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
                 'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,

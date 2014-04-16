@@ -7,14 +7,14 @@ use CanalTP\MttBundle\Entity\Block;
 class BlockController extends AbstractController
 {
     /**
-     * returns form for a given block type 
+     * returns form for a given block type
      * or save content of the block using Form factory
      */
     public function editAction(
-        $externalNetworkId, 
-        $dom_id, 
-        $timetableId, 
-        $block_type = 'text', 
+        $externalNetworkId,
+        $dom_id,
+        $timetableId,
+        $block_type = 'text',
         $stop_point = null
     )
     {
@@ -24,17 +24,17 @@ class BlockController extends AbstractController
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $data = array(
-            'dom_id' => $dom_id, 
-            'type_id' => $block_type, 
+            'dom_id' => $dom_id,
+            'type_id' => $block_type,
             'stop_point' => $stop_point
         );
 
         $block = $blockManager->getBlock($dom_id, $timetableId, $stop_point);
 
         $blockTypeFactory->init(
-            $block_type, 
-            $data, 
-            $block, 
+            $block_type,
+            $data,
+            $block,
             $network->getExternalCoverageId()
         );
         $form = $blockTypeFactory->buildForm()
@@ -42,7 +42,7 @@ class BlockController extends AbstractController
             ->setMethod('POST')->getForm();
         $form->handleRequest($this->getRequest());
         $timetable = $timetableManager->getTimetableById(
-            $timetableId, 
+            $timetableId,
             $network->getExternalCoverageId()
         );
         if ($form->isValid()) {
@@ -81,7 +81,7 @@ class BlockController extends AbstractController
         if (!$block) {
             throw $this->createNotFoundException(
                 $this->get('translator')->trans(
-                    'controller.block.delete.block_not_found', 
+                    'controller.block.delete.block_not_found',
                     array('%blockid%'=>$blockId), 'exceptions'
                 )
             );
@@ -90,7 +90,7 @@ class BlockController extends AbstractController
             $this->getDoctrine()->getEntityManager()->flush();
         }
         $timetable = $timetableManager->getTimetableById(
-            $timetableId, 
+            $timetableId,
             $network->getExternalCoverageId()
         );
 
