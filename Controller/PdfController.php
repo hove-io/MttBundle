@@ -19,8 +19,14 @@ class PdfController extends AbstractController
         $timetable = $timetableManager->find($timetableId);
 
         $timetableCategory = new Category($timetableId, CategoryType::NETWORK);
-        $networkCategory = new Category($timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(), CategoryType::NETWORK);
-        $seasonCategory = new Category($timetable->getLineConfig()->getSeason()->getId(), CategoryType::LINE);
+        $networkCategory = new Category(
+            $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(), 
+            CategoryType::NETWORK
+        );
+        $seasonCategory = new Category(
+            $timetable->getLineConfig()->getSeason()->getId(), 
+            CategoryType::LINE
+        );
         $media = new Media();
 
         $timetableCategory->setParent($networkCategory);
@@ -58,7 +64,8 @@ class PdfController extends AbstractController
 
         if ($pdfPath) {
             $pdfMedia = $this->saveMedia($timetable->getId(), $externalStopPointId, $pdfPath);
-            $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint')->updatePdfGenerationDate($externalStopPointId, $timetable);
+            $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint');
+            $stopPointRepo->updatePdfGenerationDate($externalStopPointId, $timetable);
 
             return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
         } else {

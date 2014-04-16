@@ -28,10 +28,12 @@ class DistributionListRepository extends EntityRepository
 
     public function sortSchedules($schedules, $networkId, $externalRouteId, $reset = false)
     {
-        $distributionList = $this->findOneBy(array(
-            'network' => $networkId,
-            'externalRouteId' => $externalRouteId
-        ));
+        $distributionList = $this->findOneBy(
+            array(
+                'network' => $networkId,
+                'externalRouteId' => $externalRouteId
+            )
+        );
         $sortedSchedules = array();
         $sortedSchedules['included'] = array();
         $sortedSchedules['excluded'] = array();

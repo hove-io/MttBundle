@@ -35,10 +35,12 @@ class StopPointRepository extends EntityRepository
 
     public function getStopPoint($externalStopPointId, $timetable)
     {
-        $stopPoint = $this->findOneBy(array(
-            'externalId' => $externalStopPointId,
-            'timetable' => $timetable->getId(),
-        ));
+        $stopPoint = $this->findOneBy(
+            array(
+                'externalId' => $externalStopPointId,
+                'timetable' => $timetable->getId(),
+            )
+        );
 
         // do this stop_point exists?
         if (empty($stopPoint)) {

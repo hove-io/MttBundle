@@ -19,10 +19,12 @@ class TimetableRepository extends EntityRepository
     {
         $timetable = null;
         if ($lineConfig != null) {
-            $timetable = $this->findOneBy(array(
-                'externalRouteId' => $externalRouteId,
-                'line_config' => $lineConfig->getId(),
-            ));
+            $timetable = $this->findOneBy(
+                array(
+                    'externalRouteId' => $externalRouteId,
+                    'line_config' => $lineConfig->getId(),
+                )
+            );
         }
         // not found then insert it
         if (empty($timetable)) {
