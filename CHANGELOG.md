@@ -1,3 +1,22 @@
+Notes de publication - METH - Version 0.6.2 (16 /04/2014)
+
+** Sous-tâche
+    * [METH-171] - Mise à jour des validations de formulaire (coté serveur)
+
+** Bogue
+    * [METH-76] - 500 Internal Server Error en cas de saisie de titre trop long
+    * [METH-161] - unicité du nom de la saison
+    * [METH-176] - Téléchargement du PDF (liste de distrib) ne fonctionne pas
+
+** Récit
+    * [METH-168] - Création d'un bloc "code spécifique au poteau d'arrêt" 
+
+** Tâche
+    * [METH-89] - Taille limite des zones de texte
+    * [METH-109] - Gestion des layouts par réseau
+    * [METH-123] - Aucun contrôle sur les éléments multimédia à ajouter à une FH au niveau ligne
+    * [METH-145] - Validation des formulaires côté serveur
+
 Notes de publication - METH - Version 0.6.1 (10/04/2014)
 
 ** Sous-tâche
