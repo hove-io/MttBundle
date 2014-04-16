@@ -40,9 +40,11 @@ class LineConfigType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'CanalTP\MttBundle\Entity\LineConfig'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'CanalTP\MttBundle\Entity\LineConfig'
+            )
+        );
     }
 
     public function getName()

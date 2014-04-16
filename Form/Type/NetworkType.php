@@ -81,9 +81,11 @@ class NetworkType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'CanalTP\MttBundle\Entity\Network'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'CanalTP\MttBundle\Entity\Network'
+            )
+        );
     }
 
     /**

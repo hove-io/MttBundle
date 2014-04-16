@@ -22,40 +22,54 @@ class FrequencyType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('startTime', 'time', array(
-            'with_minutes'  => false,
-            'hours' => $this->hoursRange,
-            'constraints' => array(
-                new NotBlank(),
-                new DateTime()
-            )
-        ));
-        $builder->add('endTime', 'time', array(
-            'with_minutes'  => false,
-            'hours' => $this->endHours,
-            'constraints' => array(
-                new NotBlank(),
-                new DateTime()
-            )
-        ));
-        $builder->add('content', 'textarea', array(
-            'attr' => array(
-                'maxlength' => 150
-            ),
-            'constraints' => array(
-                new NotBlank(),
-                new Length(
-                    array('max' => 150)
+        $builder->add(
+            'startTime', 
+            'time', 
+            array(
+                'with_minutes'  => false,
+                'hours' => $this->hoursRange,
+                'constraints' => array(
+                    new NotBlank(),
+                    new DateTime()
                 )
             )
-        ));
+        );
+        $builder->add(
+            'endTime', 
+            'time', 
+            array(
+                'with_minutes'  => false,
+                'hours' => $this->endHours,
+                'constraints' => array(
+                    new NotBlank(),
+                    new DateTime()
+                )
+            )
+        );
+        $builder->add(
+            'content', 
+            'textarea', 
+            array(
+                'attr' => array(
+                    'maxlength' => 150
+                ),
+                'constraints' => array(
+                    new NotBlank(),
+                    new Length(
+                        array('max' => 150)
+                    )
+                )
+            )
+        );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class'    => 'CanalTP\MttBundle\Entity\Frequency'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class'    => 'CanalTP\MttBundle\Entity\Frequency'
+            )
+        );
     }
 
     public function getName()

@@ -40,10 +40,10 @@ class CalendarManager
     private function sortLinks($linkA, $linkB)
     {
         $result = 0;
-
-        if ($linkA->type != $linkB->type)
-           $result = ($linkA->type == 'notes' && $linkB->type == 'exceptions') ? -1 : 1;
-
+        
+        if ($linkA->type != $linkB->type) {
+            $result = ($linkA->type == 'notes' && $linkB->type == 'exceptions') ? -1 : 1;
+        }
         return ($result);
     }
 
@@ -54,7 +54,7 @@ class CalendarManager
         foreach ($links as $link) {
             if ($link->type == 'exceptions') {
                 $result = true;
-                break ;
+                break;
             }
         }
 
@@ -141,9 +141,9 @@ class CalendarManager
             $date = new \DateTime($exception->date);
 
             $exception->value = $this->translator->trans(
-                    'global.exceptions.' . strtolower($exception->type),
-                    array('%date%' => $date->format('d/m/Y')),
-                    'messages'
+                'global.exceptions.' . strtolower($exception->type),
+                array('%date%' => $date->format('d/m/Y')),
+                'messages'
             );
             $exceptions[] = $exception;
         }
@@ -176,9 +176,9 @@ class CalendarManager
 
         if (!empty($additionalInformationsId)) {
             $additionalInformations = $this->translator->trans(
-                    'calendar.schedules.additional_informations.' . $additionalInformationsId,
-                    array(),
-                    'messages'
+                'calendar.schedules.additional_informations.' . $additionalInformationsId,
+                array(),
+                'messages'
             );
         }
 

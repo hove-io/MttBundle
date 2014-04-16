@@ -33,16 +33,24 @@ class SeasonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('title', 'text');
-        $builder->add('startDate', 'datepicker', array(
-            'attr' => array(
-                'data-from-date' => true
+        $builder->add(
+            'startDate', 
+            'datepicker', 
+            array(
+                'attr' => array(
+                    'data-from-date' => true
+                )
             )
-        ));
-        $builder->add('endDate', 'datepicker', array(
-            'attr' => array(
-                'data-to-date' => true
+        );
+        $builder->add(
+            'endDate', 
+            'datepicker', 
+            array(
+                'attr' => array(
+                    'data-to-date' => true
+                )
             )
-        ));
+        );
         if (count($this->seasons) > 0 && !$this->currentSeasonId) {
             $builder->add(
                 'seasonToClone',
@@ -61,9 +69,11 @@ class SeasonType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'CanalTP\MttBundle\Entity\Season'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'CanalTP\MttBundle\Entity\Season'
+            )
+        );
     }
 
     /**
