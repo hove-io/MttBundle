@@ -9,10 +9,4 @@ use Symfony\Component\Validator\Constraint;
  */
 class ContainsNavitiaNetworkId extends Constraint
 {
-    public $message = null;
-
-    public function validatedBy()
-    {
-        return 'validator_constraints_navitia_network_id';
-    }
 }

@@ -20,6 +20,7 @@ global:
     minutes: Minutes
     hour_label: h
     annotations: Annotations
+    stop_point_code: Code
     exceptions:
         add: Y compris le %date%
         remove: Sauf le %date%
@@ -34,6 +35,7 @@ error:
     start_end_time_incoherent: L'heure de début et l'heure de fin en sont pas cohérentes
     frequencies_conflict: Plusieurs cadres se chevauchent
     navitia_network_id: "%string% n'est pas conforme au format navitia."
+    greater_than_field: Ce champ doit être supérieur au champ %field%.
 
 help:
     edit_block: Cliquer pour éditer ce bloc

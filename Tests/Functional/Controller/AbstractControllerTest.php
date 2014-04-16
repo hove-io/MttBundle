@@ -67,9 +67,9 @@ abstract class AbstractControllerTest extends WebTestCase
         $this->assertEquals(
             $expectedStatusCode,
             $this->client->getResponse()->getStatusCode(),
-            'Response status NOK:' . $this->client->getResponse()->getStatusCode()
+            'Response status NOK:' . $this->client->getResponse()->getStatusCode() . "\r\n"
         );
-        
+
         return $crawler;
     }
     

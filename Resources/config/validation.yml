@@ -13,6 +13,8 @@ CanalTP\MttBundle\Entity\Block:
                 max: 255
 
 CanalTP\MttBundle\Entity\Season:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [title, network]
     properties:
         title:
             - NotBlank: ~
@@ -22,3 +24,5 @@ CanalTP\MttBundle\Entity\Season:
             - DateTime: ~
         endDate:
             - DateTime: ~
+            - CanalTP\MttBundle\Validator\Constraints\GreaterThanField:
+                field: startDate

@@ -43,7 +43,7 @@ class FormListener
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
-        if ($this->isAjaxRequestForm($event)) {
+        if ($this->isAjaxRequestForm($event) && ($event->getResponse() instanceof JsonResponse) == FALSE) {
             $this->newResponse = new JsonResponse();
 
             $this->initData($event->getResponse());

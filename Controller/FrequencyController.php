@@ -13,7 +13,6 @@ class FrequencyController extends AbstractController
     public function editAction($blockId, $layoutId, $externalNetworkId)
     {
         $blockManager = $this->get('canal_tp_mtt.block_manager');
-        $layoutsConfig = $this->container->getParameter('layouts');
         
         $block = $blockManager->findBlock($blockId);
         if (!$block) {
@@ -24,7 +23,7 @@ class FrequencyController extends AbstractController
             $originalFrequencies[] = $frequency;
         }
         $form = $this->createForm(
-            new FrequenciesType($layoutsConfig[$layoutId], $block), 
+            new FrequenciesType($block), 
             $block,
             array(
                 'action' => $this->getRequest()->getRequestUri()

@@ -26,7 +26,7 @@ class DistributionController extends AbstractController
                 );
             $this->saveList($timetable, $stopPointsIds);
             $this->get('session')->getFlashBag()->add(
-                'notice',
+                'success',
                 $this->get('translator')->trans('distribution.confirm_order_saved', array(), 'default')
             );
         }
@@ -89,7 +89,7 @@ class DistributionController extends AbstractController
             //shall we regenerate pdf?
             if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false) {
                 $response = $this->forward(
-                    'CanalTPMttBundle:Timetable:generatePdf',
+                    'CanalTPMttBundle:Pdf:generate',
                     array(
                         'timetableId'           => $timetableId,
                         'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),

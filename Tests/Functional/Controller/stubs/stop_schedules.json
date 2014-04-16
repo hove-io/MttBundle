@@ -11,6 +11,12 @@
             },
             "stop_point": {
                 "name": "Commerce",
+                "codes": [
+                    {
+                        "type": "external_code",
+                        "value": "TTRMERMB-1"
+                    }
+                ],
                 "coord": {
                     "lat": "47.213684",
                     "lon": "-1.556497"
