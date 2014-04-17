@@ -9,8 +9,7 @@ abstract class AbstractController extends Controller
 {
     protected function isGranted($businessId)
     {
-        // TODO: remove 'false' in this condition when the permission will be implemented
-        if (false && $this->get('security.context')->isGranted($businessId) === false) {
+        if ($this->get('security.context')->isGranted($businessId) === false) {
             throw new AccessDeniedException();
         }
     }
