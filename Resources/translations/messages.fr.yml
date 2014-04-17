@@ -48,6 +48,10 @@ calendar:
         additional_informations:
             terminus: Terminus de ligne : pas d'horaires à cet arrêt
             no_departure_this_day: Pas de départ prévu : pas d'horaires à cet arrêt
+    error:
+        all_calendars_selected: "Vous ne pouvez pas modifier ce calendrier car toutes les périodes sont actuellement sélectionnées."
+        content_higher_than_wrapper: Au moins un bloc dépasse la hauteur prévue.
+        no_calendars_found: Pas de calendrier trouvé pour cet arrêt et cette saison
 
 menu:
     networks: Réseaux
