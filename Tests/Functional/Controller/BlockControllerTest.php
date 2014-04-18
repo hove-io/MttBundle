@@ -23,10 +23,10 @@ class BlockControllerTest extends AbstractControllerTest
         );
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
+    // public function setUp()
+    // {
+        // parent::setUp();
+    // }
 
     // METH-120
     public function testCalendarsBySeason()

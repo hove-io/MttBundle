@@ -3,6 +3,10 @@
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Event\AuthenticationEvent;
+use Symfony\Component\Security\Core\AuthenticationEvents;
 
 abstract class AbstractControllerTest extends WebTestCase
 {
@@ -86,17 +90,31 @@ abstract class AbstractControllerTest extends WebTestCase
         $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures"));
     }
 
+    private function logIn()
+    {
+        $session = $this->client->getContainer()->get('session');
+
+        $firewall = 'main';
+        $token = new UsernamePasswordToken('mtt@canaltp.fr', 'mtt', $firewall, array('ROLE_ADMIN'));
+        $token->setUser($this->getRepository('CanalTPSamEcoreUserManagerBundle:user')->find(1));
+        $session->set('_security_'.$firewall, serialize($token));
+        //TODO: retrieve session key from parameters.yml
+        $session->set('sam_selected_application', 'mtt');
+        $session->save();
+
+        $cookie = new Cookie($session->getName(), $session->getId());
+        $this->client->getCookieJar()->set($cookie);
+        $this->client->getContainer()->get('event_dispatcher')->dispatch(
+            AuthenticationEvents::AUTHENTICATION_SUCCESS,
+            new AuthenticationEvent($token)
+        );
+    }
+    
     public function setUp($with_db = true)
     {
         $this->with_db = $with_db;
         $this->stubs_path = dirname(__FILE__) . '/stubs/';
-        $this->client = static::createClient(
-            array(),
-            array(
-            'PHP_AUTH_USER' => 'mtt@canaltp.fr',
-            'PHP_AUTH_PW'   => 'mtt',
-            )
-        );
+        $this->client = static::createClient();
 
         ini_set('xdebug.max_nesting_level', 200);
         $this->initConsole();
@@ -104,6 +122,7 @@ abstract class AbstractControllerTest extends WebTestCase
             $this->runConsole("doctrine:schema:drop", array("--force" => true));
             $this->mockDb();
         }
+        $this->logIn();
     }
 
     protected function runConsole($command, Array $options = array())

@@ -6,6 +6,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
+use CanalTP\SamCoreBundle\Entity\ApplicationRole;
+use CanalTP\SamCoreBundle\Entity\Application;
+use CanalTP\SamCoreBundle\Entity\Role;
 use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 use CanalTP\MttBundle\Entity\Network;
 use CanalTP\MttBundle\Entity\Season;
@@ -125,6 +128,46 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
 
         return ($layout);
     }
+    
+    private function createAppRole($em)
+    {
+        //application
+        $appMtt = new Application('Mtt');
+        $appMtt->setCanonicalName('mtt');
+        $appMtt->setDefaultRoute('/mtt');
+        $em->persist($appMtt);
+        //role
+        $roleUserMtt = new Role();
+        $em->persist($roleUserMtt);
+        //applicationRole
+        $appRole = new ApplicationRole();
+        $appRole->setName('Admin');
+        $appRole->setCanonicalRole('ROLE_ADMIN');
+        $appRole->setApplication($appMtt);
+        $appRole->setRole($roleUserMtt);
+        $appRole->setPermissions(
+            // TODO: should be retrieve using MttBusinessModuleInterface
+            array(
+                'BUSINESS_ASSIGN_USER_PERIMETER', 
+                'BUSINESS_ASSIGN_NETWORK_LAYOUT', 
+                'BUSINESS_SEE_USERS_PERIMETER', 
+                'BUSINESS_MANAGE_USER_PERIMETER', 
+                'BUSINESS_ASSIGN_USER_ROLE', 
+                'BUSINESS_MANAGE_ROLE', 
+                'BUSINESS_MANAGE_PERMISSION', 
+                'BUSINESS_VIEW_NAVITIA_LOG', 
+                'BUSINESS_CHOOSE_LAYOUT', 
+                'BUSINESS_EDIT_LAYOUT', 
+                'BUSINESS_MANAGE_SEASON', 
+                'BUSINESS_MANAGE_DISTRIBUTION_LIST', 
+                'BUSINESS_GENERATE_PDF', 
+                'BUSINESS_MANAGE_LAYOUTS', 
+            )
+        );
+        $em->persist($appRole);
+        
+        return $appRole;
+    }
 
     public function load(ObjectManager $em)
     {
@@ -140,7 +183,10 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
                 'roles' => array('ROLE_ADMIN')
             )
         );
-
+        
+        $user->addApplicationRole($this->createAppRole($em));
+        $em->persist($user);
+        //networks
         $network->addUser($user);
         $network2 = $this->createNetwork($em, 'network:Agglobus');
         $network2->addUser($user);
