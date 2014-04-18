@@ -10,7 +10,8 @@ use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 use CanalTP\MttBundle\Entity\Network;
 use CanalTP\MttBundle\Entity\Layout;
 
-class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
+
+class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
 {
     private $em = null;
 
@@ -24,9 +25,12 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
         $user->setEnabled(true);
         $user->setEmail($data['email']);
         $user->setPlainPassword($data['password']);
-        $user->setRoles($data['roles']);
+
+        $this->addReference('user-'.$data['username'], $user);
 
         $this->em->persist($user);
+
+
 
         return ($user);
     }
@@ -47,7 +51,6 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
         }
 
         $this->em->persist($layout);
-
         return ($layout);
     }
 
@@ -63,7 +66,6 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
         $network->setToken($token);
 
         $this->em->persist($network);
-
         return ($network);
     }
 
@@ -77,7 +79,6 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
                 'lastname' => 'mtt_lastname',
                 'email' => 'mtt@canaltp.fr',
                 'password' => 'mtt',
-                'roles' => array('ROLE_ADMIN')
             )
         );
 
@@ -122,6 +123,6 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
     */
     public function getOrder()
     {
-        return 1;
+        return 2;
     }
 }
