@@ -10,6 +10,37 @@
     <div>
         <h3>{{'calendar.view_title'|trans}}</h3>
     </div>
+    {% if prevNextStopPoints %}
+        {% if prevNextStopPoints.prev %}
+            {% set prev_url = path(
+                'canal_tp_mtt_calendar_view', 
+                {
+                    'externalNetworkId':externalNetworkId, 
+                    'externalRouteId': current_route, 
+                    'externalStopPointId' : prevNextStopPoints.prev, 
+                    'currentSeasonId':currentSeasonId
+                }
+            ) %}
+        {% endif %}
+        {% if prevNextStopPoints.next %}
+            {% set next_url = path(
+                'canal_tp_mtt_calendar_view', 
+                {
+                    'externalNetworkId':externalNetworkId, 
+                    'externalRouteId': current_route, 
+                    'externalStopPointId' : prevNextStopPoints.next, 
+                    'currentSeasonId':currentSeasonId
+                }
+            ) %}
+        {% endif %}
+        {%
+            include "CanalTPMttBundle::prevNextStopPoints.html.twig"
+            with { 
+                'prev_url' : prev_url ?: false,
+                'next_url' : next_url ?: false
+            }
+        %}
+    {% endif %}
     <ul class="nav nav-tabs" id="calendars-tab-menu">
     {% for calendar in calendars %}
         <li{% if loop.index == 1 %} class="active"{% endif %}>

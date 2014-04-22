@@ -89,6 +89,15 @@ class StopPointManager
         return $this->stopPoint;
     }
 
+    public function getPrevNextStopPoints($network, $externalRouteId, $externalStopPointId)
+	{
+		return $this->navitia->getPrevNextStopPoints(
+			$network, 
+			$externalRouteId, 
+			$externalStopPointId
+		);
+	}
+	
     /**
      * Return StopPoints list with Data from navitia
      *

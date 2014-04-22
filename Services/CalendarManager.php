@@ -27,11 +27,7 @@ class CalendarManager
     private function parseDateTimes($datetimes)
     {
         foreach ($datetimes as &$datetime) {
-            // TODO: period format not defined by the RO Team yet
-            // if (substr($datetime->date_time, 0 , 1) == "P")
-                // $datetime->date_time = new \DateInterval($datetime->date_time);
-            // else
-                $datetime->date_time = new \DateTime($datetime->date_time);
+			$datetime->date_time = new \DateTime($datetime->date_time);
         }
 
         return $datetimes;

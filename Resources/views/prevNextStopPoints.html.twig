@@ -1,0 +1,20 @@
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        {% if prev_url %}
+            <a class="btn btn-default" href="{{prev_url}}">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                {{ 'global.previous_stop_point'|trans({}, 'messages') }}
+            </a>
+        {% endif %}
+    </div>
+    {% if next_url %}
+        <div class="col-md-6 text-right">
+            <a class="btn btn-default" href="{{next_url}}">
+                {{ 'global.next_stop_point'|trans({}, 'messages') }}
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+    {% endif %}
+</div>
+<hr>

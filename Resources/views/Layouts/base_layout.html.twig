@@ -28,7 +28,7 @@
                             'network_id'        : externalNetworkId,
                             'line_id'           : externalLineId,
                             'externalRouteId'   : externalRouteId,
-                            'seasonId'          : currentSeasonId
+                            'seasonId'          : season.id
                         }
                     ) }}">
                         <span class="glyphicon glyphicon-arrow-left"></span>
@@ -51,6 +51,40 @@
     </div>
     {% endif %}
 
+    {% if prevNextStopPoints and stopPointLevel == true %}
+        {% set route = editable == true ? 'canal_tp_mtt_timetable_edit': 'canal_tp_mtt_timetable_view' %}
+        {% if prevNextStopPoints.prev %}
+            {% set prev_url = path(
+                route, 
+                {
+                    'externalNetworkId':externalNetworkId, 
+                    'externalLineId':externalLineId, 
+                    'externalRouteId': externalRouteId, 
+                    'externalStopPointId' : prevNextStopPoints.prev, 
+                    'seasonId':season.id
+                }
+            ) %}
+        {% endif %}
+        {% if prevNextStopPoints.next %}
+            {% set next_url = path(
+                route, 
+                {
+                    'externalNetworkId':externalNetworkId, 
+                    'externalLineId':externalLineId, 
+                    'externalRouteId': externalRouteId, 
+                    'externalStopPointId' : prevNextStopPoints.next, 
+                    'seasonId':season.id
+                }
+            ) %}
+        {% endif %}
+        {%
+            include "CanalTPMttBundle::prevNextStopPoints.html.twig"
+            with { 
+                'prev_url' : prev_url ?: false,
+                'next_url' : next_url ?: false
+            }
+        %}
+    {% endif %}
     <div id="layout-main-wrapper"{% if editable == true %} class="editable"{% endif %}>
         {% block timetable_content %}{% endblock %}
     </div>

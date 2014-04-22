@@ -12,13 +12,13 @@ class Navitia
     private $dateFormat = 'Ymd';
 
     protected $navitia_component;
-    protected $navitia_iussaad;
+    protected $navitia_sam;
     protected $translator;
 
-    public function __construct($navitia_component, $navitia_iussaad, $translator)
+    public function __construct($navitia_component, $navitia_sam, $translator)
     {
         $this->navitia_component = $navitia_component;
-        $this->navitia_iussaad = $navitia_iussaad;
+        $this->navitia_sam = $navitia_sam;
         $this->translator = $translator;
     }
 
@@ -57,7 +57,7 @@ class Navitia
     public function findAllLinesByMode($coverageId, $networkId)
     {
         $count = 30;
-        $result = $this->navitia_iussaad->getLines($coverageId, $networkId, 1, $count);
+        $result = $this->navitia_sam->getLines($coverageId, $networkId, 1, $count);
         // no line found for this network
         if (empty($result) || !isset($result->lines)) {
             throw new \Exception(
@@ -70,7 +70,7 @@ class Navitia
         }
 
         if ($result->pagination->total_result > $count) {
-            $result = $this->navitia_iussaad->getLines(
+            $result = $this->navitia_sam->getLines(
                 $coverageId,
                 $networkId,
                 1,
@@ -99,7 +99,7 @@ class Navitia
      */
     public function getLineTitle($coverageId, $networkId, $lineId)
     {
-        $response = $this->navitia_iussaad->getLine($coverageId, $networkId, $lineId);
+        $response = $this->navitia_sam->getLine($coverageId, $networkId, $lineId);
 
         return ($response->lines[0]->name);
     }
@@ -126,11 +126,40 @@ class Navitia
      */
     public function getStopPointTitle($coverageId, $stopPointId)
     {
-        $response = $this->navitia_iussaad->getStopPoint($coverageId, $stopPointId);
+        $response = $this->navitia_sam->getStopPoint($coverageId, $stopPointId);
 
         return ($response->stop_points[0]->name);
     }
 
+	
+    public function getPrevNextStopPoints($network, $externalRouteId, $externalStopPointId)
+	{
+		$filter = 'networks/' . $network->getExternalId() . '/routes/' . $externalRouteId;
+        
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $network->getExternalCoverageId(),
+                'action' => 'route_schedules',
+                'filter' => $filter,
+                'parameters' => '?depth=0'
+            )
+        );
+        $result = $this->navitia_component->call($query);
+		$prevNext = array();
+		foreach($result->route_schedules[0]->table->rows as $index => $stopPointData) {
+			if ($stopPointData->stop_point->id == $externalStopPointId) {
+				if (isset($result->route_schedules[0]->table->rows[$index-1])) {
+					$prevNext['prev'] = $result->route_schedules[0]->table->rows[$index-1]->stop_point->id;
+				}
+				if (isset($result->route_schedules[0]->table->rows[$index+1])) {
+					$prevNext['next'] = $result->route_schedules[0]->table->rows[$index+1]->stop_point->id;
+				}
+			}
+		}
+		return $prevNext;
+	}
+	
     /**
      * Returns Stop Point external code
      *
@@ -163,7 +192,7 @@ class Navitia
      */
     public function getRouteData($routeExternalId, $externalCoverageId)
     {
-        $response = $this->navitia_iussaad->getRoute($externalCoverageId, $routeExternalId);
+        $response = $this->navitia_sam->getRoute($externalCoverageId, $routeExternalId);
         if (!isset($response->routes) || empty($response->routes)) {
             throw new \Exception(
                 $this->translator->trans(

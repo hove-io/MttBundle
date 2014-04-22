@@ -30,6 +30,8 @@ global:
     no_items: Aucun élément à afficher
     startDate: Date de début
     endDate: Date de fin
+    previous_stop_point: Arrêt précédent
+    next_stop_point: Arrêt suivant
 
 error:
     start_end_time_incoherent: L'heure de début et l'heure de fin ne sont pas cohérentes

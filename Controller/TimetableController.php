@@ -27,15 +27,22 @@ class TimetableController extends AbstractController
                 $timetable,
                 $externalCoverageId
             );
+            $prevNextStopPoints = $stopPointManager->getPrevNextStopPoints(
+                $timetable->getLineConfig()->getSeason()->getNetwork(), 
+                $timetable->getExternalRouteId(), 
+                $externalStopPointId
+            );
         // route level
         } else {
             $stopPointLevel = false;
             $stopPointInstance = false;
+            $prevNextStopPoints = false;
         }
 
         return array(
             'stopPointLevel'    => $stopPointLevel,
             'stopPointInstance' => $stopPointInstance,
+            'prevNextStopPoints'=> $prevNextStopPoints,
         );
     }
 
@@ -70,6 +77,7 @@ class TimetableController extends AbstractController
                 'season'                => $timetable->getLineConfig()->getSeason(),
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],
+                'prevNextStopPoints'    => $stopPointData['prevNextStopPoints'],
                 'calendars'             => $calendarsAndNotes['calendars'],
                 'notes'                 => $calendarsAndNotes['notes'],
                 'blockTypes'            => $this->container->getParameter('blocks'),
