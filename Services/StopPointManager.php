@@ -91,11 +91,23 @@ class StopPointManager
 
     public function getPrevNextStopPoints($network, $externalRouteId, $externalStopPointId)
 	{
-		return $this->navitia->getPrevNextStopPoints(
+		$result = $this->navitia->getRouteStopPoints(
 			$network, 
 			$externalRouteId, 
 			$externalStopPointId
 		);
+        $prevNext = array();
+		foreach($result->route_schedules[0]->table->rows as $index => $stopPointData) {
+			if ($stopPointData->stop_point->id == $externalStopPointId) {
+				if (isset($result->route_schedules[0]->table->rows[$index-1])) {
+					$prevNext['prev'] = $result->route_schedules[0]->table->rows[$index-1]->stop_point->id;
+				}
+				if (isset($result->route_schedules[0]->table->rows[$index+1])) {
+					$prevNext['next'] = $result->route_schedules[0]->table->rows[$index+1]->stop_point->id;
+				}
+			}
+		}
+		return $prevNext;
 	}
 	
     /**

@@ -132,7 +132,7 @@ class Navitia
     }
 
 	
-    public function getPrevNextStopPoints($network, $externalRouteId, $externalStopPointId)
+    public function getRouteStopPoints($network, $externalRouteId, $externalStopPointId)
 	{
 		$filter = 'networks/' . $network->getExternalId() . '/routes/' . $externalRouteId;
         
@@ -145,19 +145,7 @@ class Navitia
                 'parameters' => '?depth=0'
             )
         );
-        $result = $this->navitia_component->call($query);
-		$prevNext = array();
-		foreach($result->route_schedules[0]->table->rows as $index => $stopPointData) {
-			if ($stopPointData->stop_point->id == $externalStopPointId) {
-				if (isset($result->route_schedules[0]->table->rows[$index-1])) {
-					$prevNext['prev'] = $result->route_schedules[0]->table->rows[$index-1]->stop_point->id;
-				}
-				if (isset($result->route_schedules[0]->table->rows[$index+1])) {
-					$prevNext['next'] = $result->route_schedules[0]->table->rows[$index+1]->stop_point->id;
-				}
-			}
-		}
-		return $prevNext;
+        return $this->navitia_component->call($query);
 	}
 	
     /**

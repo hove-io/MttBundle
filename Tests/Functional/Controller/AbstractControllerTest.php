@@ -22,6 +22,7 @@ abstract class AbstractControllerTest extends WebTestCase
                     'findAllLinesByMode',
                     'getStopPointCalendarsData',
                     'getCalendarStopSchedulesByRoute',
+                    'getRouteStopPoints',
                     'getRouteCalendars',
                     'getRouteData'
                 )
@@ -42,7 +43,11 @@ abstract class AbstractControllerTest extends WebTestCase
                     return $return;
                 }
             ));
-
+            
+        $navitia->expects($this->any())
+            ->method('getRouteStopPoints')
+            ->will($this->returnValue(json_decode($this->readStub('route_schedules.json'))));
+            
         $navitia->expects($this->any())
             ->method('getStopPointCalendarsData')
             ->will($this->returnValue(json_decode($this->readStub('calendars.json'))));
@@ -96,7 +101,7 @@ abstract class AbstractControllerTest extends WebTestCase
 
         $firewall = 'main';
         $token = new UsernamePasswordToken('mtt@canaltp.fr', 'mtt', $firewall, array('ROLE_ADMIN'));
-        $token->setUser($this->getRepository('CanalTPSamEcoreUserManagerBundle:user')->find(1));
+        $token->setUser($this->getRepository('CanalTPSamEcoreUserManagerBundle:User')->find(1));
         $session->set('_security_'.$firewall, serialize($token));
         //TODO: retrieve session key from parameters.yml
         $session->set('sam_selected_application', 'mtt');
