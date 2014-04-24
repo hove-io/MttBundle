@@ -26,6 +26,12 @@ class Layout extends AbstractEntity
      * @var string
      */
     private $preview;
+    
+    /**
+     * @var integer
+     * default value 1
+     */
+    private $cssVersion = 1;
 
     /**
      * @var string
@@ -152,6 +158,29 @@ class Layout extends AbstractEntity
     public function getOrientation()
     {
         return $this->orientation;
+    }
+
+    /**
+     * Set cssVersion
+     *
+     * @param  integer $cssVersion
+     * @return Layout
+     */
+    public function setCssVersion($cssVersion)
+    {
+        $this->cssVersion = $cssVersion;
+
+        return $this;
+    }
+
+    /**
+     * Get cssVersion
+     *
+     * @return integer
+     */
+    public function getCssVersion()
+    {
+        return $this->cssVersion;
     }
 
     /**

@@ -48,6 +48,11 @@ class StopPoint extends AbstractEntity
     protected $pdfGenerationDate;
 
     /**
+     * @var binary
+     */
+    protected $pdfHash;
+
+    /**
      * Get id
      *
      * @return integer
@@ -219,8 +224,32 @@ class StopPoint extends AbstractEntity
         return $this;
     }
 
+    /**
+     * Get pdfHash
+     *
+     * @return string
+     */
+    public function getPdfHash()
+    {
+        return ($this->pdfHash);
+    }
+
+    /**
+     * Set pdfHash
+     *
+     * @param  string    $pdfHash
+     * @return StopPoint
+     */
+    public function setPdfHash($pdfHash)
+    {
+        $this->pdfHash = $pdfHash;
+
+        return $this;
+    }
+
     public function __clone()
     {
         $this->pdfGenerationDate = null;
+        $this->pdfHash = null;
     }
 }

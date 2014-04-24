@@ -1,5 +1,6 @@
 parameters:
     canal_tp.media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
+    canal_tp_mtt.curl_proxy.class: CanalTP\MttBundle\Services\CurlProxy
     canal_tp_mtt.user.class: CanalTP\MttBundle\Services\UserManager
     canal_tp_mtt.navitia.class: CanalTP\MttBundle\Services\Navitia
     canal_tp_mtt.line_manager.class: CanalTP\MttBundle\Services\LineManager
@@ -19,6 +20,7 @@ parameters:
     canal_tp.mtt.distribution_list.class: CanalTP\MttBundle\Services\DistributionListManager
     canal_tp.mtt.validator.constraints.navitia_network_id.class: CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkIdValidator
     canal_tp.mtt.validator.constraints.greater_than_field.class: CanalTP\MttBundle\Validator\Constraints\GreaterThanFieldValidator
+    canal_tp_mtt.pdf_manager.class: CanalTP\MttBundle\Services\PdfManager
 
 services:
     #TWIG extensions
@@ -63,6 +65,17 @@ services:
         class: CanalTP\MttBundle\Form\Type\DatepickerType
         tags:
             - { name: form.type, alias: datepicker }
+    #Curl Proxy service
+    canal_tp_mtt.curl:
+       class: %canal_tp_mtt.curl_proxy.class%
+   #PDF
+    canal_tp_mtt.pdf_generator:
+       class: %canal_tp_mtt.pdf_generator.class%
+       arguments: ['@canal_tp_mtt.curl', '%pdf_generator_url%', "%kernel.root_dir%/../web/uploads/"]
+    canal_tp_mtt.pdf_manager:
+       class: %canal_tp_mtt.pdf_manager.class%
+       arguments: ['@doctrine.orm.entity_manager', '@router', '@canal_tp_mtt.pdf_generator', '@canal_tp_mtt.media_manager', '@service_container', '@canal_tp_mtt.curl']
+    #
     canal_tp_mtt.user:
        class: %canal_tp_mtt.user.class%
        arguments: ['@doctrine.orm.entity_manager', '@translator']
@@ -84,9 +97,6 @@ services:
     canal_tp_mtt.form.factory.block:
        class: %canal_tp_mtt.form.factory.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canal_tp.media_manager']
-    canal_tp_mtt.pdf_generator:
-       class: %canal_tp_mtt.pdf_generator.class%
-       arguments: ['%pdf_generator_url%', "%kernel.root_dir%/../web/uploads/"]
     canal_tp_mtt.calendar_manager:
        class: %canal_tp_mtt.calendar_manager.class%
        arguments: ['@canal_tp_mtt.navitia', '@translator']

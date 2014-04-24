@@ -17,6 +17,11 @@ CanalTP\MttBundle\Entity\Layout:
         preview:
             type: string
             length: 255
+        cssVersion:
+            type: integer
+            length: 4
+            nullable: TRUE
+            column: css_version
         orientation:
             type: string
             length: 255

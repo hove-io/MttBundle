@@ -117,6 +117,7 @@ class DistributionController extends AbstractController
 
     public function generateAction($timetableId, $externalNetworkId)
     {
+        $this->isGranted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
 
         $network = $networkManager->findOneByExternalId($externalNetworkId);
@@ -126,7 +127,7 @@ class DistributionController extends AbstractController
         );
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint');
-        $this->mediaManager = $this->get('canal_tp.media_manager');
+        $this->mediaManager = $this->get('canal_tp_mtt.media_manager');
 
         $stopPointsIds = $this->get('request')->request->get(
             'stopPointsIds', array()
@@ -138,34 +139,17 @@ class DistributionController extends AbstractController
                 $timetable,
                 $network->getExternalCoverageId()
             );
-            //shall we regenerate pdf?
-            if ($stopPointRepo->hasPdfUpToDate($stopPoint, $timetable) == false) {
-                $response = $this->forward(
-                    'CanalTPMttBundle:Pdf:generate',
-                    array(
-                        'timetableId'           => $timetableId,
-                        'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
-                        'externalNetworkId'     => $externalNetworkId,
-                        'externalStopPointId'   => $externalStopPointId,
-                    )
-                );
-            }
-
-            $timetableCategory = new Category($timetableId, CategoryType::NETWORK);
-            $networkCategory = new Category(
-                $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(),
-                CategoryType::NETWORK
+            $response = $this->forward(
+                'CanalTPMttBundle:Pdf:generate',
+                array(
+                    'timetableId'           => $timetableId,
+                    'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
+                    'externalNetworkId'     => $externalNetworkId,
+                    'externalStopPointId'   => $externalStopPointId,
+                )
             );
-            $seasonCategory = new Category(
-                $timetable->getLineConfig()->getSeason()->getId(),
-                CategoryType::LINE
-            );
-            $media = new Media();
 
-            $timetableCategory->setParent($networkCategory);
-            $networkCategory->setParent($seasonCategory);
-            $media->setCategory($timetableCategory);
-            $media->setFileName($externalStopPointId);
+            $media = $this->mediaManager->getStopPointTimetableMedia($timetable, $externalStopPointId);
             $paths[] = $this->mediaManager->getPathByMedia($media);
         }
 

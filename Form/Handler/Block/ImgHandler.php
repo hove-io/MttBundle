@@ -5,6 +5,7 @@ namespace CanalTP\MttBundle\Form\Handler\Block;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\Common\Persistence\ObjectManager;
+
 use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector as MediaManager;
 use CanalTP\MediaManagerBundle\Entity\Category;

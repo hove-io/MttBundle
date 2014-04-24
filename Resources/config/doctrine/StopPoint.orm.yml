@@ -16,6 +16,11 @@ CanalTP\MttBundle\Entity\StopPoint:
             type: datetime
             nullable: TRUE
             column: pdf_generation_date
+        pdfHash:
+            type: string
+            length: 32
+            nullable: TRUE
+            column: pdf_hash
         created:
             type: datetime
             gedmo:
