@@ -84,4 +84,17 @@ class SeasonControllerTest extends AbstractControllerTest
         $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
         $this->assertGreaterThan(0, $crawler->filter('div.form-group.has-error')->count());
     }
+    
+    public function testDatesOverlappingOtherSeason()
+    {
+        $form = $this->getEditForm();
+        $startDate = new \DateTime("now");
+        $endDate = new \DateTime("+4 month");
+        $form['mtt_season[startDate]'] = $startDate->format('d/m/Y');
+        $form['mtt_season[endDate]'] = $endDate->format('d/m/Y');
+        $crawler = $this->client->submit($form);
+        $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
+        $this->assertGreaterThan(0, $crawler->filter('.modal-body .alert.alert-danger')->count());
+    }
+
 }
