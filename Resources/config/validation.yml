@@ -15,6 +15,12 @@ CanalTP\MttBundle\Entity\Block:
 CanalTP\MttBundle\Entity\Season:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [title, network]
+        - CanalTP\MttBundle\Validator\Constraints\NotOverlappingEntity: 
+            parent: network
+            siblings: seasons
+            startField: startDate
+            endField: endDate
+            message: error.seasons_overlapping
     properties:
         title:
             - NotBlank: ~

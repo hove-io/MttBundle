@@ -38,6 +38,7 @@ error:
     entities_overlapping: Les éléments n°%firstElement% et n°%secondElement% se chevauchent
     navitia_network_id: "%string% n'est pas conforme au format navitia."
     greater_than_field: Ce champ doit être supérieur au champ %field%.
+    seasons_overlapping: Cette saison n'a pu être sauvée car elle entre en conflit avec la saison "%saison_title%"
 
 help:
     edit_block: Cliquer pour éditer ce bloc
