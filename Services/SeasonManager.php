@@ -31,6 +31,16 @@ class SeasonManager
         $this->om->persist($season);
         $this->om->flush();
     }
+    
+    public function find($seasonId)
+    {
+        return $this->repository->find($seasonId);
+    }
+    public function remove($season)
+    {
+        $this->om->remove($season);
+        $this->om->flush();
+    }
 
     public function findAllByNetworkId($networkId)
     {

@@ -39,7 +39,9 @@
                         <a  class="btn btn-default" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'network_id': networkId, 'season_id': season.id }) }}">
                             <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
                         </a>
-                    </a>
+                        <a onClick="javascript:return confirm('{{'global.confirm_season_delete'|trans({}, 'messages')}}')" class="btn btn-default" href="{{ path('canal_tp_mtt_season_delete', {'networkId': networkId, 'seasonId': season.id }) }}">
+                            <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
+                        </a>
                     </div>
                 </td>
             </tr>

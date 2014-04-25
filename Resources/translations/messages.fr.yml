@@ -32,6 +32,7 @@ global:
     endDate: Date de fin
     previous_stop_point: Arrêt précédent
     next_stop_point: Arrêt suivant
+    confirm_season_delete: Êtes-vous sûr de vouloir supprimer cette saison? Toutes les données liées y compris les pdf seront perdus.
 
 error:
     start_end_time_incoherent: L'heure de début et l'heure de fin ne sont pas cohérentes

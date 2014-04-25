@@ -90,6 +90,19 @@ class MediaManager
         return ($media);
     }
 
+    //TODO: Remove. Should be done by the mediaDataCollector AKA Rémy
+    public function deleteSeasonMedias($season)
+    {
+        $configuration = $this->mediaDataCollector->getConfigurations();
+        //berk
+        $path = $configuration['storage']['path'] . $configuration['name'] . '/' . $season->getId() . '/';
+
+        if (is_dir($path)) {
+            //double berk
+            shell_exec("rm -rf $path");
+        }
+    }
+    
     public function copy(Block $origBlock, Block $destBlock, $destTimetable)
     {
         $origImgMediaPath = $this->findMediaPathByTimeTable($origBlock->getTimetable(), ImgHandler::ID_LINE_MAP);

@@ -34,6 +34,8 @@ CanalTP\MttBundle\Entity\Season:
         lineConfigs:
             targetEntity: LineConfig
             mappedBy: season
+            cascade:
+                - remove
     manyToOne:
         network:
             targetEntity: Network

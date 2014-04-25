@@ -33,9 +33,13 @@ CanalTP\MttBundle\Entity\Timetable:
         blocks:
             targetEntity: Block
             mappedBy: timetable
+            cascade:
+                - remove
         stopPoints:
             targetEntity: StopPoint
             mappedBy: timetable
+            cascade:
+                - remove
     manyToOne:
         line_config:
             targetEntity: LineConfig

@@ -29,6 +29,8 @@ CanalTP\MttBundle\Entity\LineConfig:
         timetables:
             targetEntity: Timetable
             mappedBy: line_config
+            cascade:
+                - remove
     manyToOne:
         layout:
             targetEntity: Layout

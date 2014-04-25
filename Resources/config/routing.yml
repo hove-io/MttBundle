@@ -19,6 +19,11 @@ canal_tp_mtt_season_edit:
     defaults: { _controller: CanalTPMttBundle:Season:edit, season_id: null }
     requirements:
         network_id: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_season_delete:
+    pattern: /network/{networkId}/delete/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:Season:delete, season_id: null }
+    requirements:
+        network_id: -?[a-zA-Z0-9_\-:]*
 
 #StopPoint
 canal_tp_mtt_stop_point_list:

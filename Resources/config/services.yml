@@ -1,5 +1,6 @@
 parameters:
     canal_tp.media_manager.class: CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector
+    canal_tp.mtt.media_manager.class: CanalTP\MttBundle\Services\MediaManager
     canal_tp_mtt.curl_proxy.class: CanalTP\MttBundle\Services\CurlProxy
     canal_tp_mtt.user.class: CanalTP\MttBundle\Services\UserManager
     canal_tp_mtt.navitia.class: CanalTP\MttBundle\Services\Navitia
@@ -16,7 +17,6 @@ parameters:
     canal_tp_mtt.network.class: CanalTP\MttBundle\Services\NetworkManager
     canal_tp.mtt.navitia_debug_matcher.class: CanalTP\MttBundle\Profiler\NavitiaDebugMatcher
     canal_tp.mtt.season_copier.class: CanalTP\MttBundle\Services\SeasonCopier
-    canal_tp.mtt.media_manager.class: CanalTP\MttBundle\Services\MediaManager
     canal_tp.mtt.distribution_list.class: CanalTP\MttBundle\Services\DistributionListManager
     canal_tp.mtt.validator.constraints.navitia_network_id.class: CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkIdValidator
     canal_tp.mtt.validator.constraints.greater_than_field.class: CanalTP\MttBundle\Validator\Constraints\GreaterThanFieldValidator
