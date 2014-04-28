@@ -17,6 +17,8 @@ CanalTP\MttBundle\Entity\Season:
         endDate:
             type: date
             column: end_date
+        published:
+            type: boolean
         created:
             type: datetime
             gedmo:

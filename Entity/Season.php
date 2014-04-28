@@ -30,6 +30,11 @@ class Season extends AbstractEntity
     /**
      * @var Object
      */
+    private $published;
+
+    /**
+     * @var Object
+     */
     private $network;
 
     /**
@@ -183,5 +188,27 @@ class Season extends AbstractEntity
     public function getLineConfigs()
     {
         return $this->lineConfigs;
+    }
+
+    /**
+     * Get published
+     *
+     * @return Network
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * Set published
+     *
+     * @return Season
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return ($this);
     }
 }

@@ -24,6 +24,16 @@ canal_tp_mtt_season_delete:
     defaults: { _controller: CanalTPMttBundle:Season:delete, season_id: null }
     requirements:
         network_id: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_season_publish:
+    pattern: /network/{networkId}/publish/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:Season:publish }
+    requirements:
+        network_id: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_season_unpublish:
+    pattern: /network/{networkId}/unpublish/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:Season:unpublish }
+    requirements:
+        network_id: -?[a-zA-Z0-9_\-:]*
 
 #StopPoint
 canal_tp_mtt_stop_point_list:

@@ -21,7 +21,7 @@ class SeasonControllerTest extends AbstractControllerTest
         );
     }
 
-    /* private function getEditForm()
+    private function getEditForm()
     {
         // Check if the form is correctly display
         $route = $this->getRoute('canal_tp_mtt_season_edit');
@@ -95,7 +95,7 @@ class SeasonControllerTest extends AbstractControllerTest
         $crawler = $this->client->submit($form);
         $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
         $this->assertGreaterThan(0, $crawler->filter('.modal-body .alert.alert-danger')->count());
-    } */
+    }
     
     public function testDeleteSeason()
     {
@@ -115,6 +115,30 @@ class SeasonControllerTest extends AbstractControllerTest
         $this->assertTrue(count($timetables) == 0, "timetable was not deleted.");
         $blocks = $this->getRepository('CanalTPMttBundle:Block')->findAll();
         $this->assertTrue(count($blocks) == 0, "block was not deleted.");
+    }
+    
+    public function testSeasonPublicationAndUnpublication()
+    {
+        $route = $this->generateRoute(
+            'canal_tp_mtt_season_unpublish',
+            array(
+                'seasonId' => Fixture::SEASON_ID,
+                'networkId' => Fixture::EXTERNAL_NETWORK_ID,
+            )
+        );
+        $crawler = $this->doRequestRoute($route, 302);
+        $season = $this->getRepository('CanalTPMttBundle:Season')->find(Fixture::SEASON_ID);
+        $this->assertFalse($season->getPublished(), "Season was not unpublished.");
+        $route = $this->generateRoute(
+            'canal_tp_mtt_season_publish',
+            array(
+                'seasonId' => Fixture::SEASON_ID,
+                'networkId' => Fixture::EXTERNAL_NETWORK_ID,
+            )
+        );
+        $crawler = $this->doRequestRoute($route, 302);
+        $season = $this->getRepository('CanalTPMttBundle:Season')->find(Fixture::SEASON_ID);
+        $this->assertTrue($season->getPublished(), "Season was not unpublished.");
     }
 
 }

@@ -92,6 +92,36 @@ class SeasonController extends AbstractController
         );
     }
     
+    public function publishAction($networkId, $seasonId)
+    {
+        $this->isGranted('BUSINESS_MANAGE_SEASON');
+        $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
+        
+        return $this->redirect(
+            $this->generateUrl(
+                'canal_tp_mtt_season_list',
+                array(
+                    'network_id' => $networkId,
+                )
+            )
+        );
+    }
+
+    public function unpublishAction($networkId, $seasonId)
+    {
+        $this->isGranted('BUSINESS_MANAGE_SEASON');
+        $this->get('canal_tp_mtt.season_manager')->unpublish($seasonId);
+
+        return $this->redirect(
+            $this->generateUrl(
+                'canal_tp_mtt_season_list',
+                array(
+                    'network_id' => $networkId,
+                )
+            )
+        );
+    }
+    
     public function listAction(Request $request, $network_id)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');

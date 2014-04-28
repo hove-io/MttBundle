@@ -68,6 +68,7 @@ season:
     block:
         title: Horaires valables
         content: du %startDate% au %endDate%
+    published: Publiée?
 
 stop_point_code:
     block:

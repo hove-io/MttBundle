@@ -32,10 +32,25 @@ class SeasonManager
         $this->om->flush();
     }
     
+    public function publish($seasonId)
+    {
+        $season = $this->find($seasonId);
+        $season->setPublished(true);
+        $this->save($season);
+    }
+    
+    public function unpublish($seasonId)
+    {
+        $season = $this->find($seasonId);
+        $season->setPublished(false);
+        $this->save($season);
+    }
+
     public function find($seasonId)
     {
         return $this->repository->find($seasonId);
     }
+
     public function remove($season)
     {
         $this->om->remove($season);
