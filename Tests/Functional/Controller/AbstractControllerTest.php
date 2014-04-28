@@ -91,8 +91,8 @@ abstract class AbstractControllerTest extends WebTestCase
     private function mockDb()
     {
         $this->runConsole("doctrine:schema:create");
-        // $this->runConsole("doctrine:fixtures:load");
         $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures"));
+
     }
 
     private function logIn()
@@ -100,8 +100,9 @@ abstract class AbstractControllerTest extends WebTestCase
         $session = $this->client->getContainer()->get('session');
 
         $firewall = 'main';
+        $user = $this->getRepository('CanalTPSamEcoreUserManagerBundle:User')->find(1);
         $token = new UsernamePasswordToken('mtt@canaltp.fr', 'mtt', $firewall, array('ROLE_ADMIN'));
-        $token->setUser($this->getRepository('CanalTPSamEcoreUserManagerBundle:User')->find(1));
+        $token->setUser($user);
         $session->set('_security_'.$firewall, serialize($token));
         //TODO: retrieve session key from parameters.yml
         $session->set('sam_selected_application', 'mtt');

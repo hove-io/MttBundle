@@ -30,7 +30,7 @@ class Season extends AbstractEntity
     /**
      * @var Object
      */
-    private $published;
+    private $published = false;
 
     /**
      * @var Object

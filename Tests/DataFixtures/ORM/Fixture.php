@@ -64,6 +64,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $season->setTitle('hiver 2015');
         $season->setStartDate(new \DateTime("now"));
         $season->setEndDate(new \DateTime("+6 month"));
+        $season->setPublished(TRUE);
 
         $em->persist($season);
 
@@ -200,6 +201,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
                 'orientation'   => 'landscape',
                 'calendarStart' => 4,
                 'calendarEnd'   => 1,
+                'cssVersion'    => 0,
             ),
             array($network)
         );
@@ -212,6 +214,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
                 'orientation'   => 'landscape',
                 'calendarStart'=> 4,
                 'calendarEnd'  => 1,
+                'cssVersion'    => 0,
             ),
             array($network)
         );
