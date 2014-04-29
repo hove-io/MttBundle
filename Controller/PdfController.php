@@ -14,6 +14,7 @@ class PdfController extends AbstractController
             $network->getExternalCoverageId()
         );
         $pdfManager = $this->get('canal_tp_mtt.pdf_manager');
+
         return $this->redirect(
             $pdfManager->getStoppointPdfUrl($timetable, $externalStopPointId)
         );

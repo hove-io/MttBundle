@@ -121,7 +121,7 @@ class PdfManager
 
             $pdfPath = $this->pdfGenerator->getPdf($url, $timetable->getLineConfig()->getLayout());
             if ($pdfPath) {
-                $pdfMedia = $this->mediaManager->saveFile($timetable, $externalStopPointId, $pdfPath);
+                $pdfMedia = $this->mediaManager->saveStopPointTimetable($timetable, $externalStopPointId, $pdfPath);
                 $this->stopPoint->updatePdfGenerationInfos($externalStopPointId, $timetable, $hash);
             } else {
                 throw new \Exception('PdfGenerator Webservice returned an empty response.');

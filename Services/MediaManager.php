@@ -15,6 +15,7 @@ use CanalTP\MttBundle\Form\Handler\Block\ImgHandler;
 class MediaManager
 {
     private $mediaDataCollector = null;
+    const TIMETABLE_FILENAME = 'timetable';
 
     public function __construct(MediaDataCollector $mediaDataCollector)
     {
@@ -22,23 +23,36 @@ class MediaManager
     }
 
     // prepare media regarding Mtt policy
-    private function getTimetableMedia($timetable)
+    private function getMedia($timetable, $externalStopPointId = false)
     {
-        $timetableCategory = new Category($timetable->getId(), CategoryType::NETWORK);
         $networkCategory = new Category(
             $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(),
             CategoryType::NETWORK
+        );
+        $routeCategory = new Category(
+            $timetable->getExternalRouteId(),
+            CategoryType::LINE
         );
         $seasonCategory = new Category(
             $timetable->getLineConfig()->getSeason()->getId(),
             CategoryType::LINE
         );
-        $media = new Media();
 
-        $timetableCategory->setParent($networkCategory);
-        $networkCategory->setParent($seasonCategory);
-        $media->setCategory($timetableCategory);
+        $routeCategory->setParent($networkCategory);
+        if ($externalStopPointId) {
+            $stopPointCategory = new Category(
+                $externalStopPointId,
+                CategoryType::LINE
+            );
+            $stopPointCategory->setParent($routeCategory);
+            $seasonCategory->setParent($stopPointCategory);
+        } else {
+            $seasonCategory->setParent($routeCategory);
+        }
         
+        $media = new Media();
+        $media->setCategory($seasonCategory);
+
         return $media;
     }
     
@@ -55,36 +69,34 @@ class MediaManager
     
     public function getStopPointTimetableMedia($timetable, $externalStopPointId)
     {
-        $media = $this->getTimetableMedia($timetable);
-        $media->setFileName($externalStopPointId);
+        $media = $this->getMedia($timetable, $externalStopPointId);
+        $media->setFileName(self::TIMETABLE_FILENAME);
 
         return $media;
     }
     
     public function findMediaPathByTimeTable($timetable, $fileName)
     {
-        $media = $this->getTimetableMedia($timetable);
+        $media = $this->getMedia($timetable);
         $media->setFileName($fileName);
 
         return ($this->getPathByMedia($media));
     }
 
-    public function saveFile($timetable, $filename, $path)
+    public function saveStopPointTimetable($timetable, $externalStopPointId, $path)
     {
-        $media = $this->getTimetableMedia($timetable);
-        $media->setFileName($filename);
+        $media = $this->getStopPointTimetableMedia($timetable, $externalStopPointId);
         $media->setFile(new File($path));
-
         $this->mediaDataCollector->save($media);
 
         return ($media);
     }
     
-    public function saveByTimetable($timetable, $path, $fileName)
+    public function saveByTimetable($timetable, $file, $fileName)
     {
-        $media = $this->getTimetableMedia($timetable);
+        $media = $this->getMedia($timetable);
         $media->setFileName($fileName);
-        $media->setFile(new File($path));
+        $media->setFile($file);
         $this->mediaDataCollector->save($media);
 
         return ($media);
@@ -107,7 +119,7 @@ class MediaManager
     {
         $origImgMediaPath = $this->findMediaPathByTimeTable($origBlock->getTimetable(), ImgHandler::ID_LINE_MAP);
         copy($origImgMediaPath, $origImgMediaPath . '.bak');
-        $destMedia = $this->saveByTimetable($destTimetable, $origImgMediaPath, ImgHandler::ID_LINE_MAP);
+        $destMedia = $this->saveByTimetable($destTimetable, new File($origImgMediaPath), ImgHandler::ID_LINE_MAP);
         $destBlock->setContent($this->mediaDataCollector->getUrlByMedia($destMedia));
         rename($origImgMediaPath . '.bak', $origImgMediaPath);
     }
