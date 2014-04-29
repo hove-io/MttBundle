@@ -252,13 +252,17 @@ class Navitia
      */
     public function getCalendarStopSchedulesByRoute($externalCoverageId, $externalRouteId, $externalStopPointId, $externalCalendarId)
     {
-         $query = array(
+        // TODO: Retrieve fromdatetime from FUSIO
+        // cf http://jira.canaltp.fr/browse/METH-196
+        $fromdatetime = new \DateTime("now");
+        $fromdatetime->setTime(4, 0);
+        $query = array(
             'api' => 'coverage',
             'parameters' => array(
                 'region' => $externalCoverageId,
                 'action' => 'stop_schedules',
                 'filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId,
-                'parameters' => '?calendar=' . $externalCalendarId . '&show_codes=true'
+                'parameters' => '?calendar=' . $externalCalendarId . '&show_codes=true&from_datetime=' . $fromdatetime->format('Ymd\THis')
             )
         );
         $stop_schedulesResponse = $this->navitia_component->call($query);
