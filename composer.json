@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "canaltp/navitia": "dev-feature-sam-mtt",
+        "canaltp/navitia": "~0@dev",
         "canaltp/media-manager-bundle": "0.0.3",
         "friendsofsymfony/jsrouting-bundle": "1.5.3",
         "willdurand/js-translation-bundle":"2.0.0",
