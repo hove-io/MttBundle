@@ -31,14 +31,14 @@ class Navitia
      */
     public function getStopPoint($coverageId, $stopPointId, $params)
     {
-        $filter = 'stop_points/' . $stopPointId;
+        $pathFilter = 'stop_points/' . $stopPointId;
         $parameters = http_build_query($params);
 
         $query = array(
             'api' => 'coverage',
             'parameters' => array(
                 'region' => $coverageId,
-                'filter' => $filter,
+                'path_filter' => $pathFilter,
                 'parameters' => $parameters
             )
         );
@@ -131,23 +131,23 @@ class Navitia
         return ($response->stop_points[0]->name);
     }
 
-	
+
     public function getRouteStopPoints($network, $externalRouteId, $externalStopPointId)
 	{
-		$filter = 'networks/' . $network->getExternalId() . '/routes/' . $externalRouteId;
-        
+		$pathFilter = 'networks/' . $network->getExternalId() . '/routes/' . $externalRouteId;
+
         $query = array(
             'api' => 'coverage',
             'parameters' => array(
                 'region' => $network->getExternalCoverageId(),
                 'action' => 'route_schedules',
-                'filter' => $filter,
+                'path_filter' => $pathFilter,
                 'parameters' => '?depth=0'
             )
         );
         return $this->navitia_component->call($query);
 	}
-	
+
     /**
      * Returns Stop Point external code
      *
@@ -209,7 +209,7 @@ class Navitia
             'parameters' => array(
                 'region' => $externalCoverageId,
                 'action' => 'calendars',
-                'filter' => 'routes/' . $externalRouteId,
+                'path_filter' => 'routes/' . $externalRouteId,
                 'parameters' => '?start_date=' . $startDate->format($this->dateFormat) . '&end_date=' . $endDate->format($this->dateFormat)
             )
         );
@@ -233,7 +233,7 @@ class Navitia
             'parameters' => array(
                 'region' => $externalCoverageId,
                 'action' => 'calendars',
-                'filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId
+                'path_filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId
             )
         );
 
@@ -257,7 +257,7 @@ class Navitia
             'parameters' => array(
                 'region' => $externalCoverageId,
                 'action' => 'stop_schedules',
-                'filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId,
+                'path_filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId,
                 'parameters' => '?calendar=' . $externalCalendarId . '&show_codes=true'
             )
         );
