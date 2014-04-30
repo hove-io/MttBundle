@@ -34,7 +34,8 @@ class SeasonRepository extends EntityRepository
         $query = $this->getEntityManager()->createQueryBuilder()
                     ->select("s.id")
                     ->from("CanalTPMttBundle:Season", "s")
-                    ->where("s.startDate <= '".$dateTime->format("Y-m-d H:i:s")."'")
+                    ->where("s.published = TRUE")
+                    ->andWhere("s.startDate <= '".$dateTime->format("Y-m-d H:i:s")."'")
                     ->andWhere("s.endDate >= '".$dateTime->format("Y-m-d H:i:s")."'")
                     ->getQuery();
         return $query->getResult();
