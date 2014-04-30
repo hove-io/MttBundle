@@ -57,6 +57,11 @@ class SeasonManager
         $this->om->flush();
     }
 
+    public function findSeasonForDateTime(\DateTime $dateTime)
+    {
+        return $this->repository->findSeasonForDateTime($dateTime);
+    }
+
     public function findAllByNetworkId($networkId)
     {
         $networkRepository = $this->om->getRepository('CanalTPMttBundle:Network');

@@ -9,3 +9,7 @@ services:
         no_data_for_this_route: Aucune information pour cette route %RouteId%
     calendar_manager:
         calendar_in_block_not_found: Le calendrier ayant pour id %calendarId% associé à un bloc ne peut être trouvé à cet arrêt.
+
+webservice:
+    no_season_found: Aucune saison trouvée pour la date %date%.
+    no_timetable_found: Pas de fiche horaire pour cet arrêt à cette date %date%.

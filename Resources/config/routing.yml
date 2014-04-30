@@ -119,3 +119,7 @@ canal_tp_mtt_network_edit:
 canal_tp_mtt_layouts:
     pattern: /layouts/network/{externalNetworkId}
     defaults: { _controller: CanalTPMttBundle:Layout:index}
+#Webservice
+canal_tp_mtt_WS_timetable:
+    pattern: /networks/{externalNetworkId}/routes/{externalRouteId}/stop_points/{externalStopPointId}/seasons
+    defaults: { _controller: CanalTPMttBundle:Webservice:getTimetableUrl}
