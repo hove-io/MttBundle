@@ -17,27 +17,31 @@ class WebserviceController extends AbstractController
             $externalNetworkId,
             CategoryType::NETWORK
         );
+        $networkCategory->setRessourceId('networks');
         $routeCategory = new Category(
             $externalRouteId,
             CategoryType::LINE
         );
+        $routeCategory->setRessourceId('routes');
         $stopPointCategory = new Category(
                 $externalStopPointId,
                 CategoryType::LINE
-            );
+        );
+        $stopPointCategory->setRessourceId('stop_points');
         $seasonCategory = new Category(
             $seasonId,
             CategoryType::LINE
         );
+        $seasonCategory->setRessourceId('seasons');
         $seasonCategory->setParent($stopPointCategory);
         $stopPointCategory->setParent($routeCategory);
         $routeCategory->setParent($networkCategory);
         $media = new Media();
         $media->setCategory($seasonCategory);
-        
+
         return $media;
     }
-    
+
     public function getTimetableUrlAction($externalNetworkId, $externalRouteId, $externalStopPointId)
     {
         try{
@@ -53,10 +57,10 @@ class WebserviceController extends AbstractController
             if (empty($season)) {
                 $trans = $this->get('translator');
                 throw new \Exception($this->get('translator')->trans(
-                    'webservice.no_season_found', 
-                    array('%date%' => $date->format('d/m/Y')), 
+                    'webservice.no_season_found',
+                    array('%date%' => $date->format('d/m/Y')),
                     'exceptions'
-                ), 
+                ),
                 404);
             }
             $media_manager = $this->get('canal_tp_mtt.media_manager');
@@ -69,7 +73,7 @@ class WebserviceController extends AbstractController
             return $this->redirect($mediaUrl);
 
         }catch (\Exception $e) {
-            $code = in_array($e->getCode(), array(404, 500)) ? $code : 500;
+            $code = in_array($e->getCode(), array(404, 500)) ? $e->getCode() : 500;
             $response = new JsonResponse();
             $response->setData(array(
                 'message' => $e->getMessage(),
