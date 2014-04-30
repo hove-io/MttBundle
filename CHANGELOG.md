@@ -1,4 +1,24 @@
-Notes de publication - METH - Version 0.6.2 (16 /04/2014)
+
+Notes de publication - METH - Version 0.7.1 (30/04/2014)
+
+** Sous-tâche
+    * [METH-197] - Mise à jour de Navitia Component
+
+** Bogue
+    * [METH-193] - Publication 'brute' des saisons
+    * [METH-196] - Les horaires remontés ne commencent qu'après 13h37
+
+** Récit
+    * [METH-83] - Suppression d'une saison existante
+    * [METH-132] - WS qui renvoie la saison valable pour une date
+    * [METH-167] - Boutons arrêt suivant/précédent
+
+** Tâche
+    * [METH-133] - Chevauchement de saisons
+    * [METH-172] - Implémentation des access policies
+    * [METH-175] - Contrôler si les PDF de fiches horaires sont à jour
+
+Notes de publication - METH - Version 0.6.2 (16/04/2014)
 
 ** Sous-tâche
     * [METH-171] - Mise à jour des validations de formulaire (coté serveur)
@@ -9,7 +29,7 @@ Notes de publication - METH - Version 0.6.2 (16 /04/2014)
     * [METH-176] - Téléchargement du PDF (liste de distrib) ne fonctionne pas
 
 ** Récit
-    * [METH-168] - Création d'un bloc "code spécifique au poteau d'arrêt" 
+    * [METH-168] - Création d'un bloc "code spécifique au poteau d'arrêt"
 
 ** Tâche
     * [METH-89] - Taille limite des zones de texte
@@ -54,9 +74,9 @@ Notes de publication - MTT - Version 0.5.2 (01/04/2014)
     * [METH-100] Intégration d'un nouveau layout
 
 ** Sous-tâche
-    * [METH-150] "Refactoring" du layout 
+    * [METH-150] "Refactoring" du layout
     * [METH-149] Création d'un nouveau layout
-    
+
 Notes de publication - MTT - Version 0.5.1 (25/03/2014)
 
 ** Sous-tâche
