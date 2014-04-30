@@ -29,14 +29,17 @@ class MediaManager
             $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(),
             CategoryType::NETWORK
         );
+        $networkCategory->setRessourceId('networks');
         $routeCategory = new Category(
             $timetable->getExternalRouteId(),
             CategoryType::LINE
         );
+        $routeCategory->setRessourceId('routes');
         $seasonCategory = new Category(
             $timetable->getLineConfig()->getSeason()->getId(),
             CategoryType::LINE
         );
+        $seasonCategory->setRessourceId('seasons');
 
         $routeCategory->setParent($networkCategory);
         if ($externalStopPointId) {
@@ -45,28 +48,29 @@ class MediaManager
                 CategoryType::LINE
             );
             $stopPointCategory->setParent($routeCategory);
+            $stopPointCategory->setRessourceId('stop_points');
             $seasonCategory->setParent($stopPointCategory);
         } else {
             $seasonCategory->setParent($routeCategory);
         }
-        
+
         $media = new Media();
         $media->setCategory($seasonCategory);
 
         return $media;
     }
-    
+
     //proxy calls
     public function getUrlByMedia($media)
     {
         return $this->mediaDataCollector->getUrlByMedia($media);
     }
-    
+
     public function getPathByMedia($media)
     {
         return $this->mediaDataCollector->getPathByMedia($media);
     }
-    
+
     public function getStopPointTimetableMedia($timetable, $externalStopPointId)
     {
         $media = $this->getMedia($timetable, $externalStopPointId);
@@ -74,7 +78,7 @@ class MediaManager
 
         return $media;
     }
-    
+
     public function findMediaPathByTimeTable($timetable, $fileName)
     {
         $media = $this->getMedia($timetable);
@@ -91,7 +95,7 @@ class MediaManager
 
         return ($media);
     }
-    
+
     public function saveByTimetable($timetable, $file, $fileName)
     {
         $media = $this->getMedia($timetable);
@@ -114,7 +118,7 @@ class MediaManager
             shell_exec("rm -rf $path");
         }
     }
-    
+
     public function copy(Block $origBlock, Block $destBlock, $destTimetable)
     {
         $origImgMediaPath = $this->findMediaPathByTimeTable($origBlock->getTimetable(), ImgHandler::ID_LINE_MAP);
