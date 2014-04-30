@@ -36,6 +36,7 @@ class NotOverlappingEntityValidator extends ConstraintValidator
         $entities = $value->$parentGetter()->$siblingsGetter();
         foreach ($entities as $entity) {
             if (
+                $entity->getId() != $value->getId() && ( 
                 // value is contained in entity
                 $this->entityIsIncludedInAnother($entity, $value) ||
                 // entity is contained in value
@@ -46,7 +47,7 @@ class NotOverlappingEntityValidator extends ConstraintValidator
                 // value endDate is within another entity
                 ($value->{$this->endFieldGetter}() >= $entity->{$this->startFieldGetter}() &&
                 $value->{$this->endFieldGetter}() <= $entity->{$this->endFieldGetter}()) 
-            ) {
+            )) {
                 $this->context->addViolation(
                     'error.seasons_overlapping', 
                     array(
@@ -56,8 +57,6 @@ class NotOverlappingEntityValidator extends ConstraintValidator
                 return false;
             }
         }
-        // $this->context->addViolation('under_dev');
-        // return false;
         return true;
     }
 }
