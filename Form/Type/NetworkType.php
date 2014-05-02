@@ -51,6 +51,8 @@ class NetworkType extends AbstractType
             )
         );
 
+        $builder->add('token', 'text');
+
         $formFactory = $builder->getFormFactory();
         $callback = function (FormEvent $event) use ($formFactory) {
             $data = $event->getData();

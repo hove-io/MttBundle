@@ -23,6 +23,11 @@ class Network extends AbstractEntity
     private $externalCoverageId;
 
     /**
+     * @var string
+     */
+    private $token;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $users;
@@ -96,6 +101,29 @@ class Network extends AbstractEntity
     public function getExternalCoverageId()
     {
         return $this->externalCoverageId;
+    }
+
+    /**
+     * Set token
+     *
+     * @param  string  $token
+     * @return Network
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Get token
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
     }
 
     /**

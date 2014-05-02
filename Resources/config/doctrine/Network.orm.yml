@@ -16,6 +16,9 @@ CanalTP\MttBundle\Entity\Network:
             type: string
             length: 255
             column: external_coverage_id
+        token:
+            type: string
+            length: 255
         created:
             type: datetime
             gedmo:

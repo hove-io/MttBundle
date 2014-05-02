@@ -51,11 +51,16 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
         return ($layout);
     }
 
-    private function createNetwork($externalId = 'network:Filbleu', $externalCoverageId = 'centre')
+    private function createNetwork(
+        $externalId = 'network:Filbleu',
+        $token = 'unknown'
+        $externalCoverageId = 'centre',
+    )
     {
         $network = new Network();
         $network->setExternalId($externalId);
         $network->setExternalCoverageId($externalCoverageId);
+        $network->setToken($token);
 
         $this->em->persist($network);
 
@@ -76,7 +81,7 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
             )
         );
 
-        $network = $this->createNetwork();
+        $network = $this->createNetwork('network:Filbleu', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
         $network->addUser($user);
         $network2 = $this->createNetwork('network:Agglobus');
         $network2->addUser($user);

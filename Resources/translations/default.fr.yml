@@ -75,3 +75,10 @@ stop_point_code:
         title: Code TOTEM de cet arrêt :
         content: %code%
         default: (Code du poteau d'arrêt)
+
+network:
+    list: Liste des réseaux
+    add: Ajouter un réseau
+    external_coverage_id: Région
+    external_id: Réseau
+    token: Token

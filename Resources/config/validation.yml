@@ -4,6 +4,10 @@ CanalTP\MttBundle\Entity\Network:
             - NotBlank: ~
         externalId:
             - CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkId: ~
+        token:
+            - NotBlank: ~
+            - Length:
+                max: 255
 
 CanalTP\MttBundle\Entity\Block:
     properties:
@@ -15,7 +19,7 @@ CanalTP\MttBundle\Entity\Block:
 CanalTP\MttBundle\Entity\Season:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [title, network]
-        - CanalTP\MttBundle\Validator\Constraints\NotOverlappingEntity: 
+        - CanalTP\MttBundle\Validator\Constraints\NotOverlappingEntity:
             parent: network
             siblings: seasons
             startField: startDate

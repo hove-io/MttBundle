@@ -12,6 +12,8 @@
 {% block modal_body %}
     {{ form_errors(form) }}
 
+    {{ form_row(form.token) }}
+
     {{ form_row(form.external_coverage_id) }}
 
     {{ form_label(form.external_id, null, { 'label_attr': {'style': 'display:none;'} }) }}
