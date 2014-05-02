@@ -51,7 +51,7 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
         return ($layout);
     }
 
-    private function createNetwork($externalId = 'network:Filbleu', $externalCoverageId = 'Centre')
+    private function createNetwork($externalId = 'network:Filbleu', $externalCoverageId = 'centre')
     {
         $network = new Network();
         $network->setExternalId($externalId);
