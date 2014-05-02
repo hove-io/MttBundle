@@ -22,6 +22,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
 {
     const EXTERNAL_COVERAGE_ID = 'Centre';
     const EXTERNAL_NETWORK_ID = 'network:Filbleu';
+    const TOKEN = '46cadd8a-e385-4169-9cb8-c05766eeeecb';
     const EXTERNAL_LINE_ID = 'line:TTR:Nav62';
     const EXTERNAL_ROUTE_ID = 'route:TTR:Nav168';
     const EXTERNAL_STOP_POINT_ID = 'stop_point:TTR:SP:STPGB-2';
@@ -46,11 +47,17 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($user);
     }
 
-    public function createNetwork(ObjectManager $em, $externalNetworkId = Fixture::EXTERNAL_NETWORK_ID, $externalCoverageId = Fixture::EXTERNAL_COVERAGE_ID)
+    public function createNetwork(
+        ObjectManager $em,
+        $externalNetworkId = Fixture::EXTERNAL_NETWORK_ID,
+        $externalCoverageId = Fixture::EXTERNAL_COVERAGE_ID,
+        $token = Fixture::TOKEN
+    )
     {
         $network = new Network();
         $network->setExternalId($externalNetworkId);
         $network->setExternalCoverageId($externalCoverageId);
+        $network->setToken($token);
 
         $em->persist($network);
 
@@ -129,7 +136,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
 
         return ($layout);
     }
-    
+
     private function createAppRole($em)
     {
         //application
@@ -149,24 +156,24 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $appRole->setPermissions(
             // TODO: should be retrieve using MttBusinessModuleInterface
             array(
-                'BUSINESS_ASSIGN_USER_PERIMETER', 
-                'BUSINESS_ASSIGN_NETWORK_LAYOUT', 
-                'BUSINESS_SEE_USERS_PERIMETER', 
-                'BUSINESS_MANAGE_USER_PERIMETER', 
-                'BUSINESS_ASSIGN_USER_ROLE', 
-                'BUSINESS_MANAGE_ROLE', 
-                'BUSINESS_MANAGE_PERMISSION', 
-                'BUSINESS_VIEW_NAVITIA_LOG', 
-                'BUSINESS_CHOOSE_LAYOUT', 
-                'BUSINESS_EDIT_LAYOUT', 
-                'BUSINESS_MANAGE_SEASON', 
-                'BUSINESS_MANAGE_DISTRIBUTION_LIST', 
-                'BUSINESS_GENERATE_PDF', 
-                'BUSINESS_MANAGE_LAYOUTS', 
+                'BUSINESS_ASSIGN_USER_PERIMETER',
+                'BUSINESS_ASSIGN_NETWORK_LAYOUT',
+                'BUSINESS_SEE_USERS_PERIMETER',
+                'BUSINESS_MANAGE_USER_PERIMETER',
+                'BUSINESS_ASSIGN_USER_ROLE',
+                'BUSINESS_MANAGE_ROLE',
+                'BUSINESS_MANAGE_PERMISSION',
+                'BUSINESS_VIEW_NAVITIA_LOG',
+                'BUSINESS_CHOOSE_LAYOUT',
+                'BUSINESS_EDIT_LAYOUT',
+                'BUSINESS_MANAGE_SEASON',
+                'BUSINESS_MANAGE_DISTRIBUTION_LIST',
+                'BUSINESS_GENERATE_PDF',
+                'BUSINESS_MANAGE_LAYOUTS',
             )
         );
         $em->persist($appRole);
-        
+
         return $appRole;
     }
 
@@ -184,7 +191,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
                 'roles' => array('ROLE_ADMIN')
             )
         );
-        
+
         $user->addApplicationRole($this->createAppRole($em));
         $em->persist($user);
         //networks
