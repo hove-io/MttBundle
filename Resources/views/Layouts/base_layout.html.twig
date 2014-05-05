@@ -25,7 +25,7 @@
                     <a href="{{ path(
                         'canal_tp_mtt_stop_point_list',
                         {
-                            'network_id'        : externalNetworkId,
+                            'externalNetworkId'        : externalNetworkId,
                             'line_id'           : externalLineId,
                             'externalRouteId'   : externalRouteId,
                             'seasonId'          : season.id
@@ -55,24 +55,24 @@
         {% set route = editable == true ? 'canal_tp_mtt_timetable_edit': 'canal_tp_mtt_timetable_view' %}
         {% if prevNextStopPoints.prev %}
             {% set prev_url = path(
-                route, 
+                route,
                 {
-                    'externalNetworkId':externalNetworkId, 
-                    'externalLineId':externalLineId, 
-                    'externalRouteId': externalRouteId, 
-                    'externalStopPointId' : prevNextStopPoints.prev, 
+                    'externalNetworkId':externalNetworkId,
+                    'externalLineId':externalLineId,
+                    'externalRouteId': externalRouteId,
+                    'externalStopPointId' : prevNextStopPoints.prev,
                     'seasonId':season.id
                 }
             ) %}
         {% endif %}
         {% if prevNextStopPoints.next %}
             {% set next_url = path(
-                route, 
+                route,
                 {
-                    'externalNetworkId':externalNetworkId, 
-                    'externalLineId':externalLineId, 
-                    'externalRouteId': externalRouteId, 
-                    'externalStopPointId' : prevNextStopPoints.next, 
+                    'externalNetworkId':externalNetworkId,
+                    'externalLineId':externalLineId,
+                    'externalRouteId': externalRouteId,
+                    'externalStopPointId' : prevNextStopPoints.next,
                     'seasonId':season.id
                 }
             ) %}
@@ -80,7 +80,7 @@
         <div class="no-print">
         {%
             include "CanalTPMttBundle::prevNextStopPoints.html.twig"
-            with { 
+            with {
                 'prev_url' : prev_url ?: false,
                 'next_url' : next_url ?: false
             }

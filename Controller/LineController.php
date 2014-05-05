@@ -35,7 +35,7 @@ class LineController extends AbstractController
             $this->generateUrl(
                 'canal_tp_mtt_stop_point_list',
                 array(
-                    'network_id'        => $params['externalNetworkId'],
+                    'externalNetworkId'        => $params['externalNetworkId'],
                     'line_id'           => $params['line_id'],
                     'seasonId'          => $season->getId(),
                     'externalRouteId'   => $params['externalRouteId'],

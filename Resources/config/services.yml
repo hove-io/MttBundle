@@ -81,7 +81,7 @@ services:
        arguments: ['@doctrine.orm.entity_manager', '@translator']
     canal_tp_mtt.navitia:
        class: %canal_tp_mtt.navitia.class%
-       arguments: ['@navitia_component', '@sam_navitia', '@translator']
+       arguments: ['@request_stack', '@navitia_component', '@sam_navitia', '@translator', '@doctrine.orm.entity_manager']
     canal_tp_mtt.line_manager:
        class: %canal_tp_mtt.line_manager.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia']
