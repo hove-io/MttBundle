@@ -76,6 +76,7 @@ class PdfManager
     {
         $args['_controller'] = 'CanalTPMttBundle:Timetable:view';
         $subRequest = $this->co->get('request')->duplicate(array(), null, $args);
+        $subRequest->headers->remove('X-Requested-With');
         return $this->co->get('http_kernel')->handle($subRequest, HttpKernelInterface::SUB_REQUEST)->getContent();
     }
     
@@ -87,7 +88,8 @@ class PdfManager
                 'seasonId'          => $timetable->getLineConfig()->getSeason()->getId(),
                 'externalLineId'    => $timetable->getLineConfig()->getExternalLineId(),
                 'externalStopPointId'=> $externalStopPointId,
-                'externalRouteId'    => $timetable->getExternalRouteId()
+                'externalRouteId'    => $timetable->getExternalRouteId(),
+                'timetableOnly'      => true
             )
         );
 
