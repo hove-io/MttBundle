@@ -53,8 +53,8 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
 
     private function createNetwork(
         $externalId = 'network:Filbleu',
-        $token = 'unknown'
-        $externalCoverageId = 'centre',
+        $token = 'unknown',
+        $externalCoverageId = 'centre'
     )
     {
         $network = new Network();
