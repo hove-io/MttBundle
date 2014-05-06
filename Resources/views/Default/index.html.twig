@@ -4,7 +4,7 @@
     <h1>{{ 'welcome'|trans({}, 'default') }}</h1>
     <br>
     <h3>{{ network.external_id }}</h3>
-    <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'network_id': network.external_id}) }}">
+    <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': network.external_id}) }}">
         {{'season.list'|trans({}, 'default')}}
     </a>
 {% endblock %}

@@ -4,7 +4,7 @@
     <div class="col-md-offset-3 col-md-9">
         {% if seasons|length == 0 %}
             {{'season.please_create_before_continue'|trans({}, 'default')}}
-            <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'network_id': externalNetworkId}) }}">
+            <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': externalNetworkId}) }}">
                 {{'season.create'|trans({}, 'default')}}
             </a>
         {% else %}
@@ -14,7 +14,7 @@
                         <a href="{{ path(
                             'canal_tp_mtt_stop_point_list',
                             {
-                                'network_id':externalNetworkId,
+                                'externalNetworkId':externalNetworkId,
                                 'line_id':externalLineId,
                                 'seasonId':season.id,
                                 'externalRouteId': externalRouteId

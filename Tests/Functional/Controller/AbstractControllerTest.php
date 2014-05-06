@@ -26,7 +26,7 @@ abstract class AbstractControllerTest extends WebTestCase
                     'getRouteCalendars',
                     'getRouteData'
                 )
-            )->setConstructorArgs(array(false,false,false))
+            )->disableOriginalConstructor()
             ->getMock();
 
         $navitia->expects($this->any())
@@ -43,11 +43,11 @@ abstract class AbstractControllerTest extends WebTestCase
                     return $return;
                 }
             ));
-            
+
         $navitia->expects($this->any())
             ->method('getRouteStopPoints')
             ->will($this->returnValue(json_decode($this->readStub('route_schedules.json'))));
-            
+
         $navitia->expects($this->any())
             ->method('getStopPointCalendarsData')
             ->will($this->returnValue(json_decode($this->readStub('calendars.json'))));
@@ -115,7 +115,7 @@ abstract class AbstractControllerTest extends WebTestCase
             new AuthenticationEvent($token)
         );
     }
-    
+
     public function setUp($with_db = true)
     {
         $this->with_db = $with_db;

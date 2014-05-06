@@ -3,7 +3,7 @@
 {% block list_title -%}
     {{'season.list'|trans({}, 'default')}}
     -
-    <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'coverage_id': coverageId, 'network_id': networkId}) }}" class="btn btn-success">
+    <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'coverage_id': coverageId, 'externalNetworkId': externalNetworkId}) }}" class="btn btn-success">
         <span class="glyphicon glyphicon-plus"></span> {{'season.create'|trans({}, 'default')}}
     </a>
 {% endblock %}
@@ -40,20 +40,20 @@
                 </td>
                 <td class="action">
                     <div class="btn-group">
-                        <a  class="btn btn-default" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'network_id': networkId, 'season_id': season.id }) }}">
+                        <a  class="btn btn-default" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'externalNetworkId': externalNetworkId, 'season_id': season.id }) }}">
                             <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
                         </a>
                         {% set action = 'canal_tp_mtt_season_' ~(season.published ? 'unpublish' : 'publish') %}
                         <a class="btn btn-default" href="{{ path(
-                            action, 
+                            action,
                             {
-                                'networkId': networkId, 
-                                'seasonId': season.id 
+                                'externalNetworkId': externalNetworkId,
+                                'seasonId': season.id
                             }
                         ) }}">
                             <span class="glyphicon glyphicon-eye-{{ season.published ? 'close':'open'}}"></span> {{'global.' ~(season.published ? 'unpublish' : 'publish') |trans({}, 'messages')}}
                         </a>
-                        <a onClick="javascript:return confirm('{{'global.confirm_season_delete'|trans({}, 'messages')}}')" class="btn btn-danger" href="{{ path('canal_tp_mtt_season_delete', {'networkId': networkId, 'seasonId': season.id }) }}">
+                        <a onClick="javascript:return confirm('{{'global.confirm_season_delete'|trans({}, 'messages')}}')" class="btn btn-danger" href="{{ path('canal_tp_mtt_season_delete', {'externalNetworkId': externalNetworkId, 'seasonId': season.id }) }}">
                             <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
                         </a>
                     </div>

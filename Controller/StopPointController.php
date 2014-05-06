@@ -4,13 +4,13 @@ namespace CanalTP\MttBundle\Controller;
 
 class StopPointController extends AbstractController
 {
-    public function listAction($network_id, $line_id, $externalRouteId, $seasonId = null)
+    public function listAction($externalNetworkId, $line_id, $externalRouteId, $seasonId = null)
     {
         $navitia = $this->get('sam_navitia');
-        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($network_id);
+        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
         $seasons = $this->get('canal_tp_mtt.season_manager')->findAllByNetworkId($network->getExternalId());
         $selectedSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
-        $routes = $navitia->getStopPoints($network->getExternalCoverageId(), $network_id, $line_id, $externalRouteId);
+        $routes = $navitia->getStopPoints($network->getExternalCoverageId(), $externalNetworkId, $line_id, $externalRouteId);
         $lineConfig = $this->getDoctrine()->getRepository(
             'CanalTPMttBundle:LineConfig'
         )->findOneBy(array('externalLineId' => $line_id, 'season' => $selectedSeason));

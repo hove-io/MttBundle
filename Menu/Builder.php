@@ -53,7 +53,7 @@ class Builder extends ContainerAware
                     'route' => 'canal_tp_mtt_season_list',
                     'label' => $translator->trans('menu.seasons_manage'),
                     'routeParameters' => array(
-                        'network_id' => $currentNetwork
+                        'externalNetworkId' => $currentNetwork
                     )
                 )
             );

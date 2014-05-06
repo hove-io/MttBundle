@@ -17,13 +17,13 @@ class NetworkController extends AbstractController
         );
     }
 
-    private function buildForm($networkId)
+    private function buildForm($externalNetworkId)
     {
         $coverage = $this->get('canal_tp_mtt.navitia')->getCoverages();
 
         $form = $this->createForm(
-            new NetworkType($coverage->regions, $networkId),
-            $this->networkManager->find($networkId),
+            new NetworkType($coverage->regions, $externalNetworkId),
+            $this->networkManager->find($externalNetworkId),
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_network_edit'
@@ -49,11 +49,11 @@ class NetworkController extends AbstractController
         return (null);
     }
 
-    public function editAction(Request $request, $network_id)
+    public function editAction(Request $request, $externalNetworkId)
     {
         $this->networkManager = $this->get('canal_tp_mtt.network_manager');
 
-        $form = $this->buildForm($network_id);
+        $form = $this->buildForm($externalNetworkId);
         $render = $this->processForm($request, $form);
         if (!$render) {
             return $this->render(

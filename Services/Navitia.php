@@ -7,6 +7,8 @@
  */
 namespace CanalTP\MttBundle\Services;
 
+use Symfony\Component\HttpFoundation\RequestStack;
+
 class Navitia
 {
     private $dateFormat = 'Ymd';
@@ -15,11 +17,32 @@ class Navitia
     protected $navitia_sam;
     protected $translator;
 
-    public function __construct($navitia_component, $navitia_sam, $translator)
+    public function __construct(
+        RequestStack $requestStack,
+        $navitia_component,
+        $navitia_sam,
+        $translator,
+        $em
+    )
     {
         $this->navitia_component = $navitia_component;
         $this->navitia_sam = $navitia_sam;
         $this->translator = $translator;
+
+        $this->initToken(
+            $requestStack->getCurrentRequest()->attributes->get('externalNetworkId'),
+            $em
+        );
+    }
+
+    private function initToken($externalNetworkId, $em)
+    {
+        $network = $em->getRepository('CanalTPMttBundle:Network')
+            ->findOneByExternalId($externalNetworkId);
+        $config = $this->navitia_component->getConfiguration();
+        $config['token'] = $network->getToken();
+
+        $this->navitia_component->setConfiguration($config);
     }
 
     /**

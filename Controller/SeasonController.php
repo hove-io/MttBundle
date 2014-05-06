@@ -10,19 +10,19 @@ class SeasonController extends AbstractController
 {
     private $seasonManager = null;
 
-    private function buildForm($networkId, $seasonId)
+    private function buildForm($externalNetworkId, $seasonId)
     {
         $form = $this->createForm(
             new SeasonType(
-                $this->seasonManager->findAllByNetworkId($networkId),
+                $this->seasonManager->findAllByNetworkId($externalNetworkId),
                 $seasonId
             ),
-            $this->seasonManager->getSeasonWithNetworkIdAndSeasonId($networkId, $seasonId),
+            $this->seasonManager->getSeasonWithNetworkIdAndSeasonId($externalNetworkId, $seasonId),
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_season_edit',
                     array(
-                        'network_id' => $networkId,
+                        'externalNetworkId' => $externalNetworkId,
                         'season_id' => $seasonId
                     )
                 )
@@ -32,7 +32,7 @@ class SeasonController extends AbstractController
         return ($form);
     }
 
-    private function processForm(Request $request, $form, $networkId)
+    private function processForm(Request $request, $form, $externalNetworkId)
     {
         $form->handleRequest($request);
 
@@ -48,7 +48,7 @@ class SeasonController extends AbstractController
                 $this->generateUrl(
                     'canal_tp_mtt_season_list',
                     array(
-                        'network_id' => $networkId,
+                        'externalNetworkId' => $externalNetworkId,
                     )
                 )
             );
@@ -57,13 +57,13 @@ class SeasonController extends AbstractController
         return (null);
     }
 
-    public function editAction(Request $request, $network_id, $season_id)
+    public function editAction(Request $request, $externalNetworkId, $season_id)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
         $this->seasonManager = $this->get('canal_tp_mtt.season_manager');
 
-        $form = $this->buildForm($network_id, $season_id);
-        $render = $this->processForm($request, $form, $network_id);
+        $form = $this->buildForm($externalNetworkId, $season_id);
+        $render = $this->processForm($request, $form, $externalNetworkId);
         if (!$render) {
             return $this->render(
                 'CanalTPMttBundle:Season:form.html.twig',
@@ -74,7 +74,7 @@ class SeasonController extends AbstractController
         return ($render);
     }
 
-    public function deleteAction($networkId, $seasonId)
+    public function deleteAction($externalNetworkId, $seasonId)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
 
@@ -86,28 +86,28 @@ class SeasonController extends AbstractController
             $this->generateUrl(
                 'canal_tp_mtt_season_list',
                 array(
-                    'network_id' => $networkId,
-                )
-            )
-        );
-    }
-    
-    public function publishAction($networkId, $seasonId)
-    {
-        $this->isGranted('BUSINESS_MANAGE_SEASON');
-        $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
-        
-        return $this->redirect(
-            $this->generateUrl(
-                'canal_tp_mtt_season_list',
-                array(
-                    'network_id' => $networkId,
+                    'externalNetworkId' => $externalNetworkId,
                 )
             )
         );
     }
 
-    public function unpublishAction($networkId, $seasonId)
+    public function publishAction($externalNetworkId, $seasonId)
+    {
+        $this->isGranted('BUSINESS_MANAGE_SEASON');
+        $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
+
+        return $this->redirect(
+            $this->generateUrl(
+                'canal_tp_mtt_season_list',
+                array(
+                    'externalNetworkId' => $externalNetworkId,
+                )
+            )
+        );
+    }
+
+    public function unpublishAction($externalNetworkId, $seasonId)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
         $this->get('canal_tp_mtt.season_manager')->unpublish($seasonId);
@@ -116,13 +116,13 @@ class SeasonController extends AbstractController
             $this->generateUrl(
                 'canal_tp_mtt_season_list',
                 array(
-                    'network_id' => $networkId,
+                    'externalNetworkId' => $externalNetworkId,
                 )
             )
         );
     }
-    
-    public function listAction(Request $request, $network_id)
+
+    public function listAction(Request $request, $externalNetworkId)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
         $this->seasonManager = $this->get('canal_tp_mtt.season_manager');
@@ -131,8 +131,8 @@ class SeasonController extends AbstractController
             'CanalTPMttBundle:Season:list.html.twig',
             array(
                 'no_left_menu' => true,
-                'networkId' => $network_id,
-                'seasons' => $this->seasonManager->findAllByNetworkId($network_id)
+                'externalNetworkId' => $externalNetworkId,
+                'seasons' => $this->seasonManager->findAllByNetworkId($externalNetworkId)
             )
         );
     }

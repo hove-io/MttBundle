@@ -21,9 +21,9 @@ class SeasonManager
         $this->repository = $om->getRepository('CanalTPMttBundle:Season');
     }
 
-    public function getSeasonWithNetworkIdAndSeasonId($networkId, $seasonId)
+    public function getSeasonWithNetworkIdAndSeasonId($externalNetworkId, $seasonId)
     {
-        return ($this->repository->getSeasonByNetworkIdAndSeasonId($networkId, $seasonId));
+        return ($this->repository->getSeasonByNetworkIdAndSeasonId($externalNetworkId, $seasonId));
     }
 
     public function save($season)
@@ -31,14 +31,14 @@ class SeasonManager
         $this->om->persist($season);
         $this->om->flush();
     }
-    
+
     public function publish($seasonId)
     {
         $season = $this->find($seasonId);
         $season->setPublished(true);
         $this->save($season);
     }
-    
+
     public function unpublish($seasonId)
     {
         $season = $this->find($seasonId);
@@ -62,11 +62,11 @@ class SeasonManager
         return $this->repository->findSeasonForDateTime($dateTime);
     }
 
-    public function findAllByNetworkId($networkId)
+    public function findAllByNetworkId($externalNetworkId)
     {
         $networkRepository = $this->om->getRepository('CanalTPMttBundle:Network');
 
-        return ($networkRepository->findOneByExternalId($networkId)->getSeasons());
+        return ($networkRepository->findOneByExternalId($externalNetworkId)->getSeasons());
     }
 
     public function getSelected($seasonId, $seasons)

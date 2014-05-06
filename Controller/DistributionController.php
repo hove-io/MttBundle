@@ -143,14 +143,17 @@ class DistributionController extends AbstractController
                 'CanalTPMttBundle:Pdf:generate',
                 array(
                     'timetableId'           => $timetableId,
-                    'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
+                    // 'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
                     'externalNetworkId'     => $externalNetworkId,
                     'externalStopPointId'   => $externalStopPointId,
                 )
             );
 
             $media = $this->mediaManager->getStopPointTimetableMedia($timetable, $externalStopPointId);
-            $paths[] = $this->mediaManager->getPathByMedia($media);
+            $path = $this->mediaManager->getPathByMedia($media);
+            if (!empty($path)) {
+                $paths[] = $path;
+            }
         }
 
         if (count($paths) > 0) {
