@@ -19,6 +19,7 @@
         "php": ">=5.3.2",
         "canaltp/navitia": "~0@dev",
         "canaltp/media-manager-bundle": "0.0.4",
+        "symfony/dom-crawler": "2.4.4",
         "friendsofsymfony/jsrouting-bundle": "1.5.3",
         "willdurand/js-translation-bundle":"2.0.0",
         "components/jquery": "1.11.0",
