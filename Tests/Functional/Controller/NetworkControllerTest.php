@@ -2,6 +2,8 @@
 
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
+use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
+
 class NetworkControllerTest extends AbstractControllerTest
 {
     public function testList()
@@ -13,7 +15,10 @@ class NetworkControllerTest extends AbstractControllerTest
     public function testEditForm()
     {
         // Check if the form is correctly display
-        $route = $this->generateRoute('canal_tp_mtt_network_edit');
+        $route = $this->generateRoute('canal_tp_mtt_network_edit', array(
+            'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID
+            )
+        );
         $crawler = $this->doRequestRoute($route);
 
         $labelNetworkField = $crawler->filter('select#mtt_network_external_id')->siblings()->filter('label[style="display:none;"]')->count();

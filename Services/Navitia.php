@@ -25,14 +25,13 @@ class Navitia
         $em
     )
     {
+        $externalNetworkId = $requestStack->getCurrentRequest()->attributes->get('externalNetworkId');
         $this->navitia_component = $navitia_component;
         $this->navitia_sam = $navitia_sam;
         $this->translator = $translator;
 
-        $this->initToken(
-            $requestStack->getCurrentRequest()->attributes->get('externalNetworkId'),
-            $em
-        );
+        if (!is_null($externalNetworkId))
+            $this->initToken($externalNetworkId, $em);
     }
 
     private function initToken($externalNetworkId, $em)
