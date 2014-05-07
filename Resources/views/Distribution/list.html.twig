@@ -38,10 +38,12 @@
 {% block main_content %}
     <div>
         <h3>{{'distribution.stops_included'|trans({}, 'default')}} ({{currentSeason.title}}) -
+            {% if (is_granted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF')) %}
             <button id="generate-distribution-list" type="button" class="btn btn-success">
                 <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
             </button>
             -
+            {% endif %}
             <a id="save-distribution-list" class="btn btn-primary" href="{{ path('canal_tp_mtt_distribution_list_save',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id}) }}">
                 <span class="glyphicon glyphicon-refresh display-none"></span>
                 <span class="glyphicon glyphicon-floppy-disk"></span> {{'distribution.save_order'|trans({}, 'default')}}

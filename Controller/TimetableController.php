@@ -28,8 +28,8 @@ class TimetableController extends AbstractController
                 $externalCoverageId
             );
             $prevNextStopPoints = $stopPointManager->getPrevNextStopPoints(
-                $timetable->getLineConfig()->getSeason()->getNetwork(), 
-                $timetable->getExternalRouteId(), 
+                $timetable->getLineConfig()->getSeason()->getNetwork(),
+                $timetable->getExternalRouteId(),
                 $externalStopPointId
             );
         // route level
@@ -93,6 +93,7 @@ class TimetableController extends AbstractController
      */
     public function editAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
+        $this->isGranted('BUSINESS_EDIT_LAYOUT');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
         $network = $networkManager->findOneByExternalId($externalNetworkId);

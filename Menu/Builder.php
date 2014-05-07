@@ -47,16 +47,18 @@ class Builder extends ContainerAware
             }
             $currentNetwork = isset($options['currentNetwork']) ? $options['currentNetwork'] : $networks[0]['external_id'];
             // TODO: Remove this and display menu buttons group in network page
-            $menu->addChild(
-                "seasons",
-                array(
-                    'route' => 'canal_tp_mtt_season_list',
-                    'label' => $translator->trans('menu.seasons_manage'),
-                    'routeParameters' => array(
-                        'externalNetworkId' => $currentNetwork
+            if ($this->container->get('security.context')->isGranted('BUSINESS_MANAGE_SEASON')) {
+                $menu->addChild(
+                    "seasons",
+                    array(
+                        'route' => 'canal_tp_mtt_season_list',
+                        'label' => $translator->trans('menu.seasons_manage'),
+                        'routeParameters' => array(
+                            'externalNetworkId' => $currentNetwork
+                        )
                     )
-                )
-            );
+                );
+            }
 
             $menu->addChild(
                 "networks_management",

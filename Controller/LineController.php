@@ -55,7 +55,7 @@ class LineController extends AbstractController
         $externalRouteId
     )
     {
-        $this->isGranted(array('BUSINESS_CHOOSE_LAYOUT', 'BUSINESS_EDIT_LAYOUT'));
+        $this->isGranted('BUSINESS_CHOOSE_LAYOUT');
         $season = $this->get('canal_tp_mtt.season_manager')->getSeasonWithNetworkIdAndSeasonId(
             $externalNetworkId,
             $seasonId
