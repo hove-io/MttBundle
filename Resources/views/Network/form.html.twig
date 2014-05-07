@@ -28,8 +28,9 @@
     </button>
     {{ form_end(form) }}
     <script type="text/javascript">
-    require(['navitia'], function(Navitia){
+    require(['navitia'], function(Navitia, utils){
         var nav_api = new Navitia();
+
         $('#mtt_network_external_coverage_id').change(function(){
             var token = $('#mtt_network_token');
 

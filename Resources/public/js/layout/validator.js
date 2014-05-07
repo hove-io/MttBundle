@@ -2,18 +2,18 @@ define(['jquery', 'mtt/utils', 'mtt/translations/default'], function($, utils) {
     var validator = {};
     var $wrapper,
         $msgWrapperTpl = utils.getTpl('msgWrapperTpl');
-    
+
     validator.init = function(params){
         $wrapper = params.wrapper;
 
         return validator;
     };
-    
+
     validator.validate = function(){
         var errors = [];
         var msg_added = false;
         // check if content is bigger than block wrapper
-        $wrapper.find('*[data-validate-height="1"]').each(function(){  
+        $wrapper.find('*[data-validate-height="1"]').each(function(){
             // console.dir(this);
             if ($(this).parents('.frequency-content').length != 0 && $(this).find('span').height() > $(this).height()) {
                 $(this).addClass('error');
@@ -37,6 +37,6 @@ define(['jquery', 'mtt/utils', 'mtt/translations/default'], function($, utils) {
             $('.breadcrumb').after($msgWrapperTpl);
         }
     };
-    
+
     return validator;
 })
