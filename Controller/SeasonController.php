@@ -57,6 +57,34 @@ class SeasonController extends AbstractController
         return (null);
     }
 
+    public function generatePdfAction($externalNetworkId, $seasonId)
+    {
+        $seasonManager = $this->get('canal_tp_mtt.season_manager');
+        $pdfPayloadGenerator = $this->get('canal_tp_mtt.season_pdf_payload_generator');
+        $amqpPdfGenPublisher = $this->get('canal_tp_mtt.amqp_pdf_gen_publisher');
+        
+        $season = $seasonManager->find($seasonId);
+        $payloads = $pdfPayloadGenerator->generate($season);
+        $amqpPdfGenPublisher->publish($payloads, $season);
+        
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $this->get('translator')->trans(
+                'season.pdf_generation_task_has_started',
+                array(),
+                'default'
+            )
+        );
+        return $this->redirect(
+            $this->generateUrl(
+                'canal_tp_mtt_season_list',
+                array(
+                    'externalNetworkId' => $externalNetworkId,
+                )
+            )
+        );
+    }
+
     public function editAction(Request $request, $externalNetworkId, $season_id)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');

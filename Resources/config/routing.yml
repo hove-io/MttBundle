@@ -34,6 +34,11 @@ canal_tp_mtt_season_unpublish:
     defaults: { _controller: CanalTPMttBundle:Season:unpublish }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_season_generate_pdfs:
+    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/generatePdf
+    defaults: { _controller: CanalTPMttBundle:Season:generatePdf }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #StopPoint
 canal_tp_mtt_stop_point_list:

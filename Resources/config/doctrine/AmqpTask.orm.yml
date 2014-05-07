@@ -1,0 +1,41 @@
+CanalTP\MttBundle\Entity\AmqpTask:
+    type: entity
+    table: mtt.amqp_task
+    repositoryClass: CanalTP\MttBundle\Entity\AmqpTaskRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+        typeId:
+            type: integer
+            column: type_id
+        objectId:
+            type: integer
+            column: object_id
+        completed:
+            type: boolean
+        jobsPublished:
+            type: integer
+            column: jobs_published
+        completedAt:
+            type: datetime
+            nullable: true
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        network:
+            targetEntity: Network
+            joinColumn:
+                name: network_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

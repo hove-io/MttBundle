@@ -57,6 +57,15 @@
                             <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
                         </a>
                     </div>
+                    <a class="btn btn-default" href="{{ path(
+                        'canal_tp_mtt_season_generate_pdfs',
+                        {
+                            'externalNetworkId': externalNetworkId,
+                            'seasonId': season.id
+                        }
+                    ) }}">
+                        <span class="glyphicon glyphicon-eye-{{ season.published ? 'close':'open'}}"></span> {{'season.generate_pdf'|trans({}, 'default')}}
+                    </a>
                 </td>
             </tr>
         {% endfor %}

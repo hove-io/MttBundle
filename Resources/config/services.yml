@@ -22,6 +22,9 @@ parameters:
     canal_tp.mtt.validator.constraints.greater_than_field.class: CanalTP\MttBundle\Validator\Constraints\GreaterThanFieldValidator
     canal_tp_mtt.pdf_hashing_lib.class: CanalTP\MttBundle\Services\PdfHashingLib
     canal_tp_mtt.pdf_manager.class: CanalTP\MttBundle\Services\PdfManager
+    #Amqp
+    canal_tp_mtt.season_pdf_payload_generator.class: CanalTP\MttBundle\Services\SeasonPdfPayloadsGenerator
+    canal_tp_mtt.amqp_pdf_gen_publisher.class: CanalTP\MttBundle\Services\AmqpPdfGenPublisher
 
 services:
     #TWIG extensions
@@ -121,3 +124,10 @@ services:
     canal_tp.mtt.distribution_list:
         class: %canal_tp.mtt.distribution_list.class%
         arguments: ['@doctrine.orm.entity_manager']
+    #AMQP services
+    canal_tp_mtt.season_pdf_payload_generator:
+       class: %canal_tp_mtt.season_pdf_payload_generator.class%
+       arguments: ['@service_container', '@router', '@canal_tp_mtt.navitia', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.stop_point_manager']
+    canal_tp_mtt.amqp_pdf_gen_publisher:
+       class: %canal_tp_mtt.amqp_pdf_gen_publisher.class%
+       arguments: ['@doctrine.orm.entity_manager', '%pdf_generator_url%', '%amqp_server_host%']
