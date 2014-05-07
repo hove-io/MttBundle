@@ -29,27 +29,32 @@
     {{ form_end(form) }}
     <script type="text/javascript">
     require(['navitia'], function(Navitia){
-        var nav_api = new Navitia({
-            host: '{{ navitia_url }}',
-            version: 'v1',
-            api: 'coverage',
-        });
+        var nav_api = new Navitia();
         $('#mtt_network_external_coverage_id').change(function(){
-            var $select = $(this);
+            var token = $('#mtt_network_token');
 
-            if ($select.val() != null) {
+            if (token.val() != '') {
+                var $networkSelect = $('#mtt_network_external_id').empty();
+
                 nav_api.getCoverageNetworks(
-                    $select.val(),
+                    {
+                        'externalCoverageId': $(this).val(),
+                        'token': token.val()
+                    },
                     function(networks){
-                        var $networkSelect = $('#mtt_network_external_id').empty();
-                        for (var i in networks) {
-                            $networkSelect.append('<option value="' + networks[i].id + '">' + networks[i].name + '</option>');
+                        var network = null;
+
+                        for (key in networks) {
+                            $networkSelect.append('<option value="' + key + '">' + networks[key] + '</option>');
                         }
                         $networkSelect.show().siblings('label').show();
+                    },
+                    function(){
+                        $networkSelect.hide().siblings('label').hide();
                     }
                 );
             }
-        }).change();
+        });
     });
     </script>
 {% endblock %}

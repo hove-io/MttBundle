@@ -38,10 +38,7 @@ class Navitia
     {
         $network = $em->getRepository('CanalTPMttBundle:Network')
             ->findOneByExternalId($externalNetworkId);
-        $config = $this->navitia_component->getConfiguration();
-        $config['token'] = $network->getToken();
-
-        $this->navitia_component->setConfiguration($config);
+        $this->navitia_sam->setToken($network->getToken());
     }
 
     /**

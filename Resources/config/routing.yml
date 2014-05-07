@@ -131,6 +131,13 @@ canal_tp_mtt_network:
     defaults: { _controller: CanalTPMttBundle:Network:index }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_network_list_json:
+    pattern: /coverage/{externalCoverageId}/networks
+    defaults: { _controller: CanalTPMttBundle:Network:byCoverage }
+    requirements:
+        token: -?[a-zA-Z0-9_\-:]*
+    options:
+        expose: true
 canal_tp_mtt_network_list:
     pattern: /networks/list
     defaults: { _controller: CanalTPMttBundle:Network:list }

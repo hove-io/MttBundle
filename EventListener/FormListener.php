@@ -7,8 +7,9 @@
  */
 namespace CanalTP\MttBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class FormListener
 {
@@ -16,7 +17,7 @@ class FormListener
 
     private function initData($response)
     {
-        if ($response->getStatusCode() == 302) {
+        if ($response->getStatusCode() == Response::HTTP_FOUND) {
             $this->newResponse->setData(array(
                 'status' => true,
                 'location' => $response->headers->get('location')
@@ -42,7 +43,7 @@ class FormListener
 
         return (
             $request->isXmlHttpRequest() && $request->getMethod() == 'POST' &&
-            ($response->getStatusCode() == 302 || $response->getStatusCode() == 200)
+            ($response->getStatusCode() == Response::HTTP_FOUND || $response->getStatusCode() == Response::HTTP_OK)
         );
     }
 
