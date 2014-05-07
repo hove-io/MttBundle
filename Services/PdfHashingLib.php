@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Description of PdfHashingLib
  *
@@ -33,7 +32,8 @@ class PdfHashingLib
             $urls = $images->extract(array('src'));
             $toHash = '';
             foreach ($urls as $url) {
-                if ($imageContent = $this->curlProxy->get($url)) {
+                $imageContent = $this->curlProxy->get($url);
+                if (!empty($imageContent)) {
                     $toHash .= $imageContent;
                 }
             }
