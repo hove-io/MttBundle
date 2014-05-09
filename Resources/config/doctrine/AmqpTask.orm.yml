@@ -38,4 +38,10 @@ CanalTP\MttBundle\Entity\AmqpTask:
             joinColumn:
                 name: network_id
                 referencedColumnName: id
+    oneToMany:
+        amqpAcks:
+            targetEntity: AmqpAck
+            mappedBy: amqpTask
+            cascade:
+                - remove
     lifecycleCallbacks: {  }

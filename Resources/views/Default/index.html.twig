@@ -1,10 +1,53 @@
 {% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
 
+{% import "CanalTPSamEcoreUserManagerBundle::macros.html.twig" as macros %}
+
 {% block main_content %}
     <h1>{{ 'welcome'|trans({}, 'default') }}</h1>
-    <br>
-    <h3>{{ network.external_id }}</h3>
-    <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': network.external_id}) }}">
+    <h4>{{ network.externalId }}</h4>
+    <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': network.externalId}) }}">
         {{'season.list'|trans({}, 'default')}}
     </a>
+    <hr/>
+    {% if tasks is not empty %}
+        <h3>{{'task.under_progress'|trans({}, 'default')}}</h3>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                       {{'task.type'|trans({}, 'default')}}
+                    </th>
+                    <th>
+                       {{'task.completion'|trans({}, 'default')}}
+                    </th>
+                    <th>
+                       {{'task.launchedAt'|trans({}, 'default')}}
+                    </th>
+                    <th>
+                       {{'task.completed'|trans({}, 'default')}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>
+                        {{task.typeId}}
+                    </td>
+                    <td>
+                        {{task.amqpAcks|length}}/{{task.jobsPublished}}
+                    </td>
+                    <td>
+                        {{task.created|date('d/m/Y - g:ia')}}
+                    </td>
+                    <td>
+                        {{ macros.display_bool(task.completed) }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        
+    {% endif %}
 {% endblock %}

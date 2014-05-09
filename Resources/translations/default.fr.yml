@@ -82,3 +82,10 @@ network:
     external_coverage_id: Région
     external_id: Réseau
     token: Token
+
+task:
+    under_progress: Tâches en cours de réalisation
+    type: Type de tâche
+    completion: Progression
+    launchedAt: Lançée à
+    completed: Terminée

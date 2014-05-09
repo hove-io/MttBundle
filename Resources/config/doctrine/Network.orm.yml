@@ -38,6 +38,9 @@ CanalTP\MttBundle\Entity\Network:
         ditributionLists:
             targetEntity: DistributionList
             mappedBy: network
+        amqpTasks:
+            targetEntity: AmqpTask
+            mappedBy: network
     manyToMany:
         users:
             targetEntity: CanalTP\SamEcoreUserManagerBundle\Entity\User

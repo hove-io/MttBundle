@@ -11,6 +11,7 @@ use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 use CanalTP\MttBundle\Entity\AmqpTask;
+use CanalTP\MttBundle\Entity\AmqpAck;
 
 class AmqpPdfGenPublisher
 {
@@ -49,6 +50,16 @@ class AmqpPdfGenPublisher
         $this->channel->queue_bind(self::WORK_QUEUE_NAME, self::EXCHANGE_NAME, "*.pdf_gen");
     }
     
+    private function getAckQueueName($task, $routingKey)
+    {
+        return 'ack_queue.' . $routingKey . '.task_' . $task->getId();
+    }
+    
+    private function getRoutingKey($season)
+    {
+        return 'network_' . $season->getNetwork()->getId() . '.pdf_gen';;
+    }
+
     private function getNewTask($payloads, $season)
     {
         $task = new AmqpTask();
@@ -65,8 +76,7 @@ class AmqpPdfGenPublisher
 
     private function declareAckQueue($task, $routingKey)
     {
-        $ackQueueName = 'ack_queue.' . $routingKey . '.task_' . $task->getId();
-        
+        $ackQueueName = $this->getAckQueueName($task, $routingKey);
         // declare ack queue
         $this->channel->queue_declare($ackQueueName, false, true, false, false);
         $this->channel->queue_bind($ackQueueName, self::EXCHANGE_NAME, $ackQueueName);
@@ -78,11 +88,12 @@ class AmqpPdfGenPublisher
     {
         $this->init();
         // routing_key_format: network_{networkId}.pdf_gen
-        $routingKey = 'network_' . $season->getNetwork()->getId() . '.pdf_gen';
+        $routingKey = $this->getRoutingKey($season);
         $task = $this->getNewTask($payloads, $season);
         $ackQueueName = $this->declareAckQueue($task, $routingKey);
         foreach ($payloads as $payload) {
             $payload['pdfGeneratorUrl'] = $this->pdfGeneratorUrl;
+            $payload['taskId'] = $task->getId();
             $msg = new AMQPMessage(
                 json_encode($payload),
                 array(
@@ -93,5 +104,25 @@ class AmqpPdfGenPublisher
             );
             $this->channel->basic_publish($msg, self::EXCHANGE_NAME, $routingKey, true);
         }
+    }
+
+    public function addAckToTask($amqpMsg)
+    {
+        $payload = json_decode($amqpMsg->body);
+        $taskRepo = $this->om->getRepository('CanalTPMttBundle:AmqpTask');
+        // $seasonRepo = $this->om->getRepository('CanalTPMttBundle:Season');
+        $task = $taskRepo->find($payload->taskId);
+        $ack = new AmqpAck();
+        $ack->setPayload($payload);
+        $ack->setAmqpTask($task);
+        $deliveryInfo = array();
+        $deliveryInfo['consumer_tag'] = $amqpMsg->delivery_info['consumer_tag'];
+        $deliveryInfo['delivery_tag'] = $amqpMsg->delivery_info['delivery_tag'];
+        $deliveryInfo['redelivered'] = $amqpMsg->delivery_info['redelivered'];
+        $deliveryInfo['exchange'] = $amqpMsg->delivery_info['exchange'];
+        $deliveryInfo['routing_key'] = $amqpMsg->delivery_info['routing_key'];
+        $ack->setDeliveryInfo($deliveryInfo);
+        $this->om->persist($ack);
+        $this->om->flush();
     }
 }

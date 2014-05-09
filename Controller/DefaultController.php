@@ -23,6 +23,7 @@ class DefaultController extends AbstractController
 
     public function indexAction($externalNetworkId = null)
     {
+        $networkManager = $this->get('canal_tp_mtt.network_manager');
         $mtt_user = $this->get('canal_tp_mtt.user');
 
         // TODO: Put the current or default Network of User.
@@ -30,12 +31,14 @@ class DefaultController extends AbstractController
             $this->get('security.context')->getToken()->getUser()
         );
         $currentNetwork = $externalNetworkId == null ? $networks[0] : $this->findNetwork($externalNetworkId, $networks);
-
+        // make currentNetwok a doctrine object
+        $currentNetwork = $networkManager->find($currentNetwork);
         return $this->render(
             'CanalTPMttBundle:Default:index.html.twig',
             array(
                 'network'           => $currentNetwork,
-                'externalNetworkId' => $currentNetwork['external_id']
+                'tasks'             => $networkManager->getLastTasks($currentNetwork),
+                'externalNetworkId' => $currentNetwork->getExternalId()
             )
         );
     }

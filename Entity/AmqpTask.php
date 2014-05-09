@@ -47,6 +47,11 @@ class AmqpTask extends AbstractEntity
      */
     private $network;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $amqpAcks;
+
 
     /**
      * Get id
@@ -194,6 +199,28 @@ class AmqpTask extends AbstractEntity
     public function setNetwork($network)
     {
         $this->network = $network;
+
+        return ($this);
+    }
+    
+    /**
+     * Get Object
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAmqpAcks()
+    {
+        return $this->amqpAcks;
+    }
+
+    /**
+     * Set Object
+     *
+     * @return amqp task
+     */
+    public function setAmqpAcks($amqpAcks)
+    {
+        $this->amqpAcks = $amqpAcks;
 
         return ($this);
     }
