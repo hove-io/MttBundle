@@ -1,3 +1,10 @@
+Notes de publication - METH - Version 0.8.1 (09/05/2014)
+
+** Bogue
+    * [METH-200] - Utilisation du token d'authentification (formulaire: ajout d'un réseau)
+
+** Tâche
+    * [METH-180] - Retour sur l'implémentation des permissions
 
 Notes de publication - METH - Version 0.7.1 (30/04/2014)
 
