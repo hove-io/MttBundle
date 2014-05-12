@@ -67,4 +67,9 @@ class NetworkManager
     {
         return $this->repository->findNetworksByUserId($user->getId());
     }
+
+    public function deleteUserNetworks($user)
+    {
+        return $this->repository->deleteUserNetworks($user->getId());
+    }
 }

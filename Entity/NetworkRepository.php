@@ -35,4 +35,15 @@ class NetworkRepository extends EntityRepository
             )
         );
     }
+
+    public function deleteUserNetworks($userId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $conn->delete(
+            ' mtt.users_networks',
+            array(
+                'user_id' => $userId,
+            )
+        );
+    }
 }
