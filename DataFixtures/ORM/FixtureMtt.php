@@ -28,6 +28,10 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
 
         $this->addReference('user-'.$data['username'], $user);
 
+        foreach ($data['roles'] as $role) {
+            $user->addUserRole($this->getReference($role));
+        }
+
         $this->em->persist($user);
 
 
@@ -79,6 +83,7 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
                 'lastname' => 'mtt_lastname',
                 'email' => 'mtt@canaltp.fr',
                 'password' => 'mtt',
+                'roles' => array('role-admin-mtt', 'role-user-mtt')
             )
         );
 
