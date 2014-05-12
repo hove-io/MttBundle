@@ -83,7 +83,7 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
                 'lastname' => 'mtt_lastname',
                 'email' => 'mtt@canaltp.fr',
                 'password' => 'mtt',
-                'roles' => array('role-admin-mtt')
+                'roles' => array('role-admin-mtt', 'role-user-mtt')
             )
         );
 
