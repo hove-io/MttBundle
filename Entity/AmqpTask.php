@@ -138,7 +138,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Set jobsPublished
      *
-     * @param boolean $jobsPublished
+     * @param integer $jobsPublished
      * @return AmqpTask
      */
     public function setJobsPublished($jobsPublished)
@@ -151,7 +151,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Get jobsPublished
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getJobsPublished()
     {

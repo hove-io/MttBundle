@@ -88,7 +88,7 @@ class TimetableManager
     }
 
     /**
-     * Return timetable Object with navitia data added
+     * Return timetable Object without navitia data added
      *
      * @param  Integer   $externalId
      * @return timetable

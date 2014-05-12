@@ -54,11 +54,12 @@ class SeasonPdfPayloadsGenerator
                 'timetableOnly'         => true
             )
         );
-        $payload['mediaManagerParams'] = array(
+        $payload['timetableParams'] = array(
+            'seasonId'              => $season->getId(),
             'externalNetworkId'     => $network->getExternalId(),
             'externalRouteId'       => $externalRouteId,
+            'externalLineId'        => $lineConfig->getExternalLineId(),
             'externalStopPointId'   => $stopPoint->id,
-            'seasonId'              => $season->getId(),
         );
         return $payload;
     }
