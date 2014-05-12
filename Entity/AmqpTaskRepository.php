@@ -17,6 +17,7 @@ class AmqpTaskRepository extends EntityRepository
             ->join("amqpTask.network", "network")
             ->where("network.id = :networkId")
             ->setParameter("networkId", $network->getId())
+            ->add('orderBy', 'amqpTask.created DESC')
             ->setMaxResults($limit);
         return $qb->getQuery()->getResult();
     }

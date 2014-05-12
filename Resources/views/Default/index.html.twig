@@ -15,6 +15,9 @@
             <thead>
                 <tr>
                     <th>
+                       {{'task.completed'|trans({}, 'default')}}
+                    </th>
+                    <th>
                        {{'task.type'|trans({}, 'default')}}
                     </th>
                     <th>
@@ -24,24 +27,27 @@
                        {{'task.launchedAt'|trans({}, 'default')}}
                     </th>
                     <th>
-                       {{'task.completed'|trans({}, 'default')}}
+                       {{'task.completedAt'|trans({}, 'default')}}
                     </th>
                 </tr>
             </thead>
             <tbody>
             {% for task in tasks %}
                 <tr>
+                    <td class="text-center">
+                        {{ macros.display_bool(task.completed) }}
+                    </td>
                     <td>
-                        {{task.typeId}}
+                        {{task.typeId|taskType|trans({}, 'default')}}
                     </td>
                     <td>
                         {{task.amqpAcks|length}}/{{task.jobsPublished}}
                     </td>
                     <td>
-                        {{task.created|date('d/m/Y - g:ia')}}
+                        {{task.created|date('d/m/Y - H:i:s')}}
                     </td>
                     <td>
-                        {{ macros.display_bool(task.completed) }}
+                        {{task.completedAt|date('d/m/Y - H:i:s')}}
                     </td>
                 </tr>
             {% endfor %}

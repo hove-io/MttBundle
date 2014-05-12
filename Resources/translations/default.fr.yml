@@ -89,3 +89,5 @@ task:
     completion: Progression
     launchedAt: Lançée à
     completed: Terminée
+    completedAt: Terminée à
+    season_pdf_generation: Génération de l'ensemble des pdfs d'une saison
