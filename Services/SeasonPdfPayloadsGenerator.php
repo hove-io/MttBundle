@@ -87,6 +87,8 @@ class SeasonPdfPayloadsGenerator
                             $routeSchedulesData->route_schedules[0]->table->rows,
                             $timetable
                         );
+                    } else {
+                        $stopPoints = $routeSchedulesData->route_schedules[0]->table->rows;
                     }
                 }
                 foreach($stopPoints as $stopPoint) {

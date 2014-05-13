@@ -16,7 +16,7 @@ class AckWorkerCommand extends ContainerAwareCommand
 {
     private $channel = null;
     private $connection = null;
-    private $amqpGenPublisher = null;
+    private $amqpPdfGenPublisher = null;
 
     private function initChannel()
     {
@@ -34,15 +34,22 @@ class AckWorkerCommand extends ContainerAwareCommand
     
     public function process_message($msg)
     {
-        $this->amqpGenPublisher->addAckToTask($msg);
+        $task = $this->amqpPdfGenPublisher->addAckToTask($msg);
         echo " [x] Ack Inserted \n";
+        echo "Completed: " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished() . "\n";
+        if (count($task->getAmqpAcks()) == $task->getJobsPublished()) {
+            $pdfGenCompletionLib = $this->getContainer()->get('canal_tp_mtt.pdf_gen_completion_lib');
+            echo "StartCompleted\n";
+            $pdfGenCompletionLib->completePdfGenTask($task);
+        }
+        echo "\n--------\n";
         // acknowledge broker
         $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
     }
 
     private function runProcess($ack_queue_name)
     {
-        $this->amqpGenPublisher = $this->getContainer()->get('canal_tp_mtt.amqp_pdf_gen_publisher');
+        $this->amqpPdfGenPublisher = $this->getContainer()->get('canal_tp_mtt.amqp_pdf_gen_publisher');
 
         $this->channel->basic_consume(
             $ack_queue_name, 

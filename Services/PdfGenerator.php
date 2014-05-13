@@ -14,7 +14,6 @@ use fpdi;
 class PdfGenerator
 {
     private $serverUrl = null;
-    private $om = null;
     private $uploadPath = null;
 
     public function __construct(CurlProxy $curlProxy, $server, $path)

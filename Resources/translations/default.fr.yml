@@ -74,6 +74,7 @@ season:
     buttons:
         generate_then_publish: Générer puis publier
         publish_only: Publier uniquement
+    pdf_generation_task_has_started: La génération des %count_jobs% pdfs de la saison a bien été lancée.
 
 stop_point_code:
     block:

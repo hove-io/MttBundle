@@ -47,7 +47,9 @@
                         {{task.created|date('d/m/Y - H:i:s')}}
                     </td>
                     <td>
-                        {{task.completedAt|date('d/m/Y - H:i:s')}}
+                        {% if task.completed %}
+                            {{task.completedAt|date('d/m/Y - H:i:s')}}
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

@@ -12,7 +12,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 use CanalTP\MttBundle\Entity\AmqpTask;
 use CanalTP\MttBundle\Entity\AmqpAck;
-use CanalTP\MttBundle\Entity\StopPoint;
 
 class AmqpPdfGenPublisher
 {
@@ -107,83 +106,7 @@ class AmqpPdfGenPublisher
             $this->channel->basic_publish($msg, self::EXCHANGE_NAME, $routingKey, true);
         }
     }
-    
-    // TODO? Put these Task Completion Functions in a dedicated service?
-    private function getLineConfig($ack, $lineConfig)
-    {
-        if ( 
-            $lineConfig == false || 
-            // check if this ack is for a different lineConfig than the previous one
-            $lineConfig->getExternalLineId() != $ack->getPayload()->timetableParams->externalLineId
-        ) {
-            $lineConfigRepo = $this->om->getRepository('CanalTPMttBundle:LineConfig');
-            $lineConfig = $lineConfigRepo->findOneBy(
-                array(
-                    'externalLineId' => $ack->getPayload()->timetableParams->externalLineId,
-                    'season' => $ack->getPayload()->timetableParams->seasonId
-                )
-            );
-        }
-        return $lineConfig;
-    }
-    
-    private function getTimetable($ack, $lineConfig, $timetable)
-    {
-        if ($timetable == false ||
-            // check if this ack is for a different timetable than the previous one
-            $timetable->getExternalRouteId() != $ack->getPayload()->timetableParams->externalRouteId
-        ) {
-            $timetableRepo = $this->om->getRepository('CanalTPMttBundle:Timetable');
-            $timetable = $timetableRepo->findOneBy(
-                array(
-                    'externalRouteId' => $ack->getPayload()->timetableParams->externalRouteId,
-                    'line_config' => $lineConfig->getId()
-                )
-            );
-        }
-        return $timetable;
-    }
-    
-    private function getStopPoint($ack, $timetable, $stopPointRepo)
-    {
-        return $stopPointRepo->findOneBy(
-            array(
-                'timetable' => $timetable->getId(),
-                'externalId' => $ack->getPayload()->timetableParams->externalStopPointId
-            )
-        );
-    }
-    
-    private function completePdfGenTask($task)
-    {
-        echo "task n°" . $task->getId() . " completion started";
-        $stopPointRepo = $this->om->getRepository('CanalTPMttBundle:StopPoint');
-        $lineConfig = false;
-        $timetable = false;
-        foreach ($task->getAmqpAcks() as $ack) {
-            if ($ack->getPayload()->generated == true) {
-                $lineConfig = $this->getLineConfig($ack, $lineConfig);
-                $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
-                $stopPoint = $this->getStopPoint($ack, $timetable, $stopPointRepo);
-                if (empty($stopPoint)) {
-                    $stopPoint = new StopPoint();
-                    $stopPoint->setTimetable($timetable);
-                    $stopPoint->setExternalId($ack->getPayload()->timetableParams->externalStopPointId);
-                }
-                $stopPoint->setPdfHash($ack->getPayload()->generationResult->pdfHash);
-                $pdfGenerationDate = new \DateTime();
-                $pdfGenerationDate->setTimestamp($ack->getPayload()->generationResult->created);
-                $stopPoint->setPdfGenerationDate($pdfGenerationDate);
-                $this->om->persist($stopPoint);
-            }
-        }
-        $task->setCompleted(true);
-        $task->setCompletedAt(new \DateTime("now"));
-        $this->om->persist($task);
-        $this->om->flush();
-        echo "task n°" . $task->getId() . " completion realized";
-    }
-    
+        
     public function addAckToTask($amqpMsg)
     {
         $payload = json_decode($amqpMsg->body);
@@ -203,9 +126,7 @@ class AmqpPdfGenPublisher
         $this->om->persist($ack);
         $this->om->flush();
         $this->om->refresh($task);
-        echo "Completion: " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished() . "\n";
-        if (count($task->getAmqpAcks()) == $task->getJobsPublished()) {
-            $this->completePdfGenTask($task);
-        }
+
+        return $task;
     }
 }

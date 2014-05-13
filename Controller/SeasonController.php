@@ -72,7 +72,9 @@ class SeasonController extends AbstractController
             'success',
             $this->get('translator')->trans(
                 'season.pdf_generation_task_has_started',
-                array(),
+                array(
+                    '%count_jobs%' => count($payloads)
+                ),
                 'default'
             )
         );
