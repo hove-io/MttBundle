@@ -2,6 +2,8 @@
 
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
+use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
+
 class NetworkControllerTest extends AbstractControllerTest
 {
     public function testList()

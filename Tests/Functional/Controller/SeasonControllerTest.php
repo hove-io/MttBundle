@@ -16,7 +16,7 @@ class SeasonControllerTest extends AbstractControllerTest
         return $this->generateRoute(
             $route,
             array(
-                'network_id' => Fixture::EXTERNAL_NETWORK_ID
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID
             )
         );
     }
@@ -84,7 +84,7 @@ class SeasonControllerTest extends AbstractControllerTest
         $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
         $this->assertGreaterThan(0, $crawler->filter('div.form-group.has-error')->count());
     }
-    
+
     public function testDatesOverlappingOtherSeason()
     {
         $form = $this->getEditForm();
@@ -96,14 +96,14 @@ class SeasonControllerTest extends AbstractControllerTest
         $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
         $this->assertGreaterThan(0, $crawler->filter('.modal-body .alert.alert-danger')->count());
     }
-    
+
     public function testDeleteSeason()
     {
         $route = $this->generateRoute(
             'canal_tp_mtt_season_delete',
             array(
                 'seasonId' => Fixture::SEASON_ID,
-                'networkId' => Fixture::EXTERNAL_NETWORK_ID,
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
             )
         );
         $crawler = $this->doRequestRoute($route, 302);
@@ -116,14 +116,14 @@ class SeasonControllerTest extends AbstractControllerTest
         $blocks = $this->getRepository('CanalTPMttBundle:Block')->findAll();
         $this->assertTrue(count($blocks) == 0, "block was not deleted.");
     }
-    
+
     public function testSeasonPublicationAndUnpublication()
     {
         $route = $this->generateRoute(
             'canal_tp_mtt_season_unpublish',
             array(
                 'seasonId' => Fixture::SEASON_ID,
-                'networkId' => Fixture::EXTERNAL_NETWORK_ID,
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
             )
         );
         $crawler = $this->doRequestRoute($route, 302);
@@ -133,7 +133,7 @@ class SeasonControllerTest extends AbstractControllerTest
             'canal_tp_mtt_season_publish',
             array(
                 'seasonId' => Fixture::SEASON_ID,
-                'networkId' => Fixture::EXTERNAL_NETWORK_ID,
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
             )
         );
         $crawler = $this->doRequestRoute($route, 302);

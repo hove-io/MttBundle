@@ -1,30 +1,31 @@
-define('navitia', ['jquery'], function($) {
+define('navitia', ['jquery', 'mtt/utils', 'mtt/translations/messages'], function($, utils) {
     var self = {};
-    var _url = '';
-    
-    var _set_url = function()
+    var _url = null;
+    var $msgWrapperTpl = utils.getTpl('msgWrapperTpl');
+
+    var _set_url = function(params)
     {
-        _url = self.host + '/' + self.version + '/' + self.api + '/';
-    };
-    
-    var _send_request = function(filter, callback)
+        _url = Routing.generate(
+            'canal_tp_mtt_network_list_json',
+            params
+        );
+    }
+
+    self.getCoverageNetworks = function(params, callback, callbackFail)
     {
-        $.get(_url + filter, callback);
-    };
-    
-    self.getCoverageNetworks = function(coverage_id, callback) 
-    {
-        _send_request(coverage_id + '/networks', function(data){
+        _set_url(params);
+        $.get(_url, function(data){
             callback(data.networks);
+        }).fail(function() {
+            var msg = Translator.trans('network.error.wrong_token', {}, 'message');
+
+            $msgWrapperTpl.append('<div>' + msg + '</div>');
+            $('.modal-header').after($msgWrapperTpl);
+            callbackFail();
         });
     };
-    
-    return function Navitia(params){
-        self.host = params.host;
-        self.version = params.version;
-        self.api = params.api;
-        _set_url();
-        
+
+    return function Navitia(){
         return self;
     }
 });

@@ -51,7 +51,7 @@ CanalTP\MttBundle\Entity\Network:
                         referencedColumnName: id
                 inverseJoinColumns:
                     user_id:
-                        referencedColumnName: id
+                        referencedColumnName: usr_id
         layouts:
             targetEntity: CanalTP\MttBundle\Entity\Layout
             joinTable:

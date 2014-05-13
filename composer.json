@@ -21,6 +21,7 @@
         "canaltp/media-manager-bundle": "0.0.5",
         "symfony/dom-crawler": "2.4.4",
         "symfony/css-selector": "v2.4.4",
+        "canaltp/navitia": "@dev",
         "friendsofsymfony/jsrouting-bundle": "1.5.3",
         "willdurand/js-translation-bundle":"2.0.0",
         "components/jquery": "1.11.0",

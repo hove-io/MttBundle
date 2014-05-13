@@ -28,28 +28,34 @@
     </button>
     {{ form_end(form) }}
     <script type="text/javascript">
-    require(['navitia'], function(Navitia){
-        var nav_api = new Navitia({
-            host: '{{ navitia_url }}',
-            version: 'v1',
-            api: 'coverage',
-        });
-        $('#mtt_network_external_coverage_id').change(function(){
-            var $select = $(this);
+    require(['navitia'], function(Navitia, utils){
+        var nav_api = new Navitia();
 
-            if ($select.val() != null) {
+        $('#mtt_network_external_coverage_id').change(function(){
+            var token = $('#mtt_network_token');
+
+            if (token.val() != '') {
+                var $networkSelect = $('#mtt_network_external_id').empty();
+
                 nav_api.getCoverageNetworks(
-                    $select.val(),
+                    {
+                        'externalCoverageId': $(this).val(),
+                        'token': token.val()
+                    },
                     function(networks){
-                        var $networkSelect = $('#mtt_network_external_id').empty();
-                        for (var i in networks) {
-                            $networkSelect.append('<option value="' + networks[i].id + '">' + networks[i].name + '</option>');
+                        var network = null;
+
+                        for (key in networks) {
+                            $networkSelect.append('<option value="' + key + '">' + networks[key] + '</option>');
                         }
                         $networkSelect.show().siblings('label').show();
+                    },
+                    function(){
+                        $networkSelect.hide().siblings('label').hide();
                     }
                 );
             }
-        }).change();
+        });
     });
     </script>
 {% endblock %}
