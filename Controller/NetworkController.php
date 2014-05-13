@@ -43,7 +43,7 @@ class NetworkController extends AbstractController
 
         $form = $this->createForm(
             new NetworkType($coverage->regions, $externalNetworkId),
-            $this->networkManager->find($externalNetworkId),
+            $this->networkManager->findOneByExternalId($externalNetworkId),
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_network_edit'

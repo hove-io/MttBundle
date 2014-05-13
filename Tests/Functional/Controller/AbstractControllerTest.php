@@ -101,7 +101,7 @@ abstract class AbstractControllerTest extends WebTestCase
         $session = $this->client->getContainer()->get('session');
 
         $firewall = 'main';
-        $user = $this->getRepository('CanalTPSamEcoreUserManagerBundle:User')->find(1);
+        $user = $this->getRepository('CanalTPSamEcoreUserManagerBundle:User')->findOneByUsernameCanonical('mtt');
         $token = new UsernamePasswordToken('mtt@canaltp.fr', 'mtt', $firewall, array('ROLE_ADMIN'));
         $token->setUser($user);
         $session->set('_security_'.$firewall, serialize($token));
