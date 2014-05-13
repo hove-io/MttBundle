@@ -43,29 +43,41 @@
                         <a  class="btn btn-default" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'externalNetworkId': externalNetworkId, 'season_id': season.id }) }}">
                             <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
                         </a>
-                        {% set action = 'canal_tp_mtt_season_' ~(season.published ? 'unpublish' : 'publish') %}
+                        {% if (season.published) %}
+                            <a class="btn btn-default" href="{{ path(
+                                'canal_tp_mtt_season_unpublish',
+                                {
+                                    'externalNetworkId': externalNetworkId,
+                                    'seasonId': season.id
+                                }
+                            ) }}">
+                                <span class="glyphicon glyphicon-eye-close"></span> {{'global.unpublish'|trans({}, 'messages')}}
+                            </a>
+                        {% else %}
+                            {% set url = path(
+                                'canal_tp_mtt_season_publish',
+                                {
+                                    'externalNetworkId': externalNetworkId,
+                                    'seasonId': season.id
+                                }
+                            ) %}
+                            <a href="{{url}}" class="btn btn-default" data-toggle="modal" data-target="#base-modal" data-remote="{{url}}">
+                                <span class="glyphicon glyphicon-eye-open"></span> {{'global.publish'|trans({}, 'messages')}}
+                            </a>
+                        {% endif %}
                         <a class="btn btn-default" href="{{ path(
-                            action,
+                            'canal_tp_mtt_season_generate_pdfs',
                             {
                                 'externalNetworkId': externalNetworkId,
                                 'seasonId': season.id
                             }
                         ) }}">
-                            <span class="glyphicon glyphicon-eye-{{ season.published ? 'close':'open'}}"></span> {{'global.' ~(season.published ? 'unpublish' : 'publish') |trans({}, 'messages')}}
+                            <span class="glyphicon"></span> {{'season.generate_pdf'|trans({}, 'default')}}
                         </a>
                         <a onClick="javascript:return confirm('{{'global.confirm_season_delete'|trans({}, 'messages')}}')" class="btn btn-danger" href="{{ path('canal_tp_mtt_season_delete', {'externalNetworkId': externalNetworkId, 'seasonId': season.id }) }}">
                             <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
                         </a>
                     </div>
-                    <a class="btn btn-default" href="{{ path(
-                        'canal_tp_mtt_season_generate_pdfs',
-                        {
-                            'externalNetworkId': externalNetworkId,
-                            'seasonId': season.id
-                        }
-                    ) }}">
-                        <span class="glyphicon glyphicon-eye-{{ season.published ? 'close':'open'}}"></span> {{'season.generate_pdf'|trans({}, 'default')}}
-                    </a>
                 </td>
             </tr>
         {% endfor %}

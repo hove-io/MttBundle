@@ -4,6 +4,7 @@ namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use CanalTP\MttBundle\Form\Type\SeasonType;
+use CanalTP\MttBundle\Form\Type\SeasonPublicationType;
 use CanalTP\MttBundle\Entity\Season;
 
 class SeasonController extends AbstractController
@@ -57,7 +58,7 @@ class SeasonController extends AbstractController
         return (null);
     }
 
-    public function generatePdfAction($externalNetworkId, $seasonId)
+    public function generatePdfAction($externalNetworkId, $seasonId, $publishOnComplete = false)
     {
         $seasonManager = $this->get('canal_tp_mtt.season_manager');
         $pdfPayloadGenerator = $this->get('canal_tp_mtt.season_pdf_payload_generator');
@@ -123,16 +124,33 @@ class SeasonController extends AbstractController
     public function publishAction($externalNetworkId, $seasonId)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
-        $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
-
-        return $this->redirect(
-            $this->generateUrl(
-                'canal_tp_mtt_season_list',
-                array(
-                    'externalNetworkId' => $externalNetworkId,
-                )
+        $form = $this->createForm(
+            new SeasonPublicationType($seasonId), 
+            false, 
+            array(
+                'action' => $this->getRequest()->getRequestUri()
             )
         );
+        if ($form->isValid()) {
+            if ($this->getRequest()->get('no_generation', false) != false) {
+                $this->generatePdfAction($externalNetworkId, $seasonId, true);
+            } else {
+                $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
+            }
+            return $this->redirect(
+                $this->generateUrl(
+                    'canal_tp_mtt_season_list',
+                    array(
+                        'externalNetworkId' => $externalNetworkId,
+                    )
+                )
+            );
+        } else {
+            return $this->render(
+                'CanalTPMttBundle:Season:publicationForm.html.twig',
+                array('form' => $form->createView())
+            );
+        }
     }
 
     public function unpublishAction($externalNetworkId, $seasonId)
