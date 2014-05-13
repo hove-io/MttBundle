@@ -31,11 +31,7 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
         foreach ($data['roles'] as $role) {
             $user->addUserRole($this->getReference($role));
         }
-
         $this->em->persist($user);
-
-
-
         return ($user);
     }
 
