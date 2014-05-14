@@ -83,7 +83,7 @@ stop_point:
             content: %code%
             default: (Code du poteau d'arrêt)
         pois:
-            title: Points de vente DIVIA :
+            title: Relais Divia :
             default: (Points de vente de l'arrêt)
 
 network:
@@ -96,7 +96,7 @@ network:
 task:
     under_progress: Tâches en cours de réalisation
     type: Type de tâche
-    status: 
+    status:
         label: Statut
         launched: En cours
         completed: Terminée
