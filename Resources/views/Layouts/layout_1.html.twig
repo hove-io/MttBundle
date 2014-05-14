@@ -20,8 +20,8 @@
                 <div id="small-right-blocks">
                     {{ macros.season_validity('text_block_1', season, 'small-block') }}
                     {{ macros.text('text_block_2', attribute(timetable.blocks, 'text_block_2'), 'route', 'small-block block') }}
-                    {{ macros.stop_point_pois('text_block_3', stopPoint, 'small-block') }}
                     {{ macros.stop_point_code('text_block_4', stopPoint, 'small-block') }}
+                    {{ macros.stop_point_pois('text_block_3', stopPoint, 'small-block') }}
                 </div>
             </div>
             {% block timetables_wrapper %}
