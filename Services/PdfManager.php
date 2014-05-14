@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\DomCrawler\Crawler;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use CanalTP\MttBundle\Entity\StopPoint;
@@ -24,7 +23,7 @@ class PdfManager
     private $pdfGenerator = null;
     private $mediaManager = null;
     private $co = null;
-    private $curlProxy = null;
+    private $hashingLib = null;
 
     public function __construct(
         ObjectManager $om, 
@@ -32,7 +31,7 @@ class PdfManager
         PdfGenerator $pdfGenerator,
         MediaManager $mediaManager,
         Container $co,
-        CurlProxy $curlProxy
+        PdfHashingLib $hashingLib
     )
     {
         $this->stopPoint = $om->getRepository('CanalTPMttBundle:StopPoint');
@@ -40,33 +39,7 @@ class PdfManager
         $this->pdfGenerator = $pdfGenerator;
         $this->mediaManager = $mediaManager;
         $this->co = $co;
-        $this->curlProxy = $curlProxy;
-    }
-
-    private function getHtmlHash($layoutWrapper)
-    {
-        if ($layoutWrapper->count() == 1) {
-            return md5($layoutWrapper->html());
-        } else {
-            throw new \Exception('PdfManager - Hash generation impossible - Found zero or more than one #layout-main-wrapper.');
-        }
-    }
-
-    private function getImagesHash($layoutWrapper)
-    {
-        $images = $layoutWrapper->filter('img');
-        if ($images->count() > 0) {
-            $urls = $images->extract(array('src'));
-            $toHash = '';
-            foreach ($urls as $url) {
-                if ($imageContent = $this->curlProxy->get($url)) {
-                    $toHash .= $imageContent;
-                }
-            }
-            return empty($toHash) ? '' : md5($toHash);
-        } else {
-            return '';
-        }
+        $this->hashingLib = $hashingLib;
     }
     
     /**
@@ -92,14 +65,9 @@ class PdfManager
                 'timetableOnly'      => true
             )
         );
-
-        $crawler = new Crawler($response);
-        $layoutWrapper = $crawler->filter('div#layout-main-wrapper');
-        $htmlHash = $this->getHtmlHash($layoutWrapper);
-        $imagesHash = $this->getImagesHash($layoutWrapper);
         $cssVersion = $timetable->getLineConfig()->getLayout()->getCssVersion();
-        
-        return md5($htmlHash . $imagesHash . $cssVersion);
+
+        return $this->hashingLib->getPdfHash($response, $cssVersion);
     }
     
     public function getStoppointPdfUrl(Timetable $timetable, $externalStopPointId)
@@ -121,7 +89,7 @@ class PdfManager
                 )
             );
 
-            $pdfPath = $this->pdfGenerator->getPdf($url, $timetable->getLineConfig()->getLayout());
+            $pdfPath = $this->pdfGenerator->getPdf($url, $timetable->getLineConfig()->getLayout()->getOrientation());
             if ($pdfPath) {
                 $pdfMedia = $this->mediaManager->saveStopPointTimetable($timetable, $externalStopPointId, $pdfPath);
                 $this->stopPoint->updatePdfGenerationInfos($externalStopPointId, $timetable, $hash);

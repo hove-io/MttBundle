@@ -42,6 +42,53 @@ class Navitia
     }
 
     /**
+     * Get line routes
+     *
+     * @param  type $externalCoverageId
+     * @param  type $externalNetworkId
+     * @param  type $externalLineId
+     *
+     * @return type json
+     */
+    public function getLineRoutes(
+        $externalCoverageId, 
+        $externalNetworkId, 
+        $externalLineId
+    )
+    {
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region'    => $externalCoverageId,
+                'path_filter'    => 'networks/' . $externalNetworkId . '/lines/' . $externalLineId,
+                'action'    => 'routes',
+            )
+        );
+        $response = $this->navitia_component->call($query);
+
+        return $response->routes;
+    }
+
+    /**
+     * Get route StopPoints
+     *
+     * @param  type $externalCoverageId
+     * @param  type $externalNetworkId
+     * @param  type $externalLineId
+     * @param  type $externalRouteId
+     * @return type
+     */
+    public function getStopPoints(
+        $externalCoverageId, 
+        $externalNetworkId, 
+        $externalLineId, 
+        $externalRouteId
+    )
+    {
+        return $this->navitia_sam->getStopPoints($externalCoverageId, $externalNetworkId, $externalLineId, $externalRouteId);
+    }
+    
+    /**
      * Get one Stop Point
      *
      * @param  type $coverageId
@@ -151,7 +198,7 @@ class Navitia
     }
 
 
-    public function getRouteStopPoints($network, $externalRouteId, $externalStopPointId)
+    public function getRouteStopPoints($network, $externalRouteId)
 	{
 		$pathFilter = 'networks/' . $network->getExternalId() . '/routes/' . $externalRouteId;
 

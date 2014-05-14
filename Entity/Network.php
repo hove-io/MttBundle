@@ -43,6 +43,11 @@ class Network extends AbstractEntity
     private $seasons;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $amqpTasks;
+
+    /**
      * @var Object
      */
     private $ditributionLists;
@@ -144,6 +149,28 @@ class Network extends AbstractEntity
     public function setSeasons($seasons)
     {
         $this->seasons = $seasons;
+
+        return ($this);
+    }
+
+    /**
+     * Get Object
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAmqpTasks()
+    {
+        return $this->amqpTasks;
+    }
+
+    /**
+     * Set Object
+     *
+     * @return Network
+     */
+    public function setAmqpTasks($amqpTasks)
+    {
+        $this->amqpTasks = $amqpTasks;
 
         return ($this);
     }

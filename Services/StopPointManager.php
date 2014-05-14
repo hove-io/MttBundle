@@ -137,10 +137,11 @@ class StopPointManager
             ->setParameter('timetableId', $timetable->getId())
             ->getQuery();
         $db_stop_points = $query->getResult();
-        // add pdf generation date to stop points
+        // add pdf generation date and Hash to stop points
         foreach ($db_stop_points as $db_stop_point) {
             if (isset($stopPointsIndexed[$db_stop_point->getExternalId()])) {
                 $stopPointsIndexed[$db_stop_point->getExternalId()]->stop_point->pdfGenerationDate = $db_stop_point->getPdfGenerationDate();
+                $stopPointsIndexed[$db_stop_point->getExternalId()]->stop_point->pdfHash = $db_stop_point->getPdfHash();
             }
         }
 

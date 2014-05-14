@@ -1,0 +1,30 @@
+CanalTP\MttBundle\Entity\AmqpAck:
+    type: entity
+    table: mtt.amqp_ack
+    repositoryClass: CanalTP\MttBundle\Entity\AmqpAckRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+        payload:
+            type: object
+        deliveryInfo:
+            type: array
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        amqpTask:
+            targetEntity: AmqpTask
+            joinColumn:
+                name: amqp_task_id
+                referencedColumnName: id
