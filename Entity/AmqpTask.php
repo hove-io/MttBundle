@@ -12,6 +12,10 @@ class AmqpTask extends AbstractEntity
     const SEASON_PDF_GENERATION_TYPE = 1;
     const DISTRIBUTION_LIST_PDF_GENERATION_TYPE = 2;
     
+    const CANCELED_STATUS = 0;
+    const LAUNCHED_STATUS = 1;
+    const COMPLETED_STATUS = 2;
+    
     /**
      * @var integer
      */
@@ -30,7 +34,7 @@ class AmqpTask extends AbstractEntity
     /**
      * @var boolean
      */
-    private $completed = false;
+    private $status = self::LAUNCHED_STATUS;
 
     /**
      * @var boolean
@@ -46,6 +50,11 @@ class AmqpTask extends AbstractEntity
      * @var Object
      */
     private $network;
+    
+    /**
+     * @var array
+     */
+    private $options;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -118,9 +127,9 @@ class AmqpTask extends AbstractEntity
      * @param boolean $completed
      * @return AmqpTask
      */
-    public function setCompleted($completed)
+    public function setStatus($status)
     {
-        $this->completed = $completed;
+        $this->status = $status;
 
         return $this;
     }
@@ -130,9 +139,9 @@ class AmqpTask extends AbstractEntity
      *
      * @return boolean 
      */
-    public function getCompleted()
+    public function getStatus()
     {
-        return $this->completed;
+        return $this->status;
     }
 
     /**
@@ -223,5 +232,39 @@ class AmqpTask extends AbstractEntity
         $this->amqpAcks = $amqpAcks;
 
         return ($this);
+    }
+    
+    /**
+     * Get Options
+     *
+     * @return \Array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set Object
+     *
+     * @return amqp task
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+
+        return ($this);
+    }
+    
+    public function isCompleted()
+    {
+        return $this->status == self::COMPLETED_STATUS;
+    }
+
+    public function complete()
+    {
+        $this->status = self::COMPLETED_STATUS;
+        
+        return $this;
     }
 }

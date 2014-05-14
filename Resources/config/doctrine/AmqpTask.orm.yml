@@ -14,11 +14,13 @@ CanalTP\MttBundle\Entity\AmqpTask:
         objectId:
             type: integer
             column: object_id
-        completed:
-            type: boolean
+        status:
+            type: integer
         jobsPublished:
             type: integer
             column: jobs_published
+        options:
+            type: array
         completedAt:
             type: datetime
             nullable: true

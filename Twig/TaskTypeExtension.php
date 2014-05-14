@@ -10,6 +10,7 @@ class TaskTypeExtension extends \Twig_Extension
     {
         return array(
             'taskType' => new \Twig_Filter_Method($this, 'taskType'),
+            'taskStatus' => new \Twig_Filter_Method($this, 'taskStatus'),
         );
     }
     
@@ -19,6 +20,23 @@ class TaskTypeExtension extends \Twig_Extension
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:
             default:
                 $key = 'task.season_pdf_generation';
+                break;
+        }
+        return $key;
+    }
+    
+    public function taskStatus($taskStatus)
+    {
+        switch ($taskStatus) {
+            case AmqpTask::LAUNCHED_STATUS:
+            default:
+                $key = 'task.status.launched';
+                break;
+            case AmqpTask::CANCELED_STATUS:
+                $key = 'task.status.canceled';
+                break;
+            case AmqpTask::COMPLETED_STATUS:
+                $key = 'task.status.completed';
                 break;
         }
         return $key;

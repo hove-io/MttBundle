@@ -92,6 +92,11 @@ network:
 task:
     under_progress: Tâches en cours de réalisation
     type: Type de tâche
+    status: 
+        label: Statut
+        launched: En cours
+        completed: Terminée
+        canceled: Annulée
     completion: Progression
     launchedAt: Lançée à
     completed: Terminée

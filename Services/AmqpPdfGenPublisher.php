@@ -56,17 +56,18 @@ class AmqpPdfGenPublisher
         return 'ack_queue.for_pdf_gen';
     }
     
-    private function getRoutingKey($season)
+    private function getRoutingKey($season, $task)
     {
-        return 'network_' . $season->getNetwork()->getId() . '.pdf_gen';;
+        return 'network_' . $season->getNetwork()->getId() . '_task_' . $task->getId() .'.pdf_gen';;
     }
 
-    private function getNewTask($payloads, $season)
+    private function getNewTask($payloads, $season, $taskOptions)
     {
         $task = new AmqpTask();
         $task->setTypeId(AmqpTask::SEASON_PDF_GENERATION_TYPE);
         $task->setObjectId($season->getId());
         $task->setJobsPublished(count($payloads));
+        $task->setOptions($taskOptions);
         // link to season network
         $task->setNetwork($season->getNetwork());
         $this->om->persist($task);
@@ -85,12 +86,12 @@ class AmqpPdfGenPublisher
         return $ackQueueName;
     }
     
-    public function publish($payloads, $season)
+    public function publish($payloads, $season, $taskOptions = array())
     {
         $this->init();
         // routing_key_format: network_{networkId}.pdf_gen
-        $routingKey = $this->getRoutingKey($season);
-        $task = $this->getNewTask($payloads, $season);
+        $task = $this->getNewTask($payloads, $season, $taskOptions);
+        $routingKey = $this->getRoutingKey($season, $task);
         $ackQueueName = $this->declareAckQueue($task, $routingKey);
         foreach ($payloads as $payload) {
             $payload['pdfGeneratorUrl'] = $this->pdfGeneratorUrl;
@@ -113,20 +114,23 @@ class AmqpPdfGenPublisher
         $taskRepo = $this->om->getRepository('CanalTPMttBundle:AmqpTask');
         // $seasonRepo = $this->om->getRepository('CanalTPMttBundle:Season');
         $task = $taskRepo->find($payload->taskId);
-        $ack = new AmqpAck();
-        $ack->setPayload($payload);
-        $ack->setAmqpTask($task);
-        $deliveryInfo = array();
-        $deliveryInfo['consumer_tag'] = $amqpMsg->delivery_info['consumer_tag'];
-        $deliveryInfo['delivery_tag'] = $amqpMsg->delivery_info['delivery_tag'];
-        $deliveryInfo['redelivered'] = $amqpMsg->delivery_info['redelivered'];
-        $deliveryInfo['exchange'] = $amqpMsg->delivery_info['exchange'];
-        $deliveryInfo['routing_key'] = $amqpMsg->delivery_info['routing_key'];
-        $ack->setDeliveryInfo($deliveryInfo);
-        $this->om->persist($ack);
-        $this->om->flush();
-        $this->om->refresh($task);
-
+        if (!empty($task)) {
+            $ack = new AmqpAck();
+            $ack->setPayload($payload);
+            $ack->setAmqpTask($task);
+            $deliveryInfo = array();
+            $deliveryInfo['consumer_tag'] = $amqpMsg->delivery_info['consumer_tag'];
+            $deliveryInfo['delivery_tag'] = $amqpMsg->delivery_info['delivery_tag'];
+            $deliveryInfo['redelivered'] = $amqpMsg->delivery_info['redelivered'];
+            $deliveryInfo['exchange'] = $amqpMsg->delivery_info['exchange'];
+            $deliveryInfo['routing_key'] = $amqpMsg->delivery_info['routing_key'];
+            $ack->setDeliveryInfo($deliveryInfo);
+            $this->om->persist($ack);
+            $this->om->flush();
+            $this->om->refresh($task);
+        } else {
+            throw new \Exception('An ack has been sent for a non-existent task');
+        }
         return $task;
     }
 }

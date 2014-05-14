@@ -66,7 +66,7 @@ class SeasonController extends AbstractController
         
         $season = $seasonManager->find($seasonId);
         $payloads = $pdfPayloadGenerator->generate($season);
-        $amqpPdfGenPublisher->publish($payloads, $season);
+        $amqpPdfGenPublisher->publish($payloads, $season, array('publishSeasonOnComplete' => $publishOnComplete));
         
         $this->get('session')->getFlashBag()->add(
             'success',
@@ -126,33 +126,20 @@ class SeasonController extends AbstractController
     public function publishAction($externalNetworkId, $seasonId)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
-        $form = $this->createForm(
-            new SeasonPublicationType($seasonId), 
-            false, 
-            array(
-                'action' => $this->getRequest()->getRequestUri()
+        $withGeneration = $this->getRequest()->get('withGeneration', false);
+        if ($withGeneration == 1) {
+            $this->generatePdfAction($externalNetworkId, $seasonId, true);
+        } else {
+            $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
+        }
+        return $this->redirect(
+            $this->generateUrl(
+                'canal_tp_mtt_season_list',
+                array(
+                    'externalNetworkId' => $externalNetworkId,
+                )
             )
         );
-        if ($form->isValid()) {
-            if ($this->getRequest()->get('no_generation', false) != false) {
-                $this->generatePdfAction($externalNetworkId, $seasonId, true);
-            } else {
-                $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
-            }
-            return $this->redirect(
-                $this->generateUrl(
-                    'canal_tp_mtt_season_list',
-                    array(
-                        'externalNetworkId' => $externalNetworkId,
-                    )
-                )
-            );
-        } else {
-            return $this->render(
-                'CanalTPMttBundle:Season:publicationForm.html.twig',
-                array('form' => $form->createView())
-            );
-        }
     }
 
     public function unpublishAction($externalNetworkId, $seasonId)

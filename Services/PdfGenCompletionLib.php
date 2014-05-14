@@ -70,6 +70,11 @@ class PdfGenCompletionLib
         );
     }
     
+    private function getSeason($seasonId)
+    {
+        return $this->om->getRepository('CanalTPMttBundle:Season')->find($seasonId);
+    }
+    
     public function completePdfGenTask($task)
     {
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
@@ -94,7 +99,16 @@ class PdfGenCompletionLib
                 $this->mediaManager->saveStopPointTimetable($timetable, $stopPoint->getExternalId(), $ack->getPayload()->generationResult->filepath);
             }
         }
-        $task->setCompleted(true);
+        $options = $task->getOptions();
+        if (!empty($options)) {
+            if (isset($options['publishSeasonOnComplete']) && !empty($options['publishSeasonOnComplete'])) {
+                $season = $this->getSeason($task->getObjectId());
+                $season->setPublished(true);
+                $this->om->persist($season);
+                echo "Publish season " . $season->getTitle();
+            }
+        }
+        $task->complete();
         $task->setCompletedAt(new \DateTime("now"));
         $this->om->persist($task);
         $this->om->flush();

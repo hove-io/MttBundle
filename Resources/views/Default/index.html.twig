@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th>
-                       {{'task.completed'|trans({}, 'default')}}
+                       {{'task.status.label'|trans({}, 'default')}}
                     </th>
                     <th>
                        {{'task.type'|trans({}, 'default')}}
@@ -35,7 +35,7 @@
             {% for task in tasks %}
                 <tr>
                     <td class="text-center">
-                        {{ macros.display_bool(task.completed) }}
+                        {{ task.status|taskStatus|trans({}, 'default') }}
                     </td>
                     <td>
                         {{task.typeId|taskType|trans({}, 'default')}}
@@ -47,7 +47,7 @@
                         {{task.created|date('d/m/Y - H:i:s')}}
                     </td>
                     <td>
-                        {% if task.completed %}
+                        {% if task.isCompleted %}
                             {{task.completedAt|date('d/m/Y - H:i:s')}}
                         {% endif %}
                     </td>
