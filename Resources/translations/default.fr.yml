@@ -70,11 +70,15 @@ season:
         content: du %startDate% au %endDate%
     published: Publiée?
 
-stop_point_code:
+stop_point:
     block:
-        title: Code TOTEM de cet arrêt :
-        content: %code%
-        default: (Code du poteau d'arrêt)
+        code:
+            title: Code TOTEM de cet arrêt :
+            content: %code%
+            default: (Code du poteau d'arrêt)
+        pois:
+            title: Points de vente DIVIA :
+            default: (Points de vente de l'arrêt)
 
 network:
     list: Liste des réseaux
