@@ -1,6 +1,6 @@
 global:
     actions: Action(s)
-    edit: Editer
+    edit: Éditer
     preview: Prévisualiser
     validate: Valider
     save: Enregistrer
@@ -11,7 +11,7 @@ global:
     generatePdf: Générer le PDF
     remove: Enlever
     add: Ajouter
-    publish: publier
+    publish: Publier
     unpublish: dépublier
     line_label: Ligne
     downloadPdf: Télécharger le PDF

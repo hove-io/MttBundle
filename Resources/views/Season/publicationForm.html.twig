@@ -1,0 +1,27 @@
+{% extends "CanalTPMttBundle::modal.html.twig" %}
+
+{% block open_form %}
+    {{ form_start(form) }}
+{% endblock %}
+
+{% block modal_title %}
+    {{'block.get_form.title'|trans({}, 'default')}}
+{% endblock %}
+
+
+{% block modal_body %}
+    {{'season.publication_and_generation'|trans({}, 'default')}}
+
+{% endblock %}
+
+{% block modal_actions %}
+    <button id="submit-btn" type="submit" name="with_generation" class="btn btn-success">
+        {{'season.buttons.generate_then_publish'|trans({}, 'default')}}
+    </button>
+    <button type="submit" class="btn btn-success">
+        {{'season.buttons.publish_only'|trans({}, 'default')}}
+    </button>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block modal_close_footer %}<button type="button" class="btn btn-default" data-dismiss="modal">{{'global.cancel'|trans}}</button>{% endblock %}

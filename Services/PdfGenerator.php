@@ -14,7 +14,6 @@ use fpdi;
 class PdfGenerator
 {
     private $serverUrl = null;
-    private $om = null;
     private $uploadPath = null;
 
     public function __construct(CurlProxy $curlProxy, $server, $path)
@@ -24,11 +23,11 @@ class PdfGenerator
         $this->uploadPath = $path;
     }
 
-    public function getPdf($url, $layout)
+    public function getPdf($url, $orientation)
     {
         $params = array();
         $params['url'] = $url;
-        $params['orientation'] = $layout->getOrientation();
+        $params['orientation'] = $orientation;
         // TODO: make these parameters configurable via layout?
         $params['zoom'] = '2';
         $params['margin'] = '0';

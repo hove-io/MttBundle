@@ -65,10 +65,16 @@ season:
     start_date: Début
     end_date: Fin
     list: Liste des Saisons
+    generate_pdf: Générer les pdfs
+    publication_and_generation: Souhaitez-vous également (re)générer tous les pdfs de cette saison avant sa publication?
     block:
         title: Horaires valables
         content: du %startDate% au %endDate%
     published: Publiée?
+    buttons:
+        generate_then_publish: Générer puis publier
+        publish_only: Publier uniquement
+    pdf_generation_task_has_started: La génération des %count_jobs% pdfs de la saison a bien été lancée.
 
 stop_point:
     block:
@@ -86,3 +92,17 @@ network:
     external_coverage_id: Région
     external_id: Réseau
     token: Token
+
+task:
+    under_progress: Tâches en cours de réalisation
+    type: Type de tâche
+    status: 
+        label: Statut
+        launched: En cours
+        completed: Terminée
+        canceled: Annulée
+    completion: Progression
+    launchedAt: Lançée à
+    completed: Terminée
+    completedAt: Terminée à
+    season_pdf_generation: Génération de l'ensemble des pdfs d'une saison

@@ -47,6 +47,18 @@ class NetworkManager
      * @param  Integer  $lineId
      * @return networks
      */
+    public function getLastTasks($network, $limit = 3)
+    {
+        $taskRepo = $this->om->getRepository('CanalTPMttBundle:AmqpTask');
+        return $taskRepo->getLastNetworkTasks($network, $limit);
+    }
+
+    /**
+     * Return network Object
+     *
+     * @param  Integer  $lineId
+     * @return networks
+     */
     public function find($networkId)
     {
         return ($networkId ? $this->repository->find($networkId) : null);
