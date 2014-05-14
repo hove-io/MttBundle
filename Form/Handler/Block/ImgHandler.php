@@ -14,8 +14,6 @@ use CanalTP\MttBundle\Entity\Block;
 
 class ImgHandler extends AbstractHandler
 {
-    const ID_LINE_MAP = 'line_map';
-
     private $co = null;
     private $lastImgPath = null;
     private $mediaManager = null;
@@ -47,7 +45,7 @@ class ImgHandler extends AbstractHandler
 
     public function process(Block $formBlock, $timetable)
     {
-        $media = $this->mediaManager->saveByTimetable($timetable, $formBlock->getContent(), ImgHandler::ID_LINE_MAP);
+        $media = $this->mediaManager->saveByTimetable($timetable, $formBlock->getContent(), $this->block->getDomId());
         // TODO: save with domain, we should store without it. Waiting for mediaDataCollector to be updated
         $formBlock->setContent($this->mediaManager->getUrlByMedia($media));
         $this->saveBlock($formBlock, $timetable);

@@ -6,6 +6,7 @@
     <div id="layout-1-wrapper" class="{% block additionnal_wrapper_class %}{% endblock %}">
         <div class="layout-container">
             <div id="header" class="clearfix">
+                {{ macros.img('header_route_sign', attribute(timetable.blocks, 'header_route_sign'), 'header_route_sign_img', 'route') }}
                 <div id="direction-title-wrapper" data-block-level="route" data-auto-filled="1">
                     {% if timetable.title is defined %}
                         {{ 'global.direction'|trans }} {{ timetable.title }}

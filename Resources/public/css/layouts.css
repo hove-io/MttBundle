@@ -27,7 +27,7 @@ body.editable{
 .block.disabled-block{
     cursor: not-allowed;
 }
-.block.disabled-block:before{ 
+.block.disabled-block:before{
     background-color:black;
     content: "";
     display: inline-block;
@@ -46,11 +46,6 @@ body.editable{
 }
 .block.disabled-block .glyphicon{
     color: rgba(0,0,0,0.3);
-}
-.line_map_img{
-    max-height:95%;
-    max-width:95%;
-    vertical-align:middle;
 }
 .layout-container{
     margin:0;
