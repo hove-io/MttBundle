@@ -1,0 +1,370 @@
+{
+    "pagination": {
+        "items_per_page": 10,
+        "items_on_page": 10,
+        "start_page": 0,
+        "total_result": 10
+    },
+    "places_nearby": [
+        {
+            "embedded_type": "poi",
+            "distance": "522.0",
+            "poi": {
+                "poi_type": {
+                    "name": "Points de vente",
+                    "id": "poi_type:Pointsdevente"
+                },
+                "name": "Bar Tabac Le Coq Chantant 124 avenue Jean Jaurès",
+                "coord": {
+                    "lat": "47.512938",
+                    "lon": "5.041548"
+                },
+                "id": "poi:DH0470",
+                "administrative_regions": [
+                    {
+                        "coord": {
+                            "lat": "47.50921208",
+                            "lon": "5.035409639"
+                        },
+                        "zip_code": "21120",
+                        "id": "admin:21692",
+                        "name": "Villecomte",
+                        "level": 8
+                    }
+                ],
+                "address": {
+                    "house_number": 0,
+                    "coord": {
+                        "lat": "47.512938",
+                        "lon": "5.041548"
+                    },
+                    "id": "5.041548;47.512938",
+                    "name": ""
+                },
+                "properties": {}
+            },
+            "quality": 0,
+            "id": "poi:DH0470",
+            "name": "Bar Tabac Le Coq Chantant 124 avenue Jean Jaurès"
+        },
+        {
+            "embedded_type": "poi",
+            "distance": "522.0",
+            "poi": {
+                "poi_type": {
+                    "name": "Points de vente",
+                    "id": "poi_type:Pointsdevente"
+                },
+                "name": "Bar Tabac Le Coq Chantant 124 avenue Jean Jaurès",
+                "coord": {
+                    "lat": "47.512938",
+                    "lon": "5.041548"
+                },
+                "id": "poi:DH0470",
+                "administrative_regions": [
+                    {
+                        "coord": {
+                            "lat": "47.50921208",
+                            "lon": "5.035409639"
+                        },
+                        "zip_code": "21120",
+                        "id": "admin:21692",
+                        "name": "Villecomte",
+                        "level": 8
+                    }
+                ],
+                "address": {
+                    "house_number": 0,
+                    "coord": {
+                        "lat": "47.512938",
+                        "lon": "5.041548"
+                    },
+                    "id": "5.041548;47.512938",
+                    "name": ""
+                },
+                "properties": {}
+            },
+            "quality": 0,
+            "id": "poi:DH0470",
+            "name": "Bar Tabac Le Coq Chantant 124 avenue Jean Jaurès"
+        },
+        {
+            "embedded_type": "poi",
+            "distance": "1072.0",
+            "poi": {
+                "poi_type": {
+                    "name": "Points de vente",
+                    "id": "poi_type:Pointsdevente"
+                },
+                "name": "Tabac Presse 5 place Abbé Chanlon",
+                "coord": {
+                    "lat": "47.514064",
+                    "lon": "5.022542"
+                },
+                "id": "poi:DC0130",
+                "administrative_regions": [
+                    {
+                        "coord": {
+                            "lat": "47.50921208",
+                            "lon": "5.035409639"
+                        },
+                        "zip_code": "21120",
+                        "id": "admin:21692",
+                        "name": "Villecomte",
+                        "level": 8
+                    }
+                ],
+                "address": {
+                    "house_number": 0,
+                    "coord": {
+                        "lat": "47.514064",
+                        "lon": "5.022542"
+                    },
+                    "id": "5.022542;47.514064",
+                    "name": ""
+                },
+                "properties": {}
+            },
+            "quality": 0,
+            "id": "poi:DC0130",
+            "name": "Tabac Presse 5 place Abbé Chanlon"
+        },
+        {
+            "embedded_type": "poi",
+            "distance": "1072.0",
+            "poi": {
+                "poi_type": {
+                    "name": "Points de vente",
+                    "id": "poi_type:Pointsdevente"
+                },
+                "name": "Tabac Presse 5 place Abbé Chanlon",
+                "coord": {
+                    "lat": "47.514064",
+                    "lon": "5.022542"
+                },
+                "id": "poi:DC0130",
+                "administrative_regions": [
+                    {
+                        "coord": {
+                            "lat": "47.50921208",
+                            "lon": "5.035409639"
+                        },
+                        "zip_code": "21120",
+                        "id": "admin:21692",
+                        "name": "Villecomte",
+                        "level": 8
+                    }
+                ],
+                "address": {
+                    "house_number": 0,
+                    "coord": {
+                        "lat": "47.514064",
+                        "lon": "5.022542"
+                    },
+                    "id": "5.022542;47.514064",
+                    "name": ""
+                },
+                "properties": {}
+            },
+            "quality": 0,
+            "id": "poi:DC0130",
+            "name": "Tabac Presse 5 place Abbé Chanlon"
+        },
+        {
+            "embedded_type": "poi",
+            "distance": "2277.0",
+            "poi": {
+                "poi_type": {
+                    "name": "Points de vente",
+                    "id": "poi_type:Pointsdevente"
+                },
+                "name": "Tabac Sainte Chantal 23 avenue Eiffel",
+                "coord": {
+                    "lat": "47.530343",
+                    "lon": "5.042379"
+                },
+                "id": "poi:DC0200",
+                "address": {
+                    "house_number": 0,
+                    "coord": {
+                        "lat": "0.0",
+                        "lon": "0.0"
+                    },
+                    "id": "0.0;0.0",
+                    "name": ""
+                },
+                "properties": {}
+            },
+            "quality": 0,
+            "id": "poi:DC0200",
+            "name": "Tabac Sainte Chantal 23 avenue Eiffel"
+        },
+        {
+            "embedded_type": "poi",
+            "distance": "2277.0",
+            "poi": {
+                "poi_type": {
+                    "name": "Points de vente",
+                    "id": "poi_type:Pointsdevente"
+                },
+                "name": "Tabac Sainte Chantal 23 avenue Eiffel",
+                "coord": {
+                    "lat": "47.530343",
+                    "lon": "5.042379"
+                },
+                "id": "poi:DC0200",
+                "address": {
+                    "house_number": 0,
+                    "coord": {
+                        "lat": "0.0",
+                        "lon": "0.0"
+                    },
+                    "id": "0.0;0.0",
+                    "name": ""
+                },
+                "properties": {}
+            },
+            "quality": 0,
+            "id": "poi:DC0200",
+            "name": "Tabac Sainte Chantal 23 avenue Eiffel"
+        },
+        {
+            "embedded_type": "poi",
+            "distance": "3156.0",
+            "poi": {
+                "poi_type": {
+                    "name": "Points de vente",
+                    "id": "poi_type:Pointsdevente"
+                },
+                "name": "Objectif Presse Centre Commercial Grands Crus Av. Roland Carraz",
+                "coord": {
+                    "lat": "47.48469",
+                    "lon": "5.017821"
+                },
+                "id": "poi:DF0002",
+                "address": {
+                    "house_number": 0,
+                    "coord": {
+                        "lat": "0.0",
+                        "lon": "0.0"
+                    },
+                    "id": "0.0;0.0",
+                    "name": ""
+                },
+                "properties": {}
+            },
+            "quality": 0,
+            "id": "poi:DF0002",
+            "name": "Objectif Presse Centre Commercial Grands Crus Av. Roland Carraz"
+        },
+        {
+            "embedded_type": "poi",
+            "distance": "3156.0",
+            "poi": {
+                "poi_type": {
+                    "name": "Points de vente",
+                    "id": "poi_type:Pointsdevente"
+                },
+                "name": "Objectif Presse Centre Commercial Grands Crus Av. Roland Carraz",
+                "coord": {
+                    "lat": "47.48469",
+                    "lon": "5.017821"
+                },
+                "id": "poi:DF0002",
+                "address": {
+                    "house_number": 0,
+                    "coord": {
+                        "lat": "0.0",
+                        "lon": "0.0"
+                    },
+                    "id": "0.0;0.0",
+                    "name": ""
+                },
+                "properties": {}
+            },
+            "quality": 0,
+            "id": "poi:DF0002",
+            "name": "Objectif Presse Centre Commercial Grands Crus Av. Roland Carraz"
+        },
+        {
+            "embedded_type": "poi",
+            "distance": "3475.0",
+            "poi": {
+                "poi_type": {
+                    "name": "Points de vente",
+                    "id": "poi_type:Pointsdevente"
+                },
+                "name": "Tabac Le Danton 2 rue Danton",
+                "coord": {
+                    "lat": "47.536189",
+                    "lon": "5.061787"
+                },
+                "id": "poi:DL0500",
+                "address": {
+                    "house_number": 0,
+                    "coord": {
+                        "lat": "0.0",
+                        "lon": "0.0"
+                    },
+                    "id": "0.0;0.0",
+                    "name": ""
+                },
+                "properties": {}
+            },
+            "quality": 0,
+            "id": "poi:DL0500",
+            "name": "Tabac Le Danton 2 rue Danton"
+        },
+        {
+            "embedded_type": "poi",
+            "distance": "3475.0",
+            "poi": {
+                "poi_type": {
+                    "name": "Points de vente",
+                    "id": "poi_type:Pointsdevente"
+                },
+                "name": "Tabac Le Danton 2 rue Danton",
+                "coord": {
+                    "lat": "47.536189",
+                    "lon": "5.061787"
+                },
+                "id": "poi:DL0500",
+                "address": {
+                    "house_number": 0,
+                    "coord": {
+                        "lat": "0.0",
+                        "lon": "0.0"
+                    },
+                    "id": "0.0;0.0",
+                    "name": ""
+                },
+                "properties": {}
+            },
+            "quality": 0,
+            "id": "poi:DL0500",
+            "name": "Tabac Le Danton 2 rue Danton"
+        }
+    ],
+    "links": [
+        {
+            "href": "http://navitia2-ws.ctp.internal.canaltp.fr/v1/coverage/bourgogne/addresses/{address.id}",
+            "rel": "address",
+            "templated": true
+        },
+        {
+            "href": "http://navitia2-ws.ctp.internal.canaltp.fr/v1/coverage/bourgogne/poi_types/{poi_type.id}",
+            "rel": "poi_type",
+            "templated": true
+        },
+        {
+            "href": "http://navitia2-ws.ctp.internal.canaltp.fr/v1/coverage/bourgogne/pois/{poi.id}",
+            "rel": "poi",
+            "templated": true
+        },
+        {
+            "href": "http://navitia2-ws.ctp.internal.canaltp.fr/v1/coverage/bourgogne/stop_points/stop_point:G21:SP:04397/places_nearby",
+            "type": "first",
+            "templated": false
+        }
+    ]
+}

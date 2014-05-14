@@ -65,7 +65,7 @@ class TimetableControllerTest extends AbstractControllerTest
         $this->assertTrue($crawler->filter('div#left-menu')->count() == 0);
     }
 
-    private function checkInTimetableViewPage($translator, $seasonId)
+    private function checkCodeBlockInTimetableViewPage($translator, $seasonId)
     {
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $seasonId));
         $this->assertNotEmpty(
@@ -81,7 +81,7 @@ class TimetableControllerTest extends AbstractControllerTest
         );
     }
 
-    private function checkInTimetableEditPage($translator, $seasonId)
+    private function checkCodeBlockInTimetableEditPage($translator, $seasonId)
     {
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $seasonId));
         $this->assertNotEmpty(
@@ -102,7 +102,47 @@ class TimetableControllerTest extends AbstractControllerTest
         $translator = $this->client->getContainer()->get('translator');
         $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
 
-        $this->checkInTimetableViewPage($translator, $season->getId());
-        $this->checkInTimetableEditPage($translator, $season->getId());
+        $this->checkCodeBlockInTimetableViewPage($translator, $season->getId());
+        $this->checkCodeBlockInTimetableEditPage($translator, $season->getId());
+    }
+
+    private function checkPoisBlockInTimetableViewPage($translator, $seasonId)
+    {
+        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $seasonId));
+        $this->assertNotEmpty(
+            $crawler->filter('div#text_block_3 div.content')->text(),
+            "Stop point code (external code) not found in stop point timetable view page"
+        );
+
+        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_edit', $seasonId, false));
+        $this->assertEquals(
+            $translator->trans('stop_point.block.poi.default', array(), 'default'),
+            $crawler->filter('div#text_block_3 div.content')->text(),
+            "Stop point code (external code) not found in stop point timetable view page"
+        );
+    }
+
+    private function checkPoisBlockInTimetableEditPage($translator, $seasonId)
+    {
+        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $seasonId));
+        $this->assertNotEmpty(
+            $crawler->filter('div#text_block_3 div.content')->text(),
+            "Stop point code (external code) not found in stop point timetable view page"
+        );
+
+        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_edit', $seasonId, false));
+        $this->assertEquals(
+            $translator->trans('stop_point.block.poi.default', array(), 'default'),
+            $crawler->filter('div#text_block_3 div.content')->text(),
+            "Stop point code (external code) not found in stop point timetable view page"
+        );
+    }
+    public function testStopPointPoisBlock()
+    {
+        $translator = $this->client->getContainer()->get('translator');
+        $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
+
+        $this->checkPoisBlockInTimetableViewPage($translator, $season->getId());
+        $this->checkPoisBlockInTimetableEditPage($translator, $season->getId());
     }
 }
