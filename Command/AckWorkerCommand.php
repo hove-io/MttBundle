@@ -20,11 +20,11 @@ class AckWorkerCommand extends ContainerAwareCommand
 
     private function initChannel()
     {
-        $amqpServerHost = $this->getContainer()->getParameter('amqp_server_host');
-        $port = $this->getContainer()->getParameter('amqp_server_port');
-        $user = $this->getContainer()->getParameter('amqp_server_user');
-        $pass = $this->getContainer()->getParameter('amqp_server_pass');
-        $vhost = $this->getContainer()->getParameter('amqp_server_vhost');
+        $amqpServerHost = $this->getContainer()->getParameter('canal_tp_mtt.amqp_server_host');
+        $port = $this->getContainer()->getParameter('canal_tp_mtt.amqp_server_port');
+        $user = $this->getContainer()->getParameter('canal_tp_mtt.amqp_server_user');
+        $pass = $this->getContainer()->getParameter('canal_tp_mtt.amqp_server_pass');
+        $vhost = $this->getContainer()->getParameter('canal_tp_mtt.amqp_server_vhost');
 
         $this->connection = new AMQPConnection($amqpServerHost, $port, $user, $pass, $vhost);
         $this->channel = $this->connection->channel();
