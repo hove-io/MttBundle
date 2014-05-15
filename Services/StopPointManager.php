@@ -47,6 +47,17 @@ class StopPointManager
         $this->stopPoint->setExternalCode($externalCode);
     }
 
+    private function initStopPointPois($externalCoverageId)
+    {
+        $pois = $this->navitia->getStopPointPois(
+            $externalCoverageId,
+            $this->stopPoint->getExternalId()
+        );
+
+        if ($pois->pagination->total_result)
+            $this->stopPoint->setPois($pois->places_nearby);
+    }
+
     // TODO: mutualize with timetable manager?
     private function initBlocks()
     {
@@ -85,6 +96,7 @@ class StopPointManager
         }
         $this->initTitle($externalCoverageId);
         $this->initStopPointCode($externalCoverageId);
+        $this->initStopPointPois($externalCoverageId);
 
         return $this->stopPoint;
     }
@@ -92,8 +104,8 @@ class StopPointManager
     public function getPrevNextStopPoints($network, $externalRouteId, $externalStopPointId)
 	{
 		$result = $this->navitia->getRouteStopPoints(
-			$network, 
-			$externalRouteId, 
+			$network,
+			$externalRouteId,
 			$externalStopPointId
 		);
         $prevNext = array();
@@ -109,7 +121,7 @@ class StopPointManager
 		}
 		return $prevNext;
 	}
-	
+
     /**
      * Return StopPoints list with Data from navitia
      *

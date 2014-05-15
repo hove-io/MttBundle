@@ -57,6 +57,10 @@ abstract class AbstractControllerTest extends WebTestCase
             ->will($this->returnValue(json_decode($this->readStub('calendars.json'))));
 
         $navitia->expects($this->any())
+            ->method('getStopPointPois')
+            ->will($this->returnValue(json_decode($this->readStub('places_nearby.json'))));
+
+        $navitia->expects($this->any())
             ->method('getCalendarStopSchedulesByRoute')
             ->will($this->returnCallback(
                 function () {

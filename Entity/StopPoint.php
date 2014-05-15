@@ -43,6 +43,11 @@ class StopPoint extends AbstractEntity
     private $external_code;
 
     /**
+     * @var string
+     */
+    private $pois;
+
+    /**
      * @var datetime
      */
     protected $pdfGenerationDate;
@@ -51,6 +56,11 @@ class StopPoint extends AbstractEntity
      * @var binary
      */
     protected $pdfHash;
+
+    function __construct()
+    {
+        $this->pois = array();
+    }
 
     /**
      * Get id
@@ -197,6 +207,29 @@ class StopPoint extends AbstractEntity
     public function setExternalCode($external_code)
     {
         $this->external_code = $external_code;
+
+        return $this;
+    }
+
+    /**
+     * Get pois
+     *
+     * @return string
+     */
+    public function getPois()
+    {
+        return $this->pois;
+    }
+
+    /**
+     * Set pois
+     *
+     * @param  string    $poi
+     * @return StopPoint
+     */
+    public function setPois($pois)
+    {
+        $this->pois = $pois;
 
         return $this;
     }

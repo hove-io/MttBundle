@@ -76,11 +76,15 @@ season:
         publish_only: Publier uniquement
     pdf_generation_task_has_started: La génération des %count_jobs% pdfs de la saison a bien été lancée.
 
-stop_point_code:
+stop_point:
     block:
-        title: Code TOTEM de cet arrêt :
-        content: %code%
-        default: (Code du poteau d'arrêt)
+        code:
+            title: Code TOTEM de cet arrêt :
+            content: %code%
+            default: (Code du poteau d'arrêt)
+        pois:
+            title: Relais Divia :
+            default: (Points de vente de l'arrêt)
 
 network:
     list: Liste des réseaux
@@ -92,7 +96,7 @@ network:
 task:
     under_progress: Tâches en cours de réalisation
     type: Type de tâche
-    status: 
+    status:
         label: Statut
         launched: En cours
         completed: Terminée

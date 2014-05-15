@@ -237,6 +237,33 @@ class Navitia
     }
 
     /**
+     * Returns Stop Point pois
+     *
+     * @param  String        $coverageId
+     * @param  String        $stopPointId
+     * @return pois
+     */
+    public function getStopPointPois($externalCoverageId, $stopPointId)
+    {
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $externalCoverageId,
+                'action' => 'places_nearby',
+                'path_filter' => 'stop_points/' . $stopPointId,
+                'parameters' => array(
+                    'type' => array('poi'),
+                    'filter' => 'poi_type.id=poi_type:Pointsdevente',
+                    'distance' => 600,
+                    'count' => 3
+                )
+            )
+        );
+
+        return $this->navitia_component->call($query);
+    }
+
+    /**
      * Returns Stop Point title
      *
      * @param  String $coverageId
