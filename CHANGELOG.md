@@ -1,3 +1,11 @@
+Notes de publication - METH - Version 0.8.2 (15/05/2014)
+
+** Tâche
+    * [METH-166] - Génération de tous les PDF d'une saison
+    * [METH-181] - Génération des PDF d'une saison lors de sa publication
+    * [METH-66] - Affichage du bloc : "dépositaires les plus proches de cet arrêt"
+    * [METH-214] - Modifications du Layout pour DIVIA
+
 Notes de publication - METH - Version 0.8.1 (09/05/2014)
 
 ** Bogue
