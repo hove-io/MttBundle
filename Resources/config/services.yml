@@ -135,7 +135,7 @@ services:
        arguments: ['@service_container', '@router', '@canal_tp_mtt.navitia', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.stop_point_manager']
     canal_tp_mtt.amqp_pdf_gen_publisher:
        class: %canal_tp_mtt.amqp_pdf_gen_publisher.class%
-       arguments: ['@doctrine.orm.entity_manager', '%pdf_generator_url%', '%amqp_server_host%']
+       arguments: ['@doctrine.orm.entity_manager', '%pdf_generator_url%', '%canal_tp_mtt.amqp_server_host%', '%canal_tp_mtt.amqp_server_user%', '%canal_tp_mtt.amqp_server_pass%', '%canal_tp_mtt.amqp_server_port%', '%canal_tp_mtt.amqp_server_vhost%']
     canal_tp_mtt.pdf_gen_completion_lib:
        class: %canal_tp_mtt.pdf_gen_completion_lib.class%
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.media_manager']

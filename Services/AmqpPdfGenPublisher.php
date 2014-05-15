@@ -27,10 +27,10 @@ class AmqpPdfGenPublisher
         ObjectManager $om, 
         $pdfGeneratorUrl, 
         $amqpServerHost, 
-        $user = 'guest', 
-        $pass = 'guest', 
-        $port = 5672, 
-        $vhost = '/'
+        $user, 
+        $pass, 
+        $port, 
+        $vhost
     )
     {
         $this->om = $om;
