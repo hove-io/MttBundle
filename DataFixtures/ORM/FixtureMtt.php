@@ -29,8 +29,14 @@ class FixturesMtt extends SamBaseFixture
     );
 
     protected $userPermissions = array(
-        'BUSINESS_GENERATE_PDF',
-        'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF'
+        'BUSINESS_VIEW_NAVITIA_LOG',
+        'BUSINESS_CHOOSE_LAYOUT',
+        'BUSINESS_ASSIGN_NETWORK_LAYOUT',
+        'BUSINESS_EDIT_LAYOUT',
+        'BUSINESS_MANAGE_SEASON',
+        'BUSINESS_MANAGE_DISTRIBUTION_LIST',
+        'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF',
+        'BUSINESS_GENERATE_PDF'
     );
 
     protected $adminPermissions = array(
@@ -118,7 +124,7 @@ class FixturesMtt extends SamBaseFixture
         $network2 = $this->createNetwork('network:Agglobus', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
         $network3 = $this->createNetwork('network:SNCF', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
         $network4 = $this->createNetwork('network:RATP', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
-        $network5 = $this->createNetwork('network:CGD', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
+        $network5 = $this->createNetwork('network:CGD', '46cadd8a-e385-4169-9cb8-c05766eeeecb', 'bourgogne');
 
         //associer les utilisateurs avec l'application
         foreach ($this->users as &$userData) {
