@@ -117,7 +117,7 @@ class FixturesMtt extends SamBaseFixture
     public function load(ObjectManager $em)
     {
         $this->em = $em;
-        $app = $this->createApplication('mtt', '/mtt');
+        $app = $this->createApplication('Mtt', '/mtt');
         $userRole    = $this->createApplicationRole('User Mtt',  self::ROLE_USER_MTT,  $app, $this->userPermissions);
         $addminRole  = $this->createApplicationRole('Admin Mtt', self::ROLE_ADMIN_MTT, $app, $this->adminPermissions);
         $network1 = $this->createNetwork('network:Filbleu', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
