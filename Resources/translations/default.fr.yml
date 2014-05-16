@@ -101,7 +101,7 @@ task:
         completed: Terminée
         canceled: Annulée
     completion: Progression
-    launchedAt: Lançée à
+    launchedAt: Lancée à
     completed: Terminée
     completedAt: Terminée à
     season_pdf_generation: Génération de l'ensemble des pdfs d'une saison
