@@ -28,7 +28,6 @@ class FixturesMtt extends SamBaseFixture
         )
     );
 
-
     protected $userPermissions = array(
         'BUSINESS_GENERATE_PDF',
         'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF'
@@ -79,7 +78,7 @@ class FixturesMtt extends SamBaseFixture
         return ($network);
     }
 
-    private function createLayouts($network1, $network2)
+    private function createLayouts($network1, $network2, $network5)
     {
         $layout1 = $this->createLayout(
             array(
@@ -87,10 +86,10 @@ class FixturesMtt extends SamBaseFixture
                 'twig'          => 'layout_1.html.twig',
                 'preview'       => '/bundles/canaltpmtt/img/layout_1.png',
                 'orientation'   => 'landscape',
-                'calendarStart' => 4,
-                'calendarEnd'   => 1,
+                'calendarStart' => 5,
+                'calendarEnd'   => 0,
             ),
-            array($network1, $network2)
+            array($network1, $network2, $network5)
         );
         $layout2 = $this->createLayout(
             array(
@@ -98,10 +97,10 @@ class FixturesMtt extends SamBaseFixture
                 'twig'          => 'layout_2.html.twig',
                 'preview'       => '/bundles/canaltpmtt/img/layout_2.png',
                 'orientation'   => 'landscape',
-                'calendarStart'=> 4,
-                'calendarEnd'  => 1,
+                'calendarStart'=> 5,
+                'calendarEnd'  => 0,
             ),
-            array($network1)
+            array($network1, $network5)
         );
 
         $this->em->persist($network1);
@@ -119,6 +118,7 @@ class FixturesMtt extends SamBaseFixture
         $network2 = $this->createNetwork('network:Agglobus', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
         $network3 = $this->createNetwork('network:SNCF', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
         $network4 = $this->createNetwork('network:RATP', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
+        $network5 = $this->createNetwork('network:CGD', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
 
         //associer les utilisateurs avec l'application
         foreach ($this->users as &$userData) {
@@ -134,8 +134,9 @@ class FixturesMtt extends SamBaseFixture
             $network2->addUser($userEntity);
             $network3->addUser($userEntity);
             $network4->addUser($userEntity);
+            $network5->addUser($userEntity);
         }
-        $this->createLayouts($network1, $network2);
+        $this->createLayouts($network1, $network2, $network5);
     }
 
     /**

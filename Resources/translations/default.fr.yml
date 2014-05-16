@@ -12,6 +12,14 @@ stop_point:
         edit: Éditer la fiche horaire
     pdf_generation_date: Date de génération du pdf
     view_calendars: Voir les horaires
+    block:
+        code:
+            title: Code TOTEM de cet arrêt :
+            content: %code%
+            default: (Code du poteau d'arrêt)
+        pois:
+            title: Relais Divia :
+            default: (Points de vente de l'arrêt)
 
 line:
     choose_layout: Choisir un modèle
@@ -76,15 +84,6 @@ season:
         publish_only: Publier uniquement
     pdf_generation_task_has_started: La génération des %count_jobs% pdfs de la saison a bien été lancée.
 
-stop_point:
-    block:
-        code:
-            title: Code TOTEM de cet arrêt :
-            content: %code%
-            default: (Code du poteau d'arrêt)
-        pois:
-            title: Relais Divia :
-            default: (Points de vente de l'arrêt)
 
 network:
     list: Liste des réseaux
