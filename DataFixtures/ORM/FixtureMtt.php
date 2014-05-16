@@ -101,7 +101,7 @@ class FixturesMtt extends SamBaseFixture
                 'calendarStart'=> 4,
                 'calendarEnd'  => 1,
             ),
-            array($network)
+            array($network1)
         );
 
         $this->em->persist($network1);
