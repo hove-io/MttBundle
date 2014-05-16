@@ -5,19 +5,19 @@ namespace CanalTP\MttBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use CanalTP\SamBundle\Tests\DataFixtures\ORM\Fixture as SamBaseFixture;
-// use CanalTP\MttBundle\Entity\Network;
-// use CanalTP\MttBundle\Entity\Layout;
+use CanalTP\MttBundle\Entity\Network;
+use CanalTP\MttBundle\Entity\Layout;
 
 
-class FixturesUser extends SamBaseFixture
+class FixturesMtt extends SamBaseFixture
 {
-    private $em = null;
+    protected $em = null;
 
-     const ROLE_USER_MTT  = 'ROLE_USER_MTT';
-     const ROLE_ADMIN_MTT = 'ROLE_ADMIN_MTT';
+    const ROLE_USER_MTT  = 'ROLE_USER_MTT';
+    const ROLE_ADMIN_MTT = 'ROLE_ADMIN_MTT';
 
-     protected $users = array(
-       'mtt' => array(
+    protected $users = array(
+        'mtt' => array(
             'id'        => null,
             'username'  => 'mtt',
             'firstname' => 'mtt_firstname',
@@ -26,7 +26,7 @@ class FixturesUser extends SamBaseFixture
             'password'  => 'mtt',
             'roles'     => array('role-admin-mtt', 'role-user-mtt')
         )
-     );
+    );
 
 
     protected $userPermissions = array(
@@ -135,7 +135,7 @@ class FixturesUser extends SamBaseFixture
             $network3->addUser($userEntity);
             $network4->addUser($userEntity);
         }
-        $this->createLayout($network1, $network2);
+        $this->createLayouts($network1, $network2);
     }
 
     /**
