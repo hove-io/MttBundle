@@ -51,8 +51,8 @@ class Navitia
      * @return type json
      */
     public function getLineRoutes(
-        $externalCoverageId, 
-        $externalNetworkId, 
+        $externalCoverageId,
+        $externalNetworkId,
         $externalLineId
     )
     {
@@ -79,15 +79,15 @@ class Navitia
      * @return type
      */
     public function getStopPoints(
-        $externalCoverageId, 
-        $externalNetworkId, 
-        $externalLineId, 
+        $externalCoverageId,
+        $externalNetworkId,
+        $externalLineId,
         $externalRouteId
     )
     {
         return $this->navitia_sam->getStopPoints($externalCoverageId, $externalNetworkId, $externalLineId, $externalRouteId);
     }
-    
+
     /**
      * Get one Stop Point
      *
@@ -254,8 +254,8 @@ class Navitia
                 'parameters' => array(
                     'type' => array('poi'),
                     'filter' => 'poi_type.id=poi_type:Pointsdevente',
-                    'distance' => 600,
-                    'count' => 3
+                    'distance' => 400,
+                    'count' => 2
                 )
             )
         );
