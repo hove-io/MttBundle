@@ -260,10 +260,27 @@ class AmqpTask extends AbstractEntity
     {
         return $this->status == self::COMPLETED_STATUS;
     }
+    
+    public function isUnderProgress()
+    {
+        return $this->status == self::LAUNCHED_STATUS;
+    }
+    
+    public function isCanceled()
+    {
+        return $this->status == self::CANCELED_STATUS;
+    }
 
     public function complete()
     {
         $this->status = self::COMPLETED_STATUS;
+        
+        return $this;
+    }
+    
+    public function cancel()
+    {
+        $this->status = self::CANCELED_STATUS;
         
         return $this;
     }

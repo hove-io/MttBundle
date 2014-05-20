@@ -4,7 +4,7 @@
  * Symfony service to wrap curl calls
  * @author vdegroote
  */
-namespace CanalTP\MttBundle\Services;
+namespace CanalTP\MttBundle\Services\Amqp;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use PhpAmqpLib\Connection\AMQPConnection;
@@ -13,52 +13,35 @@ use PhpAmqpLib\Message\AMQPMessage;
 use CanalTP\MttBundle\Entity\AmqpTask;
 use CanalTP\MttBundle\Entity\AmqpAck;
 
-class AmqpPdfGenPublisher
+class PdfGenPublisher
 {
-    const WORK_QUEUE_NAME = "pdf_gen_queue";
-    const EXCHANGE_NAME = "pdf_gen_exchange";
-
-    private $connection = null;
     private $channel = null;
+    private $channelLib = null;
+    private $exchangeName = null;
     private $pdfGeneratorUrl = null;
     private $om = null;
 
     public function __construct(
         ObjectManager $om, 
         $pdfGeneratorUrl, 
-        $amqpServerHost, 
-        $user, 
-        $pass, 
-        $port, 
-        $vhost
+        Channel $amqpChannelLib
     )
     {
         $this->om = $om;
+        $this->channelLib = $amqpChannelLib;
         $this->pdfGeneratorUrl = $pdfGeneratorUrl;
-        $this->connection = new AMQPConnection($amqpServerHost, $port, $user, $pass, $vhost);
+        $this->channel = $amqpChannelLib->getChannel();
+        $this->exchangeName = $amqpChannelLib->getExchangeName();
+        $this->queueName = $amqpChannelLib->getPdfGenQueueName();
     }
     
     private function init()
     {
-        $this->channel = $this->connection->channel();
-
-        $this->channel->exchange_declare(self::EXCHANGE_NAME, 'topic', false, true, false);
         // pre-bind and pre-create the queue so broadcasted messages will be kept 
         // even if there is no worker listening yet
-        $this->channel->queue_declare(self::WORK_QUEUE_NAME, false, true, false, false);
+        $this->channel->queue_declare($this->queueName, false, true, false, false);
         // bind with routing key *.pdf_gen
-        $this->channel->queue_bind(self::WORK_QUEUE_NAME, self::EXCHANGE_NAME, "*.pdf_gen");
-    }
-    
-    private function getAckQueueName($task, $routingKey)
-    {
-        // return 'ack_queue.' . $routingKey . '.task_' . $task->getId();
-        return 'ack_queue.for_pdf_gen';
-    }
-    
-    private function getRoutingKey($season, $task)
-    {
-        return 'network_' . $season->getNetwork()->getId() . '_task_' . $task->getId() .'.pdf_gen';;
+        $this->channel->queue_bind($this->queueName, $this->exchangeName, "*.pdf_gen");
     }
 
     private function getNewTask($payloads, $season, $taskOptions)
@@ -78,10 +61,10 @@ class AmqpPdfGenPublisher
 
     private function declareAckQueue($task, $routingKey)
     {
-        $ackQueueName = $this->getAckQueueName($task, $routingKey);
+        $ackQueueName = $this->channelLib->getAckQueueName();
         // declare ack queue
         $this->channel->queue_declare($ackQueueName, false, true, false, false);
-        $this->channel->queue_bind($ackQueueName, self::EXCHANGE_NAME, $ackQueueName);
+        $this->channel->queue_bind($ackQueueName, $this->exchangeName, $ackQueueName);
         
         return $ackQueueName;
     }
@@ -91,7 +74,7 @@ class AmqpPdfGenPublisher
         $this->init();
         // routing_key_format: network_{networkId}.pdf_gen
         $task = $this->getNewTask($payloads, $season, $taskOptions);
-        $routingKey = $this->getRoutingKey($season, $task);
+        $routingKey = $this->channelLib->getRoutingKey($season, $task);
         $ackQueueName = $this->declareAckQueue($task, $routingKey);
         foreach ($payloads as $payload) {
             $payload['pdfGeneratorUrl'] = $this->pdfGeneratorUrl;
@@ -104,7 +87,7 @@ class AmqpPdfGenPublisher
                     'reply_to'      => $ackQueueName
                 )
             );
-            $this->channel->basic_publish($msg, self::EXCHANGE_NAME, $routingKey, true);
+            $this->channel->basic_publish($msg, $this->exchangeName, $routingKey, true);
         }
     }
         
@@ -112,7 +95,7 @@ class AmqpPdfGenPublisher
     {
         $payload = json_decode($amqpMsg->body);
         $taskRepo = $this->om->getRepository('CanalTPMttBundle:AmqpTask');
-        // $seasonRepo = $this->om->getRepository('CanalTPMttBundle:Season');
+
         $task = $taskRepo->find($payload->taskId);
         if (!empty($task)) {
             $ack = new AmqpAck();

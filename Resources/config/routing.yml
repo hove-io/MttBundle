@@ -162,3 +162,11 @@ canal_tp_mtt_WS_timetable:
     defaults: { _controller: CanalTPMttBundle:Webservice:getTimetableUrl}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+# AMQP Tasks
+canal_tp_mtt_cancel_amqp_task:
+    pattern: /amqp/networks/{externalNetworkId}/task/{taskId}/cancel/
+    defaults: { _controller: CanalTPMttBundle:AmqpTask:cancel}
+    requirements:
+        taskId: -?[0-9]*
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*

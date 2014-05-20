@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class AmqpTaskRepository extends EntityRepository
 {
-    public function getLastNetworkTasks($network, $limit = 3)
+    public function getLastNetworkTasks($network, $limit = 5)
     {
         $qb = $this->createQueryBuilder("amqpTask")
             ->select("amqpTask")

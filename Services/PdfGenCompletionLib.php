@@ -75,41 +75,65 @@ class PdfGenCompletionLib
         return $this->om->getRepository('CanalTPMttBundle:Season')->find($seasonId);
     }
     
+    private function commit($task)
+    {
+        $lineConfig = false;
+        $timetable = false;
+        try {
+            foreach ($task->getAmqpAcks() as $ack) {
+                if ($ack->getPayload()->generated == true) {
+                    $lineConfig = $this->getLineConfig($ack, $lineConfig);
+                    $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
+                    $stopPoint = $this->getStopPoint($ack, $timetable);
+                    if (empty($stopPoint)) {
+                        $stopPoint = new StopPoint();
+                        $stopPoint->setTimetable($timetable);
+                        $stopPoint->setExternalId($ack->getPayload()->timetableParams->externalStopPointId);
+                    }
+                    $stopPoint->setPdfHash($ack->getPayload()->generationResult->pdfHash);
+                    $pdfGenerationDate = new \DateTime();
+                    $pdfGenerationDate->setTimestamp($ack->getPayload()->generationResult->created);
+                    $stopPoint->setPdfGenerationDate($pdfGenerationDate);
+                    $this->om->persist($stopPoint);
+                    //TODO: call http://jira.canaltp.fr/browse/METH-202
+                    $this->mediaManager->saveStopPointTimetable(
+                        $timetable, 
+                        $stopPoint->getExternalId(), 
+                        $ack->getPayload()->generationResult->filepath
+                    );
+                }
+            }
+            $options = $task->getOptions();
+            if (!empty($options)) {
+                if (isset($options['publishSeasonOnComplete']) && !empty($options['publishSeasonOnComplete'])) {
+                    $season = $this->getSeason($task->getObjectId());
+                    $season->setPublished(true);
+                    $this->om->persist($season);
+                    echo "Publish season " . $season->getTitle();
+                }
+            }
+            $task->complete();
+        } catch (\Exception $e){
+            echo "ERROR during task Completion, task n°" . $task->getId() . "\n";
+            echo $e->getMessage() . "\n";
+        }
+    }
+    
+    // todo: remove generated _bak.pdf from mediamanager
+    private function rollback($task)
+    {
+        echo "Rollback";
+    }
+    
     public function completePdfGenTask($task)
     {
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
-        $lineConfig = false;
-        $timetable = false;
-        foreach ($task->getAmqpAcks() as $ack) {
-            if ($ack->getPayload()->generated == true) {
-                $lineConfig = $this->getLineConfig($ack, $lineConfig);
-                $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
-                $stopPoint = $this->getStopPoint($ack, $timetable);
-                if (empty($stopPoint)) {
-                    $stopPoint = new StopPoint();
-                    $stopPoint->setTimetable($timetable);
-                    $stopPoint->setExternalId($ack->getPayload()->timetableParams->externalStopPointId);
-                }
-                $stopPoint->setPdfHash($ack->getPayload()->generationResult->pdfHash);
-                $pdfGenerationDate = new \DateTime();
-                $pdfGenerationDate->setTimestamp($ack->getPayload()->generationResult->created);
-                $stopPoint->setPdfGenerationDate($pdfGenerationDate);
-                $this->om->persist($stopPoint);
-                //TODO: call http://jira.canaltp.fr/browse/METH-202
-                $this->mediaManager->saveStopPointTimetable($timetable, $stopPoint->getExternalId(), $ack->getPayload()->generationResult->filepath);
-            }
-        }
-        $options = $task->getOptions();
-        if (!empty($options)) {
-            if (isset($options['publishSeasonOnComplete']) && !empty($options['publishSeasonOnComplete'])) {
-                $season = $this->getSeason($task->getObjectId());
-                $season->setPublished(true);
-                $this->om->persist($season);
-                echo "Publish season " . $season->getTitle();
-            }
-        }
-        $task->complete();
         $task->setCompletedAt(new \DateTime("now"));
+        if ($task->isCanceled() == false) {
+            $this->commit($task);
+        } else {
+            $this->rollback($task);
+        }
         $this->om->persist($task);
         $this->om->flush();
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion realized\n";

@@ -30,7 +30,10 @@ class DefaultController extends AbstractController
         $networks = $mtt_user->getNetworks(
             $this->get('security.context')->getToken()->getUser()
         );
-        $currentNetwork = $externalNetworkId == null ? $networks[0] : $this->findNetwork($externalNetworkId, $networks);
+        $currentNetwork = 
+            $externalNetworkId == null ? 
+            $networks[0] : 
+            $this->findNetwork($externalNetworkId, $networks);
         // make currentNetwok a doctrine object
         $currentNetwork = $networkManager->find($currentNetwork);
         return $this->render(

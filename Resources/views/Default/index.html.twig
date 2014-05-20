@@ -29,6 +29,9 @@
                     <th>
                        {{'task.completedAt'|trans({}, 'default')}}
                     </th>
+                    <th>
+                       {{'global.actions'|trans}}
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -41,14 +44,24 @@
                         {{task.typeId|taskType|trans({}, 'default')}}
                     </td>
                     <td>
-                        {{task.amqpAcks|length}}/{{task.jobsPublished}}
+                        {% if task.isCompleted or task.isUnderProgress %}
+                            {{task.amqpAcks|length}}/{{task.jobsPublished}}
+                        {% endif %}
                     </td>
                     <td>
                         {{task.created|date('d/m/Y - H:i:s')}}
                     </td>
                     <td>
-                        {% if task.isCompleted %}
+                        {% if task.isCompleted or task.isCanceled %}
                             {{task.completedAt|date('d/m/Y - H:i:s')}}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if task.isUnderProgress %}
+                            <a class="btn btn-danger" href="{{ path('canal_tp_mtt_cancel_amqp_task', {'taskId': task.id, 'externalNetworkId': externalNetworkId}) }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                {{'global.cancel'|trans}}
+                            </a>
                         {% endif %}
                     </td>
                 </tr>
