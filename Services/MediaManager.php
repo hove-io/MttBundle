@@ -121,10 +121,12 @@ class MediaManager
 
     public function copy(Block $origBlock, Block $destBlock, $destTimetable)
     {
-        $origImgMediaPath = $this->findMediaPathByTimeTable($origBlock->getTimetable(), ImgHandler::ID_LINE_MAP);
-        copy($origImgMediaPath, $origImgMediaPath . '.bak');
-        $destMedia = $this->saveByTimetable($destTimetable, new File($origImgMediaPath), ImgHandler::ID_LINE_MAP);
-        $destBlock->setContent($this->mediaDataCollector->getUrlByMedia($destMedia));
-        rename($origImgMediaPath . '.bak', $origImgMediaPath);
+        $origImgMediaPath = $this->findMediaPathByTimeTable($origBlock->getTimetable(), $origBlock->getDomId());
+        if (!empty($origImgMediaPath)) {
+            copy($origImgMediaPath, $origImgMediaPath . '.bak');
+            $destMedia = $this->saveByTimetable($destTimetable, new File($origImgMediaPath), $origBlock->getDomId());
+            $destBlock->setContent($this->mediaDataCollector->getUrlByMedia($destMedia));
+            rename($origImgMediaPath . '.bak', $origImgMediaPath);
+        }
     }
 }
