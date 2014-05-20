@@ -2,6 +2,7 @@
 
 {% block subheader %}
     <div class="col-md-offset-3 col-md-9">
+        
         {% if seasons|length == 0 %}
             {{'season.please_create_before_continue'|trans({}, 'default')}}
             <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': externalNetworkId}) }}">
@@ -35,13 +36,13 @@
 
         {% if lineConfig is empty and is_granted('BUSINESS_CHOOSE_LAYOUT') %}
         -
-            <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':selectedSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}" class="btn btn-default">
+            <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':selectedSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}" class="btn btn-default{% if selectedSeason.locked %} disabled{% endif %}">
                 {{'line.choose_layout'|trans({}, 'default')}}
             </a>
         {% elseif (lineConfig is not empty) %}
         -
             <div class="btn-group">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+              <button type="button" class="btn btn-primary dropdown-toggle{% if selectedSeason.locked %} disabled{% endif %}" data-toggle="dropdown">
                 {{'stop_point.action.header'|trans({}, 'default')}} <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
@@ -102,9 +103,9 @@
                     </a>
                     {% if lineConfig is not empty %}
                     {% if (is_granted('BUSINESS_EDIT_LAYOUT')) %}
-                    <a  class="btn btn-default" href="{{ path('canal_tp_mtt_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id, 'seasonId':selectedSeason.id }) }}">
-                        <span class="glyphicon glyphicon-edit"></span> {{'stop_point.action.edit'|trans({}, 'default')}}
-                    </a>
+                        <a  class="btn btn-default{% if selectedSeason.locked %} disabled{% endif %}" href="{{ path('canal_tp_mtt_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id, 'seasonId':selectedSeason.id }) }}">
+                            <span class="glyphicon glyphicon-edit"></span> {{'stop_point.action.edit'|trans({}, 'default')}}
+                        </a>
                     {% endif %}
                     <a class="btn btn-default" href="{{ path('canal_tp_mtt_timetable_view',  {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id , 'seasonId':selectedSeason.id }) }}">
                         <span class="glyphicon glyphicon-eye-open"></span> {{'global.preview'|trans}}

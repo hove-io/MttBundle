@@ -13,4 +13,18 @@ abstract class AbstractController extends Controller
             throw new AccessDeniedException();
         }
     }
+    
+    protected function addFlashIfSeasonLocked($season)
+    {
+        if ($season->getLocked()) {
+            $this->get('session')->getFlashBag()->add(
+                'warning',
+                $this->get('translator')->trans(
+                    'season.locked',
+                    array(),
+                    'default'
+                )
+            );
+        }
+    }
 }

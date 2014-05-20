@@ -39,12 +39,16 @@
                     {{ macros.display_bool(season.published) }}
                 </td>
                 <td class="action">
+                    {% set disabledBtn = season.locked ? " disabled" : "" %}
+                     {% if season.locked %}
+                        <div>{{'season.locked'|trans({}, 'default')}}</div>
+                    {% endif %}
                     <div class="btn-group">
-                        <a  class="btn btn-default" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'externalNetworkId': externalNetworkId, 'season_id': season.id }) }}">
+                        <a class="btn btn-default{{disabledBtn}}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_season_edit', {'externalNetworkId': externalNetworkId, 'season_id': season.id }) }}">
                             <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
                         </a>
                         {% if (season.published) %}
-                            <a class="btn btn-default" href="{{ path(
+                            <a class="btn btn-default{{disabledBtn}}" href="{{ path(
                                 'canal_tp_mtt_season_unpublish',
                                 {
                                     'externalNetworkId': externalNetworkId,
@@ -54,7 +58,7 @@
                                 <span class="glyphicon glyphicon-eye-close"></span> {{'global.unpublish'|trans({}, 'messages')}}
                             </a>
                         {% else %}
-                            <a href="" class="btn btn-default" data-toggle="modal" data-target="#season-publication-modal-{{season.id}}">
+                            <a href="" class="btn btn-default{{disabledBtn}}" data-toggle="modal" data-target="#season-publication-modal-{{season.id}}">
                                 <span class="glyphicon glyphicon-eye-open"></span> {{'global.publish'|trans({}, 'messages')}}
                             </a>
                             <div id="season-publication-modal-{{season.id}}" class="modal fade">
@@ -92,7 +96,7 @@
                                 </div><!-- /.modal-dialog -->
                             </div><!-- /.modal-dialog -->
                         {% endif %}
-                        <a class="btn btn-default" href="{{ path(
+                        <a class="btn btn-default{{disabledBtn}}" href="{{ path(
                             'canal_tp_mtt_season_generate_pdfs',
                             {
                                 'externalNetworkId': externalNetworkId,
@@ -101,7 +105,7 @@
                         ) }}">
                             <span class="glyphicon glyphicon-file"></span> {{'season.generate_pdf'|trans({}, 'default')}}
                         </a>
-                        <a onClick="javascript:return confirm('{{'global.confirm_season_delete'|trans({}, 'messages')}}')" class="btn btn-danger" href="{{ path('canal_tp_mtt_season_delete', {'externalNetworkId': externalNetworkId, 'seasonId': season.id }) }}">
+                        <a onClick="javascript:return confirm('{{'global.confirm_season_delete'|trans({}, 'messages')}}')" class="btn btn-danger{{disabledBtn}}" href="{{ path('canal_tp_mtt_season_delete', {'externalNetworkId': externalNetworkId, 'seasonId': season.id }) }}">
                             <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
                         </a>
                     </div>

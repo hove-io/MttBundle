@@ -36,7 +36,7 @@
                     </a>
                 </li>
                 {% if stopPoint and is_granted('BUSINESS_GENERATE_PDF') %}
-                <li>
+                <li{% if season.locked %} class="disabled"{% endif %}>
                     <a href="{{ path('canal_tp_mtt_timetable_generate_pdf', {'timetableId': timetable.id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
                         <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
                     </a>

@@ -19,6 +19,8 @@ CanalTP\MttBundle\Entity\Season:
             column: end_date
         published:
             type: boolean
+        locked:
+            type: boolean
         created:
             type: datetime
             gedmo:

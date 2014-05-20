@@ -10,6 +10,8 @@ class StopPointController extends AbstractController
         $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
         $seasons = $this->get('canal_tp_mtt.season_manager')->findAllByNetworkId($network->getExternalId());
         $selectedSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
+        $this->addFlashIfSeasonLocked($selectedSeason);
+        
         $routes = $navitia->getStopPoints(
             $network->getExternalCoverageId(), 
             $externalNetworkId, 

@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use CanalTP\MttBundle\Form\EventListener\SeasonLockedSubscriber;
+
 class SeasonType extends AbstractType
 {
     private $seasons = null;
@@ -62,6 +64,7 @@ class SeasonType extends AbstractType
             );
         }
         $builder->setAction($options['action']);
+        $builder->addEventSubscriber(new SeasonLockedSubscriber());
     }
 
     /**

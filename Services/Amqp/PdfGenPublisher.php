@@ -69,6 +69,12 @@ class PdfGenPublisher
         return $ackQueueName;
     }
     
+    private function lockSeason($season)
+    {
+        $season->setLocked(true);
+        $this->om->flush();
+    }
+    
     public function publish($payloads, $season, $taskOptions = array())
     {
         $this->init();
@@ -89,6 +95,7 @@ class PdfGenPublisher
             );
             $this->channel->basic_publish($msg, $this->exchangeName, $routingKey, true);
         }
+        $this->lockSeason($season);
     }
         
     public function addAckToTask($amqpMsg)

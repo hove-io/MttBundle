@@ -104,11 +104,11 @@ class PdfGenCompletionLib
                 }
             }
             $options = $task->getOptions();
+            
             if (!empty($options)) {
                 if (isset($options['publishSeasonOnComplete']) && !empty($options['publishSeasonOnComplete'])) {
                     $season = $this->getSeason($task->getObjectId());
                     $season->setPublished(true);
-                    $this->om->persist($season);
                     echo "Publish season " . $season->getTitle();
                 }
             }
@@ -129,12 +129,15 @@ class PdfGenCompletionLib
     {
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
         $task->setCompletedAt(new \DateTime("now"));
-        if ($task->isCanceled() == false) {
-            $this->commit($task);
-        } else {
+        if ($task->isCanceled()) {
             $this->rollback($task);
+        } else {
+            $this->commit($task);
         }
-        $this->om->persist($task);
+        $season = $this->getSeason($task->getObjectId());
+        echo "Unlock Season: " . $season->getTitle() . "\n";
+        $season->setLocked(false);
+        $this->om->persist($season);
         $this->om->flush();
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion realized\n";
     }

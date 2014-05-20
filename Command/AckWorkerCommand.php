@@ -10,26 +10,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use CanalTP\MttBundle\Services\AmqpPdfGenPublisher;
+use CanalTP\MttBundle\Services\Amqp\PdfGenPublisher;
+use CanalTP\MttBundle\Services\Amqp\Channel;
 
 class AckWorkerCommand extends ContainerAwareCommand
 {
     private $channel = null;
+    private $channelLib = null;
     private $connection = null;
     private $amqpPdfGenPublisher = null;
 
     private function initChannel()
     {
-        $amqpServerHost = $this->getContainer()->getParameter('canal_tp_mtt.amqp_server_host');
-        $port = $this->getContainer()->getParameter('canal_tp_mtt.amqp_server_port');
-        $user = $this->getContainer()->getParameter('canal_tp_mtt.amqp_server_user');
-        $pass = $this->getContainer()->getParameter('canal_tp_mtt.amqp_server_pass');
-        $vhost = $this->getContainer()->getParameter('canal_tp_mtt.amqp_server_vhost');
-
-        $this->connection = new AMQPConnection($amqpServerHost, $port, $user, $pass, $vhost);
-        $this->channel = $this->connection->channel();
+        $this->channelLib = $this->getContainer()->get('canal_tp_mtt.amqp_channel');
+        $this->channel = $this->channelLib->getChannel();
         $this->channel->basic_qos(null, 1, null);
-        $this->channel->exchange_declare(AmqpPdfGenPublisher::EXCHANGE_NAME, 'topic', false, true, false);
     }
     
     public function process_message($msg)
@@ -75,9 +70,8 @@ class AckWorkerCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->initChannel($input);
+        $this->initChannel();
         $this->runProcess($input->getArgument('ack_queue_name'));
-        $this->channel->close();
-        $this->connection->close();
+        $this->channelLib->close();
     }
 }

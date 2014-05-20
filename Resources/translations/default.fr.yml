@@ -67,6 +67,7 @@ frequency:
         add_btn: Ajouter un cadre
 
 season:
+    locked: Cette saison est verrouillée. Aucune action ne peut-être réalisée.
     please_create_before_continue: Vous devez créer une saison pour commencer à éditer les fiches horaires.
     create: Créer une saison
     title: Nom de la saison

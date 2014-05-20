@@ -31,6 +31,11 @@ class Season extends AbstractEntity
      * @var Object
      */
     private $published = false;
+    
+    /**
+     * @var Object
+     */
+    private $locked = false;
 
     /**
      * @var Object
@@ -208,6 +213,28 @@ class Season extends AbstractEntity
     public function setPublished($published)
     {
         $this->published = $published;
+
+        return ($this);
+    }
+
+    /**
+     * Get locked
+     *
+     * @return Network
+     */
+    public function getLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Set locked
+     *
+     * @return Season
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
 
         return ($this);
     }
