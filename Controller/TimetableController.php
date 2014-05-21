@@ -120,7 +120,9 @@ class TimetableController extends AbstractController
             $network->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
-        $displayMenu = ($this->get('security.context')->getToken()->getUser() != 'anon.' || $this->get('request')->get('timetableOnly', false) != false);
+        $displayMenu = $this->get('security.context')->getToken()->getUser() != 'anon.'; 
+        if ($displayMenu)
+            $displayMenu = $this->get('request')->get('timetableOnly', false) != true;
 
         return $this->renderLayout($timetable, $externalStopPointId, false, $displayMenu);
     }

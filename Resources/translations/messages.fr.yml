@@ -37,6 +37,7 @@ global:
     confirm_season_delete: Êtes-vous sûr de vouloir supprimer cette saison? Toutes les données liées y compris les pdf seront perdus.
 
 error:
+    element_locked: Cet élément est verrouillé et ne peut être modifié.
     start_end_time_incoherent: L'heure de début et l'heure de fin ne sont pas cohérentes
     entities_overlapping: Les éléments n°%firstElement% et n°%secondElement% se chevauchent
     navitia_network_id: "%string% n'est pas conforme au format navitia."

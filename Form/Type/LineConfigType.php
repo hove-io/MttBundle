@@ -6,6 +6,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+use CanalTP\MttBundle\Form\EventListener\SeasonLockedSubscriber;
+
 class LineConfigType extends AbstractType
 {
     private $layouts;
@@ -33,6 +35,7 @@ class LineConfigType extends AbstractType
                 )
             )
         );
+        $builder->addEventSubscriber(new SeasonLockedSubscriber());
     }
 
     /**

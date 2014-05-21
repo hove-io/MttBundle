@@ -65,19 +65,26 @@ class SeasonController extends AbstractController
         $amqpPdfGenPublisher = $this->get('canal_tp_mtt.amqp_pdf_gen_publisher');
         
         $season = $seasonManager->find($seasonId);
-        $payloads = $pdfPayloadGenerator->generate($season);
-        $amqpPdfGenPublisher->publish($payloads, $season, array('publishSeasonOnComplete' => $publishOnComplete));
-        
-        $this->get('session')->getFlashBag()->add(
-            'success',
-            $this->get('translator')->trans(
-                'season.pdf_generation_task_has_started',
-                array(
-                    '%count_jobs%' => count($payloads)
-                ),
-                'default'
-            )
-        );
+        if ($this->addFlashIfSeasonLocked($season) == false) {
+            $payloads = $pdfPayloadGenerator->generate($season);
+            $amqpPdfGenPublisher->publish(
+                $payloads, 
+                $season, 
+                array('publishSeasonOnComplete' => $publishOnComplete)
+            );
+            
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'season.pdf_generation_task_has_started',
+                    array(
+                        '%count_jobs%' => count($payloads)
+                    ),
+                    'default'
+                )
+            );
+        }
+
         return $this->redirect(
             $this->generateUrl(
                 'canal_tp_mtt_season_list',

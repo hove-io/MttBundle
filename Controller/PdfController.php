@@ -14,9 +14,20 @@ class PdfController extends AbstractController
             $network->getExternalCoverageId()
         );
         $pdfManager = $this->get('canal_tp_mtt.pdf_manager');
-
-        return $this->redirect(
-            $pdfManager->getStoppointPdfUrl($timetable, $externalStopPointId)
-        );
+        if ($timetable->isLocked()) {
+            $url = $this->generateUrl(
+                'canal_tp_mtt_timetable_view',
+                array(
+                    'externalNetworkId'     => $externalNetworkId,
+                    'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
+                    'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
+                    'externalRouteId'       => $timetable->getExternalRouteId(),
+                    'externalStopPointId'   => $externalStopPointId
+                )
+            );
+        } else {
+            $url = $pdfManager->getStoppointPdfUrl($timetable, $externalStopPointId);
+        }
+        return $this->redirect($url);
     }
 }

@@ -16,7 +16,7 @@ abstract class AbstractController extends Controller
     
     protected function addFlashIfSeasonLocked($season)
     {
-        if ($season->getLocked()) {
+        if ($season->isLocked()) {
             $this->get('session')->getFlashBag()->add(
                 'warning',
                 $this->get('translator')->trans(

@@ -238,4 +238,10 @@ class Season extends AbstractEntity
 
         return ($this);
     }
+    
+    // 
+    public function isLocked()
+    {
+        return $this->getLocked();
+    }
 }
