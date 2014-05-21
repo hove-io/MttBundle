@@ -124,7 +124,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     {
         $network = $this->createNetwork($em);
 
-        $user = $em->getRepository('SamEcoreUserManagerBundle:User')->findOneByUsernameCanonical('mtt');
+        $user = $em->getRepository('CanalTPSamEcoreUserManagerBundle:User')->findOneByUsernameCanonical('mtt');
         //networks
         $network->addUser($user);
         $network2 = $this->createNetwork($em, 'network:Agglobus');
