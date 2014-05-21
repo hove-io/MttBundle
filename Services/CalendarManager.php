@@ -79,13 +79,19 @@ class CalendarManager
         return $sortedDateTimes;
     }
 
+    public function isInsideSeason($date, $season)
+    {
+        $dateTime = new \DateTime($date);
+        return $dateTime >= $season->getStartDate() && $dateTime <= $season->getEndDate();
+    }
+    
     /**
      * gather notes and ensure these notes are unique. (based on Navitia ID)
      */
-    private function computeNotes($notes, $notesToAdd)
+    private function computeNotes($notes, $notesToAdd, $season)
     {
         foreach ($notesToAdd as $note) {
-            if (!in_array($note->id, $this->computedNotesId)) {
+            if (!in_array($note->id, $this->computedNotesId) && $this->isInsideSeason($note->date, $season)) {
                 $this->computedNotesId[] = $note->id;
                 $notes[] = $note;
             }
@@ -265,7 +271,8 @@ class CalendarManager
                         array_merge(
                             $stopSchedulesData->notes,
                             $this->generateExceptionsValues($stopSchedulesData->exceptions)
-                        )
+                        ),
+                        $timetable->getLineConfig()->getSeason()
                     );
                 }
             }

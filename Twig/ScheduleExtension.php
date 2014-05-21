@@ -13,6 +13,7 @@ class ScheduleExtension extends \Twig_Extension
                 return $index;
             }
         }
+        return false;
     }
 
     public function getFilters()
@@ -40,7 +41,7 @@ class ScheduleExtension extends \Twig_Extension
 
     public function footnoteFilter($index, $mode = 'letter', $colors = false)
     {
-        return chr($this->ascii_start + $index);
+        return $index === false ? '' : chr($this->ascii_start + $index);
     }
 
     public function calendarMax($calendar, $min = 11)
