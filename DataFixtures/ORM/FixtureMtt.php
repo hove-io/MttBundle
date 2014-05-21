@@ -3,6 +3,7 @@
 namespace CanalTP\MttBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 
 use CanalTP\SamBundle\Tests\DataFixtures\ORM\Fixture as SamBaseFixture;
 use CanalTP\MttBundle\Entity\Network;
@@ -15,6 +16,7 @@ class FixturesMtt extends SamBaseFixture
 
     const ROLE_USER_MTT  = 'ROLE_USER_MTT';
     const ROLE_ADMIN_MTT = 'ROLE_ADMIN_MTT';
+    const ROLE_OBS_MTT = 'ROLE_OBS_MTT';
 
     protected $users = array(
         'mtt' => array(
@@ -25,29 +27,57 @@ class FixturesMtt extends SamBaseFixture
             'email'     => 'mtt@canaltp.fr',
             'password'  => 'mtt',
             'roles'     => array('role-admin-mtt', 'role-user-mtt')
+        ),
+        array(
+            'id'        => null,
+            'username'  => 'observateur TT',
+            'firstname' => 'observateur',
+            'lastname'  => 'TT',
+            'email'     => 'obs-mtt@canaltp.fr',
+            'password'  => 'mtt',
+            'roles'     => array('role-obs-mtt', 'role-obs-sam')
+        ),
+        array(
+            'id'        => null,
+            'username'  => 'utilisateur TT',
+            'firstname' => 'utilisateur',
+            'lastname'  => 'TT',
+            'email'     => 'user-mtt@canaltp.fr',
+            'password'  => 'mtt',
+            'roles'     => array('role-user-mtt', 'role-user-sam')
+        ),
+        array(
+            'id'        => null,
+            'username'  => 'adminCTP TT',
+            'firstname' => 'adminCTP',
+            'lastname'  => 'TT',
+            'email'     => 'admin-mtt@canaltp.fr',
+            'password'  => 'mtt',
+            'roles'     => array('role-admin-mtt', 'role-super-admin-sam')
         )
     );
-
-    protected $userPermissions = array(
-        'BUSINESS_VIEW_NAVITIA_LOG',
-        'BUSINESS_CHOOSE_LAYOUT',
-        'BUSINESS_ASSIGN_NETWORK_LAYOUT',
-        'BUSINESS_EDIT_LAYOUT',
-        'BUSINESS_MANAGE_SEASON',
-        'BUSINESS_MANAGE_DISTRIBUTION_LIST',
-        'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF',
-        'BUSINESS_GENERATE_PDF'
-    );
-
-    protected $adminPermissions = array(
-        'BUSINESS_VIEW_NAVITIA_LOG',
-        'BUSINESS_CHOOSE_LAYOUT',
-        'BUSINESS_ASSIGN_NETWORK_LAYOUT',
-        'BUSINESS_EDIT_LAYOUT',
-        'BUSINESS_MANAGE_SEASON',
-        'BUSINESS_MANAGE_DISTRIBUTION_LIST',
-        'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF',
-        'BUSINESS_GENERATE_PDF'
+    
+    protected $roles = array(
+        'role-user-mtt' => array(
+            'BUSINESS_VIEW_NAVITIA_LOG',
+            'BUSINESS_CHOOSE_LAYOUT',
+            'BUSINESS_EDIT_LAYOUT',
+            'BUSINESS_MANAGE_SEASON',
+            'BUSINESS_MANAGE_DISTRIBUTION_LIST',
+            'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF',
+            'BUSINESS_GENERATE_PDF'
+        ),
+        'role-admin-mtt' => array(
+            'BUSINESS_VIEW_NAVITIA_LOG',
+            'BUSINESS_CHOOSE_LAYOUT',
+            'BUSINESS_ASSIGN_NETWORK_LAYOUT',
+            'BUSINESS_EDIT_LAYOUT',
+            'BUSINESS_MANAGE_SEASON',
+            'BUSINESS_MANAGE_DISTRIBUTION_LIST',
+            'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF',
+            'BUSINESS_GENERATE_PDF'
+        ),
+        'role-obs-mtt' => array(),
     );
 
     private function createLayout($layoutProperties, $networks = array())
@@ -118,8 +148,13 @@ class FixturesMtt extends SamBaseFixture
     {
         $this->em = $em;
         $app = $this->createApplication('Mtt', '/mtt');
-        $userRole    = $this->createApplicationRole('User Mtt',  self::ROLE_USER_MTT,  $app, $this->userPermissions);
-        $addminRole  = $this->createApplicationRole('Admin Mtt', self::ROLE_ADMIN_MTT, $app, $this->adminPermissions);
+        
+        $userRole    = $this->createApplicationRole('User Mtt',  self::ROLE_USER_MTT,  $app, $this->roles['role-user-mtt']);
+        $this->addReference('role-user-mtt', $userRole);
+        $addminRole  = $this->createApplicationRole('Admin Mtt', self::ROLE_ADMIN_MTT, $app, $this->roles['role-admin-mtt']);
+        $this->addReference('role-admin-mtt', $addminRole);
+        $obsRole  = $this->createApplicationRole('Observateur Mtt', self::ROLE_OBS_MTT, $app, $this->roles['role-obs-mtt']);
+        $this->addReference('role-obs-mtt', $obsRole);
         $network1 = $this->createNetwork('network:Filbleu', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
         $network2 = $this->createNetwork('network:Agglobus', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
         $network3 = $this->createNetwork('network:SNCF', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
@@ -128,11 +163,10 @@ class FixturesMtt extends SamBaseFixture
 
         //associer les utilisateurs avec l'application
         foreach ($this->users as &$userData) {
-            $isAdmin = in_array(self::ROLE_ADMIN_MTT, $userData['roles']);
+//            $isAdmin = in_array(self::ROLE_ADMIN_MTT, $userData['roles']);
 
             $userEntity = $this->createUser(
-                $userData,
-                (($isAdmin) ? array($addminRole) : array($userRole))
+                $userData
             );
             $userData['id'] = $userEntity->getId();
 
@@ -151,5 +185,27 @@ class FixturesMtt extends SamBaseFixture
     public function getOrder()
     {
         return 3;
+    }
+    
+    /**
+     * @override
+     */
+    protected function createUser($data, array $roles = array())
+    {
+        $user = new User();
+        $user->setUsername($data['username']);
+        $user->setFirstName($data['firstname']);
+        $user->setLastName($data['lastname']);
+        $user->setEnabled(true);
+        $user->setEmail($data['email']);
+        $user->setPlainPassword($data['password']);
+        foreach ($data['roles'] as $roleRef) {
+            $user->addUserRole($this->getReference($roleRef));
+        }
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $user;
     }
 }
