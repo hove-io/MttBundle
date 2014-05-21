@@ -96,7 +96,7 @@ abstract class AbstractControllerTest extends WebTestCase
     {
         $this->runConsole("doctrine:schema:create");
         $this->runConsole("doctrine:fixtures:load");
-        $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures"));
+        $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures", '--append' => null));
 
     }
 
