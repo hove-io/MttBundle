@@ -188,6 +188,15 @@ class CalendarManager
         return $additionalInformations;
     }
 
+    private function parsePeriods($periods)
+    {
+        foreach ($periods as $period) {
+            $period->begin = new \DateTime($period->begin);
+            $period->end = new \DateTime($period->end);
+        }
+        return $periods;
+    }
+    
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template
@@ -221,6 +230,7 @@ class CalendarManager
                 $this->generateExceptionsValues($stopSchedulesData->exceptions)
             );
             $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
+            $calendar->active_periods = $this->parsePeriods($calendar->active_periods);
             $calendarsSorted[$calendar->id] = $calendar;
         }
 

@@ -86,10 +86,10 @@
                     <div class="panel-body">
                             {% for period in calendar.active_periods %}
                                 <div>
-                                    <label class="bold">{{'global.startDate'|trans({}, 'messages')}}</label>: {{ period.begin }}
+                                    <label class="bold">{{'global.startDate'|trans({}, 'messages')}}</label>: {{ period.begin|date('d/m/Y') }}
                                 </div>
                                 <div>
-                                    <label class="bold">{{'global.endDate'|trans({}, 'messages')}}</label>: {{ period.end }}
+                                    <label class="bold">{{'global.endDate'|trans({}, 'messages')}}</label>: {{ period.end|date('d/m/Y') }}
                                 </div>
                             {% endfor %}
                         <hr/>
