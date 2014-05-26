@@ -24,19 +24,19 @@ class LineControllerTest extends AbstractControllerTest
 
     public function testChoiceLayoutForm()
     {
-        $crawler = $this->doRequestRoute($this->getFormRoute('123'));
+        $crawler = $this->doRequestRoute($this->getFormRoute());
 
         // Submit empty form
         $form = $crawler->selectButton('Enregistrer')->form();
         $crawler = $this->client->submit($form);
 
-        // TODO: Check why we have redirection ?
-        // Check if when we submit form we are not redirected
+        // Check if when we submit form we are not redirected ie there is an error
         $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
 
         $crawler = $this->doRequestRoute($this->getFormRoute());
         // Submit form
         $form = $crawler->selectButton('Enregistrer')->form();
+        $form['line_config[layout]'] = Fixture::EXTERNAL_LAYOUT_ID;
         $crawler = $this->client->submit($form);
 
         // Check if when we submit form we are redirected

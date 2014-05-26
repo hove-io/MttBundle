@@ -11,13 +11,14 @@ class SeasonLockedSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
-        return array(FormEvents::SUBMIT => 'submit');
+        return array(FormEvents::POST_SET_DATA => 'submit');
     }
 
     public function submit(FormEvent $event)
     {
         $entity = $event->getData();
-        if ($entity->isLocked()) {
+
+        if (!empty($entity) && $entity->isLocked()) {
             $event->getForm()->addError(new FormError('error.element_locked'));
         }
     }
