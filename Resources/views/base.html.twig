@@ -2,10 +2,10 @@
 
 {% block stylesheets %}
     {% stylesheets 'css/bootstrap.css'
-                    '../src/CanalTP/SamBundle/Resources/public/css/*'
-                    '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/main.css'
+                    'bundles/canaltpsam/css/*'
+                    'bundles/canaltpmtt/css/main.css'
                     '../web/components/bootstrap-datepicker/css/datepicker3.css'
-                   filter='cssrewrite' output='css/full.css' %}
+                   filter='cssrewrite' output='css/full_mtt.css' %}
         <link rel="stylesheet" href="{{ asset_url }}?{{ assets_version }}" />
     {% endstylesheets %}
 {% endblock %}
@@ -14,17 +14,13 @@
     {% include 'CanalTPMttBundle::config.js.html.twig' %}
 {% endblock %}
 
-{#
-A partir de désormais et de dorénavant, le menu est rendu par SAM
-mais de plus tard
-#}
 {% block navbar %}
     {% set menuItem = knp_menu_get('CanalTPMttBundle:Builder:mttMenu', [], {'currentNetwork':externalNetworkId }) %}
     {{ knp_menu_render(menuItem, {'style': 'navbar', 'currentClass': 'active'}) }}
 {% endblock %}
 
-{% block title %}MTT{% endblock %}
-{% block navbar_brand %}MTT{% endblock %}
+{% block title %}TIMETABLE{% endblock %}
+{% block navbar_brand %}TIMETABLE{% endblock %}
 
 {% block root_breadcrumb %}
     <ol class="breadcrumb">
