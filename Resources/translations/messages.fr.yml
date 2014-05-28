@@ -1,5 +1,5 @@
 global:
-    actions: Action(s)
+    actions: Actions
     edit: Éditer
     preview: Prévisualiser
     validate: Valider
@@ -9,10 +9,10 @@ global:
     cancel: Annuler
     status: Statut
     generatePdf: Générer le PDF
-    remove: Enlever
+    remove: Retirer
     add: Ajouter
     publish: Publier
-    unpublish: dépublier
+    unpublish: Dépublier
     line_label: Ligne
     downloadPdf: Télécharger le PDF
     network: Réseau
@@ -42,7 +42,7 @@ error:
     entities_overlapping: Les éléments n°%firstElement% et n°%secondElement% se chevauchent
     navitia_network_id: "%string% n'est pas conforme au format navitia."
     greater_than_field: Ce champ doit être supérieur au champ %field%.
-    seasons_overlapping: Cette saison n'a pu être sauvée car elle entre en conflit avec la saison "%saison_title%"
+    seasons_overlapping: Cette saison n'a pu être sauvegardée car elle entre en conflit avec la saison "%saison_title%"
 
 help:
     edit_block: Cliquer pour éditer ce bloc
@@ -62,9 +62,9 @@ calendar:
 
 menu:
     networks: Réseaux
-    seasons_manage: Gestion des Saisons
-    networks_manage: Gestion des Réseaux
-    layouts_manage: Gestion des Layouts
+    seasons_manage: Gestion des saisons
+    networks_manage: Gestion des réseaux
+    layouts_manage: Gestion des gabarits
 
 network:
     error:

@@ -2,14 +2,14 @@ controller:
     default:
         network_not_found_4_user: Nous n'avons pas trouvé ce réseau dans la liste à laquelle vous avez accès.
         navigation:
-            no_networks: Veuillez demander à l'administrateur de vous donner accès à un Réseau
+            no_networks: Veuillez demander à l'administrateur de vous donner accès à un réseau
 services:
     navitia:
-        no_lines_for_network: Aucune ligne trouvée pour le réseau %network%
-        no_data_for_this_route: Aucune information pour cette route %RouteId%
+        no_lines_for_network: Aucune ligne n'a été trouvée pour le réseau %network%
+        no_data_for_this_route: Il n'y a aucune information pour la route %RouteId%
     calendar_manager:
         calendar_in_block_not_found: Le calendrier ayant pour id %calendarId% associé à un bloc ne peut être trouvé à cet arrêt.
 
 webservice:
-    no_season_found: Aucune saison trouvée pour la date %date%.
-    no_timetable_found: Pas de fiche horaire pour cet arrêt à cette date %date%.
+    no_season_found: Aucune saison n'a été trouvée pour la date %date%.
+    no_timetable_found: Il n'y a pas de fiche horaire pour cet arrêt à cette date %date%.
