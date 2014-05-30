@@ -44,7 +44,7 @@ textarea {
     width:100%;
 }
 .list-group.sortable.empty-list span.help-block{
-    margin-top: 50px;
+    padding: 50px 10px;
 }
 .list-group.sortable.empty-list{
     border: 5px dashed #777;

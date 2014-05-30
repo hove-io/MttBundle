@@ -41,6 +41,13 @@ canal_tp_mtt_season_generate_pdfs:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #StopPoint
+canal_tp_mtt_stop_point_list_defaults:
+    pattern: /networks/{externalNetworkId}/list
+    defaults: { _controller: CanalTPMttBundle:StopPoint:list, seasonId: null }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+
 canal_tp_mtt_stop_point_list:
     pattern: /networks/{externalNetworkId}/line/{line_id}/route/{externalRouteId}/list/seasons/{seasonId}
     defaults: { _controller: CanalTPMttBundle:StopPoint:list, seasonId: null }

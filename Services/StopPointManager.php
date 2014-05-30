@@ -54,7 +54,7 @@ class StopPointManager
             $this->stopPoint->getExternalId()
         );
 
-        if ($pois->pagination->total_result)
+        if (isset($pois->pagination) && $pois->pagination->total_result)
             $this->stopPoint->setPois($pois->places_nearby);
     }
 

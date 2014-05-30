@@ -69,6 +69,13 @@ class Navitia
         return $response->routes;
     }
 
+    public function getFirstLineAndRouteOfNetwork($externalCoverageId, $externalNetworkId)
+    {
+        $linesResponse =  $this->navitia_sam->getLines($externalCoverageId, $externalNetworkId);
+        $routes =  $this->getLineRoutes($externalCoverageId, $externalNetworkId, $linesResponse->lines[0]->id);
+        return array($linesResponse->lines[0]->id, $routes[0]->id);
+    }
+    
     /**
      * Get route StopPoints
      *

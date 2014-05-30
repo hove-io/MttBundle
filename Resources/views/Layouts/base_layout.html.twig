@@ -3,9 +3,9 @@
 {% block stylesheets %}
     {% stylesheets  'css/bootstrap.css'
                     'bundles/canaltpsam/css/*'
-                    '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/main.css'
-                    '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/layouts.css'
-                    '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/layouts/*'
+                    'bundles/canaltpmtt/css/main.css'
+                    'bundles/canaltpmtt/css/layouts.css'
+                    'bundles/canaltpmtt/css/layouts/*'
 
                    filter='cssrewrite' output='css/full_mtt_layouts.css' %}
         <link rel="stylesheet" media="all" href="{{ asset_url }}" />
@@ -44,9 +44,9 @@
                 {% endif %}
             </ul>
             {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': season.id})) }}
-            <div class="toggle-button">
-                <span class="glyphicon glyphicon-transfer"></span>
-            </div>
+        </div>
+        <div class="toggle-button">
+            <span class="glyphicon glyphicon-transfer"></span>
         </div>
     </div>
     {% endif %}

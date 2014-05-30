@@ -4,10 +4,6 @@
 
 {% block main_content %}
     <h1>{{ 'welcome'|trans({}, 'default') }}</h1>
-    <h4>{{ network.externalId }}</h4>
-    <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': network.externalId}) }}">
-        {{'season.list'|trans({}, 'default')}}
-    </a>
     <hr/>
     {% if tasks is not empty %}
         <h3>{{'task.under_progress'|trans({}, 'default')}}</h3>

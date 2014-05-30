@@ -46,6 +46,7 @@ distribution:
     generation_in_progress: Génération en cours
     stops_included: Arrêts inclus dans la liste de placardage
     stops_excluded: Arrêts exclus de la liste de placardage
+    manage_order: Gérer l'ordre
     reset_order: Trier dans l'ordre de desserte
     save_order: Enregistrer l'ordre
     confirm_order_saved: L'ordre de la liste a bien été enregistré

@@ -1,5 +1,8 @@
 parameters:
     mtt.permissions:
+        BUSINESS_EDIT_PERIMETERS:
+            label: Éditer les réseaux
+            description: Permet d'éditer les réseaux (coverageId, networkId, token)
         BUSINESS_ASSIGN_NETWORK_LAYOUT:
             label: Assigner un modèle à un réseau
             description: Permet dans l'application d'indiquer quels templates sont utilisables pour chaque réseau

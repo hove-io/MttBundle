@@ -1,75 +1,91 @@
 {% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
 
-{# TODO: Add this when will be possible. (Before we need to fix controller when we doesn't have timetable for season)
- {% block subheader %}
-    <div class="col-md-offset-3 col-md-9">
-        {% if seasons|length == 0 %}
-            {{'season.please_create_before_continue'|trans({}, 'default')}}
-            <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': externalNetworkId}) }}">
-                {{'season.create'|trans({}, 'default')}}
-            </a>
-        {% else %}
-            <ul class="nav nav-tabs nav-justified">
-                {% for season in seasons %}
-                    <li{% if currentSeason.id == season.id %} class="active"{% endif %}>
-                        <a href="{{ path(
-                            'canal_tp_mtt_distribution_list',
-                            {
-                                'externalNetworkId':externalNetworkId,
-                                'lineId':externalLineId,
-                                'routeId':externalRouteId,
-                                'currentSeasonId':season.id
-                            }
-                        ) }}">
-                            {{ season.title }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-{% endblock %}
- #}
-
 {% block left_menu %}
     {{ render(controller('CanalTPMttBundle:Default:navigation', {  'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season': currentSeason.id })) }}
 {% endblock %}
 
 {% block main_content %}
-    <div>
-        <h3>{{'distribution.stops_included'|trans({}, 'default')}} ({{currentSeason.title}}) -
+    <h1>{{'distribution.generation_title'|trans({}, 'default')}}</h1>
+    <h4>{{'global.line_label'|trans}} {{ display_informations.label }} <span class="glyphicon glyphicon-arrow-right"></span> {{ display_informations.direction }}</h4>
+    <div class="clearfix">
+        <div class="pull-right">
             {% if (is_granted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF')) %}
-            <button id="generate-distribution-list" type="button" class="btn btn-success">
-                <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
+            <button id="generate-distribution-list" type="button" class="btn btn-primary">
+                <span class="glyphicon glyphicon-file"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
             </button>
-            -
             {% endif %}
-            <a id="save-distribution-list" class="btn btn-primary" href="{{ path('canal_tp_mtt_distribution_list_save',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id}) }}">
-                <span class="glyphicon glyphicon-refresh display-none"></span>
-                <span class="glyphicon glyphicon-floppy-disk"></span> {{'distribution.save_order'|trans({}, 'default')}}
-            </a>
-            -
-            <a class="btn btn-default" href="{{ path('canal_tp_mtt_distribution_list',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id, 'reset':true}) }}">
-                <span class="glyphicon glyphicon-sort-by-attributes"></span> {{'distribution.reset_order'|trans({}, 'default')}}
-            </a>
-        </h3>
+            <div class="btn-group">
+                <button data-toggle="dropdown" type="button" class="btn btn-default dropdown-toggle">
+                        {{'distribution.manage_order'|trans({}, 'default')}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li>
+                        <a id="save-distribution-list" href="{{ path('canal_tp_mtt_distribution_list_save',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id}) }}">
+                            <span class="glyphicon glyphicon-refresh display-none"></span>
+                            <span class="glyphicon glyphicon-floppy-disk"></span> {{'distribution.save_order'|trans({}, 'default')}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('canal_tp_mtt_distribution_list',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id, 'reset':true}) }}">
+                            <span class="glyphicon glyphicon-sort-by-attributes"></span> {{'distribution.reset_order'|trans({}, 'default')}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button {% if seasons|length > 1 %}data-toggle="dropdown"{% endif %} type="button" class="btn btn-default dropdown-toggle">
+                    {% for season in seasons %}
+                        {% if currentSeason.id == season.id %}
+                            {{ season.title }} {% if seasons|length > 1 %}<span class="caret"></span>{% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </button>
+                {% if seasons|length > 1 %}
+                    <ul class="dropdown-menu" role="menu">
+                    {% for season in seasons %}
+                        {% if currentSeason.id != season.id %}
+                        <li>
+                            <a href="{{ path(
+                                'canal_tp_mtt_stop_point_list',
+                                {
+                                    'externalNetworkId':externalNetworkId,
+                                    'line_id':externalLineId,
+                                    'seasonId':season.id,
+                                    'externalRouteId': externalRouteId
+                                }
+                            ) }}">
+                                {{ season.title }}
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
     </div>
-    <hr/>
-    <ul id="included-stops" class="list-group sortable">
-        <span class="help-block display-none">{{'help.drop_here'|trans}}</span>
-        {% for schedule in schedules.included %}
-            {% include 'CanalTPMttBundle:Distribution:scheduleItem.html.twig' with {'schedule': schedule} %}
-        {% endfor %}
-    </ul>
+    <div class="row">
+        <div class="col-md-8">
+            <h4>{{'distribution.stops_included'|trans({}, 'default')}}</h4>
+            <ul id="included-stops" class="list-group sortable">
+                <span class="help-block display-none">{{'help.drop_here'|trans}}</span>
+                {% for schedule in schedules.included %}
+                    {% include 'CanalTPMttBundle:Distribution:scheduleItem.html.twig' with {'schedule': schedule} %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h4>{{'distribution.stops_excluded'|trans({}, 'default')}}</h4>
+            <hr/>
+            <ul id="excluded-stops" class="list-group sortable{% if schedules.excluded|length == 0 %} empty-list{% endif %}">
+                <span class="help-block{% if schedules.excluded|length != 0 %} display-none{% endif %}">{{'help.drop_here'|trans}}</span>
+                {% for schedule in schedules.excluded %}
+                    {% include 'CanalTPMttBundle:Distribution:scheduleItem.html.twig' with {'schedule': schedule} %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
-    <h3>{{'distribution.stops_excluded'|trans({}, 'default')}}</h3>
-    <hr/>
-    <ul id="excluded-stops" class="list-group sortable{% if schedules.excluded|length == 0 %} empty-list{% endif %}">
-        <span class="help-block{% if schedules.excluded|length != 0 %} display-none{% endif %}">{{'help.drop_here'|trans}}</span>
-        {% for schedule in schedules.excluded %}
-            {% include 'CanalTPMttBundle:Distribution:scheduleItem.html.twig' with {'schedule': schedule} %}
-        {% endfor %}
-    </ul>
 
 {% endblock %}
 

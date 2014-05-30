@@ -4,11 +4,15 @@ define(['jquery', 'bootstrap'], function($) {
             var $menu = $wrapper.parents('#left-menu');
 
             var resizeMenu = function() {
-                var heightToSub = $menu.offset().top;
-
-                $menu.css('max-height', $(window).height() - heightToSub - 42);
+                var maxHeight = $(window).height() - $menu.offset().top - 38;
+                if ($menu.find('.submenu-wrapper').length != 0)
+                    $menu.find('.submenu-wrapper').css('max-height',  maxHeight);
+                else
+                    $menu.css('max-height',  maxHeight);
             };
-
+            $('.line-menu-wrapper .line-link-toggle').click(function(){
+                $(this).parent().addClass('active');
+            });
             $wrapper.find('.line-menu-wrapper > ul').on('shown.bs.collapse', function () {
                 $(this).parent().siblings('.line-menu-wrapper.active').removeClass('active').find('ul').collapse('hide');
                 $(this).parent().addClass('active');
@@ -21,10 +25,10 @@ define(['jquery', 'bootstrap'], function($) {
                 });
             });
 
-            if ($menu.hasClass('toggable-left-menu') == false) {
+            // if ($menu.hasClass('toggable-left-menu') == false) {
                 resizeMenu();
                 $(window).resize(resizeMenu);
-            }
+            // }
 
             var $current_item = $wrapper.find('.line-menu-wrapper li.active');
             // shall we open the menu and do we have an active item?

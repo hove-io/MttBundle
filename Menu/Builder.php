@@ -44,6 +44,21 @@ class Builder extends ContainerAware
                 if (isset($options['currentNetwork']) && !empty($options['currentNetwork'])) {
                     $menu->getChild('network')->getChild($options['currentNetwork'])->setAttribute('class', 'active');
                 }
+                if ($this->container->get('security.context')->isGranted('BUSINESS_EDIT_PERIMETERS')) {
+                    $menu->getChild('network')->addChild(
+                        "",
+                        array(
+                            'attributes' => array('class' => 'divider')
+                        )
+                    );
+                    $menu->getChild('network')->addChild(
+                        "networks_management",
+                        array(
+                            'route' => 'canal_tp_mtt_network_list',
+                            'label' => $translator->trans('menu.networks_manage'),
+                        )
+                    );
+                }
             }
             $currentNetwork = isset($options['currentNetwork']) ? $options['currentNetwork'] : $networks[0]['external_id'];
             // TODO: Remove this and display menu buttons group in network page
@@ -59,24 +74,28 @@ class Builder extends ContainerAware
                     )
                 );
             }
-
             $menu->addChild(
-                "networks_management",
+                "edit_timetables",
                 array(
-                    'route' => 'canal_tp_mtt_network_list',
-                    'label' => $translator->trans('menu.networks_manage'),
-                )
-            );
-            $menu->addChild(
-                "layouts_management",
-                array(
-                    'label' => $translator->trans('menu.layouts_manage'),
-                    'route' => 'canal_tp_mtt_layouts',
+                    'route' => 'canal_tp_mtt_stop_point_list_defaults',
+                    'label' => $translator->trans('menu.edit_timetables'),
                     'routeParameters' => array(
                         'externalNetworkId' => $currentNetwork
                     )
                 )
             );
+            if ($this->container->get('security.context')->isGranted('BUSINESS_ASSIGN_NETWORK_LAYOUT')) {
+                $menu->addChild(
+                    "layouts_management",
+                    array(
+                        'label' => $translator->trans('menu.layouts_manage'),
+                        'route' => 'canal_tp_mtt_layouts',
+                        'routeParameters' => array(
+                            'externalNetworkId' => $currentNetwork
+                        )
+                    )
+                );
+            }
         }
 
         return $menu;
