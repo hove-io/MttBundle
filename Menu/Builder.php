@@ -12,7 +12,7 @@ class Builder extends ContainerAware
         $translator = $this->container->get('translator');
         $userManager = $this->container->get('canal_tp_mtt.user');
         $menu = $factory->createItem('root');
-
+        $menu->setCurrentUri($this->container->get('request')->getRequestUri());
         $user = $this->container->get('security.context')->getToken()->getUser();
         if ($user != 'anon.') {
             $networks = $userManager->getNetworks($user);
@@ -21,7 +21,7 @@ class Builder extends ContainerAware
                     "network",
                     array(
                         'label' => $translator->trans('menu.networks'),
-                        'route' => 'canal_tp_mtt_homepage'
+                        // 'route' => 'canal_tp_mtt_homepage'
                     )
                 );
 

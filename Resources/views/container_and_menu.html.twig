@@ -2,14 +2,14 @@
 
 {% block container %}
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div id="left-menu" role="navigation">
                 {% block left_menu %}
                     {{ render(controller('CanalTPMttBundle:Default:navigation', { 'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season': selectedSeason.id })) }}
                 {% endblock %}
             </div>
         </div>
-        <div class="col-md-9" role="main">
+        <div class="col-md-8" role="main">
             {% block main_content %}
             {% endblock %}
         </div>

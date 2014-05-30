@@ -9,20 +9,9 @@ define(['jquery', 'bootstrap'], function($) {
                 $menu.css('max-height', $(window).height() - heightToSub - 42);
             };
 
-            var _toggle_link = function($link) {
-                $link.parent().toggleClass('active');
-                $link.find('.glyphicon-chevron-right, .glyphicon-chevron-down').toggle();
-            };
-            $wrapper.find('.mode-wrapper > a').click(function(){
-                $(this).find('.glyphicon-chevron-right, .glyphicon-chevron-down').toggle();
-            });
-            $wrapper.find('a.line-link-toggle').click(function(){
-                // console.log('link: ' + $(this).attr('href'));
-                _toggle_link($(this));
-                $(this).parent().siblings('.active').each(function(){
-                    _toggle_link($(this).find('a.line-link-toggle'));
-                    $(this).find('ul').collapse('toggle');
-                });
+            $wrapper.find('.line-menu-wrapper > ul').on('shown.bs.collapse', function () {
+                $(this).parent().siblings('.line-menu-wrapper.active').removeClass('active').find('ul').collapse('hide');
+                $(this).parent().addClass('active');
             });
             //toggle button
             $menu.find('.toggle-button').click(function(){
