@@ -42,13 +42,15 @@ class StopPointController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:StopPoint:list.html.twig',
             array(
+                'pageTitle'         => "menu.edit_timetables",
                 'lineConfig'        => $lineConfig,
                 'routes'            => $routes,
                 'current_route'     => $externalRouteId,
+                'currentNetwork'    => $network,
                 'externalNetworkId' => $network->getExternalId(),
                 'externalLineId'    => $line_id,
                 'seasons'           => $seasons,
-                'selectedSeason'    => $selectedSeason,
+                'currentSeason'     => $selectedSeason,
                 'currentSeasonId'   => $selectedSeason->getId(),
                 'externalRouteId'   => $externalRouteId,
             )

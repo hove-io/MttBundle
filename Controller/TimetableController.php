@@ -69,12 +69,14 @@ class TimetableController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getTwigPath(),
             array(
+                'pageTitle'             => 'timetable.titles.' . ($editable ? 'edition' : 'preview'),
                 'timetable'             => $timetable,
+                'currentNetwork'        => $timetable->getLineConfig()->getSeason()->getNetwork(),
                 'externalNetworkId'     => $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalId(),
                 'externalRouteId'       => $timetable->getExternalRouteId(),
                 'externalCoverageId'    => $externalCoverageId,
                 'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
-                'season'                => $timetable->getLineConfig()->getSeason(),
+                'currentSeason'         => $timetable->getLineConfig()->getSeason(),
                 'currentSeasonId'       => $timetable->getLineConfig()->getSeason()->getId(),
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],

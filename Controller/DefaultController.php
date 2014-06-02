@@ -39,7 +39,7 @@ class DefaultController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Default:index.html.twig',
             array(
-                'network'           => $currentNetwork,
+                'currentNetwork'    => $currentNetwork,
                 'tasks'             => $networkManager->getLastTasks($currentNetwork),
                 'externalNetworkId' => $currentNetwork->getExternalId()
             )

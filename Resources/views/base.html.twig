@@ -15,17 +15,41 @@
 {% endblock %}
 
 {% block navbar %}
-    {% set menuItem = knp_menu_get('CanalTPMttBundle:Builder:mttMenu', [], {'currentNetwork':externalNetworkId, 'currentSeasonId':currentSeasonId }) %}
+    {% set menuItem = knp_menu_get('CanalTPMttBundle:Builder:mttMenu', [], {'currentExternalNetworkId':externalNetworkId, 'currentSeasonId':currentSeasonId }) %}
     {{ knp_menu_render(menuItem, {'style': 'navbar', 'currentClass': 'active'}) }}
 {% endblock %}
 
-{% block title %}TIMETABLE{% endblock %}
+{% block title -%}
+{{ parent() }}
+- TIMETABLE 
+    {% if pageTitle %}
+    - {{ pageTitle|trans }}
+    {% endif %}
+{% endblock %}
 {% block navbar_brand %}<a href="{{ path('canal_tp_mtt_homepage') }}">TIMETABLE</a>{% endblock %}
 
 {% block root_breadcrumb %}
     <ol class="breadcrumb">
         <li><a href="{{ path('canal_tp_mtt_homepage') }}">{{'ctp_core._breadcrumb'|trans}}</a></li>
-        {% block breadcrumb %}{% endblock %}
+        {% if currentNetwork %}
+            <li>
+                <a href="{{ path('canal_tp_mtt_homepage', {'externalNetworkId':currentNetwork.externalId }) }}">
+                    {{ currentNetwork.name }}
+                </a>
+            </li>
+            {% if currentSeason %}
+                <li>
+                    <a href="{{ path('canal_tp_mtt_stop_point_list_defaults', {'seasonId': currentSeason.id, 'externalNetworkId':currentNetwork.externalId }) }}">
+                        {{ currentSeason.title }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endif %}
+        {% block breadcrumb %}
+            {% if pageTitle %}
+                <li>{{ pageTitle|trans }}</li>
+            {% endif %}
+        {% endblock %}
     </ol>
 {% endblock %}
 

@@ -39,7 +39,7 @@ class Builder extends ContainerAware
                     $explodedId = explode(':', $network['external_id']);
                     $childOptions = array(
                         'label' => $explodedId[1],
-                        'route' => 'canal_tp_mtt_stop_point_list_defaults',
+                        'route' => 'canal_tp_mtt_homepage',
                         'routeParameters' => array(
                             'externalNetworkId' => $network['external_id']
                         )
@@ -51,8 +51,8 @@ class Builder extends ContainerAware
                     );
                 }
                 // set current network as active
-                if (isset($options['currentNetwork']) && !empty($options['currentNetwork'])) {
-                    $menu->getChild('network')->getChild($options['currentNetwork'])->setAttribute('class', 'active');
+                if (isset($options['currentExternalNetworkId']) && !empty($options['currentExternalNetworkId'])) {
+                    $menu->getChild('network')->getChild($options['currentExternalNetworkId'])->setAttribute('class', 'active');
                 }
                 if ($this->container->get('security.context')->isGranted('BUSINESS_EDIT_PERIMETERS')) {
                     $this->addDivider($menu->getChild('network'));
@@ -65,7 +65,7 @@ class Builder extends ContainerAware
                     );
                 }
             }
-            $currentNetwork = isset($options['currentNetwork']) ? $options['currentNetwork'] : $networks[0]['external_id'];
+            $currentNetwork = isset($options['currentExternalNetworkId']) ? $options['currentExternalNetworkId'] : $networks[0]['external_id'];
             // season menu
             if ($this->container->get('security.context')->isGranted('BUSINESS_MANAGE_SEASON')) {
                 $seasonManager = $this->container->get('canal_tp_mtt.season_manager');

@@ -28,6 +28,9 @@ line:
 
 timetable:
     edit: Editer la fiche horaire
+    titles:
+        edition: Édition
+        preview: Prévisualisation
 
 layout:
     actions: Actions

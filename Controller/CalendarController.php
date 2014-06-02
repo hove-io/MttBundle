@@ -25,15 +25,23 @@ class CalendarController extends AbstractController
 			$externalRouteId, 
 			$externalStopPointId
 		);
-
+        
+        $currentSeason = $this->get('canal_tp_mtt.season_manager')->find($currentSeasonId);
+        
         return $this->render(
             'CanalTPMttBundle:Calendar:view.html.twig',
             array(
+                'pageTitle'         => $this->get('translator')->trans(
+                    'calendar.view_title',
+                    array(), 
+                    'default'
+                ),
+                'currentNetwork'    => $network,
                 'externalNetworkId' => $externalNetworkId,
                 'externalStopPointId' => $externalStopPointId,
                 'calendars'         => $calendars,
                 'current_route'     => $externalRouteId,
-                'currentSeasonId'   => $currentSeasonId,
+                'currentSeasonId'   => $currentSeason->getId(),
                 'prevNextStopPoints'=> $prevNextStopPoints,
             )
         );

@@ -92,6 +92,7 @@ class NetworkController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Network:list.html.twig',
             array(
+                'pageTitle'=> 'menu.networks_manage',
                 'no_left_menu' => true,
                 'networks' => $this->networkManager->findAll()
             )

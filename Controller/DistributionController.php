@@ -103,14 +103,20 @@ class DistributionController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Distribution:list.html.twig',
             array(
+                'pageTitle'         => $this->get('translator')->trans(
+                    'distribution.generation_title',
+                    array(),
+                    'default'
+                ),
                 'timetable'         => $timetable,
                 'schedules'         => $schedules,
                 'current_route'     => $routeId,
                 'display_informations'=> $routes->route_schedules[0]->display_informations,
+                'currentNetwork'    => $network,
                 'externalNetworkId' => $externalNetworkId,
                 'seasons'           => $network->getSeasons(),
                 'currentSeason'     => $timetable->getLineConfig()->getSeason(),
-                'currentSeasonId'     => $timetable->getLineConfig()->getSeason()->getId(),
+                'currentSeasonId'   => $timetable->getLineConfig()->getSeason()->getId(),
                 'externalLineId'    => $lineId,
                 'externalRouteId'   => $routeId,
             )

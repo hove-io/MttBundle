@@ -178,11 +178,14 @@ class SeasonController extends AbstractController
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
         $this->seasonManager = $this->get('canal_tp_mtt.season_manager');
+        $this->networkManager = $this->get('canal_tp_mtt.network_manager');
 
         return $this->render(
             'CanalTPMttBundle:Season:list.html.twig',
             array(
+                'pageTitle'=> 'menu.seasons_manage',
                 'no_left_menu' => true,
+                'currentNetwork' => $this->networkManager->findOneByExternalId($externalNetworkId),
                 'externalNetworkId' => $externalNetworkId,
                 'seasons' => $this->seasonManager->findAllByNetworkId($externalNetworkId)
             )

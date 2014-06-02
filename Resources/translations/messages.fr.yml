@@ -68,6 +68,7 @@ menu:
     networks_manage: Gestion des réseaux
     layouts_manage: Gestion des gabarits
 
+#should be in error namespace above
 network:
     error:
         wrong_token: Le token n'est pas correct

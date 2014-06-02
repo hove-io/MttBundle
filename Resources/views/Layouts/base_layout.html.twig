@@ -16,6 +16,23 @@
     {% endstylesheets %}
 {% endblock %}
 
+{% block breadcrumb %}
+    {% if pageTitle %}
+        <li><a href="{{ path(
+            'canal_tp_mtt_stop_point_list',
+            {
+                'externalNetworkId'        : externalNetworkId,
+                'line_id'           : externalLineId,
+                'externalRouteId'   : externalRouteId,
+                'seasonId'          : currentSeason.id
+            }
+        ) }}">
+            {{'menu.edit_timetables'|trans({}, 'messages')}}
+        </a></li>
+        <li>{{ pageTitle|trans({}, 'default') }}</li>
+    {% endif %}
+{% endblock %}
+
 {% block main_content %}
     {% if (displayMenu) %}
     <div id="left-menu" class="toggable-left-menu no-print">
@@ -28,7 +45,7 @@
                             'externalNetworkId'        : externalNetworkId,
                             'line_id'           : externalLineId,
                             'externalRouteId'   : externalRouteId,
-                            'seasonId'          : season.id
+                            'seasonId'          : currentSeason.id
                         }
                     ) }}">
                         <span class="glyphicon glyphicon-arrow-left"></span>
@@ -36,14 +53,14 @@
                     </a>
                 </li>
                 {% if stopPoint and is_granted('BUSINESS_GENERATE_PDF') %}
-                <li{% if season.locked %} class="disabled"{% endif %}>
+                <li{% if currentSeason.locked %} class="disabled"{% endif %}>
                     <a href="{{ path('canal_tp_mtt_timetable_generate_pdf', {'timetableId': timetable.id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
                         <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
                     </a>
                 </li>
                 {% endif %}
             </ul>
-            {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': season.id})) }}
+            {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': currentSeason.id})) }}
         </div>
         <div class="toggle-button">
             <span class="glyphicon glyphicon-transfer"></span>
@@ -61,7 +78,7 @@
                     'externalLineId':externalLineId,
                     'externalRouteId': externalRouteId,
                     'externalStopPointId' : prevNextStopPoints.prev,
-                    'seasonId':season.id
+                    'seasonId':currentSeason.id
                 }
             ) %}
         {% endif %}
@@ -73,7 +90,7 @@
                     'externalLineId':externalLineId,
                     'externalRouteId': externalRouteId,
                     'externalStopPointId' : prevNextStopPoints.next,
-                    'seasonId':season.id
+                    'seasonId':currentSeason.id
                 }
             ) %}
         {% endif %}
