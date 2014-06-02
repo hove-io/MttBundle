@@ -66,23 +66,33 @@ class SeasonController extends AbstractController
         
         $season = $seasonManager->find($seasonId);
         if ($this->addFlashIfSeasonLocked($season) == false) {
-            $payloads = $pdfPayloadGenerator->generate($season);
-            $amqpPdfGenPublisher->publish(
-                $payloads, 
-                $season, 
-                array('publishSeasonOnComplete' => $publishOnComplete)
-            );
-            
-            $this->get('session')->getFlashBag()->add(
-                'success',
-                $this->get('translator')->trans(
-                    'season.pdf_generation_task_has_started',
-                    array(
-                        '%count_jobs%' => count($payloads)
-                    ),
-                    'default'
-                )
-            );
+            try {
+                $payloads = $pdfPayloadGenerator->generate($season);
+                $amqpPdfGenPublisher->publish(
+                    $payloads, 
+                    $season, 
+                    array('publishSeasonOnComplete' => $publishOnComplete)
+                );
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    $this->get('translator')->trans(
+                        'season.pdf_generation_task_has_started',
+                        array(
+                            '%count_jobs%' => count($payloads)
+                        ),
+                        'default'
+                    )
+                );
+            } catch(\Exception $e) {
+                $this->get('session')->getFlashBag()->add(
+                    'danger',
+                    $this->get('translator')->trans(
+                        $e->getMessage(),
+                        array(),
+                        'exceptions'
+                    )
+                );
+            }
         }
 
         return $this->redirect(

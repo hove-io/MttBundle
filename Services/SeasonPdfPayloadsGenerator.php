@@ -104,7 +104,7 @@ class SeasonPdfPayloadsGenerator
             }
         }
         if (empty($payloads)) {
-            throw new \Exception('No pdf to generate for this season');
+            throw new \Exception('pdfGeneration.no_pdf');
         }
         return $payloads;
     }
