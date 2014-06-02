@@ -32,36 +32,6 @@
                     </li>
                 </ul>
             </div>
-            <div class="btn-group">
-                <button {% if seasons|length > 1 %}data-toggle="dropdown"{% endif %} type="button" class="btn btn-default dropdown-toggle">
-                    {% for season in seasons %}
-                        {% if currentSeason.id == season.id %}
-                            {{ season.title }} {% if seasons|length > 1 %}<span class="caret"></span>{% endif %}
-                        {% endif %}
-                    {% endfor %}
-                </button>
-                {% if seasons|length > 1 %}
-                    <ul class="dropdown-menu" role="menu">
-                    {% for season in seasons %}
-                        {% if currentSeason.id != season.id %}
-                        <li>
-                            <a href="{{ path(
-                                'canal_tp_mtt_stop_point_list',
-                                {
-                                    'externalNetworkId':externalNetworkId,
-                                    'line_id':externalLineId,
-                                    'seasonId':season.id,
-                                    'externalRouteId': externalRouteId
-                                }
-                            ) }}">
-                                {{ season.title }}
-                            </a>
-                        </li>
-                        {% endif %}
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
         </div>
     </div>
     <div class="row">
@@ -76,7 +46,6 @@
         </div>
         <div class="col-md-4">
             <h4>{{'distribution.stops_excluded'|trans({}, 'default')}}</h4>
-            <hr/>
             <ul id="excluded-stops" class="list-group sortable{% if schedules.excluded|length == 0 %} empty-list{% endif %}">
                 <span class="help-block{% if schedules.excluded|length != 0 %} display-none{% endif %}">{{'help.drop_here'|trans}}</span>
                 {% for schedule in schedules.excluded %}

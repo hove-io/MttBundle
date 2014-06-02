@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block navbar %}
-    {% set menuItem = knp_menu_get('CanalTPMttBundle:Builder:mttMenu', [], {'currentNetwork':externalNetworkId }) %}
+    {% set menuItem = knp_menu_get('CanalTPMttBundle:Builder:mttMenu', [], {'currentNetwork':externalNetworkId, 'currentSeasonId':currentSeasonId }) %}
     {{ knp_menu_render(menuItem, {'style': 'navbar', 'currentClass': 'active'}) }}
 {% endblock %}
 

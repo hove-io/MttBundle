@@ -110,6 +110,7 @@ class DistributionController extends AbstractController
                 'externalNetworkId' => $externalNetworkId,
                 'seasons'           => $network->getSeasons(),
                 'currentSeason'     => $timetable->getLineConfig()->getSeason(),
+                'currentSeasonId'     => $timetable->getLineConfig()->getSeason()->getId(),
                 'externalLineId'    => $lineId,
                 'externalRouteId'   => $routeId,
             )

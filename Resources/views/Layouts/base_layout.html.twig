@@ -7,10 +7,10 @@
                     'bundles/canaltpmtt/css/layouts.css'
                     'bundles/canaltpmtt/css/layouts/*'
 
-                   filter='cssrewrite' output='css/full_mtt_layouts.css' %}
+                   filter='cssrewrite' output='css/fullMtt_layouts.css' %}
         <link rel="stylesheet" media="all" href="{{ asset_url }}" />
     {% endstylesheets %}
-    {% stylesheets  '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/print.css'
+    {% stylesheets  'bundles/canaltpmtt/css/print.css'
                    filter='cssrewrite' output='css/full_layouts_print.css' %}
         <link rel="stylesheet" media="print" href="{{ asset_url }}" />
     {% endstylesheets %}

@@ -62,6 +62,7 @@ calendar:
 
 menu:
     networks: Réseaux
+    seasons: Saisons
     seasons_manage: Gestion des saisons
     edit_timetables: Édition des fiches horaires
     networks_manage: Gestion des réseaux

@@ -5,6 +5,7 @@ body.editable{
 }
 #layout-main-wrapper{
     background-color:white;
+    font-family:Arial, Helvetica, sans-serif;
     width:1100px;
     -webkit-print-color-adjust: exact;
 }

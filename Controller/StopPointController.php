@@ -49,6 +49,7 @@ class StopPointController extends AbstractController
                 'externalLineId'    => $line_id,
                 'seasons'           => $seasons,
                 'selectedSeason'    => $selectedSeason,
+                'currentSeasonId'   => $selectedSeason->getId(),
                 'externalRouteId'   => $externalRouteId,
             )
         );

@@ -75,6 +75,7 @@ class TimetableController extends AbstractController
                 'externalCoverageId'    => $externalCoverageId,
                 'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
                 'season'                => $timetable->getLineConfig()->getSeason(),
+                'currentSeasonId'       => $timetable->getLineConfig()->getSeason()->getId(),
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],
                 'prevNextStopPoints'    => $stopPointData['prevNextStopPoints'],

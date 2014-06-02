@@ -7,14 +7,24 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 
 class Builder extends ContainerAware
 {
+    private function addDivider($menu)
+    {
+        $menu->addChild(
+            "",
+            array(
+                'attributes' => array('class' => 'divider')
+            )
+        );
+    }
+
     public function mttMenu(FactoryInterface $factory, array $options)
     {
         $translator = $this->container->get('translator');
-        $userManager = $this->container->get('canal_tp_mtt.user');
         $menu = $factory->createItem('root');
         $menu->setCurrentUri($this->container->get('request')->getRequestUri());
         $user = $this->container->get('security.context')->getToken()->getUser();
         if ($user != 'anon.') {
+            $userManager = $this->container->get('canal_tp_mtt.user');
             $networks = $userManager->getNetworks($user);
             if (count($networks > 1)) {
                 $menu->addChild(
@@ -29,7 +39,7 @@ class Builder extends ContainerAware
                     $explodedId = explode(':', $network['external_id']);
                     $childOptions = array(
                         'label' => $explodedId[1],
-                        'route' => 'canal_tp_mtt_homepage',
+                        'route' => 'canal_tp_mtt_stop_point_list_defaults',
                         'routeParameters' => array(
                             'externalNetworkId' => $network['external_id']
                         )
@@ -45,12 +55,7 @@ class Builder extends ContainerAware
                     $menu->getChild('network')->getChild($options['currentNetwork'])->setAttribute('class', 'active');
                 }
                 if ($this->container->get('security.context')->isGranted('BUSINESS_EDIT_PERIMETERS')) {
-                    $menu->getChild('network')->addChild(
-                        "",
-                        array(
-                            'attributes' => array('class' => 'divider')
-                        )
-                    );
+                    $this->addDivider($menu->getChild('network'));
                     $menu->getChild('network')->addChild(
                         "networks_management",
                         array(
@@ -61,18 +66,59 @@ class Builder extends ContainerAware
                 }
             }
             $currentNetwork = isset($options['currentNetwork']) ? $options['currentNetwork'] : $networks[0]['external_id'];
-            // TODO: Remove this and display menu buttons group in network page
+            // season menu
             if ($this->container->get('security.context')->isGranted('BUSINESS_MANAGE_SEASON')) {
-                $menu->addChild(
-                    "seasons",
-                    array(
-                        'route' => 'canal_tp_mtt_season_list',
-                        'label' => $translator->trans('menu.seasons_manage'),
-                        'routeParameters' => array(
-                            'externalNetworkId' => $currentNetwork
+                $seasonManager = $this->container->get('canal_tp_mtt.season_manager');
+                $seasons = $seasonManager->findAllByNetworkId($currentNetwork);
+                if (count($seasons) > 1) {
+                    $menu->addChild(
+                        "seasons",
+                        array(
+                            'label' => $translator->trans('menu.seasons'),
                         )
-                    )
-                );
+                    );
+                    foreach ($seasons as $season) {
+                        $childOptions = array(
+                            'label' => $season->getTitle(),
+                            'route' => 'canal_tp_mtt_stop_point_list_defaults',
+                            'routeParameters' => array(
+                                'externalNetworkId' => $currentNetwork,
+                                'seasonId' => $season->getId()
+                            )
+                        );
+
+                        $menu->getChild('seasons')->addChild(
+                            "season_" . $season->getId(),
+                            $childOptions
+                        );
+                    }
+                    // set current network as active
+                    if (isset($options['currentSeasonId']) && !empty($options['currentSeasonId'])) {
+                        $menu->getChild('seasons')->getChild("season_" . $options['currentSeasonId'])->setAttribute('class', 'active');
+                    }
+                    $this->addDivider($menu->getChild('seasons'));
+                    $menu->getChild('seasons')->addChild(
+                        "seasons_manage",
+                        array(
+                            'route' => 'canal_tp_mtt_season_list',
+                            'label' => $translator->trans('menu.seasons_manage'),
+                            'routeParameters' => array(
+                                'externalNetworkId' => $currentNetwork
+                            )
+                        )
+                    );
+                } else {
+                    $menu->addChild(
+                        "seasons",
+                        array(
+                            'route' => 'canal_tp_mtt_season_list',
+                            'label' => $translator->trans('menu.seasons_manage'),
+                            'routeParameters' => array(
+                                'externalNetworkId' => $currentNetwork
+                            )
+                        )
+                    );
+                }
             }
             $menu->addChild(
                 "edit_timetables",
