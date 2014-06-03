@@ -91,7 +91,7 @@ class CalendarManager
     private function computeNotes($notes, $notesToAdd, $season)
     {
         foreach ($notesToAdd as $note) {
-            if (!in_array($note->id, $this->computedNotesId) && $this->isInsideSeason($note->date, $season)) {
+            if (isset($note->date) && !in_array($note->id, $this->computedNotesId) && $this->isInsideSeason($note->date, $season)) {
                 $this->computedNotesId[] = $note->id;
                 $notes[] = $note;
             }
