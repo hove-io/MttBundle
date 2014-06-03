@@ -3,6 +3,8 @@ body {margin:0; padding:0;background-color:white;}
     margin: 0;
     padding: 0;
 }
+#header-bg,
+#footer-bg,
 .navbar,
 .breadcrumb,
 .no-print{
@@ -12,8 +14,5 @@ body {margin:0; padding:0;background-color:white;}
     border:none;
     height:auto;
     margin:0;
-}
-body *{
-    -webkit-print-color-adjust: exact;
 }
 
