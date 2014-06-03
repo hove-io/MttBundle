@@ -123,7 +123,7 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
     $('.sortable .toggle-stop-point-btn').click(function(){
         var $stopElement = $(this).parent();
         var $oldContainer = $stopElement.parents('.sortable');
-        var $newContainer = $oldContainer.siblings('.sortable');
+        var $newContainer = $oldContainer.parent().siblings('div').find('.sortable');
         $stopElement.detach();
         $newContainer.append($stopElement);
         $newContainer.trigger('sortupdate');
