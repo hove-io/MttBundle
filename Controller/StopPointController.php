@@ -9,8 +9,8 @@ class StopPointController extends AbstractController
         $navitia = $this->get('canal_tp_mtt.navitia');
         $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
         $seasons = $this->get('canal_tp_mtt.season_manager')->findAllByNetworkId($network->getExternalId());
-        $selectedSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
-        $this->addFlashIfSeasonLocked($selectedSeason);
+        $currentSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
+        $this->addFlashIfSeasonLocked($currentSeason);
         if (empty($line_id)) {
             list($line_id, $externalRouteId) = $navitia->getFirstLineAndRouteOfNetwork(
                 $network->getExternalCoverageId(), 
@@ -25,7 +25,7 @@ class StopPointController extends AbstractController
         );
         $lineConfig = $this->getDoctrine()->getRepository(
             'CanalTPMttBundle:LineConfig'
-        )->findOneBy(array('externalLineId' => $line_id, 'season' => $selectedSeason));
+        )->findOneBy(array('externalLineId' => $line_id, 'season' => $currentSeason));
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         if (!empty($lineConfig)) {
@@ -38,7 +38,7 @@ class StopPointController extends AbstractController
                 );
             }
         }
-
+        $currentSeasonId = empty($currentSeason) ? false : $currentSeason->getId();
         return $this->render(
             'CanalTPMttBundle:StopPoint:list.html.twig',
             array(
@@ -50,8 +50,8 @@ class StopPointController extends AbstractController
                 'externalNetworkId' => $network->getExternalId(),
                 'externalLineId'    => $line_id,
                 'seasons'           => $seasons,
-                'currentSeason'     => $selectedSeason,
-                'currentSeasonId'   => $selectedSeason->getId(),
+                'currentSeason'     => $currentSeason,
+                'currentSeasonId'   => $currentSeasonId,
                 'externalRouteId'   => $externalRouteId,
             )
         );
