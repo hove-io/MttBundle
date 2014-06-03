@@ -1,3 +1,16 @@
+Notes de publication - METH - Version 0.9.1 (03/06/2014)
+
+**Bogue
+    * METH-183	Menu "glissant" pose problème sous IE 10
+    * METH-221	Erreur 500 à la publication + génération des pdf
+    * METH-179	Les dates ne sont pas formatées
+    
+** Tâche
+    * METH-143	Fil d'Ariane
+    * METH-210	Annotation hors saison
+    * METH-216	Verrouillage d'une saison pendant la génération des PDF
+    * METH-213	Annulation de la génération des PDF d'une saison.
+
 Notes de publication - METH - Version 0.8.2 (15/05/2014)
 
 ** Tâche
