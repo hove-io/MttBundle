@@ -1,10 +1,14 @@
-body {margin:0; padding:0;background-color:white;}
+html,
+body,
+#main-container,
 .layout-container {
+    background:white;
     margin: 0;
     padding: 0;
 }
 #header-bg,
 #footer-bg,
+#application-navbar,
 .navbar,
 .breadcrumb,
 .no-print{
