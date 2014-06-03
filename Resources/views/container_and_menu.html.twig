@@ -5,7 +5,7 @@
         <div class="col-md-4">
             <div id="left-menu" role="navigation">
                 {% block left_menu %}
-                    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season': selectedSeason.id })) }}
+                    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season': currentSeasonId })) }}
                 {% endblock %}
             </div>
         </div>
