@@ -75,7 +75,7 @@ class PdfGenCompletionLib
         return $this->om->getRepository('CanalTPMttBundle:Season')->find($seasonId);
     }
     
-    private function commit($task)
+    private function commit($task, $season)
     {
         $lineConfig = false;
         $timetable = false;
@@ -107,7 +107,6 @@ class PdfGenCompletionLib
             
             if (!empty($options)) {
                 if (isset($options['publishSeasonOnComplete']) && !empty($options['publishSeasonOnComplete'])) {
-                    $season = $this->getSeason($task->getObjectId());
                     $season->setPublished(true);
                     echo "Publish season " . $season->getTitle();
                 }
@@ -129,12 +128,12 @@ class PdfGenCompletionLib
     {
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
         $task->setCompletedAt(new \DateTime("now"));
+        $season = $this->getSeason($task->getObjectId());
         if ($task->isCanceled()) {
             $this->rollback($task);
         } else {
-            $this->commit($task);
+            $this->commit($task, $season);
         }
-        $season = $this->getSeason($task->getObjectId());
         echo "Unlock Season: " . $season->getTitle() . "\n";
         $season->setLocked(false);
         $this->om->persist($season);

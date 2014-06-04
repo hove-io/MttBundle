@@ -5,10 +5,12 @@ body,
     background:white;
     margin: 0;
     padding: 0;
+    min-height:inbitial;
 }
 #header-bg,
 #footer-bg,
 #application-navbar,
+#sam-navbar,
 .navbar,
 .breadcrumb,
 .no-print{
@@ -17,6 +19,6 @@ body,
 #layout-main-wrapper{
     border:none;
     height:auto;
-    margin:0;
+    margin:0 auto;
 }
 
