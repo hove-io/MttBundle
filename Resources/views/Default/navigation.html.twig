@@ -10,7 +10,7 @@
                 {% endfor %}
             {% endfor %}
             <a data-toggle="collapse" id="" href="#mode-collapse-{{ loop.index0 }}" class="{{cssClass}}">
-                <span class="mode-icon mode-id-{{lines[0].commercial_mode.id|replace({':':'-'})}}"></span>{{ lines[0].commercial_mode.name }}
+                <span class="mode-icon mode-id-{{lines[0].commercial_mode.id|replace({':':'-'})|lower}}"></span>{{ lines[0].commercial_mode.name }}
             </a>
             <ul id="mode-collapse-{{ loop.index0 }}" class="nav nav-pills nav-stacked collapse in">
                 {% for line in lines %}
