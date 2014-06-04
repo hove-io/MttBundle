@@ -92,7 +92,7 @@ services:
     #
     canal_tp_mtt.user:
        class: %canal_tp_mtt.user.class%
-       arguments: ['@doctrine.orm.entity_manager', '@translator']
+       arguments: ['@doctrine.orm.entity_manager', '@translator', '@service_container']
     canal_tp_mtt.navitia:
        class: %canal_tp_mtt.navitia.class%
        arguments: ['@request_stack', '@navitia_component', '@sam_navitia', '@translator', '@doctrine.orm.entity_manager']
