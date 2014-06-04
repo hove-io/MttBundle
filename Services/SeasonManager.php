@@ -48,7 +48,7 @@ class SeasonManager
 
     public function find($seasonId)
     {
-        return $this->repository->find($seasonId);
+        return empty($seasonId) ? false : $this->repository->find($seasonId);
     }
 
     public function remove($season)

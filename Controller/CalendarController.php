@@ -41,7 +41,7 @@ class CalendarController extends AbstractController
                 'externalStopPointId' => $externalStopPointId,
                 'calendars'         => $calendars,
                 'current_route'     => $externalRouteId,
-                'currentSeasonId'   => $currentSeason->getId(),
+                'currentSeasonId'   => empty($currentSeason) ? false : $currentSeason->getId(),
                 'prevNextStopPoints'=> $prevNextStopPoints,
             )
         );
