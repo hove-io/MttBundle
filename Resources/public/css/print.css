@@ -1,11 +1,13 @@
 html,
 body,
 #main-container,
+#global-flexible-wrapper,
 .layout-container {
     background:white;
     margin: 0;
     padding: 0;
-    min-height:inbitial;
+    min-height:initial;
+    width:1200px;
 }
 #header-bg,
 #footer-bg,
