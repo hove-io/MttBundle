@@ -16,4 +16,3 @@ webservice:
     
 pdfGeneration:
     no_pdf: Aucun pdf à générer pour cette saison.
-    

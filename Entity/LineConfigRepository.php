@@ -12,4 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class LineConfigRepository extends EntityRepository
 {
+    public function getLineConfigByExternalLineIdAndSeason($externalLineId, $season)
+    {
+        $lineConfig = null;
+        $lineConfig = $this->findOneBy(
+            array(
+                'externalLineId' => $externalLineId,
+                'season' => $season->getId()
+            )
+        );
+
+        if (!$lineConfig) {
+            $lineConfig = new LineConfig();
+
+            $lineConfig->setSeason($season);
+        }
+
+        return ($lineConfig);
+    }
 }

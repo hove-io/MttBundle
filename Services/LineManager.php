@@ -32,6 +32,14 @@ class LineManager
         $lineConfig->setTwigPath($lineConfig->getLayout()->getTwig());
     }
 
+    public function getLineConfigWithSeasonByExternalLineId($externalLineId, $season)
+    {
+        return $this->repository
+            ->getLineConfigByExternalLineIdAndSeason(
+                $externalLineId,
+                $season
+            );
+    }
     /**
      * Return line Object with navitia data added
      *

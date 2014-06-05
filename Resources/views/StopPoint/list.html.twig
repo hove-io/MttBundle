@@ -17,12 +17,12 @@
         {% elseif (lineConfig is not empty) %}
             <div class="btn-group pull-right marg10b">
                 {% if (is_granted('BUSINESS_EDIT_LAYOUT')) %}
-                    <a class="btn btn-primary" href="{{ path('canal_tp_mtt_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id, 'externalRouteId': externalRouteId}) }}">
+                    <a class="btn btn-primary{% if currentSeason.locked %} disabled{% endif %}" href="{{ path('canal_tp_mtt_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id, 'externalRouteId': externalRouteId}) }}">
                         <span class="glyphicon glyphicon-edit"></span> {{'timetable.edit'|trans({}, 'default')}}
                     </a>
                 {% endif %}
                 {% if (is_granted('BUSINESS_CHOOSE_LAYOUT')) %}
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}"">
+                    <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}"">
                         <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}
                     </a>
                 {% endif %}
@@ -62,7 +62,7 @@
             <td class="action">
                 <div class="btn-group pull-right">
                     {% if lineConfig is not empty %}
-                        <button data-toggle="dropdown" type="button" class="btn btn-default dropdown-toggle">
+                        <button data-toggle="dropdown" type="button" class="btn btn-default dropdown-toggle{% if currentSeason.locked %} disabled{% endif %}">
                             {{'stop_point.action.header'|trans({}, 'default')}} <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu pull-right" role="menu">
@@ -73,7 +73,7 @@
                             </li>
                             {% if is_granted('BUSINESS_EDIT_LAYOUT') %}
                             <li>
-                                <a {% if currentSeason.locked %} disabled{% endif %}" href="{{ path('canal_tp_mtt_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id, 'seasonId':currentSeason.id }) }}">
+                                <a {% if currentSeason.locked %} disabled{% endif %} href="{{ path('canal_tp_mtt_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id, 'seasonId':currentSeason.id }) }}">
                                     <span class="glyphicon glyphicon-edit"></span> {{'stop_point.action.edit'|trans({}, 'default')}}
                                 </a>
                             </li>

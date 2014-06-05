@@ -57,7 +57,7 @@ class SeasonController extends AbstractController
 
         return (null);
     }
-
+    
     public function generatePdfAction($externalNetworkId, $seasonId, $publishOnComplete = false)
     {
         $seasonManager = $this->get('canal_tp_mtt.season_manager');
@@ -128,8 +128,10 @@ class SeasonController extends AbstractController
 
         $seasonManager = $this->get('canal_tp_mtt.season_manager');
         $season = $seasonManager->find($seasonId);
-        $this->get('canal_tp_mtt.media_manager')->deleteSeasonMedias($season);
-        $seasonManager->remove($season);
+        if ($this->addFlashIfSeasonLocked($season) == false) {
+            $this->get('canal_tp_mtt.media_manager')->deleteSeasonMedias($season);
+            $seasonManager->remove($season);
+        }
         return $this->redirect(
             $this->generateUrl(
                 'canal_tp_mtt_season_list',
@@ -144,10 +146,13 @@ class SeasonController extends AbstractController
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
         $withGeneration = $this->getRequest()->get('withGeneration', false);
-        if ($withGeneration == 1) {
-            $this->generatePdfAction($externalNetworkId, $seasonId, true);
-        } else {
-            $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
+        $season = $this->get('canal_tp_mtt.season_manager')->find($seasonId);
+        if ($this->addFlashIfSeasonLocked($season) == false) {
+            if ($withGeneration == 1) {
+                $this->generatePdfAction($externalNetworkId, $seasonId, true);
+            } else {
+                $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
+            }
         }
         return $this->redirect(
             $this->generateUrl(
@@ -162,7 +167,11 @@ class SeasonController extends AbstractController
     public function unpublishAction($externalNetworkId, $seasonId)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
-        $this->get('canal_tp_mtt.season_manager')->unpublish($seasonId);
+        $seasonManager = $this->get('canal_tp_mtt.season_manager');
+        $season = $seasonManager->find($seasonId);
+        if ($this->addFlashIfSeasonLocked($season) == false) {
+            $seasonManager->unpublish($seasonId);
+        }
 
         return $this->redirect(
             $this->generateUrl(
