@@ -27,7 +27,8 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     const EXTERNAL_ROUTE_ID = 'route:TTR:Nav168';
     const EXTERNAL_STOP_POINT_ID = 'stop_point:TTR:SP:STPGB-2';
     const SEASON_ID = 1;
-    const EXTERNAL_LAYOUT_ID = 1;
+    const EXTERNAL_LAYOUT_ID_1 = 1;
+    const EXTERNAL_LAYOUT_ID_2 = 2;
     public static $timetableId;
 
     public function createNetwork(
@@ -126,35 +127,9 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $em)
     {
-        $network = $this->createNetwork($em);
-
+        $network = $em->getRepository('CanalTPMttBundle:Network')->findOneByExternalId(Fixture::EXTERNAL_NETWORK_ID);
         $season = $this->createSeason($em, $network);
-        $layout = $this->createLayout(
-            $em,
-            array(
-                'label'         => 'Layout 1 de type paysage (Dijon 1)',
-                'twig'          => 'layout_1.html.twig',
-                'preview'       => '/bundles/canaltpmtt/img/layout_1.png',
-                'orientation'   => 'landscape',
-                'calendarStart' => 4,
-                'calendarEnd'   => 1,
-                'cssVersion'    => 0,
-            ),
-            array($network)
-        );
-        $layout2 = $this->createLayout(
-            $em,
-            array(
-                'label'         => 'Layout 2 de type paysage (Dijon 2)',
-                'twig'          => 'layout_2.html.twig',
-                'preview'       => '/bundles/canaltpmtt/img/layout_2.png',
-                'orientation'   => 'landscape',
-                'calendarStart'=> 4,
-                'calendarEnd'  => 1,
-                'cssVersion'    => 0,
-            ),
-            array($network)
-        );
+        $layout = $em->getRepository('CanalTPMttBundle:Layout')->find(Fixture::EXTERNAL_LAYOUT_ID_1);
         $lineConfig = $this->createLineConfig($em, $season, $layout);
         $timetable = $this->createTimetable($em, $lineConfig);
         $block = $this->createBlock($em, $timetable);
