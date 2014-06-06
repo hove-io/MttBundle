@@ -13,10 +13,12 @@ abstract class AbstractController extends Controller
             throw new AccessDeniedException();
         }
     }
-    
+
     protected function addFlashIfSeasonLocked($season)
     {
-        if (!empty($season) && $season->isLocked()) {
+        $isLocked = (!empty($season) && $season->isLocked());
+
+        if ($isLocked) {
             $this->get('session')->getFlashBag()->add(
                 'warning',
                 $this->get('translator')->trans(
@@ -26,6 +28,6 @@ abstract class AbstractController extends Controller
                 )
             );
         }
-        return $season->isLocked();
+        return $isLocked;
     }
 }
