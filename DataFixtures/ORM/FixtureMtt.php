@@ -35,7 +35,7 @@ class FixturesMtt extends SamBaseFixture
             'lastname'  => 'TT',
             'email'     => 'obs-mtt@canaltp.fr',
             'password'  => 'mtt',
-            'roles'     => array('role-obs-mtt', 'role-obs-sam')
+            'roles'     => array('role-obs-mtt')
         ),
         array(
             'id'        => null,
@@ -44,7 +44,7 @@ class FixturesMtt extends SamBaseFixture
             'lastname'  => 'TT',
             'email'     => 'user-mtt@canaltp.fr',
             'password'  => 'mtt',
-            'roles'     => array('role-user-mtt', 'role-user-sam')
+            'roles'     => array('role-user-mtt')
         ),
         array(
             'id'        => null,
@@ -53,10 +53,10 @@ class FixturesMtt extends SamBaseFixture
             'lastname'  => 'TT',
             'email'     => 'admin-mtt@canaltp.fr',
             'password'  => 'mtt',
-            'roles'     => array('role-admin-mtt', 'role-super-admin-sam')
+            'roles'     => array('role-admin-mtt')
         )
     );
-    
+
     protected $roles = array(
         'role-user-mtt' => array(
             'BUSINESS_VIEW_NAVITIA_LOG',
@@ -148,7 +148,7 @@ class FixturesMtt extends SamBaseFixture
     {
         $this->em = $em;
         $app = $this->createApplication('Mtt', '/mtt');
-        
+
         $userRole    = $this->createApplicationRole('User Mtt',  self::ROLE_USER_MTT,  $app, $this->roles['role-user-mtt']);
         $this->addReference('role-user-mtt', $userRole);
         $addminRole  = $this->createApplicationRole('Admin Mtt', self::ROLE_ADMIN_MTT, $app, $this->roles['role-admin-mtt']);
@@ -186,7 +186,7 @@ class FixturesMtt extends SamBaseFixture
     {
         return 3;
     }
-    
+
     /**
      * @override
      */

@@ -37,6 +37,10 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $token = Fixture::TOKEN
     )
     {
+        $network = $em->getRepository('CanalTPMttBundle:Network')->findOneByExternalId($externalNetworkId);
+        if ($network != NULL) {
+            return ($network);
+        }
         $network = new Network();
         $network->setExternalId($externalNetworkId);
         $network->setExternalCoverageId($externalCoverageId);
@@ -124,11 +128,6 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     {
         $network = $this->createNetwork($em);
 
-        $user = $em->getRepository('CanalTPSamEcoreUserManagerBundle:User')->findOneByUsernameCanonical('mtt');
-        //networks
-        $network->addUser($user);
-        $network2 = $this->createNetwork($em, 'network:Agglobus');
-        $network2->addUser($user);
         $season = $this->createSeason($em, $network);
         $layout = $this->createLayout(
             $em,

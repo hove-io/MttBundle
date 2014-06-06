@@ -75,7 +75,7 @@ class Navitia
         $routes =  $this->getLineRoutes($externalCoverageId, $externalNetworkId, $linesResponse->lines[0]->id);
         return array($linesResponse->lines[0]->id, $routes[0]->id);
     }
-    
+
     /**
      * Get route StopPoints
      *

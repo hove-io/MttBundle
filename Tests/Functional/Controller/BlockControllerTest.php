@@ -22,12 +22,12 @@ class BlockControllerTest extends AbstractControllerTest
             )
         );
     }
-    
+
     // METH-120
     public function testCalendarsBySeason()
     {
         $navitiaMock = $this->getMockedNavitia();
-        $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
+        $season = $this->getRepository('CanalTPMttBundle:Season')->find(Fixture::SEASON_ID);
         $navitiaMock->expects($this->once())
             ->method('getRouteCalendars')
             ->with(
