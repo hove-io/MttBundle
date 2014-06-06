@@ -26,5 +26,6 @@ abstract class AbstractController extends Controller
                 )
             );
         }
+        return $season->isLocked();
     }
 }

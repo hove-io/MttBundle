@@ -69,15 +69,11 @@ class LineController extends AbstractController
             'line_id'           => $line_id,
             'externalRouteId'   => $externalRouteId
         );
-
-        $lineConfig = $this->getDoctrine()
-            ->getRepository('CanalTPMttBundle:LineConfig')
-            ->findOneBy(
-                array(
-                    'externalLineId' => $line_id,
-                    'season' => $season
-                )
-            );
+        $lineConfig = $this->get('canal_tp_mtt.line_manager')->getLineConfigWithSeasonByExternalLineId(
+            $line_id,
+            $season
+        );
+        
         $form = $this->createForm(
             new LineConfigType($network->getLayouts()),
             $lineConfig,

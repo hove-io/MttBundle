@@ -11,7 +11,10 @@ class SeasonLockedSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
-        return array(FormEvents::POST_SET_DATA => 'submit');
+        return array(
+            FormEvents::POST_SET_DATA => 'submit',
+            FormEvents::POST_BIND => 'submit'
+        );
     }
 
     public function submit(FormEvent $event)

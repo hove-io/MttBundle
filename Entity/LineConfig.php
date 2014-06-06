@@ -232,6 +232,6 @@ class LineConfig extends AbstractEntity
     
     public function isLocked()
     {
-        return $this->getSeason()->isLocked();
+        return $this->getSeason() != null && $this->getSeason()->isLocked();
     }
 }
