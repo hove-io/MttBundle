@@ -10,7 +10,12 @@ use CanalTP\SamBundle\Tests\Functional\Controller\BaseControllerTest AS SamBaseT
 
 abstract class AbstractControllerTest extends SamBaseTestController
 {
-    protected $with_db = null;
+    /**
+     * This variable check if the bdd was mocked.
+     *
+     * @var boolean
+     */
+    static protected $mockDb = true;
 
     private function mockDb()
     {
@@ -24,13 +29,14 @@ abstract class AbstractControllerTest extends SamBaseTestController
         parent::logIn('mtt', 'mtt', 'mtt@canaltp.fr', array('ROLE_ADMIN'), 'sam_selected_application', 'mtt');
     }
 
-    public function setUp($with_db = true)
+    public function setUp()
     {
         $this->client = parent::createClient(array('environment' => 'test_mtt'));
         parent::setUp();
-        $this->with_db = $with_db;
 
-        if ($this->with_db) {
+        if (self::$mockDb === true) {
+            self::$mockDb = false;
+
             $this->runConsole("doctrine:schema:drop", array("--force" => true, '-e' => 'test_mtt'));
             $this->mockDb();
         }

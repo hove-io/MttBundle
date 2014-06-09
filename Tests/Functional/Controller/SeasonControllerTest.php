@@ -97,26 +97,6 @@ class SeasonControllerTest extends AbstractControllerTest
         $this->assertGreaterThan(0, $crawler->filter('.modal-body .alert.alert-danger')->count());
     }
 
-    public function testDeleteSeason()
-    {
-        $route = $this->generateRoute(
-            'canal_tp_mtt_season_delete',
-            array(
-                'seasonId' => Fixture::SEASON_ID,
-                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
-            )
-        );
-        $crawler = $this->doRequestRoute($route, 302);
-        $seasons = $this->getRepository('CanalTPMttBundle:Season')->findAll();
-        $this->assertTrue(count($seasons) == 0, "Season was not deleted.");
-        $lineConfigs = $this->getRepository('CanalTPMttBundle:LineConfig')->findAll();
-        $this->assertTrue(count($lineConfigs) == 0, "lineConfig was not deleted.");
-        $timetables = $this->getRepository('CanalTPMttBundle:Timetable')->findAll();
-        $this->assertTrue(count($timetables) == 0, "timetable was not deleted.");
-        $blocks = $this->getRepository('CanalTPMttBundle:Block')->findAll();
-        $this->assertTrue(count($blocks) == 0, "block was not deleted.");
-    }
-
     public function testSeasonPublicationAndUnpublication()
     {
         $route = $this->generateRoute(
@@ -139,6 +119,26 @@ class SeasonControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($route, 302);
         $season = $this->getRepository('CanalTPMttBundle:Season')->find(Fixture::SEASON_ID);
         $this->assertTrue($season->getPublished(), "Season was not unpublished.");
+    }
+
+    public function testDeleteSeason()
+    {
+        $route = $this->generateRoute(
+            'canal_tp_mtt_season_delete',
+            array(
+                'seasonId' => Fixture::SEASON_ID,
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+            )
+        );
+        $crawler = $this->doRequestRoute($route, 302);
+        $seasons = $this->getRepository('CanalTPMttBundle:Season')->findAll();
+        $this->assertTrue(count($seasons) == 0, "Season was not deleted.");
+        $lineConfigs = $this->getRepository('CanalTPMttBundle:LineConfig')->findAll();
+        $this->assertTrue(count($lineConfigs) == 0, "lineConfig was not deleted.");
+        $timetables = $this->getRepository('CanalTPMttBundle:Timetable')->findAll();
+        $this->assertTrue(count($timetables) == 0, "timetable was not deleted.");
+        $blocks = $this->getRepository('CanalTPMttBundle:Block')->findAll();
+        $this->assertTrue(count($blocks) == 0, "block was not deleted.");
     }
 
 }
