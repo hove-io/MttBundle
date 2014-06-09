@@ -9,7 +9,7 @@ class SeasonControllerTest extends AbstractControllerTest
 {
     private $title = 'Saison 1';
     private $startDate = '01/04/2015';
-    private $endDate = '03/10/2016';
+    private $endDate = '03/10/2015';
 
     private function getRoute($route)
     {
@@ -78,6 +78,10 @@ class SeasonControllerTest extends AbstractControllerTest
     public function testUniqueConstraintOnSeasonTitleNetworkId()
     {
         $form = $this->getEditForm();
+        $form['mtt_season[title]'] = 'Saison 2';
+        $form['mtt_season[startDate]'] = '01/04/2016';
+        $form['mtt_season[endDate]'] = '02/04/2016';
+        
         $crawler = $this->client->submit($form);
         $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
         $crawler = $this->client->submit($form);
@@ -131,7 +135,7 @@ class SeasonControllerTest extends AbstractControllerTest
             )
         );
         $crawler = $this->doRequestRoute($route, 302);
-        $seasons = $this->getRepository('CanalTPMttBundle:Season')->findAll();
+        $seasons = $this->getRepository('CanalTPMttBundle:Season')->find(Fixture::SEASON_ID);
         $this->assertTrue(count($seasons) == 0, "Season was not deleted.");
         $lineConfigs = $this->getRepository('CanalTPMttBundle:LineConfig')->findAll();
         $this->assertTrue(count($lineConfigs) == 0, "lineConfig was not deleted.");
@@ -139,6 +143,8 @@ class SeasonControllerTest extends AbstractControllerTest
         $this->assertTrue(count($timetables) == 0, "timetable was not deleted.");
         $blocks = $this->getRepository('CanalTPMttBundle:Block')->findAll();
         $this->assertTrue(count($blocks) == 0, "block was not deleted.");
+        //reload fixtures after Delete
+        parent::runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures", '--append' => null, '-e' => 'test_mtt'));
     }
-
+    
 }

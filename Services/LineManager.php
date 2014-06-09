@@ -9,6 +9,7 @@ namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class LineManager
 {
@@ -29,6 +30,9 @@ class LineManager
 
     public function initTwigPath($lineConfig)
     {
+        if (empty($lineConfig)) {
+            throw new NotFoundHttpException("LineConfig not found");
+        }
         $lineConfig->setTwigPath($lineConfig->getLayout()->getTwig());
     }
 

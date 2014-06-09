@@ -6,6 +6,15 @@ use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
 
 class TimetableControllerTest extends AbstractControllerTest
 {
+    private function getSeason()
+    {
+        $seasons = $this->getRepository('CanalTPMttBundle:Season')->findAll();
+        if (count($seasons) == 0) {
+            throw new \RuntimeException('No seasons');
+        }
+        return $seasons[1];
+    }
+    
     private function getRoute($route, $seasonId, $externalStopPointId = Fixture::EXTERNAL_STOP_POINT_ID)
     {
         return $this->generateRoute(
@@ -34,7 +43,7 @@ class TimetableControllerTest extends AbstractControllerTest
 
     public function testSeasonBlockDates()
     {
-        $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
+        $season = $this->getSeason();
         // check on stopPoint page
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $season->getId()));
         $this->checkBlockAndDates($crawler, $season);
@@ -100,7 +109,7 @@ class TimetableControllerTest extends AbstractControllerTest
     public function testStopPointCodeBlock()
     {
         $translator = $this->client->getContainer()->get('translator');
-        $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
+        $season = $this->getSeason();
 
         $this->checkCodeBlockInTimetableViewPage($translator, $season->getId());
         $this->checkCodeBlockInTimetableEditPage($translator, $season->getId());
@@ -140,7 +149,7 @@ class TimetableControllerTest extends AbstractControllerTest
     public function testStopPointPoisBlock()
     {
         $translator = $this->client->getContainer()->get('translator');
-        $season = $this->getRepository('CanalTPMttBundle:Season')->find(1);
+        $season = $this->getSeason();
 
         $this->checkPoisBlockInTimetableViewPage($translator, $season->getId());
         $this->checkPoisBlockInTimetableEditPage($translator, $season->getId());
