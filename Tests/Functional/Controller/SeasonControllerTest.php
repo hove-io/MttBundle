@@ -144,7 +144,7 @@ class SeasonControllerTest extends AbstractControllerTest
         $blocks = $this->getRepository('CanalTPMttBundle:Block')->findAll();
         $this->assertTrue(count($blocks) == 0, "block was not deleted.");
         //reload fixtures after Delete
-        parent::runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures", '--append' => null, '-e' => 'test_mtt'));
+        $this->reloadMttFixtures();
     }
     
 }

@@ -101,7 +101,7 @@ class FixturesMtt extends SamBaseFixture
 
     private function createNetwork(
         $externalId = 'network:Filbleu',
-        $token = 'unknown',
+        $token = '46cadd8a-e385-4169-9cb8-c05766eeeecb',
         $externalCoverageId = 'centre'
     )
     {
@@ -122,8 +122,8 @@ class FixturesMtt extends SamBaseFixture
                 'twig'          => 'layout_1.html.twig',
                 'preview'       => '/bundles/canaltpmtt/img/layout_1.png',
                 'orientation'   => 'landscape',
-                'calendarStart' => 5,
-                'calendarEnd'   => 0,
+                'calendarStart' => 4,
+                'calendarEnd'   => 1,
             ),
             array($network1, $network2, $network5)
         );
@@ -133,8 +133,8 @@ class FixturesMtt extends SamBaseFixture
                 'twig'          => 'layout_2.html.twig',
                 'preview'       => '/bundles/canaltpmtt/img/layout_2.png',
                 'orientation'   => 'landscape',
-                'calendarStart'=> 5,
-                'calendarEnd'  => 0,
+                'calendarStart'=> 4,
+                'calendarEnd'  => 1,
             ),
             array($network1, $network5)
         );

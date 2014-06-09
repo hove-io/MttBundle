@@ -21,6 +21,7 @@ class PdfControllerTest extends AbstractControllerTest
     public function testPdfGeneration()
     {
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_generate_pdf'), 302);
+
         $location = $this->client->getResponse()->headers->get('location');
         $buffer = file_get_contents($location);
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
