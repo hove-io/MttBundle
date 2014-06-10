@@ -17,11 +17,16 @@ abstract class AbstractControllerTest extends SamBaseTestController
      */
     static protected $mockDb = true;
 
+    protected function reloadMttFixtures()
+    {
+        $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures", '--append' => null, '-e' => 'test_mtt'));
+    }
+
     private function mockDb()
     {
         $this->runConsole("doctrine:schema:create", array('-e' => 'test_mtt'));
         $this->runConsole("doctrine:fixtures:load", array('-e' => 'test_mtt'));
-        $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures", '--append' => null, '-e' => 'test_mtt'));
+        $this->reloadMttFixtures();
     }
 
     protected function logIn()
