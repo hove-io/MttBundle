@@ -35,7 +35,6 @@ class ScheduleExtension extends \Twig_Extension
                 }
             }
         }
-
         return $value;
     }
 

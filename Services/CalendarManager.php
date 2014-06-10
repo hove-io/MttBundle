@@ -79,19 +79,19 @@ class CalendarManager
         return $sortedDateTimes;
     }
 
-    public function isInsideSeason($date, $season)
+    public function isExceptionInsideSeason($note, $season)
     {
-        $dateTime = new \DateTime($date);
-        return $dateTime >= $season->getStartDate() && $dateTime <= $season->getEndDate();
+        $dateTime = new \DateTime($note->date);
+        return $note->type != 'notes' && $dateTime >= $season->getStartDate() && $dateTime <= $season->getEndDate();
     }
-    
+
     /**
      * gather notes and ensure these notes are unique. (based on Navitia ID)
      */
     private function computeNotes($notes, $notesToAdd, $season)
     {
         foreach ($notesToAdd as $note) {
-            if (isset($note->date) && !in_array($note->id, $this->computedNotesId) && $this->isInsideSeason($note->date, $season)) {
+            if (($note->type == 'notes' || $this->isExceptionInsideSeason($note, $season)) && !in_array($note->id, $this->computedNotesId)) {
                 $this->computedNotesId[] = $note->id;
                 $notes[] = $note;
             }
@@ -196,7 +196,7 @@ class CalendarManager
         }
         return $periods;
     }
-    
+
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template

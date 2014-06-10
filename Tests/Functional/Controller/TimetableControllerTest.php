@@ -6,17 +6,6 @@ use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
 
 class TimetableControllerTest extends AbstractControllerTest
 {
-    private function getSeason()
-    {
-        $seasons = $this->getRepository('CanalTPMttBundle:Season')->findAll();
-        // $lineConfigs = $this->getRepository('CanalTPMttBundle:LineConfig')->findAll();
-
-        if (count($seasons) == 0) {
-            throw new \RuntimeException('No seasons');
-        }
-        return array_pop($seasons);
-    }
-    
     private function getRoute($route, $seasonId, $externalStopPointId = Fixture::EXTERNAL_STOP_POINT_ID)
     {
         return $this->generateRoute(
@@ -46,7 +35,6 @@ class TimetableControllerTest extends AbstractControllerTest
     public function testSeasonBlockDates()
     {
         $season = $this->getSeason();
-        // var_dump($this->getRoute('canal_tp_mtt_timetable_view', $season->getId()));die;
         // check on stopPoint page
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $season->getId()));
         $this->checkBlockAndDates($crawler, $season);
