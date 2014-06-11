@@ -44,7 +44,7 @@ class ScheduleExtension extends \Twig_Extension
         return $index === false ? '' : chr($this->ascii_start + $index);
     }
 
-    public function calendarMax($calendar, $min = 11)
+    public function calendarMax($calendar, $min = 12)
     {
         $max = 0;
         if (isset($calendar->schedules->date_times)) {

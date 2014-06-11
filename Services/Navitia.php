@@ -261,7 +261,7 @@ class Navitia
                 'parameters' => array(
                     'type' => array('poi'),
                     'filter' => 'poi_type.id=poi_type:Pointsdevente',
-                    'distance' => 400,
+                    'distance' => 10000,
                     'count' => 2
                 )
             )
