@@ -18,7 +18,7 @@ stop_point:
             content: %code%
             default: (Code du poteau d'arrêt)
         pois:
-            title: Relais Divia :
+            title: Point de vente - Relais Divia :
             default: (Points de vente de l'arrêt)
 
 line:

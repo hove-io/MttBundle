@@ -13,6 +13,7 @@ body.editable{
     border:1px solid black;
     height:800px;
     margin:10px auto;
+    position:relative;
 }
 .editable .block{
     border: 1px solid transparent;

@@ -47,7 +47,7 @@ class ImgHandler extends AbstractHandler
     {
         $media = $this->mediaManager->saveByTimetable($timetable, $formBlock->getContent(), $this->block->getDomId());
         // TODO: save with domain, we should store without it. Waiting for mediaDataCollector to be updated
-        $formBlock->setContent($this->mediaManager->getUrlByMedia($media));
+        $formBlock->setContent($this->mediaManager->getUrlByMedia($media) . '?' . time());
         $this->saveBlock($formBlock, $timetable);
     }
 }

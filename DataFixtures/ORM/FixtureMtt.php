@@ -125,7 +125,7 @@ class FixturesMtt extends SamBaseFixture
                 'calendarStart' => 4,
                 'calendarEnd'   => 1,
             ),
-            array($network1, $network2, $network5)
+            array($network1, $network2)
         );
         $layout2 = $this->createLayout(
             array(
@@ -136,7 +136,40 @@ class FixturesMtt extends SamBaseFixture
                 'calendarStart'=> 4,
                 'calendarEnd'  => 1,
             ),
-            array($network1, $network5)
+            array($network1, $network2)
+        );
+        $this->createLayout(
+            array(
+                'label'         => 'Lianes 4 paves',
+                'twig'          => 'Divia/lianes4Timegrids.html.twig',
+                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/Lianes-4-paves.png',
+                'orientation'   => 'landscape',
+                'calendarStart' => 4,
+                'calendarEnd'   => 1,
+            ),
+            array($network5)
+        );
+        $this->createLayout(
+            array(
+                'label'         => 'Flexo',
+                'twig'          => 'Divia/flexo.html.twig',
+                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/Flexo.png',
+                'orientation'   => 'landscape',
+                'calendarStart' => 4,
+                'calendarEnd'   => 1,
+            ),
+            array($network5)
+        );
+        $this->createLayout(
+            array(
+                'label'         => 'Proxi',
+                'twig'          => 'Divia/proxi.html.twig',
+                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/Proxi.png',
+                'orientation'   => 'landscape',
+                'calendarStart' => 4,
+                'calendarEnd'   => 1,
+            ),
+            array($network5)
         );
 
         $this->em->persist($network1);

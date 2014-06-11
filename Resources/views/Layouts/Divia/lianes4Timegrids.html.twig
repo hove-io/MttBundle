@@ -1,0 +1,12 @@
+{% extends "@CanalTPMtt/Layouts/Divia/base.html.twig" %}
+
+{% block timetable_downer_content %}
+    <div id="timetables-wrapper" class="clearfix">
+        {% for i in 1..4 %}
+            {% set id = 'timegrid_block_' ~ i %}
+            {% set block = attribute(timetable.blocks, id) %}
+            {% set addNotes = i == 2 %}
+            {% include '@CanalTPMtt/Layouts/timegrid.html.twig' with {'addNotes': addNotes} %}
+        {% endfor %}
+    </div>
+{% endblock %}

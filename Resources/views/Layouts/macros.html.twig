@@ -68,8 +68,12 @@
     </div>
 {% endmacro %}
 
-{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range) %}
-    {% set loopMax = calendar|calendarMax %}
+{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin) %}
+    {% if linesMin is empty %}
+        {% set loopMax = calendar|calendarMax %}
+    {% else %}
+        {% set loopMax = calendar|calendarMax(linesMin) %}
+    {% endif %}
     {% if stopPointLevel == false and block %}
         <tr class="hidden-tr-4-dropdown">
             <td colspan="{{hours_range|length}}" class="text-center">
