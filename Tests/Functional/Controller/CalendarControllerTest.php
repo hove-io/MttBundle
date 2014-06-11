@@ -93,6 +93,10 @@ class CalendarControllerTest extends AbstractControllerTest
             $crawler->filter('html:contains("Sauf le 09/05/2014")')->count() > 0,
             "the exception value was not found in html."
         );
+        $this->assertTrue(
+            $crawler->filter('html:contains("Y compris le 09/05/2014")')->count() > 0,
+            "the exception value was not found in html."
+        );
     }
 
     public function testFootNotesConsistencyViewAction()
