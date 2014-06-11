@@ -1,17 +1,12 @@
 {% extends "CanalTPMttBundle::container.html.twig" %}
 
 {% block stylesheets %}
-    {% stylesheets  'css/bootstrap.css'
-                    'bundles/canaltpsam/css/*'
-                    'bundles/canaltpmtt/css/main.css'
-                    'bundles/canaltpmtt/css/layouts.css'
-
-                   filter='cssrewrite' output='css/fullMtt_layouts.css' %}
-        <link rel="stylesheet" media="all" href="{{ asset_url }}?{{ assets_version }}" />
-    {% endstylesheets %}
-    {% stylesheets  'bundles/canaltpmtt/css/print.css'
-                   filter='cssrewrite' output='css/full_layouts_print.css' %}
-        <link rel="stylesheet" media="print" href="{{ asset_url }}?{{ assets_version }}" />
+    {{ parent() }}
+    {% stylesheets  'bundles/canaltpmtt/css/layouts.css'
+                    'bundles/canaltpmtt/css/print.css'
+                    'bundles/canaltpmtt/css/layouts/*'
+                    filter='cssrewrite' output='css/full_mtt_layout.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}?{{ assets_version }}" />
     {% endstylesheets %}
 {% endblock %}
 
