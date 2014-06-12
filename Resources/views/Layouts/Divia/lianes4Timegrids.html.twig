@@ -6,7 +6,14 @@
             {% set id = 'timegrid_block_' ~ i %}
             {% set block = attribute(timetable.blocks, id) %}
             {% set addNotes = i == 2 %}
-            {% include '@CanalTPMtt/Layouts/timegrid.html.twig' with {'addNotes': addNotes} %}
+            {% if i == 2 or i == 3 %}
+                {% set nbLines = 10 %}
+            {% elseif i == 4 %}
+                {% set nbLines = 8 %}
+            {% else %}
+                {% set nbLines = 12 %}
+            {% endif %}
+            {% include '@CanalTPMtt/Layouts/timegrid.html.twig' with {'addNotes': addNotes, 'nbLines' : nbLines} %}
         {% endfor %}
     </div>
 {% endblock %}
