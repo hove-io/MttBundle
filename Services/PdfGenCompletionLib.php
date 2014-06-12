@@ -72,7 +72,9 @@ class PdfGenCompletionLib
     
     private function getSeason($seasonId)
     {
-        return $this->om->getRepository('CanalTPMttBundle:Season')->find($seasonId);
+        $season = $this->om->getRepository('CanalTPMttBundle:Season')->find($seasonId);
+        $this->om->refresh($season);
+        return $season;
     }
     
     private function commit($task, $season)
