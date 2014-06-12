@@ -64,7 +64,7 @@
                             <div id="season-publication-modal-{{season.id}}" class="modal fade">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        {% embed "CanalTPMttBundle::modal.html.twig" %}
+                                        {% embed "::modal.html.twig" %}
                                             {% block modal_title %}{{'distribution.generation_title'|trans({}, 'default')}}{% endblock %}
                                             {% block modal_body %}
                                             {{'season.publication_and_generation'|trans({}, 'default')}}
