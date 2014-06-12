@@ -49,6 +49,16 @@ abstract class AbstractControllerTest extends SamBaseTestController
             $this->logIn();
     }
 
+    protected function getSeason()
+    {
+        $seasons = $this->getRepository('CanalTPMttBundle:Season')->findAll();
+
+        if (count($seasons) == 0) {
+            throw new \RuntimeException('No seasons');
+        }
+        return array_pop($seasons);
+    }
+
     public function tearDown()
     {
         parent::tearDown();

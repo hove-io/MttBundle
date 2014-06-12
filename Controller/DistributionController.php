@@ -151,7 +151,6 @@ class DistributionController extends AbstractController
                 'CanalTPMttBundle:Pdf:generate',
                 array(
                     'timetableId'           => $timetableId,
-                    // 'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
                     'externalNetworkId'     => $externalNetworkId,
                     'externalStopPointId'   => $externalStopPointId,
                 )
@@ -168,7 +167,7 @@ class DistributionController extends AbstractController
             // save this list in db
             $this->saveList($timetable, $stopPointsIds);
             $pdfGenerator = $this->get('canal_tp_mtt.pdf_generator');
-            $filePath = $pdfGenerator->aggregatePdf($paths);
+            $filePath = $pdfGenerator->aggregatePdf($paths, $timetable);
 
             return new JsonResponse(
                 array(

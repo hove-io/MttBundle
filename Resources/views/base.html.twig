@@ -1,16 +1,15 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-    {% stylesheets 'css/bootstrap.css'
-                    'bundles/canaltpsam/css/*'
-                    'bundles/canaltpmtt/css/main.css'
-                    'components/bootstrap-datepicker/css/datepicker3.css'
-                   filter='cssrewrite' output='css/fullMtt.css' %}
+    {{ parent() }}
+    {% stylesheets 'bundles/canaltpmtt/css/main.css'
+                   filter='cssrewrite' output='css/full_mtt.css' %}
         <link rel="stylesheet" href="{{ asset_url }}?{{ assets_version }}" />
     {% endstylesheets %}
-{% endblock %}
+ {% endblock %}
 
 {% block head_config %}
+    {{ parent() }}
     {% include 'CanalTPMttBundle::config.js.html.twig' %}
 {% endblock %}
 
@@ -62,7 +61,7 @@
     {% block base_modal %}
         <div class="modal-dialog">
             <div class="modal-content">
-                {% include 'CanalTPMttBundle::modal.html.twig' %}
+                {% include '::modal.html.twig' %}
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     {% endblock %}

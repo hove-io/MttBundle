@@ -123,8 +123,8 @@ services:
     canal_tp_mtt.network_manager:
        class: %canal_tp_mtt.network.class%
        arguments: ['@doctrine.orm.entity_manager']
-    canal_tp.mtt.form_listener:
-        class: CanalTP\MttBundle\EventListener\FormListener
+    canal_tp.mtt.ajax_form_listener:
+        class: CanalTP\SamBundle\EventListener\AjaxFormListener
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
     # Service of distribution list
