@@ -7,9 +7,9 @@
         <!-- Frequencies -->
         {% if (calendar.schedules.additional_informations is not empty) %}
             <div class="external-additional-informations">{{ calendar.schedules.additional_informations }}</div>
-            <table class="empty-timegrid">
+            <table class="nb-lines-{{ nbLines }} empty-timegrid">
         {% else %}
-            <table>
+            <table class="nb-lines-{{ nbLines }}">
         {% endif %}
             {% set hours_range = layout|calendarRange %}
             {{ macros.hours_thead(hours_range)}}
@@ -19,22 +19,14 @@
                     with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
                 %}
             {% endif %}
-            {% if i == 2 or i == 3 %}
-                {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, 10) }}
-            {% elseif i == 4 %}
-                {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, 8) }}
-            {% else %}
-                {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range) }}
-            {% endif %}
+            {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, nbLines) }}
         </table>
 
-        {# position is specific to this layout -> i==2... #}
         {% if addNotes is not empty and notes|length > 0 %}
-            <div class="timetable-notes">
-            {% for note in notes %}
-                <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
-            {% endfor %}
-            </div>
+            {%
+                include "CanalTPMttBundle:Layouts:notes.html.twig"
+                with { 'notes' : notes } only
+            %}
         {% endif %}
     </div>
 </div>

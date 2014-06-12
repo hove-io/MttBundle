@@ -1,3 +1,19 @@
+Notes de publication - METH - Version 0.9.2 (12/06/2014)
+
+** Bogue
+    * [METH-185] - Plus de durée d'expiration de session ?
+    * [METH-226] - Les Pdf générés en masse contiennent le message "Saison verrouillée"
+    * [METH-227] - Verrouillage de saison KO
+    * [METH-229] - Les annotations ne s'affichent pas toujours
+    * [METH-236] - Génération du PDF de la list de distrib > nom pérenne
+
+** Amélioration
+    * [METH-232] - CLONE - Modification du fond de fiche 4 pavés
+    
+** Tâche
+    * [METH-233] - Intégration des 2 layouts restants pour Divia
+
+
 Notes de publication - METH - Version 0.9.1 (03/06/2014)
 
 **Bogue

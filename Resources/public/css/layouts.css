@@ -106,6 +106,9 @@ body.editable{
     text-align: center;
     width: 100%;
 }
+.nb-lines-4 .frequencies-row td.frequency-content div.min-height-wrapper{
+    height: 62px;
+}
 .frequencies-row td.frequency-content div.min-height-wrapper.error{
     border-color:red;
 }

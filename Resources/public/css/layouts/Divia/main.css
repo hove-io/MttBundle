@@ -1,5 +1,4 @@
 /* layout type Dijon (layout_1) */
-
 #layout-1-wrapper{
     padding:8px;
 }
@@ -160,7 +159,7 @@ img.divia-logo{
 .timegrid-body{
     position:relative;
 }
-.timetable-notes{
+#timetables-wrapper .timegrid-body .timetable-notes{
     position:absolute;
     bottom:0;
     left:0;
@@ -246,4 +245,69 @@ img.divia-logo{
 }
 #timetables-wrapper #timegrid_block_4 .timegrid-body{
     height: 135px;
+}
+/* redefinition for proxi layout */
+.proxi-layout #proxi-explanation-wrapper{
+    float:left;
+    width:49%;
+}
+.proxi-layout #timetables-wrapper{
+    float:right;
+    margin-top:22px;
+    width:49%;
+}
+.proxi-layout #timetables-wrapper .timegrid-container {
+    float:none;
+    margin-top: 0;
+    width: 100%;
+}
+#layout-1-wrapper.proxi-layout #timetables-wrapper .timegrid-container .timegrid-body{
+    min-height:0;
+    height: 80px;
+}
+.proxi-layout #timegrid_block_2.timegrid-container .timegrid-header {
+    background-color: black;
+}
+.proxi-layout .timegrid-body tr.even{
+    background-color: #fef2e7;
+}
+.proxi-layout .centered-dropdown {
+    margin-top: -45px;
+}
+.proxi-layout .explanation-block .title{
+    display: inline-block;
+    font-size:13pt;
+    font-weight:bold;
+    background-color:#f4a157;
+    color:white;
+    padding:0px 10px;
+}
+.proxi-layout .explanation-block .content{
+    font-size:11pt;
+    background-color:#fef2e7;
+    color:#ef852a;
+}
+.proxi-layout .explanation-block .content{
+    padding:10px;
+}
+.proxi-layout .explanation-block .content div{
+    margin-bottom:10px;
+}
+.proxi-layout .explanation-block .content div:last-child{
+    margin-bottom:30px;
+}
+.explanation-block .title.secondary{
+    display:block;
+    font-weight:normal;
+    font-size:11pt;
+    line-height: normal;
+    padding:5px 10px;
+}
+.explanation-block .title .bigger-title{
+    font-size:15pt;
+    font-weight:bold;
+}
+.proxi-layout .explanation-block .content.secondary{
+    font-weight:bold;
+    padding-bottom:50px;
 }
