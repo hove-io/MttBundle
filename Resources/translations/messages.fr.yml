@@ -30,8 +30,11 @@ global:
     remaining_chars: %nb_chars% caractères restant(s)
     please_choose: Veuillez choisir...
     no_items: Aucun élément à afficher
-    startDate: Date de début
-    endDate: Date de fin
+    period_title: Dates
+    validity_period:
+        start: du
+        end: au
+        and: et
     previous_stop_point: Arrêt précédent
     next_stop_point: Arrêt suivant
     confirm_season_delete: Êtes-vous sûr de vouloir supprimer cette saison? Toutes les données liées y compris les pdf seront perdus.

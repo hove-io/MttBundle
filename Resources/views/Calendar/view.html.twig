@@ -8,34 +8,34 @@
 
 {% block main_content %}
     <div>
-        <h3>{{'calendar.view_title'|trans}}</h3>
+        <h3>{{ (calendars|first).schedules.stop_point.name }}</h3>
     </div>
     {% if prevNextStopPoints %}
         {% if prevNextStopPoints.prev %}
             {% set prev_url = path(
-                'canal_tp_mtt_calendar_view', 
+                'canal_tp_mtt_calendar_view',
                 {
-                    'externalNetworkId':externalNetworkId, 
-                    'externalRouteId': current_route, 
-                    'externalStopPointId' : prevNextStopPoints.prev, 
+                    'externalNetworkId':externalNetworkId,
+                    'externalRouteId': current_route,
+                    'externalStopPointId' : prevNextStopPoints.prev,
                     'currentSeasonId':currentSeasonId
                 }
             ) %}
         {% endif %}
         {% if prevNextStopPoints.next %}
             {% set next_url = path(
-                'canal_tp_mtt_calendar_view', 
+                'canal_tp_mtt_calendar_view',
                 {
-                    'externalNetworkId':externalNetworkId, 
-                    'externalRouteId': current_route, 
-                    'externalStopPointId' : prevNextStopPoints.next, 
+                    'externalNetworkId':externalNetworkId,
+                    'externalRouteId': current_route,
+                    'externalStopPointId' : prevNextStopPoints.next,
                     'currentSeasonId':currentSeasonId
                 }
             ) %}
         {% endif %}
         {%
             include "CanalTPMttBundle::prevNextStopPoints.html.twig"
-            with { 
+            with {
                 'prev_url' : prev_url ?: false,
                 'next_url' : next_url ?: false
             }
@@ -84,12 +84,22 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
+                            <div>
+                                <label class="bold">{{'global.period_title'|trans({}, 'messages')}}</label>:
+                            </div>
                             {% for period in calendar.active_periods %}
                                 <div>
-                                    <label class="bold">{{'global.startDate'|trans({}, 'messages')}}</label>: {{ period.begin|date('d/m/Y') }}
-                                </div>
-                                <div>
-                                    <label class="bold">{{'global.endDate'|trans({}, 'messages')}}</label>: {{ period.end|date('d/m/Y') }}
+                                    <label class="bold">
+                                        {% if (loop.first) %}
+                                            {{'global.validity_period.start'|trans({}, 'messages')|capitalize}}
+                                        {% else %}
+                                            {{'global.validity_period.and'|trans({}, 'messages')}}
+                                            {{'global.validity_period.start'|trans({}, 'messages')}}
+                                        {% endif %}
+                                    </label>
+                                    {{ period.begin|date('d/m/Y') }}
+                                    <label class="bold">{{'global.validity_period.end'|trans({}, 'messages')}}</label>
+                                    {{ period.end|date('d/m/Y') }}
                                 </div>
                             {% endfor %}
                         <hr/>
