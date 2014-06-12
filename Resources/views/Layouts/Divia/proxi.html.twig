@@ -4,34 +4,10 @@
 
 {% block timetable_downer_content %}
     <div id="timetable_downer_content" class="clearfix">
-        <div id="proxi-explanation-wrapper">
-            <div class="explanation-block">
-                <div class="title">
-                    COMMENT UTILISER PROXI
-                </div>
-                <div class="content">
-                    <div>
-                        <b>> Réservez</b> votre place jusqu'à la veille de votre déplacement, en appelant Divia
-                    </div>
-                    <div>
-                        <b>> Facilitez</b> l'enregistrement de votre demande en communiquant vos nom, prénom et adresse
-                    </div>
-                    <div>
-                        <b>> Un empêchement ?</b> Merci d'annuler votre réservation au plus tard la veille
-                    </div>
-                    <div>
-                        <b>> Appelez le jour-même</b> pour profiter éventuellement d'une navette déjà réservée
-                    </div>
-                </div>
-                <div class="title secondary">
-                    <div><span class="bigger-title">Divia au 03 80 11 29 29</span> puis taper 2</div>
-                    <div>du lundi au vendredi de 7h à 19h</div>
-                </div>
-                <div class="content secondary">
-                    La ligne Proxi est accessible avec tous les PASS abonnements et les PASS voyages Divia, dont le PASS 1H Dépannage vendu par le conducteur, à bord des bus.
-                </div>
-            </div>
-        </div>
+        {%
+            include "@CanalTPMtt/Layouts/Divia/leftOrangeBlock.html.twig"
+            with { 'brand' : 'proxi' } only
+        %}
         <div id="timetables-wrapper">
         {% set addNotes = false %}
         {% for i in 1..3 %}

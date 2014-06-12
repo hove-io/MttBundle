@@ -257,6 +257,7 @@ img.divia-logo{
     width:49%;
 }
 .proxi-layout #timetables-wrapper .timegrid-container {
+    float:none;
     margin-top: 0;
     width: 100%;
 }

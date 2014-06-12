@@ -3,5 +3,23 @@
 {% block additionnal_wrapper_class %}proxi-layout flexo-layout{% endblock %}
 
 {% block timetable_downer_content %}
-flexo
+    <div id="timetable_downer_content" class="clearfix">
+        {%
+            include "@CanalTPMtt/Layouts/Divia/leftOrangeBlock.html.twig"
+            with { 'brand' : 'flexo' } only
+        %}
+        <div id="timetables-wrapper">
+            {% set addNotes = false %}
+            {% set id = 'timegrid_block_1' %}
+            {% set block = attribute(timetable.blocks, id) %}
+            {% set nbLines = 4 %}
+            {% include '@CanalTPMtt/Layouts/timegrid.html.twig' with {'addNotes': addNotes, 'nbLines' : nbLines} %}
+            <div class="pad30t">
+            {%
+                include "CanalTPMttBundle:Layouts:notes.html.twig"
+                with { 'notes' : notes } only
+            %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
