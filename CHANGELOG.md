@@ -5,12 +5,14 @@ Notes de publication - METH - Version 0.9.2 (12/06/2014)
     * [METH-226] - Les Pdf générés en masse contiennent le message "Saison verrouillée"
     * [METH-227] - Verrouillage de saison KO
     * [METH-229] - Les annotations ne s'affichent pas toujours
+    * [METH-231] - CLONE - Rafraichissement du pdf de la liste de distribution
     * [METH-236] - Génération du PDF de la list de distrib > nom pérenne
 
 ** Amélioration
     * [METH-232] - CLONE - Modification du fond de fiche 4 pavés
-    
+
 ** Tâche
+    * [METH-88] - Elements d'info et de navigation sur la page de vérification des horaires
     * [METH-233] - Intégration des 2 layouts restants pour Divia
 
 
