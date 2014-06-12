@@ -140,6 +140,7 @@ class DistributionController extends AbstractController
         $stopPointsIds = $this->get('request')->request->get(
             'stopPointsIds', array()
         );
+
         $paths = array();
         foreach ($stopPointsIds as $externalStopPointId) {
             $stopPoint = $stopPointManager->getStopPoint(
@@ -171,7 +172,7 @@ class DistributionController extends AbstractController
 
             return new JsonResponse(
                 array(
-                    'path' => $this->getRequest()->getBasePath() . $filePath
+                    'path' => $this->getRequest()->getBasePath() . $filePath . '?' . time()
                 )
             );
         } else {
