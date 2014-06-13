@@ -102,6 +102,20 @@ class TimetableManager
     }
 
     /**
+     * Return timetable Object without navitia data added
+     *
+     * @param  Integer   $externalId
+     * @return timetable
+     */
+    public function findTimetableByExternalRouteIdAndLineConfigId($externalRouteId, $lineConfigId)
+    {
+        return $this->repository->findOneBy(array(
+            'externalRouteId' => $externalRouteId,
+            'line_config' => $lineConfigId
+        ));
+    }
+
+    /**
      * Return timetable Object
      *
      * @param  Integer   $externalId

@@ -10,6 +10,7 @@ stop_point:
         header: Actions
         validate: Valider
         edit: Éditer la fiche horaire
+        download: Télécharger la fiche horaire
     pdf_generation_date: Date de génération du pdf
     view_calendars: Voir les horaires
     block:

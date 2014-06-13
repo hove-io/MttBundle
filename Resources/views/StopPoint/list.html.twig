@@ -78,6 +78,13 @@
                                 </a>
                             </li>
                             {% endif %}
+                            {% if route.stop_point.pdfGenerationDate is not empty %}
+                            <li>
+                                <a {% if currentSeason.locked %} disabled{% endif %} href="{{ path('canal_tp_mtt_timetable_download_pdf', {'externalRouteId':externalRouteId, 'externalStopPointId':route.stop_point.id, 'lineConfigId':lineConfig.id }) }}">
+                                    <span class="glyphicon glyphicon-download-alt"></span> {{'stop_point.action.download'|trans({}, 'default')}}
+                                </a>
+                            </li>
+                            {% endif %}
                         </ul>
                         <a class="btn btn-primary" href="{{ path('canal_tp_mtt_timetable_view',  {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id , 'seasonId':currentSeason.id }) }}">
                             <span class="glyphicon glyphicon-search"></span> {{'global.preview'|trans}}

@@ -60,7 +60,6 @@ class MediaManager
         return $media;
     }
 
-    //proxy calls
     public function getUrlByMedia($media)
     {
         return $this->mediaDataCollector->getUrlByMedia($media);
