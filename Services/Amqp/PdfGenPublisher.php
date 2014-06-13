@@ -12,6 +12,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 use CanalTP\MttBundle\Entity\AmqpTask;
 use CanalTP\MttBundle\Entity\AmqpAck;
+use CanalTP\MttBundle\Services\Amqp\Channel;
 
 class PdfGenPublisher
 {
@@ -39,9 +40,7 @@ class PdfGenPublisher
     {
         // pre-bind and pre-create the queue so broadcasted messages will be kept 
         // even if there is no worker listening yet
-        $this->channel->queue_declare($this->queueName, false, true, false, false);
-        // bind with routing key *.pdf_gen
-        $this->channel->queue_bind($this->queueName, $this->exchangeName, "*.pdf_gen");
+        $this->channelLib->declareQueue($this->queueName, $this->exchangeName, "*.pdf_gen");
     }
 
     private function getNewTask($payloads, $season, $taskOptions)
@@ -61,10 +60,9 @@ class PdfGenPublisher
 
     private function declareAckQueue($task, $routingKey)
     {
-        $ackQueueName = $this->channelLib->getAckQueueName();
         // declare ack queue
-        $this->channel->queue_declare($ackQueueName, false, true, false, false);
-        $this->channel->queue_bind($ackQueueName, $this->exchangeName, $ackQueueName);
+        $ackQueueName = $this->channelLib->getAckQueueName();
+        $this->channelLib->declareQueue($ackQueueName, $this->exchangeName, $ackQueueName);
         
         return $ackQueueName;
     }

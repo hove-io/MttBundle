@@ -8,17 +8,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use CanalTP\MttBundle\Services\Amqp\PdfGenPublisher;
-use CanalTP\MttBundle\Services\Amqp\Channel;
 
 class AckWorkerCommand extends ContainerAwareCommand
 {
     private $channel = null;
     private $channelLib = null;
-    private $connection = null;
-    private $amqpPdfGenPublisher = null;
 
     private function initChannel()
     {
@@ -36,6 +31,11 @@ class AckWorkerCommand extends ContainerAwareCommand
             $pdfGenCompletionLib = $this->getContainer()->get('canal_tp_mtt.pdf_gen_completion_lib');
             echo "StartCompleted\n";
             $pdfGenCompletionLib->completePdfGenTask($task);
+            $msgCompleted = new AMQPMessage(
+                'Completed',
+                array('delivery_mode' => 2) # make message persistent
+            );
+            $this->channel->basic_publish($msgCompleted, $this->channelLib->getExchangeName(), $task->getId().'.task_completion', true);
         }
         echo "\n--------\n";
         // acknowledge broker
@@ -65,7 +65,12 @@ class AckWorkerCommand extends ContainerAwareCommand
        $this
             ->setName('mtt:amqp:waitForAcks')
             ->setDescription('Launch a amqp listener to get acknowledgements from pdf generation workers and log these into database')
-            ->addArgument('ack_queue_name', InputArgument::REQUIRED, 'Acknowledgement queue name');
+            ->addArgument(
+                'ack_queue_name', 
+                InputArgument::OPTIONAL, 
+                'Acknowledgement queue name', 
+                'ack_queue.for_pdf_gen'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
