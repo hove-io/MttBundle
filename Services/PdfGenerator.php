@@ -9,19 +9,24 @@ namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\Filesystem\Filesystem;
 use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Services\DistributionListManager;
 
 use fpdi;
 
 class PdfGenerator
 {
     private $serverUrl = null;
-    private $uploadPath = null;
+    private $distributionListManager = null;
 
-    public function __construct(CurlProxy $curlProxy, $server, $path)
+    public function __construct(
+        CurlProxy $curlProxy,
+        $server,
+        DistributionListManager $distributionListManager
+    )
     {
         $this->curlProxy = $curlProxy;
         $this->serverUrl = $server;
-        $this->uploadPath = $path;
+        $this->distributionListManager = $distributionListManager;
     }
 
     public function getPdf($url, $orientation)
@@ -66,21 +71,13 @@ class PdfGenerator
                 }
             }
         }
-        $path = $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalId() . '/';
-        $path .= $timetable->getLineConfig()->getSeason()->getId() . '/';
-        $path .= $timetable->getExternalRouteId() . '/';
-        if (!is_dir($this->getUploadRootDir() . $path)) {
-            mkdir($this->getUploadRootDir() . $path, 0777, true);
+        $path = $this->distributionListManager->generateAbsoluteDistributionListPdfPath($timetable);
+        $pathDir = dirname($path);
+
+        if (!is_dir($pathDir)) {
+            mkdir($pathDir, 0777, true);
         }
-        $path .= 'Liste de distribution.pdf';
-        // TODO: Should be not saved on filesystem ?
-        $fpdi->Output($this->getUploadRootDir() . $path, 'F');
-
-        return '/uploads/' . $path;
-    }
-
-    protected function getUploadRootDir()
-    {
-        return $this->uploadPath;
+        $fpdi->Output($path, 'F');
+        return $this->distributionListManager->generateRelativeDistributionListPdfPath($timetable);
     }
 }

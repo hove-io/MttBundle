@@ -9,6 +9,11 @@
     <h4>{{'global.line_label'|trans}} {{ display_informations.label }} <span class="glyphicon glyphicon-arrow-right"></span> {{ display_informations.direction }}</h4>
     <div class="clearfix">
         <div class="pull-right">
+            {% if (pdfUrl is not empty) %}
+            <a class="btn btn-primary" href="{{ app.request.getSchemeAndHttpHost() ~ app.request.getBasePath() ~ pdfUrl }}" target="_blank">
+                <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+            </a>
+            {% endif %}
             {% if (is_granted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF')) %}
             <button id="generate-distribution-list" type="button" class="btn btn-primary">
                 <span class="glyphicon glyphicon-file"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
@@ -19,6 +24,12 @@
                         {{'distribution.manage_order'|trans({}, 'default')}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu">
+                    <li>
+                        <a id="save-distribution-list" href="{{ path('canal_tp_mtt_distribution_list_save',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id}) }}">
+                            <span class="glyphicon glyphicon-refresh display-none"></span>
+                            <span class="glyphicon glyphicon-floppy-disk"></span> {{'distribution.save_order'|trans({}, 'default')}}
+                        </a>
+                    </li>
                     <li>
                         <a id="save-distribution-list" href="{{ path('canal_tp_mtt_distribution_list_save',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id}) }}">
                             <span class="glyphicon glyphicon-refresh display-none"></span>

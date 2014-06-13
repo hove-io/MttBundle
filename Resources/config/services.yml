@@ -17,7 +17,7 @@ parameters:
     canal_tp_mtt.network.class: CanalTP\MttBundle\Services\NetworkManager
     canal_tp.mtt.navitia_debug_matcher.class: CanalTP\MttBundle\Profiler\NavitiaDebugMatcher
     canal_tp.mtt.season_copier.class: CanalTP\MttBundle\Services\SeasonCopier
-    canal_tp.mtt.distribution_list.class: CanalTP\MttBundle\Services\DistributionListManager
+    canal_tp.mtt.distribution_list_manager.class: CanalTP\MttBundle\Services\DistributionListManager
     canal_tp.mtt.validator.constraints.navitia_network_id.class: CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkIdValidator
     canal_tp.mtt.validator.constraints.greater_than_field.class: CanalTP\MttBundle\Validator\Constraints\GreaterThanFieldValidator
     canal_tp_mtt.pdf_hashing_lib.class: CanalTP\MttBundle\Services\PdfHashingLib
@@ -82,7 +82,7 @@ services:
    #PDF
     canal_tp_mtt.pdf_generator:
        class: %canal_tp_mtt.pdf_generator.class%
-       arguments: ['@canal_tp_mtt.curl', '%pdf_generator_url%', "%kernel.root_dir%/../web/uploads/"]
+       arguments: ['@canal_tp_mtt.curl', '%pdf_generator_url%', '@canal_tp.mtt.distribution_list_manager']
     canal_tp_mtt.pdf_hashing_lib:
        class: %canal_tp_mtt.pdf_hashing_lib.class%
        arguments: ['@canal_tp_mtt.curl']
@@ -128,9 +128,9 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
     # Service of distribution list
-    canal_tp.mtt.distribution_list:
-        class: %canal_tp.mtt.distribution_list.class%
-        arguments: ['@doctrine.orm.entity_manager']
+    canal_tp.mtt.distribution_list_manager:
+        class: %canal_tp.mtt.distribution_list_manager.class%
+        arguments: ['@doctrine.orm.entity_manager', "%kernel.root_dir%/../web/uploads/"]
     #AMQP services
     canal_tp_mtt.amqp_channel:
        class: %canal_tp_mtt.amqp_channel.class%

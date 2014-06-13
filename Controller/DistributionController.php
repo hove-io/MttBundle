@@ -71,6 +71,7 @@ class DistributionController extends AbstractController
         $navitia = $this->get('sam_navitia');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
+        $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
 
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $routes = $navitia->getStopPoints(
@@ -119,6 +120,7 @@ class DistributionController extends AbstractController
                 'currentSeasonId'   => $timetable->getLineConfig()->getSeason()->getId(),
                 'externalLineId'    => $lineId,
                 'externalRouteId'   => $routeId,
+                'pdfUrl'            => $distributionListManager->findPdfPathByTimetable($timetable)
             )
         );
     }
@@ -188,7 +190,7 @@ class DistributionController extends AbstractController
 
     private function saveList($timetable, $stopPointsIncluded)
     {
-        $distributionListManager = $this->get('canal_tp.mtt.distribution_list');
+        $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
         $distribList = $this->getDoctrine()->getRepository('CanalTPMttBundle:DistributionList');
         $distribListInstance = $distributionListManager->findByTimetable($timetable);
 

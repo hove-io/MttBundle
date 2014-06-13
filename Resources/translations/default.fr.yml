@@ -46,6 +46,7 @@ block:
 
 distribution:
     generation_title: Génération de la liste de placardage
+    download_distribution_pdf: Télécharger le pdf
     generate_distribution_pdf: Générer le pdf
     generation_in_progress: Génération en cours
     stops_included: Arrêts inclus
