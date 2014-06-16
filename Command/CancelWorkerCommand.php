@@ -81,7 +81,7 @@ class CancelWorkerCommand extends ContainerAwareCommand
             null, 
             array('x-priority' => array('I', 100))
         );
-        list($queue_name, $jobs, $consumers) = $this->channel->queue_declare('', false, false, true, true);
+        list($queueName, $jobs, $consumers) = $this->channel->queue_declare('', false, false, true, true);
         $this->channel->queue_bind($queueName, $this->channelLib->getExchangeFanoutName());
         $this->channel->basic_consume(
             $queueName,

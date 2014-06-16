@@ -31,11 +31,9 @@ class TaskCancelation
     public function cancelAmqpMessages($season, $task)
     {
         $routing_key = $this->channelLib->getRoutingKey($season, $task);
-        $pathToConsole = 'php ' . $this->rootDir . '/console ';
-        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routing_key . ' ' . $task->getId();
-        $process = new Process($command);
-        $process->setIdleTimeout(5);
-        $process->run();
+        $pathToConsole = 'nohup php ' . $this->rootDir . '/console ';
+        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routing_key . ' ' . $task->getId() . ' > /dev/null &';
+        exec($command);
     }
 
     public function cancel($taskId)
