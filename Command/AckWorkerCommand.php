@@ -19,7 +19,7 @@ class AckWorkerCommand extends ContainerAwareCommand
     {
         $this->channelLib = $this->getContainer()->get('canal_tp_mtt.amqp_channel');
         $this->channel = $this->channelLib->getChannel();
-        $this->channel->basic_qos(null, 1, null);
+        // $this->channel->basic_qos(null, 1, null);
     }
     
     public function process_message($msg)
@@ -35,7 +35,7 @@ class AckWorkerCommand extends ContainerAwareCommand
                 'Completed',
                 array('delivery_mode' => 2) # make message persistent
             );
-            $this->channel->basic_publish($msgCompleted, $this->channelLib->getExchangeName(), $task->getId().'.task_completion', true);
+            $this->channel->basic_publish($msgCompleted, $this->channelLib->getExchangeFanoutName(), $task->getId().'.task_completion', true);
         }
         echo "\n--------\n";
         // acknowledge broker

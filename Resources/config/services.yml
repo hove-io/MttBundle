@@ -146,4 +146,4 @@ services:
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.media_manager']
     canal_tp_mtt.task_cancelation:
         class: %canal_tp_mtt.task_cancelation.class%
-        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.amqp_channel']
+        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.amqp_channel', '%kernel.root_dir%']

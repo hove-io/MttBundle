@@ -29,15 +29,13 @@ class CancelWorkerCommand extends ContainerAwareCommand
         echo "Task completion queue ", $msg->delivery_info['routing_key'];
         if ($msg->delivery_info['routing_key'] == $this->taskId . ".task_completion") {
             echo " [x] Task completion confirmed for ", $msg->delivery_info['routing_key'], "\n";
-            $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
             $this->taskCompleted = true;
-        } else {
-            $msg->delivery_info['channel']->basic_nack($msg->delivery_info['delivery_tag'], false, true);
         }
     }
 
     public function process_message($msg)
     {
+        // echo $msg->delivery_info['routing_key'], " ---- ", $this->routingKeyToCancel, "\r\n";
         if ($msg->delivery_info['routing_key'] == $this->routingKeyToCancel) {
             $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
             echo " [x] Cancelled", $msg->delivery_info['routing_key'], "\n";
@@ -59,6 +57,7 @@ class CancelWorkerCommand extends ContainerAwareCommand
                 true
             );
         } else {
+            // echo " [x] Not Cancelled", $msg->delivery_info['routing_key'], "\n";
             $msg->delivery_info['channel']->basic_nack($msg->delivery_info['delivery_tag'], false, true);
         }
     }
@@ -66,7 +65,11 @@ class CancelWorkerCommand extends ContainerAwareCommand
     private function runProcess($routingKey, $taskId)
     {
         $this->taskId = $taskId;
+        $this->routingKeyToCancel = $routingKey;
 
+        // echo "bind to ", $this->routingKeyToCancel, "\r\n";die;
+        $this->channel->queue_bind($this->channelLib->getPdfGenQueueName(), $this->channelLib->getExchangeName(), $this->routingKeyToCancel);
+        
         $this->channel->basic_consume(
             $this->channelLib->getPdfGenQueueName(),
             'cancelTask', 
@@ -78,11 +81,13 @@ class CancelWorkerCommand extends ContainerAwareCommand
             null, 
             array('x-priority' => array('I', 100))
         );
+        list($queue_name, $jobs, $consumers) = $this->channel->queue_declare('', false, false, true, true);
+        $this->channel->queue_bind($queueName, $this->channelLib->getExchangeFanoutName());
         $this->channel->basic_consume(
-            $this->channelLib->getTaskCompletionQueueName(),
+            $queueName,
             'taskCompletion', 
             false, 
-            false, 
+            true, 
             false, 
             false, 
             array($this, 'watchTaskCompletion')

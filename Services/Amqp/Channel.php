@@ -12,8 +12,8 @@ use PhpAmqpLib\Message\AMQPMessage;
 class Channel
 {
     const EXCHANGE_NAME = "pdf_gen_exchange";
+    const EXCHANGE_FANOUT_NAME = "fanout_exchange";
     const PDF_GEN_QUEUE_NAME = "pdf_gen_queue";
-    const TASK_COMPLETION_QUEUE_NAME = "task_completed_queue";
     
     private $connection = null;
     private $channel = null;
@@ -35,7 +35,13 @@ class Channel
         if (empty($this->channel)) {
             $this->channel = $this->connection->channel();
             $this->channel->exchange_declare($this->getExchangeName(), 'topic', false, true, false);
+            $this->channel->exchange_declare($this->getExchangeFanoutName(), 'fanout', false, true, false);
         }
+    }
+    
+    public function getExchangeFanoutName()
+    {
+        return self::EXCHANGE_FANOUT_NAME;
     }
     
     public function declareQueue($queueName, $exchangeName, $routingKey)
@@ -70,11 +76,6 @@ class Channel
     public function getPdfGenQueueName()
     {
         return self::PDF_GEN_QUEUE_NAME;
-    }
-    
-    public function getTaskCompletionQueueName()
-    {
-        return self::TASK_COMPLETION_QUEUE_NAME;
     }
 
     public function close()
