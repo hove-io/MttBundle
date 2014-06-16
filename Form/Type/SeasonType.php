@@ -34,14 +34,21 @@ class SeasonType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title', 'text');
+        $builder->add(
+            'title',
+            'text',
+            array(
+                'label' => 'season.labels.title'
+                )
+            );
         $builder->add(
             'startDate',
             'datepicker',
             array(
                 'attr' => array(
                     'data-from-date' => true
-                )
+                ),
+                'label' => 'season.labels.start_date'
             )
         );
         $builder->add(
@@ -50,16 +57,18 @@ class SeasonType extends AbstractType
             array(
                 'attr' => array(
                     'data-to-date' => true
-                )
+                ),
+                'label' => 'season.labels.end_date'
             )
         );
         if (count($this->seasons) > 0 && !$this->currentSeasonId) {
             $builder->add(
                 'seasonToClone',
                 'choice',
-                    array(
-                        'choices' => $this->seasons,
-                        'empty_value' => 'global.please_choose'
+                array(
+                    'choices' => $this->seasons,
+                    'empty_value' => 'global.please_choose',
+                    'label' => 'season.labels.season_to_clone'
                 )
             );
         }

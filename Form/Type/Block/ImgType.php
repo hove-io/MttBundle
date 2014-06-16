@@ -11,7 +11,7 @@ class ImgType extends BlockType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'text')
+            ->add('title', 'text', array('label' => 'block.img.labels.title'))
             ->add('content', 'file',
                 array(
                     'data_class' => null,
@@ -25,7 +25,8 @@ class ImgType extends BlockType
                             )
                         ),
                         new NotBlank()
-                    )
+                    ),
+                    'label' => 'block.img.labels.content'
                 )
             );
         parent::buildForm($builder, $options);

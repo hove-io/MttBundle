@@ -76,6 +76,7 @@ season:
     locked: Cette saison est verrouillée. Aucune action ne peut-être réalisée.
     please_create_before_continue: Veuillez créer une saison avant d'éditer les fiches horaires.
     create: Créer une saison
+    edit: Editer une saison
     title: Nom de la saison
     start_date: Début
     end_date: Fin
@@ -111,3 +112,17 @@ task:
     completed: Terminée
     completedAt: Terminée à
     season_pdf_generation: Génération de l'ensemble des pdfs d'une saison
+
+block:
+    img:
+        labels:
+            title: Titre
+            content: Image
+    text:
+        labels:
+            title: Titre
+            content: Texte
+    calendar:
+        labels:
+            title: Titre
+            content: Texte

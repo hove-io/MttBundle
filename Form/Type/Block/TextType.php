@@ -9,8 +9,8 @@ class TextType extends BlockType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'text')
-            ->add('content', 'textarea', array('attr' => array('rows' => 5)))
+            ->add('title', 'text', array('label' => 'block.text.labels.title'))
+            ->add('content', 'textarea', array('attr' => array('rows' => 5), 'label' => 'block.text.labels.content'))
         ;
         parent::buildForm($builder, $options);
     }
