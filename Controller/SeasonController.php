@@ -57,20 +57,20 @@ class SeasonController extends AbstractController
 
         return (null);
     }
-    
+
     public function generatePdfAction($externalNetworkId, $seasonId, $publishOnComplete = false)
     {
         $seasonManager = $this->get('canal_tp_mtt.season_manager');
         $pdfPayloadGenerator = $this->get('canal_tp_mtt.season_pdf_payload_generator');
         $amqpPdfGenPublisher = $this->get('canal_tp_mtt.amqp_pdf_gen_publisher');
-        
+
         $season = $seasonManager->find($seasonId);
         if ($this->addFlashIfSeasonLocked($season) == false) {
             try {
                 $payloads = $pdfPayloadGenerator->generate($season);
                 $amqpPdfGenPublisher->publish(
-                    $payloads, 
-                    $season, 
+                    $payloads,
+                    $season,
                     array('publishSeasonOnComplete' => $publishOnComplete)
                 );
                 $this->get('session')->getFlashBag()->add(
@@ -115,7 +115,10 @@ class SeasonController extends AbstractController
         if (!$render) {
             return $this->render(
                 'CanalTPMttBundle:Season:form.html.twig',
-                array('form' => $form->createView())
+                array(
+                    'form' => $form->createView(),
+                    'title' => ($season_id ? 'season.edit' : 'season.create')
+                )
             );
         }
 

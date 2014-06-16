@@ -16,17 +16,14 @@ use fpdi;
 class PdfGenerator
 {
     private $serverUrl = null;
-    private $distributionListManager = null;
 
     public function __construct(
         CurlProxy $curlProxy,
-        $server,
-        DistributionListManager $distributionListManager
+        $server
     )
     {
         $this->curlProxy = $curlProxy;
         $this->serverUrl = $server;
-        $this->distributionListManager = $distributionListManager;
     }
 
     public function getPdf($url, $orientation)
@@ -53,13 +50,13 @@ class PdfGenerator
     /**
      *  @function aggregate pdf files
      *
-     *  @param $paths array Array with absolute path to pdf files
+     *  @param $files array Array with absolute path to pdf files
      */
-    public function aggregatePdf($paths, Timetable $timetable)
+    public function aggregatePdf($files, $path)
     {
         $fpdi = new \fpdi\FPDI();
 
-        foreach ($paths as $file) {
+        foreach ($files as $file) {
             if (file_exists($file)) {
                 $pageCount = $fpdi->setSourceFile($file);
                 for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
@@ -71,13 +68,11 @@ class PdfGenerator
                 }
             }
         }
-        $path = $this->distributionListManager->generateAbsoluteDistributionListPdfPath($timetable);
         $pathDir = dirname($path);
 
         if (!is_dir($pathDir)) {
             mkdir($pathDir, 0777, true);
         }
-        $fpdi->Output($path, 'F');
-        return $this->distributionListManager->generateRelativeDistributionListPdfPath($timetable);
+        return $fpdi->Output($path, 'F');
     }
 }

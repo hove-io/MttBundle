@@ -170,7 +170,9 @@ class DistributionController extends AbstractController
             // save this list in db
             $this->saveList($timetable, $stopPointsIds);
             $pdfGenerator = $this->get('canal_tp_mtt.pdf_generator');
-            $filePath = $pdfGenerator->aggregatePdf($paths, $timetable);
+            $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
+            $pdfGenerator->aggregatePdf($paths, $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable));
+            $filePath = $distributionListManager->generateRelativeDistributionListPdfPath($timetable);
 
             return new JsonResponse(
                 array(

@@ -82,7 +82,7 @@ services:
    #PDF
     canal_tp_mtt.pdf_generator:
        class: %canal_tp_mtt.pdf_generator.class%
-       arguments: ['@canal_tp_mtt.curl', '%pdf_generator_url%', '@canal_tp.mtt.distribution_list_manager']
+       arguments: ['@canal_tp_mtt.curl', '%pdf_generator_url%']
     canal_tp_mtt.pdf_hashing_lib:
        class: %canal_tp_mtt.pdf_hashing_lib.class%
        arguments: ['@canal_tp_mtt.curl']
