@@ -97,7 +97,7 @@ class SeasonController extends AbstractController
 
         return $this->redirect(
             $this->generateUrl(
-                'canal_tp_mtt_season_list',
+                'canal_tp_mtt_homepage',
                 array(
                     'externalNetworkId' => $externalNetworkId,
                 )

@@ -8,6 +8,7 @@ namespace CanalTP\MttBundle\Services\Amqp;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Process\Process;
+use Spork\ProcessManager;
 
 use CanalTP\MttBundle\Services\Amqp\Channel;
 
@@ -32,22 +33,11 @@ class TaskCancelation
         $routing_key = $this->channelLib->getRoutingKey($season, $task);
         $pathToConsole = 'php ' . $this->rootDir . '/console ';
         $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routing_key . ' ' . $task->getId();
-        // print $command;
         $process = new Process($command);
         $process->setIdleTimeout(5);
-        $process->start();
-        // $process->run(function ($type, $buffer) {
-            // if (Process::ERR === $type) {
-                // echo 'ERR > '.$buffer;
-            // } else {
-                // echo 'OUT > '.$buffer;
-            // }
-        // });
-        // print $process->getOutput();
-        // die;
+        $process->run();
     }
 
-    // public function getFanout
     public function cancel($taskId)
     {
         $task = $this->taskRepo->find($taskId);
