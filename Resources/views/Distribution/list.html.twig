@@ -9,10 +9,23 @@
     <h4>{{'global.line_label'|trans}} {{ display_informations.label }} <span class="glyphicon glyphicon-arrow-right"></span> {{ display_informations.direction }}</h4>
     <div class="clearfix">
         <div class="pull-right">
+            {% if (pdfUrl is not empty) %}
+                <a class="btn btn-primary" href="{{ pdfUrl }}" target="_blank">
+                    <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+                </a>
+            {% else %}
+                <a class="btn btn-primary disabled" disabled="disabled" title="{{'distribution.no_pdf_at_this_time'|trans({}, 'default')}}" href="#">
+                    <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+                </a>
+            {% endif %}
             {% if (is_granted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF')) %}
-            <button id="generate-distribution-list" type="button" class="btn btn-primary">
+            <a id="generate-distribution-list" href="{{ path('canal_tp_mtt_distribution_generate',
+                {
+                    'timetableId': timetable.id,
+                    'externalNetworkId' : externalNetworkId
+                }) }}" class="btn btn-primary">
                 <span class="glyphicon glyphicon-file"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
-            </button>
+            </a>
             {% endif %}
             <div class="btn-group">
                 <button data-toggle="dropdown" type="button" class="btn btn-default dropdown-toggle">
@@ -54,46 +67,19 @@
             </ul>
         </div>
     </div>
-
-
-{% endblock %}
-
-{% block base_modal %}
-    <div class="modal-dialog">
-        <div class="modal-content">
-            {% embed "::modal.html.twig" %}
-                {% block modal_title %}{{'distribution.generation_title'|trans({}, 'default')}}{% endblock %}
-                {% block modal_body %}
-                <div class="progress progress-striped active">
-                    <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                        <span>{{'distribution.generation_in_progress'|trans({}, 'default')}}</span>
-                    </div>
-                </div>
-                <div class="center">
-                    <a class="btn btn-primary" href="" target="_blank" style="display:none;">
-                        <span class="glyphicon glyphicon-download-alt"></span> {{'global.downloadPdf'|trans}}
-                    </a>
-                </div>
-                {% endblock %}
-                {% block modal_actions %}{% endblock %}
-                {% block modal_close_header %}{% endblock %}
-                {% block modal_close_footer %}{% endblock %}
-            {% endembed %}
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
 {% endblock %}
 
 {% block javascripts %}
 <script type="text/javascript">
 require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable){
 
-    var url = Routing.generate(
+    /*var url = Routing.generate(
         'canal_tp_mtt_distribution_generate',
         {
             'timetableId': {{timetable.id|raw}},
             'externalNetworkId' : '{{externalNetworkId|raw}}'
         }
-    );
+    );*/
 
     $('.list-group.sortable').sortable({
         placeholder: "sortable-highlight list-group-item",
@@ -166,18 +152,13 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
     $('#generate-distribution-list').click(function(){
         var stopPoints_ids = _getStopPointIds();
 
-        $('#base-modal').find('a.btn').hide();
-        $('#base-modal').find('div.progress').show();
-        $('#base-modal').modal('show');
         if (stopPoints_ids.length > 0)
         {
-            $.post(
-                url,
-                {"stopPointsIds[]" : stopPoints_ids}
-            ).done(function(data){
-                $('#base-modal').find('div.progress').hide();
-                $('#base-modal').find('a.btn').attr('href', data.path).show();
+            var $form = $('<form method="POST" action="' + $(this).attr('href') + '"></form>');
+            $(stopPoints_ids).each(function(){
+                $form.append('<input type="hidden" name="stopPointsIds[]" value="' + this + '" />');
             });
+            $form.submit();
         }
         return false;
     });

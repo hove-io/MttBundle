@@ -4,12 +4,16 @@
  * Generates payloads for Amqp messages in order to generate pdf for a whole season.
  * @author vdegroote
  */
-namespace CanalTP\MttBundle\Services;
+namespace CanalTP\MttBundle\Services\Amqp;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\DependencyInjection\Container;
 
-class SeasonPdfPayloadsGenerator
+use CanalTP\MttBundle\Services\Navitia;
+use CanalTP\MttBundle\Services\TimetableManager;
+use CanalTP\MttBundle\Services\StopPointManager;
+
+class PdfPayloadsGenerator
 {
     private $co = null;
     private $router = null;
@@ -63,8 +67,46 @@ class SeasonPdfPayloadsGenerator
         );
         return $payload;
     }
+    
+    private function getRouteEnhancedStopPoints($network, $externalRouteId, $timetable)
+    {
+        $routeSchedulesData = $this->navitia->getRouteStopPoints($network, $externalRouteId);
+        if (isset($routeSchedulesData->route_schedules[0])) {
+            if (!empty($timetable)) {
+                $stopPoints = $this->stopPointManager->enhanceStopPoints(
+                    $routeSchedulesData->route_schedules[0]->table->rows,
+                    $timetable
+                );
+            } else {
+                $stopPoints = $routeSchedulesData->route_schedules[0]->table->rows;
+            }
+        }
+        return $stopPoints;
+    }
+    
+    public function getStopPointsPayloads($timetable, $stopPointsExternalIds)
+    {
+        $lineConfig = $timetable->getLineConfig();
+        $externalRouteId = $timetable->getExternalRouteId();
+        $season = $lineConfig->getSeason();
+        $network = $season->getNetwork();
+        $routeEnhancedStopPoints = $this->getRouteEnhancedStopPoints($network, $externalRouteId, $timetable);
+        $payloads = array();
+        foreach($routeEnhancedStopPoints as $enhancedStopPoint) {
+            if (in_array($enhancedStopPoint->stop_point->id, $stopPointsExternalIds)) {
+                $payloads[] = $this->getPayload(
+                    $network, 
+                    $season, 
+                    $lineConfig, 
+                    $externalRouteId, 
+                    $enhancedStopPoint->stop_point
+                );
+            }
+        }
+        return $payloads;
+    }
 
-    public function generate($season)
+    public function getSeasonPayloads($season)
     {
         $payloads = array();
         $network = $season->getNetwork();
@@ -76,23 +118,12 @@ class SeasonPdfPayloadsGenerator
                 $externalLineId
             );
             foreach ($routes as $route) {
-                $routeSchedulesData = $this->navitia->getRouteStopPoints($network, $route->id);
-                if (isset($routeSchedulesData->route_schedules[0])) {
-                    $timetable = $this->timetableManager->findTimetableByExternalRouteIdAndLineConfig(
-                        $route->id, 
-                        $lineConfig
-                    );
-                    if (!empty($timetable)) {
-                        $stopPoints = $this->stopPointManager->enhanceStopPoints(
-                            $routeSchedulesData->route_schedules[0]->table->rows,
-                            $timetable
-                        );
-                    } else {
-                        $stopPoints = $routeSchedulesData->route_schedules[0]->table->rows;
-                    }
-                }
+                $timetable = $this->timetableManager->findTimetableByExternalRouteIdAndLineConfig(
+                    $route->id, 
+                    $lineConfig
+                );
+                $stopPoints = $this->getRouteEnhancedStopPoints($network, $route->id, $timetable);
                 foreach($stopPoints as $stopPoint) {
-                    
                     $payloads[] = $this->getPayload(
                         $network, 
                         $season, 

@@ -2,6 +2,11 @@
 .display-none{
     display:none;
 }
+.btn.disabled, 
+.btn[disabled], 
+fieldset[disabled] .btn {
+    pointer-events:auto;
+}
 .bold{font-weight:bold;}
 .pad10t{padding-top:10px;}
 .pad30t{padding-top:30px;}
@@ -14,7 +19,6 @@
 textarea {
     resize: none;
 }
-
 .layout-preview{
     width:300px;
 }

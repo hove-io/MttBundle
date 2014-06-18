@@ -9,19 +9,21 @@ namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\Filesystem\Filesystem;
 use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Services\DistributionListManager;
 
 use fpdi;
 
 class PdfGenerator
 {
     private $serverUrl = null;
-    private $uploadPath = null;
 
-    public function __construct(CurlProxy $curlProxy, $server, $path)
+    public function __construct(
+        CurlProxy $curlProxy,
+        $server
+    )
     {
         $this->curlProxy = $curlProxy;
         $this->serverUrl = $server;
-        $this->uploadPath = $path;
     }
 
     public function getPdf($url, $orientation)
@@ -48,13 +50,13 @@ class PdfGenerator
     /**
      *  @function aggregate pdf files
      *
-     *  @param $paths array Array with absolute path to pdf files
+     *  @param $files array Array with absolute path to pdf files
      */
-    public function aggregatePdf($paths, Timetable $timetable)
+    public function aggregatePdf($files, $path)
     {
         $fpdi = new \fpdi\FPDI();
 
-        foreach ($paths as $file) {
+        foreach ($files as $file) {
             if (file_exists($file)) {
                 $pageCount = $fpdi->setSourceFile($file);
                 for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
@@ -66,21 +68,11 @@ class PdfGenerator
                 }
             }
         }
-        $path = $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalId() . '/';
-        $path .= $timetable->getLineConfig()->getSeason()->getId() . '/';
-        $path .= $timetable->getExternalRouteId() . '/';
-        if (!is_dir($this->getUploadRootDir() . $path)) {
-            mkdir($this->getUploadRootDir() . $path, 0777, true);
+        $pathDir = dirname($path);
+
+        if (!is_dir($pathDir)) {
+            mkdir($pathDir, 0777, true);
         }
-        $path .= 'Liste de distribution.pdf';
-        // TODO: Should be not saved on filesystem ?
-        $fpdi->Output($this->getUploadRootDir() . $path, 'F');
-
-        return '/uploads/' . $path;
-    }
-
-    protected function getUploadRootDir()
-    {
-        return $this->uploadPath;
+        return $fpdi->Output($path, 'F');
     }
 }

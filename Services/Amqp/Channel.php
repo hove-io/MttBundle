@@ -12,6 +12,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 class Channel
 {
     const EXCHANGE_NAME = "pdf_gen_exchange";
+    const EXCHANGE_FANOUT_NAME = "fanout_exchange";
     const PDF_GEN_QUEUE_NAME = "pdf_gen_queue";
     
     private $connection = null;
@@ -33,9 +34,22 @@ class Channel
     {
         if (empty($this->channel)) {
             $this->channel = $this->connection->channel();
-
             $this->channel->exchange_declare($this->getExchangeName(), 'topic', false, true, false);
+            $this->channel->exchange_declare($this->getExchangeFanoutName(), 'fanout', false, true, false);
         }
+    }
+    
+    public function getExchangeFanoutName()
+    {
+        return self::EXCHANGE_FANOUT_NAME;
+    }
+    
+    public function declareQueue($queueName, $exchangeName, $routingKey)
+    {
+        $this->init();
+        $this->channel->queue_declare($queueName, false, true, false, false);
+        // bind with routing key
+        $this->channel->queue_bind($queueName, $exchangeName, $routingKey);
     }
     
     public function getChannel()
@@ -49,9 +63,9 @@ class Channel
         return 'ack_queue.for_pdf_gen';
     }
 
-    public function getRoutingKey($season, $task)
+    public function getRoutingKey($network, $task)
     {
-        return 'network_' . $season->getNetwork()->getId() . '_task_' . $task->getId() .'.pdf_gen';
+        return 'network_' . $network->getId() . '_task_' . $task->getId() .'.pdf_gen';
     }
     
     public function getExchangeName()

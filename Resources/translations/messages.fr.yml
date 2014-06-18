@@ -75,3 +75,17 @@ menu:
 network:
     error:
         wrong_token: Le token n'est pas correct
+
+# Labels
+season:
+    labels:
+        title: Titre
+        start_date: Date de début
+        end_date: Date de fin
+        season_to_clone: Saison à cloner
+
+frequency:
+    labels:
+        start_time: Heure de ébut
+        end_time: Heure de fin
+        content: Texte

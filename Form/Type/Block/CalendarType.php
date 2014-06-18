@@ -37,7 +37,8 @@ class CalendarType extends BlockType
         $builder
             ->add(
                 'title',
-                'text'
+                'text',
+                array('label' => 'block.calendar.labels.title',)
             )
             ->add(
                 'content',
@@ -45,7 +46,7 @@ class CalendarType extends BlockType
                 array(
                     'choices'       => $this->choices,
                     'disabled'      => $this->isDisabled(),
-                    'label'         => 'calendar.form.label',
+                    'label'         => 'block.calendar.labels.content',
                     'attr'      => array(
                         // attribute to tell javascript to fill automatically title
                         // when a change occurs on this field

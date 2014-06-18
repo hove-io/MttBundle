@@ -71,6 +71,7 @@ class DistributionController extends AbstractController
         $navitia = $this->get('sam_navitia');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
+        $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
 
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $routes = $navitia->getStopPoints(
@@ -119,6 +120,7 @@ class DistributionController extends AbstractController
                 'currentSeasonId'   => $timetable->getLineConfig()->getSeason()->getId(),
                 'externalLineId'    => $lineId,
                 'externalRouteId'   => $routeId,
+                'pdfUrl'            => $distributionListManager->findPdfPathByTimetable($timetable)
             )
         );
     }
@@ -127,68 +129,63 @@ class DistributionController extends AbstractController
     {
         $this->isGranted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
+        $pdfPayloadGenerator = $this->get('canal_tp_mtt.pdf_payload_generator');
+        $amqpPdfGenPublisher = $this->get('canal_tp_mtt.amqp_pdf_gen_publisher');
+        $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
 
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById(
             $timetableId,
             $network->getExternalCoverageId()
         );
-        $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
-        $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint');
-        $this->mediaManager = $this->get('canal_tp_mtt.media_manager');
-
         $stopPointsIds = $this->get('request')->request->get(
             'stopPointsIds', array()
         );
+        $payloads = $pdfPayloadGenerator->getStopPointsPayloads($timetable, $stopPointsIds);
+        if (count($payloads) > 0) {
+            
+            $distributionList = $this->saveList($timetable, $stopPointsIds);
+            $task = $amqpPdfGenPublisher->publishDistributionListPdfGen($payloads, $timetable);
+            $distributionListManager->deleteDistributionListPdf($timetable);
 
-        $paths = array();
-        foreach ($stopPointsIds as $externalStopPointId) {
-            $stopPoint = $stopPointManager->getStopPoint(
-                $externalStopPointId,
-                $timetable,
-                $network->getExternalCoverageId()
-            );
-            $response = $this->forward(
-                'CanalTPMttBundle:Pdf:generate',
-                array(
-                    'timetableId'           => $timetableId,
-                    'externalNetworkId'     => $externalNetworkId,
-                    'externalStopPointId'   => $externalStopPointId,
-                )
-            );
-
-            $media = $this->mediaManager->getStopPointTimetableMedia($timetable, $externalStopPointId);
-            $path = $this->mediaManager->getPathByMedia($media);
-            if (!empty($path)) {
-                $paths[] = $path;
-            }
-        }
-
-        if (count($paths) > 0) {
-            // save this list in db
-            $this->saveList($timetable, $stopPointsIds);
-            $pdfGenerator = $this->get('canal_tp_mtt.pdf_generator');
-            $filePath = $pdfGenerator->aggregatePdf($paths, $timetable);
-
-            return new JsonResponse(
-                array(
-                    'path' => $this->getRequest()->getBasePath() . $filePath . '?' . time()
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'distribution.pdf_generation_task_has_started',
+                    array(
+                        '%countPdfs%' => count($payloads)
+                    ),
+                    'default'
                 )
             );
         } else {
-            throw new \Exception(
+            $this->get('session')->getFlashBag()->add(
+                'danger',
                 $this->get('translator')->trans(
                     'controller.distribution.generate.no_pdfs',
-                    array(),
-                    'exceptions'
+                    array(
+                        '%count_jobs%' => count($payloads)
+                    ),
+                    'default'
                 )
             );
         }
+        return $this->redirect(
+            $this->generateUrl(
+                'canal_tp_mtt_distribution_list',
+                array(
+                    'externalNetworkId' => $externalNetworkId,
+                    'lineId' => $timetable->getLineConfig()->getExternalLineId(),
+                    'routeId' => $timetable->getExternalRouteId(),
+                    'currentSeasonId' => $timetable->getLineConfig()->getSeason()->getId()
+                )
+            )
+        );
     }
 
     private function saveList($timetable, $stopPointsIncluded)
     {
-        $distributionListManager = $this->get('canal_tp.mtt.distribution_list');
+        $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
         $distribList = $this->getDoctrine()->getRepository('CanalTPMttBundle:DistributionList');
         $distribListInstance = $distributionListManager->findByTimetable($timetable);
 
@@ -200,5 +197,7 @@ class DistributionController extends AbstractController
         $distribListInstance->setIncludedStops($stopPointsIncluded);
         $this->getDoctrine()->getManager()->persist($distribListInstance);
         $this->getDoctrine()->getManager()->flush();
+        
+        return $distribListInstance;
     }
 }

@@ -10,6 +10,7 @@ stop_point:
         header: Actions
         validate: Valider
         edit: Éditer la fiche horaire
+        download: Télécharger la fiche horaire
     pdf_generation_date: Date de génération du pdf
     view_calendars: Voir les horaires
     block:
@@ -45,8 +46,10 @@ block:
 
 distribution:
     generation_title: Génération de la liste de placardage
+    download_distribution_pdf: Télécharger le pdf
     generate_distribution_pdf: Générer le pdf
-    generation_in_progress: Génération en cours
+    no_pdf_at_this_time: Aucun fichier pdf pour le moment
+    pdf_generation_task_has_started: La génération des %countPdfs% fichiers pdf a démarré.
     stops_included: Arrêts inclus
     stops_excluded: Arrêts exclus
     manage_order: Gérer l'ordre
@@ -74,6 +77,7 @@ season:
     locked: Cette saison est verrouillée. Aucune action ne peut-être réalisée.
     please_create_before_continue: Veuillez créer une saison avant d'éditer les fiches horaires.
     create: Créer une saison
+    edit: Editer une saison
     title: Nom de la saison
     start_date: Début
     end_date: Fin
@@ -108,4 +112,19 @@ task:
     launchedAt: Lancée à
     completed: Terminée
     completedAt: Terminée à
-    season_pdf_generation: Génération de l'ensemble des pdfs d'une saison
+    season_pdf_generation: Génération de l'ensemble des pdfs de la saison "%seasonName%"
+    distribution_list_pdf_generation: Génération de la liste de distribution pour la route %routeId%
+
+block:
+    img:
+        labels:
+            title: Titre
+            content: Image
+    text:
+        labels:
+            title: Titre
+            content: Texte
+    calendar:
+        labels:
+            title: Titre
+            content: Texte

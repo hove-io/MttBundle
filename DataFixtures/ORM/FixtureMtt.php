@@ -196,8 +196,6 @@ class FixturesMtt extends SamBaseFixture
 
         //associer les utilisateurs avec l'application
         foreach ($this->users as &$userData) {
-//            $isAdmin = in_array(self::ROLE_ADMIN_MTT, $userData['roles']);
-
             $userEntity = $this->createUser(
                 $userData
             );

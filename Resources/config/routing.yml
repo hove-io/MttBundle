@@ -83,6 +83,14 @@ canal_tp_mtt_timetable_generate_pdf:
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
+canal_tp_mtt_timetable_download_pdf:
+    pattern: /pdf/generate/routes/{externalRouteId}/stopPoints/{externalStopPointId}/lines/{lineConfigId}
+    defaults: { _controller: CanalTPMttBundle:Pdf:download}
+    requirements:
+        lineConfigId: \d+
+        externalRouteId: -?[a-zA-Z0-9_\-:]*
+        externalStopPointId: -?[a-zA-Z0-9_\-:]*
+
 #Block
 canal_tp_mtt_block_edit:
     # stop point must be the last param so it can be empty

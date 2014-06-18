@@ -13,14 +13,14 @@ class StopPointController extends AbstractController
         $this->addFlashIfSeasonLocked($currentSeason);
         if (empty($line_id)) {
             list($line_id, $externalRouteId) = $navitia->getFirstLineAndRouteOfNetwork(
-                $network->getExternalCoverageId(), 
+                $network->getExternalCoverageId(),
                 $externalNetworkId
             );
         }
         $routes = $navitia->getStopPoints(
-            $network->getExternalCoverageId(), 
-            $externalNetworkId, 
-            $line_id, 
+            $network->getExternalCoverageId(),
+            $externalNetworkId,
+            $line_id,
             $externalRouteId
         );
         $lineConfig = $this->getDoctrine()->getRepository(

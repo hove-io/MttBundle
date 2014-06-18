@@ -8,20 +8,24 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
+
 use CanalTP\MttBundle\Entity\StopPoint;
+use CanalTP\MttBundle\Entity\AmqpTask;
 
 class PdfGenCompletionLib
 {
     private $om = null;
     private $mediaManager = null;
+    private $container = null;
     private $lineConfigRepo = null;
     private $timetableRepo = null;
     private $stopPointRepo = null;
 
-    public function __construct(ObjectManager $om, MediaManager $mediaManager)
+    public function __construct(ObjectManager $om, MediaManager $mediaManager, $container)
     {
         $this->om = $om;
         $this->mediaManager = $mediaManager;
+        $this->container = $container;
         $this->lineConfigRepo = $this->om->getRepository('CanalTPMttBundle:LineConfig');
         $this->timetableRepo = $this->om->getRepository('CanalTPMttBundle:Timetable');
         $this->stopPointRepo = $this->om->getRepository('CanalTPMttBundle:StopPoint');
@@ -77,7 +81,8 @@ class PdfGenCompletionLib
         return $season;
     }
     
-    private function commit($task, $season)
+    // save hash and pdfGeneration date returned by acks
+    private function commit($task)
     {
         $lineConfig = false;
         $timetable = false;
@@ -105,14 +110,6 @@ class PdfGenCompletionLib
                     );
                 }
             }
-            $options = $task->getOptions();
-            
-            if (!empty($options)) {
-                if (isset($options['publishSeasonOnComplete']) && !empty($options['publishSeasonOnComplete'])) {
-                    $season->setPublished(true);
-                    echo "Publish season " . $season->getTitle();
-                }
-            }
             $task->complete();
         } catch (\Exception $e){
             echo "ERROR during task Completion, task n°" . $task->getId() . "\n";
@@ -126,19 +123,64 @@ class PdfGenCompletionLib
         echo "Rollback";
     }
     
-    public function completePdfGenTask($task)
+    private function completeDistributionList($task)
     {
-        echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
-        $task->setCompletedAt(new \DateTime("now"));
+        // save this list in db
+        $timetable = $this->timetableRepo->find($task->getObjectId());
+        $distributionList = $this->om->getRepository('CanalTPMttBundle:DistributionList')->findOneBy(
+            array(
+                'externalRouteId' => $timetable->getExternalRouteId(),
+                'network' => $task->getNetwork()->getId()
+            )
+        );
+        $this->om->refresh($distributionList);
+        $paths = array();
+        foreach ($distributionList->getIncludedStops() as $stopPointId) {
+            $media = $this->mediaManager->getStopPointTimetableMedia($timetable, $stopPointId);
+            $path = $this->mediaManager->getPathByMedia($media);
+            if (!empty($path)) {
+                $paths[] = $path;
+            }
+        }
+        $pdfGenerator = $this->container->get('canal_tp_mtt.pdf_generator');
+        $distributionListManager = $this->container->get('canal_tp.mtt.distribution_list_manager');
+        $pdfGenerator->aggregatePdf($paths, $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable));
+
+        echo "Distribution List saved to ", $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable), " / Files agregated ", count($paths), "\r\n";
+    }
+    
+    private function completeSeasonPdfGen($task)
+    {
         $season = $this->getSeason($task->getObjectId());
-        if ($task->isCanceled()) {
-            $this->rollback($task);
-        } else {
-            $this->commit($task, $season);
+        $options = $task->getOptions();
+        if (!empty($options)) {
+            if (isset($options['publishSeasonOnComplete']) && !empty($options['publishSeasonOnComplete'])) {
+                $season->setPublished(true);
+                echo "Publish season " . $season->getTitle();
+            }
         }
         echo "Unlock Season: " . $season->getTitle() . "\n";
         $season->setLocked(false);
         $this->om->persist($season);
+    }
+    
+    public function completePdfGenTask($task)
+    {
+        echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
+        $task->setCompletedAt(new \DateTime("now"));
+        if ($task->isCanceled()) {
+            $this->rollback($task);
+        } else {
+            $this->commit($task);
+            switch($task->getTypeId()){
+                case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
+                    $this->completeDistributionList($task);
+                    break;
+                case AmqpTask::SEASON_PDF_GENERATION_TYPE:
+                    $this->completeSeasonPdfGen($task);
+                    break;
+            }
+        }
         $this->om->flush();
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion realized\n";
     }
