@@ -131,22 +131,22 @@ class DistributionController extends AbstractController
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $pdfPayloadGenerator = $this->get('canal_tp_mtt.pdf_payload_generator');
         $amqpPdfGenPublisher = $this->get('canal_tp_mtt.amqp_pdf_gen_publisher');
+        $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
 
         $network = $networkManager->findOneByExternalId($externalNetworkId);
         $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById(
             $timetableId,
             $network->getExternalCoverageId()
         );
-
         $stopPointsIds = $this->get('request')->request->get(
             'stopPointsIds', array()
         );
-
         $payloads = $pdfPayloadGenerator->getStopPointsPayloads($timetable, $stopPointsIds);
         if (count($payloads) > 0) {
             
             $distributionList = $this->saveList($timetable, $stopPointsIds);
             $task = $amqpPdfGenPublisher->publishDistributionListPdfGen($payloads, $timetable);
+            $distributionListManager->deleteDistributionListPdf($timetable);
 
             $this->get('session')->getFlashBag()->add(
                 'success',

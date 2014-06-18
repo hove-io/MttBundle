@@ -15,10 +15,11 @@ class DistributionListManager
     private $om = null;
     private $uploadPath = null;
 
-    public function __construct(ObjectManager $om, $uploadPath)
+    public function __construct(ObjectManager $om, $uploadPath, $request)
     {
         $this->om = $om;
         $this->uploadPath = $uploadPath;
+        $this->basePath = $request->getCurrentRequest()->getBasePath();
         $this->repository = $om->getRepository('CanalTPMttBundle:DistributionList');
     }
 
@@ -37,6 +38,14 @@ class DistributionListManager
             )
         );
     }
+    
+    public function deleteDistributionListPdf($timetable)
+    {
+        $path = $this->generateAbsoluteDistributionListPdfPath($timetable);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+    }
 
     public function generateDistributionListPdfPath($timetable)
     {
@@ -50,7 +59,7 @@ class DistributionListManager
 
     public function generateRelativeDistributionListPdfPath($timetable)
     {
-        $path = '/uploads/';
+        $path = $this->basePath . '/uploads/';
         $path .= $this->generateDistributionListPdfPath($timetable);
 
         return $path;

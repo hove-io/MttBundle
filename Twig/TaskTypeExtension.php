@@ -7,8 +7,12 @@ use CanalTP\MttBundle\Entity\AmqpTask;
 class TaskTypeExtension extends \Twig_Extension
 {
     private $translator;
-    public function __construct($translator, $em)
+    private $em;
+    private $distributionListManager;
+
+    public function __construct($translator, $em, $distributionListManager)
     {
+        $this->distributionListManager = $distributionListManager;
         $this->translator = $translator;
         $this->em = $em;
     }
@@ -16,11 +20,37 @@ class TaskTypeExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'taskType' => new \Twig_Filter_Method($this, 'taskType'),
-            'taskStatus' => new \Twig_Filter_Method($this, 'taskStatus'),
+            'taskType'      => new \Twig_Filter_Method(
+                $this, 
+                'taskType', 
+                array("is_safe" => array("html"))
+            ),
+            'taskActions'   => new \Twig_Filter_Method($this, 'taskActions', array("is_safe" => array("html"))),
+            'taskStatus'    => new \Twig_Filter_Method($this, 'taskStatus'),
         );
     }
     
+    public function taskActions($task)
+    {
+        $return = '';
+        switch ($task->getTypeId()) {
+            case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
+                if ($task->isCompleted()) {
+                    $timetable = $this->em->getRepository('CanalTPMttBundle:Timetable')->find($task->getObjectId());
+                    $return = '<a class="btn btn-primary btn-sm" target="_blank" href="' . $this->distributionListManager->findPdfPathByTimetable($timetable) . '">';
+                    $return .= '<span class="glyphicon glyphicon-download-alt"></span> ';
+                    $return .= $this->translator->trans(
+                        'distribution.download_distribution_pdf',
+                        array(),
+                        'default'
+                    );
+                    $return .= '</a>';
+                }
+                break;
+        }
+        return $return;
+    }
+
     public function taskType($task)
     {
         switch ($task->getTypeId()) {

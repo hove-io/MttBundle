@@ -10,9 +10,13 @@
     <div class="clearfix">
         <div class="pull-right">
             {% if (pdfUrl is not empty) %}
-            <a class="btn btn-primary" href="{{ app.request.getSchemeAndHttpHost() ~ app.request.getBasePath() ~ pdfUrl }}" target="_blank">
-                <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
-            </a>
+                <a class="btn btn-primary" href="{{ pdfUrl }}" target="_blank">
+                    <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+                </a>
+            {% else %}
+                <a class="btn btn-primary disabled" disabled="disabled" title="{{'distribution.no_pdf_at_this_time'|trans({}, 'default')}}" href="#">
+                    <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+                </a>
             {% endif %}
             {% if (is_granted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF')) %}
             <a id="generate-distribution-list" href="{{ path('canal_tp_mtt_distribution_generate',

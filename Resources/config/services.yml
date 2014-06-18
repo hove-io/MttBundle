@@ -49,7 +49,7 @@ services:
             - { name: twig.extension }
     canal_tp_mtt.twig.task_type_extension:
         class: CanalTP\MttBundle\Twig\TaskTypeExtension
-        arguments: ['@translator', '@doctrine.orm.entity_manager']
+        arguments: ['@translator', '@doctrine.orm.entity_manager', '@canal_tp.mtt.distribution_list_manager']
         tags:
             - { name: twig.extension }
     # Service of mediaManager
@@ -131,7 +131,7 @@ services:
     # Service of distribution list
     canal_tp.mtt.distribution_list_manager:
         class: %canal_tp.mtt.distribution_list_manager.class%
-        arguments: ['@doctrine.orm.entity_manager', "%kernel.root_dir%/../web/uploads/"]
+        arguments: ['@doctrine.orm.entity_manager', "%kernel.root_dir%/../web/uploads/", '@request_stack']
     #AMQP services
     canal_tp_mtt.amqp_channel:
        class: %canal_tp_mtt.amqp_channel.class%

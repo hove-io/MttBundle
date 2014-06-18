@@ -54,11 +54,12 @@
                     </td>
                     <td>
                         {% if task.isUnderProgress %}
-                            <a class="btn btn-danger" href="{{ path('canal_tp_mtt_cancel_amqp_task', {'taskId': task.id, 'externalNetworkId': externalNetworkId}) }}">
+                            <a class="btn btn-danger btn-sm" href="{{ path('canal_tp_mtt_cancel_amqp_task', {'taskId': task.id, 'externalNetworkId': externalNetworkId}) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 {{'global.cancel'|trans}}
                             </a>
                         {% endif %}
+                        {{ task|taskActions }}
                     </td>
                 </tr>
             {% endfor %}
