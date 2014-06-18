@@ -232,7 +232,6 @@ class FixturesMtt extends SamBaseFixture
         $user->setEnabled(true);
         $user->setEmail($data['email']);
         $user->setPlainPassword($data['password']);
-        $user->setIsSuperAdmin(false);
         foreach ($data['roles'] as $roleRef) {
             $user->addUserRole($this->getReference($roleRef));
         }
