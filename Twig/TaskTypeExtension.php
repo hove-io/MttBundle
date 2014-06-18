@@ -6,6 +6,13 @@ use CanalTP\MttBundle\Entity\AmqpTask;
 
 class TaskTypeExtension extends \Twig_Extension
 {
+    private $translator;
+    public function __construct($translator, $em)
+    {
+        $this->translator = $translator;
+        $this->em = $em;
+    }
+
     public function getFilters()
     {
         return array(
@@ -14,15 +21,32 @@ class TaskTypeExtension extends \Twig_Extension
         );
     }
     
-    public function taskType($taskTypeId)
+    public function taskType($task)
     {
-        switch ($taskTypeId) {
+        switch ($task->getTypeId()) {
+            case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
+                $timetable = $this->em->getRepository('CanalTPMttBundle:Timetable')->find($task->getObjectId());
+                $return = $this->translator->trans(
+                    'task.distribution_list_pdf_generation',
+                    array(
+                        '%routeId%' => $timetable->getExternalRouteId()
+                    ),
+                    'default'
+                );
+                break;
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:
             default:
-                $key = 'task.season_pdf_generation';
+                $season = $this->em->getRepository('CanalTPMttBundle:Season')->find($task->getObjectId());
+                $return = $this->translator->trans(
+                    'task.season_pdf_generation',
+                    array(
+                        '%seasonName%' => $season->getTitle()
+                    ),
+                    'default'
+                );
                 break;
         }
-        return $key;
+        return $return;
     }
     
     public function taskStatus($taskStatus)

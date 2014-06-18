@@ -37,7 +37,7 @@
                         {{ task.status|taskStatus|trans({}, 'default') }}
                     </td>
                     <td>
-                        {{task.typeId|taskType|trans({}, 'default')}}
+                        {{task|taskType}}
                     </td>
                     <td>
                         {% if task.isCompleted or task.isUnderProgress %}

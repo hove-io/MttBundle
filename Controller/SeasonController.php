@@ -61,14 +61,14 @@ class SeasonController extends AbstractController
     public function generatePdfAction($externalNetworkId, $seasonId, $publishOnComplete = false)
     {
         $seasonManager = $this->get('canal_tp_mtt.season_manager');
-        $pdfPayloadGenerator = $this->get('canal_tp_mtt.season_pdf_payload_generator');
+        $pdfPayloadGenerator = $this->get('canal_tp_mtt.pdf_payload_generator');
         $amqpPdfGenPublisher = $this->get('canal_tp_mtt.amqp_pdf_gen_publisher');
 
         $season = $seasonManager->find($seasonId);
         if ($this->addFlashIfSeasonLocked($season) == false) {
             try {
-                $payloads = $pdfPayloadGenerator->generate($season);
-                $amqpPdfGenPublisher->publish(
+                $payloads = $pdfPayloadGenerator->getSeasonPayloads($season);
+                $amqpPdfGenPublisher->publishSeasonPdfGen(
                     $payloads,
                     $season,
                     array('publishSeasonOnComplete' => $publishOnComplete)

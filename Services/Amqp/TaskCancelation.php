@@ -11,6 +11,7 @@ use Symfony\Component\Process\Process;
 use Spork\ProcessManager;
 
 use CanalTP\MttBundle\Services\Amqp\Channel;
+use CanalTP\MttBundle\Entity\AmqpTask;
 
 class TaskCancelation
 {
@@ -28,11 +29,11 @@ class TaskCancelation
         $this->seasonRepo = $this->om->getRepository('CanalTPMttBundle:Season');
     }
 
-    public function cancelAmqpMessages($season, $task)
+    public function cancelAmqpMessages($network, $task)
     {
-        $routing_key = $this->channelLib->getRoutingKey($season, $task);
+        $routingKey = $this->channelLib->getRoutingKey($network, $task);
         $pathToConsole = 'nohup php ' . $this->rootDir . '/console ';
-        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routing_key . ' ' . $task->getId() . ' > /dev/null &';
+        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routingKey . ' ' . $task->getId() . ' > /dev/null &';
         exec($command);
     }
 
@@ -40,11 +41,15 @@ class TaskCancelation
     {
         $task = $this->taskRepo->find($taskId);
         $task->cancel();
-        $season = $this->seasonRepo->find($task->getObjectId());
-        $season->setLocked(false);
-        
-        $this->cancelAmqpMessages($season, $task);
-        
+        switch($task->getTypeId()){
+            case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
+                break;
+            case AmqpTask::SEASON_PDF_GENERATION_TYPE:
+                $season = $this->seasonRepo->find($task->getObjectId());
+                $season->setLocked(false);
+                $this->cancelAmqpMessages($season->getNetwork(), $task);
+                break;
+        }
         $this->om->flush();
     }
 }

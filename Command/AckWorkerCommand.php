@@ -19,12 +19,12 @@ class AckWorkerCommand extends ContainerAwareCommand
     {
         $this->channelLib = $this->getContainer()->get('canal_tp_mtt.amqp_channel');
         $this->channel = $this->channelLib->getChannel();
-        // $this->channel->basic_qos(null, 1, null);
     }
     
     public function process_message($msg)
     {
         $task = $this->amqpPdfGenPublisher->addAckToTask($msg);
+        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
         echo " [x] Ack Inserted \n";
         echo "Task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished() . "\n";
         if (count($task->getAmqpAcks()) == $task->getJobsPublished()) {
@@ -39,7 +39,6 @@ class AckWorkerCommand extends ContainerAwareCommand
         }
         echo "\n--------\n";
         // acknowledge broker
-        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
     }
 
     private function runProcess($ack_queue_name)

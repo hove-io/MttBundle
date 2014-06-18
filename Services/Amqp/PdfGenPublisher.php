@@ -43,22 +43,22 @@ class PdfGenPublisher
         $this->channelLib->declareQueue($this->queueName, $this->exchangeName, "*.pdf_gen");
     }
 
-    private function getNewTask($payloads, $season, $taskOptions)
+    private function getNewTask($payloads, $object, $network, $taskOptions, $taskType = AmqpTask::SEASON_PDF_GENERATION_TYPE)
     {
         $task = new AmqpTask();
-        $task->setTypeId(AmqpTask::SEASON_PDF_GENERATION_TYPE);
-        $task->setObjectId($season->getId());
+        $task->setTypeId($taskType);
+        $task->setObjectId($object->getId());
         $task->setJobsPublished(count($payloads));
         $task->setOptions($taskOptions);
-        // link to season network
-        $task->setNetwork($season->getNetwork());
+        // link to network
+        $task->setNetwork($network);
         $this->om->persist($task);
         $this->om->flush();
         
         return $task;
     }
 
-    private function declareAckQueue($task, $routingKey)
+    private function declareAckQueue()
     {
         // declare ack queue
         $ackQueueName = $this->channelLib->getAckQueueName();
@@ -73,13 +73,11 @@ class PdfGenPublisher
         $this->om->flush();
     }
     
-    public function publish($payloads, $season, $taskOptions = array())
+    private function publishPayloads($payloads, $task)
     {
         $this->init();
-        // routing_key_format: network_{networkId}.pdf_gen
-        $task = $this->getNewTask($payloads, $season, $taskOptions);
-        $routingKey = $this->channelLib->getRoutingKey($season, $task);
-        $ackQueueName = $this->declareAckQueue($task, $routingKey);
+        $routingKey = $this->channelLib->getRoutingKey($task->getNetwork(), $task);
+        $ackQueueName = $this->declareAckQueue();
         foreach ($payloads as $payload) {
             $payload['pdfGeneratorUrl'] = $this->pdfGeneratorUrl;
             $payload['taskId'] = $task->getId();
@@ -93,7 +91,27 @@ class PdfGenPublisher
             );
             $this->channel->basic_publish($msg, $this->exchangeName, $routingKey, true);
         }
+    }
+    
+    public function publishSeasonPdfGen($payloads, $season, $taskOptions = array())
+    {
+        // routing_key_format: network_{networkId}.pdf_gen
+        $task = $this->getNewTask($payloads, $season, $season->getNetwork(), $taskOptions);
+        $this->publishPayloads($payloads, $task);
         $this->lockSeason($season);
+    }
+
+    public function publishDistributionListPdfGen($payloads, $timetable, $taskOptions = array())
+    {
+        $task = $this->getNewTask(
+            $payloads, 
+            $timetable, 
+            $timetable->getLineConfig()->getSeason()->getNetwork(), 
+            $taskOptions, 
+            AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE
+        );
+        $this->publishPayloads($payloads, $task);
+        return $task;
     }
         
     public function addAckToTask($amqpMsg)
