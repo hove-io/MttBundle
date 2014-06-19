@@ -14,12 +14,13 @@ class DistributionListManager
     private $repository = null;
     private $om = null;
     private $uploadPath = null;
+    private $request = null;
 
     public function __construct(ObjectManager $om, $uploadPath, $request)
     {
         $this->om = $om;
         $this->uploadPath = $uploadPath;
-        $this->basePath = $request->getCurrentRequest()->getBasePath();
+        $this->request = $request;
         $this->repository = $om->getRepository('CanalTPMttBundle:DistributionList');
     }
 
@@ -59,7 +60,7 @@ class DistributionListManager
 
     public function generateRelativeDistributionListPdfPath($timetable)
     {
-        $path = $this->basePath . '/uploads/';
+        $path = $this->request->getCurrentRequest()->getBasePath() . '/uploads/';
         $path .= $this->generateDistributionListPdfPath($timetable);
 
         return $path;
