@@ -1,11 +1,17 @@
 {% block layout_widget %}
-    <div class="list-group" data-toggle="buttons">
+    <div class="clearfix" data-toggle="buttons">
     {% for child in choices %}
-        {% set config = attribute(layouts, child.value) %}
-        <label for="layout-{{ child.value }}" class="btn btn-primary list-group-item layout-choice-item {% if form.vars.value == child.value %} active{% endif %}">
-            <img class="layout-preview" src="{{app.request.basePath}}{{ config.preview }}" />
-            <input {% if form.vars.value == child.value %} checked="checked"{% endif %} type="radio" name="{{ full_name }}" id="layout-{{ child.value }}" value="{{ child.value }}"> {{ child.label }}
-        </label>
+        <div class="layout-choice">
+            {% set config = attribute(layouts, child.value) %}
+            <label for="layout-{{ child.value }}" class="btn btn-primary list-group-item layout-choice-item {% if form.vars.value == child.value %} active{% endif %}">
+                <div>
+                    <img class="layout-preview" src="{{app.request.basePath}}{{ config.preview }}" />
+                </div>
+                <div>
+                    <input {% if form.vars.value == child.value %} checked="checked"{% endif %} type="radio" name="{{ full_name }}" id="layout-{{ child.value }}" value="{{ child.value }}"> {{ child.label }}
+                </div>
+            </label>
+        </div>
     {% endfor %}
     </div>
 {% endblock %}
