@@ -3,7 +3,7 @@
     padding:8px;
 }
 #layout-main-wrapper #header{
-    background-color:black;
+    background-color:#1a171b;
     color:white;
     -webkit-print-color-adjust: exact;
     height: 55px;
@@ -97,7 +97,7 @@ img.divia-logo{
 }
 .information-text-blocks .text-block-wrapper .title,
 #timetables-wrapper .timegrid-header{
-    background-color:black;
+    background-color:#1a171b;
     color:white;
     font-weight:bold;
     font-size:14px;
@@ -170,16 +170,17 @@ img.divia-logo{
 .timegrid-body tr{
     height: 15px;
 }
-.timegrid-body tr.even {background-color: #faedf4}
+.timegrid-body tr.even {background-color: #f0f1f1}
+.multicolor .timegrid-body tr.even {background-color: #faedf4}
 
 .timegrid-body .empty-timegrid tr.odd,
 .timegrid-body .empty-timegrid tr.even{
     background-color: #faedf4;
 }
-#timegrid_block_2.timegrid-container .timegrid-header{
+.multicolor #timegrid_block_2.timegrid-container .timegrid-header{
     background-color: #707173;
 }
-#timegrid_block_4.timegrid-container .timegrid-header{
+.multicolor #timegrid_block_4.timegrid-container .timegrid-header{
     background-color: #b1b3b4;
 }
 /**
