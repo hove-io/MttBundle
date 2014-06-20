@@ -140,6 +140,17 @@ class FixturesMtt extends SamBaseFixture
         );
         $this->createLayout(
             array(
+                'label'         => 'Lianes 4 paves neutre',
+                'twig'          => 'Divia/neutralLianes4Timegrids.html.twig',
+                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/neutral-Lianes-4-paves.png',
+                'orientation'   => 'landscape',
+                'calendarStart' => 4,
+                'calendarEnd'   => 1,
+            ),
+            array($network5)
+        );
+        $this->createLayout(
+            array(
                 'label'         => 'Lianes 4 paves',
                 'twig'          => 'Divia/lianes4Timegrids.html.twig',
                 'preview'       => '/bundles/canaltpmtt/img/layouts/divia/Lianes-4-paves.png',
