@@ -31,6 +31,9 @@ CanalTP\MttBundle\Entity\Layout:
         calendarEnd:
             type: integer
             column: calendar_end
+        notesMode:
+            type: integer
+            column: notes_mode
         created:
             type: datetime
             gedmo:

@@ -6,10 +6,10 @@ class ScheduleExtension extends \Twig_Extension
 {
     private $ascii_start = 97;
 
-    private function findNoteIndex($noteId, $notes)
+    private function findNoteIndex($noteId, $notes, $calendar)
     {
         foreach ($notes as $index => $note) {
-            if ($note->id == $noteId) {
+            if ($note->id == $noteId && ($calendar == false || $note->calendarId == $calendar->id)) {
                 return $index;
             }
         }
@@ -21,24 +21,26 @@ class ScheduleExtension extends \Twig_Extension
         return array(
             'schedule'      => new \Twig_Filter_Method($this, 'scheduleFilter'),
             'footnote'      => new \Twig_Filter_Method($this, 'footnoteFilter'),
-            'calendarMax'   => new \Twig_Filter_Method($this, 'calendarMax'),
+            'calendarMax'   => new \Twig_Filter_Method($this, 'calendarMax', array("is_safe" => array("html"))),
         );
     }
 
-    public function scheduleFilter($journey, $notes, $mode = 'letter', $colors = false)
+    public function scheduleFilter($journey, $notes, $calendar = false)
     {
         $value = date('i', $journey->date_time->getTimestamp());
         if (count($journey->links) > 0) {
             foreach ($journey->links as $link) {
                 if ($link->type == "notes" || $link->type == "exceptions") {
-                    $value .= $this->footnoteFilter($this->findNoteIndex($link->id, $notes), $mode, $colors);
+                    $value .= '<sup>' . $this->footnoteFilter(
+                        $this->findNoteIndex($link->id, $notes, $calendar)
+                    ) . '</sup>';
                 }
             }
         }
         return $value;
     }
 
-    public function footnoteFilter($index, $mode = 'letter', $colors = false)
+    public function footnoteFilter($index)
     {
         return $index === false ? '' : chr($this->ascii_start + $index);
     }

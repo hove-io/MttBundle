@@ -143,7 +143,11 @@
                         and datetime|length > 0
                     %}
                         {% if datetime[i] %}
-                            {{ datetime[i]|schedule(notes)|raw }}
+                            {% if layout.dispatchesNotes %}
+                                {{ datetime[i]|schedule(notes, calendar)|raw }}
+                            {% else %}
+                                {{ datetime[i]|schedule(notes)|raw }}
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 {% endif %}
