@@ -5,8 +5,8 @@
         {% for i in 1..4 %}
             {% set id = 'timegrid_block_' ~ i %}
             {% set block = attribute(timetable.blocks, id) %}
-            {% set addNotes = i == 2 %}
-            {% if i == 2 or i == 3 %}
+            {% set addNotes = true %}
+            {% if i == 3 %}
                 {% set nbLines = 10 %}
             {% elseif i == 4 %}
                 {% set nbLines = 8 %}

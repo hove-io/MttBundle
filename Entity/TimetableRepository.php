@@ -48,7 +48,8 @@ class TimetableRepository extends EntityRepository
             array(
                 'stopPoint' => null,
                 'timetable' => $timetableId
-            )
+            ), 
+            array('domId' => 'ASC')
         );
 
         return $result;

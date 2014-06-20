@@ -33,6 +33,8 @@ CanalTP\MttBundle\Entity\Timetable:
         blocks:
             targetEntity: Block
             mappedBy: timetable
+            orderBy:
+                domId: ASC
             cascade:
                 - remove
         stopPoints:

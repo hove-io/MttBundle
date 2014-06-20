@@ -88,16 +88,18 @@ class CalendarManager
     /**
      * gather notes and ensure these notes are unique. (based on Navitia ID)
      */
-    private function computeNotes($notes, $notesToAdd, $season)
+    private function computeNotes($notesToReturn, $newCalendar, $season, $aggregation)
     {
-        foreach ($notesToAdd as $note) {
-            if (($note->type == 'notes' || $this->isExceptionInsideSeason($note, $season)) && !in_array($note->id, $this->computedNotesId)) {
+        foreach ($newCalendar->notes as $note) {
+            if (($note->type == 'notes' || $this->isExceptionInsideSeason($note, $season)) && 
+                ($aggregation == false || !in_array($note->id, $this->computedNotesId))) {
+                $note->calendarId = $newCalendar->id;
                 $this->computedNotesId[] = $note->id;
-                $notes[] = $note;
+                $notesToReturn[] = $note;
             }
         }
 
-        return $notes;
+        return $notesToReturn;
     }
 
     /**
@@ -133,7 +135,7 @@ class CalendarManager
     }
 
     /**
-     * Generate value propriety of exceptions to display in view
+     * Generate value property of exceptions to display in view
      */
     private function generateExceptionsValues($navitiaExceptions)
     {
@@ -210,7 +212,6 @@ class CalendarManager
      */
     public function getCalendarsForStopPoint($externalCoverageId, $externalRouteId, $externalStopPointId)
     {
-        $notesComputed = array();
         $calendarsData = $this->navitia->getStopPointCalendarsData(
             $externalCoverageId,
             $externalRouteId,
@@ -248,11 +249,17 @@ class CalendarManager
      *
      * @return object
      */
-    public function getCalendarsForStopPointAndTimetable($externalCoverageId, $timetable, $stopPointInstance)
+    public function getCalendarsForStopPointAndTimetable(
+        $externalCoverageId, 
+        $timetable, 
+        $stopPointInstance
+    )
     {
         $notesComputed = array();
         $calendarsFiltered = array();
         $calendarsSorted = array();
+        // indicates whether to aggregate or dispatch notes
+        $layout = $timetable->getLineConfig()->getLayout();
         $calendarsData = $this->navitia->getStopPointCalendarsData(
             $externalCoverageId,
             $timetable->getExternalRouteId(),
@@ -272,22 +279,27 @@ class CalendarManager
                         $stopPointInstance->getExternalId(),
                         $block->getContent()
                     );
-                    $calendar = $this->addSchedulesToCalendar($calendar, $stopSchedulesData->stop_schedules);
+                    $calendar = $this->addSchedulesToCalendar(
+                        $calendar, 
+                        $stopSchedulesData->stop_schedules
+                    );
                     $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
-                    $calendarsFiltered[$calendar->id] = $calendar;
-                    //compute notes for the current timetable
+                    $calendar->notes = array_merge(
+                        $stopSchedulesData->notes,
+                        $this->generateExceptionsValues(
+                            $stopSchedulesData->exceptions
+                        )
+                    );
                     $notesComputed = $this->computeNotes(
                         $notesComputed,
-                        array_merge(
-                            $stopSchedulesData->notes,
-                            $this->generateExceptionsValues($stopSchedulesData->exceptions)
-                        ),
-                        $timetable->getLineConfig()->getSeason()
+                        $calendar,
+                        $timetable->getLineConfig()->getSeason(),
+                        $layout->aggregatesNotes()
                     );
+                    $calendarsFiltered[$calendar->id] = $calendar;
                 }
             }
         }
-
         return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
     }
 
