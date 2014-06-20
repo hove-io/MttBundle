@@ -118,8 +118,11 @@ img.divia-logo{
 }
 #layout-1-wrapper .timegrid-column{
     line-height: 15px;
-    font-size: 13px;
+    font-size: 12px;
     width:4.5454%;
+}
+#layout-1-wrapper .timegrid-column sup{
+    font-size: 80%;
 }
 #small-right-blocks{
     font-size: 10pt;

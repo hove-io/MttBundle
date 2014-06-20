@@ -11,22 +11,24 @@
         {% else %}
             <table class="nb-lines-{{ nbLines }}">
         {% endif %}
-            {% set hours_range = layout|calendarRange %}
-            {{ macros.hours_thead(hours_range)}}
-            {% if block.frequencies|length > 0 and (calendar.schedules.additional_informations is empty) %}
-                {%
-                    include "CanalTPMttBundle:Frequency:display.html.twig"
-                    with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
-                %}
-            {% endif %}
-            {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, nbLines) }}
-        </table>
-
-        {% if addNotes is not empty and notes|length > 0 %}
+        {% set hours_range = layout|calendarRange %}
+        {{ macros.hours_thead(hours_range)}}
+        {% if block.frequencies|length > 0 and (calendar.schedules.additional_informations is empty) %}
             {%
-                include "CanalTPMttBundle:Layouts:notes.html.twig"
-                with { 'notes' : notes } only
+                include "CanalTPMttBundle:Frequency:display.html.twig"
+                with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
             %}
         {% endif %}
+        {% if layout.dispatchesNotes %}
+            {% set params = { 'notes' : calendar.notes, 'computedNotes' : notes, 'calendar' : calendar } %}
+        {% elseif addNotes is not empty and notes|length > 0 %}
+            {% set params = { 'notes' : notes, 'computedNotes' : notes, 'calendar' : calendar } %}
+        {% endif %}
+        {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, params.computedNotes, hours_range, nbLines) }}
+        </table>
+        {%
+            include "CanalTPMttBundle:Layouts:notes.html.twig"
+            with params only
+        %}
     </div>
 </div>
