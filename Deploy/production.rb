@@ -16,6 +16,6 @@ set :amqp_server_port, 5672
 set :mtt_configuration_name, 'mtt'
 set :mtt_company_name, 'MTT'
 set :mtt_storage_type, 'filesystem'
-set :mtt_storage_path, '/srv/www/mhsmedias-ws.ctp.prod.canaltp.fr/'
+set :mtt_storage_path, '/srv/mhsmedias-ws.ctp.prod.canaltp.fr/'
 set :mtt_storage_url, 'http://mhsmedias-ws.ctp.prod.canaltp.fr/'
 set :mtt_storage_strategy, 'mtt'
