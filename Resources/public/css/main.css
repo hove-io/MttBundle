@@ -20,7 +20,12 @@ textarea {
     resize: none;
 }
 .layout-preview{
-    width:300px;
+    border:1px solid black;
+    width:100%;
+}
+.layout-choice{
+    float:left;
+    width:50%;
 }
 .layout-choice-item{
     color:black;
