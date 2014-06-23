@@ -71,7 +71,7 @@
 
 {% block javascripts %}
 <script type="text/javascript">
-require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable){
+require(['jquery', 'jquery_ui_sortable', 'sf_routes', 'mtt/utils'],function(jQuery, sortable, routes, utils){
 
     /*var url = Routing.generate(
         'canal_tp_mtt_distribution_generate',
@@ -158,7 +158,11 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
             $(stopPoints_ids).each(function(){
                 $form.append('<input type="hidden" name="stopPointsIds[]" value="' + this + '" />');
             });
+            $form.append('<input type="submit" value="Submit" />');
+            $form.hide();
+            $('body').append($form);
             $form.submit();
+            utils.disableBtn($(this));
         }
         return false;
     });

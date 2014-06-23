@@ -102,8 +102,8 @@ textarea {
   to   { -webkit-transform: rotate( 360deg ); }
 }
 @keyframes "rotateThis" {
-  from { transform: rotate( 0deg );   }
-  to   { transform: rotate( 360deg ); }
+  from { transform: rotate( 0deg ); -ms-transform:rotate( 0deg );  }
+  to   { transform: rotate( 360deg );-ms-transform:rotate( 360deg ); }
 }
 .icon-refresh-animate {
   animation-name: rotateThis;
