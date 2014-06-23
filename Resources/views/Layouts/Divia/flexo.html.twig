@@ -14,11 +14,14 @@
             {% set block = attribute(timetable.blocks, id) %}
             {% set nbLines = 4 %}
             {% include '@CanalTPMtt/Layouts/timegrid.html.twig' with {'addNotes': addNotes, 'nbLines' : nbLines} %}
+            {% set calendar = attribute(calendars, block.content) %}
+            {% if calendar %}
             <div class="pad30t">
             {%
                 include "CanalTPMttBundle:Layouts:notes.html.twig"
-                with { 'notes' : notes } only
+                with { 'notes' : calendar.notes, 'computedNotes' : notes, 'calendar' : calendar } only
             %}
+            {% endif %}
             </div>
         </div>
     </div>
