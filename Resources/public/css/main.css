@@ -21,11 +21,15 @@ textarea {
 }
 .layout-preview{
     border:1px solid black;
+    max-height:240px;
     width:100%;
 }
 .layout-choice{
     float:left;
     width:50%;
+}
+.layout-choice-item input{
+    display:none;
 }
 .layout-choice-item{
     color:black;
