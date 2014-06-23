@@ -11,6 +11,12 @@ define(['jquery'], function($){
         else
             return false
     };
-    
+
+    utils.disableBtn = function($btn)
+    {
+        $btn.addClass('disabled').find('span.glyphicon').hide();
+        $btn.prepend('<span class="glyphicon glyphicon-refresh icon-refresh-animate"></span>');
+    };
+
     return utils;
 });
