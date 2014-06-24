@@ -9,6 +9,7 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use CanalTP\MttBundle\Entity\AmqpTask;
 
 class SeasonManager
 {
@@ -53,6 +54,29 @@ class SeasonManager
 
     public function remove($season)
     {
+        $taskRepo = $this->om->getRepository('CanalTPMttBundle:AmqpTask');
+        // remove season pdf generation tasks
+        $tasks = $taskRepo->findBy(
+            array(
+                'objectId' => $season->getId(),
+                'typeId' => AmqpTask::SEASON_PDF_GENERATION_TYPE
+            )
+        );
+        // remove distribution list tasks
+        $timetableIds = array();
+        foreach ($season->getLineConfigs() as $lineConfig) {
+            foreach ($lineConfig->getTimetables() as $timetable) {
+                $timetableIds[] = $timetable->getId();
+            }
+        }
+        if (!empty($timetableIds)) {
+            $tasks = array_merge($tasks, $taskRepo->findTasksByObjectIds($timetableIds));
+        }
+        if (count($tasks) > 0) {
+            foreach ($tasks as $task) {
+                $this->om->remove($task);
+            }
+        }
         $this->om->remove($season);
         $this->om->flush();
     }
