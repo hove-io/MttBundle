@@ -21,4 +21,14 @@ class AmqpTaskRepository extends EntityRepository
             ->setMaxResults($limit);
         return $qb->getQuery()->getResult();
     }
+    
+    public function findTasksByObjectIds($objectIds = array()) {
+        $q = $this->createQueryBuilder('v')
+            ->select('v')
+            ->andWhere('v.objectId IN (:objectIds)')
+            ->setParameter('objectIds', $objectIds)
+            ->getQuery();
+
+        return $q->getResult();
+    }
 }

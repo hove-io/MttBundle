@@ -33,7 +33,7 @@ class TaskCancelation
     {
         $routingKey = $this->channelLib->getRoutingKey($network, $task);
         $pathToConsole = 'nohup php ' . $this->rootDir . '/console ';
-        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routingKey . ' ' . $task->getId() . ' > /dev/null &';
+        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routingKey . ' ' . $task->getId() . ' &';
         exec($command);
     }
 

@@ -15,6 +15,7 @@ class AmqpTask extends AbstractEntity
     const CANCELED_STATUS = 0;
     const LAUNCHED_STATUS = 1;
     const COMPLETED_STATUS = 2;
+    const ERROR_STATUS = 3;
     
     /**
      * @var integer
@@ -281,6 +282,13 @@ class AmqpTask extends AbstractEntity
     public function cancel()
     {
         $this->status = self::CANCELED_STATUS;
+        
+        return $this;
+    }
+
+    public function fail()
+    {
+        $this->status = self::ERROR_STATUS;
         
         return $this;
     }

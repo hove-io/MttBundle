@@ -108,10 +108,13 @@ class PdfGenCompletionLib
                         $stopPoint->getExternalId(), 
                         $ack->getPayload()->generationResult->filepath
                     );
+                } else if (isset($ack->getPayload()->error)){
+                    throw new \Exception('Ack error msg: ' . $ack->getPayload()->error);
                 }
             }
             $task->complete();
         } catch (\Exception $e){
+            $task->fail();
             echo "ERROR during task Completion, task n°" . $task->getId() . "\n";
             echo $e->getMessage() . "\n";
         }
