@@ -37,14 +37,16 @@ class TaskTypeExtension extends \Twig_Extension
             case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
                 if ($task->isCompleted()) {
                     $timetable = $this->em->getRepository('CanalTPMttBundle:Timetable')->find($task->getObjectId());
-                    $return = '<a class="btn btn-primary btn-sm" target="_blank" href="' . $this->distributionListManager->findPdfPathByTimetable($timetable) . '">';
-                    $return .= '<span class="glyphicon glyphicon-download-alt"></span> ';
-                    $return .= $this->translator->trans(
-                        'distribution.download_distribution_pdf',
-                        array(),
-                        'default'
-                    );
-                    $return .= '</a>';
+                    if (!empty($timetable)) {
+                        $return = '<a class="btn btn-primary btn-sm" target="_blank" href="' . $this->distributionListManager->findPdfPathByTimetable($timetable) . '">';
+                        $return .= '<span class="glyphicon glyphicon-download-alt"></span> ';
+                        $return .= $this->translator->trans(
+                            'distribution.download_distribution_pdf',
+                            array(),
+                            'default'
+                        );
+                        $return .= '</a>';
+                    }
                 }
                 break;
         }
@@ -53,16 +55,19 @@ class TaskTypeExtension extends \Twig_Extension
 
     public function taskType($task)
     {
+        $return = '';
         switch ($task->getTypeId()) {
             case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
                 $timetable = $this->em->getRepository('CanalTPMttBundle:Timetable')->find($task->getObjectId());
-                $return = $this->translator->trans(
-                    'task.distribution_list_pdf_generation',
-                    array(
-                        '%routeId%' => $timetable->getExternalRouteId()
-                    ),
-                    'default'
-                );
+                if (!empty($timetable)) {
+                    $return = $this->translator->trans(
+                        'task.distribution_list_pdf_generation',
+                        array(
+                            '%routeId%' => $timetable->getExternalRouteId()
+                        ),
+                        'default'
+                    );
+                }
                 break;
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:
             default:
@@ -83,7 +88,6 @@ class TaskTypeExtension extends \Twig_Extension
     {
         switch ($taskStatus) {
             case AmqpTask::LAUNCHED_STATUS:
-            default:
                 $key = 'task.status.launched';
                 break;
             case AmqpTask::CANCELED_STATUS:
