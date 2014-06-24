@@ -1,3 +1,9 @@
+Notes de publication - METH - Version 0.9.5 (26/06/2014)
+
+** Bogue
+    * [METH-269] - Lors de la suppression d'une saison, les tâches correspondantes ne sont pas supprimées
+
+
 Notes de publication - METH - Version 0.9.4 (24/06/2014)
 
 ** Bogue
