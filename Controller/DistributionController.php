@@ -100,6 +100,11 @@ class DistributionController extends AbstractController
             ->getDoctrine()
             ->getRepository('CanalTPMttBundle:DistributionList')
             ->sortSchedules($schedules, $network->getId(), $routeId, $reset);
+        
+        $locked = $this
+            ->getDoctrine()
+            ->getRepository('CanalTPMttBundle:Timetable')
+            ->hasAmqpTasksRunning($timetable->getId());
 
         return $this->render(
             'CanalTPMttBundle:Distribution:list.html.twig',
@@ -110,6 +115,7 @@ class DistributionController extends AbstractController
                     'default'
                 ),
                 'timetable'         => $timetable,
+                'locked'            => $locked,
                 'schedules'         => $schedules,
                 'current_route'     => $routeId,
                 'display_informations'=> $routes->route_schedules[0]->display_informations,

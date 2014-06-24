@@ -19,13 +19,19 @@
                 </a>
             {% endif %}
             {% if (is_granted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF')) %}
-            <a id="generate-distribution-list" href="{{ path('canal_tp_mtt_distribution_generate',
-                {
-                    'timetableId': timetable.id,
-                    'externalNetworkId' : externalNetworkId
-                }) }}" class="btn btn-primary">
-                <span class="glyphicon glyphicon-file"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
-            </a>
+                {% if locked %}
+                    <a id="generate-distribution-list" href="" class="btn btn-primary" disabled="disabled">
+                    <span class="glyphicon glyphicon-refresh icon-refresh-animate"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
+                </a>
+                {% else %}
+                <a id="generate-distribution-list" href="{{ path('canal_tp_mtt_distribution_generate',
+                    {
+                        'timetableId': timetable.id,
+                        'externalNetworkId' : externalNetworkId
+                    }) }}" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-file"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
+                </a>
+                {% endif %}
             {% endif %}
             <div class="btn-group">
                 <button data-toggle="dropdown" type="button" class="btn btn-default dropdown-toggle">
