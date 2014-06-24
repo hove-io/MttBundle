@@ -1,3 +1,12 @@
+Notes de publication - METH - Version 0.9.4 (24/06/2014)
+
+** Bogue
+    * [METH-266] - Impossible de générer un pdf de liste de distribution
+
+** Amélioration
+    * [METH-267] - Désactiver le bouton "Générer le pdf"
+
+    
 Notes de publication - METH - Version 0.9.3 (23/06/2014)
 
 ** Bogue
