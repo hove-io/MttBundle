@@ -1,3 +1,21 @@
+Notes de publication - METH - Version 0.9.3 (23/06/2014)
+
+** Bogue
+    * [METH-186] - MTT parle franglais ?
+    * [METH-237] - L'annulation d'une tâche ne libère pas les ressources
+
+** Amélioration
+    * [METH-211] - Impossible de voir un pdf déjà généré
+
+** Récit
+    * [METH-250] - Pouvoir agréger ou dispatcher les annotations dans une fiche horaire
+
+** Tâche
+    * [METH-235] - Génération du PDF de la list de distrib > page d'accueil
+    * [METH-252] - Ajout d'un layout
+    * [METH-253] - Amélioration du formulaire de choix des gabarits
+
+
 Notes de publication - METH - Version 0.9.2 (12/06/2014)
 
 ** Bogue

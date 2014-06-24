@@ -9,17 +9,13 @@
             with { 'brand' : 'proxi' } only
         %}
         <div id="timetables-wrapper">
-        {% set addNotes = false %}
+        {% set addNotes = true %}
         {% for i in 1..3 %}
             {% set id = 'timegrid_block_' ~ i %}
             {% set block = attribute(timetable.blocks, id) %}
             {% set nbLines = 4 %}
             {% include '@CanalTPMtt/Layouts/timegrid.html.twig' with {'addNotes': addNotes, 'nbLines' : nbLines} %}
         {% endfor %}
-        {%
-            include "CanalTPMttBundle:Layouts:notes.html.twig"
-            with { 'notes' : notes } only
-        %}
         </div>
     </div>
 {% endblock %}
