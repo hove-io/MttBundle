@@ -54,4 +54,19 @@ class TimetableRepository extends EntityRepository
 
         return $result;
     }
+    
+    /*
+     * Return blocks defined for this timetable on route level
+     */
+    public function hasAmqpTasksRunning($timetableId)
+    {
+        $result = $this->getEntityManager()->getRepository('CanalTPMttBundle:AmqpTask')->findBy(
+            array(
+                'objectId' => $timetableId,
+                'status' => AmqpTask::LAUNCHED_STATUS
+            )
+        );
+
+        return count($result) > 0;
+    }
 }
