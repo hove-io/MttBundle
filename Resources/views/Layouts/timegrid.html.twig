@@ -21,14 +21,16 @@
         {% endif %}
         {% if layout.dispatchesNotes %}
             {% set params = { 'notes' : calendar.notes, 'computedNotes' : notes, 'calendar' : calendar } %}
-        {% elseif addNotes is not empty and notes|length > 0 %}
+        {% else %}
             {% set params = { 'notes' : notes, 'computedNotes' : notes, 'calendar' : calendar } %}
         {% endif %}
         {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, params.computedNotes, hours_range, nbLines) }}
         </table>
-        {%
-            include "CanalTPMttBundle:Layouts:notes.html.twig"
-            with params only
-        %}
+        {% if addNotes %}
+            {%
+                include "CanalTPMttBundle:Layouts:notes.html.twig"
+                with params only
+            %}
+        {% endif %}
     </div>
 </div>
