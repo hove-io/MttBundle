@@ -31,4 +31,14 @@ class AmqpTaskRepository extends EntityRepository
 
         return $q->getResult();
     }
+    
+    public function findTasksOlderThan($datetime) {
+        $q = $this->createQueryBuilder('v')
+            ->select('v')
+            ->andWhere('v.created < (:datetime)')
+            ->setParameter('datetime', $datetime)
+            ->getQuery();
+
+        return $q->getResult();
+    }
 }
