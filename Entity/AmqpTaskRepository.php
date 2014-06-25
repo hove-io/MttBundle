@@ -36,7 +36,9 @@ class AmqpTaskRepository extends EntityRepository
         $q = $this->createQueryBuilder('v')
             ->select('v')
             ->andWhere('v.created < (:datetime)')
+            ->andWhere('v.status != (:status)')
             ->setParameter('datetime', $datetime)
+            ->setParameter('status', AmqpTask::LAUNCHED_STATUS)
             ->getQuery();
 
         return $q->getResult();
