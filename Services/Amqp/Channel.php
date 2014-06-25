@@ -47,9 +47,11 @@ class Channel
     public function declareQueue($queueName, $exchangeName, $routingKey)
     {
         $this->init();
-        $this->channel->queue_declare($queueName, false, true, false, false);
+        $return = $this->channel->queue_declare($queueName, false, true, false, false);
         // bind with routing key
         $this->channel->queue_bind($queueName, $exchangeName, $routingKey);
+        
+        return $return;
     }
     
     public function getChannel()
@@ -57,7 +59,16 @@ class Channel
         $this->init();
         return $this->channel;
     }
-
+    
+    public function declareAckQueue()
+    {
+        // declare ack queue
+        $ackQueueName = $this->getAckQueueName();
+        $this->declareQueue($ackQueueName, $this->getExchangeName(), $ackQueueName);
+        
+        return $ackQueueName;
+    }
+    
     public function getAckQueueName()
     {
         return 'ack_queue.for_pdf_gen';
