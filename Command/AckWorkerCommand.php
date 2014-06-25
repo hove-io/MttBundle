@@ -80,6 +80,9 @@ class AckWorkerCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->initChannel();
+        $ack_queue_name = $input->getArgument('ack_queue_name');
+        // init queue just in case
+        $this->channelLib->declareQueue($ack_queue_name, $this->channelLib->getExchangeName(), $ack_queue_name);
         $this->runProcess($input->getArgument('ack_queue_name'));
         $this->channelLib->close();
     }

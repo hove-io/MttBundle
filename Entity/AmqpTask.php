@@ -274,7 +274,9 @@ class AmqpTask extends AbstractEntity
 
     public function complete()
     {
-        $this->status = self::COMPLETED_STATUS;
+        if ($this->isUnderProgress()) {
+            $this->status = self::COMPLETED_STATUS;
+        }
         
         return $this;
     }

@@ -93,6 +93,9 @@ class TaskTypeExtension extends \Twig_Extension
             case AmqpTask::CANCELED_STATUS:
                 $key = 'task.status.canceled';
                 break;
+            case AmqpTask::ERROR_STATUS:
+                $key = 'task.status.failed';
+                break;
             case AmqpTask::COMPLETED_STATUS:
                 $key = 'task.status.completed';
                 break;
