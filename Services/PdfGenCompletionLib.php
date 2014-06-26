@@ -86,8 +86,8 @@ class PdfGenCompletionLib
     {
         $lineConfig = false;
         $timetable = false;
-        try {
-            foreach ($task->getAmqpAcks() as $ack) {
+        foreach ($task->getAmqpAcks() as $ack) {
+            try {
                 if ($ack->getPayload()->generated == true) {
                     $lineConfig = $this->getLineConfig($ack, $lineConfig);
                     $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
@@ -108,13 +108,16 @@ class PdfGenCompletionLib
                         $stopPoint->getExternalId(), 
                         $ack->getPayload()->generationResult->filepath
                     );
+                } else if (isset($ack->getPayload()->error)){
+                    throw new \Exception('Ack error msg: ' . $ack->getPayload()->error);
                 }
+            } catch (\Exception $e){
+                $task->fail();
+                echo "ERROR during task Completion, task n°" . $task->getId() . "\n";
+                echo $e->getMessage() . "\n";
             }
-            $task->complete();
-        } catch (\Exception $e){
-            echo "ERROR during task Completion, task n°" . $task->getId() . "\n";
-            echo $e->getMessage() . "\n";
         }
+        $task->complete();
     }
     
     // todo: remove generated _bak.pdf from mediamanager

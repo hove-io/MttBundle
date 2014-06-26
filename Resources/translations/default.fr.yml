@@ -108,6 +108,7 @@ task:
         launched: En cours
         completed: Terminée
         canceled: Annulée
+        failed: Échouée
     completion: Progression
     launchedAt: Lancée à
     completed: Terminée
