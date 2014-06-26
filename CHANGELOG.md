@@ -1,3 +1,9 @@
+Notes de publication - METH - Version 1.0.0 (30/06/2014)
+
+** Bogue
+    * [METH-254] - Gérer les cas d'erreurs lors d'une tâche de fond (génération des pdf d'une saison, d'une liste de distribution)
+
+
 Notes de publication - METH - Version 0.9.5 (26/06/2014)
 
 ** Bogue
