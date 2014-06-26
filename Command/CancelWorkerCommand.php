@@ -16,12 +16,15 @@ class CancelWorkerCommand extends ContainerAwareCommand
     private $channelLib = null;
     private $routingKeyToCancel = null;
     private $taskCompleted = false;
+    private $msgLimit = 0;
+    private $msgExamined = 0;
 
     private function initChannel()
     {
         $this->channelLib = $this->getContainer()->get('canal_tp_mtt.amqp_channel');
         $this->channel = $this->channelLib->getChannel();
         $this->channel->basic_qos(null, 1, null);
+        $this->i = 0;
     }
     
     public function watchTaskCompletion($msg)
@@ -36,8 +39,9 @@ class CancelWorkerCommand extends ContainerAwareCommand
     public function process_message($msg)
     {
         // echo $msg->delivery_info['routing_key'], " ---- ", $this->routingKeyToCancel, "\r\n";
+        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+        
         if ($msg->delivery_info['routing_key'] == $this->routingKeyToCancel) {
-            $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
             echo " [x] Cancelled", $msg->delivery_info['routing_key'], "\n";
             $payload = json_decode($msg->body);
             $payload->generated = false;
@@ -57,18 +61,25 @@ class CancelWorkerCommand extends ContainerAwareCommand
                 true
             );
         } else {
-            // echo " [x] Not Cancelled", $msg->delivery_info['routing_key'], "\n";
-            $msg->delivery_info['channel']->basic_nack($msg->delivery_info['delivery_tag'], false, true);
+            // echo " [x] Republished ", $msg->delivery_info['routing_key'], "\n";
+            $newMsg = new AMQPMessage(
+                $msg->body,
+                array(
+                    'delivery_mode' => 2,
+                    'content_type'  => 'application/json',
+                    'reply_to'      => $msg->get('reply_to')
+                )
+            );
+            $this->channel->basic_publish($newMsg, $this->channelLib->getExchangeName(), $msg->delivery_info['routing_key'], true);
         }
+        $this->msgExamined++;
     }
 
-    private function runProcess($routingKey, $taskId)
+    private function runProcess($routingKey, $taskId, $msgLimit)
     {
         $this->taskId = $taskId;
         $this->routingKeyToCancel = $routingKey;
-
-        // echo "bind to ", $this->routingKeyToCancel, "\r\n";die;
-        $this->channel->queue_bind($this->channelLib->getPdfGenQueueName(), $this->channelLib->getExchangeName(), $this->routingKeyToCancel);
+        $this->msgLimit = $msgLimit;
         
         $this->channel->basic_consume(
             $this->channelLib->getPdfGenQueueName(),
@@ -92,7 +103,10 @@ class CancelWorkerCommand extends ContainerAwareCommand
             false, 
             array($this, 'watchTaskCompletion')
         );
-        while ($this->taskCompleted == false) {
+        while ($this->taskCompleted == false || ($this->msgLimit != 0 && $this->msgExamined >= $this->msgLimit)) {
+            echo "Task Completed: ",$this->taskCompleted,"\n";
+            echo "msg Examined: ",$this->msgExamined,"\n";
+            echo "msg limit: ",$this->msgLimit,"\n";
             $this->channel->wait();
         }
     }
@@ -103,13 +117,14 @@ class CancelWorkerCommand extends ContainerAwareCommand
             ->setName('mtt:amqp:cancelTask')
             ->setDescription('Launch a amqp listener to get acknowledgements from pdf generation workers and log these into database')
             ->addArgument('routing_key', InputArgument::REQUIRED, 'Routing Key messages to cancel')
-            ->addArgument('task_id', InputArgument::REQUIRED, 'Task Id to cancel');
+            ->addArgument('task_id', InputArgument::REQUIRED, 'Task Id to cancel')
+            ->addArgument('limit', InputArgument::OPTIONAL, 'Limit of messages to examine. Default 0.', 0);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->initChannel();
-        $this->runProcess($input->getArgument('routing_key'), $input->getArgument('task_id'));
+        $this->runProcess($input->getArgument('routing_key'), $input->getArgument('task_id'), $input->getArgument('limit'));
         $this->channelLib->close();
     }
 }

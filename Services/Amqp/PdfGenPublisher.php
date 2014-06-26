@@ -57,15 +57,6 @@ class PdfGenPublisher
         
         return $task;
     }
-
-    private function declareAckQueue()
-    {
-        // declare ack queue
-        $ackQueueName = $this->channelLib->getAckQueueName();
-        $this->channelLib->declareQueue($ackQueueName, $this->exchangeName, $ackQueueName);
-        
-        return $ackQueueName;
-    }
     
     private function lockSeason($season)
     {
@@ -77,7 +68,7 @@ class PdfGenPublisher
     {
         $this->init();
         $routingKey = $this->channelLib->getRoutingKey($task->getNetwork(), $task);
-        $ackQueueName = $this->declareAckQueue();
+        $ackQueueName = $this->channelLib->declareAckQueue();
         foreach ($payloads as $payload) {
             $payload['pdfGeneratorUrl'] = $this->pdfGeneratorUrl;
             $payload['taskId'] = $task->getId();

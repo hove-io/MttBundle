@@ -1,7 +1,7 @@
 namespace :mtt do
-    desc ""
-    task :deploy, :roles => :app, :except => { :no_release => true } do
+    desc "Restart workers on supervisor server"
+    task :restart, :roles => :supervisor, :except => { :no_release => true } do
     end
 end
 
-after "post:composer", "mtt:deploy"
+after "post:composer", "mtt:restart"

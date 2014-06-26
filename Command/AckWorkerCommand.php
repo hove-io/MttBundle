@@ -23,21 +23,26 @@ class AckWorkerCommand extends ContainerAwareCommand
     
     public function process_message($msg)
     {
-        $task = $this->amqpPdfGenPublisher->addAckToTask($msg);
-        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
-        echo " [x] Ack Inserted \n";
-        echo "Task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished() . "\n";
-        if (count($task->getAmqpAcks()) == $task->getJobsPublished()) {
-            $pdfGenCompletionLib = $this->getContainer()->get('canal_tp_mtt.pdf_gen_completion_lib');
-            echo "StartCompleted\n";
-            $pdfGenCompletionLib->completePdfGenTask($task);
-            $msgCompleted = new AMQPMessage(
-                'Completed',
-                array('delivery_mode' => 2) # make message persistent
-            );
-            $this->channel->basic_publish($msgCompleted, $this->channelLib->getExchangeFanoutName(), $task->getId().'.task_completion', true);
+        try{
+            $task = $this->amqpPdfGenPublisher->addAckToTask($msg);
+            echo " [x] Ack Inserted \n";
+            echo "Task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished() . "\n";
+            if (count($task->getAmqpAcks()) == $task->getJobsPublished()) {
+                $pdfGenCompletionLib = $this->getContainer()->get('canal_tp_mtt.pdf_gen_completion_lib');
+                echo "StartCompleted\n";
+                $pdfGenCompletionLib->completePdfGenTask($task);
+                $msgCompleted = new AMQPMessage(
+                    'Completed',
+                    array('delivery_mode' => 2) # make message persistent
+                );
+                $this->channel->basic_publish($msgCompleted, $this->channelLib->getExchangeFanoutName(), $task->getId().'.task_completion', true);
+            }
+            echo "\n--------\n";
+        } catch(\Exception $e){
+            echo "ERROR during acking process" . print_r($msg->body) . "\n";
+            echo $e->getMessage() . "\n";
         }
-        echo "\n--------\n";
+        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
         // acknowledge broker
     }
 
@@ -75,6 +80,9 @@ class AckWorkerCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->initChannel();
+        $ack_queue_name = $input->getArgument('ack_queue_name');
+        // init queue just in case
+        $this->channelLib->declareQueue($ack_queue_name, $this->channelLib->getExchangeName(), $ack_queue_name);
         $this->runProcess($input->getArgument('ack_queue_name'));
         $this->channelLib->close();
     }

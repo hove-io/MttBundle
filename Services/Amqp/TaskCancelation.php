@@ -29,11 +29,17 @@ class TaskCancelation
         $this->seasonRepo = $this->om->getRepository('CanalTPMttBundle:Season');
     }
 
-    public function cancelAmqpMessages($network, $task)
+    private function cancelAmqpMessages($network, $task)
     {
         $routingKey = $this->channelLib->getRoutingKey($network, $task);
+        // get actual number of messages to set a limit
+        list($queueName, $jobs, $consumers) = $this->channelLib->declareQueue(
+            $this->channelLib->getPdfGenQueueName(), 
+            $this->channelLib->getExchangeName(), 
+            $routingKey
+        );
         $pathToConsole = 'nohup php ' . $this->rootDir . '/console ';
-        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routingKey . ' ' . $task->getId() . ' > /dev/null &';
+        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routingKey . ' ' . $task->getId() . ' ' . $jobs . ' > /dev/null &';
         exec($command);
     }
 
@@ -47,7 +53,9 @@ class TaskCancelation
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:
                 $season = $this->seasonRepo->find($task->getObjectId());
                 $season->setLocked(false);
-                $this->cancelAmqpMessages($season->getNetwork(), $task);
+                if ($task->isUnderProgress() == true) {
+                    $this->cancelAmqpMessages($season->getNetwork(), $task);
+                }
                 break;
         }
         $this->om->flush();
