@@ -155,23 +155,27 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes', 'mtt/utils'],function(jQue
         }
         return false;
     });
-    $('#generate-distribution-list').click(function(){
-        var stopPoints_ids = _getStopPointIds();
+    {% if locked == false %}
+        $('#generate-distribution-list').click(function(){
+            var stopPoints_ids = _getStopPointIds();
 
-        if (stopPoints_ids.length > 0)
-        {
-            var $form = $('<form method="POST" action="' + $(this).attr('href') + '"></form>');
-            $(stopPoints_ids).each(function(){
-                $form.append('<input type="hidden" name="stopPointsIds[]" value="' + this + '" />');
-            });
-            $form.append('<input type="submit" value="Submit" />');
-            $form.hide();
-            $('body').append($form);
-            $form.submit();
-            utils.disableBtn($(this));
-        }
-        return false;
-    });
+            if (stopPoints_ids.length > 0)
+            {
+                var $form = $('<form method="POST" action="' + $(this).attr('href') + '"></form>');
+                $(stopPoints_ids).each(function(){
+                    $form.append('<input type="hidden" name="stopPointsIds[]" value="' + this + '" />');
+                });
+                $form.append('<input type="submit" value="Submit" />');
+                $form.hide();
+                $('body').append($form);
+                $form.submit();
+                utils.disableBtn($(this));
+            }
+            return false;
+        });
+    {% else %}
+        $('#generate-distribution-list').click(function(){return false;});
+    {% endif %}
 });
 </script>
 {% endblock %}
