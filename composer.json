@@ -33,6 +33,11 @@
         "videlalvaro/php-amqplib": "2.2.6",
         "itbz/fpdi": "1.4.4"
     },
+    "extra": {
+        "branch-alias": {
+            "dev-dev-1.0.0": "1.0.x-dev"
+        }
+    },
     "autoload": {
         "psr-0": { "CanalTP\\MttBundle\\": "" }
     },
