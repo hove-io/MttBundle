@@ -7,10 +7,7 @@
 namespace CanalTP\MttBundle\Services\Amqp;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Process\Process;
-use Spork\ProcessManager;
 
-use CanalTP\MttBundle\Services\Amqp\Channel;
 use CanalTP\MttBundle\Entity\AmqpTask;
 
 class TaskCancelation
@@ -34,8 +31,8 @@ class TaskCancelation
         $routingKey = $this->channelLib->getRoutingKey($network, $task);
         // get actual number of messages to set a limit
         list($queueName, $jobs, $consumers) = $this->channelLib->declareQueue(
-            $this->channelLib->getPdfGenQueueName(), 
-            $this->channelLib->getExchangeName(), 
+            $this->channelLib->getPdfGenQueueName(),
+            $this->channelLib->getExchangeName(),
             $routingKey
         );
         $pathToConsole = 'nohup php ' . $this->rootDir . '/console ';
@@ -47,7 +44,7 @@ class TaskCancelation
     {
         $task = $this->taskRepo->find($taskId);
         $task->cancel();
-        switch($task->getTypeId()){
+        switch ($task->getTypeId()) {
             case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
                 break;
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:

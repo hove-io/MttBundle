@@ -5,15 +5,14 @@ namespace CanalTP\MttBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Command to purge tasks. 
+ * Command to purge tasks.
  * Since this command takes negative values as arguments, you need to escape it in a very special manner.
- * Example: 
+ * Example:
  *  * if you want to pass -15 days:  app/console mtt:amqp:purgeTasks -- '-15 days'
- * 
+ *
  * Reference:https://github.com/symfony/symfony/pull/3624
  */
 class PurgeTasksCommand extends ContainerAwareCommand
@@ -24,13 +23,13 @@ class PurgeTasksCommand extends ContainerAwareCommand
             ->setName('mtt:amqp:purgeTasks')
             ->setDescription('Purge tasks and acks. Default period to keep is one month.')
             ->addArgument(
-                'older_than', 
-                InputArgument::OPTIONAL, 
-                'Period to keep. Default is "-1 month". Format must respect http://www.php.net/manual/en/datetime.formats.relative.php', 
+                'older_than',
+                InputArgument::OPTIONAL,
+                'Period to keep. Default is "-1 month". Format must respect http://www.php.net/manual/en/datetime.formats.relative.php',
                 '-1 month'
             );
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $older_than = $input->getArgument('older_than');

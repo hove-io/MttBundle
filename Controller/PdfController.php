@@ -41,6 +41,7 @@ class PdfController extends AbstractController
         } else {
             $url = $pdfManager->getStoppointPdfUrl($timetable, $externalStopPointId);
         }
+
         return $this->redirect($url);
     }
 }

@@ -7,12 +7,10 @@
 namespace CanalTP\MttBundle\Services\Amqp;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 use CanalTP\MttBundle\Entity\AmqpTask;
 use CanalTP\MttBundle\Entity\AmqpAck;
-use CanalTP\MttBundle\Services\Amqp\Channel;
 
 class PdfGenPublisher
 {
@@ -23,8 +21,8 @@ class PdfGenPublisher
     private $om = null;
 
     public function __construct(
-        ObjectManager $om, 
-        $pdfGeneratorUrl, 
+        ObjectManager $om,
+        $pdfGeneratorUrl,
         Channel $amqpChannelLib
     )
     {
@@ -35,10 +33,10 @@ class PdfGenPublisher
         $this->exchangeName = $amqpChannelLib->getExchangeName();
         $this->queueName = $amqpChannelLib->getPdfGenQueueName();
     }
-    
+
     private function init()
     {
-        // pre-bind and pre-create the queue so broadcasted messages will be kept 
+        // pre-bind and pre-create the queue so broadcasted messages will be kept
         // even if there is no worker listening yet
         $this->channelLib->declareQueue($this->queueName, $this->exchangeName, "*.pdf_gen");
     }
@@ -54,16 +52,16 @@ class PdfGenPublisher
         $task->setNetwork($network);
         $this->om->persist($task);
         $this->om->flush();
-        
+
         return $task;
     }
-    
+
     private function lockSeason($season)
     {
         $season->setLocked(true);
         $this->om->flush();
     }
-    
+
     private function publishPayloads($payloads, $task)
     {
         $this->init();
@@ -83,7 +81,7 @@ class PdfGenPublisher
             $this->channel->basic_publish($msg, $this->exchangeName, $routingKey, true);
         }
     }
-    
+
     public function publishSeasonPdfGen($payloads, $season, $taskOptions = array())
     {
         // routing_key_format: network_{networkId}.pdf_gen
@@ -95,16 +93,17 @@ class PdfGenPublisher
     public function publishDistributionListPdfGen($payloads, $timetable, $taskOptions = array())
     {
         $task = $this->getNewTask(
-            $payloads, 
-            $timetable, 
-            $timetable->getLineConfig()->getSeason()->getNetwork(), 
-            $taskOptions, 
+            $payloads,
+            $timetable,
+            $timetable->getLineConfig()->getSeason()->getNetwork(),
+            $taskOptions,
             AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE
         );
         $this->publishPayloads($payloads, $task);
+
         return $task;
     }
-        
+
     public function addAckToTask($amqpMsg)
     {
         $payload = json_decode($amqpMsg->body);
@@ -128,6 +127,7 @@ class PdfGenPublisher
         } else {
             throw new \Exception('An ack has been sent for a non-existent task');
         }
+
         return $task;
     }
 }

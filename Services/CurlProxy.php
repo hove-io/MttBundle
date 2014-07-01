@@ -24,8 +24,7 @@ class CurlProxy
         $content = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         // close cURL resource, and free up system resources
-        if($content === false)
-        {
+        if ($content === false) {
             throw new \Exception("CurlProxy error: " . curl_error($ch) . " when calling $url");
         }
         curl_close($ch);

@@ -6,10 +6,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-use CanalTP\SamCoreBundle\Entity\ApplicationRole;
-use CanalTP\SamCoreBundle\Entity\Application;
-use CanalTP\SamCoreBundle\Entity\Role;
-use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 use CanalTP\MttBundle\Entity\Network;
 use CanalTP\MttBundle\Entity\Season;
 use CanalTP\MttBundle\Entity\LineConfig;

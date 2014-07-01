@@ -6,9 +6,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MttBundle\Services\MediaManager;
-use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MttBundle\Entity\Block;
 

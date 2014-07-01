@@ -5,7 +5,6 @@ namespace CanalTP\MttBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use PhpAmqpLib\Message\AMQPMessage;
@@ -20,10 +19,10 @@ class AckWorkerCommand extends ContainerAwareCommand
         $this->channelLib = $this->getContainer()->get('canal_tp_mtt.amqp_channel');
         $this->channel = $this->channelLib->getChannel();
     }
-    
+
     public function process_message($msg)
     {
-        try{
+        try {
             $task = $this->amqpPdfGenPublisher->addAckToTask($msg);
             echo " [x] Ack Inserted \n";
             echo "Task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished() . "\n";
@@ -38,7 +37,7 @@ class AckWorkerCommand extends ContainerAwareCommand
                 $this->channel->basic_publish($msgCompleted, $this->channelLib->getExchangeFanoutName(), $task->getId().'.task_completion', true);
             }
             echo "\n--------\n";
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             echo "ERROR during acking process" . print_r($msg->body) . "\n";
             echo $e->getMessage() . "\n";
         }
@@ -51,12 +50,12 @@ class AckWorkerCommand extends ContainerAwareCommand
         $this->amqpPdfGenPublisher = $this->getContainer()->get('canal_tp_mtt.amqp_pdf_gen_publisher');
 
         $this->channel->basic_consume(
-            $ack_queue_name, 
-            'pdfAckWorker', 
-            false, 
-            false, 
-            false, 
-            false, 
+            $ack_queue_name,
+            'pdfAckWorker',
+            false,
+            false,
+            false,
+            false,
             array($this, 'process_message')
         );
         while (count($this->channel->callbacks)) {
@@ -70,9 +69,9 @@ class AckWorkerCommand extends ContainerAwareCommand
             ->setName('mtt:amqp:waitForAcks')
             ->setDescription('Launch a amqp listener to get acknowledgements from pdf generation workers and log these into database')
             ->addArgument(
-                'ack_queue_name', 
-                InputArgument::OPTIONAL, 
-                'Acknowledgement queue name', 
+                'ack_queue_name',
+                InputArgument::OPTIONAL,
+                'Acknowledgement queue name',
                 'ack_queue.for_pdf_gen'
             );
     }

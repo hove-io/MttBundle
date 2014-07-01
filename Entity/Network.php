@@ -232,11 +232,12 @@ class Network extends AbstractEntity
     {
         return $this->ditributionLists;
     }
-    
+
     //custom title
     public function getName()
     {
         $explodedId = explode(':', $this->getExternalId());
+
         return count($explodedId) > 0 ? $explodedId[1] : $this->getExternalId();
     }
 }

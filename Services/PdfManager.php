@@ -8,8 +8,6 @@ namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -26,8 +24,8 @@ class PdfManager
     private $hashingLib = null;
 
     public function __construct(
-        ObjectManager $om, 
-        Router $router, 
+        ObjectManager $om,
+        Router $router,
         PdfGenerator $pdfGenerator,
         MediaManager $mediaManager,
         Container $co,
@@ -41,7 +39,7 @@ class PdfManager
         $this->co = $co;
         $this->hashingLib = $hashingLib;
     }
-    
+
     /**
      * We use http kernel to forward, would take more time using curl
      */
@@ -50,9 +48,10 @@ class PdfManager
         $args['_controller'] = 'CanalTPMttBundle:Timetable:view';
         $subRequest = $this->co->get('request')->duplicate(array(), null, $args);
         $subRequest->headers->remove('X-Requested-With');
+
         return $this->co->get('http_kernel')->handle($subRequest, HttpKernelInterface::SUB_REQUEST)->getContent();
     }
-    
+
     public function getPdfHash(Timetable $timetable, $externalStopPointId)
     {
         $response = $this->getTimetableHtml(
@@ -69,7 +68,7 @@ class PdfManager
 
         return $this->hashingLib->getPdfHash($response, $cssVersion);
     }
-    
+
     public function getStoppointPdfUrl(Timetable $timetable, $externalStopPointId)
     {
         $hash = $this->getPdfHash($timetable, $externalStopPointId);
@@ -97,6 +96,7 @@ class PdfManager
                 throw new \Exception('PdfGenerator Webservice returned an empty response.');
             }
         }
+
         return $this->mediaManager->getUrlByMedia($pdfMedia);
     }
 }

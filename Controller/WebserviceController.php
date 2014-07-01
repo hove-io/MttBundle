@@ -5,7 +5,6 @@ namespace CanalTP\MttBundle\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use CanalTP\MediaManager\Category\CategoryType;
-use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector;
 use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManagerBundle\Entity\Media;
 
@@ -44,7 +43,7 @@ class WebserviceController extends AbstractController
 
     public function getTimetableUrlAction($externalNetworkId, $externalRouteId, $externalStopPointId)
     {
-        try{
+        try {
             $filter = $this->getRequest()->query->get('filter');
             if (empty($filter)) {
                 // default value is now
@@ -70,9 +69,10 @@ class WebserviceController extends AbstractController
             if (empty($mediaUrl)) {
                 throw new \Exception($this->get('translator')->trans('webservice.no_timetable_found', array('%date%' => $date->format('d/m/Y')), 'exceptions'), 404);
             }
+
             return $this->redirect($mediaUrl);
 
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $code = in_array($e->getCode(), array(404, 500)) ? $e->getCode() : 500;
             $response = new JsonResponse();
             $response->setData(array(
@@ -80,6 +80,7 @@ class WebserviceController extends AbstractController
                 'error_code' => $code,
             ));
             $response->setStatusCode($code);
+
             return $response;
         }
     }

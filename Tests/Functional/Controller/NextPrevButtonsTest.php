@@ -12,7 +12,7 @@ class NextPrevButtonsTest extends AbstractControllerTest
         parent::setUp();
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
     }
-   
+
     private function getRoute($stopPointId = 'stop_point:TTR:SP:JUSTB-1')
     {
         return $this->generateRoute(
@@ -25,7 +25,7 @@ class NextPrevButtonsTest extends AbstractControllerTest
             )
         );
     }
-    
+
     public function testIsFirstStopOnlyOneButton()
     {
         $crawler = $this->doRequestRoute($this->getRoute());
@@ -34,7 +34,7 @@ class NextPrevButtonsTest extends AbstractControllerTest
         $btn_count = $crawler->filter('#main-container > div.row > div.col-md-8 > div.row a span.glyphicon-chevron-right')->count();
         $this->assertTrue($btn_count == 1 , "Expected one button with right chevron for first stop. Found :$btn_count");
     }
-    
+
     public function testRandomStopTwoButtons()
     {
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
@@ -42,7 +42,7 @@ class NextPrevButtonsTest extends AbstractControllerTest
         $btn_count = $crawler->filter('#main-container > div.row > div.col-md-8 > div.row a')->count();
         $this->assertTrue($btn_count == 2 , "Expected two buttons for random stop. Found :$btn_count");
     }
-    
+
     public function testIsLastStopOnlyOnePrevButton()
     {
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
@@ -52,5 +52,5 @@ class NextPrevButtonsTest extends AbstractControllerTest
         $btn_count = $crawler->filter('#main-container > div.row > div.col-md-8 > div.row a span.glyphicon-chevron-left')->count();
         $this->assertTrue($btn_count == 1 , "Expected one button with left chevron for last stop. Found :$btn_count");
     }
-    
+
 }

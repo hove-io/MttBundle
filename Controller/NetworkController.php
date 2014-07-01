@@ -33,6 +33,7 @@ class NetworkController extends AbstractController
                 'networks' => $networks
             )
         );
+
         return ($response);
 
     }

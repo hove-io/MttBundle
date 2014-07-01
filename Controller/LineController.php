@@ -73,7 +73,7 @@ class LineController extends AbstractController
             $line_id,
             $season
         );
-        
+
         $form = $this->createForm(
             new LineConfigType($network->getLayouts()),
             $lineConfig,

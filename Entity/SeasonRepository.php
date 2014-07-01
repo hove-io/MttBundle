@@ -27,7 +27,7 @@ class SeasonRepository extends EntityRepository
 
         return ($season);
     }
-    
+
     // used by webservice
     public function findSeasonForDateTime($dateTime)
     {
@@ -38,6 +38,7 @@ class SeasonRepository extends EntityRepository
                     ->andWhere("s.startDate <= '".$dateTime->format("Y-m-d H:i:s")."'")
                     ->andWhere("s.endDate >= '".$dateTime->format("Y-m-d H:i:s")."'")
                     ->getQuery();
+
         return $query->getResult();
     }
 }

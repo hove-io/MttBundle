@@ -4,7 +4,6 @@ namespace CanalTP\MttBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Form\FormError;
 
 /**
  * GreaterThanFieldValidator
@@ -16,7 +15,7 @@ class NotOverlappingEntityValidator extends ConstraintValidator
 
     private function entityIsIncludedInAnother($entity, $otherEntity)
     {
-        return  $entity->{$this->startFieldGetter}() >= $otherEntity->{$this->startFieldGetter}() && 
+        return  $entity->{$this->startFieldGetter}() >= $otherEntity->{$this->startFieldGetter}() &&
                 $entity->{$this->endFieldGetter}() <= $otherEntity->{$this->endFieldGetter}();
     }
     /**
@@ -36,7 +35,7 @@ class NotOverlappingEntityValidator extends ConstraintValidator
         $entities = $value->$parentGetter()->$siblingsGetter();
         foreach ($entities as $entity) {
             if (
-                $entity->getId() != $value->getId() && ( 
+                $entity->getId() != $value->getId() && (
                 // value is contained in entity
                 $this->entityIsIncludedInAnother($entity, $value) ||
                 // entity is contained in value
@@ -46,17 +45,19 @@ class NotOverlappingEntityValidator extends ConstraintValidator
                 $value->{$this->startFieldGetter}() <= $entity->{$this->endFieldGetter}()) ||
                 // value endDate is within another entity
                 ($value->{$this->endFieldGetter}() >= $entity->{$this->startFieldGetter}() &&
-                $value->{$this->endFieldGetter}() <= $entity->{$this->endFieldGetter}()) 
+                $value->{$this->endFieldGetter}() <= $entity->{$this->endFieldGetter}())
             )) {
                 $this->context->addViolation(
-                    'error.seasons_overlapping', 
+                    'error.seasons_overlapping',
                     array(
                         '%saison_title%' => $entity->getTitle(),
                     )
                 );
+
                 return false;
             }
         }
+
         return true;
     }
 }
