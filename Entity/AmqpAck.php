@@ -2,8 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * AmqpAck
  */
@@ -29,11 +27,10 @@ class AmqpAck extends AbstractEntity
      */
     private $amqpTask;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -43,7 +40,7 @@ class AmqpAck extends AbstractEntity
     /**
      * Set payload
      *
-     * @param \stdClass $payload
+     * @param  \stdClass $payload
      * @return AmqpAck
      */
     public function setPayload($payload)
@@ -56,7 +53,7 @@ class AmqpAck extends AbstractEntity
     /**
      * Get payload
      *
-     * @return \stdClass 
+     * @return \stdClass
      */
     public function getPayload()
     {
@@ -66,7 +63,7 @@ class AmqpAck extends AbstractEntity
     /**
      * Set deliveryInfo
      *
-     * @param array $deliveryInfo
+     * @param  array   $deliveryInfo
      * @return AmqpAck
      */
     public function setDeliveryInfo($deliveryInfo)
@@ -79,18 +76,17 @@ class AmqpAck extends AbstractEntity
     /**
      * Get deliveryInfo
      *
-     * @return array 
+     * @return array
      */
     public function getDeliveryInfo()
     {
         return $this->deliveryInfo;
     }
-    
-    
+
     /**
      * Set amqpTask
      *
-     * @param \stdClass $amqpTask
+     * @param  \stdClass $amqpTask
      * @return AmqpAck
      */
     public function setAmqpTask($amqpTask)
@@ -103,7 +99,7 @@ class AmqpAck extends AbstractEntity
     /**
      * Get amqpTask
      *
-     * @return \stdClass 
+     * @return \stdClass
      */
     public function getAmqpTask()
     {

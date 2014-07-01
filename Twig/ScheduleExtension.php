@@ -13,6 +13,7 @@ class ScheduleExtension extends \Twig_Extension
                 return $index;
             }
         }
+
         return false;
     }
 
@@ -37,6 +38,7 @@ class ScheduleExtension extends \Twig_Extension
                 }
             }
         }
+
         return $value;
     }
 

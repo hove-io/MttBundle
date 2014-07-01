@@ -229,7 +229,7 @@ class LineConfig extends AbstractEntity
     {
         return $this->timetables;
     }
-    
+
     public function isLocked()
     {
         return $this->getSeason() != null && $this->getSeason()->isLocked();

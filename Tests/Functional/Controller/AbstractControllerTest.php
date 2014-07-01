@@ -2,11 +2,7 @@
 
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Event\AuthenticationEvent;
-use Symfony\Component\Security\Core\AuthenticationEvents;
-use CanalTP\SamBundle\Tests\Functional\Controller\BaseControllerTest AS SamBaseTestController;
+use CanalTP\SamBundle\Tests\Functional\Controller\BaseControllerTest as SamBaseTestController;
 
 abstract class AbstractControllerTest extends SamBaseTestController
 {
@@ -15,7 +11,7 @@ abstract class AbstractControllerTest extends SamBaseTestController
      *
      * @var boolean
      */
-    static protected $mockDb = true;
+    protected static $mockDb = true;
 
     protected function reloadMttFixtures()
     {
@@ -56,6 +52,7 @@ abstract class AbstractControllerTest extends SamBaseTestController
         if (count($seasons) == 0) {
             throw new \RuntimeException('No seasons');
         }
+
         return array_pop($seasons);
     }
 

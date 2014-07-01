@@ -10,7 +10,6 @@ use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManagerBundle\Entity\Media;
 
 use CanalTP\MttBundle\Entity\Block;
-use CanalTP\MttBundle\Form\Handler\Block\ImgHandler;
 
 class MediaManager
 {

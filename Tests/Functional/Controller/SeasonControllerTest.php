@@ -81,7 +81,7 @@ class SeasonControllerTest extends AbstractControllerTest
         $form['mtt_season[title]'] = 'Saison 2';
         $form['mtt_season[startDate]'] = '01/04/2016';
         $form['mtt_season[endDate]'] = '02/04/2016';
-        
+
         $crawler = $this->client->submit($form);
         $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
         $crawler = $this->client->submit($form);
@@ -146,5 +146,5 @@ class SeasonControllerTest extends AbstractControllerTest
         //reload fixtures after Delete
         $this->reloadMttFixtures();
     }
-    
+
 }

@@ -57,7 +57,7 @@ class StopPoint extends AbstractEntity
      */
     protected $pdfHash;
 
-    function __construct()
+    public function __construct()
     {
         $this->pois = array();
     }

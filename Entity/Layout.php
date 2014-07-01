@@ -29,7 +29,7 @@ class Layout extends AbstractEntity
      * @var string
      */
     private $preview;
-    
+
     /**
      * @var integer
      * default value 1
@@ -296,12 +296,12 @@ class Layout extends AbstractEntity
     {
         return $this->getNotesMode() == self::NOTES_MODE_AGGREGATED;
     }
-    
+
     public function dispatchesNotes()
     {
         return $this->getNotesMode() == self::NOTES_MODE_DISPATCHED;
     }
-    
+
     /**
      * Set networks
      *

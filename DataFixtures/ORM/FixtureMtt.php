@@ -9,8 +9,7 @@ use CanalTP\SamBundle\Tests\DataFixtures\ORM\Fixture as SamBaseFixture;
 use CanalTP\MttBundle\Entity\Network;
 use CanalTP\MttBundle\Entity\Layout;
 
-
-class FixturesMtt extends SamBaseFixture
+class FixtureMtt extends SamBaseFixture
 {
     protected $em = null;
 
@@ -96,6 +95,7 @@ class FixturesMtt extends SamBaseFixture
         }
 
         $this->em->persist($layout);
+
         return ($layout);
     }
 
@@ -111,6 +111,7 @@ class FixturesMtt extends SamBaseFixture
         $network->setToken($token);
 
         $this->em->persist($network);
+
         return ($network);
     }
 

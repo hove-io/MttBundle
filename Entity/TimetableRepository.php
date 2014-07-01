@@ -48,13 +48,13 @@ class TimetableRepository extends EntityRepository
             array(
                 'stopPoint' => null,
                 'timetable' => $timetableId
-            ), 
+            ),
             array('domId' => 'ASC')
         );
 
         return $result;
     }
-    
+
     /*
      * Return blocks defined for this timetable on route level
      */

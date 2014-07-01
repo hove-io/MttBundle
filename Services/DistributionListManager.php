@@ -39,7 +39,7 @@ class DistributionListManager
             )
         );
     }
-    
+
     public function deleteDistributionListPdf($timetable)
     {
         $path = $this->generateAbsoluteDistributionListPdfPath($timetable);

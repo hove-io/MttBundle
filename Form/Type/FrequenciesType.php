@@ -43,8 +43,8 @@ class FrequenciesType extends AbstractType
                 'constraints'   => array(
                     new NotOverlapping(
                         array(
-                            'values' => $this->hoursRange, 
-                            'startField'=>'startTime', 
+                            'values' => $this->hoursRange,
+                            'startField'=>'startTime',
                             'endField'=>'endTime'
                         )
                     )

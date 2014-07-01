@@ -4,7 +4,6 @@ namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use CanalTP\MttBundle\Form\Type\SeasonType;
-use CanalTP\MttBundle\Form\Type\SeasonPublicationType;
 use CanalTP\MttBundle\Entity\Season;
 
 class SeasonController extends AbstractController
@@ -83,7 +82,7 @@ class SeasonController extends AbstractController
                         'default'
                     )
                 );
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $this->get('session')->getFlashBag()->add(
                     'danger',
                     $this->get('translator')->trans(
@@ -135,6 +134,7 @@ class SeasonController extends AbstractController
             $this->get('canal_tp_mtt.media_manager')->deleteSeasonMedias($season);
             $seasonManager->remove($season);
         }
+
         return $this->redirect(
             $this->generateUrl(
                 'canal_tp_mtt_season_list',
@@ -157,6 +157,7 @@ class SeasonController extends AbstractController
                 $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
             }
         }
+
         return $this->redirect(
             $this->generateUrl(
                 'canal_tp_mtt_season_list',

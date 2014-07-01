@@ -30,11 +30,11 @@ class PdfGenCompletionLib
         $this->timetableRepo = $this->om->getRepository('CanalTPMttBundle:Timetable');
         $this->stopPointRepo = $this->om->getRepository('CanalTPMttBundle:StopPoint');
     }
-    
+
     private function getLineConfig($ack, $lineConfig)
     {
-        if ( 
-            $lineConfig == false || 
+        if (
+            $lineConfig == false ||
             // check if this ack is for a different lineConfig than the previous one
             $lineConfig->getExternalLineId() != $ack->getPayload()->timetableParams->externalLineId
         ) {
@@ -45,9 +45,10 @@ class PdfGenCompletionLib
                 )
             );
         }
+
         return $lineConfig;
     }
-    
+
     private function getTimetable($ack, $lineConfig, $timetable)
     {
         if ($timetable == false ||
@@ -61,9 +62,10 @@ class PdfGenCompletionLib
                 )
             );
         }
+
         return $timetable;
     }
-    
+
     private function getStopPoint($ack, $timetable)
     {
         return $this->stopPointRepo->findOneBy(
@@ -73,14 +75,15 @@ class PdfGenCompletionLib
             )
         );
     }
-    
+
     private function getSeason($seasonId)
     {
         $season = $this->om->getRepository('CanalTPMttBundle:Season')->find($seasonId);
         $this->om->refresh($season);
+
         return $season;
     }
-    
+
     // save hash and pdfGeneration date returned by acks
     private function commit($task)
     {
@@ -104,14 +107,14 @@ class PdfGenCompletionLib
                     $this->om->persist($stopPoint);
                     //TODO: call http://jira.canaltp.fr/browse/METH-202
                     $this->mediaManager->saveStopPointTimetable(
-                        $timetable, 
-                        $stopPoint->getExternalId(), 
+                        $timetable,
+                        $stopPoint->getExternalId(),
                         $ack->getPayload()->generationResult->filepath
                     );
-                } else if (isset($ack->getPayload()->error)){
+                } elseif (isset($ack->getPayload()->error)) {
                     throw new \Exception('Ack error msg: ' . $ack->getPayload()->error);
                 }
-            } catch (\Exception $e){
+            } catch (\Exception $e) {
                 $task->fail();
                 echo "ERROR during task Completion, task n°" . $task->getId() . "\n";
                 echo $e->getMessage() . "\n";
@@ -119,13 +122,13 @@ class PdfGenCompletionLib
         }
         $task->complete();
     }
-    
+
     // todo: remove generated _bak.pdf from mediamanager
     private function rollback($task)
     {
         echo "Rollback";
     }
-    
+
     private function completeDistributionList($task)
     {
         // save this list in db
@@ -151,7 +154,7 @@ class PdfGenCompletionLib
 
         echo "Distribution List saved to ", $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable), " / Files agregated ", count($paths), "\r\n";
     }
-    
+
     private function completeSeasonPdfGen($task)
     {
         $season = $this->getSeason($task->getObjectId());
@@ -166,7 +169,7 @@ class PdfGenCompletionLib
         $season->setLocked(false);
         $this->om->persist($season);
     }
-    
+
     public function completePdfGenTask($task)
     {
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
@@ -175,7 +178,7 @@ class PdfGenCompletionLib
             $this->rollback($task);
         } else {
             $this->commit($task);
-            switch($task->getTypeId()){
+            switch ($task->getTypeId()) {
                 case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
                     $this->completeDistributionList($task);
                     break;

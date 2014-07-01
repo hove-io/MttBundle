@@ -21,15 +21,15 @@ class TaskTypeExtension extends \Twig_Extension
     {
         return array(
             'taskType'      => new \Twig_Filter_Method(
-                $this, 
-                'taskType', 
+                $this,
+                'taskType',
                 array("is_safe" => array("html"))
             ),
             'taskActions'   => new \Twig_Filter_Method($this, 'taskActions', array("is_safe" => array("html"))),
             'taskStatus'    => new \Twig_Filter_Method($this, 'taskStatus'),
         );
     }
-    
+
     public function taskActions($task)
     {
         $return = '';
@@ -50,6 +50,7 @@ class TaskTypeExtension extends \Twig_Extension
                 }
                 break;
         }
+
         return $return;
     }
 
@@ -81,9 +82,10 @@ class TaskTypeExtension extends \Twig_Extension
                 );
                 break;
         }
+
         return $return;
     }
-    
+
     public function taskStatus($taskStatus)
     {
         switch ($taskStatus) {
@@ -100,9 +102,9 @@ class TaskTypeExtension extends \Twig_Extension
                 $key = 'task.status.completed';
                 break;
         }
+
         return $key;
     }
-
 
     public function getName()
     {

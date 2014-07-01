@@ -5,7 +5,6 @@ namespace CanalTP\MttBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use PhpAmqpLib\Message\AMQPMessage;
@@ -26,7 +25,7 @@ class CancelWorkerCommand extends ContainerAwareCommand
         $this->channel->basic_qos(null, 1, null);
         $this->i = 0;
     }
-    
+
     public function watchTaskCompletion($msg)
     {
         echo "Task completion queue ", $msg->delivery_info['routing_key'];
@@ -40,7 +39,7 @@ class CancelWorkerCommand extends ContainerAwareCommand
     {
         // echo $msg->delivery_info['routing_key'], " ---- ", $this->routingKeyToCancel, "\r\n";
         $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
-        
+
         if ($msg->delivery_info['routing_key'] == $this->routingKeyToCancel) {
             echo " [x] Cancelled", $msg->delivery_info['routing_key'], "\n";
             $payload = json_decode($msg->body);
@@ -55,9 +54,9 @@ class CancelWorkerCommand extends ContainerAwareCommand
             );
             // publish to ack queue
             $msg->delivery_info['channel']->basic_publish(
-                $ackMsg, 
-                $this->channelLib->getExchangeName(), 
-                $msg->get('reply_to'), 
+                $ackMsg,
+                $this->channelLib->getExchangeName(),
+                $msg->get('reply_to'),
                 true
             );
         } else {
@@ -80,27 +79,27 @@ class CancelWorkerCommand extends ContainerAwareCommand
         $this->taskId = $taskId;
         $this->routingKeyToCancel = $routingKey;
         $this->msgLimit = $msgLimit;
-        
+
         $this->channel->basic_consume(
             $this->channelLib->getPdfGenQueueName(),
-            'cancelTask', 
-            false, 
-            false, 
-            false, 
-            false, 
-            array($this, 'process_message'), 
-            null, 
+            'cancelTask',
+            false,
+            false,
+            false,
+            false,
+            array($this, 'process_message'),
+            null,
             array('x-priority' => array('I', 100))
         );
         list($queueName, $jobs, $consumers) = $this->channel->queue_declare('', false, false, true, true);
         $this->channel->queue_bind($queueName, $this->channelLib->getExchangeFanoutName());
         $this->channel->basic_consume(
             $queueName,
-            'taskCompletion', 
-            false, 
-            true, 
-            false, 
-            false, 
+            'taskCompletion',
+            false,
+            true,
+            false,
+            false,
             array($this, 'watchTaskCompletion')
         );
         while ($this->taskCompleted == false || ($this->msgLimit != 0 && $this->msgExamined >= $this->msgLimit)) {

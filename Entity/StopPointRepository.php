@@ -71,6 +71,7 @@ class StopPointRepository extends EntityRepository
                 return (false);
             }
         }
+
         return (true);
     }
 

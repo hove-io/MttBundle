@@ -37,7 +37,7 @@ class DefaultControllerTest extends AbstractControllerTest
         $network->addUser($user);
         $this->getEm()->flush();
     }
-    
+
     public function testNetworkSwitch()
     {
         $route = $this->generateRoute('canal_tp_mtt_homepage');

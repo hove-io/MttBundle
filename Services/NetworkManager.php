@@ -50,6 +50,7 @@ class NetworkManager
     public function getLastTasks($network, $limit = 10)
     {
         $taskRepo = $this->om->getRepository('CanalTPMttBundle:AmqpTask');
+
         return $taskRepo->getLastNetworkTasks($network, $limit);
     }
 

@@ -10,7 +10,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class PdfHashingLib
 {
     private $curlProxy = null;
-    
+
     public function __construct(CurlProxy $curlProxy)
     {
         $this->curlProxy = $curlProxy;
@@ -30,8 +30,8 @@ class PdfHashingLib
         $crawler = new Crawler($html);
         $layoutWrapper = $crawler->filter('div#layout-main-wrapper');
         $htmlHash = $this->getHtmlHash($layoutWrapper);
-        
+
         return md5($htmlHash . $cssVersion);
     }
-    
+
 }

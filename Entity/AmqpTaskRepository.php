@@ -19,10 +19,12 @@ class AmqpTaskRepository extends EntityRepository
             ->setParameter("networkId", $network->getId())
             ->add('orderBy', 'amqpTask.created DESC')
             ->setMaxResults($limit);
+
         return $qb->getQuery()->getResult();
     }
-    
-    public function findTasksByObjectIds($objectIds = array()) {
+
+    public function findTasksByObjectIds($objectIds = array())
+    {
         $q = $this->createQueryBuilder('v')
             ->select('v')
             ->andWhere('v.objectId IN (:objectIds)')
@@ -31,8 +33,9 @@ class AmqpTaskRepository extends EntityRepository
 
         return $q->getResult();
     }
-    
-    public function findTasksOlderThan($datetime) {
+
+    public function findTasksOlderThan($datetime)
+    {
         $q = $this->createQueryBuilder('v')
             ->select('v')
             ->andWhere('v.created < (:datetime)')

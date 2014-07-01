@@ -3,7 +3,6 @@
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use CanalTP\MttBundle\Entity\BlockRepository;
 use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
 
 class LineControllerTest extends AbstractControllerTest

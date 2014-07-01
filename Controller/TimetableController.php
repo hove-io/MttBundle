@@ -66,6 +66,7 @@ class TimetableController extends AbstractController
             $calendarsAndNotes = array('calendars'=>'', 'notes'=> '');
         }
         $this->addFlashIfSeasonLocked($timetable->getLineConfig()->getSeason());
+
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getTwigPath(),
             array(
