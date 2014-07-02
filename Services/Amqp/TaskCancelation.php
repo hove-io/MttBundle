@@ -43,7 +43,6 @@ class TaskCancelation
     public function cancel($taskId)
     {
         $task = $this->taskRepo->find($taskId);
-        $task->cancel();
         switch ($task->getTypeId()) {
             case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
                 break;
@@ -55,6 +54,7 @@ class TaskCancelation
                 }
                 break;
         }
+        $task->cancel();
         $this->om->flush();
     }
 }
