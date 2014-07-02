@@ -127,6 +127,16 @@ class PdfGenCompletionLib
     private function rollback($task)
     {
         echo "Rollback";
+        foreach ($task->getAmqpAcks() as $ack) {
+            if ($ack->getPayload()->generated == true) {
+                $lineConfig = $this->getLineConfig($ack, $lineConfig);
+                $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
+                $media = $this->mediaManager->getStopPointTimetableMedia($timetable, $ack->getPayload()->timetableParams->externalStopPointId);
+                //TODO: mutualize this with workers when refactoring
+                $media->setFileName(MediaManager::TIMETABLE_FILENAME . '_tmp.pdf');
+                $media->delete();
+            }
+        }
     }
 
     private function completeDistributionList($task)
