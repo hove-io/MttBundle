@@ -1,3 +1,12 @@
+################################
+### Supervisor Configuration ###
+################################
+role :supervisor, "nmp-prd-wrk1.canaltp.prod", {
+  :user => 'nmp-prd-wrk',
+  :no_release => true,
+  :password => "yohzohhuot"
+}
+
 #########################
 ### Mtt Configuration ###
 #########################
