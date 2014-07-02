@@ -5,4 +5,4 @@ namespace :mtt do
     end
 end
 
-after "deploy:symlink", "mtt:restart"
+after "deploy:create_symlink", "mtt:restart"
