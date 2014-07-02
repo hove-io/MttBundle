@@ -67,6 +67,7 @@ class MediaManager
 
         $media = new Media();
         $media->setCategory($seasonCategory);
+        $media->setCompany($this->mediaDataCollector->getCompany());
 
         return $media;
     }
@@ -111,7 +112,7 @@ class MediaManager
         $media = $this->getMedia($timetable);
         $media->setFileName($fileName);
         $media->setFile($file);
-        $this->mediaDataCollector->save($media);
+        $media = $this->mediaDataCollector->save($media);
 
         return ($media);
     }
