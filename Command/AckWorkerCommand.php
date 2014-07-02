@@ -27,14 +27,19 @@ class AckWorkerCommand extends ContainerAwareCommand
             echo " [x] Ack Inserted \n";
             echo "Task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished() . "\n";
             if (count($task->getAmqpAcks()) == $task->getJobsPublished()) {
-                $pdfGenCompletionLib = $this->getContainer()->get('canal_tp_mtt.pdf_gen_completion_lib');
-                echo "StartCompleted\n";
-                $pdfGenCompletionLib->completePdfGenTask($task);
                 $msgCompleted = new AMQPMessage(
                     'Completed',
                     array('delivery_mode' => 2) # make message persistent
                 );
-                $this->channel->basic_publish($msgCompleted, $this->channelLib->getExchangeFanoutName(), $task->getId().'.task_completion', true);
+                $this->channel->basic_publish(
+                    $msgCompleted, 
+                    $this->channelLib->getExchangeFanoutName(), 
+                    $task->getId().'.task_completion', 
+                    true
+                );
+                $pdfGenCompletionLib = $this->getContainer()->get('canal_tp_mtt.pdf_gen_completion_lib');
+                echo "StartCompleted\n";
+                $pdfGenCompletionLib->completePdfGenTask($task);
             }
             echo "\n--------\n";
         } catch (\Exception $e) {

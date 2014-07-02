@@ -111,6 +111,7 @@ class PdfGenCompletionLib
                         $stopPoint->getExternalId(),
                         $ack->getPayload()->generationResult->filepath
                     );
+                    $this->removeTmpMedia($timetable, $stopPoint->getExternalId());
                 } elseif (isset($ack->getPayload()->error)) {
                     throw new \Exception('Ack error msg: ' . $ack->getPayload()->error);
                 }
@@ -123,10 +124,31 @@ class PdfGenCompletionLib
         $task->complete();
     }
 
-    // todo: remove generated _bak.pdf from mediamanager
+    private function removeTmpMedia($timetable, $externalStopPointId)
+    {
+        $media = $this->mediaManager->getStopPointTimetableMedia(
+            $timetable, 
+            $externalStopPointId
+        );
+        //TODO: mutualize this with workers when refactoring
+        $media->setBaseName(MediaManager::TIMETABLE_FILENAME . '_tmp.pdf');
+        echo $this->mediaManager->getPathByMedia($media) . "\r\n";
+        $media->delete();
+    }
+    
+    // Remove generated _tmp.pdf from mediamanager
     private function rollback($task)
     {
-        echo "Rollback";
+        echo "Rollback task n°" . $task->getId() . "\r\n";
+        $lineConfig = false;
+        $timetable = false;
+        foreach ($task->getAmqpAcks() as $ack) {
+            if ($ack->getPayload()->generated == true) {
+                $lineConfig = $this->getLineConfig($ack, $lineConfig);
+                $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
+                $this->removeTmpMedia($timetable, $ack->getPayload()->timetableParams->externalStopPointId);
+            }
+        }
     }
 
     private function completeDistributionList($task)
@@ -152,7 +174,7 @@ class PdfGenCompletionLib
         $distributionListManager = $this->container->get('canal_tp.mtt.distribution_list_manager');
         $pdfGenerator->aggregatePdf($paths, $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable));
 
-        echo "Distribution List saved to ", $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable), " / Files agregated ", count($paths), "\r\n";
+        echo "Distribution List saved to ", $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable), " / Files aggregated ", count($paths), "\r\n";
     }
 
     private function completeSeasonPdfGen($task)
@@ -173,7 +195,8 @@ class PdfGenCompletionLib
     public function completePdfGenTask($task)
     {
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
-        $task->setCompletedAt(new \DateTime("now"));
+        echo "task status " . $task->getStatus() . "\n";
+        echo "task cancelled " . $task->isCanceled() . "\n";
         if ($task->isCanceled()) {
             $this->rollback($task);
         } else {
@@ -187,6 +210,7 @@ class PdfGenCompletionLib
                     break;
             }
         }
+        $task->setCompletedAt(new \DateTime("now"));
         $this->om->flush();
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion realized\n";
     }
