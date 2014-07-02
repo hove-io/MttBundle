@@ -54,7 +54,7 @@ class MediaManager
         
         return $seasonCategory;
     }
-    
+
     // prepare media regarding Mtt policy
     private function getMedia($timetable, $externalStopPointId = false)
     {
