@@ -21,21 +21,20 @@ class MediaManager
         $this->mediaDataCollector = $mediaDataCollector;
     }
 
-    // prepare media regarding Mtt policy
-    private function getMedia($timetable, $externalStopPointId = false)
+    public function getSeasonCategory($networkCategoryValue, $routeCategoryValue, $seasonCategoryValue, $externalStopPointId)
     {
         $networkCategory = new Category(
-            $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(),
+            $networkCategoryValue,
             CategoryType::NETWORK
         );
         $networkCategory->setRessourceId('networks');
         $routeCategory = new Category(
-            $timetable->getExternalRouteId(),
+            $routeCategoryValue,
             CategoryType::LINE
         );
         $routeCategory->setRessourceId('routes');
         $seasonCategory = new Category(
-            $timetable->getLineConfig()->getSeason()->getId(),
+            $seasonCategoryValue,
             CategoryType::LINE
         );
         $seasonCategory->setRessourceId('seasons');
@@ -52,6 +51,19 @@ class MediaManager
         } else {
             $seasonCategory->setParent($routeCategory);
         }
+        
+        return $seasonCategory;
+    }
+    
+    // prepare media regarding Mtt policy
+    private function getMedia($timetable, $externalStopPointId = false)
+    {
+        $seasonCategory = $this->getSeasonCategory(
+            $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(),
+            $timetable->getExternalRouteId(),
+            $timetable->getLineConfig()->getSeason()->getId(),
+            $externalStopPointId
+        );
 
         $media = new Media();
         $media->setCategory($seasonCategory);
@@ -104,17 +116,10 @@ class MediaManager
         return ($media);
     }
 
-    //TODO: Remove. Should be done by the mediaDataCollector AKA Rémy
     public function deleteSeasonMedias($season)
     {
-        $configuration = $this->mediaDataCollector->getConfigurations();
-        //berk
-        $path = $configuration['storage']['path'] . $configuration['name'] . '/' . $season->getId() . '/';
-
-        if (is_dir($path)) {
-            //double berk
-            shell_exec("rm -rf $path");
-        }
+        $seasonCategory = $this->getSeasonCategory($season->getNetwork()->getexternalId(), '*', $season->getId(), '*');
+        // $seasonCategory->delete();
     }
 
     public function copy(Block $origBlock, Block $destBlock, $destTimetable)
@@ -124,7 +129,9 @@ class MediaManager
             copy($origImgMediaPath, $origImgMediaPath . '.bak');
             $destMedia = $this->saveByTimetable($destTimetable, new File($origImgMediaPath), $origBlock->getDomId());
             $destBlock->setContent($this->mediaDataCollector->getUrlByMedia($destMedia));
-            rename($origImgMediaPath . '.bak', $origImgMediaPath);
+            // no rename because of the NFS bug
+            copy($origImgMediaPath . '.bak', $origImgMediaPath);
+            unlink($origImgMediaPath . '.bak');
         }
     }
 }
