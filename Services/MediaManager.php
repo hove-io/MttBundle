@@ -21,7 +21,7 @@ class MediaManager
         $this->mediaDataCollector = $mediaDataCollector;
     }
 
-    public function getSeasonCategory($networkCategoryValue, $routeCategoryValue, $seasonCategoryValue, $externalStopPointId)
+    public function getSeasonCategory($networkCategoryValue, $routeCategoryValue, $seasonCategoryValue, $externalStopPointId = false)
     {
         $networkCategory = new Category(
             $networkCategoryValue,
@@ -51,7 +51,7 @@ class MediaManager
         } else {
             $seasonCategory->setParent($routeCategory);
         }
-        
+
         return $seasonCategory;
     }
 
@@ -120,7 +120,9 @@ class MediaManager
     public function deleteSeasonMedias($season)
     {
         $seasonCategory = $this->getSeasonCategory($season->getNetwork()->getexternalId(), '*', $season->getId(), '*');
-        // $seasonCategory->delete();
+        $seasonCategory->delete($this->mediaDataCollector->getCompany(), true);
+        $seasonCategory = $this->getSeasonCategory($season->getNetwork()->getexternalId(), '*', $season->getId());
+        $seasonCategory->delete($this->mediaDataCollector->getCompany(), true);
     }
 
     public function copy(Block $origBlock, Block $destBlock, $destTimetable)
