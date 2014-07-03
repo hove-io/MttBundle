@@ -4,6 +4,7 @@ Notes de publication - METH - Version 1.0.0 (30/06/2014)
     * [METH-254] - Gérer les cas d'erreurs lors d'une tâche de fond (génération des pdf d'une saison, d'une liste de distribution)
     * [METH-268] - Même désactivé, le bouton de génération de liste de distribution continue de lancer des générations
     * [METH-228] - Mise à jour du sevice de monitoring
+    * [METH-273] - Un arrêt supprimé dans Navitia fait planter la liste de distribution
     * [HOTFIX]   - MediaManagerBundle - Directory for temporary file changed.
 
 
