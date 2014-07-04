@@ -1,3 +1,13 @@
+# TODO: add this as soon as possible !
+################################
+### Supervisor Configuration ###
+################################
+# role :supervisor, "par-vm205.srv.canaltp.fr", {
+#   :user => 'nmp-cus-wrk',
+#   :no_release => true,
+#   :password => "fi6iexee0F"
+# }
+
 #########################
 ### Mtt Configuration ###
 #########################
