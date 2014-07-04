@@ -36,7 +36,7 @@ class TaskCancelation
             $routingKey
         );
         $pathToConsole = 'nohup php ' . $this->rootDir . '/console ';
-        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routingKey . ' ' . $task->getId() . ' ' . $jobs . ' &';
+        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routingKey . ' ' . $task->getId() . ' ' . $jobs . ' > /dev/null &';
         exec($command);
     }
 
