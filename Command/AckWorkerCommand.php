@@ -11,6 +11,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class AckWorkerCommand extends ContainerAwareCommand
 {
+    private $logger = null;
     private $channel = null;
     private $channelLib = null;
 
@@ -24,8 +25,8 @@ class AckWorkerCommand extends ContainerAwareCommand
     {
         try {
             $task = $this->amqpPdfGenPublisher->addAckToTask($msg);
-            echo " [x] Ack Inserted \n";
-            echo "Task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished() . "\n";
+            $this->logger->info(" [x] Ack Inserted for task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished());
+            var_dump(" [x] Ack Inserted for task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished());
             if (count($task->getAmqpAcks()) == $task->getJobsPublished()) {
                 $msgCompleted = new AMQPMessage(
                     'Completed',
@@ -38,13 +39,12 @@ class AckWorkerCommand extends ContainerAwareCommand
                     true
                 );
                 $pdfGenCompletionLib = $this->getContainer()->get('canal_tp_mtt.pdf_gen_completion_lib');
-                echo "StartCompleted\n";
+                $this->logger->info("StartCompleted for task n°" . $task->getId());
                 $pdfGenCompletionLib->completePdfGenTask($task);
             }
-            echo "\n--------\n";
         } catch (\Exception $e) {
-            echo "ERROR during acking process" . print_r($msg->body) . "\n";
-            echo $e->getMessage() . "\n";
+            $this->logger->error("ERROR during acking process. Ack body: " . print_r($msg->body));
+            $this->logger->error($e->getMessage());
         }
         $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
         // acknowledge broker
@@ -83,6 +83,7 @@ class AckWorkerCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->logger = $this->getContainer()->get('logger');
         $this->initChannel();
         $ack_queue_name = $input->getArgument('ack_queue_name');
         // init queue just in case

@@ -11,6 +11,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class CancelWorkerCommand extends ContainerAwareCommand
 {
+    private $logger = null;
     private $channel = null;
     private $channelLib = null;
     private $routingKeyToCancel = null;
@@ -28,20 +29,19 @@ class CancelWorkerCommand extends ContainerAwareCommand
 
     public function watchTaskCompletion($msg)
     {
-        echo "Task completion queue ", $msg->delivery_info['routing_key'];
+        $this->logger->info("Task completion queue " . $msg->delivery_info['routing_key']);
         if ($msg->delivery_info['routing_key'] == $this->taskId . ".task_completion") {
-            echo " [x] Task completion confirmed for ", $msg->delivery_info['routing_key'], "\n";
+            $this->logger->info(" [x] Task completion confirmed for " . $msg->delivery_info['routing_key']);
             $this->taskCompleted = true;
         }
     }
 
     public function process_message($msg)
     {
-        // echo $msg->delivery_info['routing_key'], " ---- ", $this->routingKeyToCancel, "\r\n";
         $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
 
         if ($msg->delivery_info['routing_key'] == $this->routingKeyToCancel) {
-            echo " [x] Cancelled", $msg->delivery_info['routing_key'], "\n";
+            $this->logger->info(" [x] Cancelled" . $msg->delivery_info['routing_key']);
             $payload = json_decode($msg->body);
             $payload->generated = false;
             $payload->cancelled = true;
@@ -60,7 +60,7 @@ class CancelWorkerCommand extends ContainerAwareCommand
                 true
             );
         } else {
-            // echo " [x] Republished ", $msg->delivery_info['routing_key'], "\n";
+            $this->logger->info(" [x] Republished " . $msg->delivery_info['routing_key']);
             $newMsg = new AMQPMessage(
                 $msg->body,
                 array(
@@ -102,10 +102,10 @@ class CancelWorkerCommand extends ContainerAwareCommand
             false,
             array($this, 'watchTaskCompletion')
         );
-        while ($this->taskCompleted == false || ($this->msgLimit != 0 && $this->msgExamined < $this->msgLimit)) {
-            echo "Task Completed: ",$this->taskCompleted,"\n";
-            echo "msg Examined: ",$this->msgExamined,"\n";
-            echo "msg limit: ",$this->msgLimit,"\n";
+        while ($this->taskCompleted == false && ($this->msgLimit != 0 && $this->msgExamined < $this->msgLimit || $this->msgLimit == 0)) {
+            $this->logger->info("Task Completed: " . $this->taskCompleted);
+            $this->logger->info("msg Examined: " . $this->msgExamined);
+            $this->logger->info("msg limit: " . $this->msgLimit);
             $this->channel->wait();
         }
     }
@@ -123,7 +123,12 @@ class CancelWorkerCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->initChannel();
-        $this->runProcess($input->getArgument('routing_key'), $input->getArgument('task_id'), $input->getArgument('limit'));
+        $this->logger = $this->getContainer()->get('logger');
+        $this->runProcess(
+            $input->getArgument('routing_key'), 
+            $input->getArgument('task_id'), 
+            $input->getArgument('limit')
+        );
         $this->channelLib->close();
         exit();
     }
