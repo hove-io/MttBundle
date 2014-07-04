@@ -5,7 +5,11 @@ Notes de publication - METH - Version 1.0.0 (30/06/2014)
     * [METH-268] - Même désactivé, le bouton de génération de liste de distribution continue de lancer des générations
     * [METH-228] - Mise à jour du sevice de monitoring
     * [METH-273] - Un arrêt supprimé dans Navitia fait planter la liste de distribution
+    * [METH-277] - L'annulation d'une tâche ne s'arrête pas même uns fois la tâche terminée
     * [HOTFIX]   - MediaManagerBundle - Directory for temporary file changed.
+    
+** Amélioration
+    * [METH-202] - Fonction Suppression dans la médiathèque
 
 
 Notes de publication - METH - Version 0.9.5 (26/06/2014)
