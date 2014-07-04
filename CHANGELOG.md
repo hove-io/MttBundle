@@ -7,6 +7,7 @@ Notes de publication - METH - Version 1.0.0 (30/06/2014)
     * [METH-273] - Un arrêt supprimé dans Navitia fait planter la liste de distribution
     * [METH-277] - L'annulation d'une tâche ne s'arrête pas même uns fois la tâche terminée
     * [HOTFIX]   - MediaManagerBundle - Directory for temporary file changed.
+    * [METH-278] - Même une fois terminée, la liste de distribution reste en mode génération
     
 ** Amélioration
     * [METH-202] - Fonction Suppression dans la médiathèque
