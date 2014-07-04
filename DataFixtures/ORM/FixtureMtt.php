@@ -204,7 +204,7 @@ class FixtureMtt extends SamBaseFixture
         $network2 = $this->createNetwork('network:Agglobus', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
         $network3 = $this->createNetwork('network:SNCF', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
         $network4 = $this->createNetwork('network:RATP', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
-        $network5 = $this->createNetwork('network:CGD', '46cadd8a-e385-4169-9cb8-c05766eeeecb', 'bourgogne');
+        $network5 = $this->createNetwork('network:CGD', '7a8877fa-2abc-44e2-926c-e2349974a1ee', 'bourgogne');
 
         //associer les utilisateurs avec l'application
         foreach ($this->users as &$userData) {
