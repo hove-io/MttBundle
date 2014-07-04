@@ -102,7 +102,7 @@ class CancelWorkerCommand extends ContainerAwareCommand
             false,
             array($this, 'watchTaskCompletion')
         );
-        while ($this->taskCompleted == false || ($this->msgLimit != 0 && $this->msgExamined >= $this->msgLimit)) {
+        while ($this->taskCompleted == false || ($this->msgLimit != 0 && $this->msgExamined < $this->msgLimit)) {
             echo "Task Completed: ",$this->taskCompleted,"\n";
             echo "msg Examined: ",$this->msgExamined,"\n";
             echo "msg limit: ",$this->msgLimit,"\n";
