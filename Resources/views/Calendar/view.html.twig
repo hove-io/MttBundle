@@ -49,6 +49,11 @@
     {% endfor %}
     </ul>
     <div class="tab-content">
+    {% if calendars is empty %}
+        <div class="panel-body clearfix">
+            <p class="text-center">{{ 'calendar.empty'|trans({}, 'messages') }}</p>
+        </div>
+    {% endif %}
     {% for calendar in calendars %}
         <div class="tab-pane row pad30t{% if loop.index == 1 %} active{% endif %}" id="calendar-{{ calendar.id }}">
             <div class="col-md-9">
@@ -77,6 +82,8 @@
                             {% endfor %}
                             </div>
                         </div>
+                    {% elseif (calendar.schedules.additional_informations is empty) %}
+                        <p class="text-center">{{ 'calendar.schedules.date_times.empty'|trans({}, 'messages') }}</p>
                     {% endif %}
                     </div>
                 </div>

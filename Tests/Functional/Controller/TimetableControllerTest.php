@@ -147,4 +147,18 @@ class TimetableControllerTest extends AbstractControllerTest
         $this->checkPoisBlockInTimetableViewPage($translator, $season->getId());
         $this->checkPoisBlockInTimetableEditPage($translator, $season->getId());
     }
+
+    public function testPoiBlock()
+    {
+        $translator = $this->client->getContainer()->get('translator');
+
+        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $this->getSeason()->getId()));
+        $message = $translator->trans('stop_point.block.pois.empty', array('%distance%' => 400), 'default');
+
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('html:contains("' . $message . '")')->count(),
+            "Stop point poi(for distance) not work in stop point timetable view page"
+        );
+    }
 }
