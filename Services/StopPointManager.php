@@ -49,13 +49,17 @@ class StopPointManager
 
     private function initStopPointPois($externalCoverageId)
     {
+        $distance = 400;
         $pois = $this->navitia->getStopPointPois(
             $externalCoverageId,
-            $this->stopPoint->getExternalId()
+            $this->stopPoint->getExternalId(),
+            $distance
         );
 
-        if (isset($pois->pagination) && $pois->pagination->total_result)
+        $this->stopPoint->setPoiDistance($distance);
+        if (isset($pois->pagination) && $pois->pagination->total_result) {
             $this->stopPoint->setPois($pois->places_nearby);
+        }
     }
 
     // TODO: mutualize with timetable manager?

@@ -21,6 +21,7 @@ stop_point:
         pois:
             title: Point de vente - Relais Divia :
             default: (Points de vente de l'arrêt)
+            empty: Il n'y a pas de point de vente à moins de %distance% mètres de cet arrêt
 
 line:
     choose_layout: Choisir un gabarit
