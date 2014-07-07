@@ -114,7 +114,7 @@ task:
     completed: Terminée
     completedAt: Terminée à
     season_pdf_generation: Génération de l'ensemble des pdfs de la saison "%seasonName%"
-    distribution_list_pdf_generation: Génération de la liste de distribution pour la route %routeId%
+    distribution_list_pdf_generation: Génération de la liste de distribution pour la route %routeName%
 
 block:
     img:
