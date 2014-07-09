@@ -64,6 +64,7 @@ calendar:
     line_color: Couleur
     period_label: Calendrier
     days: Jours
+    empty: Vider cette grille
     form:
         label: Choisir le calendrier
 
