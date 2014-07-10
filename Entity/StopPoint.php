@@ -40,12 +40,17 @@ class StopPoint extends AbstractEntity
     /**
      * @var string
      */
-    private $external_code;
+    private $externalCode;
 
     /**
      * @var string
      */
     private $pois;
+
+    /**
+     * @var integer
+     */
+    private $poisDistance;
 
     /**
      * @var datetime
@@ -60,6 +65,7 @@ class StopPoint extends AbstractEntity
     public function __construct()
     {
         $this->pois = array();
+        $this->poiDistance = 0;
     }
 
     /**
@@ -189,30 +195,53 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get external_code
+     * Get externalCode
      *
      * @return string
      */
     public function getExternalCode()
     {
-        return $this->external_code;
+        return $this->externalCode;
     }
 
     /**
-     * Set external_code
+     * Set externalCode
      *
-     * @param  string    $external_code
+     * @param  string    $externalCode
      * @return StopPoint
      */
-    public function setExternalCode($external_code)
+    public function setExternalCode($externalCode)
     {
-        $this->external_code = $external_code;
+        $this->externalCode = $externalCode;
 
         return $this;
     }
 
     /**
      * Get pois
+     *
+     * @return string
+     */
+    public function getPoiDistance()
+    {
+        return $this->poiDistance;
+    }
+
+    /**
+     * Set pois_distance
+     *
+     * @param  integer    $poiDistance
+     * @return StopPoint
+     */
+    public function setPoiDistance($poiDistance)
+    {
+        $this->poiDistance = $poiDistance;
+
+        return $this;
+    }
+
+    /**
+     * Get pois_distance
      *
      * @return string
      */

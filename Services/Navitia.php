@@ -251,7 +251,7 @@ class Navitia
      * @param  String $stopPointId
      * @return pois
      */
-    public function getStopPointPois($externalCoverageId, $stopPointId)
+    public function getStopPointPois($externalCoverageId, $stopPointId, $distance = 400)
     {
         $query = array(
             'api' => 'coverage',
@@ -262,7 +262,7 @@ class Navitia
                 'parameters' => array(
                     'type' => array('poi'),
                     'filter' => 'poi_type.id=poi_type:Pointsdevente',
-                    'distance' => 10000,
+                    'distance' => $distance,
                     'count' => 2
                 )
             )
