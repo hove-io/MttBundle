@@ -49,6 +49,9 @@
 
         <div class="content">{% spaceless %}
             {% if stopPoint %}
+                {% if stopPoint.getPois() is empty %}
+                    {{'stop_point.block.pois.empty'|trans({'%distance%':stopPoint.getPoiDistance()}, 'default')}}
+                {% endif %}
                 {% for poi in stopPoint.getPois() %}
                     {{ poi.name }}<br>
                 {% endfor %}
@@ -123,7 +126,7 @@
                                     }
                                 )
                             }}">
-                                <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans}}
+                                <span class="glyphicon glyphicon-trash"></span> {{'calendar.empty'|trans({}, 'default')}}
                             </a>
                         </li>
                     </ul>

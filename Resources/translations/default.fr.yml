@@ -21,6 +21,7 @@ stop_point:
         pois:
             title: Point de vente - Relais Divia :
             default: (Points de vente de l'arrêt)
+            empty: Il n'y a pas de point de vente à moins de %distance% mètres de cet arrêt
 
 line:
     choose_layout: Choisir un gabarit
@@ -63,6 +64,7 @@ calendar:
     line_color: Couleur
     period_label: Calendrier
     days: Jours
+    empty: Vider cette grille
     form:
         label: Choisir le calendrier
 
@@ -114,7 +116,7 @@ task:
     completed: Terminée
     completedAt: Terminée à
     season_pdf_generation: Génération de l'ensemble des pdfs de la saison "%seasonName%"
-    distribution_list_pdf_generation: Génération de la liste de distribution pour la route %routeId%
+    distribution_list_pdf_generation: Génération de la liste de distribution pour la route %routeName%
 
 block:
     img:
