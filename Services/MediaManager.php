@@ -112,7 +112,7 @@ class MediaManager
         $media = $this->getMedia($timetable);
         $media->setFileName($fileName);
         $media->setFile($file);
-        $media = $this->mediaDataCollector->save($media);
+        $this->mediaDataCollector->save($media);
 
         return ($media);
     }
