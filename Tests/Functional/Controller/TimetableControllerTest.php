@@ -45,6 +45,26 @@ class TimetableControllerTest extends AbstractControllerTest
 
     public function testAnonymousAccess()
     {
+        $route = $this->client->getContainer()->get('router')->generate(
+            'canal_tp_mtt_timetable_view',
+            array(
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+                'externalLineId' => Fixture::EXTERNAL_LINE_ID,
+                'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
+                'externalStopPointId' => Fixture::EXTERNAL_STOP_POINT_ID,
+                'seasonId' => $this->getSeason()->getId()
+            )
+        );
+        $crawler = $this->client->request('GET', $route);
+        $this->assertEquals(
+            200,
+            $this->client->getResponse()->getStatusCode(),
+            'Response status NOK:' . $this->client->getResponse()->getStatusCode()
+        );
+    }
+
+    public function testAccess()
+    {
         parent::setUp(false);
 
         $route = $this->client->getContainer()->get('router')->generate(
