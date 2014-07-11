@@ -58,13 +58,11 @@ class TimetableControllerTest extends AbstractControllerTest
             )
         );
         $crawler = $this->client->request('GET', $route);
-        // print "\r\n" . $crawler->filter('#main-container')->text();
         $this->assertEquals(
-            200,
+            302,
             $this->client->getResponse()->getStatusCode(),
             'Response status NOK:' . $this->client->getResponse()->getStatusCode()
         );
-        $this->assertTrue($crawler->filter('div#left-menu')->count() == 0);
     }
 
     private function checkCodeBlockInTimetableViewPage($translator, $seasonId)
