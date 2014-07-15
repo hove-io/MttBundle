@@ -2,41 +2,19 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use Symfony\Component\HttpFoundation\File\File;
-use CanalTP\MediaManager\Category\CategoryType;
-use CanalTP\MttBundle\Entity\Line;
-use CanalTP\MediaManagerBundle\Entity\Media;
-use CanalTP\MediaManagerBundle\Entity\Category;
-
 class PdfController extends AbstractController
 {
-    private $mediaManager;
-
-    private function saveMedia($timetableId, $externalStopPointId, $path)
+    public function downloadAction($externalRouteId, $externalStopPointId, $lineConfigId)
     {
-        $this->mediaManager = $this->get('canal_tp.media_manager');
+        $mediaManager = $this->get('canal_tp_mtt.media_manager');
         $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
-        $timetable = $timetableManager->find($timetableId);
 
-        $timetableCategory = new Category($timetableId, CategoryType::NETWORK);
-        $networkCategory = new Category(
-            $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(),
-            CategoryType::NETWORK
+        $media = $mediaManager->getStopPointTimetableMedia(
+            $timetableManager->findTimetableByExternalRouteIdAndLineConfigId($externalRouteId, $lineConfigId),
+            $externalStopPointId
         );
-        $seasonCategory = new Category(
-            $timetable->getLineConfig()->getSeason()->getId(),
-            CategoryType::LINE
-        );
-        $media = new Media();
 
-        $timetableCategory->setParent($networkCategory);
-        $networkCategory->setParent($seasonCategory);
-        $media->setCategory($timetableCategory);
-        $media->setFileName($externalStopPointId);
-        $media->setFile(new File($path));
-        $this->mediaManager->save($media);
-
-        return ($media);
+        return $this->redirect($mediaManager->getUrlByMedia($media));
     }
 
     public function generateAction($timetableId, $externalNetworkId, $externalStopPointId)
@@ -48,28 +26,22 @@ class PdfController extends AbstractController
             $timetableId,
             $network->getExternalCoverageId()
         );
-        $pdfGenerator = $this->get('canal_tp_mtt.pdf_generator');
-
-        $url = $this->get('request')->getHttpHost() . $this->get('router')->generate(
-            'canal_tp_mtt_timetable_view',
-            array(
-                'externalNetworkId' => $externalNetworkId,
-                'seasonId'          => $timetable->getLineConfig()->getSeason()->getId(),
-                'externalLineId'    => $timetable->getLineConfig()->getExternalLineId(),
-                'externalStopPointId'=> $externalStopPointId,
-                'externalRouteId'    => $timetable->getExternalRouteId()
-            )
-        );
-        $pdfPath = $pdfGenerator->getPdf($url, $timetable->getLineConfig()->getLayout());
-
-        if ($pdfPath) {
-            $pdfMedia = $this->saveMedia($timetable->getId(), $externalStopPointId, $pdfPath);
-            $stopPointRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:StopPoint');
-            $stopPointRepo->updatePdfGenerationDate($externalStopPointId, $timetable);
-
-            return $this->redirect($this->mediaManager->getUrlByMedia($pdfMedia));
+        $pdfManager = $this->get('canal_tp_mtt.pdf_manager');
+        if ($timetable->isLocked()) {
+            $url = $this->generateUrl(
+                'canal_tp_mtt_timetable_view',
+                array(
+                    'externalNetworkId'     => $externalNetworkId,
+                    'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
+                    'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
+                    'externalRouteId'       => $timetable->getExternalRouteId(),
+                    'externalStopPointId'   => $externalStopPointId
+                )
+            );
         } else {
-            throw new Exception('PdfGenerator Webservice returned an empty response.');
+            $url = $pdfManager->getStoppointPdfUrl($timetable, $externalStopPointId);
         }
+
+        return $this->redirect($url);
     }
 }

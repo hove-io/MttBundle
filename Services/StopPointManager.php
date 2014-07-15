@@ -47,6 +47,17 @@ class StopPointManager
         $this->stopPoint->setExternalCode($externalCode);
     }
 
+    private function initStopPointPois($externalCoverageId)
+    {
+        $pois = $this->navitia->getStopPointPois(
+            $externalCoverageId,
+            $this->stopPoint->getExternalId()
+        );
+
+        if (isset($pois->pagination) && $pois->pagination->total_result)
+            $this->stopPoint->setPois($pois->places_nearby);
+    }
+
     // TODO: mutualize with timetable manager?
     private function initBlocks()
     {
@@ -85,8 +96,31 @@ class StopPointManager
         }
         $this->initTitle($externalCoverageId);
         $this->initStopPointCode($externalCoverageId);
+        $this->initStopPointPois($externalCoverageId);
 
         return $this->stopPoint;
+    }
+
+    public function getPrevNextStopPoints($network, $externalRouteId, $externalStopPointId)
+    {
+        $result = $this->navitia->getRouteStopPoints(
+            $network,
+            $externalRouteId,
+            $externalStopPointId
+        );
+        $prevNext = array();
+        foreach ($result->route_schedules[0]->table->rows as $index => $stopPointData) {
+            if ($stopPointData->stop_point->id == $externalStopPointId) {
+                if (isset($result->route_schedules[0]->table->rows[$index-1])) {
+                    $prevNext['prev'] = $result->route_schedules[0]->table->rows[$index-1]->stop_point->id;
+                }
+                if (isset($result->route_schedules[0]->table->rows[$index+1])) {
+                    $prevNext['next'] = $result->route_schedules[0]->table->rows[$index+1]->stop_point->id;
+                }
+            }
+        }
+
+        return $prevNext;
     }
 
     /**
@@ -116,10 +150,11 @@ class StopPointManager
             ->setParameter('timetableId', $timetable->getId())
             ->getQuery();
         $db_stop_points = $query->getResult();
-        // add pdf generation date to stop points
+        // add pdf generation date and Hash to stop points
         foreach ($db_stop_points as $db_stop_point) {
             if (isset($stopPointsIndexed[$db_stop_point->getExternalId()])) {
                 $stopPointsIndexed[$db_stop_point->getExternalId()]->stop_point->pdfGenerationDate = $db_stop_point->getPdfGenerationDate();
+                $stopPointsIndexed[$db_stop_point->getExternalId()]->stop_point->pdfHash = $db_stop_point->getPdfHash();
             }
         }
 

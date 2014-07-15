@@ -11,7 +11,7 @@ class DefaultControllerTest extends AbstractControllerTest
         $route = $this->generateRoute('canal_tp_mtt_homepage');
         $crawler = $this->client->request('GET', $route);
 
-        $this->assertTrue($crawler->filter('html:contains("MTT")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("TIMETABLE")')->count() > 0);
     }
 
     public function testNavigation()
@@ -37,6 +37,7 @@ class DefaultControllerTest extends AbstractControllerTest
         $network->addUser($user);
         $this->getEm()->flush();
     }
+
     public function testNetworkSwitch()
     {
         $route = $this->generateRoute('canal_tp_mtt_homepage');

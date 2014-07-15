@@ -31,13 +31,29 @@
 
 {% macro stop_point_code(id, stopPoint, class) %}
     <div id="{{ id }}"  class="{{ class }}">
-        <div class="title">{{'stop_point_code.block.title'|trans({}, 'default')}}</div>
+        <div class="title">{{'stop_point.block.code.title'|trans({}, 'default')}}</div>
 
         <div class="content">{% spaceless %}
             {% if stopPoint %}
-                {{'stop_point_code.block.content'|trans({'%code%':stopPoint.getExternalCode()}, 'default')}}
+                {{'stop_point.block.code.content'|trans({'%code%':stopPoint.getExternalCode()}, 'default')}}
             {% else %}
-                {{'stop_point_code.block.default'|trans({}, 'default')}}
+                {{'stop_point.block.code.default'|trans({}, 'default')}}
+            {% endif %}
+        {% endspaceless %}</div>
+    </div>
+{% endmacro %}
+
+{% macro stop_point_pois(id, stopPoint, class) %}
+    <div id="{{ id }}"  class="{{ class }}">
+        <div class="title">{{'stop_point.block.pois.title'|trans({}, 'default')}}</div>
+
+        <div class="content">{% spaceless %}
+            {% if stopPoint %}
+                {% for poi in stopPoint.getPois() %}
+                    {{ poi.name }}<br>
+                {% endfor %}
+            {% else %}
+                {{'stop_point.block.pois.default'|trans({}, 'default')}}
             {% endif %}
         {% endspaceless %}</div>
     </div>
@@ -52,8 +68,12 @@
     </div>
 {% endmacro %}
 
-{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range) %}
-    {% set loopMax = calendar|calendarMax %}
+{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin) %}
+    {% if linesMin is empty %}
+        {% set loopMax = calendar|calendarMax %}
+    {% else %}
+        {% set loopMax = calendar|calendarMax(linesMin) %}
+    {% endif %}
     {% if stopPointLevel == false and block %}
         <tr class="hidden-tr-4-dropdown">
             <td colspan="{{hours_range|length}}" class="text-center">
@@ -123,7 +143,11 @@
                         and datetime|length > 0
                     %}
                         {% if datetime[i] %}
-                            {{ datetime[i]|schedule(notes)|raw }}
+                            {% if layout.dispatchesNotes %}
+                                {{ datetime[i]|schedule(notes, calendar)|raw }}
+                            {% else %}
+                                {{ datetime[i]|schedule(notes)|raw }}
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 {% endif %}

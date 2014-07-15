@@ -43,9 +43,24 @@ class StopPoint extends AbstractEntity
     private $external_code;
 
     /**
+     * @var string
+     */
+    private $pois;
+
+    /**
      * @var datetime
      */
     protected $pdfGenerationDate;
+
+    /**
+     * @var binary
+     */
+    protected $pdfHash;
+
+    public function __construct()
+    {
+        $this->pois = array();
+    }
 
     /**
      * Get id
@@ -197,6 +212,29 @@ class StopPoint extends AbstractEntity
     }
 
     /**
+     * Get pois
+     *
+     * @return string
+     */
+    public function getPois()
+    {
+        return $this->pois;
+    }
+
+    /**
+     * Set pois
+     *
+     * @param  string    $poi
+     * @return StopPoint
+     */
+    public function setPois($pois)
+    {
+        $this->pois = $pois;
+
+        return $this;
+    }
+
+    /**
      * Get pdfGenerationDate
      *
      * @return string
@@ -219,8 +257,32 @@ class StopPoint extends AbstractEntity
         return $this;
     }
 
+    /**
+     * Get pdfHash
+     *
+     * @return string
+     */
+    public function getPdfHash()
+    {
+        return ($this->pdfHash);
+    }
+
+    /**
+     * Set pdfHash
+     *
+     * @param  string    $pdfHash
+     * @return StopPoint
+     */
+    public function setPdfHash($pdfHash)
+    {
+        $this->pdfHash = $pdfHash;
+
+        return $this;
+    }
+
     public function __clone()
     {
         $this->pdfGenerationDate = null;
+        $this->pdfHash = null;
     }
 }

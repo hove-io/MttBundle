@@ -4,7 +4,6 @@ namespace CanalTP\MttBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Form\FormError;
 
 use CanalTP\MttBundle\Twig\CalendarExtension;
 
@@ -57,7 +56,7 @@ class NotOverlappingValidator extends ConstraintValidator
 
             if ($startIdx >= $endIdx) {
                 $this->context->addViolation('error.start_end_time_incoherent');
-                // $this->context->getRoot()->get('frequencies')->get("$idx")->addError(new FormError('error.start_end_time_incoherent'));
+
                 return false;
             }
             for ($j = $i + 1; $j < count($value); $j++) {
@@ -78,7 +77,7 @@ class NotOverlappingValidator extends ConstraintValidator
                 }
             }
         }
-        // $this->context->addViolation('under development');
+
         return true;
     }
 }

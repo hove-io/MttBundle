@@ -5,6 +5,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 
+use CanalTP\MttBundle\Form\EventListener\SeasonLockedSubscriber;
+
 class BlockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -15,6 +17,7 @@ class BlockType extends AbstractType
         if (isset($options['data']['stop_point']) && $options['data']['stop_point'] != null) {
             $builder->add('stop_point', 'hidden', array('data' => $options['data']['stop_point']));
         }
+        $builder->addEventSubscriber(new SeasonLockedSubscriber());
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

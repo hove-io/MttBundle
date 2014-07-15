@@ -27,15 +27,22 @@ class TimetableController extends AbstractController
                 $timetable,
                 $externalCoverageId
             );
+            $prevNextStopPoints = $stopPointManager->getPrevNextStopPoints(
+                $timetable->getLineConfig()->getSeason()->getNetwork(),
+                $timetable->getExternalRouteId(),
+                $externalStopPointId
+            );
         // route level
         } else {
             $stopPointLevel = false;
             $stopPointInstance = false;
+            $prevNextStopPoints = false;
         }
 
         return array(
             'stopPointLevel'    => $stopPointLevel,
             'stopPointInstance' => $stopPointInstance,
+            'prevNextStopPoints'=> $prevNextStopPoints,
         );
     }
 
@@ -58,18 +65,23 @@ class TimetableController extends AbstractController
         } else {
             $calendarsAndNotes = array('calendars'=>'', 'notes'=> '');
         }
+        $this->addFlashIfSeasonLocked($timetable->getLineConfig()->getSeason());
 
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getTwigPath(),
             array(
+                'pageTitle'             => 'timetable.titles.' . ($editable ? 'edition' : 'preview'),
                 'timetable'             => $timetable,
+                'currentNetwork'        => $timetable->getLineConfig()->getSeason()->getNetwork(),
                 'externalNetworkId'     => $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalId(),
                 'externalRouteId'       => $timetable->getExternalRouteId(),
                 'externalCoverageId'    => $externalCoverageId,
                 'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
-                'season'                => $timetable->getLineConfig()->getSeason(),
+                'currentSeason'         => $timetable->getLineConfig()->getSeason(),
+                'currentSeasonId'       => $timetable->getLineConfig()->getSeason()->getId(),
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],
+                'prevNextStopPoints'    => $stopPointData['prevNextStopPoints'],
                 'calendars'             => $calendarsAndNotes['calendars'],
                 'notes'                 => $calendarsAndNotes['notes'],
                 'blockTypes'            => $this->container->getParameter('blocks'),
@@ -85,6 +97,7 @@ class TimetableController extends AbstractController
      */
     public function editAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
+        $this->isGranted('BUSINESS_EDIT_LAYOUT');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
         $network = $networkManager->findOneByExternalId($externalNetworkId);
@@ -111,7 +124,9 @@ class TimetableController extends AbstractController
             $network->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
-        $displayMenu = ($this->get('security.context')->getToken()->getUser() != 'anon.');
+        $displayMenu = $this->get('security.context')->getToken()->getUser() != 'anon.';
+        if ($displayMenu)
+            $displayMenu = $this->get('request')->get('timetableOnly', false) != true;
 
         return $this->renderLayout($timetable, $externalStopPointId, false, $displayMenu);
     }

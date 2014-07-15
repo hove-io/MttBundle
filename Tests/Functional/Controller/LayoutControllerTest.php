@@ -26,6 +26,6 @@ class LayoutControllerTest extends AbstractControllerTest
         $route = $this->getViewRoute('network:Agglobus');
         $crawler = $this->doRequestRoute($route);
         $count = $crawler->filter('#main-container table.table tbody tr')->count();
-        $this->assertTrue($count == 1, "Found $count. Expected 1");
+        $this->assertTrue($count == 2, "Found $count. Expected 2");
     }
 }

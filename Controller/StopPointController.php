@@ -4,16 +4,28 @@ namespace CanalTP\MttBundle\Controller;
 
 class StopPointController extends AbstractController
 {
-    public function listAction($network_id, $line_id, $externalRouteId, $seasonId = null)
+    public function listAction($externalNetworkId, $line_id = false, $externalRouteId = false, $seasonId = null)
     {
-        $navitia = $this->get('sam_navitia');
-        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($network_id);
+        $navitia = $this->get('canal_tp_mtt.navitia');
+        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
         $seasons = $this->get('canal_tp_mtt.season_manager')->findAllByNetworkId($network->getExternalId());
-        $selectedSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
-        $routes = $navitia->getStopPoints($network->getExternalCoverageId(), $network_id, $line_id, $externalRouteId);
+        $currentSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
+        $this->addFlashIfSeasonLocked($currentSeason);
+        if (empty($line_id)) {
+            list($line_id, $externalRouteId) = $navitia->getFirstLineAndRouteOfNetwork(
+                $network->getExternalCoverageId(),
+                $externalNetworkId
+            );
+        }
+        $routes = $navitia->getStopPoints(
+            $network->getExternalCoverageId(),
+            $externalNetworkId,
+            $line_id,
+            $externalRouteId
+        );
         $lineConfig = $this->getDoctrine()->getRepository(
             'CanalTPMttBundle:LineConfig'
-        )->findOneBy(array('externalLineId' => $line_id, 'season' => $selectedSeason));
+        )->findOneBy(array('externalLineId' => $line_id, 'season' => $currentSeason));
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         if (!empty($lineConfig)) {
@@ -26,17 +38,21 @@ class StopPointController extends AbstractController
                 );
             }
         }
+        $currentSeasonId = empty($currentSeason) ? false : $currentSeason->getId();
 
         return $this->render(
             'CanalTPMttBundle:StopPoint:list.html.twig',
             array(
+                'pageTitle'         => "menu.edit_timetables",
                 'lineConfig'        => $lineConfig,
                 'routes'            => $routes,
                 'current_route'     => $externalRouteId,
+                'currentNetwork'    => $network,
                 'externalNetworkId' => $network->getExternalId(),
                 'externalLineId'    => $line_id,
                 'seasons'           => $seasons,
-                'selectedSeason'    => $selectedSeason,
+                'currentSeason'     => $currentSeason,
+                'currentSeasonId'   => $currentSeasonId,
                 'externalRouteId'   => $externalRouteId,
             )
         );

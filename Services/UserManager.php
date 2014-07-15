@@ -14,25 +14,29 @@ class UserManager
 {
     private $om = null;
     private $translator = null;
+    private $container = null;
 
     public function __construct(
         ObjectManager $om,
-        Translator $translator
+        Translator $translator,
+        $container
     )
     {
         $this->om = $om;
         $this->translator = $translator;
+        $this->container = $container;
     }
 
     /**
      * Retrieve current user networks
      */
-    public function getNetworks($user)
+    public function getNetworks($user = null)
     {
-
         $networks = $this->om
             ->getRepository('CanalTPMttBundle:Network')
-            ->findNetworksByUserId($user->getId());
+            ->findNetworksByUserId(
+                ($user != null) ? $user->getId() : $this->container->get('security.context')->getToken()->getUser()->getId()
+            );
 
         if (count($networks) == 0) {
             throw new \Exception(

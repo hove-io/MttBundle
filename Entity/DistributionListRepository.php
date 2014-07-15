@@ -19,6 +19,7 @@ class DistributionListRepository extends EntityRepository
                 return $key;
             }
         }
+        return false;
     }
 
     private function compare($a, $b)
@@ -44,11 +45,13 @@ class DistributionListRepository extends EntityRepository
             $includedStops = $distributionList->getIncludedStops();
             foreach ($includedStops as $scheduleId) {
                 $key = $this->findScheduleKey($scheduleId, $schedules);
-                if ($reset == false) {
-                    $sortedSchedules['included'][] = clone $schedules[$key];
+                if ($key != false) {
+                    if ($reset == false) {
+                        $sortedSchedules['included'][] = clone $schedules[$key];
+                    }
+                    unset($schedules[$key]);
+                    reset($schedules);
                 }
-                unset($schedules[$key]);
-                reset($schedules);
             }
             $sortedSchedules['excluded'] = $schedules;
             if ($reset == 1) {

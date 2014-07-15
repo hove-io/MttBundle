@@ -1,0 +1,62 @@
+{% import "CanalTPMttBundle:Layouts:macros.html.twig" as macros %}
+
+{% extends "CanalTPMttBundle:Layouts:base_layout.html.twig" %}
+
+{% block stylesheets %}
+    {% stylesheets  'css/bootstrap.css'
+                    'bundles/canaltpsam/css/*'
+                    'bundles/canaltpmtt/css/main.css'
+                    'bundles/canaltpmtt/css/layouts.css'
+                    'bundles/canaltpmtt/css/layouts/Divia/main.css'
+
+                   filter='cssrewrite' output='css/fullMtt_layouts.css' %}
+        <link rel="stylesheet" media="all" href="{{ asset_url }}?{{ assets_version }}" />
+    {% endstylesheets %}
+    {% stylesheets  'bundles/canaltpmtt/css/print.css'
+                   filter='cssrewrite' output='css/full_layouts_print.css' %}
+        <link rel="stylesheet" media="print" href="{{ asset_url }}?{{ assets_version }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block timetable_content %}
+    <div id="layout-1-wrapper" class="{% block additionnal_wrapper_class %}{% endblock %}">
+        <div class="layout-container">
+            <div id="header" class="clearfix">
+                {{ macros.img('header_route_sign', attribute(timetable.blocks, 'header_route_sign'), 'header_route_sign_img', 'route') }}
+                <div id="direction-title-wrapper" data-block-level="route" data-auto-filled="1">
+                    {% if timetable.title is defined %}
+                        {{ 'global.direction'|trans }} {{ timetable.title }}
+                    {% endif %}
+                </div>
+                <div id="stop-point-title-wrapper" data-block-level="stop_point" data-auto-filled="1">
+                    <div class="bold">{{'stop_point.label'|trans({}, 'default')}}:</div> {{ stopPoint.title }}
+                </div>
+            </div>
+            <div id="map-wrapper" class="clearfix">
+                {{ macros.img('line_map_block', attribute(timetable.blocks, 'line_map_block'), 'line_map_img', 'route') }}
+                <div id="small-right-blocks">
+                    {{ macros.season_validity('text_block_1', currentSeason, 'small-block') }}
+                    {{ macros.text('text_block_2', attribute(timetable.blocks, 'text_block_2'), 'route', 'small-block block') }}
+                    {{ macros.stop_point_pois('text_block_3', stopPoint, 'small-block') }}
+                    {{ macros.stop_point_code('text_block_4', stopPoint, 'small-block') }}
+                </div>
+            </div>
+            {% block timetable_downer_content %}{% endblock %}
+        </div>
+    </div>
+    <img class="divia-logo" src="{{ asset('bundles/canaltpmtt/img/layouts/divia/logo.png') }}">
+{% endblock %}
+
+{% block scripts %}
+    {%
+        include 'CanalTPMttBundle:Layouts:common.js.twig'
+        with {
+            'editable'          : editable,
+            'stopPointLevel'    : stopPointLevel,
+            'externalNetworkId' : externalNetworkId,
+            'blockTypes'        : blockTypes,
+            'timetable'         : timetable,
+            'stopPoint'         : stopPoint,
+            'selector'          : '#layout-1-wrapper' }
+    %}
+{% endblock %}

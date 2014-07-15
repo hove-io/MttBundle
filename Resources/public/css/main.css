@@ -2,6 +2,11 @@
 .display-none{
     display:none;
 }
+.btn.disabled, 
+.btn[disabled], 
+fieldset[disabled] .btn {
+    pointer-events:auto;
+}
 .bold{font-weight:bold;}
 .pad10t{padding-top:10px;}
 .pad30t{padding-top:30px;}
@@ -14,57 +19,17 @@
 textarea {
     resize: none;
 }
-/* general display */
-#left-menu .nav > li {
-    display:block;
-}
-#left-menu{
-    border:1px solid #e7e7e7;
-    border-radius: 4px;
-    margin-bottom:50px;
-    min-width:100%;
-    padding:0;
-    overflow-y: auto;
-}
-#left-menu.toggable-left-menu{
-    overflow-y:visible;
-}
-#left-menu .submenu-wrapper > ul > li > a,
-#lines-accordion > li > a{
-    border-bottom:1px solid #e7e7e7;
-    padding: 10px 5px;
-}
-#lines-accordion .line-menu-wrapper > a{
-    border-radius: 0;
-    border-left:1px solid #e7e7e7;
-    padding: 10px 5px;
-}
-#lines-accordion .line-menu-wrapper li:not(:last-child){
-    border-bottom:1px solid #e7e7e7;
-}
-#lines-accordion .line-menu-wrapper{
-    margin-left: 10px;
-    
-}
-#lines-accordion .line-menu-wrapper ul{
-    border:1px solid #428bca;
-    margin-top: -1px;
-    margin-left: 10px;
-}
-#lines-accordion .line-menu-wrapper{
-    border-bottom:1px solid #e7e7e7;
-}
-#lines-accordion .line-menu-wrapper:last-child{
-    border-bottom:none;
-}
-#lines-accordion .line-menu-wrapper li.active,
-#lines-accordion .line-menu-wrapper li.active a{
-    background-color:#5cb85c;
-    padding-left:5px;
-    color:white;
-}
 .layout-preview{
-    width:300px;
+    border:1px solid black;
+    max-height:240px;
+    width:100%;
+}
+.layout-choice{
+    float:left;
+    width:50%;
+}
+.layout-choice-item input{
+    display:none;
 }
 .layout-choice-item{
     color:black;
@@ -92,7 +57,7 @@ textarea {
     width:100%;
 }
 .list-group.sortable.empty-list span.help-block{
-    margin-top: 50px;
+    padding: 50px 10px;
 }
 .list-group.sortable.empty-list{
     border: 5px dashed #777;
@@ -132,52 +97,13 @@ textarea {
 .datepicker.datepicker-dropdown.dropdown-menu{
     z-index:1060 !important;
 }
-#left-menu.toggable-left-menu .toggle-button{
-    height:100%;
-}
-#left-menu.toggable-left-menu{
-    position:relative;
-}
-#left-menu.toggable-left-menu{
-    background-color: white;
-    left: -300px;
-    min-width:initial;
-    position: absolute;
-    z-index: 200;
-    width:300px;
-}
-#left-menu.toggable-left-menu .submenu-wrapper{
-    position:relative;
-}
-#left-menu.toggable-left-menu .toggle-button{
-    background-color: #777777;
-    color:white;
-    cursor:pointer;
-    font-size: 20px;
-    height: 100%;
-    width: 20px;
-    position: absolute;
-    right: -20px;
-    top: 0;
-}
-#left-menu.toggable-left-menu .toggle-button:hover{
-    background-color: black;
-}
-#left-menu.toggable-left-menu .toggle-button span{
-    position:absolute;
-    top:50%;
-    margin-top:-10px;
-}
-#left-menu.toggable-left-menu ul.back-btn-wrapper{
-    border-bottom:1px solid black;
-}
 @-webkit-keyframes "rotateThis" {
   from { -webkit-transform: rotate( 0deg );   }
   to   { -webkit-transform: rotate( 360deg ); }
 }
 @keyframes "rotateThis" {
-  from { transform: rotate( 0deg );   }
-  to   { transform: rotate( 360deg ); }
+  from { transform: rotate( 0deg ); -ms-transform:rotate( 0deg );  }
+  to   { transform: rotate( 360deg );-ms-transform:rotate( 360deg ); }
 }
 .icon-refresh-animate {
   animation-name: rotateThis;

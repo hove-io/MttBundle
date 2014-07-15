@@ -1,6 +1,6 @@
 global:
-    actions: Action(s)
-    edit: Editer
+    actions: Actions
+    edit: Éditer
     preview: Prévisualiser
     validate: Valider
     save: Enregistrer
@@ -9,8 +9,10 @@ global:
     cancel: Annuler
     status: Statut
     generatePdf: Générer le PDF
-    remove: Enlever
+    remove: Retirer
     add: Ajouter
+    publish: Publier
+    unpublish: Dépublier
     line_label: Ligne
     downloadPdf: Télécharger le PDF
     network: Réseau
@@ -28,14 +30,22 @@ global:
     remaining_chars: %nb_chars% caractères restant(s)
     please_choose: Veuillez choisir...
     no_items: Aucun élément à afficher
-    startDate: Date de début
-    endDate: Date de fin
+    period_title: Dates
+    validity_period:
+        start: du
+        end: au
+        and: et
+    previous_stop_point: Arrêt précédent
+    next_stop_point: Arrêt suivant
+    confirm_season_delete: Êtes-vous sûr de vouloir supprimer cette saison? Toutes les données liées y compris les pdf seront perdus.
 
 error:
+    element_locked: Cet élément est verrouillé et ne peut être modifié.
     start_end_time_incoherent: L'heure de début et l'heure de fin ne sont pas cohérentes
     entities_overlapping: Les éléments n°%firstElement% et n°%secondElement% se chevauchent
     navitia_network_id: "%string% n'est pas conforme au format navitia."
     greater_than_field: Ce champ doit être supérieur au champ %field%.
+    seasons_overlapping: Cette saison n'a pu être sauvegardée car elle entre en conflit avec la saison "%saison_title%"
 
 help:
     edit_block: Cliquer pour éditer ce bloc
@@ -55,6 +65,27 @@ calendar:
 
 menu:
     networks: Réseaux
-    seasons_manage: Gestion des Saisons
-    networks_manage: Gestion des Réseaux
-    layouts_manage: Gestion des Layouts
+    seasons: Saisons
+    seasons_manage: Gestion des saisons
+    edit_timetables: Édition des fiches horaires
+    networks_manage: Gestion des réseaux
+    layouts_manage: Gestion des gabarits
+
+#should be in error namespace above
+network:
+    error:
+        wrong_token: Le token n'est pas correct
+
+# Labels
+season:
+    labels:
+        title: Titre
+        start_date: Date de début
+        end_date: Date de fin
+        season_to_clone: Saison à cloner
+
+frequency:
+    labels:
+        start_time: Heure de ébut
+        end_time: Heure de fin
+        content: Texte

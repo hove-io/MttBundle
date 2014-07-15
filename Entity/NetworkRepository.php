@@ -14,7 +14,7 @@ class NetworkRepository extends EntityRepository
 {
     public function findNetworksByUserId($userId)
     {
-        $sql = 'SELECT n.external_coverage_id, n.external_id';
+        $sql = 'SELECT n.id, n.external_coverage_id, n.external_id';
         $sql .= ' FROM mtt.users_networks un, mtt.network n';
         $sql .= ' WHERE un.network_id = n.id AND un.user_id = ' . $userId;
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
@@ -31,6 +31,17 @@ class NetworkRepository extends EntityRepository
             ' mtt.users_networks',
             array(
                 'network_id' => $networkId,
+                'user_id' => $userId,
+            )
+        );
+    }
+
+    public function deleteUserNetworks($userId)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $conn->delete(
+            ' mtt.users_networks',
+            array(
                 'user_id' => $userId,
             )
         );

@@ -9,6 +9,7 @@ namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\DependencyInjection\Container;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class LineManager
 {
@@ -29,9 +30,20 @@ class LineManager
 
     public function initTwigPath($lineConfig)
     {
+        if (empty($lineConfig)) {
+            throw new NotFoundHttpException("LineConfig not found");
+        }
         $lineConfig->setTwigPath($lineConfig->getLayout()->getTwig());
     }
 
+    public function getLineConfigWithSeasonByExternalLineId($externalLineId, $season)
+    {
+        return $this->repository
+            ->getLineConfigByExternalLineIdAndSeason(
+                $externalLineId,
+                $season
+            );
+    }
     /**
      * Return line Object with navitia data added
      *

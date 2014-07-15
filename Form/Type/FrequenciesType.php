@@ -41,7 +41,13 @@ class FrequenciesType extends AbstractType
                 'allow_delete'  => true,
                 'by_reference'  => false,
                 'constraints'   => array(
-                    new NotOverlapping(array('values' => $this->hoursRange, 'startField'=>'startTime', 'endField'=>'endTime'))
+                    new NotOverlapping(
+                        array(
+                            'values' => $this->hoursRange,
+                            'startField'=>'startTime',
+                            'endField'=>'endTime'
+                        )
+                    )
                 )
             )
         );

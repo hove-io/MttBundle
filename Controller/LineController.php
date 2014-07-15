@@ -35,7 +35,7 @@ class LineController extends AbstractController
             $this->generateUrl(
                 'canal_tp_mtt_stop_point_list',
                 array(
-                    'network_id'        => $params['externalNetworkId'],
+                    'externalNetworkId'        => $params['externalNetworkId'],
                     'line_id'           => $params['line_id'],
                     'seasonId'          => $season->getId(),
                     'externalRouteId'   => $params['externalRouteId'],
@@ -55,7 +55,7 @@ class LineController extends AbstractController
         $externalRouteId
     )
     {
-        $this->isGranted(array('BUSINESS_CHOOSE_LAYOUT', 'BUSINESS_EDIT_LAYOUT'));
+        $this->isGranted('BUSINESS_CHOOSE_LAYOUT');
         $season = $this->get('canal_tp_mtt.season_manager')->getSeasonWithNetworkIdAndSeasonId(
             $externalNetworkId,
             $seasonId
@@ -69,15 +69,11 @@ class LineController extends AbstractController
             'line_id'           => $line_id,
             'externalRouteId'   => $externalRouteId
         );
+        $lineConfig = $this->get('canal_tp_mtt.line_manager')->getLineConfigWithSeasonByExternalLineId(
+            $line_id,
+            $season
+        );
 
-        $lineConfig = $this->getDoctrine()
-            ->getRepository('CanalTPMttBundle:LineConfig')
-            ->findOneBy(
-                array(
-                    'externalLineId' => $line_id,
-                    'season' => $season
-                )
-            );
         $form = $this->createForm(
             new LineConfigType($network->getLayouts()),
             $lineConfig,

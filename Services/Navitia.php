@@ -7,19 +7,93 @@
  */
 namespace CanalTP\MttBundle\Services;
 
+use Symfony\Component\HttpFoundation\RequestStack;
+
 class Navitia
 {
     private $dateFormat = 'Ymd';
 
     protected $navitia_component;
-    protected $navitia_iussaad;
+    protected $navitia_sam;
     protected $translator;
 
-    public function __construct($navitia_component, $navitia_iussaad, $translator)
+    public function __construct(
+        RequestStack $requestStack,
+        $navitia_component,
+        $navitia_sam,
+        $translator,
+        $em
+    )
     {
+        $externalNetworkId = $requestStack->getCurrentRequest()->attributes->get('externalNetworkId');
         $this->navitia_component = $navitia_component;
-        $this->navitia_iussaad = $navitia_iussaad;
+        $this->navitia_sam = $navitia_sam;
         $this->translator = $translator;
+
+        if (!is_null($externalNetworkId))
+            $this->initToken($externalNetworkId, $em);
+    }
+
+    private function initToken($externalNetworkId, $em)
+    {
+        $network = $em->getRepository('CanalTPMttBundle:Network')
+            ->findOneByExternalId($externalNetworkId);
+        $this->navitia_sam->setToken($network->getToken());
+    }
+
+    /**
+     * Get line routes
+     *
+     * @param type $externalCoverageId
+     * @param type $externalNetworkId
+     * @param type $externalLineId
+     *
+     * @return type json
+     */
+    public function getLineRoutes(
+        $externalCoverageId,
+        $externalNetworkId,
+        $externalLineId
+    )
+    {
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region'    => $externalCoverageId,
+                'path_filter'    => 'networks/' . $externalNetworkId . '/lines/' . $externalLineId,
+                'action'    => 'routes',
+            )
+        );
+        $response = $this->navitia_component->call($query);
+
+        return $response->routes;
+    }
+
+    public function getFirstLineAndRouteOfNetwork($externalCoverageId, $externalNetworkId)
+    {
+        $linesResponse =  $this->navitia_sam->getLines($externalCoverageId, $externalNetworkId);
+        $routes =  $this->getLineRoutes($externalCoverageId, $externalNetworkId, $linesResponse->lines[0]->id);
+
+        return array($linesResponse->lines[0]->id, $routes[0]->id);
+    }
+
+    /**
+     * Get route StopPoints
+     *
+     * @param  type $externalCoverageId
+     * @param  type $externalNetworkId
+     * @param  type $externalLineId
+     * @param  type $externalRouteId
+     * @return type
+     */
+    public function getStopPoints(
+        $externalCoverageId,
+        $externalNetworkId,
+        $externalLineId,
+        $externalRouteId
+    )
+    {
+        return $this->navitia_sam->getStopPoints($externalCoverageId, $externalNetworkId, $externalLineId, $externalRouteId);
     }
 
     /**
@@ -31,14 +105,14 @@ class Navitia
      */
     public function getStopPoint($coverageId, $stopPointId, $params)
     {
-        $filter = 'stop_points/' . $stopPointId;
+        $pathFilter = 'stop_points/' . $stopPointId;
         $parameters = http_build_query($params);
 
         $query = array(
             'api' => 'coverage',
             'parameters' => array(
                 'region' => $coverageId,
-                'filter' => $filter,
+                'path_filter' => $pathFilter,
                 'parameters' => $parameters
             )
         );
@@ -57,7 +131,7 @@ class Navitia
     public function findAllLinesByMode($coverageId, $networkId)
     {
         $count = 30;
-        $result = $this->navitia_iussaad->getLines($coverageId, $networkId, 1, $count);
+        $result = $this->navitia_sam->getLines($coverageId, $networkId, 1, $count);
         // no line found for this network
         if (empty($result) || !isset($result->lines)) {
             throw new \Exception(
@@ -70,7 +144,7 @@ class Navitia
         }
 
         if ($result->pagination->total_result > $count) {
-            $result = $this->navitia_iussaad->getLines(
+            $result = $this->navitia_sam->getLines(
                 $coverageId,
                 $networkId,
                 1,
@@ -99,7 +173,7 @@ class Navitia
      */
     public function getLineTitle($coverageId, $networkId, $lineId)
     {
-        $response = $this->navitia_iussaad->getLine($coverageId, $networkId, $lineId);
+        $response = $this->navitia_sam->getLine($coverageId, $networkId, $lineId);
 
         return ($response->lines[0]->name);
     }
@@ -126,9 +200,26 @@ class Navitia
      */
     public function getStopPointTitle($coverageId, $stopPointId)
     {
-        $response = $this->navitia_iussaad->getStopPoint($coverageId, $stopPointId);
+        $response = $this->navitia_sam->getStopPoint($coverageId, $stopPointId);
 
         return ($response->stop_points[0]->name);
+    }
+
+    public function getRouteStopPoints($network, $externalRouteId)
+    {
+        $pathFilter = 'networks/' . $network->getExternalId() . '/routes/' . $externalRouteId;
+
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $network->getExternalCoverageId(),
+                'action' => 'route_schedules',
+                'path_filter' => $pathFilter,
+                'parameters' => '?depth=0'
+            )
+        );
+
+        return $this->navitia_component->call($query);
     }
 
     /**
@@ -154,6 +245,33 @@ class Navitia
     }
 
     /**
+     * Returns Stop Point pois
+     *
+     * @param  String $coverageId
+     * @param  String $stopPointId
+     * @return pois
+     */
+    public function getStopPointPois($externalCoverageId, $stopPointId)
+    {
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $externalCoverageId,
+                'action' => 'places_nearby',
+                'path_filter' => 'stop_points/' . $stopPointId,
+                'parameters' => array(
+                    'type' => array('poi'),
+                    'filter' => 'poi_type.id=poi_type:Pointsdevente',
+                    'distance' => 10000,
+                    'count' => 2
+                )
+            )
+        );
+
+        return $this->navitia_component->call($query);
+    }
+
+    /**
      * Returns Stop Point title
      *
      * @param  String $coverageId
@@ -163,7 +281,7 @@ class Navitia
      */
     public function getRouteData($routeExternalId, $externalCoverageId)
     {
-        $response = $this->navitia_iussaad->getRoute($externalCoverageId, $routeExternalId);
+        $response = $this->navitia_sam->getRoute($externalCoverageId, $routeExternalId);
         if (!isset($response->routes) || empty($response->routes)) {
             throw new \Exception(
                 $this->translator->trans(
@@ -192,7 +310,7 @@ class Navitia
             'parameters' => array(
                 'region' => $externalCoverageId,
                 'action' => 'calendars',
-                'filter' => 'routes/' . $externalRouteId,
+                'path_filter' => 'routes/' . $externalRouteId,
                 'parameters' => '?start_date=' . $startDate->format($this->dateFormat) . '&end_date=' . $endDate->format($this->dateFormat)
             )
         );
@@ -216,7 +334,7 @@ class Navitia
             'parameters' => array(
                 'region' => $externalCoverageId,
                 'action' => 'calendars',
-                'filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId
+                'path_filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId
             )
         );
 
@@ -235,13 +353,17 @@ class Navitia
      */
     public function getCalendarStopSchedulesByRoute($externalCoverageId, $externalRouteId, $externalStopPointId, $externalCalendarId)
     {
-         $query = array(
+        // TODO: Retrieve fromdatetime from FUSIO
+        // cf http://jira.canaltp.fr/browse/METH-196
+        $fromdatetime = new \DateTime("now");
+        $fromdatetime->setTime(4, 0);
+        $query = array(
             'api' => 'coverage',
             'parameters' => array(
                 'region' => $externalCoverageId,
                 'action' => 'stop_schedules',
-                'filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId,
-                'parameters' => '?calendar=' . $externalCalendarId . '&show_codes=true'
+                'path_filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId,
+                'parameters' => '?calendar=' . $externalCalendarId . '&show_codes=true&from_datetime=' . $fromdatetime->format('Ymd\THis')
             )
         );
         $stop_schedulesResponse = $this->navitia_component->call($query);

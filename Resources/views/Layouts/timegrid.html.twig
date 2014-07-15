@@ -1,0 +1,36 @@
+<div {% if editable %}title="{{ 'help.edit_block'|trans }}"{% endif %} id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
+    <div class="timegrid-header">
+        {% if block %}{{ block.title }}{% endif %}
+    </div>
+    <div class="timegrid-body relative" data-validate-height="1">
+        {% set calendar = attribute(calendars, block.content) %}
+        <!-- Frequencies -->
+        {% if (calendar.schedules.additional_informations is not empty) %}
+            <div class="external-additional-informations">{{ calendar.schedules.additional_informations }}</div>
+            <table class="nb-lines-{{ nbLines }} empty-timegrid">
+        {% else %}
+            <table class="nb-lines-{{ nbLines }}">
+        {% endif %}
+        {% set hours_range = layout|calendarRange %}
+        {{ macros.hours_thead(hours_range)}}
+        {% if block.frequencies|length > 0 and (calendar.schedules.additional_informations is empty) %}
+            {%
+                include "CanalTPMttBundle:Frequency:display.html.twig"
+                with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
+            %}
+        {% endif %}
+        {% if layout.dispatchesNotes %}
+            {% set params = { 'notes' : calendar.notes, 'computedNotes' : notes, 'calendar' : calendar } %}
+        {% else %}
+            {% set params = { 'notes' : notes, 'computedNotes' : notes, 'calendar' : calendar } %}
+        {% endif %}
+        {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, params.computedNotes, hours_range, nbLines) }}
+        </table>
+        {% if addNotes %}
+            {%
+                include "CanalTPMttBundle:Layouts:notes.html.twig"
+                with params only
+            %}
+        {% endif %}
+    </div>
+</div>

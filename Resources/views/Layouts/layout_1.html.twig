@@ -6,6 +6,7 @@
     <div id="layout-1-wrapper" class="{% block additionnal_wrapper_class %}{% endblock %}">
         <div class="layout-container">
             <div id="header" class="clearfix">
+                {{ macros.img('header_route_sign', attribute(timetable.blocks, 'header_route_sign'), 'header_route_sign_img', 'route') }}
                 <div id="direction-title-wrapper" data-block-level="route" data-auto-filled="1">
                     {% if timetable.title is defined %}
                         {{ 'global.direction'|trans }} {{ timetable.title }}
@@ -18,16 +19,10 @@
             <div id="map-wrapper" class="clearfix">
                 {{ macros.img('line_map_block', attribute(timetable.blocks, 'line_map_block'), 'line_map_img', 'route') }}
                 <div id="small-right-blocks">
-                    {% for i in 1..4 %}
-                        {% set id = 'text_block_' ~ i %}
-                        {% if i == 1 %}
-                            {{ macros.season_validity(id, season, 'small-block') }}
-                        {% elseif i == 4 %}
-                            {{ macros.stop_point_code(id, stopPoint, 'small-block') }}
-                        {% else %}
-                            {{ macros.text(id, attribute(timetable.blocks, id), 'route', 'small-block block') }}
-                        {% endif %}
-                    {% endfor %}
+                    {{ macros.season_validity('text_block_1', currentSeason, 'small-block') }}
+                    {{ macros.text('text_block_2', attribute(timetable.blocks, 'text_block_2'), 'route', 'small-block block') }}
+                    {{ macros.stop_point_code('text_block_4', stopPoint, 'small-block') }}
+                    {{ macros.stop_point_pois('text_block_3', stopPoint, 'small-block') }}
                 </div>
             </div>
             {% block timetables_wrapper %}
@@ -35,7 +30,7 @@
                     {% for i in 1..4 %}
                         {% set id = 'timegrid_block_' ~ i %}
                         {% set block = attribute(timetable.blocks, id) %}
-                        <div title="{{ 'help.edit_block'|trans }}" id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
+                        <div {% if editable %}title="{{ 'help.edit_block'|trans }}"{% endif %} id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
                             <div class="timegrid-header">
                                 {% if block %}{{ block.title }}{% endif %}
                             </div>

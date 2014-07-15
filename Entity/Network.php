@@ -23,6 +23,11 @@ class Network extends AbstractEntity
     private $externalCoverageId;
 
     /**
+     * @var string
+     */
+    private $token;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $users;
@@ -36,6 +41,11 @@ class Network extends AbstractEntity
      * @var \Doctrine\Common\Collections\Collection
      */
     private $seasons;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $amqpTasks;
 
     /**
      * @var Object
@@ -99,6 +109,29 @@ class Network extends AbstractEntity
     }
 
     /**
+     * Set token
+     *
+     * @param  string  $token
+     * @return Network
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Get token
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
      * Get Object
      *
      * @return \Doctrine\Common\Collections\Collection
@@ -116,6 +149,28 @@ class Network extends AbstractEntity
     public function setSeasons($seasons)
     {
         $this->seasons = $seasons;
+
+        return ($this);
+    }
+
+    /**
+     * Get Object
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAmqpTasks()
+    {
+        return $this->amqpTasks;
+    }
+
+    /**
+     * Set Object
+     *
+     * @return Network
+     */
+    public function setAmqpTasks($amqpTasks)
+    {
+        $this->amqpTasks = $amqpTasks;
 
         return ($this);
     }
@@ -176,5 +231,13 @@ class Network extends AbstractEntity
     public function getDistributionList()
     {
         return $this->ditributionLists;
+    }
+
+    //custom title
+    public function getName()
+    {
+        $explodedId = explode(':', $this->getExternalId());
+
+        return count($explodedId) > 0 ? $explodedId[1] : $this->getExternalId();
     }
 }

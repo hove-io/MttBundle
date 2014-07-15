@@ -14,47 +14,27 @@ use fpdi;
 class PdfGenerator
 {
     private $serverUrl = null;
-    private $om = null;
-    private $uploadPath = null;
 
-    public function __construct($server, $path)
+    public function __construct(
+        CurlProxy $curlProxy,
+        $server
+    )
     {
+        $this->curlProxy = $curlProxy;
         $this->serverUrl = $server;
-        $this->uploadPath = $path;
     }
 
-    /*
-     * @function calls the webservice http://hg.prod.canaltp.fr/ctp/pdfGenerator.git/summary
-     */
-    private function callWebservice($url)
-    {
-        $ch = curl_init();
-
-        // set URL and other appropriate options
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        // grab URL and pass it to the browser
-        $pdfContent = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        // close cURL resource, and free up system resources
-        curl_close($ch);
-
-        return $http_code == 200 && !empty($pdfContent) ? $pdfContent : false;
-    }
-
-    public function getPdf($url, $layout)
+    public function getPdf($url, $orientation)
     {
         $params = array();
         $params['url'] = $url;
-        $params['orientation'] = $layout->getOrientation();
+        $params['orientation'] = $orientation;
         // TODO: make these parameters configurable via layout?
-        $params['zoom'] = 2;
-        $params['margin'] = 0;
+        $params['zoom'] = '2';
+        $params['margin'] = '0';
         $generation_url = $this->serverUrl . '?' . http_build_query($params);
-// var_dump($url);die;
-        $pdfContent = $this->callWebservice($generation_url);
 
+        $pdfContent = $this->curlProxy->get($generation_url);
         // create File
         $dir = sys_get_temp_dir() . '/';
         $filename = md5($pdfContent) . '.pdf';
@@ -68,34 +48,30 @@ class PdfGenerator
     /**
      *  @function aggregate pdf files
      *
-     *  @param $paths array Array with absolute path to pdf files
+     *  @param $files array Array with absolute path to pdf files
      */
-    public function aggregatePdf($paths)
+    public function aggregatePdf($files, $path)
     {
         $fpdi = new \fpdi\FPDI();
 
-        foreach ($paths as $file) {
-            $pageCount = $fpdi->setSourceFile($file);
-            for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-                 $tplIdx = $fpdi->ImportPage($pageNo);
-                 $s = $fpdi->getTemplatesize($tplIdx);
-                 // Landscape/Portrait?
-                 $fpdi->AddPage($s['w'] > $s['h'] ? 'L' : 'P', array($s['w'], $s['h']));
-                 $fpdi->useTemplate($tplIdx);
+        foreach ($files as $file) {
+            if (file_exists($file)) {
+                $pageCount = $fpdi->setSourceFile($file);
+                for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+                     $tplIdx = $fpdi->ImportPage($pageNo);
+                     $s = $fpdi->getTemplatesize($tplIdx);
+                     // Landscape/Portrait?
+                     $fpdi->AddPage($s['w'] > $s['h'] ? 'L' : 'P', array($s['w'], $s['h']));
+                     $fpdi->useTemplate($tplIdx);
+                }
             }
         }
-        $dir = $this->getUploadRootDir() . '/';
-        // TODO: should be generic and saved for later?
-        $fpdi->Output($dir . 'concat.pdf', 'F');
+        $pathDir = dirname($path);
 
-        return '/uploads/concat.pdf';
-    }
+        if (!is_dir($pathDir)) {
+            mkdir($pathDir, 0777, true);
+        }
 
-    protected function getUploadRootDir()
-    {
-        return $this->uploadPath;
-        // TODO: should be configured
-        // *works only if bundle is in vendor folder*
-        // return realpath(__DIR__.'/../../../../../../web/uploads/');
+        return $fpdi->Output($path, 'F');
     }
 }

@@ -8,7 +8,7 @@
             {% set id = 'timegrid_block_' ~ i %}
             {% set block = attribute(timetable.blocks, id) %}
 
-            <div title="{{ 'help.edit_block'|trans }}" id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
+            <div {% if editable %}title="{{ 'help.edit_block'|trans }}"{% endif %} id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
                 <div class="timegrid-header">
                     {% if block %}{{ block.title }}{% endif %}
                 </div>

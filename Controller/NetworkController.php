@@ -3,6 +3,8 @@
 namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use CanalTP\MttBundle\Form\Type\NetworkType;
 use CanalTP\MttBundle\Entity\Network;
 
@@ -17,13 +19,32 @@ class NetworkController extends AbstractController
         );
     }
 
-    private function buildForm($networkId)
+    public function byCoverageAction(Request $request, $externalCoverageId)
+    {
+        $response = new JsonResponse();
+        $navitia = $this->get('sam_navitia');
+
+        $navitia->setToken($request->query->get('token'));
+        $networks = $navitia->getNetworks($externalCoverageId);
+
+        $response->setData(
+            array(
+                'status' => Response::HTTP_OK,
+                'networks' => $networks
+            )
+        );
+
+        return ($response);
+
+    }
+
+    private function buildForm($externalNetworkId)
     {
         $coverage = $this->get('canal_tp_mtt.navitia')->getCoverages();
 
         $form = $this->createForm(
-            new NetworkType($coverage->regions, $networkId),
-            $this->networkManager->find($networkId),
+            new NetworkType($coverage->regions, $externalNetworkId),
+            $this->networkManager->findOneByExternalId($externalNetworkId),
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_network_edit'
@@ -49,11 +70,11 @@ class NetworkController extends AbstractController
         return (null);
     }
 
-    public function editAction(Request $request, $network_id)
+    public function editAction(Request $request, $externalNetworkId)
     {
         $this->networkManager = $this->get('canal_tp_mtt.network_manager');
 
-        $form = $this->buildForm($network_id);
+        $form = $this->buildForm($externalNetworkId);
         $render = $this->processForm($request, $form);
         if (!$render) {
             return $this->render(
@@ -72,6 +93,7 @@ class NetworkController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Network:list.html.twig',
             array(
+                'pageTitle'=> 'menu.networks_manage',
                 'no_left_menu' => true,
                 'networks' => $this->networkManager->findAll()
             )
