@@ -1,4 +1,4 @@
-Notes de publication - METH - Version 1.0.0 (30/06/2014)
+Notes de publication - METH - Version 1.0.0-ALPHA (15/07/2014)
 
 ** Bogue
     * [METH-254] - Gérer les cas d'erreurs lors d'une tâche de fond (génération des pdf d'une saison, d'une liste de distribution)
@@ -8,7 +8,7 @@ Notes de publication - METH - Version 1.0.0 (30/06/2014)
     * [METH-277] - L'annulation d'une tâche ne s'arrête pas même uns fois la tâche terminée
     * [HOTFIX]   - MediaManagerBundle - Directory for temporary file changed.
     * [METH-278] - Même une fois terminée, la liste de distribution reste en mode génération
-    
+
 ** Amélioration
     * [METH-202] - Fonction Suppression dans la médiathèque
 
@@ -70,7 +70,7 @@ Notes de publication - METH - Version 0.9.1 (03/06/2014)
     * METH-183	Menu "glissant" pose problème sous IE 10
     * METH-221	Erreur 500 à la publication + génération des pdf
     * METH-179	Les dates ne sont pas formatées
-    
+
 ** Tâche
     * METH-143	Fil d'Ariane
     * METH-210	Annotation hors saison
