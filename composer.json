@@ -30,7 +30,8 @@
         "eternicode/bootstrap-datepicker": "1.3.0",
         "braincrafted/bootstrap-bundle": "2.0.0",
         "videlalvaro/php-amqplib": "2.2.6",
-        "itbz/fpdi": "1.4.4"
+        "itbz/fpdi": "1.4.4",
+	"canaltp/media-manager-bundle": "0.0.8"
     },
     "autoload": {
         "psr-0": { "CanalTP\\MttBundle\\": "" }
