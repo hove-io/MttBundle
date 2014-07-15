@@ -12,10 +12,10 @@ role :supervisor, "par-vm205.srv.canaltp.fr", {
 #########################
 
 set :mtt_pdf_generator_url, 'http://mhspdfgen-ws.ctp.customer.canaltp.fr/'
-set :amqp_server_host, '10.2.16.70'
+set :amqp_server_host, 'amqp-ihm.nmp.customer.canaltp.fr'
 set :amqp_server_user, 'guest'
 set :amqp_server_pass, 'guest'
-set :amqp_server_vhost, 'mtt/customer'
+set :amqp_server_vhost, 'mtt'
 set :amqp_server_port, 5672
 
 ##################################
