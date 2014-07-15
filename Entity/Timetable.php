@@ -189,4 +189,9 @@ class Timetable extends AbstractEntity
     {
         return $this->line_config;
     }
+
+    public function isLocked()
+    {
+        return $this->getLineConfig()->isLocked();
+    }
 }

@@ -4,13 +4,14 @@
     {{'network.list'|trans({}, 'default')}}
     -
     <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_network_edit') }}" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus"></span> {{'network.create'|trans({}, 'default')}}
+        <span class="glyphicon glyphicon-plus"></span> {{'network.add'|trans({}, 'default')}}
     </a>
 {% endblock %}
 
 {% block table_head -%}
     <th>{{'network.external_coverage_id'|trans({}, 'default')}}</th>
     <th>{{'network.external_id'|trans({}, 'default')}}</th>
+    <th>{{'network.token'|trans({}, 'default')}}</th>
 {% endblock %}
 
 {% block table_body -%}
@@ -28,6 +29,9 @@
                 </td>
                 <td>
                     {{ network.externalId }}
+                </td>
+                <td>
+                    {{ network.token }}
                 </td>
             </tr>
         {% endfor %}

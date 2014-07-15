@@ -7,6 +7,9 @@ namespace CanalTP\MttBundle\Entity;
  */
 class Layout extends AbstractEntity
 {
+    const NOTES_MODE_AGGREGATED = 0;
+    const NOTES_MODE_DISPATCHED = 1;
+
     /**
      * @var integer
      */
@@ -28,6 +31,12 @@ class Layout extends AbstractEntity
     private $preview;
 
     /**
+     * @var integer
+     * default value 1
+     */
+    private $cssVersion = 1;
+
+    /**
      * @var string
      */
     private $orientation;
@@ -41,6 +50,11 @@ class Layout extends AbstractEntity
      * @var integer
      */
     private $calendarEnd;
+
+    /**
+     * @var integer
+     */
+    private $notesMode = self::NOTES_MODE_AGGREGATED;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -155,6 +169,29 @@ class Layout extends AbstractEntity
     }
 
     /**
+     * Set cssVersion
+     *
+     * @param  integer $cssVersion
+     * @return Layout
+     */
+    public function setCssVersion($cssVersion)
+    {
+        $this->cssVersion = $cssVersion;
+
+        return $this;
+    }
+
+    /**
+     * Get cssVersion
+     *
+     * @return integer
+     */
+    public function getCssVersion()
+    {
+        return $this->cssVersion;
+    }
+
+    /**
      * Set calendarStart
      *
      * @param  integer $calendarStart
@@ -201,6 +238,29 @@ class Layout extends AbstractEntity
     }
 
     /**
+     * Set notesMode
+     *
+     * @param  integer $notesMode
+     * @return Layout
+     */
+    public function setNotesMode($notesMode)
+    {
+        $this->notesMode = $notesMode;
+
+        return $this;
+    }
+
+    /**
+     * Get notesMode
+     *
+     * @return integer
+     */
+    public function getNotesMode()
+    {
+        return $this->notesMode;
+    }
+
+    /**
      * Set Networks
      *
      * @return Collections\Collection
@@ -232,6 +292,16 @@ class Layout extends AbstractEntity
         return ($this->lineConfigs);
     }
 
+    public function aggregatesNotes()
+    {
+        return $this->getNotesMode() == self::NOTES_MODE_AGGREGATED;
+    }
+
+    public function dispatchesNotes()
+    {
+        return $this->getNotesMode() == self::NOTES_MODE_DISPATCHED;
+    }
+
     /**
      * Set networks
      *
@@ -248,5 +318,4 @@ class Layout extends AbstractEntity
     {
         return $this->label;
     }
-
 }

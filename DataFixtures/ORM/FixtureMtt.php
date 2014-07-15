@@ -3,33 +3,81 @@
 namespace CanalTP\MttBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-
 use CanalTP\SamEcoreUserManagerBundle\Entity\User;
+
+use CanalTP\SamBundle\Tests\DataFixtures\ORM\Fixture as SamBaseFixture;
 use CanalTP\MttBundle\Entity\Network;
 use CanalTP\MttBundle\Entity\Layout;
 
-class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
+class FixtureMtt extends SamBaseFixture
 {
-    private $em = null;
+    protected $em = null;
 
-    private function createUser($data)
-    {
-        //  On crée l'utilisateur admin akambi
-        $user = new User();
-        $user->setUsername($data['username']);
-        $user->setFirstName($data['firstname']);
-        $user->setLastName($data['lastname']);
-        $user->setEnabled(true);
-        $user->setEmail($data['email']);
-        $user->setPlainPassword($data['password']);
-        $user->setRoles($data['roles']);
+    const ROLE_USER_MTT  = 'ROLE_USER_MTT';
+    const ROLE_ADMIN_MTT = 'ROLE_ADMIN_MTT';
+    const ROLE_OBS_MTT = 'ROLE_OBS_MTT';
 
-        $this->em->persist($user);
+    protected $users = array(
+        'mtt' => array(
+            'id'        => null,
+            'username'  => 'mtt',
+            'firstname' => 'mtt_firstname',
+            'lastname'  => 'mtt_lastname',
+            'email'     => 'mtt@canaltp.fr',
+            'password'  => 'mtt',
+            'roles'     => array('role-admin-mtt', 'role-user-mtt')
+        ),
+        array(
+            'id'        => null,
+            'username'  => 'observateur TT',
+            'firstname' => 'observateur',
+            'lastname'  => 'TT',
+            'email'     => 'obs-mtt@canaltp.fr',
+            'password'  => 'mtt',
+            'roles'     => array('role-obs-mtt')
+        ),
+        array(
+            'id'        => null,
+            'username'  => 'utilisateur TT',
+            'firstname' => 'utilisateur',
+            'lastname'  => 'TT',
+            'email'     => 'user-mtt@canaltp.fr',
+            'password'  => 'mtt',
+            'roles'     => array('role-user-mtt')
+        ),
+        array(
+            'id'        => null,
+            'username'  => 'adminCTP TT',
+            'firstname' => 'adminCTP',
+            'lastname'  => 'TT',
+            'email'     => 'admin-mtt@canaltp.fr',
+            'password'  => 'mtt',
+            'roles'     => array('role-admin-mtt')
+        )
+    );
 
-        return ($user);
-    }
+    protected $roles = array(
+        'role-user-mtt' => array(
+            'BUSINESS_VIEW_NAVITIA_LOG',
+            'BUSINESS_CHOOSE_LAYOUT',
+            'BUSINESS_EDIT_LAYOUT',
+            'BUSINESS_MANAGE_SEASON',
+            'BUSINESS_MANAGE_DISTRIBUTION_LIST',
+            'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF',
+            'BUSINESS_GENERATE_PDF'
+        ),
+        'role-admin-mtt' => array(
+            'BUSINESS_VIEW_NAVITIA_LOG',
+            'BUSINESS_CHOOSE_LAYOUT',
+            'BUSINESS_ASSIGN_NETWORK_LAYOUT',
+            'BUSINESS_EDIT_LAYOUT',
+            'BUSINESS_MANAGE_SEASON',
+            'BUSINESS_MANAGE_DISTRIBUTION_LIST',
+            'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF',
+            'BUSINESS_GENERATE_PDF'
+        ),
+        'role-obs-mtt' => array(),
+    );
 
     private function createLayout($layoutProperties, $networks = array())
     {
@@ -51,40 +99,24 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
         return ($layout);
     }
 
-    private function createNetwork($externalId = 'network:Filbleu', $externalCoverageId = 'Centre')
+    private function createNetwork(
+        $externalId = 'network:Filbleu',
+        $token = '46cadd8a-e385-4169-9cb8-c05766eeeecb',
+        $externalCoverageId = 'centre'
+    )
     {
         $network = new Network();
         $network->setExternalId($externalId);
         $network->setExternalCoverageId($externalCoverageId);
+        $network->setToken($token);
 
         $this->em->persist($network);
 
         return ($network);
     }
 
-    public function load(ObjectManager $em)
+    private function createLayouts($network1, $network2, $network5)
     {
-        $this->em = $em;
-        $user = $this->createUser(
-            array(
-                'username' => 'mtt',
-                'firstname' => 'mtt_firstname',
-                'lastname' => 'mtt_lastname',
-                'email' => 'mtt@canaltp.fr',
-                'password' => 'mtt',
-                'roles' => array('ROLE_ADMIN')
-            )
-        );
-
-        $network = $this->createNetwork();
-        $network->addUser($user);
-        $network2 = $this->createNetwork('network:Agglobus');
-        $network2->addUser($user);
-        $network3 = $this->createNetwork('network:SNCF');
-        $network3->addUser($user);
-        $network4 = $this->createNetwork('network:RATP');
-        $network4->addUser($user);
-
         $layout1 = $this->createLayout(
             array(
                 'label'         => 'Layout 1 de type paysage (Dijon 1)',
@@ -94,7 +126,7 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
                 'calendarStart' => 4,
                 'calendarEnd'   => 1,
             ),
-            array($network, $network2)
+            array($network1, $network2)
         );
         $layout2 = $this->createLayout(
             array(
@@ -105,11 +137,89 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
                 'calendarStart'=> 4,
                 'calendarEnd'  => 1,
             ),
-            array($network)
+            array($network1, $network2)
         );
-        $this->em->persist($network);
+        $this->createLayout(
+            array(
+                'label'         => 'Lianes 4 paves neutre',
+                'twig'          => 'Divia/neutralLianes4Timegrids.html.twig',
+                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/neutral-Lianes-4-paves.png',
+                'orientation'   => 'landscape',
+                'calendarStart' => 4,
+                'calendarEnd'   => 1,
+            ),
+            array($network5)
+        );
+        $this->createLayout(
+            array(
+                'label'         => 'Lianes 4 paves',
+                'twig'          => 'Divia/lianes4Timegrids.html.twig',
+                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/Lianes-4-paves.png',
+                'orientation'   => 'landscape',
+                'calendarStart' => 4,
+                'calendarEnd'   => 1,
+            ),
+            array($network5)
+        );
+        $this->createLayout(
+            array(
+                'label'         => 'Flexo',
+                'twig'          => 'Divia/flexo.html.twig',
+                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/Flexo.png',
+                'orientation'   => 'landscape',
+                'calendarStart' => 4,
+                'calendarEnd'   => 1,
+            ),
+            array($network5)
+        );
+        $this->createLayout(
+            array(
+                'label'         => 'Proxi',
+                'twig'          => 'Divia/proxi.html.twig',
+                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/Proxi.png',
+                'orientation'   => 'landscape',
+                'calendarStart' => 4,
+                'calendarEnd'   => 1,
+            ),
+            array($network5)
+        );
+
+        $this->em->persist($network1);
         $this->em->persist($network2);
         $this->em->flush();
+    }
+
+    public function load(ObjectManager $em)
+    {
+        $this->em = $em;
+        $app = $this->createApplication('Mtt', '/mtt');
+
+        $userRole    = $this->createApplicationRole('User Mtt',  self::ROLE_USER_MTT,  $app, $this->roles['role-user-mtt']);
+        $this->addReference('role-user-mtt', $userRole);
+        $addminRole  = $this->createApplicationRole('Admin Mtt', self::ROLE_ADMIN_MTT, $app, $this->roles['role-admin-mtt']);
+        $this->addReference('role-admin-mtt', $addminRole);
+        $obsRole  = $this->createApplicationRole('Observateur Mtt', self::ROLE_OBS_MTT, $app, $this->roles['role-obs-mtt']);
+        $this->addReference('role-obs-mtt', $obsRole);
+        $network1 = $this->createNetwork('network:Filbleu', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
+        $network2 = $this->createNetwork('network:Agglobus', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
+        $network3 = $this->createNetwork('network:SNCF', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
+        $network4 = $this->createNetwork('network:RATP', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
+        $network5 = $this->createNetwork('network:CGD', '7a8877fa-2abc-44e2-926c-e2349974a1ee', 'bourgogne');
+
+        //associer les utilisateurs avec l'application
+        foreach ($this->users as &$userData) {
+            $userEntity = $this->createUser(
+                $userData
+            );
+            $userData['id'] = $userEntity->getId();
+
+            $network1->addUser($userEntity);
+            $network2->addUser($userEntity);
+            $network3->addUser($userEntity);
+            $network4->addUser($userEntity);
+            $network5->addUser($userEntity);
+        }
+        $this->createLayouts($network1, $network2, $network5);
     }
 
     /**
@@ -117,6 +227,28 @@ class FixtureMtt extends AbstractFixture implements OrderedFixtureInterface
     */
     public function getOrder()
     {
-        return 1;
+        return 3;
+    }
+
+    /**
+     * @override
+     */
+    protected function createUser($data, array $roles = array())
+    {
+        $user = new User();
+        $user->setUsername($data['username']);
+        $user->setFirstName($data['firstname']);
+        $user->setLastName($data['lastname']);
+        $user->setEnabled(true);
+        $user->setEmail($data['email']);
+        $user->setPlainPassword($data['password']);
+        foreach ($data['roles'] as $roleRef) {
+            $user->addUserRole($this->getReference($roleRef));
+        }
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $user;
     }
 }

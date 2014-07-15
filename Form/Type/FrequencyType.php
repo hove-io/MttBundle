@@ -31,7 +31,8 @@ class FrequencyType extends AbstractType
                 'constraints' => array(
                     new NotBlank(),
                     new DateTime()
-                )
+                ),
+                'label' => 'frequency.labels.start_time'
             )
         );
         $builder->add(
@@ -43,7 +44,8 @@ class FrequencyType extends AbstractType
                 'constraints' => array(
                     new NotBlank(),
                     new DateTime()
-                )
+                ),
+                'label' => 'frequency.labels.end_time'
             )
         );
         $builder->add(
@@ -58,7 +60,8 @@ class FrequencyType extends AbstractType
                     new Length(
                         array('max' => 150)
                     )
-                )
+                ),
+                'label' => 'frequency.labels.content'
             )
         );
     }

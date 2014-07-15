@@ -1,4 +1,118 @@
-Notes de publication - METH - Version 0.6.2 (16 /04/2014)
+Notes de publication - METH - Version 1.0.0 (30/06/2014)
+
+** Bogue
+    * [METH-254] - Gérer les cas d'erreurs lors d'une tâche de fond (génération des pdf d'une saison, d'une liste de distribution)
+    * [METH-268] - Même désactivé, le bouton de génération de liste de distribution continue de lancer des générations
+    * [METH-228] - Mise à jour du sevice de monitoring
+    * [METH-273] - Un arrêt supprimé dans Navitia fait planter la liste de distribution
+    * [METH-277] - L'annulation d'une tâche ne s'arrête pas même uns fois la tâche terminée
+    * [HOTFIX]   - MediaManagerBundle - Directory for temporary file changed.
+    * [METH-278] - Même une fois terminée, la liste de distribution reste en mode génération
+    
+** Amélioration
+    * [METH-202] - Fonction Suppression dans la médiathèque
+
+
+Notes de publication - METH - Version 0.9.5 (26/06/2014)
+
+** Bogue
+    * [METH-269] - Lors de la suppression d'une saison, les tâches correspondantes ne sont pas supprimées
+
+
+Notes de publication - METH - Version 0.9.4 (24/06/2014)
+
+** Bogue
+    * [METH-266] - Impossible de générer un pdf de liste de distribution
+
+** Amélioration
+    * [METH-267] - Désactiver le bouton "Générer le pdf"
+
+
+Notes de publication - METH - Version 0.9.3 (23/06/2014)
+
+** Bogue
+    * [METH-186] - MTT parle franglais ?
+    * [METH-237] - L'annulation d'une tâche ne libère pas les ressources
+
+** Amélioration
+    * [METH-211] - Impossible de voir un pdf déjà généré
+
+** Récit
+    * [METH-250] - Pouvoir agréger ou dispatcher les annotations dans une fiche horaire
+
+** Tâche
+    * [METH-235] - Génération du PDF de la list de distrib > page d'accueil
+    * [METH-252] - Ajout d'un layout
+    * [METH-253] - Amélioration du formulaire de choix des gabarits
+
+
+Notes de publication - METH - Version 0.9.2 (12/06/2014)
+
+** Bogue
+    * [METH-185] - Plus de durée d'expiration de session ?
+    * [METH-226] - Les Pdf générés en masse contiennent le message "Saison verrouillée"
+    * [METH-227] - Verrouillage de saison KO
+    * [METH-229] - Les annotations ne s'affichent pas toujours
+    * [METH-231] - CLONE - Rafraichissement du pdf de la liste de distribution
+    * [METH-236] - Génération du PDF de la list de distrib > nom pérenne
+
+** Amélioration
+    * [METH-232] - CLONE - Modification du fond de fiche 4 pavés
+
+** Tâche
+    * [METH-88] - Elements d'info et de navigation sur la page de vérification des horaires
+    * [METH-233] - Intégration des 2 layouts restants pour Divia
+
+
+Notes de publication - METH - Version 0.9.1 (03/06/2014)
+
+**Bogue
+    * METH-183	Menu "glissant" pose problème sous IE 10
+    * METH-221	Erreur 500 à la publication + génération des pdf
+    * METH-179	Les dates ne sont pas formatées
+    
+** Tâche
+    * METH-143	Fil d'Ariane
+    * METH-210	Annotation hors saison
+    * METH-216	Verrouillage d'une saison pendant la génération des PDF
+    * METH-213	Annulation de la génération des PDF d'une saison.
+
+Notes de publication - METH - Version 0.8.2 (15/05/2014)
+
+** Tâche
+    * [METH-166] - Génération de tous les PDF d'une saison
+    * [METH-181] - Génération des PDF d'une saison lors de sa publication
+    * [METH-66] - Affichage du bloc : "dépositaires les plus proches de cet arrêt"
+    * [METH-214] - Modifications du Layout pour DIVIA
+
+Notes de publication - METH - Version 0.8.1 (09/05/2014)
+
+** Bogue
+    * [METH-200] - Utilisation du token d'authentification (formulaire: ajout d'un réseau)
+
+** Tâche
+    * [METH-180] - Retour sur l'implémentation des permissions
+
+Notes de publication - METH - Version 0.7.1 (30/04/2014)
+
+** Sous-tâche
+    * [METH-197] - Mise à jour de Navitia Component
+
+** Bogue
+    * [METH-193] - Publication 'brute' des saisons
+    * [METH-196] - Les horaires remontés ne commencent qu'après 13h37
+
+** Récit
+    * [METH-83] - Suppression d'une saison existante
+    * [METH-132] - WS qui renvoie la saison valable pour une date
+    * [METH-167] - Boutons arrêt suivant/précédent
+
+** Tâche
+    * [METH-133] - Chevauchement de saisons
+    * [METH-172] - Implémentation des access policies
+    * [METH-175] - Contrôler si les PDF de fiches horaires sont à jour
+
+Notes de publication - METH - Version 0.6.2 (16/04/2014)
 
 ** Sous-tâche
     * [METH-171] - Mise à jour des validations de formulaire (coté serveur)
@@ -9,7 +123,7 @@ Notes de publication - METH - Version 0.6.2 (16 /04/2014)
     * [METH-176] - Téléchargement du PDF (liste de distrib) ne fonctionne pas
 
 ** Récit
-    * [METH-168] - Création d'un bloc "code spécifique au poteau d'arrêt" 
+    * [METH-168] - Création d'un bloc "code spécifique au poteau d'arrêt"
 
 ** Tâche
     * [METH-89] - Taille limite des zones de texte
@@ -54,9 +168,9 @@ Notes de publication - MTT - Version 0.5.2 (01/04/2014)
     * [METH-100] Intégration d'un nouveau layout
 
 ** Sous-tâche
-    * [METH-150] "Refactoring" du layout 
+    * [METH-150] "Refactoring" du layout
     * [METH-149] Création d'un nouveau layout
-    
+
 Notes de publication - MTT - Version 0.5.1 (25/03/2014)
 
 ** Sous-tâche

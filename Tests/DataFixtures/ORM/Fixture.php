@@ -6,10 +6,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-use CanalTP\SamCoreBundle\Entity\ApplicationRole;
-use CanalTP\SamCoreBundle\Entity\Application;
-use CanalTP\SamCoreBundle\Entity\Role;
-use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 use CanalTP\MttBundle\Entity\Network;
 use CanalTP\MttBundle\Entity\Season;
 use CanalTP\MttBundle\Entity\LineConfig;
@@ -20,37 +16,32 @@ use CanalTP\MttBundle\Entity\Layout;
 
 class Fixture extends AbstractFixture implements OrderedFixtureInterface
 {
-    const EXTERNAL_COVERAGE_ID = 'Centre';
+    const EXTERNAL_COVERAGE_ID = 'centre';
     const EXTERNAL_NETWORK_ID = 'network:Filbleu';
+    const TOKEN = '46cadd8a-e385-4169-9cb8-c05766eeeecb';
     const EXTERNAL_LINE_ID = 'line:TTR:Nav62';
     const EXTERNAL_ROUTE_ID = 'route:TTR:Nav168';
     const EXTERNAL_STOP_POINT_ID = 'stop_point:TTR:SP:STPGB-2';
     const SEASON_ID = 1;
-    const EXTERNAL_LAYOUT_ID = 1;
+    const EXTERNAL_LAYOUT_ID_1 = 1;
+    const EXTERNAL_LAYOUT_ID_2 = 2;
     public static $timetableId;
 
-    private function createUser(ObjectManager $em, $data)
+    public function createNetwork(
+        ObjectManager $em,
+        $externalNetworkId = Fixture::EXTERNAL_NETWORK_ID,
+        $externalCoverageId = Fixture::EXTERNAL_COVERAGE_ID,
+        $token = Fixture::TOKEN
+    )
     {
-        //  On crée l'utilisateur admin
-        $user = new User();
-        $user->setUsername($data['username']);
-        $user->setFirstName($data['firstname']);
-        $user->setLastName($data['lastname']);
-        $user->setEnabled(true);
-        $user->setEmail($data['email']);
-        $user->setPlainPassword($data['password']);
-        $user->setRoles($data['roles']);
-
-        $em->persist($user);
-
-        return ($user);
-    }
-
-    public function createNetwork(ObjectManager $em, $externalNetworkId = Fixture::EXTERNAL_NETWORK_ID, $externalCoverageId = Fixture::EXTERNAL_COVERAGE_ID)
-    {
+        $network = $em->getRepository('CanalTPMttBundle:Network')->findOneByExternalId($externalNetworkId);
+        if ($network != NULL) {
+            return ($network);
+        }
         $network = new Network();
         $network->setExternalId($externalNetworkId);
         $network->setExternalCoverageId($externalCoverageId);
+        $network->setToken($token);
 
         $em->persist($network);
 
@@ -64,6 +55,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $season->setTitle('hiver 2015');
         $season->setStartDate(new \DateTime("now"));
         $season->setEndDate(new \DateTime("+6 month"));
+        $season->setPublished(TRUE);
 
         $em->persist($season);
 
@@ -128,93 +120,12 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
 
         return ($layout);
     }
-    
-    private function createAppRole($em)
-    {
-        //application
-        $appMtt = new Application('Mtt');
-        $appMtt->setCanonicalName('mtt');
-        $appMtt->setDefaultRoute('/mtt');
-        $em->persist($appMtt);
-        //role
-        $roleUserMtt = new Role();
-        $em->persist($roleUserMtt);
-        //applicationRole
-        $appRole = new ApplicationRole();
-        $appRole->setName('Admin');
-        $appRole->setCanonicalRole('ROLE_ADMIN');
-        $appRole->setApplication($appMtt);
-        $appRole->setRole($roleUserMtt);
-        $appRole->setPermissions(
-            // TODO: should be retrieve using MttBusinessModuleInterface
-            array(
-                'BUSINESS_ASSIGN_USER_PERIMETER', 
-                'BUSINESS_ASSIGN_NETWORK_LAYOUT', 
-                'BUSINESS_SEE_USERS_PERIMETER', 
-                'BUSINESS_MANAGE_USER_PERIMETER', 
-                'BUSINESS_ASSIGN_USER_ROLE', 
-                'BUSINESS_MANAGE_ROLE', 
-                'BUSINESS_MANAGE_PERMISSION', 
-                'BUSINESS_VIEW_NAVITIA_LOG', 
-                'BUSINESS_CHOOSE_LAYOUT', 
-                'BUSINESS_EDIT_LAYOUT', 
-                'BUSINESS_MANAGE_SEASON', 
-                'BUSINESS_MANAGE_DISTRIBUTION_LIST', 
-                'BUSINESS_GENERATE_PDF', 
-                'BUSINESS_MANAGE_LAYOUTS', 
-            )
-        );
-        $em->persist($appRole);
-        
-        return $appRole;
-    }
 
     public function load(ObjectManager $em)
     {
-        $network = $this->createNetwork($em);
-        $user = $this->createUser(
-            $em,
-            array(
-                'username' => 'mtt',
-                'firstname' => 'mtt_firstname',
-                'lastname' => 'mtt_lastname',
-                'email' => 'mtt@canaltp.fr',
-                'password' => 'mtt',
-                'roles' => array('ROLE_ADMIN')
-            )
-        );
-        
-        $user->addApplicationRole($this->createAppRole($em));
-        $em->persist($user);
-        //networks
-        $network->addUser($user);
-        $network2 = $this->createNetwork($em, 'network:Agglobus');
-        $network2->addUser($user);
+        $network = $em->getRepository('CanalTPMttBundle:Network')->findOneByExternalId(Fixture::EXTERNAL_NETWORK_ID);
         $season = $this->createSeason($em, $network);
-        $layout = $this->createLayout(
-            $em,
-            array(
-                'label'         => 'Layout 1 de type paysage (Dijon 1)',
-                'twig'          => 'layout_1.html.twig',
-                'preview'       => '/bundles/canaltpmtt/img/layout_1.png',
-                'orientation'   => 'landscape',
-                'calendarStart' => 4,
-                'calendarEnd'   => 1,
-            ),
-            array($network)
-        );
-        $layout2 = $this->createLayout(
-            $em,
-            array(
-                'label'         => 'Layout 2 de type paysage (Dijon 2)',
-                'twig'          => 'layout_2.html.twig',
-                'preview'       => '/bundles/canaltpmtt/img/layout_2.png',
-                'orientation'   => 'landscape',
-                'calendarStart'=> 4,
-                'calendarEnd'  => 1,
-            ),
-            array($network)
-        );
+        $layout = $em->getRepository('CanalTPMttBundle:Layout')->find(Fixture::EXTERNAL_LAYOUT_ID_1);
         $lineConfig = $this->createLineConfig($em, $season, $layout);
         $timetable = $this->createTimetable($em, $lineConfig);
         $block = $this->createBlock($em, $timetable);

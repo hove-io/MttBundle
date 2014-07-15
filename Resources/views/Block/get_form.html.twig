@@ -1,4 +1,6 @@
-{% extends "CanalTPMttBundle::modal.html.twig" %}
+{% extends "::modal.html.twig" %}
+
+{% form_theme form 'CanalTPMttBundle:Form:fields.html.twig' %}
 
 {% block open_form %}
     {{ form_start(form) }}

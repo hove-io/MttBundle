@@ -1,0 +1,42 @@
+<div id="proxi-explanation-wrapper">
+    <div class="explanation-block">
+        <div class="title">
+            COMMENT UTILISER {{ brand|upper }}
+        </div>
+        <div class="content">
+            {% if brand == 'proxi' %}
+                <div>
+                    <b>> Réservez</b> votre place jusqu'à la veille de votre déplacement, en appelant Divia
+                </div>
+                <div>
+                    <b>> Facilitez</b> l'enregistrement de votre demande en communiquant vos nom, prénom et adresse
+                </div>
+                <div>
+                    <b>> Un empêchement ?</b> Merci d'annuler votre réservation au plus tard la veille
+                </div>
+                <div>
+                    <b>> Appelez le jour-même</b> pour profiter éventuellement d'une navette déjà réservée
+                </div>
+            {% else %}
+                <div>
+                    <b>> La ligne {{ brand|capitalize }}</b> adapte son itinéraire selon les "arrêts sur réservation" à desservir (situés dans la zone orange du plan de ligne ci-dessus).
+                </div>
+                <div>
+                    <b>> Pour descendre à un "arrêt sur réservation":</b><br/>
+                    Il faut indiquer au conducteur votre destination dès votre montée dans le bus.
+                </div>
+                <div>
+                    <b>> Pour prendre le bus à un "arrêt sur réservation":</b><br/>
+                    Il est nécessaire de demander le passage du bus à cet arrêt en appelant Divia, au plus tard 30 minutes avant l'horaire souhaité.
+                </div>
+            {% endif %}
+        </div>
+        <div class="title secondary">
+            <div><span class="bigger-title">Divia au 03 80 11 29 29</span> puis taper 2</div>
+            <div>du lundi au vendredi de 7h à 19h</div>
+        </div>
+        <div class="content secondary">
+            La ligne {{ brand|capitalize }} est accessible avec tous les PASS abonnements et les PASS voyages Divia, dont le PASS 1H Dépannage vendu par le conducteur, à bord des bus.
+        </div>
+    </div>
+</div>

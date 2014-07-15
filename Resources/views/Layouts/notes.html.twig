@@ -1,0 +1,9 @@
+<div class="timetable-notes">
+{% for note in notes %}
+    {% for computedNote in computedNotes %}
+        {% if computedNote.id == note.id and computedNote.calendarId == calendar.id %}
+        <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+</div>

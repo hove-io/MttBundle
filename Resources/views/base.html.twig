@@ -1,35 +1,54 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-    {% stylesheets 'css/bootstrap.css'
-                    '../src/CanalTP/SamBundle/Resources/public/css/*'
-                    '../vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css/main.css'
-                    '../web/components/bootstrap-datepicker/css/datepicker3.css'
-                   filter='cssrewrite' output='css/full.css' %}
+    {{ parent() }}
+    {% stylesheets 'bundles/canaltpmtt/css/main.css'
+                   filter='cssrewrite' output='css/full_mtt.css' %}
         <link rel="stylesheet" href="{{ asset_url }}?{{ assets_version }}" />
     {% endstylesheets %}
-{% endblock %}
+ {% endblock %}
 
 {% block head_config %}
+    {{ parent() }}
     {% include 'CanalTPMttBundle::config.js.html.twig' %}
 {% endblock %}
 
-{#
-A partir de désormais et de dorénavant, le menu est rendu par SAM
-mais de plus tard
-#}
 {% block navbar %}
-    {% set menuItem = knp_menu_get('CanalTPMttBundle:Builder:mttMenu', [], {'currentNetwork':externalNetworkId }) %}
+    {% set menuItem = knp_menu_get('CanalTPMttBundle:Builder:mttMenu', [], {'currentExternalNetworkId':externalNetworkId, 'currentSeasonId':currentSeasonId }) %}
     {{ knp_menu_render(menuItem, {'style': 'navbar', 'currentClass': 'active'}) }}
 {% endblock %}
 
-{% block title %}MTT{% endblock %}
-{% block navbar_brand %}MTT{% endblock %}
+{% block title -%}
+{{ parent() }}
+- TIMETABLE
+    {% if pageTitle %}
+    - {{ pageTitle|trans }}
+    {% endif %}
+{% endblock %}
+{% block navbar_brand %}<a href="{{ path('canal_tp_mtt_homepage') }}">TIMETABLE</a>{% endblock %}
 
 {% block root_breadcrumb %}
     <ol class="breadcrumb">
         <li><a href="{{ path('canal_tp_mtt_homepage') }}">{{'ctp_core._breadcrumb'|trans}}</a></li>
-        {% block breadcrumb %}{% endblock %}
+        {% if currentNetwork %}
+            <li>
+                <a href="{{ path('canal_tp_mtt_homepage', {'externalNetworkId':currentNetwork.externalId }) }}">
+                    {{ currentNetwork.name }}
+                </a>
+            </li>
+            {% if currentSeason %}
+                <li>
+                    <a href="{{ path('canal_tp_mtt_stop_point_list_defaults', {'seasonId': currentSeason.id, 'externalNetworkId':currentNetwork.externalId }) }}">
+                        {{ currentSeason.title }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endif %}
+        {% block breadcrumb %}
+            {% if pageTitle %}
+                <li>{{ pageTitle|trans }}</li>
+            {% endif %}
+        {% endblock %}
     </ol>
 {% endblock %}
 
@@ -42,7 +61,7 @@ mais de plus tard
     {% block base_modal %}
         <div class="modal-dialog">
             <div class="modal-content">
-                {% include 'CanalTPMttBundle::modal.html.twig' %}
+                {% include '::modal.html.twig' %}
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     {% endblock %}

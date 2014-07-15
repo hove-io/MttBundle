@@ -1,0 +1,317 @@
+/* layout type Dijon (layout_1) */
+#layout-1-wrapper{
+    padding:8px;
+}
+#layout-main-wrapper #header{
+    background-color:#1a171b;
+    color:white;
+    -webkit-print-color-adjust: exact;
+    height: 55px;
+}
+#layout-main-wrapper #header #direction-title-wrapper,
+#layout-1-wrapper #line_map_block,
+#layout-1-wrapper #small-right-blocks,
+#layout-main-wrapper #header #stop-point-title-wrapper{
+    float:left;
+    padding-left:15px;
+}
+#layout-1-wrapper #small-right-blocks{
+    padding-left:14px;
+}
+#layout-1-wrapper #line_map_block{
+    width:825px;
+}
+#layout-1-wrapper #small-right-blocks{
+    width:255px;
+}
+#layout-main-wrapper #header #direction-title-wrapper{
+    font-size:30px;
+    line-height:55px;
+    height:55px;
+}
+#layout-main-wrapper #header #stop-point-title-wrapper{
+    padding-top:5px;
+    padding-right:10px;
+    font-size:14px;
+    float: right;
+}
+#header_route_sign{
+    float:left;
+    height:inherit;
+}
+img.divia-logo{
+    width: 100px;
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+}
+.editable #header_route_sign{
+    min-width: 100px;
+    background-color: white;
+    border-color: black;
+}
+.header_route_sign_img{
+    height:100%;
+}
+.line_map_img{
+    max-height:95%;
+    max-width:95%;
+    vertical-align:middle;
+}
+#map-wrapper{
+    margin-top:15px;
+}
+#layout-1-wrapper #small-right-blocks{
+    border-left: 1px solid black;
+}
+/* .editable #layout-1-wrapper #small-right-blocks{
+    border: 1px solid black;
+} */
+#layout-1-wrapper #line_map_block,
+#layout-1-wrapper #small-right-blocks{
+    height:250px;
+}
+#layout-1-wrapper #line_map_block{
+    text-align:center;
+}
+/* to align image vertically */
+#layout-1-wrapper #line_map_block:before{
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+#layout-1-wrapper.layout-2-overload .information-text-blocks,
+#timetables-wrapper{
+    margin-top:5px;
+    width:100%;
+}
+#timetables-wrapper .timegrid-container{
+    float:left;
+    font-size:12px;
+    margin-top:5px;
+    line-height:15px;
+    padding:2px;
+    position: relative;
+    width:50%;
+}
+.information-text-blocks .text-block-wrapper .title,
+#timetables-wrapper .timegrid-header{
+    background-color:#1a171b;
+    color:white;
+    font-weight:bold;
+    font-size:14px;
+    line-height:25px;
+    padding:0px 5px;
+    height:25px;
+    width:100%;
+}
+#timetables-wrapper .timegrid-body{
+    background-color: white;
+    height: 183px;
+    width:100%;
+}
+#layout-1-wrapper .timegrid-body .hour-label{
+    font-weight:bold;
+    font-size: 11px;
+    line-height:15px;
+}
+#layout-1-wrapper .timegrid-column{
+    line-height: 15px;
+    font-size: 12px;
+    width:4.5454%;
+}
+#layout-1-wrapper .timegrid-column sup{
+    font-size: 80%;
+}
+#small-right-blocks{
+    font-size: 10pt;
+}
+#small-right-blocks .small-block .title{
+    font-weight:bold;
+    margin-bottom:2px;
+}
+#layout-1-wrapper .small-block{
+    border:1px solid white;
+    border-bottom-color:black;
+    margin:5px 0;
+    height:45px;
+}
+#layout-1-wrapper .small-block:first-child{
+    margin-top: 0;
+}
+#layout-1-wrapper #text_block_2.small-block{
+    height: 63px;
+}
+#layout-1-wrapper #text_block_3.small-block{
+    height: 85px;
+    margin: 10px 0;
+}
+#layout-1-wrapper #text_block_4.small-block .title,
+#layout-1-wrapper #text_block_4.small-block{
+    font-size:11px;
+}
+#layout-1-wrapper .small-block:last-child{
+    border-bottom:none;
+    margin-bottom:0;
+}
+.editable #layout-1-wrapper .block.small-block:last-child:hover,
+.editable #layout-1-wrapper .block.small-block:hover{
+    border: 1px dashed black;
+}
+.timegrid-body{
+    position:relative;
+}
+#timetables-wrapper .timegrid-body .timetable-notes{
+    position:absolute;
+    bottom:0;
+    left:0;
+}
+.timegrid-body tr{
+    height: 15px;
+}
+.timegrid-body tr.even {background-color: #f0f1f1}
+.multicolor .timegrid-body tr.even {background-color: #faedf4}
+
+.timegrid-body .empty-timegrid tr.odd,
+.timegrid-body .empty-timegrid tr.even{
+    background-color: #faedf4;
+}
+.multicolor #timegrid_block_2.timegrid-container .timegrid-header{
+    background-color: #707173;
+}
+.multicolor #timegrid_block_4.timegrid-container .timegrid-header{
+    background-color: #b1b3b4;
+}
+/**
+ * Layout 2
+ */
+#layout-1-wrapper.layout-2-overload #timetables-wrapper{
+    float:left;
+    width:49%;
+}
+#layout-1-wrapper.layout-2-overload .information-text-blocks{
+    float:right;
+    width:49%;
+}
+#layout-1-wrapper.layout-2-overload #timetables-wrapper .timegrid-container{
+    width:100%;
+}
+#layout-1-wrapper.layout-2-overload .timegrid-body tr.even{
+    background-color:#E7E7F3;
+}
+#layout-1-wrapper.layout-2-overload .timegrid-body .empty-timegrid tr.odd,
+#layout-1-wrapper.layout-2-overload .timegrid-body .empty-timegrid tr.even{
+    background-color: #E7E7F3;
+}
+#layout-1-wrapper.layout-2-overload .text-block-wrapper .content{
+    background-color: #E7E7F3;
+    display:table;
+    font-size:12px;
+    font-weight:bold;
+    height: 156px;
+    left: 10%;
+    position:absolute;
+    width: 90%;
+}
+#layout-1-wrapper.layout-2-overload .text-block-wrapper .content p{
+    display:table-cell;
+    vertical-align:middle;
+    text-align:left;
+}
+#layout-1-wrapper.layout-2-overload .text-block-wrapper .title{
+    background-color: #6C6D70;
+    font-size:13px;
+}
+#layout-1-wrapper.layout-2-overload #timegrid_block_4.text-block-wrapper .title{
+    background-color: #A8A9AD;
+}
+.information-text-blocks .text-block-wrapper{
+    margin-top:5px;
+    min-height:212px;
+    min-width:100%;
+    padding:2px;
+}
+.information-text-blocks .text-block-wrapper .relative{
+    margin-top: 14px;
+    width: 100%;
+    height: 156px;
+    background-color: #E7E7F3;
+}
+/* specific to Liane 4 paves.psd */
+#timetables-wrapper #timegrid_block_2 .timegrid-body,
+#timetables-wrapper #timegrid_block_1 .timegrid-body{
+    min-height: 197px;
+    margin-bottom: 5px;
+}
+#timetables-wrapper #timegrid_block_3 .timegrid-body{
+    height: 165px;
+}
+#timetables-wrapper #timegrid_block_4 .timegrid-body{
+    height: 135px;
+}
+/* redefinition for proxi layout */
+.proxi-layout #proxi-explanation-wrapper{
+    float:left;
+    width:49%;
+}
+.proxi-layout #timetables-wrapper{
+    float:right;
+    margin-top:22px;
+    width:49%;
+}
+.proxi-layout #timetables-wrapper .timegrid-container {
+    float:none;
+    margin-top: 0;
+    width: 100%;
+}
+#layout-1-wrapper.proxi-layout #timetables-wrapper .timegrid-container .timegrid-body{
+    min-height:0;
+    height: 80px;
+}
+.proxi-layout #timegrid_block_2.timegrid-container .timegrid-header {
+    background-color: black;
+}
+.proxi-layout .timegrid-body tr.even{
+    background-color: #fef2e7;
+}
+.proxi-layout .centered-dropdown {
+    margin-top: -45px;
+}
+.proxi-layout .explanation-block .title{
+    display: inline-block;
+    font-size:13pt;
+    font-weight:bold;
+    background-color:#f4a157;
+    color:white;
+    padding:0px 10px;
+}
+.proxi-layout .explanation-block .content{
+    font-size:11pt;
+    background-color:#fef2e7;
+    color:#ef852a;
+}
+.proxi-layout .explanation-block .content{
+    padding:10px;
+}
+.proxi-layout .explanation-block .content div{
+    margin-bottom:10px;
+}
+.proxi-layout .explanation-block .content div:last-child{
+    margin-bottom:30px;
+}
+.explanation-block .title.secondary{
+    display:block;
+    font-weight:normal;
+    font-size:11pt;
+    line-height: normal;
+    padding:5px 10px;
+}
+.explanation-block .title .bigger-title{
+    font-size:15pt;
+    font-weight:bold;
+}
+.proxi-layout .explanation-block .content.secondary{
+    font-weight:bold;
+    padding-bottom:50px;
+}

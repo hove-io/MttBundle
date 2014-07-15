@@ -1,112 +1,91 @@
 {% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
 
-{# TODO: Add this when will be possible. (Before we need to fix controller when we doesn't have timetable for season)
- {% block subheader %}
-    <div class="col-md-offset-3 col-md-9">
-        {% if seasons|length == 0 %}
-            {{'season.please_create_before_continue'|trans({}, 'default')}}
-            <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'network_id': externalNetworkId}) }}">
-                {{'season.create'|trans({}, 'default')}}
-            </a>
-        {% else %}
-            <ul class="nav nav-tabs nav-justified">
-                {% for season in seasons %}
-                    <li{% if currentSeason.id == season.id %} class="active"{% endif %}>
-                        <a href="{{ path(
-                            'canal_tp_mtt_distribution_list',
-                            {
-                                'externalNetworkId':externalNetworkId,
-                                'lineId':externalLineId,
-                                'routeId':externalRouteId,
-                                'currentSeasonId':season.id
-                            }
-                        ) }}">
-                            {{ season.title }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-{% endblock %}
- #}
-
 {% block left_menu %}
     {{ render(controller('CanalTPMttBundle:Default:navigation', {  'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season': currentSeason.id })) }}
 {% endblock %}
 
 {% block main_content %}
-    <div>
-        <h3>{{'distribution.stops_included'|trans({}, 'default')}} ({{currentSeason.title}}) -
-            <button id="generate-distribution-list" type="button" class="btn btn-success">
-                <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
-            </button>
-            -
-            <a id="save-distribution-list" class="btn btn-primary" href="{{ path('canal_tp_mtt_distribution_list_save',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id}) }}">
-                <span class="glyphicon glyphicon-refresh display-none"></span>
-                <span class="glyphicon glyphicon-floppy-disk"></span> {{'distribution.save_order'|trans({}, 'default')}}
-            </a>
-            -
-            <a class="btn btn-default" href="{{ path('canal_tp_mtt_distribution_list',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id, 'reset':true}) }}">
-                <span class="glyphicon glyphicon-sort-by-attributes"></span> {{'distribution.reset_order'|trans({}, 'default')}}
-            </a>
-        </h3>
+    <h1>{{pageTitle}}</h1>
+    <h4>{{'global.line_label'|trans}} {{ display_informations.label }} <span class="glyphicon glyphicon-arrow-right"></span> {{ display_informations.direction }}</h4>
+    <div class="clearfix">
+        <div class="pull-right">
+            {% if (pdfUrl is not empty) %}
+                <a class="btn btn-primary" href="{{ pdfUrl }}" target="_blank">
+                    <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+                </a>
+            {% else %}
+                <a class="btn btn-primary disabled" disabled="disabled" title="{{'distribution.no_pdf_at_this_time'|trans({}, 'default')}}" href="#">
+                    <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+                </a>
+            {% endif %}
+            {% if (is_granted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF')) %}
+                {% if locked %}
+                    <a id="generate-distribution-list" href="" class="btn btn-primary" disabled="disabled">
+                    <span class="glyphicon glyphicon-refresh icon-refresh-animate"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
+                </a>
+                {% else %}
+                <a id="generate-distribution-list" href="{{ path('canal_tp_mtt_distribution_generate',
+                    {
+                        'timetableId': timetable.id,
+                        'externalNetworkId' : externalNetworkId
+                    }) }}" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-file"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
+                </a>
+                {% endif %}
+            {% endif %}
+            <div class="btn-group">
+                <button data-toggle="dropdown" type="button" class="btn btn-default dropdown-toggle">
+                        {{'distribution.manage_order'|trans({}, 'default')}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li>
+                        <a id="save-distribution-list" href="{{ path('canal_tp_mtt_distribution_list_save',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id}) }}">
+                            <span class="glyphicon glyphicon-refresh display-none"></span>
+                            <span class="glyphicon glyphicon-floppy-disk"></span> {{'distribution.save_order'|trans({}, 'default')}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('canal_tp_mtt_distribution_list',{'externalNetworkId':externalNetworkId, 'lineId': externalLineId, 'routeId': current_route, 'currentSeasonId': currentSeason.id, 'reset':true}) }}">
+                            <span class="glyphicon glyphicon-sort-by-attributes"></span> {{'distribution.reset_order'|trans({}, 'default')}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <hr/>
-    <ul id="included-stops" class="list-group sortable">
-        <span class="help-block display-none">{{'help.drop_here'|trans}}</span>
-        {% for schedule in schedules.included %}
-            {% include 'CanalTPMttBundle:Distribution:scheduleItem.html.twig' with {'schedule': schedule} %}
-        {% endfor %}
-    </ul>
-
-    <h3>{{'distribution.stops_excluded'|trans({}, 'default')}}</h3>
-    <hr/>
-    <ul id="excluded-stops" class="list-group sortable{% if schedules.excluded|length == 0 %} empty-list{% endif %}">
-        <span class="help-block{% if schedules.excluded|length != 0 %} display-none{% endif %}">{{'help.drop_here'|trans}}</span>
-        {% for schedule in schedules.excluded %}
-            {% include 'CanalTPMttBundle:Distribution:scheduleItem.html.twig' with {'schedule': schedule} %}
-        {% endfor %}
-    </ul>
-
-{% endblock %}
-
-{% block base_modal %}
-    <div class="modal-dialog">
-        <div class="modal-content">
-            {% embed "CanalTPMttBundle::modal.html.twig" %}
-                {% block modal_title %}{{'distribution.generation_title'|trans({}, 'default')}}{% endblock %}
-                {% block modal_body %}
-                <div class="progress progress-striped active">
-                    <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                        <span>{{'distribution.generation_in_progress'|trans({}, 'default')}}</span>
-                    </div>
-                </div>
-                <div class="center">
-                    <a class="btn btn-primary" href="" target="_blank" style="display:none;">
-                        <span class="glyphicon glyphicon-download-alt"></span> {{'global.downloadPdf'|trans}}
-                    </a>
-                </div>
-                {% endblock %}
-                {% block modal_actions %}{% endblock %}
-                {% block modal_close_header %}{% endblock %}
-                {% block modal_close_footer %}{% endblock %}
-            {% endembed %}
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+    <div class="row">
+        <div class="col-md-8">
+            <h4>{{'distribution.stops_included'|trans({}, 'default')}}</h4>
+            <ul id="included-stops" class="list-group sortable">
+                <span class="help-block display-none">{{'help.drop_here'|trans}}</span>
+                {% for schedule in schedules.included %}
+                    {% include 'CanalTPMttBundle:Distribution:scheduleItem.html.twig' with {'schedule': schedule} %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h4>{{'distribution.stops_excluded'|trans({}, 'default')}}</h4>
+            <ul id="excluded-stops" class="list-group sortable{% if schedules.excluded|length == 0 %} empty-list{% endif %}">
+                <span class="help-block{% if schedules.excluded|length != 0 %} display-none{% endif %}">{{'help.drop_here'|trans}}</span>
+                {% for schedule in schedules.excluded %}
+                    {% include 'CanalTPMttBundle:Distribution:scheduleItem.html.twig' with {'schedule': schedule} %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
 <script type="text/javascript">
-require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable){
+require(['jquery', 'jquery_ui_sortable', 'sf_routes', 'mtt/utils'],function(jQuery, sortable, routes, utils){
 
-    var url = Routing.generate(
+    /*var url = Routing.generate(
         'canal_tp_mtt_distribution_generate',
         {
             'timetableId': {{timetable.id|raw}},
             'externalNetworkId' : '{{externalNetworkId|raw}}'
         }
-    );
+    );*/
 
     $('.list-group.sortable').sortable({
         placeholder: "sortable-highlight list-group-item",
@@ -136,7 +115,7 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
     $('.sortable .toggle-stop-point-btn').click(function(){
         var $stopElement = $(this).parent();
         var $oldContainer = $stopElement.parents('.sortable');
-        var $newContainer = $oldContainer.siblings('.sortable');
+        var $newContainer = $oldContainer.parent().siblings('div').find('.sortable');
         $stopElement.detach();
         $newContainer.append($stopElement);
         $newContainer.trigger('sortupdate');
@@ -176,24 +155,27 @@ require(['jquery', 'jquery_ui_sortable', 'sf_routes'],function(jQuery, sortable)
         }
         return false;
     });
-    $('#generate-distribution-list').click(function(){
-        var stopPoints_ids = _getStopPointIds();
+    {% if locked == false %}
+        $('#generate-distribution-list').click(function(){
+            var stopPoints_ids = _getStopPointIds();
 
-        $('#base-modal').find('a.btn').hide();
-        $('#base-modal').find('div.progress').show();
-        $('#base-modal').modal('show');
-        if (stopPoints_ids.length > 0)
-        {
-            $.post(
-                url,
-                {"stopPointsIds[]" : stopPoints_ids}
-            ).done(function(data){
-                $('#base-modal').find('div.progress').hide();
-                $('#base-modal').find('a.btn').attr('href', data.path).show();
-            });
-        }
-        return false;
-    });
+            if (stopPoints_ids.length > 0)
+            {
+                var $form = $('<form method="POST" action="' + $(this).attr('href') + '"></form>');
+                $(stopPoints_ids).each(function(){
+                    $form.append('<input type="hidden" name="stopPointsIds[]" value="' + this + '" />');
+                });
+                $form.append('<input type="submit" value="Submit" />');
+                $form.hide();
+                $('body').append($form);
+                $form.submit();
+                utils.disableBtn($(this));
+            }
+            return false;
+        });
+    {% else %}
+        $('#generate-distribution-list').click(function(){return false;});
+    {% endif %}
 });
 </script>
 {% endblock %}

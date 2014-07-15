@@ -24,11 +24,12 @@ class StopPointRepository extends EntityRepository
         return $result;
     }
 
-    public function updatePdfGenerationDate($externalStopPointId, $timetable)
+    public function updatePdfGenerationInfos($externalStopPointId, $timetable, $hash)
     {
         $stopPoint = $this->getStopPoint($externalStopPointId, $timetable);
 
         $stopPoint->setPdfGenerationDate(new \DateTime());
+        $stopPoint->setPdfHash($hash);
         $this->getEntityManager()->persist($stopPoint);
         $this->getEntityManager()->flush();
     }

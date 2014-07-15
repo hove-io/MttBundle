@@ -27,11 +27,7 @@ class CalendarManager
     private function parseDateTimes($datetimes)
     {
         foreach ($datetimes as &$datetime) {
-            // TODO: period format not defined by the RO Team yet
-            // if (substr($datetime->date_time, 0 , 1) == "P")
-                // $datetime->date_time = new \DateInterval($datetime->date_time);
-            // else
-                $datetime->date_time = new \DateTime($datetime->date_time);
+            $datetime->date_time = new \DateTime($datetime->date_time);
         }
 
         return $datetimes;
@@ -83,19 +79,28 @@ class CalendarManager
         return $sortedDateTimes;
     }
 
+    public function isExceptionInsideSeason($note, $season)
+    {
+        $dateTime = new \DateTime($note->date);
+
+        return $note->type != 'notes' && $dateTime >= $season->getStartDate() && $dateTime <= $season->getEndDate();
+    }
+
     /**
      * gather notes and ensure these notes are unique. (based on Navitia ID)
      */
-    private function computeNotes($notes, $notesToAdd)
+    private function computeNotes($notesToReturn, $newCalendar, $season, $aggregation)
     {
-        foreach ($notesToAdd as $note) {
-            if (!in_array($note->id, $this->computedNotesId)) {
+        foreach ($newCalendar->notes as $note) {
+            if (($note->type == 'notes' || $this->isExceptionInsideSeason($note, $season)) &&
+                ($aggregation == false || !in_array($note->id, $this->computedNotesId))) {
+                $note->calendarId = $newCalendar->id;
                 $this->computedNotesId[] = $note->id;
-                $notes[] = $note;
+                $notesToReturn[] = $note;
             }
         }
 
-        return $notes;
+        return $notesToReturn;
     }
 
     /**
@@ -131,7 +136,7 @@ class CalendarManager
     }
 
     /**
-     * Generate value propriety of exceptions to display in view
+     * Generate value property of exceptions to display in view
      */
     private function generateExceptionsValues($navitiaExceptions)
     {
@@ -186,6 +191,16 @@ class CalendarManager
         return $additionalInformations;
     }
 
+    private function parsePeriods($periods)
+    {
+        foreach ($periods as $period) {
+            $period->begin = new \DateTime($period->begin);
+            $period->end = new \DateTime($period->end);
+        }
+
+        return $periods;
+    }
+
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template
@@ -199,7 +214,6 @@ class CalendarManager
      */
     public function getCalendarsForStopPoint($externalCoverageId, $externalRouteId, $externalStopPointId)
     {
-        $notesComputed = array();
         $calendarsData = $this->navitia->getStopPointCalendarsData(
             $externalCoverageId,
             $externalRouteId,
@@ -219,6 +233,7 @@ class CalendarManager
                 $this->generateExceptionsValues($stopSchedulesData->exceptions)
             );
             $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
+            $calendar->active_periods = $this->parsePeriods($calendar->active_periods);
             $calendarsSorted[$calendar->id] = $calendar;
         }
 
@@ -236,11 +251,17 @@ class CalendarManager
      *
      * @return object
      */
-    public function getCalendarsForStopPointAndTimetable($externalCoverageId, $timetable, $stopPointInstance)
+    public function getCalendarsForStopPointAndTimetable(
+        $externalCoverageId,
+        $timetable,
+        $stopPointInstance
+    )
     {
         $notesComputed = array();
         $calendarsFiltered = array();
         $calendarsSorted = array();
+        // indicates whether to aggregate or dispatch notes
+        $layout = $timetable->getLineConfig()->getLayout();
         $calendarsData = $this->navitia->getStopPointCalendarsData(
             $externalCoverageId,
             $timetable->getExternalRouteId(),
@@ -260,17 +281,24 @@ class CalendarManager
                         $stopPointInstance->getExternalId(),
                         $block->getContent()
                     );
-                    $calendar = $this->addSchedulesToCalendar($calendar, $stopSchedulesData->stop_schedules);
+                    $calendar = $this->addSchedulesToCalendar(
+                        $calendar,
+                        $stopSchedulesData->stop_schedules
+                    );
                     $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
-                    $calendarsFiltered[$calendar->id] = $calendar;
-                    //compute notes for the current timetable
-                    $notesComputed = $this->computeNotes(
-                        $notesComputed,
-                        array_merge(
-                            $stopSchedulesData->notes,
-                            $this->generateExceptionsValues($stopSchedulesData->exceptions)
+                    $calendar->notes = array_merge(
+                        $stopSchedulesData->notes,
+                        $this->generateExceptionsValues(
+                            $stopSchedulesData->exceptions
                         )
                     );
+                    $notesComputed = $this->computeNotes(
+                        $notesComputed,
+                        $calendar,
+                        $timetable->getLineConfig()->getSeason(),
+                        $layout->aggregatesNotes()
+                    );
+                    $calendarsFiltered[$calendar->id] = $calendar;
                 }
             }
         }

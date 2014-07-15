@@ -1,27 +1,11 @@
 <script>
-var require = {
-    baseUrl: '{{app.request.basePath}}/',
-    urlArgs: '{{ assets_version }}',
+requirejs.config({
     paths: {
-        // libs
-        jquery:                         'components/jquery/jquery',
-        jquery_ui_sortable:             'components/jquery-ui/ui/minified/jquery.ui.sortable.min',
-        jquery_ui_core:                 'components/jquery-ui/ui/minified/jquery.ui.core.min',
-        jquery_ui_mouse:                'components/jquery-ui/ui/minified/jquery.ui.mouse.min',
-        jquery_ui_widget:               'components/jquery-ui/ui/minified/jquery.ui.widget.min',
-        bootstrap:                      'js/bootstrap',
-        'bootstrap/datepicker':         'components/bootstrap-datepicker/bootstrap-datepicker-built',
-        'bootstrap/datepicker/fr':      'bundles/canaltpmtt/js/bootstrap-datepicker.fr',
-        // routes
-        fosjsrouting:                   'bundles/fosjsrouting/js/router',
-        sf_routes:                      '{{ path("fos_js_routing_js", {"callback": "fos.Router.setData"}) }}',
         // translations
-        translator:                     'bundles/bazingajstranslation/js/translator.min',
         'mtt/translations/default':     'js/translations/default/{{ app.request.locale }}',
         'mtt/translations/messages':    'js/translations/messages/{{ app.request.locale }}',
         'navitia':                      'bundles/canaltpmtt/js/navitia',
         // mtt specific
-        'mtt/jq_addons':                'bundles/canaltpmtt/js/jquery_addons',
         'mtt/utils':                    'bundles/canaltpmtt/js/utils',
         'mtt_left_menu':                'bundles/canaltpmtt/js/left_menu',
         'mtt/layout':                   'bundles/canaltpmtt/js/layout',
@@ -31,12 +15,6 @@ var require = {
         'mtt/form/validation/frequency':'bundles/canaltpmtt/js/form/validation/frequency'
     },
     shim: {
-        sf_routes: {
-            deps: ['fosjsrouting']
-        },
-        translator: {
-            exports: "Translator"
-        },
         "mtt/translations/default":{
             deps: ["translator"],
             exports: "Translator"
@@ -44,34 +22,8 @@ var require = {
         "mtt/translations/messages":{
             deps: ["translator"],
             exports: "Translator"
-        },
-        bootstrap: {
-            deps: ['jquery']
-        },
-        'bootstrap/datepicker': {
-            deps: ['bootstrap']
-        },
-        'bootstrap/datepicker/fr': {
-            deps: ['bootstrap/datepicker'],
-        },
-        jquery_ui_core: {
-            deps: ['jquery'],
-            exports: "jQuery"
-        },
-        jquery_ui_mouse: {
-            deps: ['jquery', 'jquery_ui_widget'],
-            exports: "jQuery"
-        },
-        jquery_ui_widget: {
-            deps: ['jquery'],
-            exports: "jQuery"
-        },
-        jquery_ui_sortable: {
-            deps: ['jquery', 'jquery_ui_core','jquery_ui_mouse','jquery_ui_widget'],
-            exports: "jQuery"
         }
     },
-    deps: ["jquery", 'bootstrap', "sf_routes", "translator", 'mtt/utils', 'mtt/jq_addons', 'mtt/form']
-};
+    deps: ['mtt/utils', 'mtt/form']
+});
 </script>
-<script type="text/javascript" src="{{app.request.basePath}}/bundles/canaltpmtt/js/require.js?{{ assets_version }}"></script>

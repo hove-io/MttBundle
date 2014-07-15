@@ -9,14 +9,14 @@ class SeasonControllerTest extends AbstractControllerTest
 {
     private $title = 'Saison 1';
     private $startDate = '01/04/2015';
-    private $endDate = '03/10/2016';
+    private $endDate = '03/10/2015';
 
     private function getRoute($route)
     {
         return $this->generateRoute(
             $route,
             array(
-                'network_id' => Fixture::EXTERNAL_NETWORK_ID
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID
             )
         );
     }
@@ -78,10 +78,73 @@ class SeasonControllerTest extends AbstractControllerTest
     public function testUniqueConstraintOnSeasonTitleNetworkId()
     {
         $form = $this->getEditForm();
+        $form['mtt_season[title]'] = 'Saison 2';
+        $form['mtt_season[startDate]'] = '01/04/2016';
+        $form['mtt_season[endDate]'] = '02/04/2016';
+
         $crawler = $this->client->submit($form);
         $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
         $crawler = $this->client->submit($form);
         $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
         $this->assertGreaterThan(0, $crawler->filter('div.form-group.has-error')->count());
     }
+
+    public function testDatesOverlappingOtherSeason()
+    {
+        $form = $this->getEditForm();
+        $startDate = new \DateTime("now");
+        $endDate = new \DateTime("+4 month");
+        $form['mtt_season[startDate]'] = $startDate->format('d/m/Y');
+        $form['mtt_season[endDate]'] = $endDate->format('d/m/Y');
+        $crawler = $this->client->submit($form);
+        $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
+        $this->assertGreaterThan(0, $crawler->filter('.modal-body .alert.alert-danger')->count());
+    }
+
+    public function testSeasonPublicationAndUnpublication()
+    {
+        $route = $this->generateRoute(
+            'canal_tp_mtt_season_unpublish',
+            array(
+                'seasonId' => Fixture::SEASON_ID,
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+            )
+        );
+        $crawler = $this->doRequestRoute($route, 302);
+        $season = $this->getRepository('CanalTPMttBundle:Season')->find(Fixture::SEASON_ID);
+        $this->assertFalse($season->getPublished(), "Season was not unpublished.");
+        $route = $this->generateRoute(
+            'canal_tp_mtt_season_publish',
+            array(
+                'seasonId' => Fixture::SEASON_ID,
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+            )
+        );
+        $crawler = $this->doRequestRoute($route, 302);
+        $season = $this->getRepository('CanalTPMttBundle:Season')->find(Fixture::SEASON_ID);
+        $this->assertTrue($season->getPublished(), "Season was not unpublished.");
+    }
+
+    public function testDeleteSeason()
+    {
+        $route = $this->generateRoute(
+            'canal_tp_mtt_season_delete',
+            array(
+                'seasonId' => Fixture::SEASON_ID,
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+            )
+        );
+        $crawler = $this->doRequestRoute($route, 302);
+        $seasons = $this->getRepository('CanalTPMttBundle:Season')->find(Fixture::SEASON_ID);
+        $this->assertTrue(count($seasons) == 0, "Season was not deleted.");
+        $lineConfigs = $this->getRepository('CanalTPMttBundle:LineConfig')->findAll();
+        $this->assertTrue(count($lineConfigs) == 0, "lineConfig was not deleted.");
+        $timetables = $this->getRepository('CanalTPMttBundle:Timetable')->findAll();
+        $this->assertTrue(count($timetables) == 0, "timetable was not deleted.");
+        $blocks = $this->getRepository('CanalTPMttBundle:Block')->findAll();
+        $this->assertTrue(count($blocks) == 0, "block was not deleted.");
+        //reload fixtures after Delete
+        $this->reloadMttFixtures();
+    }
+
 }

@@ -1,0 +1,21 @@
+{% extends "@CanalTPMtt/Layouts/Divia/base.html.twig" %}
+
+{% block additionnal_wrapper_class %}multicolor{% endblock %}
+
+{% block timetable_downer_content %}
+    <div id="timetables-wrapper" class="clearfix">
+        {% for i in 1..4 %}
+            {% set id = 'timegrid_block_' ~ i %}
+            {% set block = attribute(timetable.blocks, id) %}
+            {% set addNotes = true %}
+            {% if i == 3 %}
+                {% set nbLines = 10 %}
+            {% elseif i == 4 %}
+                {% set nbLines = 8 %}
+            {% else %}
+                {% set nbLines = 12 %}
+            {% endif %}
+            {% include '@CanalTPMtt/Layouts/timegrid.html.twig' with {'addNotes': addNotes, 'nbLines' : nbLines} %}
+        {% endfor %}
+    </div>
+{% endblock %}
