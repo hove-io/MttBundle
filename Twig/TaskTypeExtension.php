@@ -72,13 +72,15 @@ class TaskTypeExtension extends \Twig_Extension
                         $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalCoverageId(),
                         $timetable->getExternalRouteId()
                     );
-                    $return = $this->translator->trans(
-                        'task.distribution_list_pdf_generation',
-                        array(
-                            '%routeName%' => $navitiaResult->routes[0]->name
-                        ),
-                        'default'
-                    );
+                    if (isset($navitiaResult->routes)) {
+                        $return = $this->translator->trans(
+                            'task.distribution_list_pdf_generation',
+                            array(
+                                '%routeName%' => $navitiaResult->routes[0]->name
+                            ),
+                            'default'
+                        );
+                    }
                 }
                 break;
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:
