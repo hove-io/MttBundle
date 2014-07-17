@@ -146,6 +146,20 @@ class SeasonController extends AbstractController
         );
     }
 
+    public function askPublishAction($externalNetworkId, $seasonId)
+    {
+        $this->isGranted('BUSINESS_MANAGE_SEASON');
+        $season = $this->get('canal_tp_mtt.season_manager')->find($seasonId);
+
+        return $this->render(
+            'CanalTPMttBundle:Season:askPublication.html.twig',
+            array(
+                'externalNetworkId' => $externalNetworkId,
+                'seasonId' => $seasonId
+            )
+        );
+    }
+
     public function publishAction($externalNetworkId, $seasonId)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
