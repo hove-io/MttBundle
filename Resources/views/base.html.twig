@@ -56,18 +56,7 @@
     {% endblock %}
     {% block container %}
     {% endblock %}
-    <div id="base-modal" class="modal fade">
-    {% block base_modal %}
-        <div class="modal-dialog">
-            <div class="modal-content">
-                {% include '::modal.html.twig' %}
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    {% endblock %}
-    </div><!-- /.modal -->
 {% endblock %}
 
-{# Common javascripts for MethBundle #}
 {% block javascripts %}
-    {% include 'CanalTPMttBundle::common.js.twig' %}
 {% endblock %}

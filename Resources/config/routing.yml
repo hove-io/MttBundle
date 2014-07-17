@@ -24,6 +24,11 @@ canal_tp_mtt_season_delete:
     defaults: { _controller: CanalTPMttBundle:Season:delete, season_id: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_season_ask_publish:
+    pattern: /networks/{externalNetworkId}/ask/publish/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:Season:askPublish }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_season_publish:
     pattern: /networks/{externalNetworkId}/publish/{seasonId}
     defaults: { _controller: CanalTPMttBundle:Season:publish }
