@@ -1,0 +1,32 @@
+{% extends "::modal.html.twig" %}
+
+{% block modal_title %}
+    {{'distribution.generation_title'|trans({}, 'default')}}
+{% endblock %}
+
+{% block modal_body %}
+    {{'season.publication_and_generation'|trans({}, 'default')}}
+{% endblock %}
+
+{% block modal_actions %}
+    <a href="{{path(
+                'canal_tp_mtt_season_publish',
+                {
+                    'externalNetworkId': externalNetworkId,
+                    'seasonId': seasonId,
+                    'withGeneration': true
+                }
+            ) }}" class="btn btn-success">
+        {{'season.buttons.generate_then_publish'|trans({}, 'default')}}
+    </a>
+    <a href="{{path(
+                'canal_tp_mtt_season_publish',
+                {
+                    'externalNetworkId': externalNetworkId,
+                    'seasonId': seasonId,
+                    'withGeneration': false
+                }
+            ) }}" class="btn btn-success">
+        {{'season.buttons.publish_only'|trans({}, 'default')}}
+    </a>
+{% endblock %}
