@@ -56,6 +56,15 @@
     {% endblock %}
     {% block container %}
     {% endblock %}
+    <div id="base-modal" class="modal fade">
+    {% block base_modal %}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {% include 'CanalTPRealTimeBundle::modal.html.twig' %}
+            </div>
+        </div>
+    {% endblock %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
