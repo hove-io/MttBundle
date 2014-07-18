@@ -26,7 +26,7 @@ stop_point:
 line:
     choose_layout: Choisir un gabarit
     layout_chosen: Le gabarit a bien été assigné à la ligne.
-    manage_distribution: Gérer la liste de distribution
+    manage_distribution: Gérer la liste de placardage
 
 timetable:
     edit: Editer la fiche horaire
@@ -116,7 +116,7 @@ task:
     completed: Terminée
     completedAt: Terminée à
     season_pdf_generation: Génération de l'ensemble des pdfs de la saison "%seasonName%"
-    distribution_list_pdf_generation: Génération de la liste de distribution pour la route %routeName%
+    distribution_list_pdf_generation: Génération de la liste de placardage pour la route %routeName%
 
 block:
     img:
