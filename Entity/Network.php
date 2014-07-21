@@ -245,4 +245,27 @@ class Network extends AbstractEntity
 
         return count($explodedId) > 0 ? $explodedId[1] : $this->getExternalId();
     }
+
+    /**
+     * Set areas
+     *
+     * @param  array  $areas
+     * @return Network
+     */
+    public function setAreas($areas)
+    {
+        $this->areas = $areas;
+
+        return $this;
+    }
+
+    /**
+     * Get areas
+     *
+     * @return array
+     */
+    public function getAreas()
+    {
+        return $this->areas;
+    }
 }

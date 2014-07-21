@@ -30,3 +30,6 @@ parameters:
         BUSINESS_LIST_AREA:
             label: Lister les secteurs
             description: Permet de lister les secteurs
+        BUSINESS_MANAGE_AREA:
+            label: Gestion des secteurs
+            description: Permet d'éditer, créer, supprimer un secteur.

@@ -25,7 +25,9 @@ CanalTP\MttBundle\Entity\Area:
             gedmo:
                 timestampable:
                     on: update
-    lifecycleCallbacks: {  }
+    uniqueConstraints:
+        network_area_idx:
+            columns: [ label, network_id ]
     manyToOne:
         network:
             targetEntity: Network
@@ -37,3 +39,4 @@ CanalTP\MttBundle\Entity\Area:
         areasPdf:
             targetEntity: AreaPdf
             mappedBy: area
+    lifecycleCallbacks: {  }

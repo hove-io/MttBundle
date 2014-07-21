@@ -134,5 +134,7 @@ block:
 
 area:
     title: Liste des secteurs
-    labels:
-        label: Nom du secteur
+    create: Créer un secteur
+    list:
+        columns:
+            label: Nom du secteur
