@@ -197,3 +197,8 @@ canal_tp_mtt_area_list:
     defaults: { _controller: CanalTPMttBundle:Area:list}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_area_edit:
+    pattern: /areas/networks/{externalNetworkId}/edit/{areaId}
+    defaults: { _controller: CanalTPMttBundle:Area:edit, areaId: null }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*

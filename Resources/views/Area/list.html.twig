@@ -2,11 +2,19 @@
 
 {% block list_title -%}
     {{'area.title'|trans({}, 'default')}}
+    {% if (is_granted('BUSINESS_MANAGE_AREA')) %}
+        -
+        <a href="{{ path('canal_tp_mtt_area_edit', {'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span> {{'area.create'|trans({}, 'default')}}
+        </a>
+    {% endif %}
 {% endblock %}
 
 {% block table_head -%}
-    <th>{{'area.labels.label'|trans({}, 'default')}}</th>
-    <th>{{'global.actions'|trans({}, 'messages')}}</th>
+    <th>{{'area.list.columns.label'|trans({}, 'default')}}</th>
+    {% if (is_granted('BUSINESS_MANAGE_AREA')) %}
+        <th>{{'global.actions'|trans({}, 'messages')}}</th>
+    {% endif %}
 {% endblock %}
 
 {% block table_body -%}
@@ -23,6 +31,11 @@
                     {{ area.label }}
                 </td>
                 <td>
+                    {% if (is_granted('BUSINESS_MANAGE_AREA')) %}
+                        <a class="btn btn-default{{disabledBtn}}" href="{{ path('canal_tp_mtt_area_edit', {'externalNetworkId': externalNetworkId, 'areaId': area.id }) }}" class="btn btn-default{{disabledBtn}}" data-toggle="modal" data-target="#base-modal">
+                            <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
+                        </a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
