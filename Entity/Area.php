@@ -135,4 +135,9 @@ class Area extends AbstractEntity
     {
         return $this->areasPdf;
     }
+
+    public function getNbStopPoints()
+    {
+        return count($this->stopPoints);
+    }
 }

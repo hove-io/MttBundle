@@ -116,6 +116,6 @@ class AreaPdf extends AbstractEntity
      */
     public function getNbStopPointAggregated()
     {
-        return count($this->getArea()->getStopPoints);
+        return ($this->getArea()->getNbStopPoints);
     }
 }
