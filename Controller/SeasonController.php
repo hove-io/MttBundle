@@ -212,7 +212,6 @@ class SeasonController extends AbstractController
             'CanalTPMttBundle:Season:list.html.twig',
             array(
                 'pageTitle'=> 'menu.seasons_manage',
-                'no_left_menu' => true,
                 'currentNetwork' => $this->networkManager->findOneByExternalId($externalNetworkId),
                 'externalNetworkId' => $externalNetworkId,
                 'seasons' => $this->seasonManager->findAllByNetworkId($externalNetworkId)

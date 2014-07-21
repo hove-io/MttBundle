@@ -131,3 +131,8 @@ block:
         labels:
             title: Titre
             content: Texte
+
+area:
+    title: Liste des secteurs
+    labels:
+        label: Nom du secteur

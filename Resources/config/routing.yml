@@ -190,3 +190,10 @@ canal_tp_mtt_cancel_amqp_task:
     requirements:
         taskId: -?[0-9]*
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+#Area
+canal_tp_mtt_area_list:
+    pattern: /areas/networks/{externalNetworkId}/list
+    defaults: { _controller: CanalTPMttBundle:Area:list}
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*

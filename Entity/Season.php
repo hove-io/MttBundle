@@ -48,6 +48,11 @@ class Season extends AbstractEntity
     private $lineConfigs;
 
     /**
+     * @var Array
+     */
+    private $areasPdf;
+
+    /**
      * @var Object
      */
     private $seasonToClone;
@@ -235,6 +240,28 @@ class Season extends AbstractEntity
     public function setLocked($locked)
     {
         $this->locked = $locked;
+
+        return ($this);
+    }
+
+    /**
+     * Get areasPdf
+     *
+     * @return array
+     */
+    public function getAreasPdf()
+    {
+        return $this->areasPdf;
+    }
+
+    /**
+     * Set areasPdf
+     *
+     * @return Season
+     */
+    public function setAreasPdf($areasPdf)
+    {
+        $this->areasPdf = $areasPdf;
 
         return ($this);
     }
