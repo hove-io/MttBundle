@@ -27,3 +27,6 @@ parameters:
         BUSINESS_GENERATE_PDF:
             label: Générer les PDF
             description: Permet de générer les PDF d'une fiche horaire à l'arrêt et d'une liste de distribution
+        BUSINESS_LIST_AREA:
+            label: Lister les secteurs
+            description: Permet de lister les secteurs
