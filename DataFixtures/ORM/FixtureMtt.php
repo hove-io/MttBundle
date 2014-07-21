@@ -64,7 +64,9 @@ class FixtureMtt extends SamBaseFixture
             'BUSINESS_MANAGE_SEASON',
             'BUSINESS_MANAGE_DISTRIBUTION_LIST',
             'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF',
-            'BUSINESS_GENERATE_PDF'
+            'BUSINESS_GENERATE_PDF',
+            'BUSINESS_LIST_AREA',
+            'BUSINESS_MANAGE_AREA'
         ),
         'role-admin-mtt' => array(
             'BUSINESS_VIEW_NAVITIA_LOG',
@@ -74,7 +76,9 @@ class FixtureMtt extends SamBaseFixture
             'BUSINESS_MANAGE_SEASON',
             'BUSINESS_MANAGE_DISTRIBUTION_LIST',
             'BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF',
-            'BUSINESS_GENERATE_PDF'
+            'BUSINESS_GENERATE_PDF',
+            'BUSINESS_LIST_AREA',
+            'BUSINESS_MANAGE_AREA'
         ),
         'role-obs-mtt' => array(),
     );
