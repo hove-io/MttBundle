@@ -28,6 +28,8 @@ parameters:
     canal_tp_mtt.amqp_pdf_gen_publisher.class: CanalTP\MttBundle\Services\Amqp\PdfGenPublisher
     canal_tp_mtt.pdf_gen_completion_lib.class: CanalTP\MttBundle\Services\PdfGenCompletionLib
     canal_tp_mtt.task_cancelation.class: CanalTP\MttBundle\Services\Amqp\TaskCancelation
+    # Area
+    canal_tp_mtt.area_manager.class: CanalTP\MttBundle\Services\AreaManager
 
 services:
     #TWIG extensions
@@ -148,3 +150,7 @@ services:
     canal_tp_mtt.task_cancelation:
         class: %canal_tp_mtt.task_cancelation.class%
         arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.amqp_channel', '%kernel.root_dir%']
+    # Area
+    canal_tp_mtt.area_manager:
+        class: %canal_tp_mtt.area_manager.class%
+        arguments: ['@doctrine.orm.entity_manager']
