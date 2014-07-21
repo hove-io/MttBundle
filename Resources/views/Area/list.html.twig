@@ -2,10 +2,16 @@
 
 {% block list_title -%}
     {{'area.title'|trans({}, 'default')}}
+    {% if (is_granted('BUSINESS_MANAGE_AREA')) %}
+        -
+        <a href="{{ path('canal_tp_mtt_area_edit', {'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span> {{'area.create'|trans({}, 'default')}}
+        </a>
+    {% endif %}
 {% endblock %}
 
 {% block table_head -%}
-    <th>{{'area.labels.label'|trans({}, 'default')}}</th>
+    <th>{{'area.list.columns.label'|trans({}, 'default')}}</th>
     <th>{{'global.actions'|trans({}, 'messages')}}</th>
 {% endblock %}
 
