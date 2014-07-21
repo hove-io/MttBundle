@@ -6,7 +6,7 @@ class AreaController extends AbstractController
 {
     public function listAction($externalNetworkId)
     {
-        // $this->isGranted('BUSINESS_LIST_AREA');
+        $this->isGranted('BUSINESS_LIST_AREA');
         return $this->render(
             'CanalTPMttBundle:Area:list.html.twig',
             array(
