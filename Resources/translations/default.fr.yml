@@ -135,4 +135,4 @@ block:
 area:
     title: Liste des secteurs
     labels:
-        label: Secteurs
+        label: Nom du secteur
