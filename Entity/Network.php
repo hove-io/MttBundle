@@ -53,6 +53,11 @@ class Network extends AbstractEntity
     private $ditributionLists;
 
     /**
+     * @var Object
+     */
+    private $areas;
+
+    /**
      * Get id
      *
      * @return integer

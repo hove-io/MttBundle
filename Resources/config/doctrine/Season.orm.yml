@@ -40,6 +40,11 @@ CanalTP\MttBundle\Entity\Season:
             mappedBy: season
             cascade:
                 - remove
+        areasPdf:
+            targetEntity: Area
+            mappedBy: season
+            cascade:
+                - remove
     manyToOne:
         network:
             targetEntity: Network

@@ -41,6 +41,9 @@ CanalTP\MttBundle\Entity\Network:
         amqpTasks:
             targetEntity: AmqpTask
             mappedBy: network
+        areas:
+            targetEntity: Area
+            mappedBy: network
     manyToMany:
         users:
             targetEntity: CanalTP\SamEcoreUserManagerBundle\Entity\User

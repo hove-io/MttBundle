@@ -1,0 +1,37 @@
+CanalTP\MttBundle\Entity\AreaPdf:
+    type: entity
+    table: mtt.area_pdf
+    repositoryClass: CanalTP\MttBundle\Entity\AreaPdfRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        generatedAt:
+            type: datetime
+            column: generated_at
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    lifecycleCallbacks: {  }
+    manyToOne:
+        area:
+            targetEntity: Area
+            inversedBy: mtt.area_pdf
+            joinColumn:
+                name: area_id
+                referencedColumnName: id
+        season:
+            targetEntity: Season
+            joinColumn:
+                name: season_id
+                referencedColumnName: id
