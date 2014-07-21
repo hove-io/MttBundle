@@ -93,3 +93,7 @@ frequency:
         start_time: Heure de ébut
         end_time: Heure de fin
         content: Texte
+
+area:
+    labels:
+        label: Nom du secteur
