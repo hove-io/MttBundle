@@ -73,6 +73,7 @@ menu:
     edit_timetables: Édition des fiches horaires
     networks_manage: Gestion des réseaux
     layouts_manage: Gestion des gabarits
+    area_manage: Secteurs
 
 #should be in error namespace above
 network:

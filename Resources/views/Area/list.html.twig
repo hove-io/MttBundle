@@ -1,0 +1,27 @@
+{% extends "CanalTPMttBundle::generic_list.html.twig" %}
+
+{% block list_title -%}
+    {{'area.title'|trans({}, 'default')}}
+{% endblock %}
+
+{% block table_head -%}
+    <th>{{'area.labels.label'|trans({}, 'default')}}</th>
+{% endblock %}
+
+{% block table_body -%}
+    {% if areas|length == 0 %}
+        <tr>
+            <td colspan="4">
+                {{'global.no_items'|trans}}
+            </td>
+        </tr>
+    {% else %}
+        {% for area in areas %}
+            <tr>
+                <td>
+                    {{ area.label }}
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

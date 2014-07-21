@@ -130,6 +130,18 @@ class Builder extends ContainerAware
                     )
                 )
             );
+            if ($this->container->get('security.context')->isGranted('BUSINESS_LIST_AREA')) {
+                $menu->addChild(
+                    "area_management",
+                    array(
+                        'label' => $translator->trans('menu.area_manage'),
+                        'route' => 'canal_tp_mtt_area_list',
+                        'routeParameters' => array(
+                            'externalNetworkId' => $currentNetwork
+                        )
+                    )
+                );
+            }
             if ($this->container->get('security.context')->isGranted('BUSINESS_ASSIGN_NETWORK_LAYOUT')) {
                 $menu->addChild(
                     "layouts_management",
