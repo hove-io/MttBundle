@@ -16,7 +16,7 @@ use CanalTP\MttBundle\Entity\Layout;
 
 class Fixture extends AbstractFixture implements OrderedFixtureInterface
 {
-    const EXTERNAL_COVERAGE_ID = 'centre';
+    const EXTERNAL_COVERAGE_ID = 'fr-cen';
     const EXTERNAL_NETWORK_ID = 'network:Filbleu';
     const TOKEN = '46cadd8a-e385-4169-9cb8-c05766eeeecb';
     const EXTERNAL_LINE_ID = 'line:TTR:Nav62';
