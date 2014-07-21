@@ -6,6 +6,7 @@
 
 {% block table_head -%}
     <th>{{'area.labels.label'|trans({}, 'default')}}</th>
+    <th>{{'global.actions'|trans({}, 'messages')}}</th>
 {% endblock %}
 
 {% block table_body -%}
@@ -20,6 +21,8 @@
             <tr>
                 <td>
                     {{ area.label }}
+                </td>
+                <td>
                 </td>
             </tr>
         {% endfor %}
