@@ -1,33 +1,20 @@
-CanalTP\MttBundle\Entity\Layout:
+CanalTP\MttBundle\Entity\LayoutConfig:
     type: entity
-    table: mtt.layout
-    repositoryClass: CanalTP\MttBundle\Entity\LayoutRepository
-    fields:
+    table: mtt.layout_config
+    repositoryClass: CanalTP\MttBundle\Entity\LayoutConfigRepository
+    id:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
+    fields:
         label:
             type: string
             length: 255
-        twig:
-            type: string
-            length: 255
-        preview:
-            type: string
-            length: 255
-        cssVersion:
+        calendatStart:
             type: integer
-            length: 4
-            nullable: TRUE
-            column: css_version
-        orientation:
-            type: string
-            length: 255
-        calendarStart:
-            type: integer
-            column: calendar_start
+            column: calendat_start
         calendarEnd:
             type: integer
             column: calendar_end
@@ -44,7 +31,6 @@ CanalTP\MttBundle\Entity\Layout:
             gedmo:
                 timestampable:
                     on: update
-    lifecycleCallbacks: {  }
     oneToMany:
         lineConfigs:
             targetEntity: LineConfig
@@ -53,3 +39,4 @@ CanalTP\MttBundle\Entity\Layout:
         networks:
             targetEntity: CanalTP\MttBundle\Entity\Network
             mappedBy: layouts
+    lifecycleCallbacks: {  }
