@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Layout extends AbstractEntity
 {
+    const ORIENTATION_LANDSCAPE = 0;
+
     /**
      * @var integer
      */
@@ -32,7 +34,7 @@ class Layout extends AbstractEntity
     /**
      * @var array
      */
-    private $orientations;
+    private $orientation = self::ORIENTATION_LANDSCAPE;
 
     /**
      * @var array
@@ -130,26 +132,26 @@ class Layout extends AbstractEntity
     }
 
     /**
-     * Set orientations
+     * Set orientation
      *
-     * @param array $orientations
+     * @param array $orientation
      * @return Layout
      */
-    public function setOrientations($orientations)
+    public function setOrientation($orientation)
     {
-        $this->orientations = $orientations;
+        $this->orientation = $orientation;
 
         return $this;
     }
 
     /**
-     * Get orientations
+     * Get orientation
      *
      * @return array
      */
-    public function getOrientations()
+    public function getOrientation()
     {
-        return $this->orientations;
+        return $this->orientation;
     }
 
     /**
