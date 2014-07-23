@@ -15,7 +15,7 @@ class LayoutController extends AbstractController
             'CanalTPMttBundle:Layout:list.html.twig',
             array(
                 'pageTitle' => 'menu.layouts_manage',
-                'layouts' => $network->getLayouts(),
+                'layoutConfigs' => $network->getLayoutConfigs(),
                 'externalNetworkId' => $externalNetworkId
             )
         );
