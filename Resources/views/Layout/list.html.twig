@@ -15,29 +15,29 @@
 {% endblock %}
 
 {% block table_body %}
-    {% if layouts|length == 0 %}
+    {% if layoutConfigs|length == 0 %}
         <tr>
             <td colspan="5">
                 {{'global.no_items'|trans}}
             </td>
         </tr>
     {% else %}
-        {% for layout in layouts %}
+        {% for layoutConfig in layoutConfigs %}
             <tr>
                 <td>
-                    {{ layout.label }}
+                    {{ layoutConfig.label }}
                 </td>
                 <td>
-                    <img class="layout-preview" src="{{app.request.basePath}}{{ layout.preview }}" />
+                    <img class="layout-preview" src="{{ app.request.basePath ~ layoutConfig.layout.previewPath }}" />
                 </td>
                 <td>
-                    {{ layout.orientation }}
+                    {{ layoutConfigRepo.orientationName(layoutConfig.orientation) }}
                 </td>
                 <td>
-                    {{ layout.calendarStart }}
+                    {{ layoutConfig.calendarStart }}
                 </td>
                 <td>
-                    {{ layout.calendarEnd }}
+                    {{ layoutConfig.calendarEnd }}
                 </td>
             </tr>
         {% endfor %}
