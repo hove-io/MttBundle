@@ -1,20 +1,20 @@
 define(
-    ['jquery', 'mtt/utils', 'mtt/form/collection', 'mtt/translations/messages'], 
+    ['jquery', 'mtt/utils', 'mtt/form/collection', 'translations/messages'],
     function($, utils, collection){
-        
+
         var frequencyForm = {};
         var error_msg_keys = [],
         error_msg = [],
         $msgWrapperTpl = utils.getTpl('msgWrapperTpl');
-        
+
         frequencyForm.init = function()
         {
             var $form = $('.modal-dialog .form-with-collection');
             collection.init($form.find('[data-count]'));
             bindListeners($form);
         };
-        
-        
+
+
         var bindListeners = function($form)
         {
             $form.on(
@@ -29,7 +29,7 @@ define(
                 }
             );
         };
-        
+
         return frequencyForm;
     }
 );

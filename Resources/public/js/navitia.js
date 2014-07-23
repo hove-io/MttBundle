@@ -1,4 +1,4 @@
-define('navitia', ['jquery', 'mtt/utils', 'mtt/translations/messages'], function($, utils) {
+define('navitia', ['jquery', 'mtt/utils', 'translations/messages'], function($, utils) {
     var self = {};
     var _url = null;
     var $msgWrapperTpl = utils.getTpl('msgWrapperTpl');
