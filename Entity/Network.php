@@ -199,7 +199,7 @@ class Network extends AbstractEntity
      */
     public function getLayoutConfigs()
     {
-        return ($this->layouts);
+        return ($this->layoutConfigs);
     }
 
     /**
@@ -207,9 +207,9 @@ class Network extends AbstractEntity
      *
      * @return Network
      */
-    public function addLayoutConfig($layout)
+    public function addLayoutConfig($layoutConfig)
     {
-        $this->layouts[] = $layout;
+        $this->layoutConfigs[] = $layoutConfig;
 
         return ($this);
     }

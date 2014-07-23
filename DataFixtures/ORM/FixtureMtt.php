@@ -90,7 +90,7 @@ class FixtureMtt extends SamBaseFixture
         $layout->setLabel($layoutProperties['label']);
         $layout->setPath($layoutProperties['path']);
         $layout->setPreviewPath($layoutProperties['previewPath']);
-        $layout->setOrientations($layoutProperties['orientations']);
+        $layout->setOrientation($layoutProperties['orientation']);
         $layout->setNotesModes($layoutProperties['notesModes']);
         $layout->setCssVersion($layoutProperties['cssVersion']);
 
@@ -109,11 +109,12 @@ class FixtureMtt extends SamBaseFixture
         $layoutConfig->setLayout($layout);
         $layoutConfig->setNetworks($networks);
 
+        $this->em->persist($layoutConfig);
         foreach ($networks as $network) {
             $network->addLayoutConfig($layoutConfig);
             $this->em->persist($network);
         }
-        $this->em->persist($layoutConfig);
+
 
         return ($layoutConfig);
     }
@@ -148,7 +149,7 @@ class FixtureMtt extends SamBaseFixture
                     'label'         => 'Layout 1 de type paysage (Dijon 1)',
                     'path'          => 'layout_1.html.twig',
                     'previewPath'   => '/bundles/canaltpmtt/img/layout_1.png',
-                    'orientations'  => array('landscape'),
+                    'orientation'   => Layout::ORIENTATION_LANDSCAPE,
                     'notesModes'    => array(1),
                     'cssVersion'    => 1
                 )
@@ -167,7 +168,7 @@ class FixtureMtt extends SamBaseFixture
                     'label'         => 'Layout 2 de type paysage (Dijon 1)',
                     'path'          => 'layout_2.html.twig',
                     'previewPath'   => '/bundles/canaltpmtt/img/layout_2.png',
-                    'orientations'  => array('landscape'),
+                    'orientation'   => Layout::ORIENTATION_LANDSCAPE,
                     'notesModes'    => array(1),
                     'cssVersion'    => 1
                 )
@@ -180,7 +181,7 @@ class FixtureMtt extends SamBaseFixture
                 'label'         => 'Lianes 4 paves neutre',
                 'path'          => 'Divia/neutralLianes4Timegrids.html.twig',
                 'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/neutral-Lianes-4-paves.png',
-                'orientations'  => array('landscape'),
+                'orientation'   => Layout::ORIENTATION_LANDSCAPE,
                 'notesModes'    => array(1),
                 'cssVersion'    => 1
             )
@@ -198,7 +199,7 @@ class FixtureMtt extends SamBaseFixture
                     'label'         => 'Lianes 4 paves',
                     'path'          => 'Divia/lianes4Timegrids.html.twig',
                     'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Lianes-4-paves.png',
-                    'orientations'  => array('landscape'),
+                    'orientation'   => Layout::ORIENTATION_LANDSCAPE,
                     'notesModes'    => array(1),
                     'cssVersion'    => 1
                 )
@@ -217,7 +218,7 @@ class FixtureMtt extends SamBaseFixture
                     'label'         => 'Flexo',
                     'path'          => 'Divia/flexo.html.twig',
                     'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Flexo.png',
-                    'orientations'  => array('landscape'),
+                    'orientation'   => Layout::ORIENTATION_LANDSCAPE,
                     'notesModes'    => array(1),
                     'cssVersion'    => 1
                 )
@@ -237,7 +238,7 @@ class FixtureMtt extends SamBaseFixture
                     'label'         => 'Proxi',
                     'path'          => 'Divia/proxi.html.twig',
                     'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Proxi.png',
-                    'orientations'  => array('landscape'),
+                    'orientation'   => Layout::ORIENTATION_LANDSCAPE,
                     'notesModes'    => array(1),
                     'cssVersion'    => 1
                 )

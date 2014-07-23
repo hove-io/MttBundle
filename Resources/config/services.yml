@@ -71,10 +71,10 @@ services:
         class: "%canal_tp.mtt.navitia_debug_matcher.class%"
         arguments: ["@security.context"]
     # FORMS
-    form.type.layout:
-        class: CanalTP\MttBundle\Form\Type\LayoutType
+    form.type.layout_config:
+        class: CanalTP\MttBundle\Form\Type\LayoutConfigType
         tags:
-            - { name: form.type, alias: layout }
+            - { name: form.type, alias: layout_config }
     form.type.datepicker:
         class: CanalTP\MttBundle\Form\Type\DatepickerType
         tags:

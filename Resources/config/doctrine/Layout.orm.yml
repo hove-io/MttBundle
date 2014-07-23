@@ -19,8 +19,8 @@ CanalTP\MttBundle\Entity\Layout:
             type: string
             length: 255
             column: preview_path
-        orientations:
-            type: array
+        orientation:
+            type: integer
         notesModes:
             type: array
             column: notes_modes
