@@ -25,7 +25,7 @@ class LayoutConfig extends AbstractEntity
     /**
      * @var integer
      */
-    private $calendatStart;
+    private $calendarStart;
 
     /**
      * @var integer
@@ -46,6 +46,12 @@ class LayoutConfig extends AbstractEntity
      * @var \Doctrine\Common\Collections\Collection
      */
     private $networks;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $layout;
+
 
     /**
      * Get id
@@ -81,26 +87,26 @@ class LayoutConfig extends AbstractEntity
     }
 
     /**
-     * Set calendatStart
+     * Set calendarStart
      *
-     * @param integer $calendatStart
+     * @param integer $calendarStart
      * @return LayoutConfig
      */
-    public function setCalendatStart($calendatStart)
+    public function setCalendarStart($calendarStart)
     {
-        $this->calendatStart = $calendatStart;
+        $this->calendarStart = $calendarStart;
 
         return $this;
     }
 
     /**
-     * Get calendatStart
+     * Get calendarStart
      *
      * @return integer
      */
-    public function getCalendatStart()
+    public function getCalendarStart()
     {
-        return $this->calendatStart;
+        return $this->calendarStart;
     }
 
     /**
@@ -172,7 +178,7 @@ class LayoutConfig extends AbstractEntity
     /**
      * Set networks
      *
-     * @return Layout
+     * @return LayoutConfig
      */
     public function setLineConfigs($lineConfigs)
     {
@@ -194,11 +200,33 @@ class LayoutConfig extends AbstractEntity
     /**
      * Set networks
      *
-     * @return Layout
+     * @return LayoutConfig
      */
     public function setNetworks($networks)
     {
         $this->networks = $networks;
+
+        return ($this);
+    }
+
+    /**
+     * Set Layout
+     *
+     * @return LayoutConfig
+     */
+    public function getLayout()
+    {
+        return ($this->layout);
+    }
+
+    /**
+     * Set layout
+     *
+     * @return LayoutConfig
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
 
         return ($this);
     }

@@ -7,6 +7,7 @@ use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 
 use CanalTP\SamBundle\Tests\DataFixtures\ORM\Fixture as SamBaseFixture;
 use CanalTP\MttBundle\Entity\Network;
+use CanalTP\MttBundle\Entity\LayoutConfig;
 use CanalTP\MttBundle\Entity\Layout;
 
 class FixtureMtt extends SamBaseFixture
@@ -87,26 +88,40 @@ class FixtureMtt extends SamBaseFixture
     {
         $layout = new Layout();
         $layout->setLabel($layoutProperties['label']);
-        $layout->setTwig($layoutProperties['twig']);
-        $layout->setPreview($layoutProperties['preview']);
-        $layout->setOrientation($layoutProperties['orientation']);
-        $layout->setCalendarStart($layoutProperties['calendarStart']);
-        $layout->setCalendarEnd($layoutProperties['calendarEnd']);
-        $layout->setNetworks($networks);
-        foreach ($networks as $network) {
-            $network->addLayout($layout);
-            $this->em->persist($network);
-        }
+        $layout->setPath($layoutProperties['path']);
+        $layout->setPreviewPath($layoutProperties['previewPath']);
+        $layout->setOrientations($layoutProperties['orientations']);
+        $layout->setNotesModes($layoutProperties['notesModes']);
+        $layout->setCssVersion($layoutProperties['cssVersion']);
 
         $this->em->persist($layout);
 
         return ($layout);
     }
 
+    private function createLayoutConfig($layoutConfigProperties, Layout $layout, $networks = array())
+    {
+        $layoutConfig = new LayoutConfig();
+        $layoutConfig->setLabel($layoutConfigProperties['label']);
+        $layoutConfig->setCalendarStart($layoutConfigProperties['calendarStart']);
+        $layoutConfig->setCalendarEnd($layoutConfigProperties['calendarEnd']);
+        $layoutConfig->setNotesMode($layoutConfigProperties['notesMode']);
+        $layoutConfig->setLayout($layout);
+        $layoutConfig->setNetworks($networks);
+
+        foreach ($networks as $network) {
+            $network->addLayoutConfig($layoutConfig);
+            $this->em->persist($network);
+        }
+        $this->em->persist($layoutConfig);
+
+        return ($layoutConfig);
+    }
+
     private function createNetwork(
         $externalId = 'network:Filbleu',
         $token = '46cadd8a-e385-4169-9cb8-c05766eeeecb',
-        $externalCoverageId = 'centre'
+        $externalCoverageId = 'fr-cen'
     )
     {
         $network = new Network();
@@ -121,75 +136,118 @@ class FixtureMtt extends SamBaseFixture
 
     private function createLayouts($network1, $network2, $network5)
     {
-        $layout1 = $this->createLayout(
+        $this->createLayoutConfig(
             array(
-                'label'         => 'Layout 1 de type paysage (Dijon 1)',
-                'twig'          => 'layout_1.html.twig',
-                'preview'       => '/bundles/canaltpmtt/img/layout_1.png',
-                'orientation'   => 'landscape',
+                'label' => 'Dijon 1',
                 'calendarStart' => 4,
-                'calendarEnd'   => 1,
+                'calendarEnd' => 1,
+                'notesMode' => 1
+            ),
+            $this->createLayout(
+                array(
+                    'label'         => 'Layout 1 de type paysage (Dijon 1)',
+                    'path'          => 'layout_1.html.twig',
+                    'previewPath'   => '/bundles/canaltpmtt/img/layout_1.png',
+                    'orientations'  => array('landscape'),
+                    'notesModes'    => array(1),
+                    'cssVersion'    => 1
+                )
             ),
             array($network1, $network2)
         );
-        $layout2 = $this->createLayout(
+        $this->createLayoutConfig(
             array(
-                'label'         => 'Layout 2 de type paysage (Dijon 2)',
-                'twig'          => 'layout_2.html.twig',
-                'preview'       => '/bundles/canaltpmtt/img/layout_2.png',
-                'orientation'   => 'landscape',
-                'calendarStart'=> 4,
-                'calendarEnd'  => 1,
+                'label' => 'Dijon 2',
+                'calendarStart' => 4,
+                'calendarEnd' => 1,
+                'notesMode' => 1
+            ),
+            $this->createLayout(
+                array(
+                    'label'         => 'Layout 2 de type paysage (Dijon 1)',
+                    'path'          => 'layout_2.html.twig',
+                    'previewPath'   => '/bundles/canaltpmtt/img/layout_2.png',
+                    'orientations'  => array('landscape'),
+                    'notesModes'    => array(1),
+                    'cssVersion'    => 1
+                )
             ),
             array($network1, $network2)
         );
+
         $this->createLayout(
             array(
                 'label'         => 'Lianes 4 paves neutre',
-                'twig'          => 'Divia/neutralLianes4Timegrids.html.twig',
-                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/neutral-Lianes-4-paves.png',
-                'orientation'   => 'landscape',
+                'path'          => 'Divia/neutralLianes4Timegrids.html.twig',
+                'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/neutral-Lianes-4-paves.png',
+                'orientations'  => array('landscape'),
+                'notesModes'    => array(1),
+                'cssVersion'    => 1
+            )
+        );
+
+        $this->createLayoutConfig(
+            array(
+                'label' => 'Divia 4 paves',
                 'calendarStart' => 4,
-                'calendarEnd'   => 1,
+                'calendarEnd' => 1,
+                'notesMode' => 1
+            ),
+            $this->createLayout(
+                array(
+                    'label'         => 'Lianes 4 paves',
+                    'path'          => 'Divia/lianes4Timegrids.html.twig',
+                    'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Lianes-4-paves.png',
+                    'orientations'  => array('landscape'),
+                    'notesModes'    => array(1),
+                    'cssVersion'    => 1
+                )
             ),
             array($network5)
         );
-        $this->createLayout(
+        $this->createLayoutConfig(
             array(
-                'label'         => 'Lianes 4 paves',
-                'twig'          => 'Divia/lianes4Timegrids.html.twig',
-                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/Lianes-4-paves.png',
-                'orientation'   => 'landscape',
+                'label' => 'Flexo (Divia)',
                 'calendarStart' => 4,
-                'calendarEnd'   => 1,
+                'calendarEnd' => 1,
+                'notesMode' => 1
+            ),
+            $this->createLayout(
+                array(
+                    'label'         => 'Flexo',
+                    'path'          => 'Divia/flexo.html.twig',
+                    'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Flexo.png',
+                    'orientations'  => array('landscape'),
+                    'notesModes'    => array(1),
+                    'cssVersion'    => 1
+                )
             ),
             array($network5)
         );
-        $this->createLayout(
+
+        $this->createLayoutConfig(
             array(
-                'label'         => 'Flexo',
-                'twig'          => 'Divia/flexo.html.twig',
-                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/Flexo.png',
-                'orientation'   => 'landscape',
+                'label' => 'Proxi (Divia)',
                 'calendarStart' => 4,
-                'calendarEnd'   => 1,
+                'calendarEnd' => 1,
+                'notesMode' => 1
             ),
-            array($network5)
-        );
-        $this->createLayout(
-            array(
-                'label'         => 'Proxi',
-                'twig'          => 'Divia/proxi.html.twig',
-                'preview'       => '/bundles/canaltpmtt/img/layouts/divia/Proxi.png',
-                'orientation'   => 'landscape',
-                'calendarStart' => 4,
-                'calendarEnd'   => 1,
+            $this->createLayout(
+                array(
+                    'label'         => 'Proxi',
+                    'path'          => 'Divia/proxi.html.twig',
+                    'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Proxi.png',
+                    'orientations'  => array('landscape'),
+                    'notesModes'    => array(1),
+                    'cssVersion'    => 1
+                )
             ),
             array($network5)
         );
 
         $this->em->persist($network1);
         $this->em->persist($network2);
+        $this->em->persist($network5);
         $this->em->flush();
     }
 
