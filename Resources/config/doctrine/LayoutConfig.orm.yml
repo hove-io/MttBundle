@@ -12,9 +12,9 @@ CanalTP\MttBundle\Entity\LayoutConfig:
         label:
             type: string
             length: 255
-        calendatStart:
+        calendarStart:
             type: integer
-            column: calendat_start
+            column: calendar_start
         calendarEnd:
             type: integer
             column: calendar_end
@@ -34,7 +34,13 @@ CanalTP\MttBundle\Entity\LayoutConfig:
     oneToMany:
         lineConfigs:
             targetEntity: LineConfig
-            mappedBy: layout
+            mappedBy: layoutConfig
+    manyToOne:
+        layout:
+            targetEntity: Layout
+            joinColumn:
+                name: layout_id
+                referencedColumnName: id
     manyToMany:
         networks:
             targetEntity: CanalTP\MttBundle\Entity\Network

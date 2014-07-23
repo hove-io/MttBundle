@@ -1,0 +1,44 @@
+CanalTP\MttBundle\Entity\Layout:
+    type: entity
+    table: mtt.layout
+    repositoryClass: CanalTP\MttBundle\Entity\LayoutRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        label:
+            type: string
+            length: 255
+        path:
+            type: string
+            length: 255
+        previewPath:
+            type: string
+            length: 255
+            column: preview_path
+        orientations:
+            type: array
+        notesModes:
+            type: array
+            column: notes_modes
+        cssVersion:
+            type: integer
+            column: css_version
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    oneToMany:
+        layoutConfigs:
+            targetEntity: LayoutConfig
+            mappedBy: layout
+    lifecycleCallbacks: {  }
