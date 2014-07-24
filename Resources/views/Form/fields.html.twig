@@ -5,7 +5,7 @@
             {% set config = attribute(layoutConfigs, child.value) %}
             <label for="layout-{{ child.value }}" class="btn btn-primary list-group-item layout-choice-item {% if form.vars.value == child.value %} active{% endif %}">
                 <div>
-                    <img class="layout-preview" src="{{app.request.basePath ~ config.layout.previewPath}}" />
+                    <img class="layout-preview" src="{{app.request.basePath ~ config.previewPath}}" />
                 </div>
                 <div>
                     <input {% if form.vars.value == child.value %} checked="checked"{% endif %} type="radio" name="{{ full_name }}" id="layout-{{ child.value }}" value="{{ child.value }}"> {{ child.label }}
