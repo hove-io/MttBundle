@@ -3,6 +3,7 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use CanalTP\MttBundle\Entity\LayoutConfig;
 
 class LayoutConfigManager
 {
@@ -22,6 +23,8 @@ class LayoutConfigManager
 
     public function save($layoutConfig)
     {
+        //TODO: Add NotesMode field in LayoutConfigType. (Create custom Layout)
+        $layoutConfig->setNotesMode(LayoutConfig::NOTES_MODE_DISPATCHED);
         $this->om->persist($layoutConfig);
         $this->om->flush();
     }

@@ -150,7 +150,7 @@ class FixtureMtt extends SamBaseFixture
                     'path'          => 'layout_1.html.twig',
                     'previewPath'   => '/bundles/canaltpmtt/img/layout_1.png',
                     'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                    'notesModes'    => array(1),
+                    'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
                     'cssVersion'    => 1
                 )
             ),
@@ -169,7 +169,7 @@ class FixtureMtt extends SamBaseFixture
                     'path'          => 'layout_2.html.twig',
                     'previewPath'   => '/bundles/canaltpmtt/img/layout_2.png',
                     'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                    'notesModes'    => array(1),
+                    'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
                     'cssVersion'    => 1
                 )
             ),
@@ -182,7 +182,7 @@ class FixtureMtt extends SamBaseFixture
                 'path'          => 'Divia/neutralLianes4Timegrids.html.twig',
                 'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/neutral-Lianes-4-paves.png',
                 'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                'notesModes'    => array(1),
+                'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
                 'cssVersion'    => 1
             )
         );
@@ -200,7 +200,7 @@ class FixtureMtt extends SamBaseFixture
                     'path'          => 'Divia/lianes4Timegrids.html.twig',
                     'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Lianes-4-paves.png',
                     'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                    'notesModes'    => array(1),
+                    'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
                     'cssVersion'    => 1
                 )
             ),
@@ -219,7 +219,7 @@ class FixtureMtt extends SamBaseFixture
                     'path'          => 'Divia/flexo.html.twig',
                     'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Flexo.png',
                     'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                    'notesModes'    => array(1),
+                    'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
                     'cssVersion'    => 1
                 )
             ),
@@ -239,7 +239,7 @@ class FixtureMtt extends SamBaseFixture
                     'path'          => 'Divia/proxi.html.twig',
                     'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Proxi.png',
                     'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                    'notesModes'    => array(1),
+                    'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
                     'cssVersion'    => 1
                 )
             ),

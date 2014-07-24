@@ -41,6 +41,7 @@ layout_config:
     preview: Prévisualisation
     orientation: Orientation
     create: Créer un layout
+    created: Le layout a bien été ajouté
 
 block:
     get_form:

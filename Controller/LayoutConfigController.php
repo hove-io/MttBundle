@@ -54,6 +54,14 @@ class LayoutConfigController extends AbstractController
 
         if ($form->isValid()) {
             $this->get('canal_tp_mtt.layout_config')->save($form->getData());
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'layout_config.created',
+                    array(),
+                    'default'
+                )
+            );
 
             return $this->redirect(
                 $this->generateUrl(
