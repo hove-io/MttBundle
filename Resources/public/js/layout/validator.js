@@ -1,4 +1,4 @@
-define(['jquery', 'mtt/utils', 'mtt/translations/default'], function($, utils) {
+define(['jquery', 'mtt/utils', 'translations/default'], function($, utils) {
     var validator = {};
     var $wrapper,
         $msgWrapperTpl = utils.getTpl('msgWrapperTpl');

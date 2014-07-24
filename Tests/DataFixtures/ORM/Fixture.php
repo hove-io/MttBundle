@@ -23,8 +23,8 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     const EXTERNAL_ROUTE_ID = 'route:TTR:Nav155';
     const EXTERNAL_STOP_POINT_ID = 'stop_point:TTR:SP:STPGB-2';
     const SEASON_ID = 1;
-    const EXTERNAL_LAYOUT_ID_1 = 1;
-    const EXTERNAL_LAYOUT_ID_2 = 2;
+    const EXTERNAL_LAYOUT_CONFIG_ID_1 = 1;
+    const EXTERNAL_LAYOUT_CONFIG_ID_2 = 2;
     public static $timetableId;
 
     public function createNetwork(
@@ -62,11 +62,11 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($season);
     }
 
-    private function createLineConfig(ObjectManager $em, $season, $layout)
+    private function createLineConfig(ObjectManager $em, $season, $layoutConfig)
     {
         $lineConfig = new LineConfig();
         $lineConfig->setSeason($season);
-        $lineConfig->setLayout($layout);
+        $lineConfig->setLayoutConfig($layoutConfig);
         $lineConfig->setExternalLineId(Fixture::EXTERNAL_LINE_ID);
 
         $em->persist($lineConfig);
@@ -125,8 +125,8 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     {
         $network = $em->getRepository('CanalTPMttBundle:Network')->findOneByExternalId(Fixture::EXTERNAL_NETWORK_ID);
         $season = $this->createSeason($em, $network);
-        $layout = $em->getRepository('CanalTPMttBundle:Layout')->find(Fixture::EXTERNAL_LAYOUT_ID_1);
-        $lineConfig = $this->createLineConfig($em, $season, $layout);
+        $layoutConfig = $em->getRepository('CanalTPMttBundle:LayoutConfig')->find(Fixture::EXTERNAL_LAYOUT_CONFIG_ID_1);
+        $lineConfig = $this->createLineConfig($em, $season, $layoutConfig);
         $timetable = $this->createTimetable($em, $lineConfig);
         $block = $this->createBlock($em, $timetable);
 

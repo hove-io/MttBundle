@@ -35,7 +35,7 @@ class Network extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $layouts;
+    private $layoutConfigs;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -197,19 +197,19 @@ class Network extends AbstractEntity
      *
      * @return Network
      */
-    public function getLayouts()
+    public function getLayoutConfigs()
     {
-        return ($this->layouts);
+        return ($this->layoutConfigs);
     }
 
     /**
-     * Set Layouts
+     * Set LayoutConfigs
      *
      * @return Network
      */
-    public function addLayout($layout)
+    public function addLayoutConfig($layoutConfig)
     {
-        $this->layouts[] = $layout;
+        $this->layoutConfigs[] = $layoutConfig;
 
         return ($this);
     }
@@ -267,5 +267,20 @@ class Network extends AbstractEntity
     public function getAreas()
     {
         return $this->areas;
+    }
+
+    /**
+     * Get Only layouts without custom configuration (used for form)
+     *
+     * @return Layouts
+     */
+    public function getOnlyLayouts()
+    {
+        $layouts = array();
+
+        foreach ($this->layoutConfigs as $layoutConfig) {
+            $layouts[] = $layoutConfig->getLayout();
+        }
+        return ($layouts);
     }
 }

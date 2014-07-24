@@ -75,7 +75,7 @@ class LineController extends AbstractController
         );
 
         $form = $this->createForm(
-            new LineConfigType($network->getLayouts()),
+            new LineConfigType($network->getLayoutConfigs()),
             $lineConfig,
             array(
                 'action' => $this->getRequest()->getRequestUri()
