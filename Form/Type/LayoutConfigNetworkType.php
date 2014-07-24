@@ -6,7 +6,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 
-class LayoutType extends AbstractType
+class LayoutConfigNetworkType extends AbstractType
 {
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -14,8 +14,8 @@ class LayoutType extends AbstractType
         $resolver->setDefaults(
             array(
                 'multiple'=> false,
-                'layouts' => array(),
-                'class' => 'CanalTP\MttBundle\Entity\Layout'
+                'layoutConfigs' => array(),
+                'class' => 'CanalTP\MttBundle\Entity\LayoutConfig'
             )
         );
     }
@@ -27,10 +27,10 @@ class LayoutType extends AbstractType
     {
         $layouts = array();
 
-        foreach ($options['layouts'] as $layout) {
-            $layouts[$layout->getId()] = $layout;
+        foreach ($options['layoutConfigs'] as $layoutConfig) {
+            $layouts[$layoutConfig->getId()] = $layoutConfig;
         }
-        $view->vars['layouts'] = $layouts;
+        $view->vars['layoutConfigs'] = $layouts;
     }
 
     public function getParent()
@@ -40,6 +40,6 @@ class LayoutType extends AbstractType
 
     public function getName()
     {
-        return 'layout';
+        return 'layout_config_network';
     }
 }

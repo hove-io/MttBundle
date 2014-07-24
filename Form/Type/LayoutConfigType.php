@@ -58,7 +58,6 @@ class LayoutConfigType extends AbstractType
                 'label' => 'layout_config.labels.calendar_end'
             )
         );
-
         $builder->add(
             'layout',
             'layout',
