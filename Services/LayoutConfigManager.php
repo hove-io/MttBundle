@@ -21,6 +21,11 @@ class LayoutConfigManager
         return ($this->repository->findAll());
     }
 
+    public function find($layoutConfigId)
+    {
+        return empty($layoutConfigId) ? null : $this->repository->find($layoutConfigId);
+    }
+
     public function save($layoutConfig)
     {
         $layoutConfig->upload();

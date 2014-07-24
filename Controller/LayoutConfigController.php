@@ -13,6 +13,7 @@ class LayoutConfigController extends AbstractController
 {
     public function listAction($externalNetworkId)
     {
+        $this->isGranted(array('BUSINESS_LIST_LAYOUT_CONFIG', 'BUSINESS_MANAGE_LAYOUT_CONFIG'));
         $layoutConfigRepo = $this->getDoctrine()->getEntityManager()->getRepository('CanalTPMttBundle:layoutConfig');
 
         return $this->render(
@@ -33,7 +34,7 @@ class LayoutConfigController extends AbstractController
             new LayoutConfigType(
                 $this->get('canal_tp_mtt.layout')->findAll()
             ),
-            null,
+            $this->get('canal_tp_mtt.layout_config')->find($layoutConfigId),
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_layout_config_edit',
@@ -76,7 +77,7 @@ class LayoutConfigController extends AbstractController
 
     public function editAction(Request $request, $externalNetworkId, $layoutConfigId)
     {
-        // $this->isGranted('BUSINESS_MANAGE_LAYOUT_CONFIG');
+        $this->isGranted('BUSINESS_MANAGE_LAYOUT_CONFIG');
         $form = $this->buildForm($externalNetworkId, $layoutConfigId);
         $render = $this->processForm($request, $form, $externalNetworkId);
 

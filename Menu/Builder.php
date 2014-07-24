@@ -130,7 +130,7 @@ class Builder extends ContainerAware
                     )
                 )
             );
-            if ($this->container->get('security.context')->isGranted('BUSINESS_LIST_AREA')) {
+            if ($this->container->get('security.context')->isGranted(array('BUSINESS_LIST_AREA', 'BUSINESS_MANAGE_AREA'))) {
                 $menu->addChild(
                     "area_management",
                     array(
@@ -142,7 +142,7 @@ class Builder extends ContainerAware
                     )
                 );
             }
-            if ($this->container->get('security.context')->isGranted('BUSINESS_ASSIGN_NETWORK_LAYOUT')) {
+            if ($this->container->get('security.context')->isGranted(array('BUSINESS_LIST_LAYOUT_CONFIG', 'BUSINESS_MANAGE_LAYOUT_CONFIG'))) {
                 $menu->addChild(
                     "layouts_management",
                     array(
