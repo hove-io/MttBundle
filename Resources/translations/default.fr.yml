@@ -34,12 +34,14 @@ timetable:
         edition: Édition
         preview: Prévisualisation
 
-layout:
+layout_config:
     actions: Actions
     list: Liste des gabarits
     label: Descriptif
     preview: Prévisualisation
     orientation: Orientation
+    create: Créer un layout
+    created: Le layout a bien été ajouté
 
 block:
     get_form:

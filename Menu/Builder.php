@@ -54,7 +54,7 @@ class Builder extends ContainerAware
                 if (isset($options['currentExternalNetworkId']) && !empty($options['currentExternalNetworkId'])) {
                     $menu->getChild('network')->getChild($options['currentExternalNetworkId'])->setAttribute('class', 'active');
                 }
-                if ($this->container->get('security.context')->isGranted('BUSINESS_EDIT_PERIMETERS')) {
+                if ($this->container->get('security.context')->isGranted('BUSINESS_EDIT_LAYOUT')) {
                     $this->addDivider($menu->getChild('network'));
                     $menu->getChild('network')->addChild(
                         "networks_management",
@@ -130,7 +130,7 @@ class Builder extends ContainerAware
                     )
                 )
             );
-            if ($this->container->get('security.context')->isGranted('BUSINESS_LIST_AREA')) {
+            if ($this->container->get('security.context')->isGranted(array('BUSINESS_LIST_AREA', 'BUSINESS_MANAGE_AREA'))) {
                 $menu->addChild(
                     "area_management",
                     array(
@@ -142,12 +142,12 @@ class Builder extends ContainerAware
                     )
                 );
             }
-            if ($this->container->get('security.context')->isGranted('BUSINESS_ASSIGN_NETWORK_LAYOUT')) {
+            if ($this->container->get('security.context')->isGranted(array('BUSINESS_LIST_LAYOUT_CONFIG', 'BUSINESS_MANAGE_LAYOUT_CONFIG'))) {
                 $menu->addChild(
                     "layouts_management",
                     array(
                         'label' => $translator->trans('menu.layouts_manage'),
-                        'route' => 'canal_tp_mtt_layouts',
+                        'route' => 'canal_tp_mtt_layout_config_list',
                         'routeParameters' => array(
                             'externalNetworkId' => $currentNetwork
                         )
