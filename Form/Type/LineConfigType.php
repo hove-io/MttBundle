@@ -10,11 +10,11 @@ use CanalTP\MttBundle\Form\EventListener\SeasonLockedSubscriber;
 
 class LineConfigType extends AbstractType
 {
-    private $layoutConfigs;
+    private $layouts;
 
-    public function __construct($layoutConfigs)
+    public function __construct($layouts)
     {
-        $this->layoutConfigs = $layoutConfigs;
+        $this->layouts = $layouts;
     }
 
     /**
@@ -25,10 +25,10 @@ class LineConfigType extends AbstractType
     {
         $builder->add(
             'layout_config',
-            'layout_config',
+            'layout',
             array(
-                'choices' => $this->layoutConfigs,
-                'layoutConfigs' => $this->layoutConfigs,
+                'choices' => $this->layouts,
+                'layouts' => $this->layouts,
                 'empty_value' => 'global.please_choose',
                 'constraints' => array(
                     new NotBlank()

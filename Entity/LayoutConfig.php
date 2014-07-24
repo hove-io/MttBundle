@@ -198,6 +198,18 @@ class LayoutConfig extends AbstractEntity
     }
 
     /**
+     * Set LayoutConfigs
+     *
+     * @return Network
+     */
+    public function addNetwork($network)
+    {
+        $this->networks[] = $network;
+
+        return ($this);
+    }
+
+    /**
      * Set networks
      *
      * @return LayoutConfig

@@ -3,13 +3,17 @@
 {% trans_default_domain "default" %}
 
 {% block list_title -%}
-    {{'layout.list'|trans({}, 'default')}}
+    {{'layout_config.list'|trans({}, 'default')}}
+    -
+    <a href="{{ path('canal_tp_mtt_layout_config_edit', {'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span> {{'layout_config.create'|trans({}, 'default')}}
+    </a>
 {% endblock %}
 
 {% block table_head -%}
-    <th>{{'layout.label'|trans}}</th>
-    <th>{{'layout.preview'|trans}}</th>
-    <th>{{'layout.orientation'|trans}}</th>
+    <th>{{'layout_config.label'|trans}}</th>
+    <th>{{'layout_config.preview'|trans}}</th>
+    <th>{{'layout_config.orientation'|trans}}</th>
     <th>{{'calendar.start'|trans({}, 'messages')}}</th>
     <th>{{'calendar.end'|trans({}, 'messages')}}</th>
 {% endblock %}

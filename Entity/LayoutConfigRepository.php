@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class LayoutConfigRepository extends EntityRepository
 {
+    // TODO: Add Translator service.
+    public function orientationName($orientationType)
+    {
+        $name = 'Unknown';
+
+        switch ($orientationType) {
+            case Layout::ORIENTATION_LANDSCAPE:
+                $name = 'Landscape';
+                break;
+        }
+        return ($name);
+    }
 }

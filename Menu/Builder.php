@@ -147,7 +147,7 @@ class Builder extends ContainerAware
                     "layouts_management",
                     array(
                         'label' => $translator->trans('menu.layouts_manage'),
-                        'route' => 'canal_tp_mtt_layouts',
+                        'route' => 'canal_tp_mtt_layout_config_list',
                         'routeParameters' => array(
                             'externalNetworkId' => $currentNetwork
                         )

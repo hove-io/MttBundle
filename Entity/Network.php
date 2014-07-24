@@ -268,4 +268,19 @@ class Network extends AbstractEntity
     {
         return $this->areas;
     }
+
+    /**
+     * Get Only layouts without custom configuration (used for form)
+     *
+     * @return Layouts
+     */
+    public function getOnlyLayouts()
+    {
+        $layouts = array();
+
+        foreach ($this->layoutConfigs as $layoutConfig) {
+            $layouts[] = $layoutConfig->getLayout();
+        }
+        return ($layouts);
+    }
 }

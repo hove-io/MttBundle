@@ -245,4 +245,9 @@ class Layout extends AbstractEntity
     {
         return 'uploads/layouts/previews/';
     }
+
+    public function __toString()
+    {
+        return $this->label;
+    }
 }
