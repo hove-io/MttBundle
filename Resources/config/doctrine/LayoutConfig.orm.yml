@@ -18,6 +18,11 @@ CanalTP\MttBundle\Entity\LayoutConfig:
         calendarEnd:
             type: integer
             column: calendar_end
+        previewPath:
+            type: string
+            length: 255
+            column: preview_path
+            nullable: true
         notesMode:
             type: integer
             column: notes_mode

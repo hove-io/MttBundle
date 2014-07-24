@@ -222,30 +222,6 @@ class Layout extends AbstractEntity
         return ($this);
     }
 
-    public function getAbsolutePreviewPath()
-    {
-        return null === $this->path
-            ? null
-            : $this->getUploadRootDir().'/'.$this->path;
-    }
-
-    public function getWebPreviewPath()
-    {
-        return null === $this->path
-            ? null
-            : $this->getUploadDir().'/'.$this->path;
-    }
-
-    protected function getUploadRootDir()
-    {
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
-    }
-
-    protected function getUploadDir()
-    {
-        return 'uploads/layouts/previews/';
-    }
-
     public function __toString()
     {
         return $this->label;

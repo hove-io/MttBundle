@@ -3,6 +3,7 @@
 namespace CanalTP\MttBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * LayoutConfig
@@ -36,6 +37,16 @@ class LayoutConfig extends AbstractEntity
      * @var integer
      */
     private $notesMode = self::NOTES_MODE_AGGREGATED;
+
+    /**
+     * @var string
+     */
+    private $previewPath;
+
+    /**
+     * @var file
+     */
+    private $file;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -155,6 +166,29 @@ class LayoutConfig extends AbstractEntity
         return $this->notesMode;
     }
 
+    /**
+     * Set previewPath
+     *
+     * @param string $previewPath
+     * @return Layout
+     */
+    public function setPreviewPath($previewPath)
+    {
+        $this->previewPath = $previewPath;
+
+        return $this;
+    }
+
+    /**
+     * Get previewPath
+     *
+     * @return string
+     */
+    public function getPreviewPath()
+    {
+        return ($this->previewPath ? $this->getWebPreviewPath() : $this->getLayout()->getPreviewPath());
+    }
+
     public function aggregatesNotes()
     {
         return $this->getNotesMode() == self::NOTES_MODE_AGGREGATED;
@@ -241,6 +275,67 @@ class LayoutConfig extends AbstractEntity
         $this->layout = $layout;
 
         return ($this);
+    }
+
+    /**
+     * Set File
+     *
+     * @return LayoutConfig
+     */
+    public function getFile()
+    {
+        return ($this->file);
+    }
+
+    /**
+     * Set file
+     *
+     * @return LayoutConfig
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+
+        return ($this);
+    }
+
+    public function upload()
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        $this->getFile()->move(
+            $this->getUploadRootDir(),
+            $this->getFile()->getClientOriginalName()
+        );
+
+        $this->previewPath = $this->getFile()->getClientOriginalName();
+        $this->file = null;
+    }
+
+    public function getAbsolutePreviewPath()
+    {
+        return null === $this->previewPath
+            ? null
+            : $this->getUploadRootDir().'/'.$this->previewPath;
+    }
+
+    public function getWebPreviewPath()
+    {
+        return null === $this->previewPath
+            ? null
+            : $this->getUploadDir().'/'.$this->previewPath;
+    }
+
+    private function getUploadRootDir()
+    {
+        return __DIR__.'/../../../../../../web/'.$this->getUploadDir();
+    }
+
+    private function getUploadDir()
+    {
+        return '/uploads/layouts/previews/';
     }
 
     public function __toString()

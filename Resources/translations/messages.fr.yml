@@ -103,4 +103,5 @@ layout_config:
         label: Nom
         calendar_start: Heure de début des grilles horraires
         calendar_end: Heure de fin des grilles horraires
+        preview_path: Changer l'image de prévisualisation
         layout: Choix du modèle

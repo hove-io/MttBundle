@@ -7,7 +7,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\File;
 
 class LayoutConfigType extends AbstractType
 {
@@ -32,7 +34,10 @@ class LayoutConfigType extends AbstractType
             array(
                 'label' => 'layout_config.labels.label',
                 'constraints' => array(
-                    new NotBlank()
+                    new NotBlank(),
+                    new Length(
+                        array('max' => 255)
+                    )
                 )
             )
         );
@@ -42,7 +47,12 @@ class LayoutConfigType extends AbstractType
             array(
                 'choices' => $this->hours,
                 'constraints' => array(
-                    new NotBlank()
+                    new NotBlank(),
+                    new Range(array(
+                            'min' => 0,
+                            'max' => 23
+                        )
+                    )
                 ),
                 'label' => 'layout_config.labels.calendar_start'
             )
@@ -59,13 +69,30 @@ class LayoutConfigType extends AbstractType
             )
         );
         $builder->add(
+            'file',
+            'file',
+            array(
+                'label' => 'layout_config.labels.preview_path',
+                'required' => false,
+                'constraints' => array(
+                    new File(array(
+                            'maxSize' => '5M'
+                        )
+                    )
+                )
+            )
+        );
+        $builder->add(
             'layout',
             'layout',
             array(
                 'choices' => $this->layouts,
                 'layouts' => $this->layouts,
                 'empty_value' => 'global.please_choose',
-                'label' => 'layout_config.labels.layout'
+                'label' => 'layout_config.labels.layout',
+                'constraints' => array(
+                    new NotBlank()
+                )
             )
         );
     }
