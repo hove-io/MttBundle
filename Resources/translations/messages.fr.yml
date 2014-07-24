@@ -97,3 +97,10 @@ frequency:
 area:
     labels:
         label: Nom du secteur
+
+layout_config:
+    labels:
+        label: Nom
+        calendar_start: Heure de début des grilles horraires
+        calendar_end: Heure de fin des grilles horraires
+        layout: Choix du modèle

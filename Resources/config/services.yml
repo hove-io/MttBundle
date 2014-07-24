@@ -30,6 +30,9 @@ parameters:
     canal_tp_mtt.task_cancelation.class: CanalTP\MttBundle\Services\Amqp\TaskCancelation
     # Area
     canal_tp_mtt.area_manager.class: CanalTP\MttBundle\Services\AreaManager
+    #Layout
+    canal_tp_mtt.layout.class: CanalTP\MttBundle\Services\LayoutManager
+    canal_tp_mtt.layout_config.class: CanalTP\MttBundle\Services\LayoutConfigManager
 
 services:
     #TWIG extensions
@@ -71,10 +74,10 @@ services:
         class: "%canal_tp.mtt.navitia_debug_matcher.class%"
         arguments: ["@security.context"]
     # FORMS
-    form.type.layout_config:
-        class: CanalTP\MttBundle\Form\Type\LayoutConfigType
+    form.type.layout:
+        class: CanalTP\MttBundle\Form\Type\LayoutType
         tags:
-            - { name: form.type, alias: layout_config }
+            - { name: form.type, alias: layout }
     form.type.datepicker:
         class: CanalTP\MttBundle\Form\Type\DatepickerType
         tags:
@@ -153,4 +156,12 @@ services:
     # Area
     canal_tp_mtt.area_manager:
         class: %canal_tp_mtt.area_manager.class%
+        arguments: ['@doctrine.orm.entity_manager']
+    # LayoutConfig
+    canal_tp_mtt.layout_config:
+        class: %canal_tp_mtt.layout_config.class%
+        arguments: ['@doctrine.orm.entity_manager']
+    # Layout
+    canal_tp_mtt.layout:
+        class: %canal_tp_mtt.layout.class%
         arguments: ['@doctrine.orm.entity_manager']

@@ -13,7 +13,7 @@ class AreaController extends AbstractController
     {
         $form = $this->createForm(
             new AreaType(),
-            $this->areaManager->getSeasonWithExternalNetworkId($externalNetworkId, $areaId),
+            null,
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_area_edit',
