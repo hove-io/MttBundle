@@ -26,7 +26,7 @@ class AreaManager
         return ($this->repository->findAll());
     }
 
-    public function getSeasonWithExternalNetworkId($externaNetworkId, $areaId)
+    public function getAreaWithExternalNetworkId($externaNetworkId, $areaId)
     {
         $area = $this->find($areaId);
 
