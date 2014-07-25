@@ -140,3 +140,5 @@ area:
     list:
         columns:
             label: Nom du secteur
+    created: Le secteur a bien été ajouté
+    deleted: Le secteur a bien été supprimé
