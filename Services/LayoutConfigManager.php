@@ -28,10 +28,10 @@ class LayoutConfigManager
 
     public function save($layoutConfig)
     {
+        $this->om->persist($layoutConfig);
         $layoutConfig->upload();
         //TODO: Add NotesMode field in LayoutConfigType. (Create custom Layout)
         $layoutConfig->setNotesMode(LayoutConfig::NOTES_MODE_DISPATCHED);
-        $this->om->persist($layoutConfig);
         $this->om->flush();
     }
 }
