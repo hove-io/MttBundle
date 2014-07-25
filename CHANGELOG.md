@@ -1,3 +1,11 @@
+Notes de publication - METH - Version 1.1.0 (25/07/2014)
+
+** Récit
+    * [METH-279] - Formulaire de création/configuration des gabarits
+    * [METH-280] - Liste des secteurs
+    * [METH-281] - Création/Edition des secteurs
+
+
 Notes de publication - METH - Version 1.0.0 (17/07/2014)
 
 ** Sous-tâche
