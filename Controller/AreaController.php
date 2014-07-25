@@ -13,7 +13,7 @@ class AreaController extends AbstractController
     {
         $form = $this->createForm(
             new AreaType(),
-            $this->get('canal_tp_mtt.area_manager')->find($areaId),
+            $this->get('canal_tp_mtt.area_manager')->getAreaWithExternalNetworkId($externalNetworkId, $areaId),
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_area_edit',
