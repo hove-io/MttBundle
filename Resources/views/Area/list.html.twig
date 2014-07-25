@@ -32,8 +32,11 @@
                 </td>
                 <td>
                     {% if (is_granted('BUSINESS_MANAGE_AREA')) %}
-                        <a class="btn btn-default{{disabledBtn}}" href="{{ path('canal_tp_mtt_area_edit', {'externalNetworkId': externalNetworkId, 'areaId': area.id }) }}" class="btn btn-default{{disabledBtn}}" data-toggle="modal" data-target="#base-modal">
+                        <a class="btn btn-default" href="{{ path('canal_tp_mtt_area_edit', {'externalNetworkId': externalNetworkId, 'areaId': area.id }) }}" data-toggle="modal" data-target="#base-modal">
                             <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
+                        </a>
+                        <a class="btn btn-danger" href="{{ path('canal_tp_mtt_area_remove', {'externalNetworkId': externalNetworkId, 'areaId': area.id }) }}">
+                            <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
                         </a>
                     {% endif %}
                 </td>

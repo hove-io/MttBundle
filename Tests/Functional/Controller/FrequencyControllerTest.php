@@ -24,7 +24,7 @@ class FrequencyControllerTest extends AbstractControllerTest
             array(
                 'externalNetworkId' => $block->getTimetable()->getLineConfig()->getSeason()->getNetwork()->getExternalId(),
                 'blockId' 			=> $block->getId(),
-                'layoutId'          => $block->getTimetable()->getLineConfig()->getLayout(),
+                'layoutId'          => $block->getTimetable()->getLineConfig()->getLayoutConfig()->getId(),
             )
         );
     }
