@@ -70,4 +70,19 @@ class AreaControllerTest extends AbstractControllerTest
         $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
         $this->assertGreaterThan(0, $crawler->filter('div.form-group.has-error')->count());
     }
+
+
+    public function testDeleteArea()
+    {
+        $route = $this->generateRoute(
+            'canal_tp_mtt_area_remove',
+            array(
+                'areaId' => Fixture::AREA_ID,
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+            )
+        );
+        $crawler = $this->doRequestRoute($route, 200);
+        $areas = $this->getRepository('CanalTPMttBundle:Area')->find(Fixture::AREA_ID);
+        $this->assertTrue(count($areas) == 0, "Area was not deleted.");
+    }
 }
