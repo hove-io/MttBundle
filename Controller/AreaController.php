@@ -34,6 +34,14 @@ class AreaController extends AbstractController
 
         if ($form->isValid()) {
             $this->areaManager->save($form->getData(), $externalNetworkId);
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'area.created',
+                    array(),
+                    'default'
+                )
+            );
 
             return $this->redirect(
                 $this->generateUrl(
@@ -74,6 +82,30 @@ class AreaController extends AbstractController
             'CanalTPMttBundle:Area:list.html.twig',
             array(
                 'areas' => $this->get('canal_tp_mtt.area_manager')->findByExternalNetworkId($externalNetworkId),
+                'externalNetworkId' => $externalNetworkId
+            )
+        );
+    }
+
+    public function removeAction($externalNetworkId, $areaId)
+    {
+        $this->isGranted('BUSINESS_MANAGE_AREA');
+        $areaManager = $this->get('canal_tp_mtt.area_manager');
+
+        $areaManager->remove($areaId);
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $this->get('translator')->trans(
+                'area.deleted',
+                array(),
+                'default'
+            )
+        );
+
+        return $this->render(
+            'CanalTPMttBundle:Area:list.html.twig',
+            array(
+                'areas' => $areaManager->findByExternalNetworkId($externalNetworkId),
                 'externalNetworkId' => $externalNetworkId
             )
         );

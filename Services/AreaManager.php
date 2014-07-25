@@ -54,6 +54,14 @@ class AreaManager
         return empty($areaId) ? null : $this->repository->find($areaId);
     }
 
+    public function remove($areaId)
+    {
+        $area = $this->repository->find($areaId);
+
+        $this->om->remove($area);
+        $this->om->flush();
+    }
+
     public function save($area, $externaNetworkId)
     {
         $networkRepository = $this->om->getRepository('CanalTPMttBundle:Network');
