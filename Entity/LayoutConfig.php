@@ -304,13 +304,17 @@ class LayoutConfig extends AbstractEntity
         if (null === $this->getFile()) {
             return;
         }
-
-        $this->getFile()->move(
+        $file = $this->getFile()->move(
             $this->getUploadRootDir(),
             $this->getFile()->getClientOriginalName()
         );
+	$fileName = $this->getId() . '.' . $file->getExtension();
+        $file->move(
+            $this->getUploadRootDir(),
+            $fileName
+        );
 
-        $this->previewPath = $this->getFile()->getClientOriginalName();
+        $this->previewPath = $fileName;
         $this->file = null;
     }
 
