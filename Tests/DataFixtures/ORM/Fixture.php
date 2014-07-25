@@ -23,6 +23,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     const EXTERNAL_ROUTE_ID = 'route:TTR:Nav155';
     const EXTERNAL_STOP_POINT_ID = 'stop_point:TTR:SP:STPGB-2';
     const SEASON_ID = 1;
+    const AREA_ID = 1;
     const EXTERNAL_LAYOUT_CONFIG_ID_1 = 1;
     const EXTERNAL_LAYOUT_CONFIG_ID_2 = 2;
     public static $timetableId;
