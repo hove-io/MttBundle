@@ -26,9 +26,9 @@ class NetworkManager
      * @param  Integer $lineId
      * @return line
      */
-    public function findOneByExternalId($networkId)
+    public function findOneByExternalId($externalNetworkId)
     {
-        return ($this->repository->findOneByExternalId($networkId));
+        return ($this->repository->findOneByExternalId($externalNetworkId));
     }
 
     /**
@@ -65,9 +65,20 @@ class NetworkManager
         return ($networkId ? $this->repository->find($networkId) : null);
     }
 
-    public function save($network)
+    public function save($network, $networkId)
     {
-        $this->om->persist($network);
+        // var_dump($networkId);die;
+        $entityNetwork = $this->find($networkId);
+        // form is modified dinamycally so we need to refresh entity (id is lost during process)
+        if (!empty($entityNetwork)) {
+            $entityNetwork->setExternalId($network->getExternalId());
+            $entityNetwork->setExternalCoverageId($network->getExternalCoverageId());
+            $entityNetwork->setToken($network->getToken());
+            $entityNetwork->setLayoutConfigs($network->getLayoutConfigs());
+        } else {
+            $entityNetwork = $network;
+            $this->om->persist($entityNetwork);
+        }
         $this->om->flush();
     }
 

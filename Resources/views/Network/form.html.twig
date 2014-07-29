@@ -13,13 +13,15 @@
 
 {% block modal_body %}
     {{ form_errors(form) }}
-
     {{ form_row(form.token) }}
-
     {{ form_row(form.external_coverage_id) }}
-
-    {{ form_label(form.external_id, null, { 'label_attr': {'style': 'display:none;'} }) }}
-    {{ form_widget(form.external_id, { 'attr': {'style': 'display:none;'} }) }}
+    <div class="form-group">
+        {{ form_label(form.external_id, null, { 'label_attr': {'style': 'display:none;'} }) }}
+        {{ form_widget(form.external_id, { 'attr': {'style': 'display:none;'} }) }}
+    </div>
+    {% if is_granted('BUSINESS_ASSIGN_NETWORK_LAYOUT') %}
+        {{ form_row(form.layout_configs) }}
+    {% endif %}
 {% endblock %}
 
 {% block modal_actions %}
@@ -34,9 +36,12 @@
         $('#mtt_network_external_coverage_id').change(function(){
             var token = $('#mtt_network_token');
 
-            if (token.val() != '') {
-                var $networkSelect = $('#mtt_network_external_id').empty();
-
+            if (token.val() != '' && $(this).val() != '') {
+                var $networkSelect = $('#mtt_network_external_id');
+                // keep selected value when refreshing network list
+                if ($networkSelect.val() != '') {
+                    var previousValue = $networkSelect.val();
+                }
                 nav_api.getCoverageNetworks(
                     {
                         'externalCoverageId': $(this).val(),
@@ -44,9 +49,12 @@
                     },
                     function(networks){
                         var network = null;
-
+                        $networkSelect.empty();
                         for (key in networks) {
                             $networkSelect.append('<option value="' + key + '">' + networks[key] + '</option>');
+                        }
+                        if (previousValue) {
+                            $networkSelect.find('option[value="' + previousValue + '"]').prop('selected', true);
                         }
                         $networkSelect.show().siblings('label').show();
                     },
@@ -56,6 +64,7 @@
                 );
             }
         });
+        $('#mtt_network_external_coverage_id').change();
     });
     </script>
 {% endblock %}
