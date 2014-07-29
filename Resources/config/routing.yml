@@ -167,8 +167,8 @@ canal_tp_mtt_network_list:
     pattern: /networks/list
     defaults: { _controller: CanalTPMttBundle:Network:list }
 canal_tp_mtt_network_edit:
-    pattern: /networks/edit/{externalNetworkId}
-    defaults: { _controller: CanalTPMttBundle:Network:edit, externalNetworkId: null}
+    pattern: /networks/edit/{networkId}
+    defaults: { _controller: CanalTPMttBundle:Network:edit, networkId: null}
 
 #LayoutConfigs
 canal_tp_mtt_layout_config_list:

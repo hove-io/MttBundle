@@ -201,9 +201,18 @@ class Network extends AbstractEntity
     {
         return ($this->layoutConfigs);
     }
+    /**
+     * Set Object
+     *
+     * @return Network
+     */
+    public function setLayoutConfigs($layoutConfigs)
+    {
+        return $this->layoutConfigs = $layoutConfigs;
+    }
 
     /**
-     * Set LayoutConfigs
+     * add LayoutConfigs
      *
      * @return Network
      */
@@ -212,6 +221,17 @@ class Network extends AbstractEntity
         $this->layoutConfigs[] = $layoutConfig;
 
         return ($this);
+    }
+    /**
+     * Set LayoutConfigs
+     *
+     * @return Network
+     */
+    public function removeLayoutConfig($layoutConfig)
+    {
+        $this->layoutConfigs->removeElement($layoutConfig);
+
+        return $this;
     }
 
     /**
