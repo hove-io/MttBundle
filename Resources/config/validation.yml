@@ -1,4 +1,6 @@
 CanalTP\MttBundle\Entity\Network:
+    # constraints:
+        # - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [externalCoverageId, externalId]
     properties:
         externalCoverageId:
             - NotBlank: ~

@@ -3,7 +3,7 @@
 {% block list_title -%}
     {{'network.list'|trans({}, 'default')}}
     -
-    <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_network_edit') }}" class="btn btn-success">
+    <a href="{{ path('canal_tp_mtt_network_edit') }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
         <span class="glyphicon glyphicon-plus"></span> {{'network.add'|trans({}, 'default')}}
     </a>
 {% endblock %}
@@ -12,12 +12,13 @@
     <th>{{'network.external_coverage_id'|trans({}, 'default')}}</th>
     <th>{{'network.external_id'|trans({}, 'default')}}</th>
     <th>{{'network.token'|trans({}, 'default')}}</th>
+    <th>{{'global.actions'|trans({}, 'messages')}}</th>
 {% endblock %}
 
 {% block table_body -%}
     {% if networks|length == 0 %}
         <tr>
-            <td colspan="4">
+            <td colspan="5">
                 {{'global.no_items'|trans}}
             </td>
         </tr>
@@ -32,6 +33,11 @@
                 </td>
                 <td>
                     {{ network.token }}
+                </td>
+                <td>
+                    <a class="btn btn-default" href="{{ path('canal_tp_mtt_network_edit', {'networkId': network.id }) }}" data-toggle="modal" data-target="#base-modal">
+                            <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
+                        </a>
                 </td>
             </tr>
         {% endfor %}

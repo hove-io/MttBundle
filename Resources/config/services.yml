@@ -82,6 +82,10 @@ services:
         class: CanalTP\MttBundle\Form\Type\LayoutConfigNetworkType
         tags:
             - { name: form.type, alias: layout_config_network }
+    form.type.layout_configs_network:
+        class: CanalTP\MttBundle\Form\Type\LayoutConfigsNetworkType
+        tags:
+            - { name: form.type, alias: layout_configs_network }
     form.type.datepicker:
         class: CanalTP\MttBundle\Form\Type\DatepickerType
         tags:
