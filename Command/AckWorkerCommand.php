@@ -27,7 +27,7 @@ class AckWorkerCommand extends ContainerAwareCommand
             $task = $this->amqpPdfGenPublisher->addAckToTask($msg);
             $this->logger->info(" [x] Ack Inserted for task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished());
             var_dump(" [x] Ack Inserted for task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished());
-            if (count($task->getAmqpAcks()) == $task->getJobsPublished()) {
+            if (count($task->getAmqpAcks()) >= $task->getJobsPublished()) {
                 $msgCompleted = new AMQPMessage(
                     'Completed',
                     array('delivery_mode' => 2) # make message persistent
@@ -46,8 +46,8 @@ class AckWorkerCommand extends ContainerAwareCommand
             $this->logger->error("ERROR during acking process. Ack body: " . print_r($msg->body));
             $this->logger->error($e->getMessage());
         }
-        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
         // acknowledge broker
+        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
     }
 
     private function runProcess($ack_queue_name)
