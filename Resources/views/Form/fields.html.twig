@@ -16,6 +16,20 @@
     </div>
 {% endblock %}
 
+{% block layout_configs_network_widget %}
+    <div class="clearfix">
+    {% for child in choices %}
+        <div class="">
+            <label for="layout-{{ child.value }}" class="w50c {% if child.value in form.vars.value %} active{% endif %}">
+                <div>
+                    <input {% if child.value in form.vars.value %} checked="checked"{% endif %} type="checkbox" name="{{ full_name }}" id="layout-{{ child.value }}" value="{{ child.value }}"> {{ child.label }}
+                </div>
+            </label>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
+
 {% block layout_widget %}
     <div class="clearfix" data-toggle="buttons">
     {% for child in choices %}

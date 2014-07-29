@@ -38,16 +38,18 @@ class NetworkController extends AbstractController
 
     }
 
-    private function buildForm($externalNetworkId)
+    private function buildForm($networkId)
     {
         $coverage = $this->get('canal_tp_mtt.navitia')->getCoverages();
+        $layoutConfigs = $this->get('canal_tp_mtt.layout_config')->findAll();
 
         $form = $this->createForm(
-            new NetworkType($coverage->regions, $externalNetworkId),
-            $this->networkManager->findOneByExternalId($externalNetworkId),
+            new NetworkType($coverage->regions, $layoutConfigs, $this->get('security.context')->isGranted('BUSINESS_ASSIGN_NETWORK_LAYOUT')),
+            $this->networkManager->find($networkId),
             array(
                 'action' => $this->generateUrl(
-                    'canal_tp_mtt_network_edit'
+                    'canal_tp_mtt_network_edit',
+                    array('networkId' => $networkId)
                 )
             )
         );
@@ -55,12 +57,12 @@ class NetworkController extends AbstractController
         return ($form);
     }
 
-    private function processForm(Request $request, $form)
+    private function processForm(Request $request, $form, $networkId)
     {
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->networkManager->save($form->getData());
+            $this->networkManager->save($form->getData(), $networkId);
 
             return $this->redirect(
                 $this->generateUrl('canal_tp_mtt_network_list')
@@ -70,12 +72,12 @@ class NetworkController extends AbstractController
         return (null);
     }
 
-    public function editAction(Request $request, $externalNetworkId)
+    public function editAction(Request $request, $networkId)
     {
         $this->networkManager = $this->get('canal_tp_mtt.network_manager');
 
-        $form = $this->buildForm($externalNetworkId);
-        $render = $this->processForm($request, $form);
+        $form = $this->buildForm($networkId);
+        $render = $this->processForm($request, $form, $networkId);
         if (!$render) {
             return $this->render(
                 'CanalTPMttBundle:Network:form.html.twig',
