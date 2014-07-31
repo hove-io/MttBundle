@@ -105,7 +105,6 @@ class PdfGenCompletionLib
                     $pdfGenerationDate->setTimestamp($ack->getPayload()->generationResult->created);
                     $stopPoint->setPdfGenerationDate($pdfGenerationDate);
                     $this->om->persist($stopPoint);
-                    //TODO: call http://jira.canaltp.fr/browse/METH-202
                     $this->mediaManager->saveStopPointTimetable(
                         $timetable,
                         $stopPoint->getExternalId(),
@@ -172,7 +171,10 @@ class PdfGenCompletionLib
         }
         $pdfGenerator = $this->container->get('canal_tp_mtt.pdf_generator');
         $distributionListManager = $this->container->get('canal_tp.mtt.distribution_list_manager');
-        $pdfGenerator->aggregatePdf($paths, $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable));
+        $pdfGenerator->aggregatePdf(
+            $paths, 
+            $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable)
+        );
 
         echo "Distribution List saved to ", $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable), " / Files aggregated ", count($paths), "\r\n";
     }
