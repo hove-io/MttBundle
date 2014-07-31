@@ -177,7 +177,7 @@ class Navitia
         return ($response->lines[0]->name);
     }
 
-    // TODO: Move this function in SamBundle
+    // TODO: Move this function in SamCoreBundle
     /**
      * Returns coverages
      *
