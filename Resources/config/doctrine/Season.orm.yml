@@ -41,7 +41,7 @@ CanalTP\MttBundle\Entity\Season:
             cascade:
                 - remove
         areasPdf:
-            targetEntity: Area
+            targetEntity: AreaPdf
             mappedBy: season
             cascade:
                 - remove

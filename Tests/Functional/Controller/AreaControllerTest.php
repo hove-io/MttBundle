@@ -21,7 +21,7 @@ class AreaControllerTest extends AbstractControllerTest
 
     private function getEditForm()
     {
-        // Check if the form is correctly display
+        // Check if the form is correctly displayed
         $route = $this->getRoute('canal_tp_mtt_area_edit');
         $crawler = $this->doRequestRoute($route);
 
@@ -71,6 +71,15 @@ class AreaControllerTest extends AbstractControllerTest
         $this->assertGreaterThan(0, $crawler->filter('div.form-group.has-error')->count());
     }
 
+    public function testAreaPdfModal()
+    {
+        // Check if the form is correctly displayed
+        $route = $this->getRoute('canal_tp_mtt_area_list');
+        $crawler = $this->doRequestRoute($route, 200);
+        $link = $crawler->filter('table tbody tr')->first()->filter('td a')->first()->link();
+        $crawler2 = $crawler = $this->doRequestRoute($link->getUri(), 200);
+        $this->assertTrue($crawler2->filter('table tr')->count() > 0);
+    }
 
     public function testDeleteArea()
     {
