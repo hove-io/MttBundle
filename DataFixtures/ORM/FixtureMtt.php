@@ -5,7 +5,7 @@ namespace CanalTP\MttBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 
-use CanalTP\SamBundle\Tests\DataFixtures\ORM\Fixture as SamBaseFixture;
+use CanalTP\SamCoreBundle\Tests\DataFixtures\ORM\Fixture as SamBaseFixture;
 use CanalTP\MttBundle\Entity\Network;
 use CanalTP\MttBundle\Entity\Layout;
 
