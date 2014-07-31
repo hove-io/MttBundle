@@ -137,8 +137,11 @@ block:
 area:
     title: Liste des secteurs
     create: Créer un secteur
+    edit: Éditer un secteur
     list:
         columns:
             label: Nom du secteur
     created: Le secteur a bien été ajouté
     deleted: Le secteur a bien été supprimé
+    pdf_list: Liste des pdf
+    pdf_modal_title: Pdf du secteur "%areaTitle%"
