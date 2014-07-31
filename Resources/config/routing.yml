@@ -213,3 +213,6 @@ canal_tp_mtt_area_remove:
     defaults: { _controller: CanalTPMttBundle:Area:remove }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_area_list_pdf:
+    pattern: /areas/{areaId}/listPdf
+    defaults: { _controller: CanalTPMttBundle:Area:listPdf}
