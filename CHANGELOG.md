@@ -1,9 +1,18 @@
-Notes de publication - METH - Version 1.1.0 (25/07/2014)
+Notes de publication - METH - Version 1.1.0 (31/07/2014)
 
+** Bogue
+    * [METH-184] - Non signalement d'un débordement de cadre en fréquence
+    * [METH-239] - Médiathèque - Mise à jour de la stratégie
+    
 ** Récit
+    * [METH-1] - Formulaire d'assignation des layouts
     * [METH-279] - Formulaire de création/configuration des gabarits
     * [METH-280] - Liste des secteurs
     * [METH-281] - Création/Edition des secteurs
+    * [METH-285] - Suppression d'un secteur (sans les PDF)
+    
+** Tâche
+    * [METH-284] - Modale de gestion des PDF de secteurs
 
 
 Notes de publication - METH - Version 1.0.0 (17/07/2014)
