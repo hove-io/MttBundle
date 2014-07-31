@@ -8,6 +8,10 @@ use CanalTP\MttBundle\Form\Type\BlockType;
 
 class ImgType extends BlockType
 {
+    const MIME_IMAGETYPE_PNG = 'image/png';
+    // used in ImgHandler to determine if conversion is needed
+    const MIME_IMAGETYPE_JPEG = 'image/jpeg';
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -19,8 +23,8 @@ class ImgType extends BlockType
                         new File(
                             array(
                                 'mimeTypes' => array(
-                                    'image/png',
-                                    'image/jpeg'
+                                    self::MIME_IMAGETYPE_PNG,
+                                    self::MIME_IMAGETYPE_JPEG
                                 )
                             )
                         ),
