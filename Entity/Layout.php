@@ -155,6 +155,23 @@ class Layout extends AbstractEntity
     }
 
     /**
+     * Get orientation
+     *
+     * @return array
+     */
+    public function getOrientationAsString()
+    {
+        $orientationAsString = '';
+        switch($this->orientation){
+            case self::ORIENTATION_LANDSCAPE:
+            default:
+                $orientationAsString = 'landscape';
+                break;
+        }
+        return $orientationAsString;
+    }
+
+    /**
      * Set notesModes
      *
      * @param array $notesModes
