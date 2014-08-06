@@ -2,8 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * AmqpTask
  */
@@ -11,11 +9,12 @@ class AmqpTask extends AbstractEntity
 {
     const SEASON_PDF_GENERATION_TYPE = 1;
     const DISTRIBUTION_LIST_PDF_GENERATION_TYPE = 2;
-    
+
     const CANCELED_STATUS = 0;
     const LAUNCHED_STATUS = 1;
     const COMPLETED_STATUS = 2;
-    
+    const ERROR_STATUS = 3;
+
     /**
      * @var integer
      */
@@ -50,7 +49,7 @@ class AmqpTask extends AbstractEntity
      * @var Object
      */
     private $network;
-    
+
     /**
      * @var array
      */
@@ -61,11 +60,10 @@ class AmqpTask extends AbstractEntity
      */
     private $amqpAcks;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -75,7 +73,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Set typeId
      *
-     * @param string $typeId
+     * @param  string   $typeId
      * @return AmqpTask
      */
     public function setTypeId($typeId)
@@ -91,7 +89,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Get typeId
      *
-     * @return string 
+     * @return string
      */
     public function getTypeId()
     {
@@ -101,7 +99,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Set objectId
      *
-     * @param integer $objectId
+     * @param  integer  $objectId
      * @return AmqpTask
      */
     public function setObjectId($objectId)
@@ -114,7 +112,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Get objectId
      *
-     * @return integer 
+     * @return integer
      */
     public function getObjectId()
     {
@@ -124,7 +122,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Set completed
      *
-     * @param boolean $completed
+     * @param  boolean  $completed
      * @return AmqpTask
      */
     public function setStatus($status)
@@ -137,7 +135,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Get completed
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getStatus()
     {
@@ -147,7 +145,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Set jobsPublished
      *
-     * @param integer $jobsPublished
+     * @param  integer  $jobsPublished
      * @return AmqpTask
      */
     public function setJobsPublished($jobsPublished)
@@ -160,7 +158,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Get jobsPublished
      *
-     * @return integer 
+     * @return integer
      */
     public function getJobsPublished()
     {
@@ -170,7 +168,7 @@ class AmqpTask extends AbstractEntity
     /**
      * Set completedAt
      *
-     * @param \DateTime $completedAt
+     * @param  \DateTime $completedAt
      * @return AmqpTask
      */
     public function setCompletedAt($completedAt)
@@ -183,13 +181,13 @@ class AmqpTask extends AbstractEntity
     /**
      * Get completedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCompletedAt()
     {
         return $this->completedAt;
     }
-    
+
     /**
      * Get Object
      *
@@ -211,7 +209,7 @@ class AmqpTask extends AbstractEntity
 
         return ($this);
     }
-    
+
     /**
      * Get Object
      *
@@ -233,7 +231,7 @@ class AmqpTask extends AbstractEntity
 
         return ($this);
     }
-    
+
     /**
      * Get Options
      *
@@ -255,17 +253,17 @@ class AmqpTask extends AbstractEntity
 
         return ($this);
     }
-    
+
     public function isCompleted()
     {
         return $this->status == self::COMPLETED_STATUS;
     }
-    
+
     public function isUnderProgress()
     {
         return $this->status == self::LAUNCHED_STATUS;
     }
-    
+
     public function isCanceled()
     {
         return $this->status == self::CANCELED_STATUS;
@@ -273,15 +271,24 @@ class AmqpTask extends AbstractEntity
 
     public function complete()
     {
-        $this->status = self::COMPLETED_STATUS;
-        
+        if ($this->isUnderProgress()) {
+            $this->status = self::COMPLETED_STATUS;
+        }
+
         return $this;
     }
-    
+
     public function cancel()
     {
         $this->status = self::CANCELED_STATUS;
-        
+
+        return $this;
+    }
+
+    public function fail()
+    {
+        $this->status = self::ERROR_STATUS;
+
         return $this;
     }
 }

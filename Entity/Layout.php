@@ -2,13 +2,14 @@
 
 namespace CanalTP\MttBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Layout
  */
 class Layout extends AbstractEntity
 {
-    const NOTES_MODE_AGGREGATED = 0;
-    const NOTES_MODE_DISPATCHED = 1;
+    const ORIENTATION_LANDSCAPE = 0;
 
     /**
      * @var integer
@@ -23,48 +24,33 @@ class Layout extends AbstractEntity
     /**
      * @var string
      */
-    private $twig;
+    private $path;
 
     /**
      * @var string
      */
-    private $preview;
-    
-    /**
-     * @var integer
-     * default value 1
-     */
-    private $cssVersion = 1;
+    private $previewPath;
 
     /**
-     * @var string
+     * @var array
      */
-    private $orientation;
+    private $orientation = self::ORIENTATION_LANDSCAPE;
 
     /**
-     * @var integer
+     * @var array
      */
-    private $calendarStart;
+    private $notesModes;
 
     /**
      * @var integer
      */
-    private $calendarEnd;
-
-    /**
-     * @var integer
-     */
-    private $notesMode = self::NOTES_MODE_AGGREGATED;
+    private $cssVersion;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $networks;
+    private $layoutConfigs;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lineConfigs;
 
     /**
      * Get id
@@ -79,7 +65,7 @@ class Layout extends AbstractEntity
     /**
      * Set label
      *
-     * @param  string $label
+     * @param string $label
      * @return Layout
      */
     public function setLabel($label)
@@ -100,55 +86,55 @@ class Layout extends AbstractEntity
     }
 
     /**
-     * Set twig
+     * Set path
      *
-     * @param  string $twig
+     * @param string $path
      * @return Layout
      */
-    public function setTwig($twig)
+    public function setPath($path)
     {
-        $this->twig = $twig;
+        $this->path = $path;
 
         return $this;
     }
 
     /**
-     * Get twig
+     * Get path
      *
      * @return string
      */
-    public function getTwig()
+    public function getPath()
     {
-        return $this->twig;
+        return $this->path;
     }
 
     /**
-     * Set preview
+     * Set previewPath
      *
-     * @param  string $preview
+     * @param string $previewPath
      * @return Layout
      */
-    public function setPreview($preview)
+    public function setPreviewPath($previewPath)
     {
-        $this->preview = $preview;
+        $this->previewPath = $previewPath;
 
         return $this;
     }
 
     /**
-     * Get preview
+     * Get previewPath
      *
      * @return string
      */
-    public function getPreview()
+    public function getPreviewPath()
     {
-        return $this->preview;
+        return $this->previewPath;
     }
 
     /**
      * Set orientation
      *
-     * @param  string $orientation
+     * @param array $orientation
      * @return Layout
      */
     public function setOrientation($orientation)
@@ -161,7 +147,7 @@ class Layout extends AbstractEntity
     /**
      * Get orientation
      *
-     * @return string
+     * @return array
      */
     public function getOrientation()
     {
@@ -169,9 +155,32 @@ class Layout extends AbstractEntity
     }
 
     /**
+     * Set notesModes
+     *
+     * @param array $notesModes
+     * @return Layout
+     */
+    public function setNotesModes($notesModes)
+    {
+        $this->notesModes = $notesModes;
+
+        return $this;
+    }
+
+    /**
+     * Get notesModes
+     *
+     * @return array
+     */
+    public function getNotesModes()
+    {
+        return $this->notesModes;
+    }
+
+    /**
      * Set cssVersion
      *
-     * @param  integer $cssVersion
+     * @param integer $cssVersion
      * @return Layout
      */
     public function setCssVersion($cssVersion)
@@ -192,124 +201,23 @@ class Layout extends AbstractEntity
     }
 
     /**
-     * Set calendarStart
-     *
-     * @param  integer $calendarStart
-     * @return Layout
-     */
-    public function setCalendarStart($calendarStart)
-    {
-        $this->calendarStart = $calendarStart;
-
-        return $this;
-    }
-
-    /**
-     * Get calendarStart
-     *
-     * @return integer
-     */
-    public function getCalendarStart()
-    {
-        return $this->calendarStart;
-    }
-
-    /**
-     * Set calendarEnd
-     *
-     * @param  integer $calendarEnd
-     * @return Layout
-     */
-    public function setCalendarEnd($calendarEnd)
-    {
-        $this->calendarEnd = $calendarEnd;
-
-        return $this;
-    }
-
-    /**
-     * Get calendarEnd
-     *
-     * @return integer
-     */
-    public function getCalendarEnd()
-    {
-        return $this->calendarEnd;
-    }
-
-    /**
-     * Set notesMode
-     *
-     * @param  integer $notesMode
-     * @return Layout
-     */
-    public function setNotesMode($notesMode)
-    {
-        $this->notesMode = $notesMode;
-
-        return $this;
-    }
-
-    /**
-     * Get notesMode
-     *
-     * @return integer
-     */
-    public function getNotesMode()
-    {
-        return $this->notesMode;
-    }
-
-    /**
-     * Set Networks
+     * Set LayoutConfigs
      *
      * @return Collections\Collection
      */
-    public function getNetworks()
+    public function getLayoutConfigs()
     {
-        return ($this->networks);
+        return ($this->layoutConfigs);
     }
 
     /**
-     * Set networks
+     * Set LayoutConfigs
      *
      * @return Layout
      */
-    public function setNetworks($networks)
+    public function setLayoutConfigs($layoutConfigs)
     {
-        $this->networks = $networks;
-
-        return ($this);
-    }
-
-    /**
-     * Set Networks
-     *
-     * @return Collections\Collection
-     */
-    public function getLineConfigs()
-    {
-        return ($this->lineConfigs);
-    }
-
-    public function aggregatesNotes()
-    {
-        return $this->getNotesMode() == self::NOTES_MODE_AGGREGATED;
-    }
-    
-    public function dispatchesNotes()
-    {
-        return $this->getNotesMode() == self::NOTES_MODE_DISPATCHED;
-    }
-    
-    /**
-     * Set networks
-     *
-     * @return Layout
-     */
-    public function setLineConfigs($lineConfigs)
-    {
-        $this->lineConfigs = $lineConfigs;
+        $this->layoutConfigs = $layoutConfigs;
 
         return ($this);
     }

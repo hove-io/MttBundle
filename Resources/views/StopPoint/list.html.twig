@@ -22,7 +22,7 @@
                     </a>
                 {% endif %}
                 {% if (is_granted('BUSINESS_CHOOSE_LAYOUT')) %}
-                    <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}"">
+                    <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}">
                         <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}
                     </a>
                 {% endif %}
@@ -65,7 +65,7 @@
                         <button data-toggle="dropdown" type="button" class="btn btn-default dropdown-toggle{% if currentSeason.locked %} disabled{% endif %}">
                             {{'stop_point.action.header'|trans({}, 'default')}} <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu pull-right" role="menu">
+                        <ul class="dropdown-menu pull-right force-show-nojs" role="menu">
                             <li>
                                 <a href="{{ path('canal_tp_mtt_calendar_view', {'externalNetworkId':externalNetworkId, 'externalRouteId': externalRouteId, 'externalStopPointId' : route.stop_point.id, 'currentSeasonId':currentSeason.id}) }}">
                                     <span class="glyphicon glyphicon-calendar"></span> {{'stop_point.view_calendars'|trans({}, 'default')}}

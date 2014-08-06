@@ -20,7 +20,7 @@ class LineConfig extends AbstractEntity
     /**
      * @var string
      */
-    private $layout;
+    private $layoutConfig;
 
     /**
      * @var string
@@ -93,26 +93,26 @@ class LineConfig extends AbstractEntity
     }
 
     /**
-     * Set layout
+     * Set LayoutConfig
      *
-     * @param  string $layout
+     * @param  string $layoutConfig
      * @return Line
      */
-    public function setLayout($layout)
+    public function setLayoutConfig($layoutConfig)
     {
-        $this->layout = $layout;
+        $this->layoutConfig = $layoutConfig;
 
         return $this;
     }
 
     /**
-     * Get getLayout
+     * Get getLayoutConfig
      *
      * @return string
      */
-    public function getLayout()
+    public function getLayoutConfig()
     {
-        return $this->layout;
+        return $this->layoutConfig;
     }
 
     /**
@@ -229,7 +229,7 @@ class LineConfig extends AbstractEntity
     {
         return $this->timetables;
     }
-    
+
     public function isLocked()
     {
         return $this->getSeason() != null && $this->getSeason()->isLocked();

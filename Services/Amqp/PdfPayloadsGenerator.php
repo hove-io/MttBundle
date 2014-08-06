@@ -22,10 +22,10 @@ class PdfPayloadsGenerator
     private $stopPointManager = null;
 
     public function __construct(
-        Container $co, 
-        Router $router, 
-        Navitia $navitia, 
-        TimetableManager $timetableManager, 
+        Container $co,
+        Router $router,
+        Navitia $navitia,
+        TimetableManager $timetableManager,
         StopPointManager $stopPointManager
     )
     {
@@ -35,7 +35,7 @@ class PdfPayloadsGenerator
         $this->timetableManager = $timetableManager;
         $this->stopPointManager = $stopPointManager;
     }
-    
+
     // construct payload for AMQP message
     private function getPayload($network, $season, $lineConfig, $externalRouteId, $stopPoint)
     {
@@ -65,9 +65,10 @@ class PdfPayloadsGenerator
             'externalLineId'        => $lineConfig->getExternalLineId(),
             'externalStopPointId'   => $stopPoint->id,
         );
+
         return $payload;
     }
-    
+
     private function getRouteEnhancedStopPoints($network, $externalRouteId, $timetable)
     {
         $routeSchedulesData = $this->navitia->getRouteStopPoints($network, $externalRouteId);
@@ -81,9 +82,10 @@ class PdfPayloadsGenerator
                 $stopPoints = $routeSchedulesData->route_schedules[0]->table->rows;
             }
         }
+
         return $stopPoints;
     }
-    
+
     public function getStopPointsPayloads($timetable, $stopPointsExternalIds)
     {
         $lineConfig = $timetable->getLineConfig();
@@ -92,17 +94,18 @@ class PdfPayloadsGenerator
         $network = $season->getNetwork();
         $routeEnhancedStopPoints = $this->getRouteEnhancedStopPoints($network, $externalRouteId, $timetable);
         $payloads = array();
-        foreach($routeEnhancedStopPoints as $enhancedStopPoint) {
+        foreach ($routeEnhancedStopPoints as $enhancedStopPoint) {
             if (in_array($enhancedStopPoint->stop_point->id, $stopPointsExternalIds)) {
                 $payloads[] = $this->getPayload(
-                    $network, 
-                    $season, 
-                    $lineConfig, 
-                    $externalRouteId, 
+                    $network,
+                    $season,
+                    $lineConfig,
+                    $externalRouteId,
                     $enhancedStopPoint->stop_point
                 );
             }
         }
+
         return $payloads;
     }
 
@@ -113,22 +116,22 @@ class PdfPayloadsGenerator
         foreach ($season->getLineConfigs() as $lineConfig) {
             $externalLineId = $lineConfig->getExternalLineId();
             $routes = $this->navitia->getLineRoutes(
-                $network->getExternalCoverageId(), 
-                $network->getExternalId(), 
+                $network->getExternalCoverageId(),
+                $network->getExternalId(),
                 $externalLineId
             );
             foreach ($routes as $route) {
                 $timetable = $this->timetableManager->findTimetableByExternalRouteIdAndLineConfig(
-                    $route->id, 
+                    $route->id,
                     $lineConfig
                 );
                 $stopPoints = $this->getRouteEnhancedStopPoints($network, $route->id, $timetable);
-                foreach($stopPoints as $stopPoint) {
+                foreach ($stopPoints as $stopPoint) {
                     $payloads[] = $this->getPayload(
-                        $network, 
-                        $season, 
-                        $lineConfig, 
-                        $route->id, 
+                        $network,
+                        $season,
+                        $lineConfig,
+                        $route->id,
                         $stopPoint->stop_point
                     );
                 }
@@ -137,6 +140,7 @@ class PdfPayloadsGenerator
         if (empty($payloads)) {
             throw new \Exception('pdfGeneration.no_pdf');
         }
+
         return $payloads;
     }
 }

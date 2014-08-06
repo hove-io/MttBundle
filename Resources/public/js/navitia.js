@@ -1,4 +1,4 @@
-define('navitia', ['jquery', 'mtt/utils', 'mtt/translations/messages'], function($, utils) {
+define('navitia', ['jquery', 'mtt/utils', 'translations/messages'], function($, utils) {
     var self = {};
     var _url = null;
     var $msgWrapperTpl = utils.getTpl('msgWrapperTpl');
@@ -19,7 +19,7 @@ define('navitia', ['jquery', 'mtt/utils', 'mtt/translations/messages'], function
         }).fail(function() {
             var msg = Translator.trans('network.error.wrong_token', {}, 'message');
 
-            $msgWrapperTpl.append('<div>' + msg + '</div>');
+            $msgWrapperTpl.empty().append('<div>' + msg + '</div>');
             $('.modal-header').after($msgWrapperTpl);
             callbackFail();
         });

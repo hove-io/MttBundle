@@ -8,8 +8,6 @@
 namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\Filesystem\Filesystem;
-use CanalTP\MttBundle\Entity\Timetable;
-use CanalTP\MttBundle\Services\DistributionListManager;
 
 use fpdi;
 
@@ -73,6 +71,7 @@ class PdfGenerator
         if (!is_dir($pathDir)) {
             mkdir($pathDir, 0777, true);
         }
+
         return $fpdi->Output($path, 'F');
     }
 }

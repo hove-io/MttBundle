@@ -49,13 +49,17 @@ class StopPointManager
 
     private function initStopPointPois($externalCoverageId)
     {
+        $distance = 400;
         $pois = $this->navitia->getStopPointPois(
             $externalCoverageId,
-            $this->stopPoint->getExternalId()
+            $this->stopPoint->getExternalId(),
+            $distance
         );
 
-        if (isset($pois->pagination) && $pois->pagination->total_result)
+        $this->stopPoint->setPoiDistance($distance);
+        if (isset($pois->pagination) && $pois->pagination->total_result) {
             $this->stopPoint->setPois($pois->places_nearby);
+        }
     }
 
     // TODO: mutualize with timetable manager?
@@ -102,25 +106,26 @@ class StopPointManager
     }
 
     public function getPrevNextStopPoints($network, $externalRouteId, $externalStopPointId)
-	{
-		$result = $this->navitia->getRouteStopPoints(
-			$network,
-			$externalRouteId,
-			$externalStopPointId
-		);
+    {
+        $result = $this->navitia->getRouteStopPoints(
+            $network,
+            $externalRouteId,
+            $externalStopPointId
+        );
         $prevNext = array();
-		foreach($result->route_schedules[0]->table->rows as $index => $stopPointData) {
-			if ($stopPointData->stop_point->id == $externalStopPointId) {
-				if (isset($result->route_schedules[0]->table->rows[$index-1])) {
-					$prevNext['prev'] = $result->route_schedules[0]->table->rows[$index-1]->stop_point->id;
-				}
-				if (isset($result->route_schedules[0]->table->rows[$index+1])) {
-					$prevNext['next'] = $result->route_schedules[0]->table->rows[$index+1]->stop_point->id;
-				}
-			}
-		}
-		return $prevNext;
-	}
+        foreach ($result->route_schedules[0]->table->rows as $index => $stopPointData) {
+            if ($stopPointData->stop_point->id == $externalStopPointId) {
+                if (isset($result->route_schedules[0]->table->rows[$index-1])) {
+                    $prevNext['prev'] = $result->route_schedules[0]->table->rows[$index-1]->stop_point->id;
+                }
+                if (isset($result->route_schedules[0]->table->rows[$index+1])) {
+                    $prevNext['next'] = $result->route_schedules[0]->table->rows[$index+1]->stop_point->id;
+                }
+            }
+        }
+
+        return $prevNext;
+    }
 
     /**
      * Return StopPoints list with Data from navitia

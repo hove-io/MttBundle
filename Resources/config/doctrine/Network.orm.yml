@@ -41,6 +41,9 @@ CanalTP\MttBundle\Entity\Network:
         amqpTasks:
             targetEntity: AmqpTask
             mappedBy: network
+        areas:
+            targetEntity: Area
+            mappedBy: network
     manyToMany:
         users:
             targetEntity: CanalTP\SamEcoreUserManagerBundle\Entity\User
@@ -52,13 +55,13 @@ CanalTP\MttBundle\Entity\Network:
                 inverseJoinColumns:
                     user_id:
                         referencedColumnName: usr_id
-        layouts:
-            targetEntity: CanalTP\MttBundle\Entity\Layout
+        layoutConfigs:
+            targetEntity: CanalTP\MttBundle\Entity\LayoutConfig
             joinTable:
-                name: mtt.layouts_networks
+                name: mtt.layout_config_network
                 joinColumns:
                     network_id:
                         referencedColumnName: id
                 inverseJoinColumns:
-                    layout_id:
+                    layout_config_id:
                         referencedColumnName: id

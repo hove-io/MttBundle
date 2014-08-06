@@ -16,6 +16,12 @@ define(['jquery'], function($){
     {
         $btn.addClass('disabled').find('span.glyphicon').hide();
         $btn.prepend('<span class="glyphicon glyphicon-refresh icon-refresh-animate"></span>');
+        if ($btn.is('a')) {
+            $btn.unbind('click');
+            $btn.click(function(){
+                return false;
+            });
+        }
     };
 
     return utils;

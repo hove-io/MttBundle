@@ -6,9 +6,9 @@ class AmqpTaskController extends AbstractController
 {
     public function cancelAction($externalNetworkId, $taskId)
     {
-        try{
+        try {
             $this->get('canal_tp_mtt.task_cancelation')->cancel($taskId);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add(
                 'danger',
                 $this->get('translator')->trans(
@@ -18,6 +18,7 @@ class AmqpTaskController extends AbstractController
                 )
             );
         }
+
         return $this->redirect(
             $this->generateUrl(
                 'canal_tp_mtt_homepage',

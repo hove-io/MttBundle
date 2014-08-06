@@ -28,6 +28,11 @@ parameters:
     canal_tp_mtt.amqp_pdf_gen_publisher.class: CanalTP\MttBundle\Services\Amqp\PdfGenPublisher
     canal_tp_mtt.pdf_gen_completion_lib.class: CanalTP\MttBundle\Services\PdfGenCompletionLib
     canal_tp_mtt.task_cancelation.class: CanalTP\MttBundle\Services\Amqp\TaskCancelation
+    # Area
+    canal_tp_mtt.area_manager.class: CanalTP\MttBundle\Services\AreaManager
+    #Layout
+    canal_tp_mtt.layout.class: CanalTP\MttBundle\Services\LayoutManager
+    canal_tp_mtt.layout_config.class: CanalTP\MttBundle\Services\LayoutConfigManager
 
 services:
     #TWIG extensions
@@ -49,7 +54,7 @@ services:
             - { name: twig.extension }
     canal_tp_mtt.twig.task_type_extension:
         class: CanalTP\MttBundle\Twig\TaskTypeExtension
-        arguments: ['@translator', '@doctrine.orm.entity_manager', '@canal_tp.mtt.distribution_list_manager']
+        arguments: ['@translator', '@doctrine.orm.entity_manager', '@canal_tp.mtt.distribution_list_manager', '@sam_navitia']
         tags:
             - { name: twig.extension }
     # Service of mediaManager
@@ -73,6 +78,14 @@ services:
         class: CanalTP\MttBundle\Form\Type\LayoutType
         tags:
             - { name: form.type, alias: layout }
+    form.type.layout_config_network:
+        class: CanalTP\MttBundle\Form\Type\LayoutConfigNetworkType
+        tags:
+            - { name: form.type, alias: layout_config_network }
+    form.type.layout_configs_network:
+        class: CanalTP\MttBundle\Form\Type\LayoutConfigsNetworkType
+        tags:
+            - { name: form.type, alias: layout_configs_network }
     form.type.datepicker:
         class: CanalTP\MttBundle\Form\Type\DatepickerType
         tags:
@@ -148,3 +161,15 @@ services:
     canal_tp_mtt.task_cancelation:
         class: %canal_tp_mtt.task_cancelation.class%
         arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.amqp_channel', '%kernel.root_dir%']
+    # Area
+    canal_tp_mtt.area_manager:
+        class: %canal_tp_mtt.area_manager.class%
+        arguments: ['@doctrine.orm.entity_manager']
+    # LayoutConfig
+    canal_tp_mtt.layout_config:
+        class: %canal_tp_mtt.layout_config.class%
+        arguments: ['@doctrine.orm.entity_manager']
+    # Layout
+    canal_tp_mtt.layout:
+        class: %canal_tp_mtt.layout.class%
+        arguments: ['@doctrine.orm.entity_manager']

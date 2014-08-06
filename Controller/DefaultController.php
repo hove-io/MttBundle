@@ -30,12 +30,13 @@ class DefaultController extends AbstractController
         $networks = $mtt_user->getNetworks(
             $this->get('security.context')->getToken()->getUser()
         );
-        $currentNetwork = 
-            $externalNetworkId == null ? 
-            $networks[0] : 
+        $currentNetwork =
+            $externalNetworkId == null ?
+            $networks[0] :
             $this->findNetwork($externalNetworkId, $networks);
         // make currentNetwok a doctrine object
         $currentNetwork = $networkManager->find($currentNetwork);
+
         return $this->render(
             'CanalTPMttBundle:Default:index.html.twig',
             array(
@@ -52,19 +53,26 @@ class DefaultController extends AbstractController
         $mtt_navitia = $this->get('canal_tp_mtt.navitia');
         $networkManager = $this->get('canal_tp_mtt.network_manager');
         $network = $networkManager->findOneByExternalId($externalNetworkId);
-
-        $result = $mtt_navitia->findAllLinesByMode(
-            $network->getExternalCoverageId(),
-            $network->getExternalId()
-        );
-
+        try {
+            $result = $mtt_navitia->findAllLinesByMode(
+                $network->getExternalCoverageId(),
+                $network->getExternalId()
+            );
+        } catch(\Exception $e) {
+            $errorMessage = $e->getMessage();
+            $result = array();
+            $this->get('session')->getFlashBag()->add(
+                'danger',
+                $errorMessage
+            );
+        }
         return $this->render(
             'CanalTPMttBundle:Default:navigation.html.twig',
             array(
-                'result' => $result,
-                'coverageId' => $network->getExternalCoverageId(),
-                'current_route' => $current_route,
-                'current_season' => $current_season
+                'result'            => $result,
+                'coverageId'        => $network->getExternalCoverageId(),
+                'current_route'     => $current_route,
+                'current_season'    => $current_season
             )
         );
     }

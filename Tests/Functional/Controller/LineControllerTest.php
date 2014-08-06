@@ -3,7 +3,6 @@
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use CanalTP\MttBundle\Entity\BlockRepository;
 use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
 
 class LineControllerTest extends AbstractControllerTest
@@ -28,7 +27,7 @@ class LineControllerTest extends AbstractControllerTest
 
         // Submit empty form
         $form = $crawler->selectButton('Enregistrer')->form();
-        unset($form['line_config[layout]']);
+        unset($form['line_config[layout_config]']);
         $crawler = $this->client->submit($form);
         // Check if when we submit form we are not redirected ie there is an error
         $this->assertFalse($this->client->getResponse() instanceof RedirectResponse);
@@ -36,7 +35,7 @@ class LineControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($this->getFormRoute());
         // Submit form
         $form = $crawler->selectButton('Enregistrer')->form();
-        $field = $form->get('line_config[layout]');
+        $field = $form->get('line_config[layout_config]');
         $options = $field->availableOptionValues();
         if (count($options) == 1) {
             throw new \RuntimeException('Only one layout for this network');

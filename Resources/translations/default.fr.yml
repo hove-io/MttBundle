@@ -21,11 +21,12 @@ stop_point:
         pois:
             title: Point de vente - Relais Divia :
             default: (Points de vente de l'arrêt)
+            empty: Il n'y a pas de point de vente à moins de %distance% mètres de cet arrêt
 
 line:
     choose_layout: Choisir un gabarit
     layout_chosen: Le gabarit a bien été assigné à la ligne.
-    manage_distribution: Gérer la liste de distribution
+    manage_distribution: Gérer la liste de placardage
 
 timetable:
     edit: Editer la fiche horaire
@@ -33,12 +34,14 @@ timetable:
         edition: Édition
         preview: Prévisualisation
 
-layout:
+layout_config:
     actions: Actions
     list: Liste des gabarits
     label: Descriptif
     preview: Prévisualisation
     orientation: Orientation
+    create: Créer un layout
+    created: Le layout a bien été ajouté
 
 block:
     get_form:
@@ -63,6 +66,7 @@ calendar:
     line_color: Couleur
     period_label: Calendrier
     days: Jours
+    empty: Vider cette grille
     form:
         label: Choisir le calendrier
 
@@ -108,12 +112,13 @@ task:
         launched: En cours
         completed: Terminée
         canceled: Annulée
+        failed: Échouée
     completion: Progression
     launchedAt: Lancée à
     completed: Terminée
     completedAt: Terminée à
     season_pdf_generation: Génération de l'ensemble des pdfs de la saison "%seasonName%"
-    distribution_list_pdf_generation: Génération de la liste de distribution pour la route %routeId%
+    distribution_list_pdf_generation: Génération de la liste de placardage pour la route %routeName%
 
 block:
     img:
@@ -128,3 +133,15 @@ block:
         labels:
             title: Titre
             content: Texte
+
+area:
+    title: Liste des secteurs
+    create: Créer un secteur
+    edit: Éditer un secteur
+    list:
+        columns:
+            label: Nom du secteur
+    created: Le secteur a bien été ajouté
+    deleted: Le secteur a bien été supprimé
+    pdf_list: Liste des pdf
+    pdf_modal_title: Pdf du secteur "%areaTitle%"

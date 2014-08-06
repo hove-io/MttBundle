@@ -20,7 +20,7 @@ class FrequenciesType extends AbstractType
 
     public function __construct(Block $block)
     {
-        $layout = $block->getTimetable()->getLineConfig()->getLayout();
+        $layout = $block->getTimetable()->getLineConfig()->getLayoutConfig();
         $extension = new CalendarExtension();
         $this->hoursRange = $extension->calendarRange($layout);
         // add at least one empty frequency to show empty form
@@ -43,8 +43,8 @@ class FrequenciesType extends AbstractType
                 'constraints'   => array(
                     new NotOverlapping(
                         array(
-                            'values' => $this->hoursRange, 
-                            'startField'=>'startTime', 
+                            'values' => $this->hoursRange,
+                            'startField'=>'startTime',
                             'endField'=>'endTime'
                         )
                     )

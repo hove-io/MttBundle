@@ -2,10 +2,7 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
-use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MediaManagerBundle\Entity\Category;
-use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MttBundle\Entity\DistributionList;
 
 class DistributionController extends AbstractController
@@ -100,7 +97,7 @@ class DistributionController extends AbstractController
             ->getDoctrine()
             ->getRepository('CanalTPMttBundle:DistributionList')
             ->sortSchedules($schedules, $network->getId(), $routeId, $reset);
-        
+
         $locked = $this
             ->getDoctrine()
             ->getRepository('CanalTPMttBundle:Timetable')
@@ -149,7 +146,7 @@ class DistributionController extends AbstractController
         );
         $payloads = $pdfPayloadGenerator->getStopPointsPayloads($timetable, $stopPointsIds);
         if (count($payloads) > 0) {
-            
+
             $distributionList = $this->saveList($timetable, $stopPointsIds);
             $task = $amqpPdfGenPublisher->publishDistributionListPdfGen($payloads, $timetable);
             $distributionListManager->deleteDistributionListPdf($timetable);
@@ -176,6 +173,7 @@ class DistributionController extends AbstractController
                 )
             );
         }
+
         return $this->redirect(
             $this->generateUrl(
                 'canal_tp_mtt_distribution_list',
@@ -203,7 +201,7 @@ class DistributionController extends AbstractController
         $distribListInstance->setIncludedStops($stopPointsIncluded);
         $this->getDoctrine()->getManager()->persist($distribListInstance);
         $this->getDoctrine()->getManager()->flush();
-        
+
         return $distribListInstance;
     }
 }

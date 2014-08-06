@@ -44,9 +44,9 @@ class Navitia
     /**
      * Get line routes
      *
-     * @param  type $externalCoverageId
-     * @param  type $externalNetworkId
-     * @param  type $externalLineId
+     * @param type $externalCoverageId
+     * @param type $externalNetworkId
+     * @param type $externalLineId
      *
      * @return type json
      */
@@ -73,6 +73,7 @@ class Navitia
     {
         $linesResponse =  $this->navitia_sam->getLines($externalCoverageId, $externalNetworkId);
         $routes =  $this->getLineRoutes($externalCoverageId, $externalNetworkId, $linesResponse->lines[0]->id);
+
         return array($linesResponse->lines[0]->id, $routes[0]->id);
     }
 
@@ -204,10 +205,9 @@ class Navitia
         return ($response->stop_points[0]->name);
     }
 
-
     public function getRouteStopPoints($network, $externalRouteId)
-	{
-		$pathFilter = 'networks/' . $network->getExternalId() . '/routes/' . $externalRouteId;
+    {
+        $pathFilter = 'networks/' . $network->getExternalId() . '/routes/' . $externalRouteId;
 
         $query = array(
             'api' => 'coverage',
@@ -218,8 +218,9 @@ class Navitia
                 'parameters' => '?depth=0'
             )
         );
+
         return $this->navitia_component->call($query);
-	}
+    }
 
     /**
      * Returns Stop Point external code
@@ -246,11 +247,11 @@ class Navitia
     /**
      * Returns Stop Point pois
      *
-     * @param  String        $coverageId
-     * @param  String        $stopPointId
+     * @param  String $coverageId
+     * @param  String $stopPointId
      * @return pois
      */
-    public function getStopPointPois($externalCoverageId, $stopPointId)
+    public function getStopPointPois($externalCoverageId, $stopPointId, $distance = 400)
     {
         $query = array(
             'api' => 'coverage',
@@ -261,7 +262,7 @@ class Navitia
                 'parameters' => array(
                     'type' => array('poi'),
                     'filter' => 'poi_type.id=poi_type:Pointsdevente',
-                    'distance' => 10000,
+                    'distance' => $distance,
                     'count' => 2
                 )
             )

@@ -32,10 +32,10 @@ CanalTP\MttBundle\Entity\LineConfig:
             cascade:
                 - remove
     manyToOne:
-        layout:
-            targetEntity: Layout
+        layoutConfig:
+            targetEntity: LayoutConfig
             joinColumn:
-                name: layout_id
+                name: layout_config_id
                 referencedColumnName: id
         season:
             targetEntity: Season

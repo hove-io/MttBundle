@@ -7,10 +7,7 @@
 namespace CanalTP\MttBundle\Services\Amqp;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Process\Process;
-use Spork\ProcessManager;
 
-use CanalTP\MttBundle\Services\Amqp\Channel;
 use CanalTP\MttBundle\Entity\AmqpTask;
 
 class TaskCancelation
@@ -29,27 +26,35 @@ class TaskCancelation
         $this->seasonRepo = $this->om->getRepository('CanalTPMttBundle:Season');
     }
 
-    public function cancelAmqpMessages($network, $task)
+    private function cancelAmqpMessages($network, $task)
     {
         $routingKey = $this->channelLib->getRoutingKey($network, $task);
+        // get actual number of messages to set a limit
+        list($queueName, $jobs, $consumers) = $this->channelLib->declareQueue(
+            $this->channelLib->getPdfGenQueueName(),
+            $this->channelLib->getExchangeName(),
+            $routingKey
+        );
         $pathToConsole = 'nohup php ' . $this->rootDir . '/console ';
-        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routingKey . ' ' . $task->getId() . ' > /dev/null &';
+        $command = $pathToConsole . 'mtt:amqp:cancelTask ' . $routingKey . ' ' . $task->getId() . ' ' . $jobs . ' > /dev/null &';
         exec($command);
     }
 
     public function cancel($taskId)
     {
         $task = $this->taskRepo->find($taskId);
-        $task->cancel();
-        switch($task->getTypeId()){
+        switch ($task->getTypeId()) {
             case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
                 break;
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:
                 $season = $this->seasonRepo->find($task->getObjectId());
                 $season->setLocked(false);
-                $this->cancelAmqpMessages($season->getNetwork(), $task);
+                if ($task->isUnderProgress() == true) {
+                    $this->cancelAmqpMessages($season->getNetwork(), $task);
+                }
                 break;
         }
+        $task->cancel();
         $this->om->flush();
     }
 }

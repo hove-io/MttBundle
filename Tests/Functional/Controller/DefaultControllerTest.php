@@ -37,13 +37,13 @@ class DefaultControllerTest extends AbstractControllerTest
         $network->addUser($user);
         $this->getEm()->flush();
     }
-    
+
     public function testNetworkSwitch()
     {
         $route = $this->generateRoute('canal_tp_mtt_homepage');
         $crawler = $this->client->request('GET', $route);
         $this->insertNetwork();
-        $firstMenuActive = $crawler->filter('ul.nav.navbar-nav > li.dropdown ul li.first.active')->count();
+        $firstMenuActive = $crawler->filter('#application-navbar ul.nav.navbar-nav > li.dropdown ul li.first.active')->count();
         $this->assertTrue($firstMenuActive == 1, "First menu item in perimeter menu should be active. Expected 1. Count :$firstMenuActive");
         $route = $this->generateRoute(
             'canal_tp_mtt_homepage',
@@ -52,9 +52,21 @@ class DefaultControllerTest extends AbstractControllerTest
             )
         );
         $crawler = $this->client->request('GET', $route);
-        $firstMenuNotActive = $crawler->filter('ul.nav.navbar-nav > li.dropdown ul li.first.active')->count();
+        $firstMenuNotActive = $crawler->filter('#application-navbar ul.nav.navbar-nav > li.dropdown ul li.first.active')->count();
         $this->assertTrue($firstMenuNotActive == 0, "First menu item in perimeter menu should not be active. Expected 0. Count :$firstMenuActive");
-        $menuActive = $crawler->filter('ul.nav.navbar-nav > li.dropdown ul li.active')->count();
+        $menuActive = $crawler->filter('#application-navbar ul.nav.navbar-nav > li.dropdown ul li.active')->count();
         $this->assertTrue($menuActive == 1, "Only one menu item in perimeter menu should not be active. Expected 1. Count :$menuActive");
+    }
+    
+    public function testMeth190KeepCurrentNetworkInLogoLink()
+    {
+        $route = $this->generateRoute('canal_tp_mtt_homepage');
+        $crawler = $this->client->request('GET', $route);
+        $link = $crawler->filter('#application-navbar ul.nav.navbar-nav > li.dropdown ul li a')->eq(1)->link();
+        $urlMenu = $link->getUri();
+        $crawler2 = $this->client->click($link);
+        $logoLink = $crawler2->filter('#application-navbar .navbar-brand a')->eq(0)->link();
+        $urlLogo = $logoLink->getUri();
+        $this->assertEquals($urlMenu, $urlLogo);
     }
 }

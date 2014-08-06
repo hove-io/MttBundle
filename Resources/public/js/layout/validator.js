@@ -1,4 +1,4 @@
-define(['jquery', 'mtt/utils', 'mtt/translations/default'], function($, utils) {
+define(['jquery', 'mtt/utils', 'translations/default'], function($, utils) {
     var validator = {};
     var $wrapper,
         $msgWrapperTpl = utils.getTpl('msgWrapperTpl');
@@ -13,13 +13,17 @@ define(['jquery', 'mtt/utils', 'mtt/translations/default'], function($, utils) {
         var errors = [];
         var msg_added = false;
         // check if content is bigger than block wrapper
-        $wrapper.find('*[data-validate-height="1"]').each(function(){
+        $wrapper.find('*[data-validate-size="1"]').each(function(){
             // console.dir(this);
-            if ($(this).parents('.frequency-content').length != 0 && $(this).find('span').height() > $(this).height()) {
+            if ($(this).parents('.frequency-content').length != 0 && 
+                ($(this).find('span').height() > $(this).height() || $(this).find('span').width() > $(this).width())
+                ) {
                 $(this).addClass('error');
                 errors.push(Translator.trans('calendar.error.content_higher_than_wrapper', {}, 'default'));
             }
-            else if ($(this).children('table:not(.frequencies-table)').height() > $(this).height()) {
+            else if ($(this).children('table:not(.frequencies-table)').height() > $(this).height() ||
+                $(this).children('table:not(.frequencies-table)').width() > $(this).width()
+            ) {
                 $(this).parents('.block').addClass('error');
                 if (msg_added == false)
                 {

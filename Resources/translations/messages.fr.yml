@@ -54,7 +54,10 @@ help:
 calendar:
     start: Heure de début des calendriers
     end: Heure de fin des calendriers
+    empty: Il n'y a pas de calendrier pour ce parcours
     schedules:
+        date_times:
+            empty: Il n'y a pas d'horaires dans ce calendrier
         additional_informations:
             terminus: Terminus de ligne : pas d'horaires à cet arrêt
             no_departure_this_day: Pas de départ prévu : pas d'horaires à cet arrêt
@@ -70,6 +73,7 @@ menu:
     edit_timetables: Édition des fiches horaires
     networks_manage: Gestion des réseaux
     layouts_manage: Gestion des gabarits
+    area_manage: Secteurs
 
 #should be in error namespace above
 network:
@@ -89,3 +93,15 @@ frequency:
         start_time: Heure de ébut
         end_time: Heure de fin
         content: Texte
+
+area:
+    labels:
+        label: Nom du secteur
+
+layout_config:
+    labels:
+        label: Nom
+        calendar_start: Heure de début des grilles horraires
+        calendar_end: Heure de fin des grilles horraires
+        preview_path: Changer l'image de prévisualisation
+        layout: Choix du modèle

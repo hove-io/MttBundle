@@ -30,11 +30,11 @@ class PdfGenCompletionLib
         $this->timetableRepo = $this->om->getRepository('CanalTPMttBundle:Timetable');
         $this->stopPointRepo = $this->om->getRepository('CanalTPMttBundle:StopPoint');
     }
-    
+
     private function getLineConfig($ack, $lineConfig)
     {
-        if ( 
-            $lineConfig == false || 
+        if (
+            $lineConfig == false ||
             // check if this ack is for a different lineConfig than the previous one
             $lineConfig->getExternalLineId() != $ack->getPayload()->timetableParams->externalLineId
         ) {
@@ -45,9 +45,10 @@ class PdfGenCompletionLib
                 )
             );
         }
+
         return $lineConfig;
     }
-    
+
     private function getTimetable($ack, $lineConfig, $timetable)
     {
         if ($timetable == false ||
@@ -61,9 +62,10 @@ class PdfGenCompletionLib
                 )
             );
         }
+
         return $timetable;
     }
-    
+
     private function getStopPoint($ack, $timetable)
     {
         return $this->stopPointRepo->findOneBy(
@@ -73,21 +75,22 @@ class PdfGenCompletionLib
             )
         );
     }
-    
+
     private function getSeason($seasonId)
     {
         $season = $this->om->getRepository('CanalTPMttBundle:Season')->find($seasonId);
         $this->om->refresh($season);
+
         return $season;
     }
-    
+
     // save hash and pdfGeneration date returned by acks
     private function commit($task)
     {
         $lineConfig = false;
         $timetable = false;
-        try {
-            foreach ($task->getAmqpAcks() as $ack) {
+        foreach ($task->getAmqpAcks() as $ack) {
+            try {
                 if ($ack->getPayload()->generated == true) {
                     $lineConfig = $this->getLineConfig($ack, $lineConfig);
                     $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
@@ -102,27 +105,51 @@ class PdfGenCompletionLib
                     $pdfGenerationDate->setTimestamp($ack->getPayload()->generationResult->created);
                     $stopPoint->setPdfGenerationDate($pdfGenerationDate);
                     $this->om->persist($stopPoint);
-                    //TODO: call http://jira.canaltp.fr/browse/METH-202
                     $this->mediaManager->saveStopPointTimetable(
-                        $timetable, 
-                        $stopPoint->getExternalId(), 
+                        $timetable,
+                        $stopPoint->getExternalId(),
                         $ack->getPayload()->generationResult->filepath
                     );
+                    $this->removeTmpMedia($timetable, $stopPoint->getExternalId());
+                } elseif (isset($ack->getPayload()->error)) {
+                    throw new \Exception('Ack error msg: ' . $ack->getPayload()->error);
                 }
+            } catch (\Exception $e) {
+                $task->fail();
+                echo "ERROR during task Completion, task n°" . $task->getId() . "\n";
+                echo $e->getMessage() . "\n";
             }
-            $task->complete();
-        } catch (\Exception $e){
-            echo "ERROR during task Completion, task n°" . $task->getId() . "\n";
-            echo $e->getMessage() . "\n";
         }
+        $task->complete();
+    }
+
+    private function removeTmpMedia($timetable, $externalStopPointId)
+    {
+        $media = $this->mediaManager->getStopPointTimetableMedia(
+            $timetable, 
+            $externalStopPointId
+        );
+        //TODO: mutualize this with workers when refactoring
+        $media->setBaseName(MediaManager::TIMETABLE_FILENAME . '_tmp.pdf');
+        echo $this->mediaManager->getPathByMedia($media) . "\r\n";
+        $media->delete();
     }
     
-    // todo: remove generated _bak.pdf from mediamanager
+    // Remove generated _tmp.pdf from mediamanager
     private function rollback($task)
     {
-        echo "Rollback";
+        echo "Rollback task n°" . $task->getId() . "\r\n";
+        $lineConfig = false;
+        $timetable = false;
+        foreach ($task->getAmqpAcks() as $ack) {
+            if ($ack->getPayload()->generated == true) {
+                $lineConfig = $this->getLineConfig($ack, $lineConfig);
+                $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
+                $this->removeTmpMedia($timetable, $ack->getPayload()->timetableParams->externalStopPointId);
+            }
+        }
     }
-    
+
     private function completeDistributionList($task)
     {
         // save this list in db
@@ -144,11 +171,14 @@ class PdfGenCompletionLib
         }
         $pdfGenerator = $this->container->get('canal_tp_mtt.pdf_generator');
         $distributionListManager = $this->container->get('canal_tp.mtt.distribution_list_manager');
-        $pdfGenerator->aggregatePdf($paths, $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable));
+        $pdfGenerator->aggregatePdf(
+            $paths, 
+            $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable)
+        );
 
-        echo "Distribution List saved to ", $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable), " / Files agregated ", count($paths), "\r\n";
+        echo "Distribution List saved to ", $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable), " / Files aggregated ", count($paths), "\r\n";
     }
-    
+
     private function completeSeasonPdfGen($task)
     {
         $season = $this->getSeason($task->getObjectId());
@@ -163,16 +193,17 @@ class PdfGenCompletionLib
         $season->setLocked(false);
         $this->om->persist($season);
     }
-    
+
     public function completePdfGenTask($task)
     {
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
-        $task->setCompletedAt(new \DateTime("now"));
+        echo "task status " . $task->getStatus() . "\n";
+        echo "task cancelled " . $task->isCanceled() . "\n";
         if ($task->isCanceled()) {
             $this->rollback($task);
         } else {
             $this->commit($task);
-            switch($task->getTypeId()){
+            switch ($task->getTypeId()) {
                 case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
                     $this->completeDistributionList($task);
                     break;
@@ -181,6 +212,7 @@ class PdfGenCompletionLib
                     break;
             }
         }
+        $task->setCompletedAt(new \DateTime("now"));
         $this->om->flush();
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion realized\n";
     }

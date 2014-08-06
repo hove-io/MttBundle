@@ -12,7 +12,7 @@
                 <div class="timegrid-header">
                     {% if block %}{{ block.title }}{% endif %}
                 </div>
-                <div class="timegrid-body relative" data-validate-height="1">
+                <div class="timegrid-body relative" data-validate-size="1">
                     {% set calendar = attribute(calendars, block.content) %}
                     <!-- Frequencies -->
                     {% if (calendar.schedules.additional_informations is not empty) %}
