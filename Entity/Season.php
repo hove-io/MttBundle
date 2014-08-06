@@ -31,7 +31,7 @@ class Season extends AbstractEntity
      * @var Object
      */
     private $published = false;
-    
+
     /**
      * @var Object
      */
@@ -46,6 +46,11 @@ class Season extends AbstractEntity
      * @var Array
      */
     private $lineConfigs;
+
+    /**
+     * @var Array
+     */
+    private $areasPdf;
 
     /**
      * @var Object
@@ -238,8 +243,30 @@ class Season extends AbstractEntity
 
         return ($this);
     }
-    
-    // 
+
+    /**
+     * Get areasPdf
+     *
+     * @return array
+     */
+    public function getAreasPdf()
+    {
+        return $this->areasPdf;
+    }
+
+    /**
+     * Set areasPdf
+     *
+     * @return Season
+     */
+    public function setAreasPdf($areasPdf)
+    {
+        $this->areasPdf = $areasPdf;
+
+        return ($this);
+    }
+
+    //
     public function isLocked()
     {
         return $this->getLocked();

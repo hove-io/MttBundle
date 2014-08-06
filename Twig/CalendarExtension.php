@@ -12,7 +12,7 @@ class CalendarExtension extends \Twig_Extension
             'isWithinFrequency' => new \Twig_Filter_Method($this, 'isWithinFrequency'),
         );
     }
-    
+
     /**
      * returns index of the given value in array
      */
@@ -23,7 +23,7 @@ class CalendarExtension extends \Twig_Extension
                 return $index;
         }
     }
-    
+
     /**
      * Based on Layout configuration, returns an array used to render a calendar
      * also used to determine the index of a hour value (ex: when validating forms)
@@ -33,7 +33,7 @@ class CalendarExtension extends \Twig_Extension
     public function calendarRange($layout)
     {
         $rangeConfig = array(
-            'start' => $layout->getCalendarStart(), 
+            'start' => $layout->getCalendarStart(),
             'end' => $layout->getCalendarEnd()
         );
         $elements = array();
@@ -72,9 +72,9 @@ class CalendarExtension extends \Twig_Extension
     }
 
     /**
-     * Returns the index values array for a given Datetime 
+     * Returns the index values array for a given Datetime
      *
-     * @param $datetime DateTime object 
+     * @param $datetime DateTime object
      * @param $hours Array
      */
     public function hourIndex($datetime, $hours)

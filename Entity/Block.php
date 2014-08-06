@@ -253,7 +253,7 @@ class Block extends AbstractEntity
     {
         return ($this->getTypeId() == BlockRepository::CALENDAR_TYPE);
     }
-    
+
     public function isLocked()
     {
         return $this->getTimetable()->isLocked();

@@ -1,7 +1,9 @@
 namespace :mtt do
-    desc ""
-    task :deploy, :roles => :app, :except => { :no_release => true } do
+    desc "Restart workers on supervisor server"
+    task :restart, :roles => :supervisor do
+        run "supervisorctl restart all"
     end
 end
 
-after "post:composer", "mtt:deploy"
+after "deploy:create_symlink", "mtt:restart"
+after "deploy:rollback", "mtt:restart"

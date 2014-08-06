@@ -24,6 +24,11 @@ canal_tp_mtt_season_delete:
     defaults: { _controller: CanalTPMttBundle:Season:delete, season_id: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_season_ask_publish:
+    pattern: /networks/{externalNetworkId}/ask/publish/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:Season:askPublish }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_season_publish:
     pattern: /networks/{externalNetworkId}/publish/{seasonId}
     defaults: { _controller: CanalTPMttBundle:Season:publish }
@@ -162,15 +167,21 @@ canal_tp_mtt_network_list:
     pattern: /networks/list
     defaults: { _controller: CanalTPMttBundle:Network:list }
 canal_tp_mtt_network_edit:
-    pattern: /networks/edit/{externalNetworkId}
-    defaults: { _controller: CanalTPMttBundle:Network:edit, externalNetworkId: null}
+    pattern: /networks/edit/{networkId}
+    defaults: { _controller: CanalTPMttBundle:Network:edit, networkId: null}
 
-#Layouts
-canal_tp_mtt_layouts:
-    pattern: /layouts/networks/{externalNetworkId}
-    defaults: { _controller: CanalTPMttBundle:Layout:index}
+#LayoutConfigs
+canal_tp_mtt_layout_config_list:
+    pattern: /layouts/networks/{externalNetworkId}/list
+    defaults: { _controller: CanalTPMttBundle:LayoutConfig:list}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_layout_config_edit:
+    pattern: /layouts/networks/{externalNetworkId}/edit/{layoutConfigId}
+    defaults: { _controller: CanalTPMttBundle:LayoutConfig:edit, layoutConfigId: null }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
 #Webservice
 canal_tp_mtt_WS_timetable:
     pattern: /networks/{externalNetworkId}/routes/{externalRouteId}/stop_points/{externalStopPointId}/seasons
@@ -185,3 +196,23 @@ canal_tp_mtt_cancel_amqp_task:
     requirements:
         taskId: -?[0-9]*
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+#Area
+canal_tp_mtt_area_list:
+    pattern: /areas/networks/{externalNetworkId}/list
+    defaults: { _controller: CanalTPMttBundle:Area:list}
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_area_edit:
+    pattern: /areas/networks/{externalNetworkId}/edit/{areaId}
+    defaults: { _controller: CanalTPMttBundle:Area:edit, areaId: null }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_area_remove:
+    pattern: /areas/networks/{externalNetworkId}/remove/{areaId}
+    defaults: { _controller: CanalTPMttBundle:Area:remove }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_area_list_pdf:
+    pattern: /areas/{areaId}/listPdf
+    defaults: { _controller: CanalTPMttBundle:Area:listPdf}

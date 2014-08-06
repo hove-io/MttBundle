@@ -28,6 +28,7 @@ abstract class AbstractController extends Controller
                 )
             );
         }
+
         return $isLocked;
     }
 }

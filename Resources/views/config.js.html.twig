@@ -1,9 +1,6 @@
 <script>
 requirejs.config({
     paths: {
-        // translations
-        'mtt/translations/default':     'js/translations/default/{{ app.request.locale }}',
-        'mtt/translations/messages':    'js/translations/messages/{{ app.request.locale }}',
         'navitia':                      'bundles/canaltpmtt/js/navitia',
         // mtt specific
         'mtt/utils':                    'bundles/canaltpmtt/js/utils',
@@ -13,16 +10,6 @@ requirejs.config({
         'mtt/form':                     'bundles/canaltpmtt/js/form',
         'mtt/form/collection':          'bundles/canaltpmtt/js/form/collection',
         'mtt/form/validation/frequency':'bundles/canaltpmtt/js/form/validation/frequency'
-    },
-    shim: {
-        "mtt/translations/default":{
-            deps: ["translator"],
-            exports: "Translator"
-        },
-        "mtt/translations/messages":{
-            deps: ["translator"],
-            exports: "Translator"
-        }
     },
     deps: ['mtt/utils', 'mtt/form']
 });

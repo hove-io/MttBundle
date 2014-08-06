@@ -27,7 +27,7 @@ class CalendarManager
     private function parseDateTimes($datetimes)
     {
         foreach ($datetimes as &$datetime) {
-			$datetime->date_time = new \DateTime($datetime->date_time);
+            $datetime->date_time = new \DateTime($datetime->date_time);
         }
 
         return $datetimes;
@@ -82,6 +82,7 @@ class CalendarManager
     public function isExceptionInsideSeason($note, $season)
     {
         $dateTime = new \DateTime($note->date);
+
         return $note->type != 'notes' && $dateTime >= $season->getStartDate() && $dateTime <= $season->getEndDate();
     }
 
@@ -91,7 +92,7 @@ class CalendarManager
     private function computeNotes($notesToReturn, $newCalendar, $season, $aggregation)
     {
         foreach ($newCalendar->notes as $note) {
-            if (($note->type == 'notes' || $this->isExceptionInsideSeason($note, $season)) && 
+            if (($note->type == 'notes' || $this->isExceptionInsideSeason($note, $season)) &&
                 ($aggregation == false || !in_array($note->id, $this->computedNotesId))) {
                 $note->calendarId = $newCalendar->id;
                 $this->computedNotesId[] = $note->id;
@@ -196,6 +197,7 @@ class CalendarManager
             $period->begin = new \DateTime($period->begin);
             $period->end = new \DateTime($period->end);
         }
+
         return $periods;
     }
 
@@ -250,8 +252,8 @@ class CalendarManager
      * @return object
      */
     public function getCalendarsForStopPointAndTimetable(
-        $externalCoverageId, 
-        $timetable, 
+        $externalCoverageId,
+        $timetable,
         $stopPointInstance
     )
     {
@@ -259,7 +261,7 @@ class CalendarManager
         $calendarsFiltered = array();
         $calendarsSorted = array();
         // indicates whether to aggregate or dispatch notes
-        $layout = $timetable->getLineConfig()->getLayout();
+        $layout = $timetable->getLineConfig()->getLayoutConfig();
         $calendarsData = $this->navitia->getStopPointCalendarsData(
             $externalCoverageId,
             $timetable->getExternalRouteId(),
@@ -280,7 +282,7 @@ class CalendarManager
                         $block->getContent()
                     );
                     $calendar = $this->addSchedulesToCalendar(
-                        $calendar, 
+                        $calendar,
                         $stopSchedulesData->stop_schedules
                     );
                     $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
@@ -300,6 +302,7 @@ class CalendarManager
                 }
             }
         }
+
         return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
     }
 

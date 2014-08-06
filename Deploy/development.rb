@@ -1,3 +1,12 @@
+################################
+### Supervisor Configuration ###
+################################
+role :supervisor, "10.2.16.70", {
+  :user => 'sam',
+  :no_release => true,
+  :password => "iy9>Y&8E123"
+}
+
 #########################
 ### Mtt Configuration ###
 #########################

@@ -9,7 +9,6 @@ use Symfony\Component\Serializer\Serializer;
 
 use CanalTP\MttBundle\Normalizer\BlockNormalizer;
 use CanalTP\MttBundle\Entity\BlockRepository;
-use CanalTP\MttBundle\Services\MediaManager;
 // Text Block
 use CanalTP\MttBundle\Form\Type\Block\TextType as TextBlockType;
 use CanalTP\MttBundle\Form\Handler\Block\TextHandler as TextBlockHandler;

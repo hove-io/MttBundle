@@ -8,6 +8,7 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Filesystem\Filesystem;
 
 class DistributionListManager
 {
@@ -39,7 +40,16 @@ class DistributionListManager
             )
         );
     }
-    
+
+    public function deleteSeasonDistributionListPdfs($season)
+    {
+        $path = $this->getUploadRootDir();
+        $path .= $season->getNetwork()->getExternalId() . '/';
+        $path .= $season->getId() . '/';
+        $fs = new Filesystem();
+        $fs->remove(array($path));
+    }
+
     public function deleteDistributionListPdf($timetable)
     {
         $path = $this->generateAbsoluteDistributionListPdfPath($timetable);

@@ -39,6 +39,7 @@ class StopPointController extends AbstractController
             }
         }
         $currentSeasonId = empty($currentSeason) ? false : $currentSeason->getId();
+
         return $this->render(
             'CanalTPMttBundle:StopPoint:list.html.twig',
             array(

@@ -1,0 +1,42 @@
+CanalTP\MttBundle\Entity\Area:
+    type: entity
+    table: mtt.area
+    repositoryClass: CanalTP\MttBundle\Entity\AreaRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        label:
+            type: string
+            length: 255
+        stopPoints:
+            type: array
+            column: stop_points
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    uniqueConstraints:
+        network_area_idx:
+            columns: [ label, network_id ]
+    manyToOne:
+        network:
+            targetEntity: Network
+            inversedBy: mtt.area
+            joinColumn:
+                name: network_id
+                referencedColumnName: id
+    oneToMany:
+        areasPdf:
+            targetEntity: AreaPdf
+            mappedBy: area
+    lifecycleCallbacks: {  }

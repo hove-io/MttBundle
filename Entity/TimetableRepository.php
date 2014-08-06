@@ -48,22 +48,24 @@ class TimetableRepository extends EntityRepository
             array(
                 'stopPoint' => null,
                 'timetable' => $timetableId
-            ), 
+            ),
             array('domId' => 'ASC')
         );
 
         return $result;
     }
-    
-    /*
-     * Return blocks defined for this timetable on route level
+
+    /**
+     * Does this timetable have a task under progress?
+     * @return boolean
      */
-    public function hasAmqpTasksRunning($timetableId)
+    public function hasAmqpTasksRunning($timetableId, $taskTypeId = AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE)
     {
         $result = $this->getEntityManager()->getRepository('CanalTPMttBundle:AmqpTask')->findBy(
             array(
                 'objectId' => $timetableId,
-                'status' => AmqpTask::LAUNCHED_STATUS
+                'status' => AmqpTask::LAUNCHED_STATUS,
+                'typeId' => $taskTypeId
             )
         );
 

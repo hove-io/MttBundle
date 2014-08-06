@@ -14,7 +14,7 @@ class NotOverlappingEntity extends Constraint
     public $startField = null;
     public $endField = null;
     public $message = null;
-    
+
     public function getTargets()
     {
         return self::CLASS_CONSTRAINT;

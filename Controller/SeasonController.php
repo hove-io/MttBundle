@@ -4,7 +4,6 @@ namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use CanalTP\MttBundle\Form\Type\SeasonType;
-use CanalTP\MttBundle\Form\Type\SeasonPublicationType;
 use CanalTP\MttBundle\Entity\Season;
 
 class SeasonController extends AbstractController
@@ -83,7 +82,7 @@ class SeasonController extends AbstractController
                         'default'
                     )
                 );
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $this->get('session')->getFlashBag()->add(
                     'danger',
                     $this->get('translator')->trans(
@@ -132,15 +131,31 @@ class SeasonController extends AbstractController
         $seasonManager = $this->get('canal_tp_mtt.season_manager');
         $season = $seasonManager->find($seasonId);
         if ($this->addFlashIfSeasonLocked($season) == false) {
+            $this->get('canal_tp.mtt.distribution_list_manager')->deleteSeasonDistributionListPdfs($season);
             $this->get('canal_tp_mtt.media_manager')->deleteSeasonMedias($season);
             $seasonManager->remove($season);
         }
+
         return $this->redirect(
             $this->generateUrl(
                 'canal_tp_mtt_season_list',
                 array(
                     'externalNetworkId' => $externalNetworkId,
                 )
+            )
+        );
+    }
+
+    public function askPublishAction($externalNetworkId, $seasonId)
+    {
+        $this->isGranted('BUSINESS_MANAGE_SEASON');
+        $season = $this->get('canal_tp_mtt.season_manager')->find($seasonId);
+
+        return $this->render(
+            'CanalTPMttBundle:Season:askPublication.html.twig',
+            array(
+                'externalNetworkId' => $externalNetworkId,
+                'seasonId' => $seasonId
             )
         );
     }
@@ -157,6 +172,7 @@ class SeasonController extends AbstractController
                 $this->get('canal_tp_mtt.season_manager')->publish($seasonId);
             }
         }
+
         return $this->redirect(
             $this->generateUrl(
                 'canal_tp_mtt_season_list',
@@ -196,7 +212,6 @@ class SeasonController extends AbstractController
             'CanalTPMttBundle:Season:list.html.twig',
             array(
                 'pageTitle'=> 'menu.seasons_manage',
-                'no_left_menu' => true,
                 'currentNetwork' => $this->networkManager->findOneByExternalId($externalNetworkId),
                 'externalNetworkId' => $externalNetworkId,
                 'seasons' => $this->seasonManager->findAllByNetworkId($externalNetworkId)
