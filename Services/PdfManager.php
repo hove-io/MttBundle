@@ -64,7 +64,7 @@ class PdfManager
                 'timetableOnly'      => true
             )
         );
-        $cssVersion = $timetable->getLineConfig()->getLayout()->getCssVersion();
+        $cssVersion = $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getCssVersion();
 
         return $this->hashingLib->getPdfHash($response, $cssVersion);
     }
@@ -88,7 +88,10 @@ class PdfManager
                 )
             );
 
-            $pdfPath = $this->pdfGenerator->getPdf($url, $timetable->getLineConfig()->getLayout()->getOrientation());
+            $pdfPath = $this->pdfGenerator->getPdf(
+                $url, 
+                $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientation()
+            );
             if ($pdfPath) {
                 $pdfMedia = $this->mediaManager->saveStopPointTimetable($timetable, $externalStopPointId, $pdfPath);
                 $this->stopPoint->updatePdfGenerationInfos($externalStopPointId, $timetable, $hash);

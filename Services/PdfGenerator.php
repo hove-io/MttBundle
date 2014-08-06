@@ -35,6 +35,7 @@ class PdfGenerator
         $generation_url = $this->serverUrl . '?' . http_build_query($params);
 
         $pdfContent = $this->curlProxy->get($generation_url);
+
         // create File
         $dir = sys_get_temp_dir() . '/';
         $filename = md5($pdfContent) . '.pdf';
