@@ -1,7 +1,7 @@
 namespace :mtt do
     desc "Restart workers on supervisor server"
     task :restart, :roles => :supervisor do
-        run "supervisorctl restart all"
+        run "sudo supervisorctl restart all"
     end
 end
 
