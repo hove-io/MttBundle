@@ -1,4 +1,4 @@
-require(['jquery', 'mtt/utils'], function($, utils){
+require(['jquery', 'utils'], function($, utils){
     function displayError(responseText) {
         document.open();
         document.write(responseText);

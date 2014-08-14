@@ -67,7 +67,6 @@ class NetworkManager
 
     public function save($network, $networkId)
     {
-        // var_dump($networkId);die;
         $entityNetwork = $this->find($networkId);
         // form is modified dinamycally so we need to refresh entity (id is lost during process)
         if (!empty($entityNetwork)) {

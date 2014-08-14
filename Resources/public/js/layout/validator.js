@@ -1,4 +1,4 @@
-define(['jquery', 'mtt/utils', 'translations/default'], function($, utils) {
+define(['jquery', 'utils', 'translations/default'], function($, utils) {
     var validator = {};
     var $wrapper,
         $msgWrapperTpl = utils.getTpl('msgWrapperTpl');
@@ -14,8 +14,7 @@ define(['jquery', 'mtt/utils', 'translations/default'], function($, utils) {
         var msg_added = false;
         // check if content is bigger than block wrapper
         $wrapper.find('*[data-validate-size="1"]').each(function(){
-            // console.dir(this);
-            if ($(this).parents('.frequency-content').length != 0 && 
+            if ($(this).parents('.frequency-content').length != 0 &&
                 ($(this).find('span').height() > $(this).height() || $(this).find('span').width() > $(this).width())
                 ) {
                 $(this).addClass('error');
