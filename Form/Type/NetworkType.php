@@ -54,7 +54,7 @@ class NetworkType extends AbstractType
         );
 
         $builder->add('token', 'text');
-        
+
         if ($this->isGrantedAssignLayout) {
             $builder->add(
                 'layout_configs',
@@ -66,7 +66,7 @@ class NetworkType extends AbstractType
                 )
             );
         }
-        
+
         $formFactory = $builder->getFormFactory();
         $callback = function (FormEvent $event) use ($formFactory) {
             $data = $event->getData();

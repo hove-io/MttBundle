@@ -43,6 +43,7 @@
                     var previousValue = $networkSelect.val();
                 }
                 nav_api.getCoverageNetworks(
+                    'canal_tp_mtt_network_list_json',
                     {
                         'externalCoverageId': $(this).val(),
                         'token': token.val()
@@ -64,7 +65,6 @@
                 );
             }
         });
-        $('#mtt_network_external_coverage_id').change();
     });
     </script>
 {% endblock %}
