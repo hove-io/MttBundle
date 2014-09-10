@@ -1,5 +1,5 @@
 define(
-    ['jquery', 'mtt/utils', 'mtt/form/collection', 'translations/messages'],
+    ['jquery', 'utils', 'mtt/form/collection', 'translations/messages'],
     function($, utils, collection){
 
         var frequencyForm = {};

@@ -19,6 +19,7 @@ class NetworkController extends AbstractController
         );
     }
 
+    // TODO: Duplicate in CanalTPSamCoreBundle:Client (controller)
     public function byCoverageAction(Request $request, $externalCoverageId)
     {
         $response = new JsonResponse();
@@ -35,12 +36,11 @@ class NetworkController extends AbstractController
         );
 
         return ($response);
-
     }
 
     private function buildForm($networkId)
     {
-        $coverage = $this->get('canal_tp_mtt.navitia')->getCoverages();
+        $coverage = $this->get('sam_navitia')->getCoverages();
         $layoutConfigs = $this->get('canal_tp_mtt.layout_config')->findAll();
 
         $form = $this->createForm(

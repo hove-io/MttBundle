@@ -13,11 +13,6 @@
     {% include 'CanalTPMttBundle::config.js.html.twig' %}
 {% endblock %}
 
-{% block navbar %}
-    {% set menuItem = knp_menu_get('CanalTPMttBundle:Builder:mttMenu', [], {'currentExternalNetworkId':externalNetworkId, 'currentSeasonId':currentSeasonId }) %}
-    {{ knp_menu_render(menuItem, {'style': 'navbar', 'currentClass': 'active'}) }}
-{% endblock %}
-
 {% block title -%}
 {{ parent() }}
 - TIMETABLE
