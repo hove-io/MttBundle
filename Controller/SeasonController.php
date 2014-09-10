@@ -132,8 +132,8 @@ class SeasonController extends AbstractController
         $season = $seasonManager->find($seasonId);
         if ($this->addFlashIfSeasonLocked($season) == false) {
             $this->get('canal_tp.mtt.distribution_list_manager')->deleteSeasonDistributionListPdfs($season);
-            $seasonManager->remove($season);
             $this->get('canal_tp_mtt.media_manager')->deleteSeasonMedias($season);
+            $seasonManager->remove($season);
         }
 
         return $this->redirect(
@@ -142,6 +142,20 @@ class SeasonController extends AbstractController
                 array(
                     'externalNetworkId' => $externalNetworkId,
                 )
+            )
+        );
+    }
+
+    public function askPublishAction($externalNetworkId, $seasonId)
+    {
+        $this->isGranted('BUSINESS_MANAGE_SEASON');
+        $season = $this->get('canal_tp_mtt.season_manager')->find($seasonId);
+
+        return $this->render(
+            'CanalTPMttBundle:Season:askPublication.html.twig',
+            array(
+                'externalNetworkId' => $externalNetworkId,
+                'seasonId' => $seasonId
             )
         );
     }
@@ -198,7 +212,6 @@ class SeasonController extends AbstractController
             'CanalTPMttBundle:Season:list.html.twig',
             array(
                 'pageTitle'=> 'menu.seasons_manage',
-                'no_left_menu' => true,
                 'currentNetwork' => $this->networkManager->findOneByExternalId($externalNetworkId),
                 'externalNetworkId' => $externalNetworkId,
                 'seasons' => $this->seasonManager->findAllByNetworkId($externalNetworkId)

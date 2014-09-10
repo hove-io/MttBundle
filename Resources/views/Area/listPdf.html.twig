@@ -1,0 +1,26 @@
+{% extends "CanalTPMttBundle::modal.html.twig" %}
+
+{% block modal_title %}
+    {{ 'area.pdf_modal_title'|trans({'%areaTitle%':area.label}, 'default') }}
+{% endblock %}
+
+{% block modal_body %}
+    <table class="table {% block table_classes -%}table-hover{% endblock %}">
+        <thead>
+            <th>{{ 'season.title'|trans({}, 'default') }}</th>
+            <th>{{ 'global.actions'|trans }}</th>
+        </thead>
+        <tbody>
+            {% for season in seasons %}
+                <tr>
+                    <td>{{ season.title }}</td>
+                    <td>
+                        <a id="generate-distribution-list" href="javascript:alert('TODO');" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-file"></span> {{'global.generatePdf'|trans}}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

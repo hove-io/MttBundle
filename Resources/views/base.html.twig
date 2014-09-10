@@ -25,11 +25,10 @@
     - {{ pageTitle|trans }}
     {% endif %}
 {% endblock %}
-{% block navbar_brand %}<a href="{{ path('canal_tp_mtt_homepage') }}">TIMETABLE</a>{% endblock %}
+{% block navbar_brand %}<a href="{% if currentNetwork %}{{ path('canal_tp_mtt_homepage', {'externalNetworkId':currentNetwork.externalId }) }}{% else %}{{ path('canal_tp_mtt_homepage') }}{% endif %}">TIMETABLE</a>{% endblock %}
 
 {% block root_breadcrumb %}
     <ol class="breadcrumb">
-        <li><a href="{{ path('canal_tp_mtt_homepage') }}">{{'ctp_core._breadcrumb'|trans}}</a></li>
         {% if currentNetwork %}
             <li>
                 <a href="{{ path('canal_tp_mtt_homepage', {'externalNetworkId':currentNetwork.externalId }) }}">
@@ -57,18 +56,7 @@
     {% endblock %}
     {% block container %}
     {% endblock %}
-    <div id="base-modal" class="modal fade">
-    {% block base_modal %}
-        <div class="modal-dialog">
-            <div class="modal-content">
-                {% include '::modal.html.twig' %}
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    {% endblock %}
-    </div><!-- /.modal -->
 {% endblock %}
 
-{# Common javascripts for MethBundle #}
 {% block javascripts %}
-    {% include 'CanalTPMttBundle::common.js.twig' %}
 {% endblock %}

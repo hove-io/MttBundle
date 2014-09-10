@@ -1,0 +1,59 @@
+{% extends "CanalTPMttBundle::generic_list.html.twig" %}
+
+{% trans_default_domain "default" %}
+
+{% block list_title -%}
+    {{'layout_config.list'|trans({}, 'default')}}
+    -
+    <a href="{{ path('canal_tp_mtt_layout_config_edit', {'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span> {{'layout_config.create'|trans({}, 'default')}}
+    </a>
+{% endblock %}
+
+{% block table_head -%}
+    <th>{{'layout_config.label'|trans}}</th>
+    <th>{{'layout_config.preview'|trans}}</th>
+    <th>{{'layout_config.orientation'|trans}}</th>
+    <th>{{'calendar.start'|trans({}, 'messages')}}</th>
+    <th>{{'calendar.end'|trans({}, 'messages')}}</th>
+    {% if (is_granted('BUSINESS_MANAGE_LAYOUT_CONFIG')) %}
+        <th>{{'global.actions'|trans({}, 'messages')}}</th>
+    {% endif %}
+{% endblock %}
+
+{% block table_body %}
+    {% if layoutConfigs|length == 0 %}
+        <tr>
+            <td colspan="5">
+                {{'global.no_items'|trans}}
+            </td>
+        </tr>
+    {% else %}
+        {% for layoutConfig in layoutConfigs %}
+            <tr>
+                <td>
+                    {{ layoutConfig.label }}
+                </td>
+                <td>
+                    <img class="layout-preview" src="{{ app.request.basePath ~ layoutConfig.previewPath }}" />
+                </td>
+                <td>
+                    {{ layoutConfigRepo.orientationName(layoutConfig.orientation) }}
+                </td>
+                <td>
+                    {{ layoutConfig.calendarStart }}
+                </td>
+                <td>
+                    {{ layoutConfig.calendarEnd }}
+                </td>
+                <td>
+                    {% if (is_granted('BUSINESS_MANAGE_LAYOUT_CONFIG')) %}
+                        <a class="btn btn-default{{disabledBtn}}" href="{{ path('canal_tp_mtt_layout_config_edit', {'externalNetworkId': externalNetworkId, 'layoutConfigId': layoutConfig.id }) }}" class="btn btn-default{{disabledBtn}}" data-toggle="modal" data-target="#base-modal">
+                            <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,3 +1,47 @@
+Notes de publication - METH - Version 1.1.0 (31/07/2014)
+
+** Bogue
+    * [METH-184] - Non signalement d'un débordement de cadre en fréquence
+    * [METH-239] - Médiathèque - Mise à jour de la stratégie
+    
+** Récit
+    * [METH-1] - Formulaire d'assignation des layouts
+    * [METH-279] - Formulaire de création/configuration des gabarits
+    * [METH-280] - Liste des secteurs
+    * [METH-281] - Création/Edition des secteurs
+    * [METH-285] - Suppression d'un secteur (sans les PDF)
+    
+** Tâche
+    * [METH-284] - Modale de gestion des PDF de secteurs
+
+
+Notes de publication - METH - Version 1.0.0 (17/07/2014)
+
+** Sous-tâche
+    * [METH-153] - Gestion des saisons
+    * [METH-154] - Vérifier les horaires
+    * [METH-156] - Actions sur une ligne
+
+** Bogue
+    * [METH-122] - Gestion des erreurs Navitia
+    * [METH-272] - Investigation : Impossible d'uploader un fichier dont le nom comporte un espace
+
+** Amélioration
+    * [METH-202] - Fonction Suppression dans la médiathèque
+    * [METH-228] - La page de prévisualisation d'une fiche horaire doit être accessible anonymement uniquement par certaines ips
+
+** Tâche
+    * [METH-190] - Redirection vers l'accueil : garder le périmètre courant
+    * [METH-224] - Tests de charge - génération en masse
+    * [METH-225] - Test de performance - WS front
+    * [METH-240] - Ajout de messages explicatifs lorsque des champs sont vides
+    * [METH-241] - Elements de wording
+    * [METH-244] - Amélioration page gestion liste de placardage
+    * [METH-246] - Supprimer l'"autoscroll" du menu de gauche
+    * [METH-274] - Nom de la route dans les tâches en cours (géné liste placardage)
+    * [METH-275] - Amélioration comportement sans JS
+
+
 Notes de publication - METH - Version 1.0.0-ALPHA (15/07/2014)
 
 ** Bogue

@@ -15,17 +15,18 @@ class LayoutType extends AbstractType
             array(
                 'multiple'=> false,
                 'layouts' => array(),
-                'class' => 'CanalTP\MttBundle\Entity\Layout',
+                'class' => 'CanalTP\MttBundle\Entity\Layout'
             )
         );
     }
 
     /**
-     * Passe la config du champ à la vue
+     * Passe la config du champ Ã  la vue
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $layouts = array();
+
         foreach ($options['layouts'] as $layout) {
             $layouts[$layout->getId()] = $layout;
         }

@@ -20,8 +20,7 @@ abstract class AbstractControllerTest extends SamBaseTestController
 
     private function mockDb()
     {
-        $this->runConsole("doctrine:schema:create", array('-e' => 'test_mtt'));
-        $this->runConsole("doctrine:fixtures:load", array('-e' => 'test_mtt'));
+        $this->runConsole("sam:database:purge", array('-e' => 'test_mtt'));
         $this->reloadMttFixtures();
     }
 
@@ -38,7 +37,6 @@ abstract class AbstractControllerTest extends SamBaseTestController
         if (self::$mockDb === true) {
             self::$mockDb = false;
 
-            $this->runConsole("doctrine:schema:drop", array("--force" => true, '-e' => 'test_mtt'));
             $this->mockDb();
         }
         if ($login == true)

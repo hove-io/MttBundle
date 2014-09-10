@@ -9,12 +9,19 @@ class TaskTypeExtension extends \Twig_Extension
     private $translator;
     private $em;
     private $distributionListManager;
+    private $navitiaManager;
 
-    public function __construct($translator, $em, $distributionListManager)
+    public function __construct(
+        $translator,
+        $em,
+        $distributionListManager,
+        $navitiaManager
+        )
     {
         $this->distributionListManager = $distributionListManager;
         $this->translator = $translator;
         $this->em = $em;
+        $this->navitiaManager = $navitiaManager;
     }
 
     public function getFilters()
@@ -61,13 +68,19 @@ class TaskTypeExtension extends \Twig_Extension
             case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
                 $timetable = $this->em->getRepository('CanalTPMttBundle:Timetable')->find($task->getObjectId());
                 if (!empty($timetable)) {
-                    $return = $this->translator->trans(
-                        'task.distribution_list_pdf_generation',
-                        array(
-                            '%routeId%' => $timetable->getExternalRouteId()
-                        ),
-                        'default'
+                    $navitiaResult = $this->navitiaManager->getRoute(
+                        $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalCoverageId(),
+                        $timetable->getExternalRouteId()
                     );
+                    if (isset($navitiaResult->routes)) {
+                        $return = $this->translator->trans(
+                            'task.distribution_list_pdf_generation',
+                            array(
+                                '%routeName%' => $navitiaResult->routes[0]->name
+                            ),
+                            'default'
+                        );
+                    }
                 }
                 break;
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:

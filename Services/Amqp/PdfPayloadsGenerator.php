@@ -42,9 +42,9 @@ class PdfPayloadsGenerator
         $payload = array();
         $payload['pdfHash'] = isset($stopPoint->pdfHash) ? $stopPoint->pdfHash : '';
         $payload['layoutParams'] = array(
-            'orientation' => $lineConfig->getLayout()->getOrientation(),
+            'orientation' => $lineConfig->getLayoutConfig()->getLayout()->getOrientationAsString(),
         );
-        $payload['cssVersion'] = $lineConfig->getLayout()->getCssVersion();
+        $payload['cssVersion'] = $lineConfig->getLayoutConfig()->getLayout()->getCssVersion();
         $payload['url'] = $this->co->get('request')->getScheme() . '://';
         $payload['url'] .= $this->co->get('request')->getHttpHost();
         $payload['url'] .= $this->router->generate(
