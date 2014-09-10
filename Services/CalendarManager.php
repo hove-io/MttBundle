@@ -261,7 +261,7 @@ class CalendarManager
         $calendarsFiltered = array();
         $calendarsSorted = array();
         // indicates whether to aggregate or dispatch notes
-        $layout = $timetable->getLineConfig()->getLayout();
+        $layout = $timetable->getLineConfig()->getLayoutConfig();
         $calendarsData = $this->navitia->getStopPointCalendarsData(
             $externalCoverageId,
             $timetable->getExternalRouteId(),

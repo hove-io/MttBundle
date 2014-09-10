@@ -85,7 +85,7 @@ class TimetableController extends AbstractController
                 'calendars'             => $calendarsAndNotes['calendars'],
                 'notes'                 => $calendarsAndNotes['notes'],
                 'blockTypes'            => $this->container->getParameter('blocks'),
-                'layout'                => $timetable->getLineConfig()->getLayout(),
+                'layout'                => $timetable->getLineConfig()->getLayoutConfig(),
                 'editable'              => $editable,
                 'displayMenu'           => $displayMenu
             )

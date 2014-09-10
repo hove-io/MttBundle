@@ -33,7 +33,7 @@ class LineManager
         if (empty($lineConfig)) {
             throw new NotFoundHttpException("LineConfig not found");
         }
-        $lineConfig->setTwigPath($lineConfig->getLayout()->getTwig());
+        $lineConfig->setTwigPath($lineConfig->getLayoutConfig()->getLayout()->getPath());
     }
 
     public function getLineConfigWithSeasonByExternalLineId($externalLineId, $season)

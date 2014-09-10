@@ -40,7 +40,7 @@ define(['jquery', 'bootstrap'], function($) {
 
                 current_item_position = $line_menu_wrapper.position().top;
                 if (($line_menu_wrapper.position().top + $line_menu_wrapper.outerHeight()) > $menu.height())
-                    $menu.animate({scrollTop: $line_menu_wrapper.position().top}, 800);
+                    $menu.scrollTop($line_menu_wrapper.position().top);
             } else {
                 $menu.find('ul').removeClass('in');
             }

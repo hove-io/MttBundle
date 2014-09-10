@@ -11,14 +11,16 @@ use Symfony\Component\Form\FormEvent;
 class NetworkType extends AbstractType
 {
     private $coverages = null;
-    private $networkExist = null;
+    private $layoutConfigs = null;
+    private $navitiaService = null;
+    private $isGrantedAssignLayout = false;
 
-    public function __construct($coverages, $networkId)
+    public function __construct($coverages, $layoutConfigs, $isGrantedAssignLayout = false)
     {
         $this->coverages = array();
-        $this->networkExist = ($networkId != null);
-
         $this->fetchCoverages($coverages);
+        $this->layoutConfigs = $layoutConfigs;
+        $this->isGrantedAssignLayout = $isGrantedAssignLayout;
     }
 
     private function fetchCoverages($coverages)
@@ -52,21 +54,41 @@ class NetworkType extends AbstractType
         );
 
         $builder->add('token', 'text');
-
+        
+        if ($this->isGrantedAssignLayout) {
+            $builder->add(
+                'layout_configs',
+                'layout_configs_network',
+                array(
+                    'choices' => $this->layoutConfigs,
+                    'layoutConfigs' => $this->layoutConfigs,
+                    'empty_value' => 'global.please_choose',
+                )
+            );
+        }
+        
         $formFactory = $builder->getFormFactory();
         $callback = function (FormEvent $event) use ($formFactory) {
             $data = $event->getData();
             $form = $event->getForm();
             $form->remove('external_id');
-
+            // from POST
+            if (is_array($data)) {
+                $value = $data['external_id'];
+                $choices = array($data['external_id'] => $data['external_id']);
+            // editing entity
+            } else{
+                $value = empty($data) ? null : $data->getExternalId();
+                $choices = empty($data) ? array() : array($data->getExternalId() => $data->getExternalId());
+            }
             $form->add(
                 $formFactory->createNamed(
                     'external_id',
                     'choice',
-                    null,
+                    $value,
                     array(
                         'auto_initialize' => false,
-                        'choices' => array($data['external_id'] => $data['external_id'])
+                        'choices' => $choices
                     )
                 )
             );

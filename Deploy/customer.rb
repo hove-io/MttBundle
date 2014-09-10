@@ -25,6 +25,6 @@ set :amqp_server_port, 5672
 set :mtt_configuration_name, 'mtt'
 set :mtt_company_name, 'MTT'
 set :mtt_storage_type, 'filesystem'
-set :mtt_storage_path, '/srv/www/htdocs/sam/nmm-ihm.mutu.customer.canaltp.fr/current/web/uploads/'
-set :mtt_storage_url, 'http://nmm-ihm.mutu.customer.canaltp.fr/uploads/'
+set :mtt_storage_path, '/srv/mhsmedias-ws.ctp.customer.canaltp.fr/'
+set :mtt_storage_url, 'http://mhsmedias-ws.ctp.customer.canaltp.fr/'
 set :mtt_storage_strategy, 'mtt'

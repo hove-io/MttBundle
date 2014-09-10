@@ -1,7 +1,7 @@
 {% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
 
 {% block left_menu %}
-    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season' : currentSeasonId })) }}
+    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season' : currentSeason.id })) }}
 {% endblock %}
 
 {% trans_default_domain "default" %}
@@ -18,7 +18,7 @@
                     'externalNetworkId':externalNetworkId,
                     'externalRouteId': current_route,
                     'externalStopPointId' : prevNextStopPoints.prev,
-                    'currentSeasonId':currentSeasonId
+                    'currentSeasonId':currentSeason.id
                 }
             ) %}
         {% endif %}
@@ -29,7 +29,7 @@
                     'externalNetworkId':externalNetworkId,
                     'externalRouteId': current_route,
                     'externalStopPointId' : prevNextStopPoints.next,
-                    'currentSeasonId':currentSeasonId
+                    'currentSeasonId':currentSeason.id
                 }
             ) %}
         {% endif %}
@@ -49,8 +49,13 @@
     {% endfor %}
     </ul>
     <div class="tab-content">
+    {% if calendars is empty %}
+        <div class="panel-body clearfix">
+            <p class="text-center">{{ 'calendar.empty'|trans({}, 'messages') }}</p>
+        </div>
+    {% endif %}
     {% for calendar in calendars %}
-        <div class="tab-pane row pad30t{% if loop.index == 1 %} active{% endif %}" id="calendar-{{ calendar.id }}">
+        <div class="tab-pane row force-show-nojs pad30t{% if loop.index == 1 %} active{% endif %}" id="calendar-{{ calendar.id }}">
             <div class="col-md-9">
                 <div class="grid-time-wrapper panel panel-default">
                     <div class="panel-body clearfix">
@@ -77,6 +82,8 @@
                             {% endfor %}
                             </div>
                         </div>
+                    {% elseif (calendar.schedules.additional_informations is empty) %}
+                        <p class="text-center">{{ 'calendar.schedules.date_times.empty'|trans({}, 'messages') }}</p>
                     {% endif %}
                     </div>
                 </div>
@@ -135,7 +142,4 @@
         </div>
     {% endfor %}
     </div>
-{#
-    <pre>{{ dump(calendars) }}</pre>
-#}
 {% endblock %}

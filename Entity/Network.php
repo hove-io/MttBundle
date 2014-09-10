@@ -35,7 +35,7 @@ class Network extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $layouts;
+    private $layoutConfigs;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -51,6 +51,11 @@ class Network extends AbstractEntity
      * @var Object
      */
     private $ditributionLists;
+
+    /**
+     * @var Object
+     */
+    private $areas;
 
     /**
      * Get id
@@ -192,21 +197,41 @@ class Network extends AbstractEntity
      *
      * @return Network
      */
-    public function getLayouts()
+    public function getLayoutConfigs()
     {
-        return ($this->layouts);
+        return ($this->layoutConfigs);
     }
-
     /**
-     * Set Layouts
+     * Set Object
      *
      * @return Network
      */
-    public function addLayout($layout)
+    public function setLayoutConfigs($layoutConfigs)
     {
-        $this->layouts[] = $layout;
+        return $this->layoutConfigs = $layoutConfigs;
+    }
+
+    /**
+     * add LayoutConfigs
+     *
+     * @return Network
+     */
+    public function addLayoutConfig($layoutConfig)
+    {
+        $this->layoutConfigs[] = $layoutConfig;
 
         return ($this);
+    }
+    /**
+     * Set LayoutConfigs
+     *
+     * @return Network
+     */
+    public function removeLayoutConfig($layoutConfig)
+    {
+        $this->layoutConfigs->removeElement($layoutConfig);
+
+        return $this;
     }
 
     /**
@@ -239,5 +264,43 @@ class Network extends AbstractEntity
         $explodedId = explode(':', $this->getExternalId());
 
         return count($explodedId) > 0 ? $explodedId[1] : $this->getExternalId();
+    }
+
+    /**
+     * Set areas
+     *
+     * @param  array  $areas
+     * @return Network
+     */
+    public function setAreas($areas)
+    {
+        $this->areas = $areas;
+
+        return $this;
+    }
+
+    /**
+     * Get areas
+     *
+     * @return array
+     */
+    public function getAreas()
+    {
+        return $this->areas;
+    }
+
+    /**
+     * Get Only layouts without custom configuration (used for form)
+     *
+     * @return Layouts
+     */
+    public function getOnlyLayouts()
+    {
+        $layouts = array();
+
+        foreach ($this->layoutConfigs as $layoutConfig) {
+            $layouts[] = $layoutConfig->getLayout();
+        }
+        return ($layouts);
     }
 }

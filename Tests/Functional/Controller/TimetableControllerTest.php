@@ -45,6 +45,26 @@ class TimetableControllerTest extends AbstractControllerTest
 
     public function testAnonymousAccess()
     {
+        $route = $this->client->getContainer()->get('router')->generate(
+            'canal_tp_mtt_timetable_view',
+            array(
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+                'externalLineId' => Fixture::EXTERNAL_LINE_ID,
+                'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
+                'externalStopPointId' => Fixture::EXTERNAL_STOP_POINT_ID,
+                'seasonId' => $this->getSeason()->getId()
+            )
+        );
+        $crawler = $this->client->request('GET', $route);
+        $this->assertEquals(
+            200,
+            $this->client->getResponse()->getStatusCode(),
+            'Response status NOK:' . $this->client->getResponse()->getStatusCode()
+        );
+    }
+
+    public function testAccess()
+    {
         parent::setUp(false);
 
         $route = $this->client->getContainer()->get('router')->generate(
@@ -58,13 +78,11 @@ class TimetableControllerTest extends AbstractControllerTest
             )
         );
         $crawler = $this->client->request('GET', $route);
-        // print "\r\n" . $crawler->filter('#main-container')->text();
         $this->assertEquals(
-            200,
+            302,
             $this->client->getResponse()->getStatusCode(),
             'Response status NOK:' . $this->client->getResponse()->getStatusCode()
         );
-        $this->assertTrue($crawler->filter('div#left-menu')->count() == 0);
     }
 
     private function checkCodeBlockInTimetableViewPage($translator, $seasonId)
@@ -146,5 +164,19 @@ class TimetableControllerTest extends AbstractControllerTest
 
         $this->checkPoisBlockInTimetableViewPage($translator, $season->getId());
         $this->checkPoisBlockInTimetableEditPage($translator, $season->getId());
+    }
+
+    public function testPoiBlock()
+    {
+        $translator = $this->client->getContainer()->get('translator');
+
+        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $this->getSeason()->getId()));
+        $message = $translator->trans('stop_point.block.pois.empty', array('%distance%' => 400), 'default');
+
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('html:contains("' . $message . '")')->count(),
+            "Stop point poi(for distance) not work in stop point timetable view page"
+        );
     }
 }
