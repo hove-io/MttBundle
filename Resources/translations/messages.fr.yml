@@ -105,3 +105,17 @@ layout_config:
         calendar_end: Heure de fin des grilles horraires
         preview_path: Changer l'image de prévisualisation
         layout: Choix du modèle
+
+block:
+    img:
+        labels:
+            title: Titre
+            content: Image
+    text:
+        labels:
+            title: Titre
+            content: Texte
+    calendar:
+        labels:
+            title: Titre
+            content: Texte

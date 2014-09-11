@@ -18,6 +18,11 @@ class PdfControllerTest extends AbstractControllerTest
         );
     }
 
+    public function testMttHomepage()
+    {
+        $this->generateRoute('canal_tp_mtt_homepage');
+    }
+
     // TODO: Need to change Jenkins coniguration because we have 403 Forbiden (authentification).
     // public function testPdfGeneration()
     // {

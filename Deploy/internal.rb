@@ -1,10 +1,10 @@
 ################################
 ### Supervisor Configuration ###
 ################################
-role :supervisor, "10.2.16.70", {
-  :user => 'sam',
+role :supervisor, "par-vm197.srv.canaltp.fr", {
+  :user => 'nmp-int-wrk',
   :no_release => true,
-  :password => "iy9>Y&8E"
+  :password => "om5Baeth7X"
 }
 
 #########################
