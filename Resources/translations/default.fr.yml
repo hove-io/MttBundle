@@ -120,20 +120,6 @@ task:
     season_pdf_generation: Génération de l'ensemble des pdfs de la saison "%seasonName%"
     distribution_list_pdf_generation: Génération de la liste de placardage pour la route %routeName%
 
-block:
-    img:
-        labels:
-            title: Titre
-            content: Image
-    text:
-        labels:
-            title: Titre
-            content: Texte
-    calendar:
-        labels:
-            title: Titre
-            content: Texte
-
 area:
     title: Liste des secteurs
     create: Créer un secteur

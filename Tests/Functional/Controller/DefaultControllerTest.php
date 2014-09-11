@@ -57,7 +57,7 @@ class DefaultControllerTest extends AbstractControllerTest
         $menuActive = $crawler->filter('#application-navbar ul.nav.navbar-nav > li.dropdown ul li.active')->count();
         $this->assertTrue($menuActive == 1, "Only one menu item in perimeter menu should not be active. Expected 1. Count :$menuActive");
     }
-    
+
     public function testMeth190KeepCurrentNetworkInLogoLink()
     {
         $route = $this->generateRoute('canal_tp_mtt_homepage');
