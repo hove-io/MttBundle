@@ -24,8 +24,7 @@ class BlockType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class'         => 'CanalTP\MttBundle\Entity\Block',
-                'translation_domain' => 'default'
+                'data_class'         => 'CanalTP\MttBundle\Entity\Block'
             )
         );
     }
