@@ -181,6 +181,9 @@ canal_tp_mtt_layout_config_edit:
     defaults: { _controller: CanalTPMttBundle:LayoutConfig:edit, layoutConfigId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_model_upload:
+    pattern: /layouts/networks/{externalNetworkId}/model/upload
+    defaults: { _controller: CanalTPMttBundle:LayoutModel:uploadModel }
 
 #Webservice
 canal_tp_mtt_WS_timetable:
