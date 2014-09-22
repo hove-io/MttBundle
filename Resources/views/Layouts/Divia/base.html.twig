@@ -1,17 +1,17 @@
-{% import "CanalTPMttBundle:Layouts:macros.html.twig" as macros %}
+{% import templatePath ~ "macros.html.twig" as macros %}
 
-{% extends "CanalTPMttBundle:Layouts:base_layout.html.twig" %}
+{% extends templatePath ~ "base_layout.html.twig" %}
 
 {% block stylesheets %}
     {% stylesheets  'css/bootstrap.css'
                     'bundles/canaltpsam/css/*'
                     'bundles/canaltpmtt/css/main.css'
                     'bundles/canaltpmtt/css/layouts.css'
-                    'bundles/canaltpmtt/css/layouts/Divia/main.css'
-
+                    cssPath ~ 'main.css'
                    filter='cssrewrite' output='css/fullMtt_layouts.css' %}
         <link rel="stylesheet" media="all" href="{{ asset_url }}?{{ assets_version }}" />
     {% endstylesheets %}
+    
     {% stylesheets  'bundles/canaltpmtt/css/print.css'
                    filter='cssrewrite' output='css/full_layouts_print.css' %}
         <link rel="stylesheet" media="print" href="{{ asset_url }}?{{ assets_version }}" />
@@ -44,12 +44,12 @@
             {% block timetable_downer_content %}{% endblock %}
         </div>
     </div>
-    <img class="divia-logo" src="{{ asset('bundles/canaltpmtt/img/layouts/divia/logo.png') }}">
+    <img class="divia-logo" src="{{ asset(imgPath ~ 'logo.png') }}">
 {% endblock %}
 
 {% block scripts %}
     {%
-        include 'CanalTPMttBundle:Layouts:common.js.twig'
+        include templatePath ~ 'common.js.twig'
         with {
             'editable'          : editable,
             'stopPointLevel'    : stopPointLevel,
