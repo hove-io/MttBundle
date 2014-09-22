@@ -42,11 +42,11 @@ class LayoutModelManager
         
         $id = $this->getUniqueId();
         $config = $this->readConfiguration($tmpDir);
-        $previewFileName = $this->movePreviewPicture($tmpDir, $templateDir.'/img/Divia/' . $id);
-        $this->moveTwigFiles($tmpDir, $templateDir, $config['label'], $id);
-        $this->moveCssFiles($tmpDir, $templateDir, $config['label'], $id);
+        $this->movePictures($tmpDir, $templateDir.'/img/' . $id);
+        $this->moveTwigFiles($tmpDir, $templateDir, $id);
+        $this->moveCssFiles($tmpDir, $templateDir, $id);
         
-        $this->saveInDb($config['label'], 'uploads/' . $config['label'] . '/' . $id . '/' . $config['templateName'], '/bundles/canaltpmtt/img/uploads/' . $config['label'] . '/' . $id . '/' . $previewFileName, $config['orientation']);
+        $this->saveInDb($config['label'], 'uploads/' . $id . '/' . $config['templateName'], '/bundles/canaltpmtt/img/uploads/' . $id . '/' . $config['previewFileName'], $config['orientation']);
     }
     
     protected function getUploadDir()
@@ -61,25 +61,25 @@ class LayoutModelManager
      * @param String $targetDir destination directory
      * @return String FileName
      */
-    protected function movePreviewPicture($actualDir, $targetDir)
+    protected function movePictures($actualDir, $targetDir)
     {
         $finder = new Finder();
         $finder->files()->in($actualDir)->name('*.png')->name('*.jpg');
 
-        $files = iterator_to_array($finder);
+//        $files = iterator_to_array($finder);
         if (iterator_count($finder) < 1) {
             throw new \Exception('The preview file is missing.');
         }
-        $file = current($files);
+//        $file = current($files);
         
-        $f = new \Symfony\Component\HttpFoundation\File\File($file->getRealpath(), true);
+        foreach ($finder as $file) {
+            $f = new \Symfony\Component\HttpFoundation\File\File($file->getRealpath(), true);
 
-        $f = $f->move(
-            $targetDir,
-            $file->getFilename()
-        );
-
-        return $f->getFilename();
+            $f->move(
+                $targetDir,
+                $file->getFilename()
+            );
+        }
     }
     
     /**
@@ -108,14 +108,18 @@ class LayoutModelManager
         }
     }
     
-    protected function moveCssFiles($actualDir, $targetDir, $client, $id)
+    protected function moveCssFiles($actualDir, $targetDir, $id)
     {
-        $this->moveFiles('*.css', $actualDir, $targetDir . '/css/' . $client . '/' . $id);
+        try {
+            $this->moveFiles('*.css', $actualDir, $targetDir . '/css/' . $id);
+        } catch(\Exception $e) {
+            return false;
+        }
     }
     
-    protected function moveTwigFiles($actualDir, $targetDir, $client, $id)
+    protected function moveTwigFiles($actualDir, $targetDir, $id)
     {
-        $this->moveFiles('*.twig', $actualDir, $targetDir . '/twig/' . $client . '/' . $id);
+        $this->moveFiles('*.twig', $actualDir, $targetDir . '/twig/' . $id);
     }
     
     protected function getUniqueId()

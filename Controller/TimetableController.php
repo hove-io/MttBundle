@@ -66,7 +66,7 @@ class TimetableController extends AbstractController
             $calendarsAndNotes = array('calendars'=>'', 'notes'=> '');
         }
         $this->addFlashIfSeasonLocked($timetable->getLineConfig()->getSeason());
-
+        
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getTwigPath(),
             array(
@@ -87,7 +87,10 @@ class TimetableController extends AbstractController
                 'blockTypes'            => $this->container->getParameter('blocks'),
                 'layout'                => $timetable->getLineConfig()->getLayoutConfig(),
                 'editable'              => $editable,
-                'displayMenu'           => $displayMenu
+                'displayMenu'           => $displayMenu,
+                'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'imgPath'               => '/bundles/canaltpmtt/img/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'cssPath'               => '/bundles/canaltpmtt/css/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/'
             )
         );
     }
