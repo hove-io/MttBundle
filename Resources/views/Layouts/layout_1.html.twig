@@ -1,6 +1,6 @@
-{% import "CanalTPMttBundle:Layouts:macros.html.twig" as macros %}
+{% import templatePath ~ "macros.html.twig" as macros %}
 
-{% extends "CanalTPMttBundle:Layouts:base_layout.html.twig" %}
+{% extends templatePath ~ "base_layout.html.twig" %}
 
 {% block timetable_content %}
     <div id="layout-1-wrapper" class="{% block additionnal_wrapper_class %}{% endblock %}">
@@ -47,7 +47,7 @@
                                     {{ macros.hours_thead(hours_range)}}
                                     {% if block.frequencies|length > 0 and (calendar.schedules.additional_informations is empty) %}
                                         {%
-                                            include "CanalTPMttBundle:Frequency:display.html.twig"
+                                            include templatePath ~ "display.html.twig"
                                             with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
                                         %}
                                     {% endif %}
@@ -73,7 +73,7 @@
 
 {% block scripts %}
     {%
-        include 'CanalTPMttBundle:Layouts:common.js.twig'
+        include templatePath ~ "common.js.twig"
         with {
             'editable'          : editable,
             'stopPointLevel'    : stopPointLevel,

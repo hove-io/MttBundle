@@ -1,0 +1,29 @@
+{% extends "::modal.html.twig" %}
+
+{% form_theme form 'CanalTPMttBundle:Form:fields.html.twig' %}
+
+{% block open_form %}
+    {{ form_start(form) }}
+{% endblock %}
+
+{% block modal_title %}
+    {{'layout_model.upload'|trans({}, 'default')}}
+{% endblock %}
+
+
+{% block modal_body %}
+    {{ form_errors(form) }}
+
+    <div class="row">
+        <div class="col-lg-12">
+            {{ form_row(form.file) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block modal_actions %}
+    <button type="submit" class="btn btn-success">
+        <span class="glyphicon glyphicon-pencil"></span> {{'global.upload'|trans}}
+    </button>
+    {{ form_end(form) }}
+{% endblock %}

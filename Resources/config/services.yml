@@ -33,6 +33,7 @@ parameters:
     #Layout
     canal_tp_mtt.layout.class: CanalTP\MttBundle\Services\LayoutManager
     canal_tp_mtt.layout_config.class: CanalTP\MttBundle\Services\LayoutConfigManager
+    canal_tp_mtt.layout_model.class: CanalTP\MttBundle\Services\LayoutModelManager
 
 services:
     #TWIG extensions
@@ -169,6 +170,9 @@ services:
     canal_tp_mtt.layout_config:
         class: %canal_tp_mtt.layout_config.class%
         arguments: ['@doctrine.orm.entity_manager']
+    canal_tp_mtt.layout_model:
+        class: %canal_tp_mtt.layout_model.class%
+        arguments: ['@doctrine.orm.entity_manager', %canal_tp_mtt.layout_model.location%]
     # Layout
     canal_tp_mtt.layout:
         class: %canal_tp_mtt.layout.class%

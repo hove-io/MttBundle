@@ -43,6 +43,9 @@ layout_config:
     create: Créer un layout
     created: Le layout a bien été ajouté
 
+layout_model:
+    upload: Ajouter un modèle
+    
 block:
     get_form:
         title: Éditer le bloc
