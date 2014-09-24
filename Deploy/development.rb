@@ -13,8 +13,8 @@ role :supervisor, "10.2.16.70", {
 
 set :mtt_pdf_generator_url, 'http://mhspdfgen-ws.ctp.dev.canaltp.fr/'
 set :amqp_server_host, '10.2.16.70'
-set :amqp_server_user, 'guest'
-set :amqp_server_pass, 'guest'
+set :amqp_server_user, 'mtt'
+set :amqp_server_pass, 'mtt'
 set :amqp_server_vhost, 'mtt/development'
 set :amqp_server_port, 5672
 
