@@ -24,7 +24,25 @@ class LayoutModelController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $this->get('canal_tp_mtt.layout_model')->save($form->getData());
+            try {
+                $this->get('canal_tp_mtt.layout_model')->save($form->getData());
+            } catch(\Exception $e) {
+                $this->get('session')->getFlashBag()->add(
+                    'danger',
+                    $this->get('translator')->trans(
+                        $e->getMessage(),
+                        array(),
+                        'default'
+                    )
+                );
+
+                return $this->redirect(
+                    $this->generateUrl(
+                        'canal_tp_mtt_layout_config_list',
+                        array('externalNetworkId' => $externalNetworkId)
+                    )
+                );
+            }
             $this->get('session')->getFlashBag()->add(
                 'success',
                 $this->get('translator')->trans(
