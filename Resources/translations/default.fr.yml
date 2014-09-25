@@ -45,6 +45,7 @@ layout_config:
 
 layout_model:
     upload: Ajouter un modèle
+    uploaded: Modèle enregistré
     
 block:
     get_form:

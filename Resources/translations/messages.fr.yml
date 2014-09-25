@@ -15,6 +15,7 @@ global:
     unpublish: Dépublier
     line_label: Ligne
     downloadPdf: Télécharger le PDF
+    upload: Téléverser
     network: Réseau
     direction: Direction
     mode: Mode
@@ -105,6 +106,10 @@ layout_config:
         calendar_end: Heure de fin des grilles horraires
         preview_path: Changer l'image de prévisualisation
         layout: Choix du modèle
+
+layout_model:
+    labels:
+        archive_path: Chemin de l'archive du template
 
 block:
     img:

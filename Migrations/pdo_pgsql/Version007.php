@@ -14,7 +14,6 @@ class Version007 extends AbstractMigration
 {
     const VERSION = '0.0.7';
 
-    private $container;
     private $lineConfigs;
     private $layoutNetwork;
     private $layouts;
