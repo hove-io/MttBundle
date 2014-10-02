@@ -286,7 +286,7 @@ class FixtureMtt extends SamBaseFixture
             $network4->addUser($userEntity);
             $network5->addUser($userEntity);
         }
-        $this->createLayouts($network1, $network2, $network5);
+//        $this->createLayouts($network1, $network2, $network5);
     }
 
     /**
