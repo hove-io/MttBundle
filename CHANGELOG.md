@@ -1,3 +1,9 @@
+Notes de publication - TT - Version 1.1.1 (02/09/2014)
+
+** Tâche
+    * [IUS-276] - MTT- Externalisation des templates client
+
+
 Notes de publication - METH - Version 1.1.0 (31/07/2014)
 
 ** Bogue
