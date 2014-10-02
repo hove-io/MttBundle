@@ -32,10 +32,16 @@ class UserManager
      */
     public function getNetworks($user = null)
     {
+        if ($user == null) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+        }
+        if ($user === 'anon.') {
+            return (array());
+        }
         $networks = $this->om
             ->getRepository('CanalTPMttBundle:Network')
             ->findNetworksByUserId(
-                ($user != null) ? $user->getId() : $this->container->get('security.context')->getToken()->getUser()->getId()
+                $user->getId()
             );
 
         if (count($networks) == 0) {
