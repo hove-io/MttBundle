@@ -28,3 +28,4 @@ set :mtt_storage_type, 'filesystem'
 set :mtt_storage_path, '/srv/mhsmedias-ws.ctp.prod.canaltp.fr/'
 set :mtt_storage_url, 'http://mhsmedias-ws.ctp.prod.canaltp.fr/'
 set :mtt_storage_strategy, 'mtt'
+set :mtt_template_storage_path, "#{deploy_to}/shared/mtt/template"

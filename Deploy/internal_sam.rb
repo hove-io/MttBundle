@@ -28,3 +28,4 @@ set :mtt_storage_type, 'filesystem'
 set :mtt_storage_path, '/srv/www/htdocs/sam/sam-ihm.mutu.internal.canaltp.fr/current/web/uploads/'
 set :mtt_storage_url, 'http://sam-ihm.mutu.internal.canaltp.fr/uploads/'
 set :mtt_storage_strategy, 'mtt'
+set :mtt_template_storage_path, "#{deploy_to}/shared/mtt/template"
