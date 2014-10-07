@@ -11,9 +11,9 @@ namespace :mtt do
         run "mkdir -p #{shared_path}/template/img"
         run "mkdir -p #{shared_path}/template/css"
         run "mkdir -p #{shared_path}/template/twig"
-        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/img && ls -l && ln -s #{shared_path}/template/img uploads"
-        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css && ls -l && ln -s #{shared_path}/template/css uploads"
-        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/views/Layouts && ls -l && ln -s #{shared_path}/template/twig uploads"
+        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/img && rm uploads && ln -s #{shared_path}/template/img uploads"
+        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css && rm uploads && ln -s #{shared_path}/template/css uploads"
+        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/views/Layouts && rm uploads && ln -s #{shared_path}/template/twig uploads"
     end
 end
 
