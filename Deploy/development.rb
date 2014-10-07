@@ -28,3 +28,4 @@ set :mtt_storage_type, 'filesystem'
 set :mtt_storage_path, '/srv/sam/nmm-ihm.dev.canaltp.fr/current/web/uploads/'
 set :mtt_storage_url, 'http://nmm-ihm.dev.canaltp.fr/uploads/'
 set :mtt_storage_strategy, 'CanalTP\MediaManager\Strategy\DefaultStrategy'
+set :mtt_template_storage_path, "#{deploy_to}/shared/mtt/template"
