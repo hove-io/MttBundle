@@ -28,4 +28,4 @@ set :mtt_storage_type, 'filesystem'
 set :mtt_storage_path, '/srv/mhsmedias-ws.ctp.prod.canaltp.fr/'
 set :mtt_storage_url, 'http://mhsmedias-ws.ctp.prod.canaltp.fr/'
 set :mtt_storage_strategy, 'CanalTP\MediaManager\Strategy\DefaultStrategy'
-set :mtt_template_upload_path, "/srv/www/htdocs/sam/nmm-ihm.mutu.prod.canaltp.fr/shared/mtt"
+set :mtt_template_upload_dir, "/srv/www/htdocs/sam/nmm-ihm.mutu.prod.canaltp.fr/shared/mtt"

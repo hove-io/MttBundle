@@ -28,4 +28,4 @@ set :mtt_storage_type, 'filesystem'
 set :mtt_storage_path, '/srv/sam/sam-ihm.dev.canaltp.fr/current/web/uploads/'
 set :mtt_storage_url, 'http://sam-ihm.dev.canaltp.fr/uploads/'
 set :mtt_storage_strategy, 'CanalTP\MediaManager\Strategy\DefaultStrategy'
-set :mtt_template_upload_path, "/srv/sam/sam-ihm.dev.canaltp.fr/shared/mtt"
+set :mtt_template_upload_dir, "/srv/sam/sam-ihm.dev.canaltp.fr/shared/mtt"
