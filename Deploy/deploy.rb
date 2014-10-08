@@ -12,9 +12,9 @@ namespace :mtt do
         run "mkdir -p #{shared_path}/mtt/templates/css"
         run "mkdir -p #{shared_path}/mtt/templates/twig"
         run "mkdir -p #{shared_path}/mtt/archives"
-        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/img && rm uploads && ln -s #{shared_path}/mtt/templates/img uploads"
-        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css && rm uploads && ln -s #{shared_path}/mtt/templates/css uploads"
-        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/views/Layouts && rm uploads && ln -s #{shared_path}/mtt/templates/twig uploads"
+        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/img && (test ! -L uploads || rm uploads) && ln -s #{shared_path}/mtt/templates/img uploads"
+        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css && (test ! -L uploads || rm uploads) && ln -s #{shared_path}/mtt/templates/css uploads"
+        run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/views/Layouts && (test ! -L uploads || rm uploads) && ln -s #{shared_path}/mtt/templates/twig uploads"
         run "setfacl -m u:www-data:rwX -m u:`whoami`:rwX #{shared_path}/mtt"
         run "setfacl -d -m u:www-data:rwX -m u:`whoami`:rwX #{shared_path}/mtt"
 
