@@ -1,3 +1,15 @@
+Notes de publication - TT - Version 1.1.3 (09/10/2014)
+
+** Fix
+    * Problèmes de deploiements
+
+
+Notes de publication - TT - Version 1.1.2 (06/10/2014)
+
+** Bogue
+    * [METH-319] - Génération de PDF unitaire impossible - custo
+
+
 Notes de publication - TT - Version 1.1.1 (02/09/2014)
 
 ** Tâche
