@@ -68,6 +68,7 @@ class SeasonType extends AbstractType
                 array(
                     'choices' => $this->seasons,
                     'empty_value' => 'global.please_choose',
+                    'required' => false,
                     'label' => 'season.labels.season_to_clone'
                 )
             );
