@@ -66,32 +66,11 @@ class CalendarType extends BlockType
         return (count($this->choices) == 1 && $this->blockInstance->getContent() != null);
     }
 
-    /*
-     * @function filter calendars and remove already used calendars by others in the parent timetable
-     */
     private function getChoices($calendars)
     {
-        // retrieve other blocks on this timetable
-        $blocks = $this->blockInstance->getTimetable()->getBlocks();
-        // keep only calendar blocks
-        $usedCalendars = array();
-        for ($i = 0; $i < count($blocks); $i++) {
-            if ($blocks[$i]->getTypeId() == 'calendar') {
-                $usedCalendars[] = $blocks[$i]->getContent();
-            }
-        }
         $choices = array();
         foreach ($calendars as $calendar) {
             $choices[$calendar->id] = $calendar->name;
-            foreach ($blocks as $block) {
-                if (
-                    in_array($calendar->id, $usedCalendars) &&
-                    $calendar->id != $this->blockInstance->getContent()
-                    ) {
-                    unset($choices[$calendar->id]);
-                    break;
-                }
-            }
         }
 
         return $choices;
