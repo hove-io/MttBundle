@@ -211,6 +211,12 @@ canal_tp_mtt_area_edit:
     defaults: { _controller: CanalTPMttBundle:Area:edit, areaId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_area_edit_stops:
+    pattern: /areas/networks/{externalNetworkId}/edit/{areaId}/stops
+    defaults: { _controller: CanalTPMttBundle:Area:edit }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        
 canal_tp_mtt_area_remove:
     pattern: /areas/networks/{externalNetworkId}/remove/{areaId}
     defaults: { _controller: CanalTPMttBundle:Area:remove }
