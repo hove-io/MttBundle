@@ -2,7 +2,7 @@
 
 {% block list_title -%}
     {{'area.title'|trans({}, 'default')}}
-    {% if (is_granted('BUSINESS_MANAGE_AREA')) %}
+    {% if is_granted('BUSINESS_MANAGE_AREA') %}
         -
         <a href="{{ path('canal_tp_mtt_area_edit', {'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
             <span class="glyphicon glyphicon-plus"></span> {{'area.create'|trans({}, 'default')}}
@@ -12,7 +12,7 @@
 
 {% block table_head -%}
     <th>{{'area.list.columns.label'|trans({}, 'default')}}</th>
-    {% if (is_granted('BUSINESS_MANAGE_AREA')) %}
+    {% if is_granted('BUSINESS_MANAGE_AREA') %}
         <th>{{'global.actions'|trans({}, 'messages')}}</th>
     {% endif %}
 {% endblock %}
@@ -28,10 +28,14 @@
         {% for area in areas %}
             <tr>
                 <td>
-                    {{ area.label }}
+                    {% if is_granted('BUSINESS_MANAGE_AREA') %}
+                        {#<a href="{{ path('canal_tp_mtt_area_edit', {'areaId': area.id }) }}">{{ area.label }}</a>#}
+                    {% else %}
+                        {{ area.label }}
+                    {% endif %}
                 </td>
                 <td>
-                    {% if (is_granted('BUSINESS_MANAGE_AREA')) %}
+                    {% if is_granted('BUSINESS_MANAGE_AREA') %}
                         <a class="btn btn-default" href="{{ path('canal_tp_mtt_area_list_pdf', {'areaId': area.id }) }}" data-toggle="modal" data-target="#base-modal">
                             <span class="glyphicon glyphicon-list-alt"></span> {{'area.pdf_list'|trans({}, 'default')}}
                         </a>
