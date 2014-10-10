@@ -146,16 +146,4 @@ class SeasonControllerTest extends AbstractControllerTest
         //reload fixtures after Delete
         $this->reloadMttFixtures();
     }
-
-    public function testGenerate2SeasonsWithoutClone()
-    {
-        $form = $this->getEditForm();
-        $crawler = $this->client->submit($form);
-
-        $form = $this->getEditForm();
-        $form['mtt_season[title]'] = 'season 2';
-        $form['mtt_season[startDate]'] = '04/10/2015';
-        $form['mtt_season[endDate]'] = '30/12/2015';
-        $crawler = $this->client->submit($form);
-    }
 }
