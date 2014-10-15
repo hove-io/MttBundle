@@ -90,13 +90,7 @@ class Area extends AbstractEntity
         return $this->network;
     }
 
-    /**
-     * Set stopPoints
-     *
-     * @param Object $network
-     * @return Area
-     */
-    public function setStopPoints($network)
+    public function setStopPoints($stopPoints)
     {
         $this->stopPoints = $stopPoints;
 

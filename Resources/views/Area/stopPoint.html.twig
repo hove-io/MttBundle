@@ -1,0 +1,9 @@
+<li data-route-id="{{ stopPoint.routeId|raw }}" data-stop-point-id="{{ stopPoint.stopPointId|raw }}" class="list-group-item">
+    <span class="glyphicon glyphicon-resize-vertical"></span>
+    <span class="stop_name">{{ stopPoint.stopPointname|raw }}</span>
+    <a href="#" class="pull-right minus-btn toggle-stop-point-btn remove-stop-point-btn"></a>
+    <a href="#" class="pull-right plus-btn toggle-stop-point-btn add-stop-point-btn"></a>
+    <div>
+        <span class="line-code" style="display: inline;">{{ stopPoint.lineCode|raw }}</span> - {{ stopPoint.routeName|raw }}
+    </div>
+</li>
