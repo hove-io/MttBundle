@@ -22,14 +22,10 @@ define('mtt/area', ['mtt_left_menu', 'jquery', 'fosjsrouting', 'jquery_ui_sortab
 
             $.getJSON(url, function(json){
                 $('ul#excluded-stops li.list-group-item').remove();
-                var inArea = _getStopPointIds();
+                var inArea = _getStopPointAndRouteIds();
                 
-                console.log(inArea);
-                
-//                    console.log(lineCode);
-
                 for (index in json.stops) {
-                    var newStop = $('<li class="list-group-item" data-stop-point-id="' + index + '"></li>');
+                    var newStop = $('<li class="list-group-item" data-stop-point-id="' + index + '" data-route-id="' + routeId + '"></li>');
                     newStop.append('<span class="glyphicon glyphicon-resize-vertical"></span>');
                     newStop.append('<span class="stop_name">' + json.stops[index].name + '</span>');
                     newStop.append('<a class="pull-right minus-btn toggle-stop-point-btn remove-stop-point-btn" href="#"></a>');
@@ -40,12 +36,14 @@ define('mtt/area', ['mtt_left_menu', 'jquery', 'fosjsrouting', 'jquery_ui_sortab
                     lineRoute.append(' - '+ sens);
                     newStop.append(lineRoute);
                     
-                    if ($.inArray(index, inArea) != -1) {
+                    if ($.inArray(routeId + '-' + index, inArea) != -1) {
                         newStop.addClass('active');
                     }
 
 
                     $('#excluded-stops').append(newStop); 
+                    $('#excluded-stops').removeClass('empty-list');
+                    $('#excluded-stops').find('> span').addClass('display-none');
                 }
                 
                 //Add to area list
@@ -58,7 +56,7 @@ define('mtt/area', ['mtt_left_menu', 'jquery', 'fosjsrouting', 'jquery_ui_sortab
                     //Remove from area list
                     $stopElementClone.find('.toggle-stop-point-btn').click(function(){
                         $(this).parent().detach();
-                        $('ul#excluded-stops li[data-stop-point-id="' + $(this).parent().data('stop-point-id') + '"]').removeClass('active').find('.add-stop-point-btn').show();
+                        $('ul#excluded-stops li[data-stop-point-id="' + $(this).parent().data('stop-point-id') + '"][data-route-id="' + $(this).parent().data('route-id') + '"]').removeClass('active').find('.add-stop-point-btn').show();
                         $newContainer.trigger('sortupdate');
                         
 //                        console.log($('ul#excluded-stops li[data-stop-point-id="' + $(this).data('stop-point-id') + '"]'));
@@ -113,35 +111,48 @@ define('mtt/area', ['mtt_left_menu', 'jquery', 'fosjsrouting', 'jquery_ui_sortab
     
     
     
-//    var under_progress = false;
-//    $('#save-distribution-list').click(function(){
-//        if (under_progress == true) {
-//            return false;
-//        }
-//        under_progress = true;
-//        var $link = $(this);
-//        $link.find('span.glyphicon-refresh').toggleClass('icon-refresh-animate display-none');
-//        $link.find('span.glyphicon-floppy-disk').toggle();
-//        var stopPoints_ids = _getStopPointIds();
-//        if (stopPoints_ids.length > 0)
-//        {
-//            $.post(
-//                $link.attr('href'),
-//                {"stopPointsIds[]" : stopPoints_ids}
-//            ).done(function(data, textStatus){
-//                under_progress = false;
-//                window.location = $link.attr('href');
-//            });
-//        }
-//        return false;
-//    });
+    var underProgress = false;
+    $('#save-distribution-list').click(function(){
+        if (underProgress == true) {
+            return false;
+        }
+        underProgress = true;
+        var $link = $(this);
+        $link.find('span.glyphicon-refresh').toggleClass('icon-refresh-animate display-none');
+        $link.find('span.glyphicon-floppy-disk').toggle();
+        var stopPoints = _getStopPoint();
+        if (stopPoints.length > 0) {
+            console.log(stopPoints);
+            $.post(
+                $link.attr('href'),
+                {"stopPoints[]" : stopPoints}
+            )
+            .done(function(data, textStatus){
+                underProgress = false;
+                window.location = $link.attr('href');
+            });
+        }
+        
+        return false;
+    });
     
-    var _getStopPointIds = function()
+    var _getStopPointAndRouteIds = function()
     {
         var stopPointsIds = [];
         $('ul#included-stops > li.list-group-item').each(function(){
-            stopPointsIds.push($(this).data('stop-point-id'));
+            stopPointsIds.push($(this).data('route-id') + '-' + $(this).data('stop-point-id'));
         });
+        
         return stopPointsIds;
+    };
+    
+    var _getStopPoint = function()
+    {
+        var stopPoints = [];
+        $('ul#included-stops > li.list-group-item').each(function(){
+            stopPoints.push(JSON.stringify({'stopPointId': $(this).data('stop-point-id'), 'routeId': $(this).data('route-id')}));
+        });
+        
+        return stopPoints;
     };
 });

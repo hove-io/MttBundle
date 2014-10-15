@@ -135,3 +135,8 @@ area:
     deleted: Le secteur a bien été supprimé
     pdf_list: Liste des pdf
     pdf_modal_title: Pdf du secteur "%areaTitle%"
+    stop_list_label: Génération de la liste de placardage
+    stops: Liste des arrêts
+    list_empty: Liste vide
+    confirm_order_saved: L'ordre de la liste a bien été enregistré
+    select_route: Sélectionnez une route dans le menu

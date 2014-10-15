@@ -224,6 +224,11 @@ canal_tp_mtt_area_edit_stops:
     defaults: { _controller: CanalTPMttBundle:Area:editStops }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_area_edit_stops_save:
+    pattern: /areas/networks/{externalNetworkId}/edit/{areaId}/stops/save
+    defaults: { _controller: CanalTPMttBundle:Area:save }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
         
 canal_tp_mtt_area_remove:
     pattern: /areas/networks/{externalNetworkId}/remove/{areaId}

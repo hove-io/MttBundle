@@ -133,12 +133,20 @@ class AreaController extends AbstractController
         $this->isGranted(array('BUSINESS_LIST_AREA', 'BUSINESS_MANAGE_AREA'));
 
         $area = $this->get('canal_tp_mtt.area_manager')->find($areaId);
+        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
+
+        $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
+        $stopPointsList = null;
+        if (!empty($area->getStopPoints())) {
+            $stopPointsList = $stopPointManager->enrichStopPoints($area->getStopPoints(), $network->getExternalCoverageId(), $network->getExternalId());
+        }
 
         return $this->render(
             'CanalTPMttBundle:Area:editStops.html.twig',
             array(
                 'area'              => $area,
-                'externalNetworkId' => $externalNetworkId
+                'externalNetworkId' => $externalNetworkId,
+                'stopPointsList'    => $stopPointsList
             )
         );
     }
@@ -166,6 +174,38 @@ class AreaController extends AbstractController
             array(
                 'result' => $result,
                 'externalNetworkId' => $externalNetworkId
+            )
+        );
+    }
+
+    public function saveAction($externalNetworkId, $areaId)
+    {
+        $stopPoints = $this->get('request')->request->get(
+            'stopPoints',
+            array()
+        );
+
+        if (!empty($stopPoints)) {
+            $area = $this->get('canal_tp_mtt.area_manager')->find($areaId);
+            $area->setStopPoints($stopPoints);
+            $this->getDoctrine()->getManager()->flush($area);
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'area.confirm_order_saved',
+                    array(),
+                    'default'
+                )
+            );
+        }
+
+        return $this->redirect(
+            $this->generateUrl(
+                'canal_tp_mtt_area_edit_stops',
+                array(
+                    'externalNetworkId' => $externalNetworkId,
+                    'areaId'            => $areaId,
+                )
             )
         );
     }

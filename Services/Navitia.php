@@ -209,6 +209,42 @@ class Navitia
         return $this->navitia_component->call($query);
     }
 
+    public function getStopPointsByRoute($coverageId, $networkId, $routeId)
+    {
+        $pathFilter = 'networks/' . $networkId . '/routes/' . $routeId;
+
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $coverageId,
+                'action' => 'stop_points',
+                'path_filter' => $pathFilter,
+                'parameters' => '?count=200'
+            )
+        );
+        return $this->navitia_component->call($query);
+    }
+
+    public function getLineFromRoute(
+        $externalCoverageId,
+        $externalNetworkId,
+        $externalRouteId
+    )
+    {
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region'    => $externalCoverageId,
+                'path_filter'    => 'networks/' . $externalNetworkId . '/routes/' . $externalRouteId,
+                'action'    => 'lines',
+            )
+        );
+        $response = $this->navitia_component->call($query);
+
+        return $response->lines;
+    }
+
+
     /**
      * Returns Stop Point external code
      *
