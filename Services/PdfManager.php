@@ -89,8 +89,8 @@ class PdfManager
             );
 
             $pdfPath = $this->pdfGenerator->getPdf(
-                $url, 
-                $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientation()
+                $url,
+                $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientationAsString()
             );
             if ($pdfPath) {
                 $pdfMedia = $this->mediaManager->saveStopPointTimetable($timetable, $externalStopPointId, $pdfPath);
