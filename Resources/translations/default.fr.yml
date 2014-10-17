@@ -19,7 +19,6 @@ stop_point:
             content: %code%
             default: (Code du poteau d'arrêt)
         pois:
-            title: Point de vente - Relais Divia :
             default: (Points de vente de l'arrêt)
             empty: Il n'y a pas de point de vente à moins de %distance% mètres de cet arrêt
 

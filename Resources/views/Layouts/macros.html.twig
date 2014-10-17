@@ -43,9 +43,10 @@
     </div>
 {% endmacro %}
 
-{% macro stop_point_pois(id, stopPoint, class) %}
+{% macro stop_point_pois(id, stopPoint, class, title) %}
     <div id="{{ id }}"  class="{{ class }}">
-        <div class="title">{{'stop_point.block.pois.title'|trans({}, 'default')}}</div>
+        {% set blockTitle = title ? title : 'stop_point.block.pois.default' %}
+        <div class="title">{{blockTitle|trans({}, 'default')}}</div>
 
         <div class="content">{% spaceless %}
             {% if stopPoint %}
