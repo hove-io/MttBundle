@@ -53,9 +53,9 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     {
         $season = new Season();
         $season->setNetwork($network);
-        $season->setTitle('hiver 2015');
-        $season->setStartDate(new \DateTime("now"));
-        $season->setEndDate(new \DateTime("+6 month"));
+        $season->setTitle('hiver 2014');
+        $season->setStartDate(new \DateTime("-1 year"));
+        $season->setEndDate(new \DateTime("-6 month"));
         $season->setPublished(TRUE);
 
         $em->persist($season);

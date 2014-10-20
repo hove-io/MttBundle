@@ -37,10 +37,10 @@ class LineControllerTest extends AbstractControllerTest
         $form = $crawler->selectButton('Enregistrer')->form();
         $field = $form->get('line_config[layout_config]');
         $options = $field->availableOptionValues();
-        if (count($options) == 1) {
+        if (count($options) <= 0) {
             throw new \RuntimeException('Only one layout for this network');
         }
-        $field->select($options[1]);
+        $field->select($options[0]);
         $crawler = $this->client->submit($form);
 
         // Check if when we submit form we are redirected

@@ -92,8 +92,10 @@ class SeasonControllerTest extends AbstractControllerTest
     public function testDatesOverlappingOtherSeason()
     {
         $form = $this->getEditForm();
-        $startDate = new \DateTime("now");
-        $endDate = new \DateTime("+4 month");
+        $startDate = new \DateTime();
+        $startDate->sub(new \DateInterval('P1Y'));
+        $endDate = new \DateTime();
+        $endDate->add(new \DateInterval('P1Y'));
         $form['mtt_season[startDate]'] = $startDate->format('d/m/Y');
         $form['mtt_season[endDate]'] = $endDate->format('d/m/Y');
         $crawler = $this->client->submit($form);
