@@ -33,14 +33,15 @@ class LayoutModelControllerTest extends AbstractControllerTest
     public function testUploadGoodArchive()
     {
         $form = $this->getEditForm();
-        $archive = new UploadedFile(
-            '../../DataFixtures/ORM/layout1.zip',
+        $archive = new \Symfony\Component\HttpFoundation\File\UploadedFile(
+            'vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Tests/DataFixtures/ORM/layout1.zip',
             'layout1.zip'
         );
         $form['layout_config[file]'] = $archive;
-        
+
+        $this->client->followRedirects();
         $crawler = $this->client->submit($form);
-        
+
         // Check if the value is saved correctly
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Modèle enregistré")')->count());
     }
