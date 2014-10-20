@@ -1,0 +1,23 @@
+<tr class="frequencies-row">
+    {% set previous_time = hours_range|first - 1 %}
+    {% for frequency in frequencies %}
+        {% set offset = frequency.startTime|date('G') - previous_time - 1 %}
+        {% if offset > 0 %}
+            <td colspan="{{offset}}"></td>
+        {% endif %}
+        {% set interval = frequency.endTime|hourIndex(hours_range) - frequency.startTime|hourIndex(hours_range) + 1 %}
+        <td class="frequency-content" colspan="{{interval}}">
+            <div class="relative-wrapper">
+                <div class="absolute-wrapper">
+                    <div class="min-height-wrapper"  data-validate-size="1"><span>{{ frequency.content|nl2br }}</span></div>
+                </div>
+            </div>
+        </td>
+        {% if loop.last and frequency.endTime|hourIndex(hours_range) != hours_range|length - 1 %}
+            {% set offset = hours_range|length - frequency.endTime|hourIndex(hours_range) - 1 %}
+            <td colspan="{{ offset }}"></td>
+        {% else %}
+            {% set previous_time = frequency.endTime|date('G') %}
+        {% endif %}
+    {% endfor %}
+</tr>

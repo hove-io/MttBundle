@@ -143,116 +143,24 @@ class FixtureMtt extends SamBaseFixture
     {
         $this->createLayoutConfig(
             array(
-                'label' => 'Dijon 1',
-                'calendarStart' => 4,
-                'calendarEnd' => 1,
+                'label' => 'Template par défaut',
+                'calendarStart' => 5,
+                'calendarEnd' => 22,
                 'notesMode' => 1
             ),
             $this->createLayout(
                 array(
-                    'label'         => 'Layout 1 de type paysage (Dijon 1)',
-                    'path'          => 'layout_1.html.twig',
-                    'previewPath'   => '/bundles/canaltpmtt/img/layout_1.png',
+                    'label'         => 'Template par défaut',
+                    'path'          => 'default.html.twig',
+                    'previewPath'   => '/bundles/canaltpmtt/img/default.png',
                     'orientation'   => Layout::ORIENTATION_LANDSCAPE,
                     'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
                     'cssVersion'    => 1
                 )
             ),
-            array($network1, $network2)
-        );
-        $this->createLayoutConfig(
-            array(
-                'label' => 'Dijon 2',
-                'calendarStart' => 4,
-                'calendarEnd' => 1,
-                'notesMode' => 1
-            ),
-            $this->createLayout(
-                array(
-                    'label'         => 'Layout 2 de type paysage (Dijon 1)',
-                    'path'          => 'layout_2.html.twig',
-                    'previewPath'   => '/bundles/canaltpmtt/img/layout_2.png',
-                    'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                    'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
-                    'cssVersion'    => 1
-                )
-            ),
-            array($network1, $network2)
+            array($network1, $network2, $network5)
         );
 
-        $this->createLayout(
-            array(
-                'label'         => 'Lianes 4 paves neutre',
-                'path'          => 'Divia/neutralLianes4Timegrids.html.twig',
-                'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/neutral-Lianes-4-paves.png',
-                'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
-                'cssVersion'    => 1
-            )
-        );
-
-        $this->createLayoutConfig(
-            array(
-                'label' => 'Divia 4 paves',
-                'calendarStart' => 4,
-                'calendarEnd' => 1,
-                'notesMode' => 1
-            ),
-            $this->createLayout(
-                array(
-                    'label'         => 'Lianes 4 paves',
-                    'path'          => 'Divia/lianes4Timegrids.html.twig',
-                    'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Lianes-4-paves.png',
-                    'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                    'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
-                    'cssVersion'    => 1
-                )
-            ),
-            array($network5)
-        );
-        $this->createLayoutConfig(
-            array(
-                'label' => 'Flexo (Divia)',
-                'calendarStart' => 4,
-                'calendarEnd' => 1,
-                'notesMode' => 1
-            ),
-            $this->createLayout(
-                array(
-                    'label'         => 'Flexo',
-                    'path'          => 'Divia/flexo.html.twig',
-                    'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Flexo.png',
-                    'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                    'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
-                    'cssVersion'    => 1
-                )
-            ),
-            array($network5)
-        );
-
-        $this->createLayoutConfig(
-            array(
-                'label' => 'Proxi (Divia)',
-                'calendarStart' => 4,
-                'calendarEnd' => 1,
-                'notesMode' => 1
-            ),
-            $this->createLayout(
-                array(
-                    'label'         => 'Proxi',
-                    'path'          => 'Divia/proxi.html.twig',
-                    'previewPath'   => '/bundles/canaltpmtt/img/layouts/divia/Proxi.png',
-                    'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                    'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
-                    'cssVersion'    => 1
-                )
-            ),
-            array($network5)
-        );
-
-        $this->em->persist($network1);
-        $this->em->persist($network2);
-        $this->em->persist($network5);
         $this->em->flush();
     }
 
@@ -286,7 +194,7 @@ class FixtureMtt extends SamBaseFixture
             $network4->addUser($userEntity);
             $network5->addUser($userEntity);
         }
-//        $this->createLayouts($network1, $network2, $network5);
+        $this->createLayouts($network1, $network2, $network5);
     }
 
     /**

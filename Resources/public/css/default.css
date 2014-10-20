@@ -1,0 +1,152 @@
+/* layout type Dijon (layout_1) */
+
+#layout-1-wrapper{
+    padding:8px;
+}
+#layout-main-wrapper #header{
+    background-color:white;
+    color:black;
+    height: 55px;
+    border: 2px solid grey;
+}
+#layout-main-wrapper #header #direction-title-wrapper,
+#layout-1-wrapper #line_map_block,
+#layout-1-wrapper #small-left-blocks,
+#layout-main-wrapper #header #stop-point-title-wrapper{
+    float:left;
+    padding-left:15px;
+}
+#layout-1-wrapper #small-left-blocks{
+    padding-right:14px;
+}
+#layout-1-wrapper #line_map_block{
+    width:885px;
+}
+#layout-1-wrapper #small-left-blocks{
+    width:192px;
+}
+#layout-main-wrapper #header #direction-title-wrapper{
+    font-size:30px;
+    line-height:55px;
+    height:55px;
+}
+#layout-main-wrapper #header #stop-point-title-wrapper{
+    padding-top:5px;
+    padding-right:10px;
+    float: right;
+}
+#header_route_sign{
+    float:left;
+    height:inherit;
+}
+.editable #header_route_sign{
+    min-width: 100px;
+    background-color: white;
+    border-color: black;
+}
+.header_route_sign_img{
+    max-height:100%;
+}
+.line_map_img{
+    max-height:95%;
+    max-width:95%;
+    vertical-align:middle;
+}
+#map-wrapper{
+    margin-top:15px;
+}
+#layout-1-wrapper #small-left-blocks{
+    border-right: 1px solid black;
+}
+/* .editable #layout-1-wrapper #small-left-blocks{
+    border: 1px solid black;
+} */
+#layout-1-wrapper #line_map_block,
+#layout-1-wrapper #small-left-blocks{
+    height:250px;
+}
+#layout-1-wrapper #line_map_block{
+    text-align:center;
+}
+/* to align image vertically */
+#layout-1-wrapper #line_map_block:before{
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+#layout-1-wrapper.layout-2-overload .information-text-blocks,
+#timetables-wrapper{
+    margin-top:5px;
+    width:100%;
+}
+#timetables-wrapper .timegrid-container{
+    font-size:12px;
+    margin-top:5px;
+    height:212px;
+    line-height:20px;
+    padding:2px;
+    position: relative;
+    width:100%;
+}
+.information-text-blocks .text-block-wrapper .title,
+#timetables-wrapper .timegrid-header{
+    background-color:white;
+    border-bottom: 2px solid black;
+    color:black;
+    font-weight:bold;
+    font-size:14px;
+    line-height:25px;
+    padding:0px 5px;
+    height:25px;
+    width:100%;
+}
+#timetables-wrapper .timegrid-body{
+    background-color: white;
+    height: 183px;
+    width:100%;
+}
+#layout-1-wrapper .timegrid-body .hour-label{
+    font-weight:bold;
+    line-height:15px;
+}
+#layout-1-wrapper .timegrid-column{
+    line-height: 14px;
+    width:4.5454%;
+}
+#layout-1-wrapper .small-block{
+    border:1px solid white;
+    border-bottom-color:black;
+    margin:5px 0;
+    height:55px;
+}
+#layout-1-wrapper .small-block:last-child{
+    border-bottom:none;
+}
+.editable #layout-1-wrapper .block.small-block:last-child:hover,
+.editable #layout-1-wrapper .block.small-block:hover{
+    border: 1px dashed black;
+}
+#small-left-blocks{
+    font-size:12px;
+}
+#small-left-blocks .small-block .title{
+    font-weight:bold;
+}
+.timegrid-body{
+    position:relative;
+}
+.timetable-notes{
+    position:absolute;
+    bottom:0;
+    left:0;
+}
+.timegrid-body tr{
+    height:14px;
+}
+.timegrid-body tr.even {background-color: lightgrey}
+
+.timegrid-body .empty-timegrid tr.odd,
+.timegrid-body .empty-timegrid tr.even{
+    background-color: lightgrey;
+}
