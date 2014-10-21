@@ -29,9 +29,10 @@
     </div>
 {% endmacro %}
 
-{% macro stop_point_code(id, stopPoint, class) %}
+{% macro stop_point_code(id, stopPoint, class, title) %}
     <div id="{{ id }}"  class="{{ class }}">
-        <div class="title">{{'stop_point.block.code.title'|trans({}, 'default')}}</div>
+        {% set blockTitle = title ? title : 'stop_point.block.code.default' %}
+        <div class="title">{{blockTitle|trans({}, 'default')}}</div>
 
         <div class="content">{% spaceless %}
             {% if stopPoint %}
