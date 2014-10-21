@@ -15,7 +15,7 @@ stop_point:
     view_calendars: Voir les horaires
     block:
         code:
-            title: Code TOTEM de cet arrêt :
+            title: Code de cet arrêt :
             content: %code%
             default: (Code du poteau d'arrêt)
         pois:
