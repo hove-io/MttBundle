@@ -56,10 +56,10 @@ textarea {
     min-height:150px;
     width:100%;
 }
-.list-group.sortable.empty-list span.help-block{
+.list-group.empty-list span.help-block{
     padding: 50px 10px;
 }
-.list-group.sortable.empty-list{
+.list-group.empty-list{
     border: 5px dashed #777;
     font-size: 35px;
     color: #777;
@@ -115,4 +115,60 @@ textarea {
   animation-timing-function: linear;
   -webkit-animation-timing-function: linear;
 }
- 
+
+/*Area*/
+.nav li.area-route li {
+    display: block;
+    padding: 10px 15px;
+    position: relative;
+}
+
+li > span.stop_name {
+    font-weight: bold;
+    display: inline;
+}
+
+li.list-group-item.active {
+    background-color: #ccc;
+    opacity: 0.6;
+}
+
+#excluded-stops li.active .toggle-stop-point-btn {
+    display: none;
+}
+
+.list-group li.list-group-item {
+    line-height: 30px;
+    padding:0;
+    border-left:0;
+    border-right:0;
+}
+.list-group.sortable.area-list li.list-group-item {
+    line-height: 30px;
+    padding:0;
+    border-left:0;
+    border-right:0;
+}
+
+
+
+.sortable-highlight{
+    min-height:30px;
+    background-color:black;
+}
+li > span.glyphicon{
+    display:none;
+}
+.ui-sortable-helper{
+    background-color:#f5f5f5;
+}
+li.ui-sortable-helper span{
+    display:inline;
+}
+.list-group li.list-group-item .minus-btn,
+.list-group li.list-group-item .plus-btn{
+    margin-top:5px;
+}
+.list-group li.list-group-item:first-child{
+    border-top:0;
+}

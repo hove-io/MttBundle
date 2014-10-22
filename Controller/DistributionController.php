@@ -197,9 +197,9 @@ class DistributionController extends AbstractController
             $distribListInstance = new DistributionList();
             $distribListInstance->setNetwork($timetable->getLineConfig()->getSeason()->getNetwork());
             $distribListInstance->setExternalRouteId($timetable->getExternalRouteId());
+            $this->getDoctrine()->getManager()->persist($distribListInstance);
         }
         $distribListInstance->setIncludedStops($stopPointsIncluded);
-        $this->getDoctrine()->getManager()->persist($distribListInstance);
         $this->getDoctrine()->getManager()->flush();
 
         return $distribListInstance;

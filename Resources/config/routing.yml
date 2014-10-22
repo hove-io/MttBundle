@@ -59,6 +59,14 @@ canal_tp_mtt_stop_point_list:
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         seasonId: \d+
+        
+canal_tp_mtt_stop_point_list_json:
+    pattern: /stops/networks/{externalNetworkId}/line/{lineId}/route/{externalRouteId}/list
+    defaults: { _controller: CanalTPMttBundle:StopPoint:jsonList }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+    options:
+        expose: true
 
 #Line
 canal_tp_mtt_line_choose_layout:
@@ -211,6 +219,17 @@ canal_tp_mtt_area_edit:
     defaults: { _controller: CanalTPMttBundle:Area:edit, areaId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_area_edit_stops:
+    pattern: /areas/networks/{externalNetworkId}/edit/{areaId}/stops
+    defaults: { _controller: CanalTPMttBundle:Area:editStops }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+canal_tp_mtt_area_edit_stops_save:
+    pattern: /areas/networks/{externalNetworkId}/edit/{areaId}/stops/save
+    defaults: { _controller: CanalTPMttBundle:Area:save }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        
 canal_tp_mtt_area_remove:
     pattern: /areas/networks/{externalNetworkId}/remove/{areaId}
     defaults: { _controller: CanalTPMttBundle:Area:remove }

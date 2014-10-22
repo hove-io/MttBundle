@@ -165,6 +165,70 @@ class StopPointManager
         return $stopPointsIndexed;
     }
 
+    public function enrichStopPoints($stopPoints, $coverageId, $networkId)
+    {
+        $stops = array();
+        $routeStops = array();
+        $routeLines = array();
+        foreach ($stopPoints as $stopPoint) {
+            $stopPoint = json_decode($stopPoint, true);
+            if (!isset($stopPoint['routeId']) || !isset($stopPoint['stopPointId'])) {
+                return null;
+            }
+
+
+
+            if (!isset($routeStops[$stopPoint['routeId']])) {
+                $routeStops[$stopPoint['routeId']] = $this->getStopPointsByRoute($coverageId, $networkId, $stopPoint['routeId']);
+            }
+
+            if (!isset($routeLines[$stopPoint['routeId']])) {
+                $routeLines[$stopPoint['routeId']] = $this->getLineByRoute($coverageId, $networkId, $stopPoint['routeId']);
+            }
+
+            if (isset($routeStops[$stopPoint['routeId']]) && $routeStops[$stopPoint['routeId']][$stopPoint['stopPointId']]){
+                $stopPoint['stopPointname'] = $routeStops[$stopPoint['routeId']][$stopPoint['stopPointId']];
+            }
+            if (isset($routeLines[$stopPoint['routeId']])) {
+                $stopPoint['lineCode'] = $routeLines[$stopPoint['routeId']]['code'];
+            }
+
+            $route = $this->navitia->getRouteData($stopPoint['routeId'], $coverageId);
+            $stopPoint['routeName'] = $route->name;
+
+            $stops[] = $stopPoint;
+        }
+
+        return $stops;
+    }
+
+    protected function getStopPointsByRoute($coverageId, $networkId, $routeId)
+    {
+        $response = $this->navitia->getStopPointsByRoute($coverageId, $networkId, $routeId);
+        $stops = array();
+        foreach ($response->stop_points as $stop) {
+            $stops[$stop->id] = $stop->name;
+        }
+
+        return $stops;
+    }
+
+    protected function getLineByRoute($coverageId, $networkId, $routeId)
+    {
+        $response = $this->navitia->getLineFromRoute(
+            $coverageId,
+            $networkId,
+            $routeId
+        );
+
+        $line = array();
+        $line['code'] = $response[0]->code;
+        $line['name'] = $response[0]->name;
+        $line['id'] = $response[0]->id;
+
+        return $line;
+    }
+
     /**
      * Return StopPoint
      *

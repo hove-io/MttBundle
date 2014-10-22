@@ -1,0 +1,37 @@
+<ul id="lines-accordion" class="nav nav-pills nav-stacked">
+    {% for mode,lines in result %}
+        <li class="mode-wrapper">
+            {% set cssClass = "collapsed" %}
+            {% for line in lines %}
+                {% for route in line.routes %}
+                    {% if route.id == current_route %}
+                        {% set cssClass = "" %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            <a data-toggle="collapse" id="" href="#mode-collapse-{{ loop.index0 }}" class="{{cssClass}}">
+                <span class="mode-icon mode-id-{{lines[0].commercial_mode.id|replace({':':'-'})|lower}}"></span>{{ lines[0].commercial_mode.name }}
+            </a>
+            <ul id="mode-collapse-{{ loop.index0 }}" class="nav nav-pills nav-stacked collapse in">
+                {% for line in lines %}
+                    <li class="line-menu-wrapper clearfix">
+                        <a data-parent="#mode-collapse-{{ loop.parent.loop.index0 }}" data-toggle="collapse" id="" class="line-link-toggle" href="#mode-{{loop.parent.loop.index0}}-lines-collapse-{{ loop.index0 }}">
+                            {% if line.code %}<span class="line-code">{{ line.code }}</span>{% endif %} {{ line.name }}
+                        </a>
+                        <!--span class="badge pull-right">{{ line.routes|length }}</span-->
+                        <ul id="mode-{{loop.parent.loop.index0}}-lines-collapse-{{ loop.index0 }}" class="nav nav-pills nav-stacked collapse in">
+                        {% for route in line.routes %}
+                            <li class="{% if route.id == current_route %}active {% endif %}area-route" data-ext-route-id="{{route.id}}" data-ext-network-id="{{externalNetworkId}}" data-ext-line-id="{{line.id}}" set="0">
+                                <a href="#" class="line-link-toggle" data-toggle="collapse" data-parent="mode-{{loop.parent.loop.parent.loop.index0}}-lines-collapse-{{ loop.parent.loop.index0 }}">
+                                    <span class="glyphicon glyphicon-arrow-right"></span> {{ route.name }}
+                                </a>
+{#                                <ul id="mode-{{loop.index0}}-routes-{{loop.parent.loop.parent.loop.index0}}-lines-collapse-{{ loop.parent.loop.index0 }}" class="nav nav-pills nav-stacked collapse in list-group-item"></ul>#}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
