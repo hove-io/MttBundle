@@ -137,7 +137,8 @@ class AreaController extends AbstractController
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $stopPointsList = null;
-        if (!empty($area->getStopPoints())) {
+        $stopPointsArea = $area->getStopPoints();
+        if (!empty($stopPointsArea)) {
             $stopPointsList = $stopPointManager->enrichStopPoints($area->getStopPoints(), $network->getExternalCoverageId(), $network->getExternalId());
         }
 
