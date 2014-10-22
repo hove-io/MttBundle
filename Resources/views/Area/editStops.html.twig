@@ -1,0 +1,81 @@
+{% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
+
+{% block left_menu %}
+    {{ render(controller('CanalTPMttBundle:Area:navigation', { 'externalNetworkId': externalNetworkId })) }}
+{% endblock %}
+
+{% block main_content %}
+    <h1>{{'area.stop_list_label'|trans({}, 'default')}}</h1>
+    <div class="row">
+        <div class="col-md-offset-5 col-md-7">
+            {% if (pdfUrl is not empty) %}
+                <a class="btn btn-primary" href="{{ pdfUrl }}" target="_blank">
+                    <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+                </a>
+            {% else %}
+                <a class="btn btn-primary disabled" disabled="disabled" title="{{'distribution.no_pdf_at_this_time'|trans({}, 'default')}}" href="#">
+                    <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+                </a>
+            {% endif %}
+            {% if (is_granted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF')) %}
+                {% if locked %}
+                    <a id="generate-distribution-list" href="" class="btn btn-primary" disabled="disabled">
+                    <span class="glyphicon glyphicon-refresh icon-refresh-animate"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
+                </a>
+                {% else %}
+                <a id="generate-distribution-list" href="{#{{ path('canal_tp_mtt_distribution_generate',
+                    {
+                        'timetableId': timetable.id,
+                        'externalNetworkId' : externalNetworkId
+                    }) }}#}" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-file"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
+                </a>
+                {% endif %}
+            {% endif %}
+            <a id="save-distribution-list" class="btn btn-primary" href="{{ path('canal_tp_mtt_area_edit_stops_save',{'externalNetworkId': externalNetworkId, 'areaId': area.id}) }}">
+                <span class="glyphicon glyphicon-refresh display-none"></span>
+                <span class="glyphicon glyphicon-floppy-disk"></span> {{'distribution.save_order'|trans({}, 'default')}}
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <h4>{{'area.stops'|trans({}, 'default')}}</h4>
+            <hr class="no-border black" />
+            <ul id="excluded-stops" class="list-group empty-list">
+                <span class="help-block">{{'area.select_route'|trans({}, 'default')}}</span>
+            </ul>
+        </div>
+        <div class="col-md-7">
+            <h4>{{area.label}}</h4>
+            <hr class="no-border black" />
+            <ul id="included-stops" class="list-group sortable area-list ui-sortable {% if area.stopPoints|length == 0 %} empty-list{% endif %}">
+                {% for stopPoint in stopPointsList %}
+                    {% include 'CanalTPMttBundle:Area:stopPoint.html.twig' with {'stopPoint': stopPoint} %}
+                {% endfor %}
+                <span class="help-block{% if area.stopPoints|length != 0 %} display-none{% endif %}">{{'area.list_empty'|trans({}, 'default')}}</span>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script type="text/javascript">
+require(['mtt/area'], function(area) {
+    
+$('ul#included-stops .toggle-stop-point-btn').click(function(){
+    var $stopElement = $(this).parent();
+    var $newContainer = $stopElement.parents('.list-group');
+    $(this).parent().detach();
+    $('ul#excluded-stops li[data-stop-point-id="' + $(this).parent().data('stop-point-id') + '"][data-route-id="' + $(this).parent().data('route-id') + '"]').removeClass('active').find('.add-stop-point-btn').show();
+    $newContainer.trigger('sortupdate');
+    
+    return false;
+});
+    
+    
+});
+</script>    
+    
+{% endblock %}

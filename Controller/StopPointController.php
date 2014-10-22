@@ -2,6 +2,8 @@
 
 namespace CanalTP\MttBundle\Controller;
 
+use \Symfony\Component\HttpFoundation\JsonResponse;
+
 class StopPointController extends AbstractController
 {
     public function listAction($externalNetworkId, $line_id = false, $externalRouteId = false, $seasonId = null)
@@ -56,5 +58,23 @@ class StopPointController extends AbstractController
                 'externalRouteId'   => $externalRouteId,
             )
         );
+    }
+
+    public function jsonListAction($externalNetworkId, $lineId, $externalRouteId)
+    {
+        $navitia = $this->get('canal_tp_mtt.navitia');
+        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
+
+        $response = $navitia->getStopPointsByRoute(
+            $network->getExternalCoverageId(),
+            $externalNetworkId,
+            $externalRouteId
+        );
+        $stops = array();
+        foreach ($response->stop_points as $stop) {
+            $stops[$stop->id] = array('name' => $stop->name);
+        }
+
+        return new JsonResponse(array('stops' => $stops));
     }
 }
