@@ -1,3 +1,15 @@
+Notes de publication - METH - Version 1.2.0
+
+** Bogue
+    * [METH-324] - Création d'une saison sans clonage impossible sous  Firefox
+
+** Récit
+    * [METH-292] - Sauvegarde de l'ordre des arrêts d'un secteur
+    * [METH-294] - Arborescence du réseau pour choisir les arrêts à mettre dans un secteur
+    * [METH-295] - Ajout/Retrait d'arrêts dans un secteur
+    * [METH-329] - Pouvoir choisir plusieurs fois le même calendrier dans une FH
+
+
 Notes de publication - TT - Version 1.1.3 (09/10/2014)
 
 ** Fix
