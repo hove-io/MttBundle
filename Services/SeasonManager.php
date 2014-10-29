@@ -88,9 +88,17 @@ class SeasonManager
         return $this->repository->findSeasonForDateTime($dateTime);
     }
 
+    public function findAllByExternalNetworkId($externalNetworkId)
+    {
+        $perimeter = $this->networkManager->getByExternalNetworkId($externalNetworkId);
+
+        return $this->repository->getByPerimeter($perimeter);
+    }
     public function findAllByNetworkId($externalNetworkId)
     {
-        return $this->networkManager->getSeasons($externalNetworkId);
+        $networkRepository = $this->om->getRepository('CanalTPMttBundle:Network');
+
+        return ($networkRepository->findOneByExternalId($externalNetworkId)->getSeasons());
     }
 
     public function getSelected($seasonId, $seasons)
