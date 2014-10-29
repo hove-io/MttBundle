@@ -14,11 +14,13 @@ class AreaManager
 {
     private $repository = null;
     private $om = null;
+    private $perimeterManager = null;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, $perimeterManager)
     {
         $this->om = $om;
         $this->repository = $om->getRepository('CanalTPMttBundle:Area');
+        $this->perimeterManager = $perimeterManager;
     }
 
     public function findAll()
@@ -32,8 +34,7 @@ class AreaManager
 
         if ($area == null) {
             $area = new Area();
-            $networkRepository = $this->om->getRepository('CanalTPMttBundle:Network');
-            $network = $networkRepository->findOneByExternalId($externaNetworkId);
+            $network = $this->perimeterManager->findOneByExternalNetworkId($externaNetworkId);
 
             $area->setNetwork($network);
         }
@@ -43,8 +44,7 @@ class AreaManager
 
     public function findByExternalNetworkId($externaNetworkId)
     {
-        $networkRepository = $this->om->getRepository('CanalTPMttBundle:Network');
-        $network = $networkRepository->findOneByExternalId($externaNetworkId);
+        $network = $this->perimeterManager->findOneByExternalNetworkId($externaNetworkId);
 
         return ($network->getAreas());
     }
@@ -64,8 +64,7 @@ class AreaManager
 
     public function save($area, $externaNetworkId)
     {
-        $networkRepository = $this->om->getRepository('CanalTPMttBundle:Network');
-        $network = $networkRepository->findOneByExternalId($externaNetworkId);
+        $network = $this->perimeterManager->findOneByExternalNetworkId($externaNetworkId);
 
         $area->setNetwork($network);
         $this->om->persist($area);

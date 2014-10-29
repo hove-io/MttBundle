@@ -28,6 +28,18 @@ class SeasonRepository extends EntityRepository
         return ($season);
     }
 
+    public function getByPerimeter($perimeter)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('s')
+            ->from('CanalTPMttBundle:Season', 's')
+            ->where('s.perimeter = :perimeter')
+            ->setParameter('perimeter', $perimeter)
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
     // used by webservice
     public function findSeasonForDateTime($dateTime)
     {

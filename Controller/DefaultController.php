@@ -2,6 +2,8 @@
 
 namespace CanalTP\MttBundle\Controller;
 
+use Doctrine\Common\Collections\Criteria;
+
 class DefaultController extends AbstractController
 {
     private function findNetwork($externalNetworkId, $networks)
@@ -24,25 +26,31 @@ class DefaultController extends AbstractController
     public function indexAction($externalNetworkId = null)
     {
         $networkManager = $this->get('canal_tp_mtt.network_manager');
-        $mtt_user = $this->get('canal_tp_mtt.user');
+        $userManager = $this->get('canal_tp_mtt.user');
 
         // TODO: Put the current or default Network of User.
-        $networks = $mtt_user->getNetworks(
-            $this->get('security.context')->getToken()->getUser()
-        );
+        $networks = $userManager->getNetworks();
+//        $networks = $mttUser->getNetworks(
+//            $this->get('security.context')->getToken()->getUser()
+//        );
+
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq('externalNetworkId', $externalNetworkId));
+
         $currentNetwork =
             $externalNetworkId == null ?
-            $networks[0] :
-            $this->findNetwork($externalNetworkId, $networks);
-        // make currentNetwok a doctrine object
-        $currentNetwork = $networkManager->find($currentNetwork);
+            $networks->first() :
+            $networks->matching($criteria)
+        ;
+//        // make currentNetwok a doctrine object
+//        $currentNetwork = $networkManager->find($currentNetwork);
 
         return $this->render(
             'CanalTPMttBundle:Default:index.html.twig',
             array(
                 'currentNetwork'    => $currentNetwork,
                 'tasks'             => $networkManager->getLastTasks($currentNetwork),
-                'externalNetworkId' => $currentNetwork->getExternalId()
+                'externalNetworkId' => $currentNetwork->getExternalNetworkId()
             )
         );
     }
@@ -56,7 +64,7 @@ class DefaultController extends AbstractController
         try {
             $result = $mtt_navitia->findAllLinesByMode(
                 $network->getExternalCoverageId(),
-                $network->getExternalId()
+                $network->getExternalNetworkId()
             );
         } catch(\Exception $e) {
             $errorMessage = $e->getMessage();
