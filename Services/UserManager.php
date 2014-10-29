@@ -38,11 +38,8 @@ class UserManager
         if ($user === 'anon.') {
             return (array());
         }
-        $networks = $this->om
-            ->getRepository('CanalTPMttBundle:Network')
-            ->findNetworksByUserId(
-                $user->getId()
-            );
+
+        $networks = $this->container->get('sam_core.customer')->getPerimeters($user->getCustomer());
 
         if (count($networks) == 0) {
             throw new \Exception(

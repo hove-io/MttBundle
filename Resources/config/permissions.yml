@@ -39,3 +39,6 @@ parameters:
         BUSINESS_MANAGE_LAYOUT_CONFIG:
             label: Gestion des layouts
             description: Permet d'éditer, créer, supprimer un layout.
+        BUSINESS_LIST_CUSTOMER:
+            label: Administrer les clients
+            description: Donner des droits aux clients.

@@ -40,7 +40,7 @@ class Season extends AbstractEntity
     /**
      * @var Object
      */
-    private $network;
+    private $perimeter;
 
     /**
      * @var Array
@@ -160,9 +160,9 @@ class Season extends AbstractEntity
      *
      * @return Network
      */
-    public function getNetwork()
+    public function getPerimeter()
     {
-        return $this->network;
+        return $this->perimeter;
     }
 
     /**
@@ -170,9 +170,9 @@ class Season extends AbstractEntity
      *
      * @return Season
      */
-    public function setNetwork($network)
+    public function setPerimeter($perimeter)
     {
-        $this->network = $network;
+        $this->perimeter = $perimeter;
 
         return ($this);
     }

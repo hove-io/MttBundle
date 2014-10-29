@@ -7,7 +7,7 @@ class DefaultController extends AbstractController
     private function findNetwork($externalNetworkId, $networks)
     {
         foreach ($networks as $network) {
-            if ($network['external_id'] == $externalNetworkId) {
+            if ($network->getExternalNetworkId() == $externalNetworkId) {
                 return $network;
             }
         }

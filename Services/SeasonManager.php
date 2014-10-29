@@ -15,10 +15,12 @@ class SeasonManager
 {
     private $repository = null;
     private $om = null;
+    protected $networkManager = null;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, $networkManager)
     {
         $this->om = $om;
+        $this->networkManager = $networkManager;
         $this->repository = $om->getRepository('CanalTPMttBundle:Season');
     }
 
@@ -88,9 +90,7 @@ class SeasonManager
 
     public function findAllByNetworkId($externalNetworkId)
     {
-        $networkRepository = $this->om->getRepository('CanalTPMttBundle:Network');
-
-        return ($networkRepository->findOneByExternalId($externalNetworkId)->getSeasons());
+        return $this->networkManager->getSeasons($externalNetworkId);
     }
 
     public function getSelected($seasonId, $seasons)
