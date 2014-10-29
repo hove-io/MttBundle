@@ -1,0 +1,60 @@
+{% extends "CanalTPMttBundle::generic_list.html.twig" %}
+
+{% block list_title -%}
+    {{'customer.list'|trans({}, 'default')}}
+{% endblock %}
+
+{% block table_head -%}
+    <th>{{'customer.name'|trans({}, 'default')}}</th>
+    <th>{{'customer.perimeters'|trans({}, 'default')}}</th>
+    <th>{{'global.actions'|trans({}, 'messages')}}</th>
+{% endblock %}
+
+{% block table_body -%}
+    {% if customers|length == 0 %}
+        <tr>
+            <td colspan="4">
+                {{'global.no_items'|trans}}
+            </td>
+        </tr>
+    {% else %}
+        {% for customer in customers %}
+            <tr>
+                <td>
+                    {{ customer.name }}
+                </td>
+                <td>
+                    {% if customer.perimeters|length == 0 %}
+                        {{'customer.no_item'|trans({}, 'default')}}
+                    {% else %}
+                        <ul>
+                        {% for perimeter in customer.perimeters %}
+                            <li>{{ perimeter.getExternalCoverageId() / perimeter.getExternalNetworkId() }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                </td>
+                <td class="action">
+                    <div class="btn-group">
+                        <a class="btn btn-default{{disabledBtn}}" href="" data-toggle="modal" data-target="#base-modal">
+                            <span class="glyphicon glyphicon-edit"></span> {{'customer.actions.assign_twig'|trans({}, 'default')}}
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block modal_body %}
+    {{'customer.publication_and_generation'|trans({}, 'default')}}
+{% endblock %}
+
+{% block modal_actions %}
+    <button id="submit-btn" type="submit" name="with_generation" class="btn btn-success">
+        {{'customer.buttons.generate_then_publish'|trans({}, 'default')}}
+    </button>
+    <button type="submit" class="btn btn-success">
+        {{'customer.buttons.publish_only'|trans({}, 'default')}}
+    </button>
+{% endblock %}
