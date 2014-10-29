@@ -54,16 +54,6 @@ class Builder extends ContainerAware
                 if (isset($options['currentExternalNetworkId']) && !empty($options['currentExternalNetworkId'])) {
                     $menu->getChild('network')->getChild($options['currentExternalNetworkId'])->setAttribute('class', 'active');
                 }
-                if ($this->container->get('security.context')->isGranted('BUSINESS_EDIT_LAYOUT')) {
-                    $this->addDivider($menu->getChild('network'));
-                    $menu->getChild('network')->addChild(
-                        "networks_management",
-                        array(
-                            'route' => 'canal_tp_mtt_network_list',
-                            'label' => $translator->trans('menu.networks_manage'),
-                        )
-                    );
-                }
             }
             $currentNetwork = isset($options['currentExternalNetworkId']) ? $options['currentExternalNetworkId'] : $networks[0]['external_id'];
             // season menu

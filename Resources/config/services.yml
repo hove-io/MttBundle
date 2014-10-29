@@ -131,7 +131,7 @@ services:
        arguments: ['@canal_tp_mtt.navitia', '@translator']
     canal_tp_mtt.season_manager:
        class: %canal_tp_mtt.season.class%
-       arguments: ['@doctrine.orm.entity_manager']
+       arguments: [@doctrine.orm.entity_manager, @canal_tp_mtt.network_manager]
     canal_tp_mtt.frequency_manager:
        class: %canal_tp_mtt.frequency_manager.class%
        arguments: ['@doctrine.orm.entity_manager']
