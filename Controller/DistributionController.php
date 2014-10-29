@@ -195,7 +195,7 @@ class DistributionController extends AbstractController
 
         if (empty($distribListInstance)) {
             $distribListInstance = new DistributionList();
-            $distribListInstance->setNetwork($timetable->getLineConfig()->getSeason()->getNetwork());
+            $distribListInstance->setNetwork($timetable->getLineConfig()->getSeason()->getPerimeter());
             $distribListInstance->setExternalRouteId($timetable->getExternalRouteId());
             $this->getDoctrine()->getManager()->persist($distribListInstance);
         }

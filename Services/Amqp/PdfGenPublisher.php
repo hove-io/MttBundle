@@ -95,7 +95,7 @@ class PdfGenPublisher
         $task = $this->getNewTask(
             $payloads,
             $timetable,
-            $timetable->getLineConfig()->getSeason()->getNetwork(),
+            $timetable->getLineConfig()->getSeason()->getPerimeter(),
             $taskOptions,
             AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE
         );

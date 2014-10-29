@@ -96,9 +96,7 @@ class SeasonManager
     }
     public function findAllByNetworkId($externalNetworkId)
     {
-        $networkRepository = $this->om->getRepository('CanalTPMttBundle:Network');
-
-        return ($networkRepository->findOneByExternalId($externalNetworkId)->getSeasons());
+        return $this->findAllByExternalNetworkId($externalNetworkId);
     }
 
     public function getSelected($seasonId, $seasons)

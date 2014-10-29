@@ -50,7 +50,7 @@ class PdfPayloadsGenerator
         $payload['url'] .= $this->router->generate(
             'canal_tp_mtt_timetable_view',
             array(
-                'externalNetworkId'     => $network->getExternalId(),
+                'externalNetworkId'     => $network->getExternalNetworkId(),
                 'externalLineId'        => $lineConfig->getExternalLineId(),
                 'externalRouteId'       => $externalRouteId,
                 'seasonId'              => $season->getId(),
@@ -60,7 +60,7 @@ class PdfPayloadsGenerator
         );
         $payload['timetableParams'] = array(
             'seasonId'              => $season->getId(),
-            'externalNetworkId'     => $network->getExternalId(),
+            'externalNetworkId'     => $network->getExternalNetworkId(),
             'externalRouteId'       => $externalRouteId,
             'externalLineId'        => $lineConfig->getExternalLineId(),
             'externalStopPointId'   => $stopPoint->id,
@@ -117,7 +117,7 @@ class PdfPayloadsGenerator
             $externalLineId = $lineConfig->getExternalLineId();
             $routes = $this->navitia->getLineRoutes(
                 $network->getExternalCoverageId(),
-                $network->getExternalId(),
+                $network->getExternalNetworkId(),
                 $externalLineId
             );
             foreach ($routes as $route) {

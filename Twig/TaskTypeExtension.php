@@ -69,7 +69,7 @@ class TaskTypeExtension extends \Twig_Extension
                 $timetable = $this->em->getRepository('CanalTPMttBundle:Timetable')->find($task->getObjectId());
                 if (!empty($timetable)) {
                     $navitiaResult = $this->navitiaManager->getRoute(
-                        $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalCoverageId(),
+                        $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId(),
                         $timetable->getExternalRouteId()
                     );
                     if (isset($navitiaResult->routes)) {

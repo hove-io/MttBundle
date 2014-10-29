@@ -82,11 +82,6 @@ class LineConfig extends AbstractEntity
         return $this;
     }
 
-    /**
-     * Get getExternalId
-     *
-     * @return string
-     */
     public function getExternalLineId()
     {
         return $this->externalLineId;
