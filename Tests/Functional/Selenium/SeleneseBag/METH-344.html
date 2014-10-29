@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://nmm-ihm.dev.canaltp.fr/" />
+<title>METH-344</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">METH-344</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/app_dev.php/admin/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>sam</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>sam</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.dropdown-toggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Sam</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Client</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Ajouter un client</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=customer_navitiaEntity_name</td>
+	<td>CanalTP</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=customer_navitiaEntity_email</td>
+	<td>remy.abikhalil@canaltp.fr</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=customer_applications_1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=customer_applications_3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=customer_applications_4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=customer_applications_2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=add-perimeter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='header-navbar-menu']/ul[2]/li/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Déconnexion</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>mtt</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>mtt</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/app_dev.php/mtt/networks/network:Filbleu/customer/list</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>Access Denied (403 Forbidden)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/app_dev.php/admin/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>sam</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.dropdown-toggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Sam</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Permission</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Mtt')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=sam_application_right_roles_1_businessPermissions_13</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=sam_application_right_roles_2_businessPermissions_13</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='header-navbar-menu']/ul[2]/li/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Déconnexion</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>mtt</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>mtt</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/app_dev.php/mtt/networks/network:Filbleu/customer/list</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=td</td>
+	<td>Aucun élément à afficher</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.glyphicon.glyphicon-user</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Déconnexion</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>sam</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>sam</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.dropdown-toggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Sam</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Client</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=CanalTP</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=customer_applications_5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=add-perimeter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.glyphicon.glyphicon-user</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Déconnexion</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>mtt</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>mtt</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/app_dev.php/mtt/networks/network:Filbleu/customer/list</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=td</td>
+	<td>CanalTP</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>link=Assigner un twig</td>
+	<td>Assigner un twig</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=mtt</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Déconnexion</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

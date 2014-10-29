@@ -45,7 +45,7 @@ layout_config:
 layout_model:
     upload: Ajouter un modèle
     uploaded: Modèle enregistré
-    
+
 block:
     get_form:
         title: Éditer le bloc
@@ -139,3 +139,11 @@ area:
     list_empty: Liste vide
     confirm_order_saved: L'ordre de la liste a bien été enregistré
     select_route: Sélectionnez une route dans le menu
+
+customer:
+    list: Liste des clients
+    name: Nom du client
+    perimeters: Périmètre(s)
+    no_item: Pas de périmètre
+    actions:
+        assign_twig: Assigner un twig
