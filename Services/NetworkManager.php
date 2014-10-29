@@ -13,11 +13,13 @@ class NetworkManager
 {
     private $om = null;
     private $repository = null;
+    private $perimeterManager = null;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, $perimeterManager)
     {
         $this->om = $om;
         $this->repository = $om->getRepository('CanalTPNmmPortalBundle:Perimeter');
+        $this->perimeterManager = $perimeterManager;
     }
 
     /**
@@ -28,7 +30,17 @@ class NetworkManager
      */
     public function findOneByExternalId($externalNetworkId)
     {
-        return ($this->repository->findOneByExternalId($externalNetworkId));
+        return $this->perimeterManager->findOneByExternalNetworkId($externalNetworkId);
+    }
+
+    /**
+     * @alias findOneByExternalId($externalNetworkId)
+     * @param type $externalNetworkId
+     * @return type
+     */
+    public function getByExternalNetworkId($externalNetworkId)
+    {
+        return $this->findOneByExternalId($externalNetworkId);
     }
 
     public function getSeasons($externalNetworkId)

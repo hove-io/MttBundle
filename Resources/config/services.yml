@@ -110,7 +110,7 @@ services:
        arguments: ['@doctrine.orm.entity_manager', '@translator', '@service_container']
     canal_tp_mtt.navitia:
        class: %canal_tp_mtt.navitia.class%
-       arguments: ['@request_stack', '@navitia_component', '@sam_navitia', '@translator', '@doctrine.orm.entity_manager']
+       arguments: ['@request_stack', '@navitia_component', '@sam_navitia', '@translator', '@doctrine.orm.entity_manager', @security.context, @sam_core.customer,'mtt']
     canal_tp_mtt.line_manager:
        class: %canal_tp_mtt.line_manager.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia']
@@ -137,7 +137,7 @@ services:
        arguments: ['@doctrine.orm.entity_manager']
     canal_tp_mtt.network_manager:
        class: %canal_tp_mtt.network.class%
-       arguments: ['@doctrine.orm.entity_manager']
+       arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager]
     canal_tp.mtt.ajax_form_listener:
         class: CanalTP\SamCoreBundle\EventListener\AjaxFormListener
         tags:
@@ -165,7 +165,7 @@ services:
     # Area
     canal_tp_mtt.area_manager:
         class: %canal_tp_mtt.area_manager.class%
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager]
     # LayoutConfig
     canal_tp_mtt.layout_config:
         class: %canal_tp_mtt.layout_config.class%

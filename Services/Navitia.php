@@ -16,29 +16,44 @@ class Navitia
     protected $navitia_component;
     protected $navitia_sam;
     protected $translator;
+    protected $securityContext;
+    protected $applicationName;
+    protected $customerManager;
 
     public function __construct(
         RequestStack $requestStack,
         $navitia_component,
         $navitia_sam,
         $translator,
-        $em
+        $em,
+        $sc,
+        $customerManager,
+        $applicationName
     )
     {
-        $externalNetworkId = $requestStack->getCurrentRequest()->attributes->get('externalNetworkId');
+//        $externalNetworkId = $requestStack->getCurrentRequest()->attributes->get('externalNetworkId');
         $this->navitia_component = $navitia_component;
         $this->navitia_sam = $navitia_sam;
         $this->translator = $translator;
+        $this->securityContext = $sc;
+        $this->customerManager = $customerManager;
+        $this->applicationName = $applicationName;
 
-        if (!is_null($externalNetworkId))
-            $this->initToken($externalNetworkId, $em);
+//        if (!is_null($externalNetworkId)) {
+            $this->initToken();
+//        }
     }
 
-    private function initToken($externalNetworkId, $em)
+    private function initToken()
     {
-        $network = $em->getRepository('CanalTPMttBundle:Network')
-            ->findOneByExternalId($externalNetworkId);
-        $this->navitia_sam->setToken($network->getToken());
+        $navToken = $this->customerManager->getActiveNavitiaToken(
+            $this->securityContext->getToken()->getUser()->getCustomer(),
+            $this->applicationName
+        );
+
+//        $network = $em->getRepository('CanalTPMttBundle:Network')
+//            ->findOneByExternalId($externalNetworkId);
+        $this->navitia_sam->setToken($navToken);
     }
 
     /**
