@@ -28,7 +28,7 @@ class TimetableController extends AbstractController
                 $externalCoverageId
             );
             $prevNextStopPoints = $stopPointManager->getPrevNextStopPoints(
-                $timetable->getLineConfig()->getSeason()->getNetwork(),
+                $timetable->getLineConfig()->getSeason()->getPerimeter(),
                 $timetable->getExternalRouteId(),
                 $externalStopPointId
             );
@@ -48,7 +48,7 @@ class TimetableController extends AbstractController
 
     private function renderLayout($timetable, $externalStopPointId, $editable = true, $displayMenu = true)
     {
-        $externalCoverageId = $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalCoverageId();
+        $externalCoverageId = $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
 
         $stopPointData = $this->getStopPoint(
             $externalStopPointId,
@@ -66,14 +66,14 @@ class TimetableController extends AbstractController
             $calendarsAndNotes = array('calendars'=>'', 'notes'=> '');
         }
         $this->addFlashIfSeasonLocked($timetable->getLineConfig()->getSeason());
-        
+
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getTwigPath(),
             array(
                 'pageTitle'             => 'timetable.titles.' . ($editable ? 'edition' : 'preview'),
                 'timetable'             => $timetable,
-                'currentNetwork'        => $timetable->getLineConfig()->getSeason()->getNetwork(),
-                'externalNetworkId'     => $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalId(),
+                'currentNetwork'        => $timetable->getLineConfig()->getSeason()->getPerimeter(),
+                'externalNetworkId'     => $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
                 'externalRouteId'       => $timetable->getExternalRouteId(),
                 'externalCoverageId'    => $externalCoverageId,
                 'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),

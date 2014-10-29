@@ -139,7 +139,7 @@ class AreaController extends AbstractController
         $stopPointsList = null;
         $stopPointsArea = $area->getStopPoints();
         if (!empty($stopPointsArea)) {
-            $stopPointsList = $stopPointManager->enrichStopPoints($area->getStopPoints(), $network->getExternalCoverageId(), $network->getExternalId());
+            $stopPointsList = $stopPointManager->enrichStopPoints($area->getStopPoints(), $network->getExternalCoverageId(), $network->getExternalNetworkId());
         }
 
         return $this->render(
@@ -160,7 +160,7 @@ class AreaController extends AbstractController
         try {
             $result = $mttNavitia->findAllLinesByMode(
                 $network->getExternalCoverageId(),
-                $network->getExternalId()
+                $network->getExternalNetworkId()
             );
         } catch(\Exception $e) {
             $errorMessage = $e->getMessage();

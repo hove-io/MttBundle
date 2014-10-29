@@ -87,7 +87,7 @@ class NetworkManager
         $entityNetwork = $this->find($networkId);
         // form is modified dinamycally so we need to refresh entity (id is lost during process)
         if (!empty($entityNetwork)) {
-            $entityNetwork->setExternalId($network->getExternalId());
+            $entityNetwork->setExternalId($network->getExternalNetworkId());
             $entityNetwork->setExternalCoverageId($network->getExternalCoverageId());
             $entityNetwork->setToken($network->getToken());
             $entityNetwork->setLayoutConfigs($network->getLayoutConfigs());

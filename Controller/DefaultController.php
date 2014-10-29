@@ -40,8 +40,9 @@ class DefaultController extends AbstractController
         $currentNetwork =
             $externalNetworkId == null ?
             $networks->first() :
-            $networks->matching($criteria)
+            $networks->matching($criteria)->first()
         ;
+
 //        // make currentNetwok a doctrine object
 //        $currentNetwork = $networkManager->find($currentNetwork);
 

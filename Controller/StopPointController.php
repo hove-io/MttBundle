@@ -10,7 +10,7 @@ class StopPointController extends AbstractController
     {
         $navitia = $this->get('canal_tp_mtt.navitia');
         $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
-        $seasons = $this->get('canal_tp_mtt.season_manager')->findAllByNetworkId($network->getExternalId());
+        $seasons = $this->get('canal_tp_mtt.season_manager')->findAllByNetworkId($network->getExternalNetworkId());
         $currentSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
         $this->addFlashIfSeasonLocked($currentSeason);
         if (empty($line_id)) {
@@ -50,7 +50,7 @@ class StopPointController extends AbstractController
                 'routes'            => $routes,
                 'current_route'     => $externalRouteId,
                 'currentNetwork'    => $network,
-                'externalNetworkId' => $network->getExternalId(),
+                'externalNetworkId' => $network->getExternalNetworkId(),
                 'externalLineId'    => $line_id,
                 'seasons'           => $seasons,
                 'currentSeason'     => $currentSeason,

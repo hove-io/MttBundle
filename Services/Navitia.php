@@ -209,7 +209,7 @@ class Navitia
 
     public function getRouteStopPoints($network, $externalRouteId)
     {
-        $pathFilter = 'networks/' . $network->getExternalId() . '/routes/' . $externalRouteId;
+        $pathFilter = 'networks/' . $network->getExternalNetworkId() . '/routes/' . $externalRouteId;
 
         $query = array(
             'api' => 'coverage',

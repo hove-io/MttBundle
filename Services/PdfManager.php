@@ -56,7 +56,7 @@ class PdfManager
     {
         $response = $this->getTimetableHtml(
             array(
-                'externalNetworkId' => $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalId(),
+                'externalNetworkId' => $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
                 'seasonId'          => $timetable->getLineConfig()->getSeason()->getId(),
                 'externalLineId'    => $timetable->getLineConfig()->getExternalLineId(),
                 'externalStopPointId'=> $externalStopPointId,
@@ -80,7 +80,7 @@ class PdfManager
             $url = $this->co->get('request')->getHttpHost() . $this->co->get('router')->generate(
                 'canal_tp_mtt_timetable_view',
                 array(
-                    'externalNetworkId' => $timetable->getLineConfig()->getSeason()->getNetwork()->getExternalId(),
+                    'externalNetworkId' => $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
                     'seasonId'          => $timetable->getLineConfig()->getSeason()->getId(),
                     'externalLineId'    => $timetable->getLineConfig()->getExternalLineId(),
                     'externalStopPointId'=> $externalStopPointId,

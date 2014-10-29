@@ -59,7 +59,7 @@ class MediaManager
     private function getMedia($timetable, $externalStopPointId = false)
     {
         $seasonCategory = $this->getSeasonCategory(
-            $timetable->getLineConfig()->getSeason()->getNetwork()->getexternalId(),
+            $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
             $timetable->getExternalRouteId(),
             $timetable->getLineConfig()->getSeason()->getId(),
             $externalStopPointId
@@ -119,9 +119,9 @@ class MediaManager
 
     public function deleteSeasonMedias($season)
     {
-        $seasonCategory = $this->getSeasonCategory($season->getNetwork()->getexternalId(), '*', $season->getId(), '*');
+        $seasonCategory = $this->getSeasonCategory($season->getPerimeter()->getExternalNetworkId(), '*', $season->getId(), '*');
         $seasonCategory->delete($this->mediaDataCollector->getCompany(), true);
-        $seasonCategory = $this->getSeasonCategory($season->getNetwork()->getexternalId(), '*', $season->getId());
+        $seasonCategory = $this->getSeasonCategory($season->getPerimeter()->getExternalNetworkId(), '*', $season->getId());
         $seasonCategory->delete($this->mediaDataCollector->getCompany(), true);
     }
 

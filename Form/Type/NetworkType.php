@@ -78,8 +78,8 @@ class NetworkType extends AbstractType
                 $choices = array($data['external_id'] => $data['external_id']);
             // editing entity
             } else{
-                $value = empty($data) ? null : $data->getExternalId();
-                $choices = empty($data) ? array() : array($data->getExternalId() => $data->getExternalId());
+                $value = empty($data) ? null : $data->getExternalNetworkId();
+                $choices = empty($data) ? array() : array($data->getExternalNetworkId() => $data->getExternalNetworkId());
             }
             $form->add(
                 $formFactory->createNamed(
