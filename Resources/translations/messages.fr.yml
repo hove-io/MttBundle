@@ -125,3 +125,6 @@ block:
         labels:
             title: Titre
             content: Texte
+
+customer:
+    layout_list: Liste des gabarits

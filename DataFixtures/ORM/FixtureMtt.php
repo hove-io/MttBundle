@@ -83,7 +83,8 @@ class FixtureMtt extends SamBaseFixture
             'BUSINESS_LIST_AREA',
             'BUSINESS_MANAGE_AREA',
             'BUSINESS_LIST_LAYOUT_CONFIG',
-            'BUSINESS_MANAGE_LAYOUT_CONFIG'
+            'BUSINESS_MANAGE_LAYOUT_CONFIG',
+            'BUSINESS_MANAGE_CUSTOMER'
         ),
         'role-obs-mtt' => array(),
     );
@@ -111,35 +112,14 @@ class FixtureMtt extends SamBaseFixture
         $layoutConfig->setCalendarEnd($layoutConfigProperties['calendarEnd']);
         $layoutConfig->setNotesMode($layoutConfigProperties['notesMode']);
         $layoutConfig->setLayout($layout);
-        $layoutConfig->setPerimeters($networks);
+        // $layoutConfig->setPerimeters($networks);
 
         $this->em->persist($layoutConfig);
-        foreach ($networks as $network) {
-            $network->addLayoutConfig($layoutConfig);
-            $this->em->persist($network);
-        }
-
 
         return ($layoutConfig);
     }
 
-    private function createNetwork(
-        $externalId = 'network:Filbleu',
-        $token = '46cadd8a-e385-4169-9cb8-c05766eeeecb',
-        $externalCoverageId = 'fr-cen'
-    )
-    {
-        $network = new Network();
-        $network->setExternalId($externalId);
-        $network->setExternalCoverageId($externalCoverageId);
-        $network->setToken($token);
-
-        $this->em->persist($network);
-
-        return ($network);
-    }
-
-    private function createLayouts($network1, $network2, $network5)
+    private function createLayouts()
     {
         $this->createLayoutConfig(
             array(
@@ -157,8 +137,7 @@ class FixtureMtt extends SamBaseFixture
                     'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
                     'cssVersion'    => 1
                 )
-            ),
-            array($network1, $network2, $network5)
+            )
         );
 
         $this->em->flush();
@@ -175,11 +154,6 @@ class FixtureMtt extends SamBaseFixture
         $this->addReference('role-admin-mtt', $addminRole);
         $obsRole  = $this->createApplicationRole('Observateur Mtt', self::ROLE_OBS_MTT, $app, $this->roles['role-obs-mtt']);
         $this->addReference('role-obs-mtt', $obsRole);
-        $network1 = $this->createNetwork('network:Filbleu', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
-        $network2 = $this->createNetwork('network:Agglobus', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
-        $network3 = $this->createNetwork('network:SNCF', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
-        $network4 = $this->createNetwork('network:RATP', '46cadd8a-e385-4169-9cb8-c05766eeeecb');
-        $network5 = $this->createNetwork('network:CGD', '7a8877fa-2abc-44e2-926c-e2349974a1ee', 'bourgogne');
 
         //associer les utilisateurs avec l'application
         foreach ($this->users as &$userData) {
@@ -187,14 +161,8 @@ class FixtureMtt extends SamBaseFixture
                 $userData
             );
             $userData['id'] = $userEntity->getId();
-
-            $network1->addUser($userEntity);
-            $network2->addUser($userEntity);
-            $network3->addUser($userEntity);
-            $network4->addUser($userEntity);
-            $network5->addUser($userEntity);
         }
-        $this->createLayouts($network1, $network2, $network5);
+        $this->createLayouts();
     }
 
     /**
