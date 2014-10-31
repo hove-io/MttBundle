@@ -22,7 +22,7 @@ class Area extends AbstractEntity
     /**
      * @var Object
      */
-    private $network;
+    private $perimeter;
 
     /**
      * @var array
@@ -73,9 +73,9 @@ class Area extends AbstractEntity
      * @param Object $network
      * @return Area
      */
-    public function setNetwork($network)
+    public function setPerimeter($perimeter)
     {
-        $this->network = $network;
+        $this->perimeter = $perimeter;
 
         return $this;
     }
@@ -85,9 +85,9 @@ class Area extends AbstractEntity
      *
      * @return Object
      */
-    public function getNetwork()
+    public function getPerimeter()
     {
-        return $this->network;
+        return $this->perimeter;
     }
 
     public function setStopPoints($stopPoints)

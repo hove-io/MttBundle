@@ -155,11 +155,6 @@ class Season extends AbstractEntity
         return ($this);
     }
 
-    /**
-     * Get Object
-     *
-     * @return Network
-     */
     public function getPerimeter()
     {
         return $this->perimeter;
@@ -200,11 +195,6 @@ class Season extends AbstractEntity
         return $this->lineConfigs;
     }
 
-    /**
-     * Get published
-     *
-     * @return Network
-     */
     public function getPublished()
     {
         return $this->published;
@@ -222,11 +212,6 @@ class Season extends AbstractEntity
         return ($this);
     }
 
-    /**
-     * Get locked
-     *
-     * @return Network
-     */
     public function getLocked()
     {
         return $this->locked;

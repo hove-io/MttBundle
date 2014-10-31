@@ -12,12 +12,18 @@ class NotOverlappingEntityValidator extends ConstraintValidator
 {
     private $startFieldGetter = null;
     private $endFieldGetter = null;
+    private $seasonManager = null;
+
+    public function __construct($seasonManager) {
+        $this->seasonManager = $seasonManager;
+    }
 
     private function entityIsIncludedInAnother($entity, $otherEntity)
     {
         return  $entity->{$this->startFieldGetter}() >= $otherEntity->{$this->startFieldGetter}() &&
                 $entity->{$this->endFieldGetter}() <= $otherEntity->{$this->endFieldGetter}();
     }
+
     /**
      * Checks if the passed value is valid.
      *
@@ -28,11 +34,11 @@ class NotOverlappingEntityValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        $parentGetter = 'get' . $constraint->parent;
-        $siblingsGetter = 'get' . $constraint->siblings;
+        $parentGetter = 'get' . ucfirst($constraint->parent);
+        $siblingsGetter = 'get' . ucfirst($constraint->siblings);
         $this->startFieldGetter = 'get' . $constraint->startField;
         $this->endFieldGetter = 'get' . $constraint->endField;
-        $entities = $value->$parentGetter()->$siblingsGetter();
+        $entities = $this->seasonManager->findAllByExternalNetworkId($value->$parentGetter()->getId());
         foreach ($entities as $entity) {
             if (
                 $entity->getId() != $value->getId() && (

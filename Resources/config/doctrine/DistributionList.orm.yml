@@ -26,12 +26,12 @@ CanalTP\MttBundle\Entity\DistributionList:
                 timestampable:
                     on: update
     uniqueConstraints:
-        network_external_route_idx:
-            columns: [ network_id, external_route_id ]
+        perimeter_external_route_idx:
+            columns: [ perimeter_id, external_route_id ]
     manyToOne:
-        network:
-            targetEntity: Network
+        perimeter:
+            targetEntity: CanalTP\NmmPortalBundle\Entity\Perimeter
             inversedBy: mtt.ditribution_lists
             joinColumn:
-                name: network_id
+                name: perimeter_id
                 referencedColumnName: id

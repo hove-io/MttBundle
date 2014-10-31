@@ -177,3 +177,9 @@ services:
     canal_tp_mtt.layout:
         class: %canal_tp_mtt.layout.class%
         arguments: ['@doctrine.orm.entity_manager']
+
+    canal_tp_mtt.validator.not_overlapping_entity:
+        class: CanalTP\MttBundle\Validator\Constraints\NotOverlappingEntityValidator
+        arguments: [@canal_tp_mtt.season_manager]
+        tags:
+            - { name: validator.constraint_validator, alias: not_overlapping_entity }

@@ -32,8 +32,8 @@ CanalTP\MttBundle\Entity\Season:
                 timestampable:
                     on: update
     uniqueConstraints:
-        network_season_idx:
-            columns: [ title, network_id ]
+        perimeter_season_idx:
+            columns: [ title, perimeter_id ]
     oneToMany:
         lineConfigs:
             targetEntity: LineConfig

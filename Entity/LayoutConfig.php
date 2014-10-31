@@ -56,7 +56,7 @@ class LayoutConfig extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $networks;
+    private $perimeters;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -199,21 +199,11 @@ class LayoutConfig extends AbstractEntity
         return $this->getNotesMode() == self::NOTES_MODE_DISPATCHED;
     }
 
-    /**
-     * Set Networks
-     *
-     * @return Collections\Collection
-     */
     public function getLineConfigs()
     {
         return ($this->lineConfigs);
     }
 
-    /**
-     * Set networks
-     *
-     * @return LayoutConfig
-     */
     public function setLineConfigs($lineConfigs)
     {
         $this->lineConfigs = $lineConfigs;
@@ -226,9 +216,9 @@ class LayoutConfig extends AbstractEntity
      *
      * @return Collections\Collection
      */
-    public function getNetworks()
+    public function getPerimeters()
     {
-        return ($this->networks);
+        return $this->perimeters;
     }
 
     /**
@@ -236,11 +226,11 @@ class LayoutConfig extends AbstractEntity
      *
      * @return Network
      */
-    public function addNetwork($network)
+    public function addPerimeter($perimeters)
     {
-        $this->networks[] = $network;
+        $this->perimeters[] = $perimeters;
 
-        return ($this);
+        return $this;
     }
 
     /**
@@ -248,11 +238,11 @@ class LayoutConfig extends AbstractEntity
      *
      * @return LayoutConfig
      */
-    public function setNetworks($networks)
+    public function setPerimeters($perimeters)
     {
-        $this->networks = $networks;
+        $this->perimeters = $perimeters;
 
-        return ($this);
+        return $this;
     }
 
     /**

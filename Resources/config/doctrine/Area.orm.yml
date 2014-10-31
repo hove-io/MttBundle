@@ -26,14 +26,14 @@ CanalTP\MttBundle\Entity\Area:
                 timestampable:
                     on: update
     uniqueConstraints:
-        network_area_idx:
-            columns: [ label, network_id ]
+        perimeter_area_idx:
+            columns: [ label, perimeter_id ]
     manyToOne:
-        network:
-            targetEntity: Network
+        perimeter:
+            targetEntity: CanalTP\NmmPortalBundle\Entity\Perimeter
             inversedBy: mtt.area
             joinColumn:
-                name: network_id
+                name: perimeter_id
                 referencedColumnName: id
     oneToMany:
         areasPdf:

@@ -10,6 +10,7 @@ namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MttBundle\Entity\AmqpTask;
+use CanalTP\MttBundle\Entity\Season as SeasonEntity;
 
 class SeasonManager
 {
@@ -26,7 +27,18 @@ class SeasonManager
 
     public function getSeasonWithNetworkIdAndSeasonId($externalNetworkId, $seasonId)
     {
-        return ($this->repository->getSeasonByNetworkIdAndSeasonId($externalNetworkId, $seasonId));
+        $season = null;
+        if ($seasonId) {
+            $season = $this->find($seasonId);
+        }
+
+        //This code is dead code ?
+        if (!$season) {
+            $season = new SeasonEntity();
+            $season->setPerimeter($this->networkManager->getByExternalNetworkId($externalNetworkId));
+        }
+
+        return $season;
     }
 
     public function save($season)

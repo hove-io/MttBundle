@@ -1,67 +1,67 @@
-CanalTP\MttBundle\Entity\Network:
-    type: entity
-    table: mtt.network
-    repositoryClass: CanalTP\MttBundle\Entity\NetworkRepository
-    fields:
-        id:
-            type: integer
-            id: true
-            generator:
-                strategy: IDENTITY
-        externalId:
-            type: string
-            length: 255
-            column: external_id
-        externalCoverageId:
-            type: string
-            length: 255
-            column: external_coverage_id
-        token:
-            type: string
-            length: 255
-        created:
-            type: datetime
-            gedmo:
-                timestampable:
-                    on: create
-        updated:
-            type: datetime
-            gedmo:
-                timestampable:
-                    on: update
-    oneToMany:
-        seasons:
-            targetEntity: Season
-            mappedBy: network
-            orderBy:
-                startDate: ASC
-        ditributionLists:
-            targetEntity: DistributionList
-            mappedBy: network
-        amqpTasks:
-            targetEntity: AmqpTask
-            mappedBy: network
-        areas:
-            targetEntity: Area
-            mappedBy: network
-    manyToMany:
-        users:
-            targetEntity: CanalTP\SamEcoreUserManagerBundle\Entity\User
-            joinTable:
-                name: mtt.users_networks
-                joinColumns:
-                    network_id:
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    user_id:
-                        referencedColumnName: usr_id
-        layoutConfigs:
-            targetEntity: CanalTP\MttBundle\Entity\LayoutConfig
-            joinTable:
-                name: mtt.layout_config_network
-                joinColumns:
-                    network_id:
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    layout_config_id:
-                        referencedColumnName: id
+#CanalTP\MttBundle\Entity\Network:
+#    type: entity
+#    table: mtt.network
+#    repositoryClass: CanalTP\MttBundle\Entity\NetworkRepository
+#    fields:
+#        id:
+#            type: integer
+#            id: true
+#            generator:
+#                strategy: IDENTITY
+#        externalId:
+#            type: string
+#            length: 255
+#            column: external_id
+#        externalCoverageId:
+#            type: string
+#            length: 255
+#            column: external_coverage_id
+#        token:
+#            type: string
+#            length: 255
+#        created:
+#            type: datetime
+#            gedmo:
+#                timestampable:
+#                    on: create
+#        updated:
+#            type: datetime
+#            gedmo:
+#                timestampable:
+#                    on: update
+#    oneToMany:
+#        seasons:
+#            targetEntity: Season
+#            mappedBy: network
+#            orderBy:
+#                startDate: ASC
+#        ditributionLists:
+#            targetEntity: DistributionList
+#            mappedBy: network
+#        amqpTasks:
+#            targetEntity: AmqpTask
+#            mappedBy: network
+#        areas:
+#            targetEntity: Area
+#            mappedBy: network
+#    manyToMany:
+#        users:
+#            targetEntity: CanalTP\SamEcoreUserManagerBundle\Entity\User
+#            joinTable:
+#                name: mtt.users_networks
+#                joinColumns:
+#                    network_id:
+#                        referencedColumnName: id
+#                inverseJoinColumns:
+#                    user_id:
+#                        referencedColumnName: usr_id
+#        layoutConfigs:
+#            targetEntity: CanalTP\MttBundle\Entity\LayoutConfig
+#            joinTable:
+#                name: mtt.layout_config_network
+#                joinColumns:
+#                    network_id:
+#                        referencedColumnName: id
+#                inverseJoinColumns:
+#                    layout_config_id:
+#                        referencedColumnName: id

@@ -10,13 +10,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class AmqpTaskRepository extends EntityRepository
 {
-    public function getLastNetworkTasks($network, $limit = 5)
+    public function getLastPerimeterTasks($perimeter, $limit = 5)
     {
         $qb = $this->createQueryBuilder("amqpTask")
             ->select("amqpTask")
-            ->join("amqpTask.network", "network")
-            ->where("network.id = :networkId")
-            ->setParameter("networkId", $network->getId())
+            ->where("amqpTask.perimeter = :perimeter")
+            ->setParameter("perimeter", $perimeter)
             ->add('orderBy', 'amqpTask.created DESC')
             ->setMaxResults($limit);
 

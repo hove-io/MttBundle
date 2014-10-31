@@ -64,11 +64,11 @@ class NetworkManager
      * @param  Integer  $lineId
      * @return networks
      */
-    public function getLastTasks($network, $limit = 10)
+    public function getLastTasks($perimeter, $limit = 10)
     {
         $taskRepo = $this->om->getRepository('CanalTPMttBundle:AmqpTask');
 
-        return $taskRepo->getLastNetworkTasks($network, $limit);
+        return $taskRepo->getLastPerimeterTasks($perimeter, $limit);
     }
 
     /**
@@ -79,7 +79,7 @@ class NetworkManager
      */
     public function find($networkId)
     {
-        return ($networkId ? $this->repository->find($networkId) : null);
+        return ($networkId ? $this->perimeterManager->find($networkId) : null);
     }
 
     public function save($network, $networkId)

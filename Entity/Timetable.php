@@ -150,7 +150,7 @@ class Timetable extends AbstractEntity
      * @param  Object    $line
      * @return Timetable
      */
-    public function setNetwork($network)
+    public function setPerimeter($network)
     {
         $this->network = $network;
 
