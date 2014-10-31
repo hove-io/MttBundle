@@ -75,6 +75,7 @@ menu:
     networks_manage: Gestion des réseaux
     layouts_manage: Gestion des gabarits
     area_manage: Secteurs
+    customer_manage: Gestion des Clients
 
 #should be in error namespace above
 network:
