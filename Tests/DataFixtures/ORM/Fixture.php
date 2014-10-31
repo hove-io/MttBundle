@@ -52,7 +52,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     private function createSeason(ObjectManager $em, $network)
     {
         $season = new Season();
-        $season->setNetwork($network);
+        $season->setPerimeter($network);
         $season->setTitle('hiver 2014');
         $season->setStartDate(new \DateTime("-1 year"));
         $season->setEndDate(new \DateTime("-6 month"));
@@ -111,7 +111,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $layout->setOrientation($layoutProperties['orientation']);
         $layout->setCalendarStart($layoutProperties['calendarStart']);
         $layout->setCalendarEnd($layoutProperties['calendarEnd']);
-        $layout->setNetworks($networks);
+        $layout->setPerimeters($networks);
         foreach ($networks as $network) {
             $network->addLayout($layout);
             $em->persist($network);

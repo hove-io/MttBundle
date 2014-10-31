@@ -35,10 +35,10 @@ CanalTP\MttBundle\Entity\AmqpTask:
                 timestampable:
                     on: update
     manyToOne:
-        network:
-            targetEntity: Network
+        perimeter:
+            targetEntity: CanalTP\NmmPortalBundle\Entity\Perimeter
             joinColumn:
-                name: network_id
+                name: perimeter_id
                 referencedColumnName: id
     oneToMany:
         amqpAcks:

@@ -1,15 +1,15 @@
-CanalTP\MttBundle\Entity\Network:
-    # constraints:
-        # - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [externalCoverageId, externalId]
-    properties:
-        externalCoverageId:
-            - NotBlank: ~
-        externalId:
-            - CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkId: ~
-        token:
-            - NotBlank: ~
-            - Length:
-                max: 255
+#CanalTP\MttBundle\Entity\Network:
+#    # constraints:
+#        # - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [externalCoverageId, externalId]
+#    properties:
+#        externalCoverageId:
+#            - NotBlank: ~
+#        externalId:
+#            - CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkId: ~
+#        token:
+#            - NotBlank: ~
+#            - Length:
+#                max: 255
 
 CanalTP\MttBundle\Entity\Block:
     properties:
@@ -20,9 +20,9 @@ CanalTP\MttBundle\Entity\Block:
 
 CanalTP\MttBundle\Entity\Season:
     constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [title, network]
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [title, perimeter]
         - CanalTP\MttBundle\Validator\Constraints\NotOverlappingEntity:
-            parent: network
+            parent: perimeter
             siblings: seasons
             startField: startDate
             endField: endDate
@@ -40,7 +40,7 @@ CanalTP\MttBundle\Entity\Season:
                 field: startDate
 CanalTP\MttBundle\Entity\Area:
     constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [label, network]
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [label, perimeter]
     properties:
         label:
             - NotBlank: ~

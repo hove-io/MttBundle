@@ -111,7 +111,7 @@ class FixtureMtt extends SamBaseFixture
         $layoutConfig->setCalendarEnd($layoutConfigProperties['calendarEnd']);
         $layoutConfig->setNotesMode($layoutConfigProperties['notesMode']);
         $layoutConfig->setLayout($layout);
-        $layoutConfig->setNetworks($networks);
+        $layoutConfig->setPerimeters($networks);
 
         $this->em->persist($layoutConfig);
         foreach ($networks as $network) {

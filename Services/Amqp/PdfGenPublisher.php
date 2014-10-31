@@ -49,7 +49,7 @@ class PdfGenPublisher
         $task->setJobsPublished(count($payloads));
         $task->setOptions($taskOptions);
         // link to network
-        $task->setNetwork($network);
+        $task->setPerimeter($network);
         $this->om->persist($task);
         $this->om->flush();
 

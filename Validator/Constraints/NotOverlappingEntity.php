@@ -19,4 +19,9 @@ class NotOverlappingEntity extends Constraint
     {
         return self::CLASS_CONSTRAINT;
     }
+
+    public function validatedBy()
+    {
+        return 'not_overlapping_entity';
+    }
 }

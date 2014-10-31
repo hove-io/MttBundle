@@ -36,7 +36,7 @@ class AreaManager
             $area = new Area();
             $network = $this->perimeterManager->findOneByExternalNetworkId($externaNetworkId);
 
-            $area->setNetwork($network);
+            $area->setPerimeter($network);
         }
 
         return ($area);
@@ -66,7 +66,7 @@ class AreaManager
     {
         $network = $this->perimeterManager->findOneByExternalNetworkId($externaNetworkId);
 
-        $area->setNetwork($network);
+        $area->setPerimeter($network);
         $this->om->persist($area);
         $this->om->flush();
     }

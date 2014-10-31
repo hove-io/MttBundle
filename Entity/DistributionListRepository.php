@@ -27,11 +27,11 @@ class DistributionListRepository extends EntityRepository
         return $a->stop_point->id === $b->stop_point->id ? 0 : 1;
     }
 
-    public function sortSchedules($schedules, $networkId, $externalRouteId, $reset = false)
+    public function sortSchedules($schedules, $perimeterId, $externalRouteId, $reset = false)
     {
         $distributionList = $this->findOneBy(
             array(
-                'network' => $networkId,
+                'network' => $perimeterId,
                 'externalRouteId' => $externalRouteId
             )
         );

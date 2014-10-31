@@ -48,7 +48,7 @@ class AmqpTask extends AbstractEntity
     /**
      * @var Object
      */
-    private $network;
+    private $perimeter;
 
     /**
      * @var array
@@ -193,9 +193,9 @@ class AmqpTask extends AbstractEntity
      *
      * @return Network
      */
-    public function getNetwork()
+    public function getPerimeter()
     {
-        return $this->network;
+        return $this->perimeter;
     }
 
     /**
@@ -203,9 +203,9 @@ class AmqpTask extends AbstractEntity
      *
      * @return Season
      */
-    public function setNetwork($network)
+    public function setPerimeter($perimeter)
     {
-        $this->network = $network;
+        $this->perimeter = $perimeter;
 
         return ($this);
     }

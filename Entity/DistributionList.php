@@ -25,7 +25,7 @@ class DistributionList
     /**
      * @var Object
      */
-    private $network;
+    private $perimeter;
 
     /**
      * @var \DateTime
@@ -100,9 +100,9 @@ class DistributionList
      *
      * @return DistributionList
      */
-    public function setNetwork($network)
+    public function setPerimeter($perimeter)
     {
-        $this->network = $network;
+        $this->perimeter = $perimeter;
 
         return $this;
     }
@@ -112,9 +112,9 @@ class DistributionList
      *
      * @return string
      */
-    public function getNetwork()
+    public function getPerimeter()
     {
-        return $this->network;
+        return $this->perimeter;
     }
 
     /**

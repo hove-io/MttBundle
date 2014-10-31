@@ -12,21 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class SeasonRepository extends EntityRepository
 {
-    public function getSeasonByNetworkIdAndSeasonId($networkId, $seasonId)
-    {
-        $season = null;
-        if ($seasonId) {
-            $season = $this->find($seasonId);
-        }
-        if (!$season) {
-            $networkRepository = $this->getEntityManager()->getRepository('CanalTPMttBundle:Network');
-            $season = new Season();
-
-            $season->setNetwork($networkRepository->findOneByExternalId($networkId));
-        }
-
-        return ($season);
-    }
+//    public function getSeasonByNetworkIdAndSeasonId($networkId, $seasonId)
+//    {
+//        $season = null;
+//        if ($seasonId) {
+//            $season = $this->find($seasonId);
+//        }
+//        if (!$season) {
+//            $networkRepository = $this->getEntityManager()->getRepository('CanalTPMttBundle:Network');
+//            $season = new Season();
+//
+//            $season->setPerimeter($networkRepository->findOneByExternalNetworkId($perimeterId));
+//        }
+//
+//        return ($season);
+//    }
 
     public function getByPerimeter($perimeter)
     {

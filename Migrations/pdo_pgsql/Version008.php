@@ -16,6 +16,12 @@ class Version008 extends AbstractMigration
     {
         $this->addSql('ALTER TABLE mtt.season DROP CONSTRAINT fk_9c6252ce34128b91;');
         $this->addSql('ALTER TABLE mtt.season RENAME network_id TO perimeter_id;');
+
+        $this->addSql('ALTER TABLE mtt.area DROP CONSTRAINT fk_2e79a2fd34128b91;');
+        $this->addSql('ALTER TABLE mtt.area RENAME network_id TO perimeter_id;');
+
+        $this->addSql('ALTER TABLE mtt.amqp_task DROP CONSTRAINT fk_2e79a2fd34128b91;');
+        $this->addSql('ALTER TABLE mtt.amqp_task RENAME network_id TO perimeter_id;');
 //        Need to fix foreign key constraint between season and perimeter before execute this
 //        $this->addSql('ALTER TABLE mtt.season ADD CONSTRAINT fk_season_perimeters FOREIGN KEY (perimeter_id)
 //            REFERENCES public.t_perimeter_per(per_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;');
