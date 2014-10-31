@@ -245,3 +245,9 @@ canal_tp_mtt_customer_list:
     defaults: { _controller: CanalTPMttBundle:Customer:list }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+canal_tp_mtt_customer_assign_layout:
+    pattern: /networks/{externalNetworkId}/customers/{customerId}/assign/layout
+    defaults: { _controller: CanalTPMttBundle:Customer:assignLayout }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*

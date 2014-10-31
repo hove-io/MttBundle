@@ -40,14 +40,13 @@ CanalTP\MttBundle\Entity\LayoutConfig:
         lineConfigs:
             targetEntity: LineConfig
             mappedBy: layoutConfig
+        customers:
+            targetEntity: LayoutConfigCustomer
+            mappedBy: layoutConfig
     manyToOne:
         layout:
             targetEntity: Layout
             joinColumn:
                 name: layout_id
                 referencedColumnName: id
-    manyToMany:
-        perimeters:
-            targetEntity: CanalTP\NmmPortalBundle\Entity\Perimeter
-            mappedBy: layouts
     lifecycleCallbacks: {  }
