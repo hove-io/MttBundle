@@ -4,6 +4,7 @@ namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MttBundle\Entity\LayoutConfig;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class LayoutConfigManager
 {
@@ -11,7 +12,7 @@ class LayoutConfigManager
     private $currentCustomer = null;
     private $repository = null;
 
-    public function __construct(ObjectManager $om, $securityContext)
+    public function __construct(ObjectManager $om, SecurityContext $securityContext)
     {
         $this->currentCustomer = $securityContext->getToken()->getUser()->getCustomer();
         $this->om = $om;

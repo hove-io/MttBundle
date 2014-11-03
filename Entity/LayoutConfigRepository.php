@@ -3,6 +3,7 @@
 namespace CanalTP\MttBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use CanalTP\NmmPortalBundle\Entity\Customer;
 
 /**
  * LayoutConfigRepository
@@ -25,7 +26,7 @@ class LayoutConfigRepository extends EntityRepository
         return ($name);
     }
 
-    public function findLayoutConfigByCustomer($customer)
+    public function findLayoutConfigByCustomer(Customer $customer)
     {
         $query = $this->getEntityManager()->createQueryBuilder()
             ->select('lc', 'c')
