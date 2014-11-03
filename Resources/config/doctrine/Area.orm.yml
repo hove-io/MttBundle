@@ -31,10 +31,9 @@ CanalTP\MttBundle\Entity\Area:
     manyToOne:
         perimeter:
             targetEntity: CanalTP\NmmPortalBundle\Entity\Perimeter
-            inversedBy: mtt.area
             joinColumn:
                 name: perimeter_id
-                referencedColumnName: id
+                referencedColumnName: per_id
     oneToMany:
         areasPdf:
             targetEntity: AreaPdf

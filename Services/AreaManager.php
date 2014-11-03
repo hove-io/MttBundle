@@ -46,7 +46,7 @@ class AreaManager
     {
         $network = $this->perimeterManager->findOneByExternalNetworkId($externaNetworkId);
 
-        return ($network->getAreas());
+        return $this->repository->findByPerimeter($network);
     }
 
     public function find($areaId)
