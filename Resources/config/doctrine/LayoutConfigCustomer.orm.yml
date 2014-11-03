@@ -1,6 +1,7 @@
 CanalTP\MttBundle\Entity\LayoutConfigCustomer:
     type: entity
     table: mtt.layout_config_customer
+    repositoryClass: CanalTP\MttBundle\Entity\LayoutConfigCustomerRepository
     id:
         id:
             type: integer

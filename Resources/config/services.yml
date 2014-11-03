@@ -169,7 +169,7 @@ services:
     # LayoutConfig
     canal_tp_mtt.layout_config:
         class: %canal_tp_mtt.layout_config.class%
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@security.context']
     canal_tp_mtt.layout_model:
         class: %canal_tp_mtt.layout_model.class%
         arguments: ['@doctrine.orm.entity_manager', %canal_tp_mtt.layout_model.location%]

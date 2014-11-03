@@ -14,13 +14,13 @@ class LayoutConfigController extends AbstractController
     public function listAction($externalNetworkId)
     {
         $this->isGranted(array('BUSINESS_LIST_LAYOUT_CONFIG', 'BUSINESS_MANAGE_LAYOUT_CONFIG'));
-        $layoutConfigRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:layoutConfig');
+        $layoutConfigRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:LayoutConfig');
 
         return $this->render(
             'CanalTPMttBundle:LayoutConfig:list.html.twig',
             array(
                 'pageTitle' => 'menu.layouts_manage',
-                'layoutConfigs' => $this->get('canal_tp_mtt.layout_config')->findAll(),
+                'layoutConfigs' => $this->get('canal_tp_mtt.layout_config')->findLayoutConfigByCustomer(),
                 'externalNetworkId' => $externalNetworkId,
                 'layoutConfigRepo' => $layoutConfigRepo
             )
