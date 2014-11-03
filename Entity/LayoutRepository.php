@@ -3,6 +3,7 @@
 namespace CanalTP\MttBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use CanalTP\NmmPortalBundle\Entity\Customer;
 
 /**
  * LayoutRepository

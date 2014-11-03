@@ -60,9 +60,7 @@ class LineController extends AbstractController
             $externalNetworkId,
             $seasonId
         );
-        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId(
-            $externalNetworkId
-        );
+        $layoutConfigs = $this->get('canal_tp_mtt.layout_config')->findLayoutConfigByCustomer();
 
         $params = array(
             'externalNetworkId' => $externalNetworkId,
@@ -75,7 +73,7 @@ class LineController extends AbstractController
         );
 
         $form = $this->createForm(
-            new LineConfigType($network->getLayoutConfigs()),
+            new LineConfigType($layoutConfigs),
             $lineConfig,
             array(
                 'action' => $this->getRequest()->getRequestUri()
