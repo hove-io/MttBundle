@@ -2,6 +2,11 @@
 
 {% block list_title -%}
     {{'customer.list'|trans({}, 'default')}}
+    -
+    <a href="{{ path('canal_tp_mtt_model_upload', {'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span> {{'layout_model.upload'|trans({}, 'default')}}
+    </a>
+
 {% endblock %}
 
 {% block table_head -%}
