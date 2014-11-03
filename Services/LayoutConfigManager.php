@@ -8,10 +8,12 @@ use CanalTP\MttBundle\Entity\LayoutConfig;
 class LayoutConfigManager
 {
     private $om = null;
+    private $currentCustomer = null;
     private $repository = null;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, $securityContext)
     {
+        $this->currentCustomer = $securityContext->getToken()->getUser()->getCustomer();
         $this->om = $om;
         $this->repository = $this->om->getRepository('CanalTPMttBundle:LayoutConfig');
     }
@@ -33,5 +35,10 @@ class LayoutConfigManager
         //TODO: Add NotesMode field in LayoutConfigType. (Create custom Layout)
         $layoutConfig->setNotesMode(LayoutConfig::NOTES_MODE_DISPATCHED);
         $this->om->flush();
+    }
+
+    public function findLayoutConfigByCustomer()
+    {
+        return ($this->repository->findLayoutConfigByCustomer($this->currentCustomer));
     }
 }

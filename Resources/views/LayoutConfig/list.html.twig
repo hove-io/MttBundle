@@ -28,7 +28,7 @@
     {% if layoutConfigs|length == 0 %}
         <tr>
             <td colspan="5">
-                {{'global.no_items'|trans}}
+                {{ 'global.no_items'|trans({}, 'messages') }}
             </td>
         </tr>
     {% else %}

@@ -24,4 +24,17 @@ class LayoutConfigRepository extends EntityRepository
         }
         return ($name);
     }
+
+    public function findLayoutConfigByCustomer($customer)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('lc', 'c')
+            ->from('CanalTPMttBundle:LayoutConfig', 'lc')
+            ->join('lc.customers', 'c')
+            ->where('c.customer = :customer')
+            ->setParameter('customer', $customer)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
