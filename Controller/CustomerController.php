@@ -11,8 +11,6 @@ use CanalTP\MttBundle\Entity\LayoutConfigCustomer;
  */
 class CustomerController extends AbstractController
 {
-    private $networkManager = null;
-
     public function listAction($externalNetworkId)
     {
         $this->isGranted('BUSINESS_MANAGE_CUSTOMER');
@@ -75,8 +73,6 @@ class CustomerController extends AbstractController
 
     public function assignLayoutAction(Request $request, $externalNetworkId, $customerId)
     {
-        $this->networkManager = $this->get('canal_tp_mtt.network_manager');
-
         $form = $this->buildForm($customerId, $externalNetworkId);
         $render = $this->processForm($request, $form, $customerId, $externalNetworkId);
 

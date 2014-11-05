@@ -38,7 +38,8 @@ class NotOverlappingEntityValidator extends ConstraintValidator
         $siblingsGetter = 'get' . ucfirst($constraint->siblings);
         $this->startFieldGetter = 'get' . $constraint->startField;
         $this->endFieldGetter = 'get' . $constraint->endField;
-        $entities = $this->seasonManager->findAllByExternalNetworkId($value->$parentGetter()->getId());
+        $entities = $this->seasonManager->findByPerimeter($value->$parentGetter());
+
         foreach ($entities as $entity) {
             if (
                 $entity->getId() != $value->getId() && (

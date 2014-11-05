@@ -23,32 +23,6 @@ class NetworkManager
     }
 
     /**
-     * Return line Object with navitia data added
-     *
-     * @param  Integer $lineId
-     * @return line
-     */
-    public function findOneByExternalId($externalNetworkId)
-    {
-        return $this->perimeterManager->findOneByExternalNetworkId($externalNetworkId);
-    }
-
-    /**
-     * @alias findOneByExternalId($externalNetworkId)
-     * @param type $externalNetworkId
-     * @return type
-     */
-    public function getByExternalNetworkId($externalNetworkId)
-    {
-        return $this->findOneByExternalId($externalNetworkId);
-    }
-
-    public function getSeasons($externalNetworkId)
-    {
-        $perimeter = $this->findOneByExternalId($externalNetworkId);
-    }
-
-    /**
      * Return networks Object
      *
      * @return networks

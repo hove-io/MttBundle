@@ -12,12 +12,17 @@ class SeasonController extends AbstractController
 
     private function buildForm($externalNetworkId, $seasonId)
     {
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
         $form = $this->createForm(
             new SeasonType(
-                $this->seasonManager->findAllByNetworkId($externalNetworkId),
+                $this->seasonManager->findByPerimeter($perimeter),
                 $seasonId
             ),
-            $this->seasonManager->getSeasonWithNetworkIdAndSeasonId($externalNetworkId, $seasonId),
+            $this->seasonManager->getSeasonWithPerimeterAndSeasonId($perimeter, $seasonId),
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_season_edit',
@@ -205,16 +210,19 @@ class SeasonController extends AbstractController
     public function listAction(Request $request, $externalNetworkId)
     {
         $this->isGranted('BUSINESS_MANAGE_SEASON');
-        $this->seasonManager = $this->get('canal_tp_mtt.season_manager');
-        $this->networkManager = $this->get('canal_tp_mtt.network_manager');
+        $seasonManager = $this->get('canal_tp_mtt.season_manager');
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
 
         return $this->render(
             'CanalTPMttBundle:Season:list.html.twig',
             array(
                 'pageTitle'=> 'menu.seasons_manage',
-                'currentNetwork' => $this->networkManager->findOneByExternalId($externalNetworkId),
                 'externalNetworkId' => $externalNetworkId,
-                'seasons' => $this->seasonManager->findAllByNetworkId($externalNetworkId)
+                'seasons' => $seasonManager->findByPerimeter($perimeter)
             )
         );
     }

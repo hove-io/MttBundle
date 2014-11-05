@@ -105,10 +105,10 @@ class StopPointManager
         return $this->stopPoint;
     }
 
-    public function getPrevNextStopPoints($network, $externalRouteId, $externalStopPointId)
+    public function getPrevNextStopPoints($perimeter, $externalRouteId, $externalStopPointId)
     {
         $result = $this->navitia->getRouteStopPoints(
-            $network,
+            $perimeter,
             $externalRouteId,
             $externalStopPointId
         );

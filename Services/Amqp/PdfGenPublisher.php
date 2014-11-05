@@ -41,15 +41,14 @@ class PdfGenPublisher
         $this->channelLib->declareQueue($this->queueName, $this->exchangeName, "*.pdf_gen");
     }
 
-    private function getNewTask($payloads, $object, $network, $taskOptions, $taskType = AmqpTask::SEASON_PDF_GENERATION_TYPE)
+    private function getNewTask($payloads, $object, $perimeter, $taskOptions, $taskType = AmqpTask::SEASON_PDF_GENERATION_TYPE)
     {
         $task = new AmqpTask();
         $task->setTypeId($taskType);
         $task->setObjectId($object->getId());
         $task->setJobsPublished(count($payloads));
         $task->setOptions($taskOptions);
-        // link to network
-        $task->setPerimeter($network);
+        $task->setPerimeter($perimeter);
         $this->om->persist($task);
         $this->om->flush();
 
@@ -65,7 +64,7 @@ class PdfGenPublisher
     private function publishPayloads($payloads, $task)
     {
         $this->init();
-        $routingKey = $this->channelLib->getRoutingKey($task->getNetwork(), $task);
+        $routingKey = $this->channelLib->getRoutingKey($task->getPerimeter(), $task);
         $ackQueueName = $this->channelLib->declareAckQueue();
         foreach ($payloads as $payload) {
             $payload['pdfGeneratorUrl'] = $this->pdfGeneratorUrl;
@@ -85,7 +84,7 @@ class PdfGenPublisher
     public function publishSeasonPdfGen($payloads, $season, $taskOptions = array())
     {
         // routing_key_format: network_{networkId}.pdf_gen
-        $task = $this->getNewTask($payloads, $season, $season->getNetwork(), $taskOptions);
+        $task = $this->getNewTask($payloads, $season, $season->getPerimeter(), $taskOptions);
         $this->publishPayloads($payloads, $task);
         $this->lockSeason($season);
     }

@@ -12,34 +12,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class SeasonRepository extends EntityRepository
 {
-//    public function getSeasonByNetworkIdAndSeasonId($networkId, $seasonId)
-//    {
-//        $season = null;
-//        if ($seasonId) {
-//            $season = $this->find($seasonId);
-//        }
-//        if (!$season) {
-//            $networkRepository = $this->getEntityManager()->getRepository('CanalTPMttBundle:Network');
-//            $season = new Season();
-//
-//            $season->setPerimeter($networkRepository->findOneByExternalNetworkId($perimeterId));
-//        }
-//
-//        return ($season);
-//    }
-
-    public function getByPerimeter($perimeter)
-    {
-        $query = $this->getEntityManager()->createQueryBuilder()
-            ->select('s')
-            ->from('CanalTPMttBundle:Season', 's')
-            ->where('s.perimeter = :perimeter')
-            ->setParameter('perimeter', $perimeter)
-            ->getQuery();
-
-        return $query->getResult();
-    }
-
     // used by webservice
     public function findSeasonForDateTime($dateTime)
     {

@@ -31,7 +31,7 @@ class DistributionListRepository extends EntityRepository
     {
         $distributionList = $this->findOneBy(
             array(
-                'network' => $perimeterId,
+                'perimeter' => $perimeterId,
                 'externalRouteId' => $externalRouteId
             )
         );

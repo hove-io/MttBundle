@@ -31,7 +31,6 @@ class Navitia
         $applicationName
     )
     {
-//        $externalNetworkId = $requestStack->getCurrentRequest()->attributes->get('externalNetworkId');
         $this->navitia_component = $navitia_component;
         $this->navitia_sam = $navitia_sam;
         $this->translator = $translator;
@@ -39,9 +38,7 @@ class Navitia
         $this->customerManager = $customerManager;
         $this->applicationName = $applicationName;
 
-//        if (!is_null($externalNetworkId)) {
-            $this->initToken();
-//        }
+        $this->initToken();
     }
 
     private function initToken()
@@ -51,8 +48,6 @@ class Navitia
             $this->applicationName
         );
 
-//        $network = $em->getRepository('CanalTPMttBundle:Network')
-//            ->findOneByExternalId($externalNetworkId);
         $this->navitia_sam->setToken($navToken);
     }
 
@@ -207,14 +202,14 @@ class Navitia
         return ($response->stop_points[0]->name);
     }
 
-    public function getRouteStopPoints($network, $externalRouteId)
+    public function getRouteStopPoints($perimeter, $externalRouteId)
     {
-        $pathFilter = 'networks/' . $network->getExternalNetworkId() . '/routes/' . $externalRouteId;
+        $pathFilter = 'networks/' . $perimeter->getExternalNetworkId() . '/routes/' . $externalRouteId;
 
         $query = array(
             'api' => 'coverage',
             'parameters' => array(
-                'region' => $network->getExternalCoverageId(),
+                'region' => $perimeter->getExternalCoverageId(),
                 'action' => 'route_schedules',
                 'path_filter' => $pathFilter,
                 'parameters' => '?depth=0'

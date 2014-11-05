@@ -101,12 +101,14 @@ class TimetableController extends AbstractController
     public function editAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
         $this->isGranted('BUSINESS_EDIT_LAYOUT');
-        $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
-        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
         $timetable = $this->getTimetable(
             $externalRouteId,
-            $network->getExternalCoverageId(),
+            $perimeter->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
 
@@ -119,12 +121,14 @@ class TimetableController extends AbstractController
      */
     public function viewAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
-        $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
-        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
         $timetable = $this->getTimetable(
             $externalRouteId,
-            $network->getExternalCoverageId(),
+            $perimeter->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
         $displayMenu = $this->get('security.context')->getToken()->getUser() != 'anon.';

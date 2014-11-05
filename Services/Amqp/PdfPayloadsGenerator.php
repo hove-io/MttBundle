@@ -37,7 +37,7 @@ class PdfPayloadsGenerator
     }
 
     // construct payload for AMQP message
-    private function getPayload($network, $season, $lineConfig, $externalRouteId, $stopPoint)
+    private function getPayload($perimeter, $season, $lineConfig, $externalRouteId, $stopPoint)
     {
         $payload = array();
         $payload['pdfHash'] = isset($stopPoint->pdfHash) ? $stopPoint->pdfHash : '';
@@ -50,7 +50,7 @@ class PdfPayloadsGenerator
         $payload['url'] .= $this->router->generate(
             'canal_tp_mtt_timetable_view',
             array(
-                'externalNetworkId'     => $network->getExternalNetworkId(),
+                'externalNetworkId'     => $perimeter->getExternalNetworkId(),
                 'externalLineId'        => $lineConfig->getExternalLineId(),
                 'externalRouteId'       => $externalRouteId,
                 'seasonId'              => $season->getId(),
@@ -60,7 +60,7 @@ class PdfPayloadsGenerator
         );
         $payload['timetableParams'] = array(
             'seasonId'              => $season->getId(),
-            'externalNetworkId'     => $network->getExternalNetworkId(),
+            'externalNetworkId'     => $perimeter->getExternalNetworkId(),
             'externalRouteId'       => $externalRouteId,
             'externalLineId'        => $lineConfig->getExternalLineId(),
             'externalStopPointId'   => $stopPoint->id,
@@ -69,9 +69,9 @@ class PdfPayloadsGenerator
         return $payload;
     }
 
-    private function getRouteEnhancedStopPoints($network, $externalRouteId, $timetable)
+    private function getRouteEnhancedStopPoints($perimeter, $externalRouteId, $timetable)
     {
-        $routeSchedulesData = $this->navitia->getRouteStopPoints($network, $externalRouteId);
+        $routeSchedulesData = $this->navitia->getRouteStopPoints($perimeter, $externalRouteId);
         if (isset($routeSchedulesData->route_schedules[0])) {
             if (!empty($timetable)) {
                 $stopPoints = $this->stopPointManager->enhanceStopPoints(
@@ -91,13 +91,13 @@ class PdfPayloadsGenerator
         $lineConfig = $timetable->getLineConfig();
         $externalRouteId = $timetable->getExternalRouteId();
         $season = $lineConfig->getSeason();
-        $network = $season->getNetwork();
-        $routeEnhancedStopPoints = $this->getRouteEnhancedStopPoints($network, $externalRouteId, $timetable);
+        $perimeter = $season->getPerimeter();
+        $routeEnhancedStopPoints = $this->getRouteEnhancedStopPoints($perimeter, $externalRouteId, $timetable);
         $payloads = array();
         foreach ($routeEnhancedStopPoints as $enhancedStopPoint) {
             if (in_array($enhancedStopPoint->stop_point->id, $stopPointsExternalIds)) {
                 $payloads[] = $this->getPayload(
-                    $network,
+                    $perimeter,
                     $season,
                     $lineConfig,
                     $externalRouteId,
@@ -112,12 +112,12 @@ class PdfPayloadsGenerator
     public function getSeasonPayloads($season)
     {
         $payloads = array();
-        $network = $season->getNetwork();
+        $perimeter = $season->getPerimeter();
         foreach ($season->getLineConfigs() as $lineConfig) {
             $externalLineId = $lineConfig->getExternalLineId();
             $routes = $this->navitia->getLineRoutes(
-                $network->getExternalCoverageId(),
-                $network->getExternalNetworkId(),
+                $perimeter->getExternalCoverageId(),
+                $perimeter->getExternalNetworkId(),
                 $externalLineId
             );
             foreach ($routes as $route) {
@@ -125,10 +125,10 @@ class PdfPayloadsGenerator
                     $route->id,
                     $lineConfig
                 );
-                $stopPoints = $this->getRouteEnhancedStopPoints($network, $route->id, $timetable);
+                $stopPoints = $this->getRouteEnhancedStopPoints($perimeter, $route->id, $timetable);
                 foreach ($stopPoints as $stopPoint) {
                     $payloads[] = $this->getPayload(
-                        $network,
+                        $perimeter,
                         $season,
                         $lineConfig,
                         $route->id,

@@ -30,28 +30,21 @@ class DefaultController extends AbstractController
 
         // TODO: Put the current or default Network of User.
         $networks = $userManager->getNetworks();
-//        $networks = $mttUser->getNetworks(
-//            $this->get('security.context')->getToken()->getUser()
-//        );
 
         $criteria = Criteria::create();
         $criteria->where(Criteria::expr()->eq('externalNetworkId', $externalNetworkId));
 
-        $currentNetwork =
+        $currentPerimeter =
             $externalNetworkId == null ?
             $networks->first() :
             $networks->matching($criteria)->first()
         ;
 
-//        // make currentNetwok a doctrine object
-//        $currentNetwork = $networkManager->find($currentNetwork);
-
         return $this->render(
             'CanalTPMttBundle:Default:index.html.twig',
             array(
-                'currentNetwork'    => $currentNetwork,
-                'tasks'             => $networkManager->getLastTasks($currentNetwork),
-                'externalNetworkId' => $currentNetwork->getExternalNetworkId()
+                'tasks'             => $networkManager->getLastTasks($currentPerimeter),
+                'externalNetworkId' => $currentPerimeter->getExternalNetworkId()
             )
         );
     }
@@ -60,12 +53,15 @@ class DefaultController extends AbstractController
     {
         // TODO: Put the default Network of User. (for $externalNetworkId)
         $mtt_navitia = $this->get('canal_tp_mtt.navitia');
-        $networkManager = $this->get('canal_tp_mtt.network_manager');
-        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
         try {
             $result = $mtt_navitia->findAllLinesByMode(
-                $network->getExternalCoverageId(),
-                $network->getExternalNetworkId()
+                $perimeter->getExternalCoverageId(),
+                $perimeter->getExternalNetworkId()
             );
         } catch(\Exception $e) {
             $errorMessage = $e->getMessage();
@@ -79,7 +75,7 @@ class DefaultController extends AbstractController
             'CanalTPMttBundle:Default:navigation.html.twig',
             array(
                 'result'            => $result,
-                'coverageId'        => $network->getExternalCoverageId(),
+                'coverageId'        => $perimeter->getExternalCoverageId(),
                 'current_route'     => $current_route,
                 'current_season'    => $current_season
             )

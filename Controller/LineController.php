@@ -56,8 +56,13 @@ class LineController extends AbstractController
     )
     {
         $this->isGranted('BUSINESS_CHOOSE_LAYOUT');
-        $season = $this->get('canal_tp_mtt.season_manager')->getSeasonWithNetworkIdAndSeasonId(
-            $externalNetworkId,
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
+        $season = $this->get('canal_tp_mtt.season_manager')->getSeasonWithPerimeterAndSeasonId(
+            $perimeter,
             $seasonId
         );
         $layoutConfigs = $this->get('canal_tp_mtt.layout_config')->findLayoutConfigByCustomer();

@@ -39,7 +39,7 @@ CanalTP\MttBundle\Entity\AmqpTask:
             targetEntity: CanalTP\NmmPortalBundle\Entity\Perimeter
             joinColumn:
                 name: perimeter_id
-                referencedColumnName: id
+                referencedColumnName: per_id
     oneToMany:
         amqpAcks:
             targetEntity: AmqpAck

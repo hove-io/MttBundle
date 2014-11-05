@@ -10,18 +10,21 @@ class CalendarController extends AbstractController
     public function viewAction($externalNetworkId, $externalRouteId, $externalStopPointId, $currentSeasonId)
     {
         $calendarManager = $this->get('canal_tp_mtt.calendar_manager');
-        $networkManager = $this->get('canal_tp_mtt.network_manager');
+        $perimeterManager = $this->get('nmm.perimeter_manager');
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
 
-        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
         $calendars = $calendarManager->getCalendarsForStopPoint(
-            $network->getExternalCoverageId(),
+            $perimeter->getExternalCoverageId(),
             $externalRouteId,
             $externalStopPointId
         );
 
         $prevNextStopPoints = $stopPointManager->getPrevNextStopPoints(
-            $network,
+            $perimeter,
             $externalRouteId,
             $externalStopPointId
         );
@@ -36,7 +39,6 @@ class CalendarController extends AbstractController
                     array(),
                     'default'
                 ),
-                'currentNetwork'    => $network,
                 'externalNetworkId' => $externalNetworkId,
                 'externalStopPointId' => $externalStopPointId,
                 'calendars'         => $calendars,

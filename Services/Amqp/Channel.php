@@ -74,9 +74,9 @@ class Channel
         return 'ack_queue.for_pdf_gen';
     }
 
-    public function getRoutingKey($network, $task)
+    public function getRoutingKey($perimeter, $task)
     {
-        return 'network_' . $network->getId() . '_task_' . $task->getId() .'.pdf_gen';
+        return 'network_' . $perimeter->getId() . '_task_' . $perimeter->getId() .'.pdf_gen';
     }
 
     public function getExchangeName()

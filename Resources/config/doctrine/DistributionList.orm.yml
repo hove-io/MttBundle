@@ -34,4 +34,4 @@ CanalTP\MttBundle\Entity\DistributionList:
             inversedBy: mtt.ditribution_lists
             joinColumn:
                 name: perimeter_id
-                referencedColumnName: id
+                referencedColumnName: per_id
