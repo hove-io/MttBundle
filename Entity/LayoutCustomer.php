@@ -5,9 +5,9 @@ namespace CanalTP\MttBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * LayoutConfigCustomer
+ * LayoutCustomer
  */
-class LayoutConfigCustomer
+class LayoutCustomer
 {
     /**
      * @var integer
@@ -22,12 +22,12 @@ class LayoutConfigCustomer
     /**
      * @var \stdClass
      */
-    private $layoutConfig;
+    private $layout;
 
     /**
      * @var \stdClass
      */
-    private $layoutConfigsAssigned;
+    private $layoutsAssigned;
 
 
     /**
@@ -35,7 +35,7 @@ class LayoutConfigCustomer
      */
     public function __construct()
     {
-        $this->layoutConfigsAssigned = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->layoutsAssigned = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -52,7 +52,7 @@ class LayoutConfigCustomer
      * Set customer
      *
      * @param \stdClass $customer
-     * @return LayoutConfigCustomer
+     * @return LayoutCustomer
      */
     public function setCustomer($customer)
     {
@@ -74,58 +74,58 @@ class LayoutConfigCustomer
     /**
      * Set customer
      *
-     * @param \stdClass $layoutConfig
-     * @return LayoutConfigCustomer
+     * @param \stdClass $layout
+     * @return LayoutCustomer
      */
-    public function setLayoutConfig($layoutConfig)
+    public function setLayout($layout)
     {
-        $this->layoutConfig = $layoutConfig;
+        $this->layout = $layout;
 
         return $this;
     }
 
     /**
-     * Get layoutConfig
+     * Get layout
      *
      * @return \stdClass
      */
-    public function getLayoutConfig()
+    public function getLayout()
     {
-        return $this->layoutConfig;
+        return $this->layout;
     }
 
     /**
-     * Set layoutConfigsAssigned
+     * Set layoutsAssigned
      *
-     * @param \stdClass $layoutConfigsAssigned
-     * @return LayoutConfigCustomer
+     * @param \stdClass $layoutsAssigned
+     * @return LayoutCustomer
      */
-    public function setLayoutConfigsAssigned($layoutConfigsAssigned)
+    public function setLayoutsAssigned($layoutsAssigned)
     {
-        $this->layoutConfigsAssigned = $layoutConfigsAssigned;
+        $this->layoutsAssigned = $layoutsAssigned;
 
         return $this;
     }
 
     /**
-     * Get layoutConfigsAssigned
+     * Get layoutsAssigned
      *
      * @return \stdClass
      */
-    public function getLayoutConfigsAssigned()
+    public function getLayoutsAssigned()
     {
-        return $this->layoutConfigsAssigned;
+        return $this->layoutsAssigned;
     }
 
     /**
-     * Set layoutConfigsAssigned
+     * Set layoutsAssigned
      *
-     * @param \stdClass $layoutConfigsAssigned
-     * @return LayoutConfigCustomer
+     * @param \stdClass $layoutsAssigned
+     * @return LayoutCustomer
      */
-    public function addLayoutConfigAssigned($layoutConfigsAssigned)
+    public function addLayoutAssigned($layoutsAssigned)
     {
-        $this->layoutConfigsAssigned->add($layoutConfigsAssigned);
+        $this->layoutsAssigned->add($layoutsAssigned);
 
         return $this;
     }

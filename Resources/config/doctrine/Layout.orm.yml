@@ -41,4 +41,7 @@ CanalTP\MttBundle\Entity\Layout:
         layoutConfigs:
             targetEntity: LayoutConfig
             mappedBy: layout
+        customers:
+            targetEntity: LayoutCustomer
+            mappedBy: layout
     lifecycleCallbacks: {  }

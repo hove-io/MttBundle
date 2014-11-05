@@ -51,6 +51,10 @@ class Layout extends AbstractEntity
      */
     private $layoutConfigs;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $customers;
 
     /**
      * Get id
@@ -83,6 +87,29 @@ class Layout extends AbstractEntity
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set customers
+     *
+     * @param string $customers
+     * @return LayoutConfig
+     */
+    public function setCustomers($customers)
+    {
+        $this->customers = $customers;
+
+        return $this;
+    }
+
+    /**
+     * Get customers
+     *
+     * @return string
+     */
+    public function getCustomers()
+    {
+        return $this->customers;
     }
 
     /**

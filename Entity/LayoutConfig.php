@@ -64,11 +64,6 @@ class LayoutConfig extends AbstractEntity
     private $layout;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $customers;
-
-    /**
      * Get id
      *
      * @return integer
@@ -291,29 +286,6 @@ class LayoutConfig extends AbstractEntity
         $this->file = $file;
 
         return ($this);
-    }
-
-    /**
-     * Set customers
-     *
-     * @param string $customers
-     * @return LayoutConfig
-     */
-    public function setCustomers($customers)
-    {
-        $this->customers = $customers;
-
-        return $this;
-    }
-
-    /**
-     * Get customers
-     *
-     * @return string
-     */
-    public function getCustomers()
-    {
-        return $this->customers;
     }
 
     public function upload()

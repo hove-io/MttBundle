@@ -7,16 +7,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-use CanalTP\MttBundle\Form\DataTransformer\LayoutConfigCustomerTransformer;
+use CanalTP\MttBundle\Form\DataTransformer\LayoutCustomerTransformer;
 
 class CustomerType extends AbstractType
 {
-    private $layoutConfigs = null;
+    private $layouts = null;
     private $customerId = null;
 
-    public function __construct($layoutConfigs, $customerId)
+    public function __construct($layouts, $customerId)
     {
-        $this->layoutConfigs = $layoutConfigs;
+        $this->layouts = $layouts;
         $this->customerId = $customerId;
     }
 
@@ -27,15 +27,15 @@ class CustomerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'layoutConfigsAssigned',
-            'layout_configs_network',
+            'layoutsAssigned',
+            'layouts_customer',
             array(
                 'label' => 'customer.layout_list',
-                'choices' => $this->layoutConfigs,
-                'layoutConfigs' => $this->layoutConfigs,
+                'choices' => $this->layouts,
+                'layoutConfigs' => $this->layouts,
                 'empty_value' => 'global.please_choose'
             )
-        )->addModelTransformer(new LayoutConfigCustomerTransformer(
+        )->addModelTransformer(new LayoutCustomerTransformer(
             $options['em'], $this->customerId
         ));
 
@@ -49,7 +49,7 @@ class CustomerType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'CanalTP\MttBundle\Entity\LayoutConfigCustomer'
+                'data_class' => 'CanalTP\MttBundle\Entity\LayoutCustomer'
             )
         )
         ->setRequired(array('em'))

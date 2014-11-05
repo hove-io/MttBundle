@@ -4,7 +4,7 @@ namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use CanalTP\MttBundle\Form\Type\CustomerType;
-use CanalTP\MttBundle\Entity\LayoutConfigCustomer;
+use CanalTP\MttBundle\Entity\LayoutCustomer;
 
 /*
  * CalendarController
@@ -36,10 +36,10 @@ class CustomerController extends AbstractController
 
     private function buildForm($customerId, $externalNetworkId)
     {
-        $layoutConfigs = $this->get('canal_tp_mtt.layout_config')->findAll();
+        $layouts = $this->get('canal_tp_mtt.layout')->findAll();
         $form = $this->createForm(
-            new CustomerType($layoutConfigs, $customerId),
-            new LayoutConfigCustomer(),
+            new CustomerType($layouts, $customerId),
+            new LayoutCustomer(),
             array(
                 'em' => $this->getDoctrine()->getManager(),
                 'action' => $this->generateUrl(

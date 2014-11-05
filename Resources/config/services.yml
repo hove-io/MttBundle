@@ -79,14 +79,14 @@ services:
         class: CanalTP\MttBundle\Form\Type\LayoutType
         tags:
             - { name: form.type, alias: layout }
-    form.type.layout_config_network:
-        class: CanalTP\MttBundle\Form\Type\LayoutConfigNetworkType
+    form.type.layout_config_customer:
+        class: CanalTP\MttBundle\Form\Type\LayoutConfigCustomerType
         tags:
-            - { name: form.type, alias: layout_config_network }
-    form.type.layout_configs_network:
-        class: CanalTP\MttBundle\Form\Type\LayoutConfigsNetworkType
+            - { name: form.type, alias: layout_config_customer }
+    form.type.layouts_customer:
+        class: CanalTP\MttBundle\Form\Type\LayoutsCustomerType
         tags:
-            - { name: form.type, alias: layout_configs_network }
+            - { name: form.type, alias: layouts_customer }
     form.type.datepicker:
         class: CanalTP\MttBundle\Form\Type\DatepickerType
         tags:

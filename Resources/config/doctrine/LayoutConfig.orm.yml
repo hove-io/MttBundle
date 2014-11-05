@@ -40,9 +40,6 @@ CanalTP\MttBundle\Entity\LayoutConfig:
         lineConfigs:
             targetEntity: LineConfig
             mappedBy: layoutConfig
-        customers:
-            targetEntity: LayoutConfigCustomer
-            mappedBy: layoutConfig
     manyToOne:
         layout:
             targetEntity: Layout

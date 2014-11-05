@@ -1,7 +1,7 @@
-CanalTP\MttBundle\Entity\LayoutConfigCustomer:
+CanalTP\MttBundle\Entity\LayoutCustomer:
     type: entity
-    table: mtt.layout_config_customer
-    repositoryClass: CanalTP\MttBundle\Entity\LayoutConfigCustomerRepository
+    table: mtt.layout_customer
+    repositoryClass: CanalTP\MttBundle\Entity\LayoutCustomerRepository
     id:
         id:
             type: integer
@@ -9,10 +9,10 @@ CanalTP\MttBundle\Entity\LayoutConfigCustomer:
             generator:
                 strategy: AUTO
     manyToOne:
-        layoutConfig:
-            targetEntity: LayoutConfig
+        layout:
+            targetEntity: Layout
             joinColumn:
-                name: layout_config_id
+                name: layout_id
                 referencedColumnName: id
         customer:
             targetEntity: CanalTP\NmmPortalBundle\Entity\Customer

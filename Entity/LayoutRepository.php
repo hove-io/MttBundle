@@ -13,4 +13,16 @@ use CanalTP\NmmPortalBundle\Entity\Customer;
  */
 class LayoutRepository extends EntityRepository
 {
+    public function findLayoutByCustomer(Customer $customer)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('l', 'c')
+            ->from('CanalTPMttBundle:Layout', 'l')
+            ->join('l.customers', 'c')
+            ->where('c.customer = :customer')
+            ->setParameter('customer', $customer)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
