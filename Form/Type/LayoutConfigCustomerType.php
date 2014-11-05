@@ -6,7 +6,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 
-class LayoutConfigNetworkType extends AbstractType
+class LayoutConfigCustomerType extends AbstractType
 {
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -26,9 +26,8 @@ class LayoutConfigNetworkType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $layouts = array();
-
-        foreach ($options['layoutConfigs'] as $layoutConfig) {
-            $layouts[$layoutConfig->getId()] = $layoutConfig;
+        foreach ($options['layoutConfigs'] as $layout) {
+            $layouts[$layout->getId()] = $layout;
         }
         $view->vars['layoutConfigs'] = $layouts;
     }
@@ -40,6 +39,6 @@ class LayoutConfigNetworkType extends AbstractType
 
     public function getName()
     {
-        return 'layout_config_network';
+        return 'layout_config_customer';
     }
 }

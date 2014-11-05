@@ -25,7 +25,7 @@ class LineConfigType extends AbstractType
     {
         $builder->add(
             'layout_config',
-            'layout_config_network',
+            'layout_config_customer',
             array(
                 'choices' => $this->layoutConfigs,
                 'layoutConfigs' => $this->layoutConfigs,
@@ -35,7 +35,7 @@ class LineConfigType extends AbstractType
                 )
             )
         );
-        $builder->addEventSubscriber(new SeasonLockedSubscriber());
+        // $builder->addEventSubscriber(new SeasonLockedSubscriber());
     }
 
     /**

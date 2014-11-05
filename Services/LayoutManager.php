@@ -3,6 +3,7 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 
 class LayoutManager
 {
@@ -18,5 +19,10 @@ class LayoutManager
     public function findAll()
     {
         return ($this->repository->findAll());
+    }
+
+    public function findByUser(User $user)
+    {
+        return ($this->repository->findLayoutByCustomer($user->getCustomer()));
     }
 }

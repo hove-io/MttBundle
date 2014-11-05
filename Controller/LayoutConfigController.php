@@ -32,7 +32,7 @@ class LayoutConfigController extends AbstractController
     {
         $form = $this->createForm(
             new LayoutConfigType(
-                $this->get('canal_tp_mtt.layout')->findAll()
+                $this->get('canal_tp_mtt.layout')->findByUser($this->getUser())
             ),
             $this->get('canal_tp_mtt.layout_config')->find($layoutConfigId),
             array(
