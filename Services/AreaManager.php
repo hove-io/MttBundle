@@ -28,25 +28,22 @@ class AreaManager
         return ($this->repository->findAll());
     }
 
-    public function getAreaWithExternalNetworkId($externaNetworkId, $areaId)
+    public function getAreaWithPerimeter($perimeter, $areaId)
     {
         $area = $this->find($areaId);
 
         if ($area == null) {
             $area = new Area();
-            $network = $this->perimeterManager->findOneByExternalNetworkId($externaNetworkId);
 
-            $area->setPerimeter($network);
+            $area->setPerimeter($perimeter);
         }
 
         return ($area);
     }
 
-    public function findByExternalNetworkId($externaNetworkId)
+    public function findByPerimeter($perimeter)
     {
-        $network = $this->perimeterManager->findOneByExternalNetworkId($externaNetworkId);
-
-        return $this->repository->findByPerimeter($network);
+        return $this->repository->findByPerimeter($perimeter);
     }
 
     public function find($areaId)
@@ -62,11 +59,14 @@ class AreaManager
         $this->om->flush();
     }
 
-    public function save($area, $externaNetworkId)
+    public function save($area, $user, $externaNetworkId)
     {
-        $network = $this->perimeterManager->findOneByExternalNetworkId($externaNetworkId);
+        $perimeter = $this->perimeterManager->findOneByExternalNetworkId(
+            $user,
+            $externaNetworkId
+        );
 
-        $area->setPerimeter($network);
+        $area->setPerimeter($perimeter);
         $this->om->persist($area);
         $this->om->flush();
     }

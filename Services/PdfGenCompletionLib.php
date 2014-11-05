@@ -126,7 +126,7 @@ class PdfGenCompletionLib
     private function removeTmpMedia($timetable, $externalStopPointId)
     {
         $media = $this->mediaManager->getStopPointTimetableMedia(
-            $timetable, 
+            $timetable,
             $externalStopPointId
         );
         //TODO: mutualize this with workers when refactoring
@@ -134,7 +134,7 @@ class PdfGenCompletionLib
         echo $this->mediaManager->getPathByMedia($media) . "\r\n";
         $media->delete();
     }
-    
+
     // Remove generated _tmp.pdf from mediamanager
     private function rollback($task)
     {
@@ -157,7 +157,7 @@ class PdfGenCompletionLib
         $distributionList = $this->om->getRepository('CanalTPMttBundle:DistributionList')->findOneBy(
             array(
                 'externalRouteId' => $timetable->getExternalRouteId(),
-                'network' => $task->getNetwork()->getId()
+                'perimeter' => $task->getPerimeter()
             )
         );
         $this->om->refresh($distributionList);
@@ -172,7 +172,7 @@ class PdfGenCompletionLib
         $pdfGenerator = $this->container->get('canal_tp_mtt.pdf_generator');
         $distributionListManager = $this->container->get('canal_tp.mtt.distribution_list_manager');
         $pdfGenerator->aggregatePdf(
-            $paths, 
+            $paths,
             $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable)
         );
 

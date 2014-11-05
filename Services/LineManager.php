@@ -17,12 +17,10 @@ class LineManager
     private $navitia = null;
     private $repository = null;
     private $om = null;
-    private $container = null;
 
-    public function __construct(Container $co, ObjectManager $om, Navitia $navitia)
+    public function __construct(ObjectManager $om, Navitia $navitia)
     {
         $this->lineConfig = null;
-        $this->container = $co;
         $this->navitia = $navitia;
         $this->om = $om;
         $this->repository = $this->om->getRepository('CanalTPMttBundle:LineConfig');

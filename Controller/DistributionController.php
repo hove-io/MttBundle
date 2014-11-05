@@ -20,13 +20,16 @@ class DistributionController extends AbstractController
         );
         if (!empty($stopPointsIds)) {
             $lineManager = $this->get('canal_tp_mtt.line_manager');
-            $networkManager = $this->get('canal_tp_mtt.network_manager');
-            $network = $networkManager->findOneByExternalId($externalNetworkId);
+            $perimeterManager = $this->get('nmm.perimeter_manager');
+            $perimeter = $perimeterManager->findOneByExternalNetworkId(
+                $this->getUser(),
+                $externalNetworkId
+            );
             $timetable = $this
                 ->get('canal_tp_mtt.timetable_manager')
                 ->getTimetable(
                     $routeId,
-                    $network->getExternalCoverageId(),
+                    $perimeter->getExternalCoverageId(),
                     $lineManager->getLineConfigByExternalLineIdAndSeasonId(
                         $lineId,
                         $currentSeasonId
@@ -66,13 +69,16 @@ class DistributionController extends AbstractController
     {
         $this->isGranted('BUSINESS_MANAGE_DISTRIBUTION_LIST');
         $navitia = $this->get('sam_navitia');
-        $networkManager = $this->get('canal_tp_mtt.network_manager');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
         $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
 
-        $network = $networkManager->findOneByExternalId($externalNetworkId);
         $routes = $navitia->getStopPoints(
-            $network->getExternalCoverageId(),
+            $perimeter->getExternalCoverageId(),
             $externalNetworkId,
             $lineId,
             $routeId
@@ -81,7 +87,7 @@ class DistributionController extends AbstractController
             ->get('canal_tp_mtt.timetable_manager')
             ->getTimetable(
                 $routeId,
-                $network->getExternalCoverageId(),
+                $perimeter->getExternalCoverageId(),
                 $lineManager->getLineConfigByExternalLineIdAndSeasonId(
                     $lineId,
                     $currentSeasonId
@@ -96,12 +102,16 @@ class DistributionController extends AbstractController
         $schedules = $this
             ->getDoctrine()
             ->getRepository('CanalTPMttBundle:DistributionList')
-            ->sortSchedules($schedules, $network->getId(), $routeId, $reset);
+            ->sortSchedules($schedules, $perimeter->getId(), $routeId, $reset);
 
         $locked = $this
             ->getDoctrine()
             ->getRepository('CanalTPMttBundle:Timetable')
             ->hasAmqpTasksRunning($timetable->getId());
+        $seasons = $this->get('canal_tp_mtt.season_manager')->findByPerimeter(
+            $perimeter
+        );
+
 
         return $this->render(
             'CanalTPMttBundle:Distribution:list.html.twig',
@@ -116,9 +126,9 @@ class DistributionController extends AbstractController
                 'schedules'         => $schedules,
                 'current_route'     => $routeId,
                 'display_informations'=> $routes->route_schedules[0]->display_informations,
-                'currentNetwork'    => $network,
+                'currentNetwork'    => $perimeter,
                 'externalNetworkId' => $externalNetworkId,
-                'seasons'           => $network->getSeasons(),
+                'seasons'           => $seasons,
                 'currentSeason'     => $timetable->getLineConfig()->getSeason(),
                 'currentSeasonId'   => $timetable->getLineConfig()->getSeason()->getId(),
                 'externalLineId'    => $lineId,
@@ -131,15 +141,18 @@ class DistributionController extends AbstractController
     public function generateAction($timetableId, $externalNetworkId)
     {
         $this->isGranted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF');
-        $networkManager = $this->get('canal_tp_mtt.network_manager');
+        $perimeterManager = $this->get('nmm.perimeter_manager');
         $pdfPayloadGenerator = $this->get('canal_tp_mtt.pdf_payload_generator');
         $amqpPdfGenPublisher = $this->get('canal_tp_mtt.amqp_pdf_gen_publisher');
         $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
 
-        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
         $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById(
             $timetableId,
-            $network->getExternalCoverageId()
+            $perimeter->getExternalCoverageId()
         );
         $stopPointsIds = $this->get('request')->request->get(
             'stopPointsIds', array()

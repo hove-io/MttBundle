@@ -9,6 +9,7 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use CanalTP\NmmPortalBundle\Entity\Perimeter;
 use CanalTP\MttBundle\Entity\AmqpTask;
 use CanalTP\MttBundle\Entity\Season as SeasonEntity;
 
@@ -16,26 +17,24 @@ class SeasonManager
 {
     private $repository = null;
     private $om = null;
-    protected $networkManager = null;
 
-    public function __construct(ObjectManager $om, $networkManager)
+    public function __construct(ObjectManager $om)
     {
         $this->om = $om;
-        $this->networkManager = $networkManager;
         $this->repository = $om->getRepository('CanalTPMttBundle:Season');
     }
 
-    public function getSeasonWithNetworkIdAndSeasonId($externalNetworkId, $seasonId)
+    public function getSeasonWithPerimeterAndSeasonId(Perimeter $perimeter, $seasonId)
     {
         $season = null;
         if ($seasonId) {
             $season = $this->find($seasonId);
         }
 
-        //This code is dead code ?
         if (!$season) {
             $season = new SeasonEntity();
-            $season->setPerimeter($this->networkManager->getByExternalNetworkId($externalNetworkId));
+
+            $season->setPerimeter($perimeter);
         }
 
         return $season;
@@ -64,6 +63,15 @@ class SeasonManager
     public function find($seasonId)
     {
         return empty($seasonId) ? false : $this->repository->find($seasonId);
+    }
+
+    public function findByPerimeter(Perimeter $perimeter)
+    {
+        return $this->repository->findBy(
+            array(
+                'perimeter' => $perimeter
+            )
+        );
     }
 
     public function remove($season)
@@ -98,17 +106,6 @@ class SeasonManager
     public function findSeasonForDateTime(\DateTime $dateTime)
     {
         return $this->repository->findSeasonForDateTime($dateTime);
-    }
-
-    public function findAllByExternalNetworkId($externalNetworkId)
-    {
-        $perimeter = $this->networkManager->getByExternalNetworkId($externalNetworkId);
-
-        return $this->repository->getByPerimeter($perimeter);
-    }
-    public function findAllByNetworkId($externalNetworkId)
-    {
-        return $this->findAllByExternalNetworkId($externalNetworkId);
     }
 
     public function getSelected($seasonId, $seasons)

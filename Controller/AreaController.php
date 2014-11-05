@@ -11,9 +11,13 @@ class AreaController extends AbstractController
 
     private function buildForm($externalNetworkId, $areaId)
     {
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
         $form = $this->createForm(
             new AreaType(),
-            $this->get('canal_tp_mtt.area_manager')->getAreaWithExternalNetworkId($externalNetworkId, $areaId),
+            $this->get('canal_tp_mtt.area_manager')->getAreaWithPerimeter($perimeter, $areaId),
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_area_edit',
@@ -33,7 +37,7 @@ class AreaController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->areaManager->save($form->getData(), $externalNetworkId);
+            $this->areaManager->save($form->getData(), $this->getUser(), $externalNetworkId);
             $this->get('session')->getFlashBag()->add(
                 'success',
                 $this->get('translator')->trans(
@@ -77,11 +81,15 @@ class AreaController extends AbstractController
     public function listAction($externalNetworkId)
     {
         $this->isGranted(array('BUSINESS_LIST_AREA', 'BUSINESS_MANAGE_AREA'));
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
 
         return $this->render(
             'CanalTPMttBundle:Area:list.html.twig',
             array(
-                'areas' => $this->get('canal_tp_mtt.area_manager')->findByExternalNetworkId($externalNetworkId),
+                'areas' => $this->get('canal_tp_mtt.area_manager')->findByPerimeter($perimeter),
                 'externalNetworkId' => $externalNetworkId
             )
         );
@@ -91,6 +99,10 @@ class AreaController extends AbstractController
     {
         $this->isGranted('BUSINESS_MANAGE_AREA');
         $areaManager = $this->get('canal_tp_mtt.area_manager');
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
 
         $areaManager->remove($areaId);
         $this->get('session')->getFlashBag()->add(
@@ -105,7 +117,7 @@ class AreaController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Area:list.html.twig',
             array(
-                'areas' => $areaManager->findByExternalNetworkId($externalNetworkId),
+                'areas' => $areaManager->findByPerimeter($perimeter),
                 'externalNetworkId' => $externalNetworkId
             )
         );
@@ -117,12 +129,15 @@ class AreaController extends AbstractController
         $this->isGranted(array('BUSINESS_LIST_AREA', 'BUSINESS_MANAGE_AREA'));
 
         $area = $this->get('canal_tp_mtt.area_manager')->find($areaId);
+        $seasons = $this->get('canal_tp_mtt.season_manager')->findByPerimeter(
+            $area->getPerimeter()
+        );
 
         return $this->render(
             'CanalTPMttBundle:Area:listPdf.html.twig',
             array(
                 'area'      => $area,
-                'seasons'   => $area->getNetwork()->getSeasons(),
+                'seasons'   => $seasons,
                 'areaPdf'   => $area->getAreasPdf(),
             )
         );
@@ -133,13 +148,16 @@ class AreaController extends AbstractController
         $this->isGranted(array('BUSINESS_LIST_AREA', 'BUSINESS_MANAGE_AREA'));
 
         $area = $this->get('canal_tp_mtt.area_manager')->find($areaId);
-        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         $stopPointsList = null;
         $stopPointsArea = $area->getStopPoints();
         if (!empty($stopPointsArea)) {
-            $stopPointsList = $stopPointManager->enrichStopPoints($area->getStopPoints(), $network->getExternalCoverageId(), $network->getExternalNetworkId());
+            $stopPointsList = $stopPointManager->enrichStopPoints($area->getStopPoints(), $perimeter->getExternalCoverageId(), $perimeter->getExternalNetworkId());
         }
 
         return $this->render(
@@ -155,12 +173,15 @@ class AreaController extends AbstractController
     public function navigationAction($externalNetworkId)
     {
         $mttNavitia = $this->get('canal_tp_mtt.navitia');
-        $networkManager = $this->get('canal_tp_mtt.network_manager');
-        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
         try {
             $result = $mttNavitia->findAllLinesByMode(
-                $network->getExternalCoverageId(),
-                $network->getExternalNetworkId()
+                $perimeter->getExternalCoverageId(),
+                $perimeter->getExternalNetworkId()
             );
         } catch(\Exception $e) {
             $errorMessage = $e->getMessage();

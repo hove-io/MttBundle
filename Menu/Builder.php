@@ -58,8 +58,12 @@ class Builder extends ContainerAware
             $currentNetwork = isset($options['currentExternalNetworkId']) ? $options['currentExternalNetworkId'] : $networks[0]['external_id'];
             // season menu
             if ($this->container->get('security.context')->isGranted('BUSINESS_MANAGE_SEASON')) {
-                $seasonManager = $this->container->get('canal_tp_mtt.season_manager');
-                $seasons = $seasonManager->findAllByNetworkId($currentNetwork);
+                $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+                    $this->getUser(),
+                    $externalNetworkId
+                );
+                $seasons = $this->get('canal_tp_mtt.season_manager')->findByPerimeter($perimeter);
+
                 if (count($seasons) > 1) {
                     $menu->addChild(
                         "seasons",

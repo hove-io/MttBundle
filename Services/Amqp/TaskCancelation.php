@@ -26,9 +26,9 @@ class TaskCancelation
         $this->seasonRepo = $this->om->getRepository('CanalTPMttBundle:Season');
     }
 
-    private function cancelAmqpMessages($network, $task)
+    private function cancelAmqpMessages($perimeter, $task)
     {
-        $routingKey = $this->channelLib->getRoutingKey($network, $task);
+        $routingKey = $this->channelLib->getRoutingKey($perimeter, $task);
         // get actual number of messages to set a limit
         list($queueName, $jobs, $consumers) = $this->channelLib->declareQueue(
             $this->channelLib->getPdfGenQueueName(),
@@ -50,7 +50,7 @@ class TaskCancelation
                 $season = $this->seasonRepo->find($task->getObjectId());
                 $season->setLocked(false);
                 if ($task->isUnderProgress() == true) {
-                    $this->cancelAmqpMessages($season->getNetwork(), $task);
+                    $this->cancelAmqpMessages($season->getPerimeter(), $task);
                 }
                 break;
         }

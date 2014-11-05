@@ -34,7 +34,7 @@ class DistributionListManager
     {
         return (
             $this->repository->findOneBy(array(
-                'network' => $timetable->getLineConfig()->getSeason()->getPerimeter(),
+                'perimeter' => $timetable->getLineConfig()->getSeason()->getPerimeter(),
                 'externalRouteId' => $timetable->getExternalRouteId()
                 )
             )
@@ -44,7 +44,7 @@ class DistributionListManager
     public function deleteSeasonDistributionListPdfs($season)
     {
         $path = $this->getUploadRootDir();
-        $path .= $season->getNetwork()->getExternalNetworkId() . '/';
+        $path .= $season->getPerimeter()->getExternalNetworkId() . '/';
         $path .= $season->getId() . '/';
         $fs = new Filesystem();
         $fs->remove(array($path));

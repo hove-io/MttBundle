@@ -113,7 +113,7 @@ services:
        arguments: ['@request_stack', '@navitia_component', '@sam_navitia', '@translator', '@doctrine.orm.entity_manager', @security.context, @sam_core.customer,'mtt']
     canal_tp_mtt.line_manager:
        class: %canal_tp_mtt.line_manager.class%
-       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia']
+       arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia']
     canal_tp_mtt.timetable_manager:
        class: %canal_tp_mtt.timetable_manager.class%
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia', '@canal_tp_mtt.line_manager']
@@ -131,7 +131,7 @@ services:
        arguments: ['@canal_tp_mtt.navitia', '@translator']
     canal_tp_mtt.season_manager:
        class: %canal_tp_mtt.season.class%
-       arguments: [@doctrine.orm.entity_manager, @canal_tp_mtt.network_manager]
+       arguments: [@doctrine.orm.entity_manager]
     canal_tp_mtt.frequency_manager:
        class: %canal_tp_mtt.frequency_manager.class%
        arguments: ['@doctrine.orm.entity_manager']

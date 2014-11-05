@@ -9,18 +9,21 @@ class StopPointController extends AbstractController
     public function listAction($externalNetworkId, $line_id = false, $externalRouteId = false, $seasonId = null)
     {
         $navitia = $this->get('canal_tp_mtt.navitia');
-        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
-        $seasons = $this->get('canal_tp_mtt.season_manager')->findAllByNetworkId($network->getExternalNetworkId());
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
+        $seasons = $this->get('canal_tp_mtt.season_manager')->findByPerimeter($perimeter);
         $currentSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
         $this->addFlashIfSeasonLocked($currentSeason);
         if (empty($line_id)) {
             list($line_id, $externalRouteId) = $navitia->getFirstLineAndRouteOfNetwork(
-                $network->getExternalCoverageId(),
+                $perimeter->getExternalCoverageId(),
                 $externalNetworkId
             );
         }
         $routes = $navitia->getStopPoints(
-            $network->getExternalCoverageId(),
+            $perimeter->getExternalCoverageId(),
             $externalNetworkId,
             $line_id,
             $externalRouteId
@@ -49,8 +52,7 @@ class StopPointController extends AbstractController
                 'lineConfig'        => $lineConfig,
                 'routes'            => $routes,
                 'current_route'     => $externalRouteId,
-                'currentNetwork'    => $network,
-                'externalNetworkId' => $network->getExternalNetworkId(),
+                'externalNetworkId' => $perimeter->getExternalNetworkId(),
                 'externalLineId'    => $line_id,
                 'seasons'           => $seasons,
                 'currentSeason'     => $currentSeason,
@@ -63,10 +65,13 @@ class StopPointController extends AbstractController
     public function jsonListAction($externalNetworkId, $lineId, $externalRouteId)
     {
         $navitia = $this->get('canal_tp_mtt.navitia');
-        $network = $this->get('canal_tp_mtt.network_manager')->findOneByExternalId($externalNetworkId);
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
 
         $response = $navitia->getStopPointsByRoute(
-            $network->getExternalCoverageId(),
+            $perimeter->getExternalCoverageId(),
             $externalNetworkId,
             $externalRouteId
         );

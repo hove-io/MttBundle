@@ -21,8 +21,11 @@ class BlockController extends AbstractController
         $blockTypeFactory = $this->get('canal_tp_mtt.form.factory.block');
         $blockManager = $this->get('canal_tp_mtt.block_manager');
         $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
-        $networkManager = $this->get('canal_tp_mtt.network_manager');
-        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
         $data = array(
             'dom_id' => $dom_id,
             'type_id' => $block_type,
@@ -35,7 +38,7 @@ class BlockController extends AbstractController
             $block_type,
             $data,
             $block,
-            $network->getExternalCoverageId()
+            $perimeter->getExternalCoverageId()
         );
         $form = $blockTypeFactory->buildForm()
             ->setAction($this->getRequest()->getRequestUri())
@@ -43,7 +46,7 @@ class BlockController extends AbstractController
         $form->handleRequest($this->getRequest());
         $timetable = $timetableManager->getTimetableById(
             $timetableId,
-            $network->getExternalCoverageId()
+            $perimeter->getExternalCoverageId()
         );
         if ($form->isValid()) {
             $blockTypeFactory->buildHandler()->process($form->getData(), $timetable);
@@ -72,8 +75,11 @@ class BlockController extends AbstractController
 
     public function deleteAction($timetableId, $blockId, $externalNetworkId)
     {
-        $networkManager = $this->get('canal_tp_mtt.network_manager');
-        $network = $networkManager->findOneByExternalId($externalNetworkId);
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser(),
+            $externalNetworkId
+        );
         $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
         $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block');
 
@@ -91,7 +97,7 @@ class BlockController extends AbstractController
         }
         $timetable = $timetableManager->getTimetableById(
             $timetableId,
-            $network->getExternalCoverageId()
+            $perimeter->getExternalCoverageId()
         );
 
         return $this->redirect(
