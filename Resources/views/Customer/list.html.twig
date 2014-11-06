@@ -34,7 +34,7 @@
                     {% else %}
                         <ul>
                         {% for perimeter in customer.perimeters %}
-                            <li>{{ perimeter.getExternalCoverageId() / perimeter.getExternalNetworkId() }}</li>
+                            <li>{{ perimeter.getExternalCoverageId() ~ '/' ~ perimeter.getExternalNetworkId() }}</li>
                         {% endfor %}
                         </ul>
                     {% endif %}

@@ -51,11 +51,9 @@ class Version008 extends AbstractMigration
         $this->addSql('ALTER TABLE mtt.layout ALTER id DROP DEFAULT');
 
         // TODO: Do migration for network to perimeter
-        // $this->addSql('DROP INDEX mtt.idx_37bd935834128b91');
-        // $this->addSql('DROP TABLE mtt.layout_customer');
-        // $this->addSql('DROP TABLE mtt.network');
-        // $this->addSql('DROP TABLE mtt.network;');
-        // $this->addSql('DROP TABLE mtt.users_networks;');
+        $this->addSql('ALTER TABLE mtt.network RENAME TO __network;');
+        $this->addSql('ALTER TABLE mtt.users_networks RENAME TO __users_networks;');
+        $this->addSql('ALTER TABLE mtt.layout_config_network RENAME TO __layout_config_network;');
 
         $this->addSql('CREATE SEQUENCE mtt.layout_customer_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE mtt.layout_customer (id INT NOT NULL, layout_id INT DEFAULT NULL, customer_id INT DEFAULT NULL, PRIMARY KEY(id))');
@@ -71,6 +69,9 @@ class Version008 extends AbstractMigration
         $this->addSql('ALTER TABLE mtt.season RENAME perimeter_id TO network_id;');
 
         // TODO: Migration down (migration to network)
+        $this->addSql('ALTER TABLE mtt.__network RENAME TO network;');
+        $this->addSql('ALTER TABLE mtt.__users_networks RENAME TO users_networks;');
+        $this->addSql('ALTER TABLE "mtt.__layout_config_network" RENAME TO layout_customer;');
     }
 
     public function getName()

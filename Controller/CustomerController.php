@@ -19,9 +19,7 @@ class CustomerController extends AbstractController
         $customers = array();
 
         foreach ($customerApplications as $customerApplication) {
-            $customer = $customerApplication->getCustomer();
-            // TODO: Call "$customerManager->getPerimetrers($customer)" to set customer perimeters
-            // $customer->setPerimeters($customerManager->getPerimetrers($customer));
+            $customer = $customerManager->find($customerApplication->getCustomer());
             $customers[] = $customer;
         }
 
