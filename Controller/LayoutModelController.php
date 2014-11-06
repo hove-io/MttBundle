@@ -20,9 +20,9 @@ class LayoutModelController extends AbstractController
                 )
             )
         );
-        
+
         $form->handleRequest($request);
-        
+
         if ($form->isValid()) {
             try {
                 $this->get('canal_tp_mtt.layout_model')->save($form->getData());
@@ -38,7 +38,7 @@ class LayoutModelController extends AbstractController
 
                 return $this->redirect(
                     $this->generateUrl(
-                        'canal_tp_mtt_layout_config_list',
+                        'canal_tp_mtt_customer_list',
                         array('externalNetworkId' => $externalNetworkId)
                     )
                 );
@@ -54,7 +54,7 @@ class LayoutModelController extends AbstractController
 
             return $this->redirect(
                 $this->generateUrl(
-                    'canal_tp_mtt_layout_config_list',
+                    'canal_tp_mtt_customer_list',
                     array('externalNetworkId' => $externalNetworkId)
                 )
             );

@@ -23,7 +23,7 @@ stop_point:
             empty: Il n'y a pas de point de vente à moins de %distance% mètres de cet arrêt
 
 line:
-    choose_layout: Choisir un gabarit
+    choose_layout: Choisir un fond de fiche
     layout_chosen: Le gabarit a bien été assigné à la ligne.
     manage_distribution: Gérer la liste de placardage
 
@@ -35,12 +35,12 @@ timetable:
 
 layout_config:
     actions: Actions
-    list: Liste des gabarits
+    list: Liste des fonds de fiche
     label: Descriptif
     preview: Prévisualisation
     orientation: Orientation
-    create: Créer un layout
-    created: Le layout a bien été ajouté
+    create: Ajouter
+    created: Le fond de fiche a bien été ajouté
 
 layout_model:
     upload: Ajouter un modèle
@@ -146,4 +146,4 @@ customer:
     perimeters: Périmètre(s)
     no_item: Pas de périmètre
     actions:
-        assign_twig: Assigner un twig
+        assign_twig: Assigner

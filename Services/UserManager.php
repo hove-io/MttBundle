@@ -38,10 +38,9 @@ class UserManager
         if ($user === 'anon.') {
             return (array());
         }
+        $perimeters = $user->getCustomer()->getPerimeters();
 
-        $networks = $this->container->get('sam_core.customer')->getPerimeters($user->getCustomer());
-
-        if (count($networks) == 0) {
+        if (count($perimeters) == 0) {
             throw new \Exception(
                 $this->translator->trans(
                     'controller.default.navigation.no_networks',
@@ -51,6 +50,6 @@ class UserManager
             );
         }
 
-        return $networks;
+        return $perimeters;
     }
 }
