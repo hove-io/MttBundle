@@ -25,6 +25,7 @@ class FixtureMtt extends SamBaseFixture
             'firstname' => 'mtt_firstname',
             'lastname'  => 'mtt_lastname',
             'email'     => 'mtt@canaltp.fr',
+			'customer'  => 'customer-ctp',
             'password'  => 'mtt',
             'roles'     => array('role-admin-mtt', 'role-user-mtt')
         ),
@@ -34,6 +35,7 @@ class FixtureMtt extends SamBaseFixture
             'firstname' => 'observateur',
             'lastname'  => 'TT',
             'email'     => 'obs-mtt@canaltp.fr',
+			'customer'  => 'customer-ctp',
             'password'  => 'mtt',
             'roles'     => array('role-obs-mtt')
         ),
@@ -43,6 +45,7 @@ class FixtureMtt extends SamBaseFixture
             'firstname' => 'utilisateur',
             'lastname'  => 'TT',
             'email'     => 'user-mtt@canaltp.fr',
+			'customer'  => 'customer-ctp',
             'password'  => 'mtt',
             'roles'     => array('role-user-mtt')
         ),
@@ -52,6 +55,7 @@ class FixtureMtt extends SamBaseFixture
             'firstname' => 'adminCTP',
             'lastname'  => 'TT',
             'email'     => 'admin-mtt@canaltp.fr',
+			'customer'  => 'customer-ctp',
             'password'  => 'mtt',
             'roles'     => array('role-admin-mtt')
         )
@@ -185,6 +189,8 @@ class FixtureMtt extends SamBaseFixture
         $user->setEnabled(true);
         $user->setEmail($data['email']);
         $user->setPlainPassword($data['password']);
+		$user->setCustomer($this->getReference($data['customer']));
+
         foreach ($data['roles'] as $roleRef) {
             $user->addUserRole($this->getReference($roleRef));
         }
