@@ -1,3 +1,4 @@
+# FIXME: Not work.
 #namespace :mtt do
 #    desc "Restart workers on supervisor server"
 #    task :restart, :roles => :supervisor do
@@ -16,8 +17,9 @@ namespace :mtt do
         run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/public/css && (test ! -L uploads || rm uploads) && ln -s #{shared_path}/mtt/templates/css uploads"
         run "cd #{current_release}/vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Resources/views/Layouts && (test ! -L uploads || rm uploads) && ln -s #{shared_path}/mtt/templates/twig uploads"
 
-        run "setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX #{shared_path}/mtt"
-        run "setfacl -dR -m u:www-data:rwX -m u:`whoami`:rwX #{shared_path}/mtt"
+        # FIXME: Not work. (Need just for first time.)
+        # run "setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX #{shared_path}/mtt"
+        # run "setfacl -dR -m u:www-data:rwX -m u:`whoami`:rwX #{shared_path}/mtt"
 
         run "cd #{current_release} && ./app/console assets:install --symlink"
         run "#{current_release}/app/console assetic:dump"
