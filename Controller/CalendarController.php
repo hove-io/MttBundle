@@ -14,7 +14,7 @@ class CalendarController extends AbstractController
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
 
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         $calendars = $calendarManager->getCalendarsForStopPoint(

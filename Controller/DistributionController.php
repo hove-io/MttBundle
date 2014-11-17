@@ -22,7 +22,7 @@ class DistributionController extends AbstractController
             $lineManager = $this->get('canal_tp_mtt.line_manager');
             $perimeterManager = $this->get('nmm.perimeter_manager');
             $perimeter = $perimeterManager->findOneByExternalNetworkId(
-                $this->getUser(),
+                $this->getUser()->getCustomer(),
                 $externalNetworkId
             );
             $timetable = $this
@@ -73,7 +73,7 @@ class DistributionController extends AbstractController
         $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
 
@@ -147,7 +147,7 @@ class DistributionController extends AbstractController
         $distributionListManager = $this->get('canal_tp.mtt.distribution_list_manager');
 
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById(

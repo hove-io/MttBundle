@@ -59,7 +59,7 @@ class Builder extends ContainerAware
             // season menu
             if ($this->container->get('security.context')->isGranted('BUSINESS_MANAGE_SEASON')) {
                 $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
-                    $this->getUser(),
+                    $this->getUser()->getCustomer(),
                     $externalNetworkId
                 );
                 $seasons = $this->get('canal_tp_mtt.season_manager')->findByPerimeter($perimeter);

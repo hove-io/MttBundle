@@ -21,8 +21,9 @@ class PdfController extends AbstractController
     {
         $this->isGranted('BUSINESS_GENERATE_PDF');
         $perimeterManager = $this->get('nmm.perimeter_manager');
+        $customer = $this->getUser()->getCustomer();
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
-            $this->getUser(),
+            $customer,
             $externalNetworkId
         );
         $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById(
@@ -38,7 +39,8 @@ class PdfController extends AbstractController
                     'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
                     'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
                     'externalRouteId'       => $timetable->getExternalRouteId(),
-                    'externalStopPointId'   => $externalStopPointId
+                    'externalStopPointId'   => $externalStopPointId,
+                    'customerId'            => $customer->getId()
                 )
             );
         } else {

@@ -23,7 +23,7 @@ class BlockController extends AbstractController
         $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         $data = array(
@@ -77,7 +77,7 @@ class BlockController extends AbstractController
     {
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
