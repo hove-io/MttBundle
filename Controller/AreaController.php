@@ -12,7 +12,7 @@ class AreaController extends AbstractController
     private function buildForm($externalNetworkId, $areaId)
     {
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         $form = $this->createForm(
@@ -82,7 +82,7 @@ class AreaController extends AbstractController
     {
         $this->isGranted(array('BUSINESS_LIST_AREA', 'BUSINESS_MANAGE_AREA'));
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
 
@@ -100,7 +100,7 @@ class AreaController extends AbstractController
         $this->isGranted('BUSINESS_MANAGE_AREA');
         $areaManager = $this->get('canal_tp_mtt.area_manager');
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
 
@@ -149,7 +149,7 @@ class AreaController extends AbstractController
 
         $area = $this->get('canal_tp_mtt.area_manager')->find($areaId);
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
 
@@ -175,7 +175,7 @@ class AreaController extends AbstractController
         $mttNavitia = $this->get('canal_tp_mtt.navitia');
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         try {

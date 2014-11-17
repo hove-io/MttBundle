@@ -62,7 +62,7 @@ class AreaManager
     public function save($area, $user, $externaNetworkId)
     {
         $perimeter = $this->perimeterManager->findOneByExternalNetworkId(
-            $user,
+            $user->getCustomer(),
             $externaNetworkId
         );
 

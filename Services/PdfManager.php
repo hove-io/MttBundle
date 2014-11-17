@@ -56,12 +56,13 @@ class PdfManager
     {
         $response = $this->getTimetableHtml(
             array(
-                'externalNetworkId' => $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
-                'seasonId'          => $timetable->getLineConfig()->getSeason()->getId(),
-                'externalLineId'    => $timetable->getLineConfig()->getExternalLineId(),
-                'externalStopPointId'=> $externalStopPointId,
-                'externalRouteId'    => $timetable->getExternalRouteId(),
-                'timetableOnly'      => true
+                'externalNetworkId'     => $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
+                'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
+                'externalStopPointId'   => $externalStopPointId,
+                'externalRouteId'       => $timetable->getExternalRouteId(),
+                'customerId'            => $this->co->get('security.context')->getToken()->getUser()->getCustomer()->getId(),
+                'timetableOnly'         => true
             )
         );
         $cssVersion = $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getCssVersion();
@@ -84,7 +85,9 @@ class PdfManager
                     'seasonId'          => $timetable->getLineConfig()->getSeason()->getId(),
                     'externalLineId'    => $timetable->getLineConfig()->getExternalLineId(),
                     'externalStopPointId'=> $externalStopPointId,
-                    'externalRouteId'    => $timetable->getExternalRouteId()
+                    'externalRouteId'    => $timetable->getExternalRouteId(),
+                    'customerId'        => $this->co->get('security.context')->getToken()->getUser()->getCustomer()->getId(),
+                    'timetableOnly'     => true
                 )
             );
 

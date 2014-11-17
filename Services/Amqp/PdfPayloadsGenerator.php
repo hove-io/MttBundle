@@ -55,6 +55,7 @@ class PdfPayloadsGenerator
                 'externalRouteId'       => $externalRouteId,
                 'seasonId'              => $season->getId(),
                 'externalStopPointId'   => $stopPoint->id,
+                'customerId'            => $this->co->get('security.context')->getToken()->getUser()->getCustomer()->getId(),
                 'timetableOnly'         => true
             )
         );

@@ -14,7 +14,7 @@ class SeasonController extends AbstractController
     {
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         $form = $this->createForm(
@@ -213,7 +213,7 @@ class SeasonController extends AbstractController
         $seasonManager = $this->get('canal_tp_mtt.season_manager');
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
 

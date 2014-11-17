@@ -19,6 +19,7 @@ class Navitia
     protected $securityContext;
     protected $applicationName;
     protected $customerManager;
+    protected $requestStack;
 
     public function __construct(
         RequestStack $requestStack,
@@ -31,6 +32,7 @@ class Navitia
         $applicationName
     )
     {
+        $this->requestStack = $requestStack;
         $this->navitia_component = $navitia_component;
         $this->navitia_sam = $navitia_sam;
         $this->translator = $translator;
@@ -43,8 +45,13 @@ class Navitia
 
     private function initToken()
     {
+        $customerId = $this->requestStack->getCurrentRequest()->get('customerId');
+        if (empty($customerId)) {
+            $customerId = $this->securityContext->getToken()->getUser()->getCustomer()->getId();
+        }
+
         $navToken = $this->customerManager->getActiveNavitiaToken(
-            $this->securityContext->getToken()->getUser()->getCustomer(),
+            $customerId,
             $this->applicationName
         );
 

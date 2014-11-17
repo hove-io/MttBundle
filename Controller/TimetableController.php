@@ -103,7 +103,7 @@ class TimetableController extends AbstractController
         $this->isGranted('BUSINESS_EDIT_LAYOUT');
         $lineManager = $this->get('canal_tp_mtt.line_manager');
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         $timetable = $this->getTimetable(
@@ -122,8 +122,15 @@ class TimetableController extends AbstractController
     public function viewAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
         $lineManager = $this->get('canal_tp_mtt.line_manager');
+        $customerId = $this->getRequest()->get('customerId');
+
+        if ($customerId == NULL) {
+            $customer = $this->getUser()->getCustomer();
+        } else {
+            $customer = $this->get('sam_core.customer')->find($customerId);
+        }
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
-            $this->getUser(),
+            $customer,
             $externalNetworkId
         );
         $timetable = $this->getTimetable(

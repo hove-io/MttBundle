@@ -10,7 +10,7 @@ class StopPointController extends AbstractController
     {
         $navitia = $this->get('canal_tp_mtt.navitia');
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         $seasons = $this->get('canal_tp_mtt.season_manager')->findByPerimeter($perimeter);
@@ -66,7 +66,7 @@ class StopPointController extends AbstractController
     {
         $navitia = $this->get('canal_tp_mtt.navitia');
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
 

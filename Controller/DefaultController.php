@@ -55,7 +55,7 @@ class DefaultController extends AbstractController
         $mtt_navitia = $this->get('canal_tp_mtt.navitia');
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
-            $this->getUser(),
+            $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         try {
