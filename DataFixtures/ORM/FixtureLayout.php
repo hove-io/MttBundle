@@ -3,14 +3,14 @@
 namespace CanalTP\MttBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use CanalTP\SamEcoreUserManagerBundle\Entity\User;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-use CanalTP\SamCoreBundle\Tests\DataFixtures\ORM\Fixture as SamBaseFixture;
-use CanalTP\MttBundle\Entity\Network;
+use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 use CanalTP\MttBundle\Entity\LayoutConfig;
 use CanalTP\MttBundle\Entity\Layout;
 
-class FixtureLayout extends SamBaseFixture
+class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
 {
 	private $om;
 
@@ -63,8 +63,6 @@ class FixtureLayout extends SamBaseFixture
                 )
             )
         );
-
-        $this->om->flush();
     }
 
     public function load(ObjectManager $om)
@@ -72,6 +70,7 @@ class FixtureLayout extends SamBaseFixture
         $this->om = $om;
 
         $this->createLayouts();
+        $this->om->flush();
     }
 
     /**
