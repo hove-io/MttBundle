@@ -3,18 +3,18 @@
 namespace CanalTP\MttBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use CanalTP\SamCoreBundle\DataFixtures\ORM\ApplicationTrait;
+use CanalTP\SamCoreBundle\DataFixtures\ORM\CustomerTrait;
 
-class FixturesApplication extends AbstractFixture implements OrderedFixtureInterface
+
+class FixturesCustomer extends AbstractFixture implements OrderedFixtureInterface
 {
-    use ApplicationTrait;
+    use CustomerTrait;
 
     public function load(ObjectManager $om)
     {
-        $this->createApplication($om, 'Timetable', '/mtt', 'mtt');
+        $this->addCustomerToApplication($om, 'app-mtt', 'customer-canaltp');
         $om->flush();
     }
 
@@ -23,6 +23,6 @@ class FixturesApplication extends AbstractFixture implements OrderedFixtureInter
     */
     public function getOrder()
     {
-        return 1;
+        return 3;
     }
 }

@@ -3,23 +3,25 @@
 namespace CanalTP\MttBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-use CanalTP\SamCoreBundle\Tests\DataFixtures\ORM\Fixture as SamBaseFixture;
 use CanalTP\SamCoreBundle\DataFixtures\ORM\UserTrait;
 
-class FixturesUser extends SamBaseFixture
+class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
 {
     use UserTrait;
 
     private $users = array(
-        'mtt' => array(
+        array(
             'id'        => null,
             'username'  => 'mtt',
             'firstname' => 'mtt_firstname',
             'lastname'  => 'mtt_lastname',
             'email'     => 'mtt@canaltp.fr',
             'password'  => 'mtt',
-            'roles'     => array('role-admin-mtt', 'role-user-mtt')
+            'roles'     => array('role-admin-mtt', 'role-user-mtt'),
+            'customer'  => 'customer-canaltp'
         ),
         array(
             'id'        => null,
@@ -28,7 +30,8 @@ class FixturesUser extends SamBaseFixture
             'lastname'  => 'TT',
             'email'     => 'obs-mtt@canaltp.fr',
             'password'  => 'mtt',
-            'roles'     => array('role-obs-mtt')
+            'roles'     => array('role-obs-mtt'),
+            'customer'  => 'customer-canaltp'
         ),
         array(
             'id'        => null,
@@ -37,7 +40,8 @@ class FixturesUser extends SamBaseFixture
             'lastname'  => 'TT',
             'email'     => 'user-mtt@canaltp.fr',
             'password'  => 'mtt',
-            'roles'     => array('role-user-mtt')
+            'roles'     => array('role-user-mtt'),
+            'customer'  => 'customer-canaltp'
         ),
         array(
             'id'        => null,
@@ -46,7 +50,8 @@ class FixturesUser extends SamBaseFixture
             'lastname'  => 'TT',
             'email'     => 'admin-mtt@canaltp.fr',
             'password'  => 'mtt',
-            'roles'     => array('role-admin-mtt')
+            'roles'     => array('role-admin-mtt'),
+            'customer'  => 'customer-canaltp'
         )
     );
 
@@ -55,6 +60,7 @@ class FixturesUser extends SamBaseFixture
         foreach ($this->users as $userData) {
             $userEntity = $this->createUser($om, $userData);
         }
+        $om->flush();
     }
 
     /**
@@ -62,6 +68,6 @@ class FixturesUser extends SamBaseFixture
     */
     public function getOrder()
     {
-        return 3;
+        return 5;
     }
 }
