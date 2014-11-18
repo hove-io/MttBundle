@@ -89,7 +89,7 @@ class TimetableController extends AbstractController
                 'editable'              => $editable,
                 'displayMenu'           => $displayMenu,
                 'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
-                'imgPath'               => '/bundles/canaltpmtt/img/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
                 'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/'
             )
         );
