@@ -58,6 +58,17 @@ abstract class AbstractControllerTest extends SamBaseTestController
         return array_pop($seasons);
     }
 
+    protected function getCustomer()
+    {
+        $customer = $this->getRepository('CanalTPNmmPortalBundle:Customer')->findOneByNameCanonical('canaltp');
+
+        if ($customer == NULL) {
+            throw new \RuntimeException('No customer');
+        }
+
+        return $customer;
+    }
+
     public function tearDown()
     {
         parent::tearDown();

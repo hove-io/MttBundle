@@ -52,7 +52,8 @@ class TimetableControllerTest extends AbstractControllerTest
                 'externalLineId' => Fixture::EXTERNAL_LINE_ID,
                 'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
                 'externalStopPointId' => Fixture::EXTERNAL_STOP_POINT_ID,
-                'seasonId' => $this->getSeason()->getId()
+                'seasonId' => $this->getSeason()->getId(),
+                'customerId' => $this->getCustomer()->getId()
             )
         );
         $crawler = $this->client->request('GET', $route);
