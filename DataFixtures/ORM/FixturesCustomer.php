@@ -15,6 +15,7 @@ class FixturesCustomer extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $om)
     {
         $this->addCustomerToApplication($om, 'app-mtt', 'customer-canaltp');
+        $this->addPerimeterToCustomer($om, 'fr-cen', 'network:Filbleu', 'customer-canaltp');
         $om->flush();
     }
 
