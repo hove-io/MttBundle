@@ -22,42 +22,4 @@
         <span class="glyphicon glyphicon-pencil"></span> {{'global.save'|trans}}
     </button>
     {{ form_end(form) }}
-    <script type="text/javascript">
-    require(['navitia'], function(Navitia, utils){
-        var nav_api = new Navitia();
-
-        $('#mtt_network_external_coverage_id').change(function(){
-            var token = $('#mtt_network_token');
-
-            if (token.val() != '' && $(this).val() != '') {
-                var $networkSelect = $('#mtt_network_external_id');
-                // keep selected value when refreshing network list
-                if ($networkSelect.val() != '') {
-                    var previousValue = $networkSelect.val();
-                }
-                nav_api.getCoverageNetworks(
-                    'canal_tp_mtt_network_list_json',
-                    {
-                        'externalCoverageId': $(this).val(),
-                        'token': token.val()
-                    },
-                    function(networks){
-                        var network = null;
-                        $networkSelect.empty();
-                        for (key in networks) {
-                            $networkSelect.append('<option value="' + key + '">' + networks[key] + '</option>');
-                        }
-                        if (previousValue) {
-                            $networkSelect.find('option[value="' + previousValue + '"]').prop('selected', true);
-                        }
-                        $networkSelect.show().siblings('label').show();
-                    },
-                    function(){
-                        $networkSelect.hide().siblings('label').hide();
-                    }
-                );
-            }
-        });
-    });
-    </script>
 {% endblock %}

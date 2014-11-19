@@ -1,16 +1,3 @@
-#CanalTP\MttBundle\Entity\Network:
-#    # constraints:
-#        # - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [externalCoverageId, externalId]
-#    properties:
-#        externalCoverageId:
-#            - NotBlank: ~
-#        externalId:
-#            - CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkId: ~
-#        token:
-#            - NotBlank: ~
-#            - Length:
-#                max: 255
-
 CanalTP\MttBundle\Entity\Block:
     properties:
         title:
