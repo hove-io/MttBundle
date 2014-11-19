@@ -25,7 +25,7 @@ class DefaultController extends AbstractController
 
     public function indexAction($externalNetworkId = null)
     {
-        $networkManager = $this->get('canal_tp_mtt.network_manager');
+        $perimeterManager = $this->get('canal_tp_mtt.perimeter_manager');
         $userManager = $this->get('canal_tp_mtt.user');
 
         // TODO: Put the current or default Network of User.
@@ -43,7 +43,7 @@ class DefaultController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Default:index.html.twig',
             array(
-                'tasks'             => $networkManager->getLastTasks($currentPerimeter),
+                'tasks'             => $perimeterManager->getLastTasks($currentPerimeter),
                 'externalNetworkId' => $currentPerimeter->getExternalNetworkId()
             )
         );
