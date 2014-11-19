@@ -12,6 +12,7 @@ use CanalTP\MttBundle\Entity\Timetable;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\BlockRepository;
 use CanalTP\MttBundle\Entity\Layout;
+use CanalTP\MttBundle\Entity\LayoutCustomer;
 
 class Fixture extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -100,16 +101,27 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($layout);
     }
 
+    private function assignLayoutToCustomer(ObjectManager $om, $customer)
+    {
+        $layout = $om->getRepository('CanalTPMttBundle:Layout')->find(1);
+        $layoutCustomer = new LayoutCustomer();
+
+        $layoutCustomer->setCustomer($customer);
+        $layoutCustomer->setLayout($layout);
+        $om->persist($layoutCustomer);
+    }
+
     public function load(ObjectManager $em)
     {
-        // $perimeter =$this->getReference('customer-canaltp')->getPerimeters()->first();
-        $perimeter = $em->getRepository('CanalTPNmmPortalBundle:Customer')->findOneByNameCanonical('canaltp')->getPerimeters()->first();
-        $season = $this->createSeason($em, $perimeter);
+        $customer = $em->getRepository('CanalTPNmmPortalBundle:Customer')->findOneByNameCanonical('canaltp');
+        $season = $this->createSeason($em, $customer->getPerimeters()->first());
         $layoutConfig = $em->getRepository('CanalTPMttBundle:LayoutConfig')->find(Fixture::EXTERNAL_LAYOUT_CONFIG_ID_1);
+
         $lineConfig = $this->createLineConfig($em, $season, $layoutConfig);
         $timetable = $this->createTimetable($em, $lineConfig);
         $block = $this->createBlock($em, $timetable);
 
+        $this->assignLayoutToCustomer($em, $customer);
         $em->flush();
     }
 
