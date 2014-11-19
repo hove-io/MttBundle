@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use CanalTP\MttBundle\Form\Type\NetworkType;
-use CanalTP\MttBundle\Entity\Network;
 
 class NetworkController extends AbstractController
 {
