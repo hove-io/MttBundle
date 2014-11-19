@@ -158,26 +158,6 @@ canal_tp_mtt_frequency_edit:
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
-#Network
-canal_tp_mtt_network:
-    pattern: /coverage/{coverage_id}/networks/{externalNetworkId}/seasons/list
-    defaults: { _controller: CanalTPMttBundle:Network:index }
-    requirements:
-        externalNetworkId: -?[a-zA-Z0-9_\-:]*
-canal_tp_mtt_network_list_json:
-    pattern: /coverage/{externalCoverageId}/networks
-    defaults: { _controller: CanalTPMttBundle:Network:byCoverage }
-    requirements:
-        token: -?[a-zA-Z0-9_\-:]*
-    options:
-        expose: true
-canal_tp_mtt_network_list:
-    pattern: /networks/list
-    defaults: { _controller: CanalTPMttBundle:Network:list }
-canal_tp_mtt_network_edit:
-    pattern: /networks/edit/{networkId}
-    defaults: { _controller: CanalTPMttBundle:Network:edit, networkId: null}
-
 #LayoutConfigs
 canal_tp_mtt_layout_config_list:
     pattern: /layouts/networks/{externalNetworkId}/list

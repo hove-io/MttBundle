@@ -14,7 +14,7 @@ parameters:
     canal_tp_mtt.block_manager.class: CanalTP\MttBundle\Services\BlockManager
     canal_tp_mtt.frequency_manager.class: CanalTP\MttBundle\Services\FrequencyManager
     canal_tp_mtt.season.class: CanalTP\MttBundle\Services\SeasonManager
-    canal_tp_mtt.network.class: CanalTP\MttBundle\Services\NetworkManager
+    canal_tp_mtt.perimeter.class: CanalTP\MttBundle\Services\PerimeterManager
     canal_tp.mtt.navitia_debug_matcher.class: CanalTP\MttBundle\Profiler\NavitiaDebugMatcher
     canal_tp.mtt.season_copier.class: CanalTP\MttBundle\Services\SeasonCopier
     canal_tp.mtt.distribution_list_manager.class: CanalTP\MttBundle\Services\DistributionListManager
@@ -30,10 +30,12 @@ parameters:
     canal_tp_mtt.task_cancelation.class: CanalTP\MttBundle\Services\Amqp\TaskCancelation
     # Area
     canal_tp_mtt.area_manager.class: CanalTP\MttBundle\Services\AreaManager
-    #Layout
+    # Layout
     canal_tp_mtt.layout.class: CanalTP\MttBundle\Services\LayoutManager
     canal_tp_mtt.layout_config.class: CanalTP\MttBundle\Services\LayoutConfigManager
     canal_tp_mtt.layout_model.class: CanalTP\MttBundle\Services\LayoutModelManager
+    # Perimeter
+    nmm.perimeter_manager.class: CanalTP\MttBundle\Services\PerimeterManager
 
 services:
     #TWIG extensions
@@ -135,9 +137,9 @@ services:
     canal_tp_mtt.frequency_manager:
        class: %canal_tp_mtt.frequency_manager.class%
        arguments: ['@doctrine.orm.entity_manager']
-    canal_tp_mtt.network_manager:
-       class: %canal_tp_mtt.network.class%
-       arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager]
+    canal_tp_mtt.perimeter_manager:
+       class: %canal_tp_mtt.perimeter.class%
+       arguments: ['@doctrine.orm.entity_manager']
     canal_tp.mtt.ajax_form_listener:
         class: CanalTP\SamCoreBundle\EventListener\AjaxFormListener
         tags:
