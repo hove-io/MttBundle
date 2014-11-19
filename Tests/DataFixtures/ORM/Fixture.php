@@ -6,13 +6,13 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-use CanalTP\MttBundle\Entity\Network;
 use CanalTP\MttBundle\Entity\Season;
 use CanalTP\MttBundle\Entity\LineConfig;
 use CanalTP\MttBundle\Entity\Timetable;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\BlockRepository;
 use CanalTP\MttBundle\Entity\Layout;
+use CanalTP\MttBundle\Entity\LayoutCustomer;
 
 class Fixture extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -28,31 +28,10 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     const EXTERNAL_LAYOUT_CONFIG_ID_2 = 2;
     public static $timetableId;
 
-    public function createNetwork(
-        ObjectManager $em,
-        $externalNetworkId = Fixture::EXTERNAL_NETWORK_ID,
-        $externalCoverageId = Fixture::EXTERNAL_COVERAGE_ID,
-        $token = Fixture::TOKEN
-    )
-    {
-        $network = $em->getRepository('CanalTPMttBundle:Network')->findOneByExternalId($externalNetworkId);
-        if ($network != NULL) {
-            return ($network);
-        }
-        $network = new Network();
-        $network->setExternalId($externalNetworkId);
-        $network->setExternalCoverageId($externalCoverageId);
-        $network->setToken($token);
-
-        $em->persist($network);
-
-        return ($network);
-    }
-
-    private function createSeason(ObjectManager $em, $network)
+    private function createSeason(ObjectManager $em, $perimeter)
     {
         $season = new Season();
-        $season->setPerimeter($network);
+        $season->setPerimeter($perimeter);
         $season->setTitle('hiver 2014');
         $season->setStartDate(new \DateTime("-1 year"));
         $season->setEndDate(new \DateTime("-6 month"));
@@ -102,7 +81,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($block);
     }
 
-    private function createLayout(ObjectManager $em, $layoutProperties, $networks = array())
+    private function createLayout(ObjectManager $em, $layoutProperties, $perimeters = array())
     {
         $layout = new Layout();
         $layout->setLabel($layoutProperties['label']);
@@ -111,10 +90,10 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $layout->setOrientation($layoutProperties['orientation']);
         $layout->setCalendarStart($layoutProperties['calendarStart']);
         $layout->setCalendarEnd($layoutProperties['calendarEnd']);
-        $layout->setPerimeters($networks);
-        foreach ($networks as $network) {
-            $network->addLayout($layout);
-            $em->persist($network);
+        $layout->setPerimeters($perimeters);
+        foreach ($perimeters as $perimeter) {
+            $perimeter->addLayout($layout);
+            $em->persist($perimeter);
         }
 
         $em->persist($layout);
@@ -122,15 +101,27 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($layout);
     }
 
+    private function assignLayoutToCustomer(ObjectManager $om, $customer)
+    {
+        $layout = $om->getRepository('CanalTPMttBundle:Layout')->find(1);
+        $layoutCustomer = new LayoutCustomer();
+
+        $layoutCustomer->setCustomer($customer);
+        $layoutCustomer->setLayout($layout);
+        $om->persist($layoutCustomer);
+    }
+
     public function load(ObjectManager $em)
     {
-        $network = $em->getRepository('CanalTPMttBundle:Network')->findOneByExternalId(Fixture::EXTERNAL_NETWORK_ID);
-        $season = $this->createSeason($em, $network);
+        $customer = $em->getRepository('CanalTPNmmPortalBundle:Customer')->findOneByNameCanonical('canaltp');
+        $season = $this->createSeason($em, $customer->getPerimeters()->first());
         $layoutConfig = $em->getRepository('CanalTPMttBundle:LayoutConfig')->find(Fixture::EXTERNAL_LAYOUT_CONFIG_ID_1);
+
         $lineConfig = $this->createLineConfig($em, $season, $layoutConfig);
         $timetable = $this->createTimetable($em, $lineConfig);
         $block = $this->createBlock($em, $timetable);
 
+        $this->assignLayoutToCustomer($em, $customer);
         $em->flush();
     }
 
