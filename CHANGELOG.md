@@ -1,3 +1,29 @@
+Notes de publication - METH - Version 1.4.0 (20/11/2014)
+
+** Sous-tâche
+    * [METH-356] - Mettre à jour des tests auto
+
+** Bogue
+    * [METH-368] - Impossible de générer les PDF d'une liste de distribution
+    * [METH-371] - Fond de fiche "only" inaccessible
+
+** Récit
+    * [METH-337] - Intégration du modèle Divia "Fond 4 pavés"
+
+** Tâche
+    * [METH-362] - Passage sur Github
+    * [METH-363] - Intégration du modèle Divia "Fond 3 pavés"
+    * [METH-364] - Intégration du modèle Divia "Fond 1 pavé"
+    * [METH-365] - Intégration du modèle Divia "Fond 3 pavés Proxi"
+
+
+Notes de publication - METH - Version 1.3.1
+
+** Sous-tâche
+    * [METH-343] - Mise à jour du menu
+    * [METH-345] - gestion des modèles (twigs)
+
+
 Notes de publication - METH - Version 1.2.0
 
 ** Bogue
