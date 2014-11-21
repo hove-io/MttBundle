@@ -11,6 +11,8 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\File;
 
+use CanalTP\MttBundle\Entity\LayoutConfig;
+
 class LayoutConfigType extends AbstractType
 {
     private $layouts;
@@ -69,6 +71,32 @@ class LayoutConfigType extends AbstractType
             )
         );
         $builder->add(
+            'notesType',
+            'choice',
+            array(
+                'choices' => array(
+                    LayoutConfig::NOTES_TYPE_COLOR => 'layout_config.labels.couleurs',
+                    LayoutConfig::NOTES_TYPE_EXPONENT => 'layout_config.labels.exposant'
+                ),
+                'constraints' => array(
+                    new NotBlank()
+                ),
+                'label' => 'layout_config.labels.notes_type'
+            )
+        );
+        $builder->add(
+            'notesColors',
+            'collection',
+            array(
+                'type'   => 'text',
+                'options'  => array(
+                    'required'  => false,
+                    'attr'      => array('class' => 'notes-color'),
+                ),
+                'label' => 'layout_config.labels.notes_colors'
+            )
+        );
+        $builder->add(
             'file',
             'file',
             array(
@@ -95,6 +123,24 @@ class LayoutConfigType extends AbstractType
                 )
             )
         );
+
+        $builder->addEventListener(\Symfony\Component\Form\FormEvents::POST_SET_DATA, function(\Symfony\Component\Form\FormEvent $event)
+        {
+            if (is_null($event->getData())) {
+                $form = $event->getForm();
+
+                $form->get('notesColors')->setData(
+                    array(
+                        '#e44155',
+                        '#ff794e',
+                        '#4460c5',
+                        '#0cc2dd',
+                        '#6ebf52',
+                        '#bacd40'
+                    )
+                );
+            }
+        });
     }
 
     /**
