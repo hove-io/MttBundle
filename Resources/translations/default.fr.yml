@@ -139,7 +139,7 @@ area:
     list_empty: Liste vide
     confirm_order_saved: L'ordre de la liste a bien été enregistré
     select_route: Sélectionnez une route dans le menu
-    add_all: Tout ajouter
+    add_all: Ajouter tous les arrêts
 
 customer:
     list: Liste des clients
