@@ -13,6 +13,9 @@ class LayoutConfig extends AbstractEntity
     const NOTES_MODE_AGGREGATED = 0;
     const NOTES_MODE_DISPATCHED = 1;
 
+    const NOTES_TYPE_EXPONENT = 'exponent';
+    const NOTES_TYPE_COLOR = 'color';
+
     /**
      * @var integer
      */
@@ -37,6 +40,10 @@ class LayoutConfig extends AbstractEntity
      * @var integer
      */
     private $notesMode = self::NOTES_MODE_AGGREGATED;
+
+    private $notesType;
+
+    private $notesColors;
 
     /**
      * @var string
@@ -274,6 +281,30 @@ class LayoutConfig extends AbstractEntity
     public function getFile()
     {
         return ($this->file);
+    }
+
+    public function setNotesColors($notesColors)
+    {
+        $this->notesColors = $notesColors;
+
+        return $this;
+    }
+
+    public function getNotesColors()
+    {
+        return ($this->notesColors);
+    }
+
+    public function setNotesType($notesType)
+    {
+        $this->notesType = $notesType;
+
+        return $this;
+    }
+
+    public function getNotesType()
+    {
+        return $this->notesType;
     }
 
     /**
