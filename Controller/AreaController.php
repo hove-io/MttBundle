@@ -89,6 +89,7 @@ class AreaController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Area:list.html.twig',
             array(
+                'pageTitle' => 'menu.area_manage',
                 'areas' => $this->get('canal_tp_mtt.area_manager')->findByPerimeter($perimeter),
                 'externalNetworkId' => $externalNetworkId
             )
@@ -163,6 +164,7 @@ class AreaController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Area:editStops.html.twig',
             array(
+                'pageTitle'         => $area->getLabel(),
                 'area'              => $area,
                 'externalNetworkId' => $externalNetworkId,
                 'stopPointsList'    => $stopPointsList

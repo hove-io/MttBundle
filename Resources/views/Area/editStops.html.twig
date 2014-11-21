@@ -4,8 +4,14 @@
     {{ render(controller('CanalTPMttBundle:Area:navigation', { 'externalNetworkId': externalNetworkId })) }}
 {% endblock %}
 
+{% block breadcrumb %}
+    <li><a href="{{ path('canal_tp_mtt_area_list', { 'externalNetworkId' : externalNetworkId }) }}">
+        {{'menu.area_manage'|trans()}}
+    </a></li>
+  / {{ pageTitle }}{% endblock %}
+
 {% block main_content %}
-    <h1>{{'area.stop_list_label'|trans({}, 'default')}}</h1>
+    <h1>{{ area.label }}</h1>
     <div class="row">
         <div class="col-md-offset-5 col-md-7">
             {% if (pdfUrl is not empty) %}
@@ -47,7 +53,7 @@
             </ul>
         </div>
         <div class="col-md-7">
-            <h4>{{area.label}}</h4>
+            <h4>{{'area.stops_included'|trans({}, 'default')}}</h4>
             <hr class="no-border black" />
             <ul id="included-stops" class="list-group sortable area-list ui-sortable {% if area.stopPoints|length == 0 %} empty-list{% endif %}">
                 {% for stopPoint in stopPointsList %}
@@ -63,19 +69,19 @@
 
 <script type="text/javascript">
 require(['mtt/area'], function(area) {
-    
+
 $('ul#included-stops .toggle-stop-point-btn').click(function(){
     var $stopElement = $(this).parent();
     var $newContainer = $stopElement.parents('.list-group');
     $(this).parent().detach();
     $('ul#excluded-stops li[data-stop-point-id="' + $(this).parent().data('stop-point-id') + '"][data-route-id="' + $(this).parent().data('route-id') + '"]').removeClass('active').find('.add-stop-point-btn').show();
     $newContainer.trigger('sortupdate');
-    
+
     return false;
 });
-    
-    
+
+
 });
-</script>    
-    
+</script>
+
 {% endblock %}
