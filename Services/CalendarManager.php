@@ -14,6 +14,7 @@ class CalendarManager
     private $navitia = null;
     private $translator = null;
     private $computedNotesId = array();
+    protected $colorNotes = array();
 
     public function __construct(Navitia $navitia, Translator $translator)
     {
@@ -89,18 +90,33 @@ class CalendarManager
     /**
      * gather notes and ensure these notes are unique. (based on Navitia ID)
      */
-    private function computeNotes($notesToReturn, $newCalendar, $season, $aggregation)
+    private function computeNotes($notesToReturn, $newCalendar, $season, $aggregation, $colors = array())
     {
         foreach ($newCalendar->notes as $note) {
             if (($note->type == 'notes' || $this->isExceptionInsideSeason($note, $season)) &&
                 ($aggregation == false || !in_array($note->id, $this->computedNotesId))) {
                 $note->calendarId = $newCalendar->id;
                 $this->computedNotesId[] = $note->id;
+
+                if (!isset($this->colorNotes[$note->id])) {
+                    $this->colorNotes[$note->id] = $this->getNewColor($colors);
+                }
+
+                $note->color = $this->colorNotes[$note->id];
                 $notesToReturn[] = $note;
             }
         }
 
         return $notesToReturn;
+    }
+
+    public function getNewColor($colors)
+    {
+        if (!isset($colors[count($this->colorNotes)])) {
+            return '#ff794e';
+        }
+
+        return $colors[count($this->colorNotes)];
     }
 
     /**
@@ -296,7 +312,8 @@ class CalendarManager
                         $notesComputed,
                         $calendar,
                         $timetable->getLineConfig()->getSeason(),
-                        $layout->aggregatesNotes()
+                        $layout->aggregatesNotes(),
+                        $timetable->getLineConfig()->getLayoutConfig()->getNotesColors()
                     );
                     $calendarsFiltered[$calendar->id] = $calendar;
                 }

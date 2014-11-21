@@ -73,7 +73,7 @@
     </div>
 {% endmacro %}
 
-{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin) %}
+{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin, notesType) %}
     {% if linesMin is empty %}
         {% set loopMax = calendar|calendarMax %}
     {% else %}
@@ -149,9 +149,9 @@
                     %}
                         {% if datetime[i] %}
                             {% if layout.dispatchesNotes %}
-                                {{ datetime[i]|schedule(notes, calendar)|raw }}
+                                {{ datetime[i]|schedule(notes, notesType, calendar)|raw }}
                             {% else %}
-                                {{ datetime[i]|schedule(notes)|raw }}
+                                {{ datetime[i]|schedule(notes, notesType)|raw }}
                             {% endif %}
                         {% endif %}
                     {% endif %}
