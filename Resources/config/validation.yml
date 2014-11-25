@@ -1,7 +1,6 @@
 CanalTP\MttBundle\Entity\Block:
     properties:
         title:
-            - NotBlank: ~
             - Length:
                 max: 255
 

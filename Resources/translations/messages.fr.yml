@@ -124,7 +124,7 @@ block:
     calendar:
         labels:
             title: Titre
-            content: Texte
+            content: Calendrier
 
 customer:
     layout_list: Liste des fonds de fiche

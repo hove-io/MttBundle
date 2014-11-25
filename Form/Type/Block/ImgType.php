@@ -15,7 +15,11 @@ class ImgType extends BlockType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'text', array('label' => 'block.img.labels.title'))
+            ->add('title', 'text', array(
+                    'label' => 'block.img.labels.title',
+                    'required' => false
+                )
+            )
             ->add('content', 'file',
                 array(
                     'data_class' => null,
