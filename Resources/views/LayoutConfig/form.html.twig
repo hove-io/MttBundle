@@ -39,3 +39,9 @@
     </button>
     {{ form_end(form) }}
 {% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        require(['mtt/form/chooseLayout']);
+    </script>
+{% endblock %}
