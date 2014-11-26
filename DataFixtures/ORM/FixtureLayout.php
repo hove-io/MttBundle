@@ -36,6 +36,15 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
         $layoutConfig->setCalendarStart($layoutConfigProperties['calendarStart']);
         $layoutConfig->setCalendarEnd($layoutConfigProperties['calendarEnd']);
         $layoutConfig->setNotesMode($layoutConfigProperties['notesMode']);
+        $layoutConfig->setNotesType($layoutConfigProperties['notesType']);
+        $layoutConfig->setNotesColors(array(
+            '#e44155',
+            '#ff794e',
+            '#4460c5',
+            '#0cc2dd',
+            '#6ebf52',
+            '#bacd40')
+        );
         $layoutConfig->setLayout($layout);
 
         $this->om->persist($layoutConfig);
@@ -45,23 +54,39 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
 
     private function createLayouts()
     {
-        $this->createLayoutConfig(
+        $layout = $this->createLayout(
             array(
-                'label' => 'Template par défaut',
+                'label'         => 'Template par défaut',
+                'path'          => 'default.html.twig',
+                'previewPath'   => '/bundles/canaltpmtt/img/default.png',
+                'orientation'   => Layout::ORIENTATION_LANDSCAPE,
+                'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
+                'cssVersion'    => 1
+            )
+        );
+
+        $this->attacheToCustomerCtp($layout);
+
+        $layoutConfig = $this->createLayoutConfig(
+            array(
+                'label' => 'Template par défaut (exposant)',
                 'calendarStart' => 5,
                 'calendarEnd' => 22,
-                'notesMode' => 1
+                'notesMode' => 1,
+                'notesType' => LayoutConfig::NOTES_TYPE_EXPONENT
             ),
-            $this->createLayout(
-                array(
-                    'label'         => 'Template par défaut',
-                    'path'          => 'default.html.twig',
-                    'previewPath'   => '/bundles/canaltpmtt/img/default.png',
-                    'orientation'   => Layout::ORIENTATION_LANDSCAPE,
-                    'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
-                    'cssVersion'    => 1
-                )
-            )
+            $layout
+        );
+
+        $layoutConfig = $this->createLayoutConfig(
+            array(
+                'label' => 'Template par défaut (color)',
+                'calendarStart' => 5,
+                'calendarEnd' => 22,
+                'notesMode' => 1,
+                'notesType' => LayoutConfig::NOTES_TYPE_COLOR
+            ),
+            $layout
         );
     }
 
@@ -71,6 +96,16 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
 
         $this->createLayouts();
         $this->om->flush();
+    }
+
+    protected function attacheToCustomerCtp($layout)
+    {
+        $lc = new \CanalTP\MttBundle\Entity\LayoutCustomer();
+        $lc->setCustomer($this->getReference('customer-canaltp'));
+        $lc->setLayout($layout);
+
+        $this->om->persist($lc);
+        $this->om->flush($lc);
     }
 
     /**

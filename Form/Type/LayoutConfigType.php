@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 use CanalTP\MttBundle\Entity\LayoutConfig;
 
@@ -75,11 +77,8 @@ class LayoutConfigType extends AbstractType
             'choice',
             array(
                 'choices' => array(
-                    LayoutConfig::NOTES_TYPE_COLOR => 'layout_config.labels.couleurs',
-                    LayoutConfig::NOTES_TYPE_EXPONENT => 'layout_config.labels.exposant'
-                ),
-                'constraints' => array(
-                    new NotBlank()
+                    LayoutConfig::NOTES_TYPE_EXPONENT => 'layout_config.labels.exposant',
+                    LayoutConfig::NOTES_TYPE_COLOR => 'layout_config.labels.couleurs'
                 ),
                 'label' => 'layout_config.labels.notes_type'
             )
@@ -88,6 +87,7 @@ class LayoutConfigType extends AbstractType
             'notesColors',
             'collection',
             array(
+                'allow_add' => true,
                 'type'   => 'text',
                 'options'  => array(
                     'required'  => false,
@@ -124,8 +124,7 @@ class LayoutConfigType extends AbstractType
             )
         );
 
-        $builder->addEventListener(\Symfony\Component\Form\FormEvents::POST_SET_DATA, function(\Symfony\Component\Form\FormEvent $event)
-        {
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) {
             if (is_null($event->getData())) {
                 $form = $event->getForm();
 

@@ -103,8 +103,8 @@ area:
 layout_config:
     labels:
         label: Nom
-        calendar_start: Heure de début des grilles horraires
-        calendar_end: Heure de fin des grilles horraires
+        calendar_start: Heure de début des grilles horaires
+        calendar_end: Heure de fin des grilles horaires
         preview_path: Changer l'image de prévisualisation
         layout: Choix du modèle
 

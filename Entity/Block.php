@@ -47,6 +47,10 @@ class Block extends AbstractEntity
      */
     private $frequencies;
 
+    public function __construct()
+    {
+        $this->frequencies = new \Doctrine\Common\Collections\ArrayCollection();
+    }
     /**
      * Get id
      *

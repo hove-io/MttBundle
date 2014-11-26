@@ -127,3 +127,9 @@ body.editable{
     height:0px;
     position:absolute;
 }
+
+.color-reference {
+    display: inline-block;
+    height: 11px;
+    width: 11px;
+}

@@ -113,7 +113,7 @@ class CalendarManager
     public function getNewColor($colors)
     {
         if (!isset($colors[count($this->colorNotes)])) {
-            return '#ff794e';
+            return '#ff794e';//#888888
         }
 
         return $colors[count($this->colorNotes)];

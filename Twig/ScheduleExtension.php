@@ -2,7 +2,7 @@
 
 namespace CanalTP\MttBundle\Twig;
 
-use CanalTP\MttBundle\Entity\Layout;
+use CanalTP\MttBundle\Entity\LayoutConfig;
 
 class ScheduleExtension extends \Twig_Extension
 {
@@ -28,13 +28,13 @@ class ScheduleExtension extends \Twig_Extension
         );
     }
 
-    public function scheduleFilter($journey, $notes, $notesType, $calendar = false)
+    public function scheduleFilter($journey, $notes, $notesType = LayoutConfig::NOTES_TYPE_EXPONENT, $calendar = false)
     {
         $value = date('i', $journey->date_time->getTimestamp());
         if (count($journey->links) > 0) {
             foreach ($journey->links as $link) {
                 if ($link->type == "notes" || $link->type == "exceptions") {
-                    if ($notesType == Layout::NOTES_TYPE_COLOR) {
+                    if ($notesType == LayoutConfig::NOTES_TYPE_COLOR) {
                         $value = '<span style="background-color: ' . $notes[$this->findNoteIndex($link->id, $notes, $calendar)]->color . '">' . $value . '</span>';
                     } else {
                         $value .= '<sup>' . $this->footnoteFilter(
