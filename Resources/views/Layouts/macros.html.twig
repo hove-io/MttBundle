@@ -73,7 +73,24 @@
     </div>
 {% endmacro %}
 
-{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin) %}
+{% macro notes(notes, notesType) %}
+    {# position is specific to this layout ie i==1... #}
+    {% if notes|length > 0 %}
+        <div class="timetable-notes">
+        {% if notesType == constant('CanalTP\\MttBundle\\Entity\\LayoutConfig::NOTES_TYPE_COLOR') %}
+            {% for note in notes %}
+                <div><span class="bold color-reference" style="background-color: {{ note.color }}"></span>: {{ note.value|raw }}</div>
+            {% endfor %}
+        {% else %}
+            {% for note in notes %}
+                <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
+            {% endfor %}
+        {% endif %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin, notesType) %}
     {% if linesMin is empty %}
         {% set loopMax = calendar|calendarMax %}
     {% else %}
@@ -149,9 +166,9 @@
                     %}
                         {% if datetime[i] %}
                             {% if layout.dispatchesNotes %}
-                                {{ datetime[i]|schedule(notes, calendar)|raw }}
+                                {{ datetime[i]|schedule(notes, notesType, calendar)|raw }}
                             {% else %}
-                                {{ datetime[i]|schedule(notes)|raw }}
+                                {{ datetime[i]|schedule(notes, notesType)|raw }}
                             {% endif %}
                         {% endif %}
                     {% endif %}

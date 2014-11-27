@@ -24,6 +24,24 @@
         <div class="col-lg-6">
             {{ form_row(form.calendarEnd) }}
         </div>
+
+        <div class="col-lg-12">
+            {{ form_row(form.notesType) }}
+        </div>
+
+        <div class="col-lg-12" id ="notes-color" data-prototype="{{ form_widget(form.notesColors.vars.prototype)|e }}">
+            {{ form_label(form.notesColors) }}
+        </div>
+        {% for notesColor in form.notesColors %}
+            <div class="col-lg-6">
+                <div class="form-group">
+                    {{ form_errors(notesColor) }}
+                    {{ form_widget(notesColor) }}
+                </div>
+            </div>
+        {% endfor %}
+
+
         <div class="col-lg-12">
             {{ form_row(form.file) }}
         </div>
@@ -43,5 +61,34 @@
 {% block javascripts %}
     <script type="text/javascript">
         require(['mtt/form/chooseLayout']);
+
+        require(['jquery'], function($) {
+            $('.notes-color').each(function() {
+                console.log($(this).val());
+                $(this).css('color', $(this).val());
+
+                $(this).focusout(function() {
+                   $(this).css('color', $(this).val());
+                });
+            });
+
+            if ($('#layout_config_notesType').val() == '{{ constant('CanalTP\\MttBundle\\Entity\\LayoutConfig::NOTES_TYPE_EXPONENT') }}') {
+                $('.notes-color').parent().parent().hide();
+                $('#notes-color').hide();
+            } else if ($('#layout_config_notesType').val() == '{{ constant('CanalTP\\MttBundle\\Entity\\LayoutConfig::NOTES_TYPE_COLOR') }}') {
+                $('.notes-color').parent().parent().show();
+                $('#notes-color').show();
+            }
+
+            $('#layout_config_notesType').change(function() {
+                if ($(this).val() == '{{ constant('CanalTP\\MttBundle\\Entity\\LayoutConfig::NOTES_TYPE_EXPONENT') }}') {
+                    $('.notes-color').parent().parent().hide();
+                    $('#notes-color').hide();
+                } else if ($(this).val() == '{{ constant('CanalTP\\MttBundle\\Entity\\LayoutConfig::NOTES_TYPE_COLOR') }}') {
+                    $('.notes-color').parent().parent().show();
+                    $('#notes-color').show();
+                }
+            });
+        });
     </script>
 {% endblock %}

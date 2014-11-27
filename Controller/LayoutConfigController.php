@@ -86,7 +86,8 @@ class LayoutConfigController extends AbstractController
                 'CanalTPMttBundle:LayoutConfig:form.html.twig',
                 array(
                     'form' => $form->createView(),
-                    'title' => ($layoutConfigId ? 'layout_config.edit' : 'layout_config.create')
+                    'title' => ($layoutConfigId ? 'layout_config.edit' : 'layout_config.create'
+                    )
                 )
             );
         }

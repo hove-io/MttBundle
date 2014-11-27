@@ -221,12 +221,6 @@ class Layout extends AbstractEntity
         return $this->notesModes;
     }
 
-    /**
-     * Set cssVersion
-     *
-     * @param integer $cssVersion
-     * @return Layout
-     */
     public function setCssVersion($cssVersion)
     {
         $this->cssVersion = $cssVersion;

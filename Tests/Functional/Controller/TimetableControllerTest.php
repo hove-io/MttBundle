@@ -6,6 +6,12 @@ use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
 
 class TimetableControllerTest extends AbstractControllerTest
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
+    }
+
     private function getRoute($route, $seasonId, $externalStopPointId = Fixture::EXTERNAL_STOP_POINT_ID)
     {
         return $this->generateRoute(
@@ -174,10 +180,46 @@ class TimetableControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $this->getSeason()->getId()));
         $message = $translator->trans('stop_point.block.pois.empty', array('%distance%' => 400), 'default');
 
-        $this->assertGreaterThan(
+        $this->assertEquals(
             0,
             $crawler->filter('html:contains("' . $message . '")')->count(),
-            "Stop point poi(for distance) not work in stop point timetable view page"
+            "Stop point poi (for distance) not work in stop point timetable view page"
         );
+    }
+
+    /**
+     * Test legend colors
+     * @TODO test background color in a timetable
+     */
+    public function testCalendarExceptionsColors()
+    {
+        $season = $this->getSeason();
+
+        $tt = $this->getTimetable(Fixture::EXTERNAL_ROUTE_ID);
+        $tt->getLineConfig()->getLayoutConfig()->setNotesType(\CanalTP\MttBundle\Entity\LayoutConfig::NOTES_TYPE_COLOR);
+        $tt->getLineConfig()->getLayoutConfig()->setNotesColors(
+            array(
+                '#e44155',
+                '#ff794e',
+                '#4460c5',
+                '#0cc2dd',
+                '#6ebf52',
+                '#bacd40'
+            )
+        );
+        $block = new \CanalTP\MttBundle\Entity\Block();
+        $block->setTitle('Semaine scolaire');
+        $block->setContent('idcalendar2');
+        $block->setDomId('timegrid_block_2');
+        $block->setTypeId('calendar');
+        $block->setTimetable($tt);
+
+        $this->getEm()->persist($block);
+        $this->getEm()->flush();
+
+        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $season->getId()));
+        $backgroundColorNote = $crawler->filter('.color-reference')->first()->attr('style');
+
+        $this->assertContains('#e44155', $backgroundColorNote);
     }
 }

@@ -72,6 +72,7 @@ class TimetableController extends AbstractController
             array(
                 'pageTitle'             => 'timetable.titles.' . ($editable ? 'edition' : 'preview'),
                 'timetable'             => $timetable,
+                'notesType'             => $timetable->getLineConfig()->getLayoutConfig()->getNotesType(),
                 'currentNetwork'        => $timetable->getLineConfig()->getSeason()->getPerimeter(),
                 'externalNetworkId'     => $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
                 'externalRouteId'       => $timetable->getExternalRouteId(),

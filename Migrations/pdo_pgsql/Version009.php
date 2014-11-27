@@ -15,11 +15,15 @@ class Version009 extends AbstractMigration
     public function up(Schema $schema)
     {
         $this->addSql('ALTER TABLE mtt.block ALTER title DROP NOT NULL;');
+        $this->addSql('ALTER TABLE mtt.layout_config ADD notes_type text not null default \'exponent\';');
+        $this->addSql('ALTER TABLE mtt.layout_config ADD notes_colors text;');
     }
 
     public function down(Schema $schema)
     {
         $this->addSql('ALTER TABLE mtt.block ALTER title SET NOT NULL;');
+        $this->addSql('ALTER TABLE mtt.layout_config DROP notes_type;');
+        $this->addSql('ALTER TABLE mtt.layout_config DROP notes_colors;');
     }
 
     public function getName()

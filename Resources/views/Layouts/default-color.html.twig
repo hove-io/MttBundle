@@ -59,8 +59,15 @@
                                     {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, null, notesType) }}
                                 </table>
 
-                                {% if i == 1 %}
-                                    {{ macros.notes(notes, notesType) }}
+                                {# position is specific to this layout ie i==1... #}
+                                {% if i == 1 and notes|length > 0 %}
+                                    <div class="timetable-notes">
+                                    {% for note in notes %}
+                                        {% if note.color is not null %}
+                                            <div><span class="bold color-reference" style="background-color: {{ note.color }}">&nbsp;_&nbsp;</span>: {{ note.value|raw }}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>

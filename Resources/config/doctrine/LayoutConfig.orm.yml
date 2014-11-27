@@ -36,6 +36,12 @@ CanalTP\MttBundle\Entity\LayoutConfig:
             gedmo:
                 timestampable:
                     on: update
+        notesColors:
+            type: array
+            column: notes_colors
+        notesType:
+            type: string
+            column: notes_type
     oneToMany:
         lineConfigs:
             targetEntity: LineConfig

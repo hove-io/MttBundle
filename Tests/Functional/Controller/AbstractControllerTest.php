@@ -58,6 +58,17 @@ abstract class AbstractControllerTest extends SamBaseTestController
         return array_pop($seasons);
     }
 
+    protected function getTimetable($extRouteId)
+    {
+        $tt = $this->getRepository('CanalTPMttBundle:Timetable')->findOneByExternalRouteId($extRouteId);
+
+        if (count($tt) == 0) {
+            throw new \RuntimeException('No timetable');
+        }
+
+        return $tt;
+    }
+
     protected function getCustomer()
     {
         $customer = $this->getRepository('CanalTPNmmPortalBundle:Customer')->findOneByNameCanonical('canaltp');
