@@ -6,12 +6,15 @@
  */
 namespace CanalTP\MttBundle\Services\Amqp;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Bridge\Monolog\Logger;
 
 use CanalTP\MttBundle\Services\Navitia;
 use CanalTP\MttBundle\Services\TimetableManager;
 use CanalTP\MttBundle\Services\StopPointManager;
+use CanalTP\MttBundle\Services\LineManager;
 
 class PdfPayloadsGenerator
 {
@@ -20,20 +23,26 @@ class PdfPayloadsGenerator
     private $navitia = null;
     private $timetableManager = null;
     private $stopPointManager = null;
+    private $lineManager = null;
+    private $logger = null;
 
     public function __construct(
         Container $co,
         Router $router,
         Navitia $navitia,
         TimetableManager $timetableManager,
-        StopPointManager $stopPointManager
+        StopPointManager $stopPointManager,
+        LineManager $lineManager,
+        Logger $logger
     )
     {
         $this->co = $co;
+        $this->logger = $logger;
         $this->router = $router;
         $this->navitia = $navitia;
         $this->timetableManager = $timetableManager;
         $this->stopPointManager = $stopPointManager;
+        $this->lineManager = $lineManager;
     }
 
     // construct payload for AMQP message
@@ -138,6 +147,50 @@ class PdfPayloadsGenerator
                 }
             }
         }
+        if (empty($payloads)) {
+            throw new \Exception('pdfGeneration.no_pdf');
+        }
+
+        return $payloads;
+    }
+
+    public function getAreaPayloads($area, $season)
+    {
+        $payloads = array();
+        $perimeter = $area->getPerimeter();
+
+        foreach ($area->getStopPointsOrderByExternalRouteIdAndExternalLineId() as $externalRouteId => $areaLine) {
+            foreach ($areaLine as $externalLineId => $areaStopPoints) {
+                try {
+                    $lineConfig = $this->lineManager->getLineConfigByExternalLineIdAndSeasonId(
+                        $externalLineId,
+                        $season->getId()
+                    );
+                } catch (NotFoundHttpException $e) {
+                    $this->logger->addInfo('One pdf in area (' . $area->getId() . ') was not generated.');
+                    continue ;
+                }
+                $timetable = $this->timetableManager->getTimetable(
+                    $externalRouteId,
+                    $perimeter->getExternalCoverageId(),
+                    $lineConfig
+                );
+
+                $routeEnhancedStopPoints = $this->getRouteEnhancedStopPoints($perimeter, $externalRouteId, $timetable);
+                foreach ($routeEnhancedStopPoints as $routeEnhancedStopPoint) {
+                    if (in_array($routeEnhancedStopPoint->stop_point->id, $areaStopPoints)) {
+                        $payloads[] = $this->getPayload(
+                            $perimeter,
+                            $timetable->getLineConfig()->getSeason(),
+                            $timetable->getLineConfig(),
+                            $externalRouteId,
+                            $routeEnhancedStopPoint->stop_point
+                        );
+                    }
+                }
+            }
+        }
+
         if (empty($payloads)) {
             throw new \Exception('pdfGeneration.no_pdf');
         }

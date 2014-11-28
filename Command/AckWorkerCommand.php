@@ -26,16 +26,16 @@ class AckWorkerCommand extends ContainerAwareCommand
         try {
             $task = $this->amqpPdfGenPublisher->addAckToTask($msg);
             $this->logger->info(" [x] Ack Inserted for task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished());
-            var_dump(" [x] Ack Inserted for task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished());
+            echo " [x] Ack Inserted for task n°" . $task->getId() . " : " . count($task->getAmqpAcks()) . " / " . $task->getJobsPublished() . "\n";
             if (count($task->getAmqpAcks()) >= $task->getJobsPublished()) {
                 $msgCompleted = new AMQPMessage(
                     'Completed',
                     array('delivery_mode' => 2) # make message persistent
                 );
                 $this->channel->basic_publish(
-                    $msgCompleted, 
-                    $this->channelLib->getExchangeFanoutName(), 
-                    $task->getId().'.task_completion', 
+                    $msgCompleted,
+                    $this->channelLib->getExchangeFanoutName(),
+                    $task->getId().'.task_completion',
                     true
                 );
                 $pdfGenCompletionLib = $this->getContainer()->get('canal_tp_mtt.pdf_gen_completion_lib');

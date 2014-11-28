@@ -28,6 +28,11 @@ class StopPointManager
         $this->om = $om;
     }
 
+    public function findByExternalId($externalId)
+    {
+        return ($this->repository->findByExternalId($externalId));
+    }
+
     private function initTitle($externalCoverageId)
     {
         $this->stopPoint->setTitle(

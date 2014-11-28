@@ -20,6 +20,7 @@ class PdfGenCompletionLib
     private $lineConfigRepo = null;
     private $timetableRepo = null;
     private $stopPointRepo = null;
+    private $areaRepo = null;
 
     public function __construct(ObjectManager $om, MediaManager $mediaManager, $container)
     {
@@ -29,6 +30,7 @@ class PdfGenCompletionLib
         $this->lineConfigRepo = $this->om->getRepository('CanalTPMttBundle:LineConfig');
         $this->timetableRepo = $this->om->getRepository('CanalTPMttBundle:Timetable');
         $this->stopPointRepo = $this->om->getRepository('CanalTPMttBundle:StopPoint');
+        $this->areaRepo = $this->om->getRepository('CanalTPMttBundle:Area');
     }
 
     private function getLineConfig($ack, $lineConfig)
@@ -179,6 +181,33 @@ class PdfGenCompletionLib
         echo "Distribution List saved to ", $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable), " / Files aggregated ", count($paths), "\r\n";
     }
 
+    private function completeAreaList($task)
+    {
+        $pdfGenerator = $this->container->get('canal_tp_mtt.pdf_generator');
+        $areaManager = $this->container->get('canal_tp_mtt.area_manager');
+        $area = $this->areaRepo->find($task->getObjectId());
+        $paths = array();
+        $lineConfig = false;
+        $timetable = false;
+
+        foreach ($task->getAmqpAcks() as $ack) {
+            $lineConfig = $this->getLineConfig($ack, $lineConfig);
+            $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
+
+            $media = $this->mediaManager->getStopPointTimetableMedia($timetable, $ack->getPayload()->timetableParams->externalStopPointId);
+            $path = $this->mediaManager->getPathByMedia($media);
+            if (!empty($path)) {
+                $paths[] = $path;
+            }
+        }
+        $pdfGenerator->aggregatePdf(
+            $paths,
+            $areaManager->generateAbsoluteAreaPdfPath($area)
+        );
+
+        echo "Area saved to ", $areaManager->generateAbsoluteAreaPdfPath($area), " / Files aggregated ", count($paths), "\r\n";
+    }
+
     private function completeSeasonPdfGen($task)
     {
         $season = $this->getSeason($task->getObjectId());
@@ -198,7 +227,6 @@ class PdfGenCompletionLib
     {
         echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
         echo "task status " . $task->getStatus() . "\n";
-        echo "task cancelled " . $task->isCanceled() . "\n";
         if ($task->isCanceled()) {
             $this->rollback($task);
         } else {
@@ -209,6 +237,9 @@ class PdfGenCompletionLib
                     break;
                 case AmqpTask::SEASON_PDF_GENERATION_TYPE:
                     $this->completeSeasonPdfGen($task);
+                    break;
+                case AmqpTask::AREA_PDF_GENERATION_TYPE:
+                    $this->completeAreaList($task);
                     break;
             }
         }

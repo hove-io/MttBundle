@@ -15,4 +15,4 @@ webservice:
     no_timetable_found: Il n'y a pas de fiche horaire pour cet arrêt à cette date %date%.
 
 pdfGeneration:
-    no_pdf: Aucun pdf à générer pour cette saison.
+    no_pdf: Aucun pdf à générer.

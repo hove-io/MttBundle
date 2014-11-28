@@ -57,7 +57,7 @@ services:
             - { name: twig.extension }
     canal_tp_mtt.twig.task_type_extension:
         class: CanalTP\MttBundle\Twig\TaskTypeExtension
-        arguments: ['@translator', '@doctrine.orm.entity_manager', '@canal_tp.mtt.distribution_list_manager', '@sam_navitia']
+        arguments: ['@translator', '@doctrine.orm.entity_manager', '@canal_tp.mtt.distribution_list_manager', '@canal_tp_mtt.area_manager', '@sam_navitia']
         tags:
             - { name: twig.extension }
     # Service of mediaManager
@@ -115,7 +115,7 @@ services:
        arguments: ['@request_stack', '@navitia_component', '@sam_navitia', '@translator', '@doctrine.orm.entity_manager', @security.context, @sam_core.customer,'mtt']
     canal_tp_mtt.line_manager:
        class: %canal_tp_mtt.line_manager.class%
-       arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia']
+       arguments: ['@doctrine.orm.entity_manager']
     canal_tp_mtt.timetable_manager:
        class: %canal_tp_mtt.timetable_manager.class%
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia', '@canal_tp_mtt.line_manager']
@@ -157,7 +157,7 @@ services:
        arguments: ['@doctrine.orm.entity_manager', '%pdf_generator_url%', '@canal_tp_mtt.amqp_channel']
     canal_tp_mtt.pdf_payload_generator:
        class: %canal_tp_mtt.pdf_payload_generator.class%
-       arguments: ['@service_container', '@router', '@canal_tp_mtt.navitia', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.stop_point_manager']
+       arguments: ['@service_container', '@router', '@canal_tp_mtt.navitia', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.stop_point_manager', '@canal_tp_mtt.line_manager', '@logger']
     canal_tp_mtt.pdf_gen_completion_lib:
        class: %canal_tp_mtt.pdf_gen_completion_lib.class%
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.media_manager', '@service_container']
@@ -167,7 +167,7 @@ services:
     # Area
     canal_tp_mtt.area_manager:
         class: %canal_tp_mtt.area_manager.class%
-        arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager]
+        arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager, '@request_stack', "%kernel.root_dir%/../web/uploads/"]
     # LayoutConfig
     canal_tp_mtt.layout_config:
         class: %canal_tp_mtt.layout_config.class%

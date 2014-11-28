@@ -140,6 +140,7 @@ class AreaController extends AbstractController
                 'area'      => $area,
                 'seasons'   => $seasons,
                 'areaPdf'   => $area->getAreasPdf(),
+                'areaExternalNetworkId' => $area->getPerimeter()->getExternalNetworkId()
             )
         );
     }
@@ -155,6 +156,7 @@ class AreaController extends AbstractController
         );
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
+        $areaManager = $this->get('canal_tp_mtt.area_manager');
         $stopPointsList = null;
         $stopPointsArea = $area->getStopPoints();
         if (!empty($stopPointsArea)) {
@@ -167,7 +169,8 @@ class AreaController extends AbstractController
                 'pageTitle'         => $area->getLabel(),
                 'area'              => $area,
                 'externalNetworkId' => $externalNetworkId,
-                'stopPointsList'    => $stopPointsList
+                'stopPointsList'    => $stopPointsList,
+                'pdfUrl'            => $areaManager->findPdfPathByTimetable($area)
             )
         );
     }
@@ -202,17 +205,27 @@ class AreaController extends AbstractController
         );
     }
 
-    public function saveAction($externalNetworkId, $areaId)
+    private function saveList($areaId)
     {
-        $stopPoints = $this->get('request')->request->get(
+        $areaStopPoints = $this->get('request')->request->get(
             'stopPoints',
             array()
         );
+        $getAllStopPoints = !empty($areaStopPoints);
 
-        if (!empty($stopPoints)) {
+        if ($getAllStopPoints) {
             $area = $this->get('canal_tp_mtt.area_manager')->find($areaId);
-            $area->setStopPoints($stopPoints);
+
+            $area->setStopPoints($areaStopPoints);
             $this->getDoctrine()->getManager()->flush($area);
+        }
+
+        return ($getAllStopPoints);
+    }
+
+    public function saveAction($externalNetworkId, $areaId)
+    {
+        if ($this->saveList($areaId)) {
             $this->get('session')->getFlashBag()->add(
                 'success',
                 $this->get('translator')->trans(
@@ -229,6 +242,60 @@ class AreaController extends AbstractController
                 array(
                     'externalNetworkId' => $externalNetworkId,
                     'areaId'            => $areaId,
+                )
+            )
+        );
+    }
+
+    public function generatePdfAction($externalNetworkId, $seasonId, $areaId)
+    {
+        $areaManager = $this->get('canal_tp_mtt.area_manager');
+        $seasonManager = $this->get('canal_tp_mtt.season_manager');
+        $pdfPayloadGenerator = $this->get('canal_tp_mtt.pdf_payload_generator');
+        $amqpPdfGenPublisher = $this->get('canal_tp_mtt.amqp_pdf_gen_publisher');
+
+        $season = $seasonManager->find($seasonId);
+        $area = $areaManager->find($areaId);
+        try {
+            if (!$area->hasStopPoints()) {
+                throw new \Exception(
+                    $this->get('translator')->trans(
+                        'area.no_pdfs',
+                        array('%areaName%' => $area->getLabel()),
+                        'default'
+                    )
+                );
+            }
+            $payloads = $pdfPayloadGenerator->getAreaPayloads($area, $season);
+            $amqpPdfGenPublisher->publishAreaPdfGen($payloads, $season);
+
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'area.pdf_generation_task_has_started',
+                    array(
+                        '%jobNumber%' => count($payloads),
+                        '%sectorLabel%' => $area->getLabel()
+                    ),
+                    'default'
+                )
+            );
+        } catch (\Exception $e) {
+            $this->get('session')->getFlashBag()->add(
+                'danger',
+                $this->get('translator')->trans(
+                    $e->getMessage(),
+                    array(),
+                    'exceptions'
+                )
+            );
+        }
+
+        return $this->redirect(
+            $this->generateUrl(
+                'canal_tp_mtt_homepage',
+                array(
+                    'externalNetworkId' => $externalNetworkId,
                 )
             )
         );

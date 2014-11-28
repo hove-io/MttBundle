@@ -107,6 +107,23 @@ class Area extends AbstractEntity
         return $this->stopPoints;
     }
 
+    public function hasStopPoints()
+    {
+        return (count($this->stopPoints) > 0);
+    }
+
+    public function getStopPointsOrderByExternalRouteIdAndExternalLineId()
+    {
+        $result = array();
+
+        foreach ($this->stopPoints as $stopPointJson) {
+            $stopPoint = json_decode($stopPointJson);
+            $result[$stopPoint->routeId][$stopPoint->lineId][] = $stopPoint->stopPointId;
+        }
+
+        return $result;
+    }
+
     /**
      * Set areasPdf
      *

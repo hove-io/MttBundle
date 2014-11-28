@@ -23,20 +23,10 @@
                     <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
                 </a>
             {% endif %}
-            {% if (is_granted('BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF')) %}
-                {% if locked %}
-                    <a id="generate-distribution-list" href="" class="btn btn-primary" disabled="disabled">
-                    <span class="glyphicon glyphicon-refresh icon-refresh-animate"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
-                </a>
-                {% else %}
-                <a id="generate-distribution-list" href="{#{{ path('canal_tp_mtt_distribution_generate',
-                    {
-                        'timetableId': timetable.id,
-                        'externalNetworkId' : externalNetworkId
-                    }) }}#}" class="btn btn-primary">
+            {% if (is_granted('BUSINESS_LIST_AREA')) %}
+                <a class="btn btn-primary" href="{{ path('canal_tp_mtt_area_list_pdf', {'areaId': area.id }) }}" data-toggle="modal" data-target="#base-modal">
                     <span class="glyphicon glyphicon-file"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
                 </a>
-                {% endif %}
             {% endif %}
             <a id="save-distribution-list" class="btn btn-primary" href="{{ path('canal_tp_mtt_area_edit_stops_save',{'externalNetworkId': externalNetworkId, 'areaId': area.id}) }}">
                 <span class="glyphicon glyphicon-refresh display-none"></span>

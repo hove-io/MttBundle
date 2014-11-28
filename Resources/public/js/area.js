@@ -59,7 +59,7 @@ define('mtt/area', ['mtt_left_menu', 'jquery', 'fosjsrouting', 'jquery_ui_sortab
                 var inArea = _getStopPointAndRouteIds();
 
                 for (index in json.stops) {
-                    var newStop = $('<li class="list-group-item" data-stop-point-id="' + index + '" data-route-id="' + routeId + '"></li>');
+                    var newStop = $('<li class="list-group-item" data-stop-point-id="' + index + '" data-route-id="' + routeId + '" data-line-id= "' + lineId + '"></li>');
                     newStop.append('<span class="glyphicon glyphicon-resize-vertical"></span>');
                     newStop.append('<span class="stop_name">' + json.stops[index].name + '</span>');
                     newStop.append('<a class="pull-right minus-btn toggle-stop-point-btn remove-stop-point-btn" href="#"></a>');
@@ -182,7 +182,7 @@ define('mtt/area', ['mtt_left_menu', 'jquery', 'fosjsrouting', 'jquery_ui_sortab
     {
         var stopPoints = [];
         $('ul#included-stops > li.list-group-item').each(function(){
-            stopPoints.push(JSON.stringify({'stopPointId': $(this).data('stop-point-id'), 'routeId': $(this).data('route-id')}));
+            stopPoints.push(JSON.stringify({'stopPointId': $(this).data('stop-point-id'), 'routeId': $(this).data('route-id'), 'lineId': $(this).data('line-id')}));
         });
 
         return stopPoints;

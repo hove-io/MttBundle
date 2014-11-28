@@ -81,6 +81,12 @@ class PdfGenPublisher
         }
     }
 
+    public function publishAreaPdfGen($payloads, $area, $taskOptions = array())
+    {
+        $task = $this->getNewTask($payloads, $area, $area->getPerimeter(), $taskOptions, AmqpTask::AREA_PDF_GENERATION_TYPE);
+        $this->publishPayloads($payloads, $task);
+    }
+
     public function publishSeasonPdfGen($payloads, $season, $taskOptions = array())
     {
         // routing_key_format: network_{networkId}.pdf_gen

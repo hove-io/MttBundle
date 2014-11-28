@@ -209,7 +209,6 @@ canal_tp_mtt_area_edit_stops_save:
     defaults: { _controller: CanalTPMttBundle:Area:save }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
-
 canal_tp_mtt_area_remove:
     pattern: /areas/networks/{externalNetworkId}/remove/{areaId}
     defaults: { _controller: CanalTPMttBundle:Area:remove }
@@ -218,6 +217,11 @@ canal_tp_mtt_area_remove:
 canal_tp_mtt_area_list_pdf:
     pattern: /areas/{areaId}/listPdf
     defaults: { _controller: CanalTPMttBundle:Area:listPdf}
+canal_tp_mtt_area_generate_pdfs:
+    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/areas/{areaId}/generatePdf
+    defaults: { _controller: CanalTPMttBundle:Area:generatePdf }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #Customer administration
 canal_tp_mtt_customer_list:

@@ -14,14 +14,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class LineManager
 {
     private $lineConfig = null;
-    private $navitia = null;
     private $repository = null;
     private $om = null;
 
-    public function __construct(ObjectManager $om, Navitia $navitia)
+    public function __construct(ObjectManager $om)
     {
         $this->lineConfig = null;
-        $this->navitia = $navitia;
         $this->om = $om;
         $this->repository = $this->om->getRepository('CanalTPMttBundle:LineConfig');
     }
@@ -42,12 +40,7 @@ class LineManager
                 $season
             );
     }
-    /**
-     * Return line Object with navitia data added
-     *
-     * @param  string $externalLineId
-     * @return line
-     */
+
     public function getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
     {
         $this->lineConfig = $this->repository->findOneBy(
@@ -62,19 +55,18 @@ class LineManager
         return $this->lineConfig;
     }
 
-    /**
-     * Return line Object with navitia data added
-     *
-     * @param  Integer $lineId
-     * @return line
-     */
     public function getLineConfig($lineConfigId)
     {
         $this->lineConfig = $this->repository->find($lineId);
 
-        $this->initTwigPath();
+        $this->initTwigPath($this->lineConfig);
 
         return $this->lineConfig;
+    }
+
+    public function find($id)
+    {
+        return ($this->repository->find($id));
     }
 
     public function save($lineConfig, $season, $externalLineId)
@@ -86,13 +78,6 @@ class LineManager
         $this->om->flush();
     }
 
-    /**
-     * Return line Object with navitia data added
-     *
-     * @param  Object $lineConfig
-     * @param  Object $destSeason
-     * @return line
-     */
     public function copy($lineConfig, $destSeason)
     {
         $lineConfigCloned = clone $lineConfig;

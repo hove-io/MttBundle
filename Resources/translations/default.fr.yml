@@ -123,6 +123,7 @@ task:
     launchedAt: Lancée à
     completed: Terminée
     completedAt: Terminée à
+    area_pdf_generation: Génération de l'ensemble des pdfs du secteur "%sectorLabel%"
     season_pdf_generation: Génération de l'ensemble des pdfs de la saison "%seasonName%"
     distribution_list_pdf_generation: Génération de la liste de placardage pour la route %routeName%
 
@@ -143,6 +144,8 @@ area:
     confirm_order_saved: L'ordre de la liste a bien été enregistré
     select_route: Sélectionnez une route dans le menu
     add_all: Ajouter tous les arrêts
+    pdf_generation_task_has_started: La génération des %jobNumber% pdfs du secteur %sectorLabel% a bien été lancée.
+    no_pdfs: Vous n'avez pas de pdf dans le secteur "%areaName%"
 
 customer:
     list: Liste des clients
