@@ -1,3 +1,22 @@
+Notes de publication - METH - Version 1.5.0 (28/11/2014)
+
+** Sous-tâche
+    * [METH-349] - Montée en compétence sur la gestion des workers de génération
+    * [METH-374] - Génération/téléchargement du PDF d'un secteur
+
+** Bogue
+    * [METH-354] - Impossible de générer tous les PDF d'une saison
+    * [METH-373] - Génération PDFs KO
+
+** Récit
+    * [METH-293] - Génération/téléchargement du PDF d'un secteur
+    * [METH-360] - Ajout de tous les arrêts d'une route dans un secteur
+
+** Tâche
+    * [METH-300] - Formulaires : améliorations
+    * [METH-303] - Nom de l'arrêt dans la page d'édition de la FH
+
+
 Notes de publication - METH - Version 1.4.0 (20/11/2014)
 
 ** Sous-tâche
@@ -59,14 +78,14 @@ Notes de publication - METH - Version 1.1.0 (31/07/2014)
 ** Bogue
     * [METH-184] - Non signalement d'un débordement de cadre en fréquence
     * [METH-239] - Médiathèque - Mise à jour de la stratégie
-    
+
 ** Récit
     * [METH-1] - Formulaire d'assignation des layouts
     * [METH-279] - Formulaire de création/configuration des gabarits
     * [METH-280] - Liste des secteurs
     * [METH-281] - Création/Edition des secteurs
     * [METH-285] - Suppression d'un secteur (sans les PDF)
-    
+
 ** Tâche
     * [METH-284] - Modale de gestion des PDF de secteurs
 
