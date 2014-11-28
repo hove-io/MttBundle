@@ -34,7 +34,7 @@ class FixturesCustomer extends AbstractFixture implements OrderedFixtureInterfac
     public function load(ObjectManager $om)
     {
         $navitiaToken = $this->container->getParameter('nmm.navitia.token');
-        $this->addCustomerToApplication($om, 'app-mtt', 'customer-canaltp', Mtt );
+        $this->addCustomerToApplication($om, 'app-mtt', 'customer-canaltp', $navitiaToken);
         $this->addPerimeterToCustomer($om, 'fr-sw', 'network:tisseo', 'customer-canaltp');
         $om->flush();
     }
