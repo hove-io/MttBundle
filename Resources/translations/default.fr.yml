@@ -24,11 +24,11 @@ stop_point:
 
 line:
     choose_layout: Choisir un fond de fiche
-    layout_chosen: Le gabarit a bien été assigné à la ligne.
+    layout_chosen: Le fond de fiche a bien été assigné à la ligne.
     manage_distribution: Gérer la liste de placardage
 
 timetable:
-    edit: Editer la fiche horaire
+    edit: Éditer la fiche horaire
     titles:
         edition: Édition
         preview: Prévisualisation
@@ -44,6 +44,7 @@ layout_config:
 
 layout_model:
     upload: Ajouter un modèle
+    list: Liste des modèles   
     uploaded: Modèle enregistré
 
 block:
@@ -75,8 +76,8 @@ calendar:
 
 frequency:
     form:
-        label: Editer les fréquences de passage
-        title: Edition des fréquences de passage
+        label: Éditer les fréquences de passage
+        title: Édition des fréquences de passage
         subtitle: Cadre n°
         add_btn: Ajouter un cadre
 
@@ -84,7 +85,7 @@ season:
     locked: Cette saison est verrouillée. Aucune action ne peut-être réalisée.
     please_create_before_continue: Veuillez créer une saison avant d'éditer les fiches horaires.
     create: Créer une saison
-    edit: Editer une saison
+    edit: Éditer une saison
     title: Nom de la saison
     start_date: Début
     end_date: Fin
