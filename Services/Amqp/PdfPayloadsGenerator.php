@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 use CanalTP\MttBundle\Services\Navitia;
 use CanalTP\MttBundle\Services\TimetableManager;
@@ -33,7 +34,8 @@ class PdfPayloadsGenerator
         TimetableManager $timetableManager,
         StopPointManager $stopPointManager,
         LineManager $lineManager,
-        Logger $logger
+        Logger $logger,
+        Translator $translator
     )
     {
         $this->co = $co;
@@ -43,6 +45,7 @@ class PdfPayloadsGenerator
         $this->timetableManager = $timetableManager;
         $this->stopPointManager = $stopPointManager;
         $this->lineManager = $lineManager;
+        $this->translator = $translator;
     }
 
     // construct payload for AMQP message
@@ -148,7 +151,12 @@ class PdfPayloadsGenerator
             }
         }
         if (empty($payloads)) {
-            throw new \Exception('pdfGeneration.no_pdf');
+            throw new \Exception($this->translator->trans(
+                    'season.pdf.empty',
+                    array('%seasonName%' => $season->getTitle()),
+                    'default'
+                )
+            );
         }
 
         return $payloads;
@@ -193,7 +201,15 @@ class PdfPayloadsGenerator
         }
 
         if (empty($payloads)) {
-            throw new \Exception('pdf.generation.empty');
+            throw new \Exception($this->translator->trans(
+                    'area.pdf.empty',
+                    array(
+                        '%areaName%' => $area->getLabel(),
+                        '%seasonName%' => $areaPdf->getSeason()->getTitle()
+                    ),
+                    'default'
+                )
+            );
         }
 
         return $payloads;

@@ -119,7 +119,8 @@ class TaskTypeExtension extends \Twig_Extension
                 $return = $this->translator->trans(
                     'task.area_pdf_generation',
                     array(
-                        '%sectorLabel%' => $areaPdf->getArea()->getLabel()
+                        '%sectorLabel%' => $areaPdf->getArea()->getLabel(),
+                        '%seasonTitle%' => $areaPdf->getSeason()->getTitle()
                     ),
                     'default'
                 );

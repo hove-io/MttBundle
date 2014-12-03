@@ -102,6 +102,8 @@ season:
         generate_then_publish: Générer puis publier
         publish_only: Publier uniquement
     pdf_generation_task_has_started: La génération des %count_jobs% pdfs de la saison a bien été lancée.
+    pdf:
+        empty: Vous n'avez pas de pdf pour la saison "%seasonName%"
 
 network:
     list: Liste des réseaux
@@ -123,7 +125,7 @@ task:
     launchedAt: Lancée à
     completed: Terminée
     completedAt: Terminée à
-    area_pdf_generation: Génération de l'ensemble des pdfs du secteur "%sectorLabel%"
+    area_pdf_generation: Génération de l'ensemble des pdfs du secteur "%sectorLabel%" pour la saison "%seasonTitle%"
     season_pdf_generation: Génération de l'ensemble des pdfs de la saison "%seasonName%"
     distribution_list_pdf_generation: Génération de la liste de placardage pour la route %routeName%
 
@@ -148,7 +150,7 @@ area:
     no_pdfs: Vous n'avez pas de pdf dans le secteur "%areaName%"
     pdf:
         manage: Gérer le pdf
-        empty: Vous n'avez pas de pdf dans le secteur "%areaName%"
+        empty: Vous n'avez pas de pdf dans le secteur "%areaName%" pour la saison "%seasonName%"
 
 customer:
     list: Liste des clients

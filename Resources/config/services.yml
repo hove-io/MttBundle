@@ -28,6 +28,7 @@ parameters:
     canal_tp_mtt.amqp_pdf_gen_publisher.class: CanalTP\MttBundle\Services\Amqp\PdfGenPublisher
     canal_tp_mtt.pdf_gen_completion_lib.class: CanalTP\MttBundle\Services\PdfGenCompletionLib
     canal_tp_mtt.task_cancelation.class: CanalTP\MttBundle\Services\Amqp\TaskCancelation
+    canal_tp_mtt.task_manager.class: CanalTP\MttBundle\Services\TaskManager
     # Area
     canal_tp_mtt.area_manager.class: CanalTP\MttBundle\Services\AreaManager
     canal_tp_mtt.area_pdf_manager.class: CanalTP\MttBundle\Services\AreaPdfManager
@@ -139,7 +140,7 @@ services:
        arguments: ['@canal_tp_mtt.navitia', '@translator']
     canal_tp_mtt.season_manager:
        class: %canal_tp_mtt.season.class%
-       arguments: [@doctrine.orm.entity_manager]
+       arguments: [@doctrine.orm.entity_manager, '@canal_tp_mtt.area_pdf_manager']
     canal_tp_mtt.frequency_manager:
        class: %canal_tp_mtt.frequency_manager.class%
        arguments: ['@doctrine.orm.entity_manager']
@@ -163,20 +164,23 @@ services:
        arguments: ['@doctrine.orm.entity_manager', '%pdf_generator_url%', '@canal_tp_mtt.amqp_channel']
     canal_tp_mtt.pdf_payload_generator:
        class: %canal_tp_mtt.pdf_payload_generator.class%
-       arguments: ['@service_container', '@router', '@canal_tp_mtt.navitia', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.stop_point_manager', '@canal_tp_mtt.line_manager', '@logger']
+       arguments: ['@service_container', '@router', '@canal_tp_mtt.navitia', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.stop_point_manager', '@canal_tp_mtt.line_manager', '@logger', '@translator']
     canal_tp_mtt.pdf_gen_completion_lib:
        class: %canal_tp_mtt.pdf_gen_completion_lib.class%
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.media_manager', '@service_container']
     canal_tp_mtt.task_cancelation:
         class: %canal_tp_mtt.task_cancelation.class%
         arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.amqp_channel', '%kernel.root_dir%']
+    canal_tp_mtt.task_manager:
+        class: %canal_tp_mtt.task_manager.class%
+        arguments: ['@doctrine.orm.entity_manager']
     # Area
     canal_tp_mtt.area_manager:
         class: %canal_tp_mtt.area_manager.class%
         arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager]
     canal_tp_mtt.area_pdf_manager:
         class: %canal_tp_mtt.area_pdf_manager.class%
-        arguments: ['@doctrine.orm.entity_manager', '@request_stack', "%kernel.root_dir%/../web/uploads/"]
+        arguments: ['@doctrine.orm.entity_manager', '@request_stack', "%kernel.root_dir%/../web/uploads/", '@canal_tp_mtt.task_manager']
     # LayoutConfig
     canal_tp_mtt.layout_config:
         class: %canal_tp_mtt.layout_config.class%
