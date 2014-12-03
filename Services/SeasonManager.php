@@ -18,10 +18,11 @@ class SeasonManager
     private $repository = null;
     private $om = null;
 
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, AreaPdfManager $areaPdfManager)
     {
         $this->om = $om;
         $this->repository = $om->getRepository('CanalTPMttBundle:Season');
+        $this->areaPdfManager = $areaPdfManager;
     }
 
     public function getSeasonWithPerimeterAndSeasonId(Perimeter $perimeter, $seasonId)
@@ -84,7 +85,7 @@ class SeasonManager
                 'typeId' => AmqpTask::SEASON_PDF_GENERATION_TYPE
             )
         );
-        // remove distribution list tasks
+        // remove season tasks
         $timetableIds = array();
         foreach ($season->getLineConfigs() as $lineConfig) {
             foreach ($lineConfig->getTimetables() as $timetable) {
@@ -99,6 +100,7 @@ class SeasonManager
                 $this->om->remove($task);
             }
         }
+        $this->areaPdfManager->removeAreaPdfBySeason($season);
         $this->om->remove($season);
         $this->om->flush();
     }

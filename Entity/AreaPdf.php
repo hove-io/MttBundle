@@ -118,4 +118,15 @@ class AreaPdf extends AbstractEntity
     {
         return ($this->getArea()->getNbStopPoints);
     }
+
+    public function getPath()
+    {
+        $path = 'area/';
+        $path .= $this->getArea()->getId() . '/';
+        $path .= 'seasons/';
+        $path .= $this->getSeason()->getId() . '/';
+        $path .= 'Secteur.pdf';
+
+        return $path;
+    }
 }

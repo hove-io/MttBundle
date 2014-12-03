@@ -3,7 +3,10 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use CanalTP\MttBundle\Entity\AmqpTask;
 use CanalTP\MttBundle\Entity\AreaPdf;
+use CanalTP\MttBundle\Entity\Season;
+use CanalTP\MttBundle\Services\TaskManager;
 
 class AreaPdfManager
 {
@@ -11,13 +14,15 @@ class AreaPdfManager
     private $request = null;
     private $uploadPath = null;
     private $repository = null;
+    private $taskManager = null;
 
-    public function __construct(ObjectManager $om, $request, $uploadPath)
+    public function __construct(ObjectManager $om, $request, $uploadPath, TaskManager $taskManager)
     {
         $this->om = $om;
         $this->request = $request;
         $this->repository = $om->getRepository('CanalTPMttBundle:AreaPdf');
         $this->uploadPath = $uploadPath;
+        $this->taskManager = $taskManager;
     }
 
     public function findAll()
@@ -30,21 +35,10 @@ class AreaPdfManager
         return $this->uploadPath;
     }
 
-    public function generateAreaPdfPath($areaPdf)
-    {
-        $path = 'area/';
-        $path .= $areaPdf->getArea()->getId() . '/';
-        $path .= 'seasons/';
-        $path .= $areaPdf->getSeason()->getId() . '/';
-        $path .= 'Secteur.pdf';
-
-        return $path;
-    }
-
     public function generateRelativeAreaPdfPath($areaPdf)
     {
         $path = $this->request->getCurrentRequest()->getBasePath() . '/uploads/';
-        $path .= $this->generateAreaPdfPath($areaPdf);
+        $path .= $areaPdf->getPath();
 
         return $path;
     }
@@ -52,7 +46,7 @@ class AreaPdfManager
     public function generateAbsoluteAreaPdfPath($areaPdf)
     {
         $path = $this->getUploadRootDir();
-        $path .= $this->generateAreaPdfPath($areaPdf);
+        $path .= $areaPdf->getPath();
 
         return $path;
     }
@@ -87,4 +81,13 @@ class AreaPdfManager
         return ($areaPdf);
     }
 
+    public function removeAreaPdfBySeason(Season $season)
+    {
+        $areaPdfs = $this->repository->findBySeason($season);
+
+        foreach ($areaPdfs as $areaPdf) {
+            $this->taskManager->remove($areaPdf->getId(), AmqpTask::AREA_PDF_GENERATION_TYPE);
+            unlink($this->generateAbsoluteAreaPdfPath($areaPdf));
+        }
+    }
 }
