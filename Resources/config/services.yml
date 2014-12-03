@@ -30,6 +30,7 @@ parameters:
     canal_tp_mtt.task_cancelation.class: CanalTP\MttBundle\Services\Amqp\TaskCancelation
     # Area
     canal_tp_mtt.area_manager.class: CanalTP\MttBundle\Services\AreaManager
+    canal_tp_mtt.area_pdf_manager.class: CanalTP\MttBundle\Services\AreaPdfManager
     # Layout
     canal_tp_mtt.layout.class: CanalTP\MttBundle\Services\LayoutManager
     canal_tp_mtt.layout_config.class: CanalTP\MttBundle\Services\LayoutConfigManager
@@ -57,7 +58,12 @@ services:
             - { name: twig.extension }
     canal_tp_mtt.twig.task_type_extension:
         class: CanalTP\MttBundle\Twig\TaskTypeExtension
-        arguments: ['@translator', '@doctrine.orm.entity_manager', '@canal_tp.mtt.distribution_list_manager', '@canal_tp_mtt.area_manager', '@sam_navitia']
+        arguments: ['@translator', '@doctrine.orm.entity_manager', '@canal_tp.mtt.distribution_list_manager', '@canal_tp_mtt.area_pdf_manager', '@sam_navitia']
+        tags:
+            - { name: twig.extension }
+    canal_tp_mtt.twig.area_extension:
+        class: CanalTP\MttBundle\Twig\AreaExtension
+        arguments: ['@doctrine.orm.entity_manager', '@translator', '@canal_tp_mtt.area_pdf_manager']
         tags:
             - { name: twig.extension }
     # Service of mediaManager
@@ -167,7 +173,10 @@ services:
     # Area
     canal_tp_mtt.area_manager:
         class: %canal_tp_mtt.area_manager.class%
-        arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager, '@request_stack', "%kernel.root_dir%/../web/uploads/"]
+        arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager]
+    canal_tp_mtt.area_pdf_manager:
+        class: %canal_tp_mtt.area_pdf_manager.class%
+        arguments: ['@doctrine.orm.entity_manager', '@request_stack', "%kernel.root_dir%/../web/uploads/"]
     # LayoutConfig
     canal_tp_mtt.layout_config:
         class: %canal_tp_mtt.layout_config.class%

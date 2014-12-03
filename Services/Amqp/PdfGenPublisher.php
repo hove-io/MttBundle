@@ -81,9 +81,9 @@ class PdfGenPublisher
         }
     }
 
-    public function publishAreaPdfGen($payloads, $area, $taskOptions = array())
+    public function publishAreaPdfGen($payloads, $areaPdf, $taskOptions = array())
     {
-        $task = $this->getNewTask($payloads, $area, $area->getPerimeter(), $taskOptions, AmqpTask::AREA_PDF_GENERATION_TYPE);
+        $task = $this->getNewTask($payloads, $areaPdf, $areaPdf->getArea()->getPerimeter(), $taskOptions, AmqpTask::AREA_PDF_GENERATION_TYPE);
         $this->publishPayloads($payloads, $task);
     }
 

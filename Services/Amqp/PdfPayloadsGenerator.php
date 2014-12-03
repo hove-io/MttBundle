@@ -154,9 +154,10 @@ class PdfPayloadsGenerator
         return $payloads;
     }
 
-    public function getAreaPayloads($area, $season)
+    public function getAreaPdfPayloads($areaPdf)
     {
         $payloads = array();
+        $area = $areaPdf->getArea();
         $perimeter = $area->getPerimeter();
 
         foreach ($area->getStopPointsOrderByExternalRouteIdAndExternalLineId() as $externalRouteId => $areaLine) {
@@ -164,7 +165,7 @@ class PdfPayloadsGenerator
                 try {
                     $lineConfig = $this->lineManager->getLineConfigByExternalLineIdAndSeasonId(
                         $externalLineId,
-                        $season->getId()
+                        $areaPdf->getSeason()->getId()
                     );
                 } catch (NotFoundHttpException $e) {
                     $this->logger->addInfo('One pdf in area (' . $area->getId() . ') was not generated.');
@@ -192,7 +193,7 @@ class PdfPayloadsGenerator
         }
 
         if (empty($payloads)) {
-            throw new \Exception('pdfGeneration.no_pdf');
+            throw new \Exception('pdf.generation.empty');
         }
 
         return $payloads;

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Symfony service to call the pdfGenerator webservice
- *
- * @author vdegroote
- */
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -20,7 +15,7 @@ class PdfGenCompletionLib
     private $lineConfigRepo = null;
     private $timetableRepo = null;
     private $stopPointRepo = null;
-    private $areaRepo = null;
+    private $areaPdfRepo = null;
 
     public function __construct(ObjectManager $om, MediaManager $mediaManager, $container)
     {
@@ -30,7 +25,7 @@ class PdfGenCompletionLib
         $this->lineConfigRepo = $this->om->getRepository('CanalTPMttBundle:LineConfig');
         $this->timetableRepo = $this->om->getRepository('CanalTPMttBundle:Timetable');
         $this->stopPointRepo = $this->om->getRepository('CanalTPMttBundle:StopPoint');
-        $this->areaRepo = $this->om->getRepository('CanalTPMttBundle:Area');
+        $this->areaPdfRepo = $this->om->getRepository('CanalTPMttBundle:AreaPdf');
     }
 
     private function getLineConfig($ack, $lineConfig)
@@ -188,8 +183,9 @@ class PdfGenCompletionLib
     private function completeAreaList($task)
     {
         $pdfGenerator = $this->container->get('canal_tp_mtt.pdf_generator');
-        $areaManager = $this->container->get('canal_tp_mtt.area_manager');
-        $area = $this->areaRepo->find($task->getObjectId());
+        $areaPdfManager = $this->container->get('canal_tp_mtt.area_pdf_manager');
+        $areaPdf = $this->areaPdfRepo->find($task->getObjectId());
+
         $paths = array();
         $lineConfig = false;
         $timetable = false;
@@ -210,10 +206,11 @@ class PdfGenCompletionLib
         }
         $pdfGenerator->aggregatePdf(
             $paths,
-            $areaManager->generateAbsoluteAreaPdfPath($area)
+            $areaPdfManager->generateAbsoluteAreaPdfPath($areaPdf)
         );
+        $areaPdf->setGeneratedAt(new \DateTime());
 
-        echo "Area saved to ", $areaManager->generateAbsoluteAreaPdfPath($area), " / Files aggregated ", count($paths), "\r\n";
+        echo "Area saved to ", $areaPdfManager->generateAbsoluteAreaPdfPath($areaPdf), " / Files aggregated ", count($paths), "\r\n";
     }
 
     private function completeSeasonPdfGen($task)

@@ -18,6 +18,18 @@
                         <a id="generate-distribution-list" href="{{ path('canal_tp_mtt_area_generate_pdfs', {'seasonId': season.id, 'externalNetworkId': areaExternalNetworkId, 'areaId': area.id }) }}" class="btn btn-primary">
                             <span class="glyphicon glyphicon-file"></span> {{'global.generatePdf'|trans}}
                         </a>
+
+                        {% set pdfUrl = area|hasPdf(season) %}
+                        {% if (pdfUrl is not empty) %}
+                            <a class="btn btn-primary" href="{{ pdfUrl }}" target="_blank">
+                                <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+                            </a>
+                        {% else %}
+                            <a class="btn btn-primary disabled" disabled="disabled" title="{{'distribution.no_pdf_at_this_time'|trans({}, 'default')}}" href="#">
+                                <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
+                            </a>
+                        {% endif %}
+
                     </td>
                 </tr>
             {% endfor %}
