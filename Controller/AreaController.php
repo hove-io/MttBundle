@@ -156,7 +156,6 @@ class AreaController extends AbstractController
         );
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
-        $areaManager = $this->get('canal_tp_mtt.area_manager');
         $stopPointsList = null;
         $stopPointsArea = $area->getStopPoints();
         if (!empty($stopPointsArea)) {
@@ -169,8 +168,7 @@ class AreaController extends AbstractController
                 'pageTitle'         => $area->getLabel(),
                 'area'              => $area,
                 'externalNetworkId' => $externalNetworkId,
-                'stopPointsList'    => $stopPointsList,
-                'pdfUrl'            => $areaManager->findPdfPathByTimetable($area)
+                'stopPointsList'    => $stopPointsList
             )
         );
     }
@@ -250,6 +248,7 @@ class AreaController extends AbstractController
     public function generatePdfAction($externalNetworkId, $seasonId, $areaId)
     {
         $areaManager = $this->get('canal_tp_mtt.area_manager');
+        $areaPdfManager = $this->get('canal_tp_mtt.area_pdf_manager');
         $seasonManager = $this->get('canal_tp_mtt.season_manager');
         $pdfPayloadGenerator = $this->get('canal_tp_mtt.pdf_payload_generator');
         $amqpPdfGenPublisher = $this->get('canal_tp_mtt.amqp_pdf_gen_publisher');
@@ -260,14 +259,15 @@ class AreaController extends AbstractController
             if (!$area->hasStopPoints()) {
                 throw new \Exception(
                     $this->get('translator')->trans(
-                        'area.no_pdfs',
+                        'area.pdf.empty',
                         array('%areaName%' => $area->getLabel()),
                         'default'
                     )
                 );
             }
-            $payloads = $pdfPayloadGenerator->getAreaPayloads($area, $season);
-            $amqpPdfGenPublisher->publishAreaPdfGen($payloads, $season);
+            $areaPdf = $areaPdfManager->getAreaPdf($area, $season);
+            $payloads = $pdfPayloadGenerator->getAreaPdfPayloads($areaPdf);
+            $amqpPdfGenPublisher->publishAreaPdfGen($payloads, $areaPdf);
 
             $this->get('session')->getFlashBag()->add(
                 'success',

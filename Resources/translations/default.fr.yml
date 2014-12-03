@@ -146,6 +146,9 @@ area:
     add_all: Ajouter tous les arrêts
     pdf_generation_task_has_started: La génération des %jobNumber% pdfs du secteur %sectorLabel% a bien été lancée.
     no_pdfs: Vous n'avez pas de pdf dans le secteur "%areaName%"
+    pdf:
+        manage: Gérer le pdf
+        empty: Vous n'avez pas de pdf dans le secteur "%areaName%"
 
 customer:
     list: Liste des clients

@@ -9,19 +9,19 @@ class TaskTypeExtension extends \Twig_Extension
     private $translator;
     private $em;
     private $distributionListManager;
-    private $areaManager;
+    private $areaPdfManager;
     private $navitiaManager;
 
     public function __construct(
         $translator,
         $em,
         $distributionListManager,
-        $areaManager,
+        $areaPdfManager,
         $navitiaManager
         )
     {
         $this->distributionListManager = $distributionListManager;
-        $this->areaManager = $areaManager;
+        $this->areaPdfManager = $areaPdfManager;
         $this->translator = $translator;
         $this->em = $em;
         $this->navitiaManager = $navitiaManager;
@@ -62,9 +62,9 @@ class TaskTypeExtension extends \Twig_Extension
             case AmqpTask::AREA_PDF_GENERATION_TYPE:
             default:
                 if ($task->isCompleted()) {
-                    $area = $this->em->getRepository('CanalTPMttBundle:Area')->find($task->getObjectId());
-                    if (!empty($area)) {
-                        $return = '<a class="btn btn-primary btn-sm" target="_blank" href="' . $this->areaManager->findPdfPathByTimetable($area) . '">';
+                    $areaPdf = $this->em->getRepository('CanalTPMttBundle:AreaPdf')->find($task->getObjectId());
+                    if (!empty($areaPdf)) {
+                        $return = '<a class="btn btn-primary btn-sm" target="_blank" href="' . $this->areaPdfManager->findPdfPath($areaPdf) . '">';
                         $return .= '<span class="glyphicon glyphicon-download-alt"></span> ';
                         $return .= $this->translator->trans(
                             'distribution.download_distribution_pdf',
@@ -115,11 +115,11 @@ class TaskTypeExtension extends \Twig_Extension
                 break;
             case AmqpTask::AREA_PDF_GENERATION_TYPE:
             default:
-                $area = $this->em->getRepository('CanalTPMttBundle:Area')->find($task->getObjectId());
+                $areaPdf = $this->em->getRepository('CanalTPMttBundle:AreaPdf')->find($task->getObjectId());
                 $return = $this->translator->trans(
                     'task.area_pdf_generation',
                     array(
-                        '%sectorLabel%' => $area->getLabel()
+                        '%sectorLabel%' => $areaPdf->getArea()->getLabel()
                     ),
                     'default'
                 );

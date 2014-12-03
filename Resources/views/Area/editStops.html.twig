@@ -14,18 +14,9 @@
     <h1>{{ area.label }}</h1>
     <div class="row">
         <div class="col-md-offset-5 col-md-7">
-            {% if (pdfUrl is not empty) %}
-                <a class="btn btn-primary" href="{{ pdfUrl }}" target="_blank">
-                    <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
-                </a>
-            {% else %}
-                <a class="btn btn-primary disabled" disabled="disabled" title="{{'distribution.no_pdf_at_this_time'|trans({}, 'default')}}" href="#">
-                    <span class="glyphicon glyphicon-download-alt"></span> {{'distribution.download_distribution_pdf'|trans({}, 'default')}}
-                </a>
-            {% endif %}
             {% if (is_granted('BUSINESS_LIST_AREA')) %}
                 <a class="btn btn-primary" href="{{ path('canal_tp_mtt_area_list_pdf', {'areaId': area.id }) }}" data-toggle="modal" data-target="#base-modal">
-                    <span class="glyphicon glyphicon-file"></span> {{'distribution.generate_distribution_pdf'|trans({}, 'default')}}
+                    <span class="glyphicon glyphicon-file"></span> {{'area.pdf.manage'|trans({}, 'default')}}
                 </a>
             {% endif %}
             <a id="save-distribution-list" class="btn btn-primary" href="{{ path('canal_tp_mtt_area_edit_stops_save',{'externalNetworkId': externalNetworkId, 'areaId': area.id}) }}">
@@ -46,7 +37,6 @@
             <ul id="excluded-stops" class="list-group empty-list">
                 <span class="help-block">{{'area.select_route'|trans({}, 'default')}}</span>
             </ul>
-
         </div>
         <div class="col-md-7">
             <h4>{{'area.stops_included'|trans({}, 'default')}}</h4>
