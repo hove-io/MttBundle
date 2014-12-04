@@ -43,11 +43,16 @@
                     </a>
                 </li>
                 {% if stopPoint and is_granted('BUSINESS_GENERATE_PDF') %}
-                <li{% if currentSeason.locked %} class="disabled"{% endif %}>
-                    <a href="{{ path('canal_tp_mtt_timetable_generate_pdf', {'timetableId': timetable.id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
-                        <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
-                    </a>
-                </li>
+                    <li{% if currentSeason.locked %} class="disabled"{% endif %}>
+                        <a href="{{ path('canal_tp_mtt_timetable_edit', {'externalLineId': externalLineId, 'externalNetworkId': externalNetworkId, 'seasonId': currentSeason.id, 'externalRouteId': externalRouteId}) }}">
+                            <span class="glyphicon glyphicon-edit"></span> {{'stop_point.edit'|trans}}
+                        </a>
+                    </li>
+                    <li{% if currentSeason.locked %} class="disabled"{% endif %}>
+                        <a href="{{ path('canal_tp_mtt_timetable_generate_pdf', {'timetableId': timetable.id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
+                            <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
+                        </a>
+                    </li>
                 {% endif %}
             </ul>
             {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': currentSeason.id})) }}
