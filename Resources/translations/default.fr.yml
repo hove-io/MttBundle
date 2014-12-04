@@ -153,7 +153,9 @@ area:
     no_pdfs: Vous n'avez pas de pdf dans le secteur "%areaName%"
     pdf:
         manage: Gérer le pdf
-        empty: Vous n'avez pas de pdf dans le secteur "%areaName%" pour la saison "%seasonName%"
+        empty: Vous n'avez pas configuré le fond de fiche des arrêts présents dans le secteur "%areaName%" pour la saison "%seasonName%"
+    stop_point:
+        empty: Vous n'avez pas d'arrêt dans le secteur "%areaName%" pour la saison "%seasonName%"
 
 customer:
     list: Liste des clients

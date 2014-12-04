@@ -38,4 +38,6 @@ CanalTP\MttBundle\Entity\Area:
         areasPdf:
             targetEntity: AreaPdf
             mappedBy: area
+            cascade:
+                - remove
     lifecycleCallbacks: {  }
