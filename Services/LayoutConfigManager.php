@@ -45,6 +45,9 @@ class LayoutConfigManager
 
     public function delete($layoutConfig)
     {
+        foreach ($layoutConfig->getLineConfigs() as $lineConfig) {
+            $lineConfig->setLayoutConfig(null);
+        }
         $this->om->remove($layoutConfig);
         $this->om->flush();
     }

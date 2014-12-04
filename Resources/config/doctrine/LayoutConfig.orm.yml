@@ -46,7 +46,7 @@ CanalTP\MttBundle\Entity\LayoutConfig:
         lineConfigs:
             targetEntity: LineConfig
             mappedBy: layoutConfig
-            cascade: ["persist", "remove"]
+            cascade: ["persist"]
     manyToOne:
         layout:
             targetEntity: Layout

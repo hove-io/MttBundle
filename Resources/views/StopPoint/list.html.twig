@@ -10,7 +10,7 @@
                 {{'season.create'|trans({}, 'default')}}
             </a>
     {% elseif seasons|length != 0 %}
-        {% if lineConfig is empty and is_granted('BUSINESS_CHOOSE_LAYOUT') %}
+        {% if is_granted('BUSINESS_CHOOSE_LAYOUT') and (lineConfig is empty or lineConfig.layoutConfig is null) %}
             <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}" class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}">
                 <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}
             </a>
