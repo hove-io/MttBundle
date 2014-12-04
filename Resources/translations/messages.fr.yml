@@ -130,3 +130,7 @@ block:
 
 customer:
     layout_list: Liste des fonds de fiche
+
+stop_point:
+    edit: Editer
+    view: Prévisualiser

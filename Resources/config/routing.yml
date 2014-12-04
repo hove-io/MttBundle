@@ -182,7 +182,7 @@ canal_tp_mtt_layoutconfig_delete_confirm:
     defaults: { _controller: CanalTPMttBundle:LayoutConfig:delete, layoutConfigId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
-        
+
 
 #Webservice
 canal_tp_mtt_WS_timetable:

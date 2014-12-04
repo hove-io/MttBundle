@@ -46,7 +46,7 @@ class TimetableController extends AbstractController
         );
     }
 
-    private function renderLayout($timetable, $externalStopPointId, $editable = true, $displayMenu = true)
+    private function renderLayout($timetable, $externalStopPointId, $editable = true, $displayMenu = true, $stopPointId = null)
     {
         $externalCoverageId = $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
 
@@ -91,7 +91,8 @@ class TimetableController extends AbstractController
                 'displayMenu'           => $displayMenu,
                 'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
                 'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
-                'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/'
+                'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'externalStopPointId'   => $stopPointId
             )
         );
     }
@@ -107,13 +108,19 @@ class TimetableController extends AbstractController
             $this->getUser()->getCustomer(),
             $externalNetworkId
         );
+        $stopPointId = $this->get('canal_tp_mtt.navitia')->getStopPoints(
+            $perimeter->getExternalCoverageId(),
+            $perimeter->getExternalNetworkId(),
+            $externalLineId,
+            $externalRouteId
+        )->route_schedules[0]->table->rows[0]->stop_point->id;
         $timetable = $this->getTimetable(
             $externalRouteId,
             $perimeter->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
 
-        return $this->renderLayout($timetable, $externalStopPointId, true, true);
+        return $this->renderLayout($timetable, $externalStopPointId, true, true, $stopPointId);
     }
 
     /*

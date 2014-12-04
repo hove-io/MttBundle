@@ -53,6 +53,12 @@
                             <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
                         </a>
                     </li>
+                {% else %}
+                <li>
+                    <a href="{{ path('canal_tp_mtt_timetable_view', {'externalNetworkId': externalNetworkId, 'externalLineId': externalLineId, 'externalRouteId': externalRouteId, 'seasonId': currentSeason.id, 'externalStopPointId': externalStopPointId}) }}">
+                        <span class="glyphicon glyphicon-eye-open"></span> {{'stop_point.view'|trans}}
+                    </a>
+                </li>
                 {% endif %}
             </ul>
             {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': currentSeason.id})) }}
