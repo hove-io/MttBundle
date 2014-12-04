@@ -1,3 +1,20 @@
+Notes de publication - METH - Version 1.5.1 (04/12/2014)
+
+** Amélioration
+    * [METH-340] - Amélioration navigation Edition/prévisualisation
+
+** Récit
+    * [METH-282] - Suppression d'un secteur
+    * [METH-288] - Gestion des couleurs dans les renvois
+    * [METH-298] - Suppression d'un fond de fiche
+    * [METH-336] - Configuration des couleurs des renvois dans les gabarits
+    * [METH-337] - Intégration du modèle Divia "Fond 4 pavés"
+    * [METH-359] - Passage en https
+
+** Tâche
+    * [METH-283] - Màj de la fonctionnalité "supprimer une saison"
+
+
 Notes de publication - METH - Version 1.5.0 (28/11/2014)
 
 ** Sous-tâche
