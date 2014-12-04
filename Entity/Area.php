@@ -2,8 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Area
  */
@@ -47,7 +45,7 @@ class Area extends AbstractEntity
     /**
      * Set label
      *
-     * @param string $label
+     * @param  string $label
      * @return Area
      */
     public function setLabel($label)
@@ -70,7 +68,7 @@ class Area extends AbstractEntity
     /**
      * Set network
      *
-     * @param Object $network
+     * @param  Object $network
      * @return Area
      */
     public function setPerimeter($perimeter)
@@ -127,7 +125,7 @@ class Area extends AbstractEntity
     /**
      * Set areasPdf
      *
-     * @param Object $areasPdf
+     * @param  Object $areasPdf
      * @return Area
      */
     public function setAreasPdf($areasPdf)

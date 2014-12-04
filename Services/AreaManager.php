@@ -5,9 +5,6 @@ namespace CanalTP\MttBundle\Services;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use CanalTP\MttBundle\Entity\Area;
-use CanalTP\MttBundle\Entity\AreaPdf;
-use CanalTP\MttBundle\Entity\AmqpTask;
-use CanalTP\MttBundle\Services\AreaPdfManager;
 
 class AreaManager
 {

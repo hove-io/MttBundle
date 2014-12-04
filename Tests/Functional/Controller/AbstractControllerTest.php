@@ -2,10 +2,6 @@
 
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Event\AuthenticationEvent;
-use Symfony\Component\Security\Core\AuthenticationEvents;
 use CanalTP\SamCoreBundle\Tests\Functional\Controller\BaseControllerTest AS SamBaseTestController;
 
 abstract class AbstractControllerTest extends SamBaseTestController

@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use CanalTP\SamCoreBundle\DataFixtures\ORM\CustomerTrait;
 
-
 class FixturesCustomer extends AbstractFixture implements OrderedFixtureInterface
 {
     use CustomerTrait;

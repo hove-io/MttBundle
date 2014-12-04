@@ -79,4 +79,3 @@ class FixturesRole extends AbstractFixture implements OrderedFixtureInterface
         return 2;
     }
 }
- 

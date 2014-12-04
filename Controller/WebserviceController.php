@@ -4,8 +4,6 @@ namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use CanalTP\MediaManager\Category\CategoryType;
-use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManagerBundle\Entity\Media;
 
 class WebserviceController extends AbstractController
@@ -23,6 +21,7 @@ class WebserviceController extends AbstractController
         $media = new Media();
         $media->setCategory($seasonCategory);
         $media->setFileName($mediaManager::TIMETABLE_FILENAME);
+
         return $mediaManager->getUrlByMedia($media);
     }
 

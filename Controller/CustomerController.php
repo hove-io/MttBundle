@@ -58,7 +58,6 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-
             return $this->redirect(
                 $this->generateUrl('canal_tp_mtt_customer_list', array(
                     'externalNetworkId' => $externalNetworkId
@@ -80,6 +79,7 @@ class CustomerController extends AbstractController
                 array('form' => $form->createView())
             );
         }
+
         return ($render);
     }
 }

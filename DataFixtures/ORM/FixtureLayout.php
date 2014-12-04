@@ -6,13 +6,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-use CanalTP\SamEcoreUserManagerBundle\Entity\User;
 use CanalTP\MttBundle\Entity\LayoutConfig;
 use CanalTP\MttBundle\Entity\Layout;
 
 class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
 {
-	private $om;
+    private $om;
 
     private function createLayout($layoutProperties, $networks = array())
     {

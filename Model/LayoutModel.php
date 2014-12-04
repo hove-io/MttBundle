@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class LayoutModel
 {
     protected $file;
-    
+
     public function getFile()
     {
         return $this->file;

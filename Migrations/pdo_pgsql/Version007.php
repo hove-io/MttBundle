@@ -2,8 +2,6 @@
 
 namespace CanalTP\MttBundle\Migrations\pdo_pgsql;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
@@ -106,7 +104,6 @@ class Version007 extends AbstractMigration
         $this->addSql('ALTER TABLE mtt.area ADD CONSTRAINT FK_2E79A2FD34128B91 FOREIGN KEY (network_id) REFERENCES mtt.network (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE mtt.area_pdf ADD CONSTRAINT FK_CF404A72BD0F409C FOREIGN KEY (area_id) REFERENCES mtt.area (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE mtt.area_pdf ADD CONSTRAINT FK_CF404A724EC001D1 FOREIGN KEY (season_id) REFERENCES mtt.season (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-
 
         // Migration about Layout evolution in Mtt app.
         $this->addSql('CREATE SEQUENCE mtt.layout_config_id_seq INCREMENT BY 1 MINVALUE 1 START ' . $this->layoutConfigId[0]['start_at']);

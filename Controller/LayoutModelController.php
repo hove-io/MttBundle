@@ -4,7 +4,6 @@ namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use CanalTP\MttBundle\Form\Type\LayoutModelType;
-use CanalTP\MttBundle\Entity\Layout;
 
 class LayoutModelController extends AbstractController
 {
@@ -26,7 +25,7 @@ class LayoutModelController extends AbstractController
         if ($form->isValid()) {
             try {
                 $this->get('canal_tp_mtt.layout_model')->save($form->getData());
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $this->get('session')->getFlashBag()->add(
                     'danger',
                     $this->get('translator')->trans(

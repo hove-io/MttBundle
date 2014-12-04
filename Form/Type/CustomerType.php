@@ -5,8 +5,6 @@ namespace CanalTP\MttBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 use CanalTP\MttBundle\Form\DataTransformer\LayoutCustomerTransformer;
 
 class CustomerType extends AbstractType

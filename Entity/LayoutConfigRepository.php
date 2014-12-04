@@ -23,6 +23,7 @@ class LayoutConfigRepository extends EntityRepository
                 $name = 'Landscape';
                 break;
         }
+
         return ($name);
     }
 

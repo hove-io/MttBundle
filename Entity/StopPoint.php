@@ -230,7 +230,7 @@ class StopPoint extends AbstractEntity
     /**
      * Set pois_distance
      *
-     * @param  integer    $poiDistance
+     * @param  integer   $poiDistance
      * @return StopPoint
      */
     public function setPoiDistance($poiDistance)

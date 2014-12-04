@@ -3,7 +3,6 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use CanalTP\MttBundle\Entity\LayoutConfig;
 use Symfony\Component\Finder\Finder;
 
 class LayoutModelManager
@@ -57,8 +56,8 @@ class LayoutModelManager
     /**
      * Move from working directory to final directory the first image found
      *
-     * @param String $actualDir working directory
-     * @param String $targetDir destination directory
+     * @param  String $actualDir working directory
+     * @param  String $targetDir destination directory
      * @return String FileName
      */
     protected function movePictures($actualDir, $targetDir)
@@ -86,8 +85,8 @@ class LayoutModelManager
      * Move files of extension type
      *
      * @param String $extension exemple: '*.EXTENSION'
-     * @param type $actualDir
-     * @param type $targetDir
+     * @param type   $actualDir
+     * @param type   $targetDir
      */
     protected function moveFiles($extension, $actualDir, $targetDir)
     {
@@ -112,7 +111,7 @@ class LayoutModelManager
     {
         try {
             $this->moveFiles('*.css', $actualDir, $targetDir . '/css/' . $id);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -146,7 +145,7 @@ class LayoutModelManager
     /**
      * Return an array from the configuration yml file
      *
-     * @param string $actualDir
+     * @param  string $actualDir
      * @return array
      */
     protected function readConfiguration($actualDir)

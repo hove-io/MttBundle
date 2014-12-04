@@ -19,6 +19,7 @@ class DistributionListRepository extends EntityRepository
                 return $key;
             }
         }
+
         return false;
     }
 

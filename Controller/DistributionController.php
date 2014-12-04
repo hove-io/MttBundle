@@ -2,7 +2,6 @@
 
 namespace CanalTP\MttBundle\Controller;
 
-use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MttBundle\Entity\DistributionList;
 
 class DistributionController extends AbstractController
@@ -111,7 +110,6 @@ class DistributionController extends AbstractController
         $seasons = $this->get('canal_tp_mtt.season_manager')->findByPerimeter(
             $perimeter
         );
-
 
         return $this->render(
             'CanalTPMttBundle:Distribution:list.html.twig',

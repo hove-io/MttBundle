@@ -2,7 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -83,7 +82,7 @@ class LayoutConfig extends AbstractEntity
     /**
      * Set label
      *
-     * @param string $label
+     * @param  string       $label
      * @return LayoutConfig
      */
     public function setLabel($label)
@@ -106,7 +105,7 @@ class LayoutConfig extends AbstractEntity
     /**
      * Set calendarStart
      *
-     * @param integer $calendarStart
+     * @param  integer      $calendarStart
      * @return LayoutConfig
      */
     public function setCalendarStart($calendarStart)
@@ -129,7 +128,7 @@ class LayoutConfig extends AbstractEntity
     /**
      * Set calendarEnd
      *
-     * @param integer $calendarEnd
+     * @param  integer      $calendarEnd
      * @return LayoutConfig
      */
     public function setCalendarEnd($calendarEnd)
@@ -152,7 +151,7 @@ class LayoutConfig extends AbstractEntity
     /**
      * Set notesMode
      *
-     * @param integer $notesMode
+     * @param  integer      $notesMode
      * @return LayoutConfig
      */
     public function setNotesMode($notesMode)
@@ -175,7 +174,7 @@ class LayoutConfig extends AbstractEntity
     /**
      * Set previewPath
      *
-     * @param string $previewPath
+     * @param  string $previewPath
      * @return Layout
      */
     public function setPreviewPath($previewPath)
@@ -328,7 +327,7 @@ class LayoutConfig extends AbstractEntity
             $this->getUploadRootDir(),
             $this->getFile()->getClientOriginalName()
         );
-	$fileName = $this->getId() . '.' . $file->getExtension();
+    $fileName = $this->getId() . '.' . $file->getExtension();
         $file->move(
             $this->getUploadRootDir(),
             $fileName

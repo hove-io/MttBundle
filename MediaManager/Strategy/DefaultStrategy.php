@@ -25,6 +25,7 @@ class DefaultStrategy extends AbstractStrategy
 
         $path .= $this->buildPath("", $category);
         $path .= $media->getBaseName();
+
         return ($path);
     }
 
@@ -37,6 +38,7 @@ class DefaultStrategy extends AbstractStrategy
         $path .= $company->getName() . '/';
 
         $path .= $this->buildPath("", $category);
+
         return ($path);
     }
 
@@ -48,6 +50,7 @@ class DefaultStrategy extends AbstractStrategy
         $path = $company->getName() . '/';
 
         $path .= $this->buildPath("", $category);
+
         return ($path);
     }
 
@@ -105,6 +108,7 @@ class DefaultStrategy extends AbstractStrategy
                 return ($mediaPath);
             }
         }
+
         return (null);
     }
 }
