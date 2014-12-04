@@ -259,8 +259,11 @@ class AreaController extends AbstractController
             if (!$area->hasStopPoints()) {
                 throw new \Exception(
                     $this->get('translator')->trans(
-                        'area.pdf.empty',
-                        array('%areaName%' => $area->getLabel()),
+                        'area.stop_point.empty',
+                        array(
+                            '%areaName%' => $area->getLabel(),
+                            '%seasonName%' => $season->getTitle()
+                        ),
                         'default'
                     )
                 );

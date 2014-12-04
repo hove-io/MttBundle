@@ -177,7 +177,7 @@ services:
     # Area
     canal_tp_mtt.area_manager:
         class: %canal_tp_mtt.area_manager.class%
-        arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager]
+        arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager, '@canal_tp_mtt.area_pdf_manager']
     canal_tp_mtt.area_pdf_manager:
         class: %canal_tp_mtt.area_pdf_manager.class%
         arguments: ['@doctrine.orm.entity_manager', '@request_stack', "%kernel.root_dir%/../web/uploads/", '@canal_tp_mtt.task_manager']

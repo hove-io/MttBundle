@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MttBundle\Entity\AmqpTask;
 use CanalTP\MttBundle\Entity\AreaPdf;
 use CanalTP\MttBundle\Entity\Season;
+use CanalTP\MttBundle\Entity\Area;
 use CanalTP\MttBundle\Services\TaskManager;
 
 class AreaPdfManager
@@ -81,13 +82,31 @@ class AreaPdfManager
         return ($areaPdf);
     }
 
+    private function removeAreaPdf($areaPdf)
+    {
+        $path = $this->generateAbsoluteAreaPdfPath($areaPdf);
+
+        $this->taskManager->remove($areaPdf->getId(), AmqpTask::AREA_PDF_GENERATION_TYPE);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+    }
+
     public function removeAreaPdfBySeason(Season $season)
     {
         $areaPdfs = $this->repository->findBySeason($season);
 
         foreach ($areaPdfs as $areaPdf) {
-            $this->taskManager->remove($areaPdf->getId(), AmqpTask::AREA_PDF_GENERATION_TYPE);
-            unlink($this->generateAbsoluteAreaPdfPath($areaPdf));
+            $this->removeAreaPdf($areaPdf);
+        }
+    }
+
+    public function removeAreaPdfByArea(Area $area)
+    {
+        $areaPdfs = $this->repository->findByArea($area);
+
+        foreach ($areaPdfs as $areaPdf) {
+            $this->removeAreaPdf($areaPdf);
         }
     }
 }
