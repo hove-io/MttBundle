@@ -44,6 +44,8 @@ layout_config:
     orientation: Orientation
     create: Ajouter
     created: Le fond de fiche a bien été ajouté
+    used_by: "Ce fond de fiche est utilisé par les lignes suivantes :"
+    confirm_delete: "Si vous confirmez la suppression, vous devrez ré-associer des fonds de fiches aux lignes ci-dessus."
 
 layout_model:
     upload: Ajouter un modèle

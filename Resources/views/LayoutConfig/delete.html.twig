@@ -1,0 +1,28 @@
+{% extends "::modal.html.twig" %}
+
+{% block modal_title %}
+    {{ 'global.warning'|trans({}, 'messages') }}
+{% endblock %}
+
+{% block modal_body %}
+    <div class="alert alert-danger">
+        <p>{{'layout_config.used_by'|trans({}, 'default')}}</p>
+        <ul>
+        {% for lineExtCode, lineName in lines %}
+            <li line-id="{{ lineExtCode }}">{{ lineName }}</li>
+        {% endfor %}
+        </ul>
+        <p>{{'layout_config.confirm_delete'|trans({}, 'default')}}</p>
+    </div>
+    
+    <script>
+
+    </script>
+{% endblock %}
+
+{% block modal_actions %}
+        
+    <a class="btn btn-danger" href="{{ path('canal_tp_mtt_layoutconfig_delete_confirm', {'externalNetworkId': externalNetworkId, 'layoutConfigId': layoutConfigId, 'confirm': true }) }}">
+        <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans }}
+    </a>
+{% endblock %}

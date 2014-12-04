@@ -42,4 +42,10 @@ class LayoutConfigManager
     {
         return ($this->repository->findLayoutConfigByCustomer($this->currentCustomer));
     }
+
+    public function delete($layoutConfig)
+    {
+        $this->om->remove($layoutConfig);
+        $this->om->flush();
+    }
 }

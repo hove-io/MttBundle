@@ -94,4 +94,45 @@ class LayoutConfigController extends AbstractController
 
         return ($render);
     }
+
+    public function deleteAction(Request $request, $externalNetworkId, $layoutConfigId, $confirm)
+    {
+        $this->isGranted('BUSINESS_MANAGE_LAYOUT_CONFIG');
+
+        $layoutConfig = $this->get('canal_tp_mtt.layout_config')->find($layoutConfigId);
+
+        if (!is_null($confirm)) {
+            $this->get('canal_tp_mtt.layout_config')->delete($layoutConfig);
+
+            return $this->redirect(
+                $this->generateUrl(
+                    'canal_tp_mtt_layout_config_list',
+                    array('externalNetworkId' => $externalNetworkId)
+                )
+            );
+        }
+
+
+        $extCoverageId = null;
+        foreach ($this->get('security.context')->getToken()->getUser()->getCustomer()->getPerimeters() as $value) {
+            if ($value->getExternalNetworkId() == $externalNetworkId) {
+                $extCoverageId = $value->getExternalCoverageId();
+            }
+        }
+
+        $extLineIds = array();
+        foreach ($layoutConfig->getLineConfigs() as $line) {
+            $extLineIds[$line->getExternalLineId()] = $this->get('canal_tp_mtt.navitia')->getLineTitle($extCoverageId, $externalNetworkId, $line->getExternalLineId());
+
+        }
+
+        return $this->render(
+            'CanalTPMttBundle:LayoutConfig:delete.html.twig',
+            array(
+                'lines' => $extLineIds,
+                'externalNetworkId' => $externalNetworkId,
+                'layoutConfigId' => $layoutConfigId
+            )
+        );
+    }
 }

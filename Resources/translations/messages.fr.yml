@@ -8,6 +8,7 @@ global:
     delete: Supprimer
     cancel: Annuler
     status: Statut
+    warning: Avertissement
     generatePdf: Générer le PDF
     remove: Retirer
     add: Ajouter

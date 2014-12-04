@@ -36,7 +36,7 @@ class PdfGenCompletionLib
     private function getLineConfig($ack, $lineConfig)
     {
         if (
-            $lineConfig == false ||
+           $lineConfig == false ||
             // check if this ack is for a different lineConfig than the previous one
             $lineConfig->getExternalLineId() != $ack->getPayload()->timetableParams->externalLineId
         ) {
@@ -46,6 +46,10 @@ class PdfGenCompletionLib
                     'season' => $ack->getPayload()->timetableParams->seasonId
                 )
             );
+        }
+
+        if (is_null($lineConfig)) {
+            throw new \Exception('LineConfig not found, maybe layout is deleted.');
         }
 
         return $lineConfig;
@@ -118,7 +122,7 @@ class PdfGenCompletionLib
                 }
             } catch (\Exception $e) {
                 $task->fail();
-                echo "ERROR during task Completion, task n°" . $task->getId() . "\n";
+                echo "ERROR during task Completion, task nÂ°" . $task->getId() . "\n";
                 echo $e->getMessage() . "\n";
             }
         }
@@ -140,7 +144,7 @@ class PdfGenCompletionLib
     // Remove generated _tmp.pdf from mediamanager
     private function rollback($task)
     {
-        echo "Rollback task n°" . $task->getId() . "\r\n";
+        echo "Rollback task nÂ°" . $task->getId() . "\r\n";
         $lineConfig = false;
         $timetable = false;
         foreach ($task->getAmqpAcks() as $ack) {
@@ -225,7 +229,7 @@ class PdfGenCompletionLib
 
     public function completePdfGenTask($task)
     {
-        echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion started\n";
+        echo "PdfGenCompletionLib:task nÂ°" . $task->getId() . " completion started\n";
         echo "task status " . $task->getStatus() . "\n";
         if ($task->isCanceled()) {
             $this->rollback($task);
@@ -245,6 +249,6 @@ class PdfGenCompletionLib
         }
         $task->setCompletedAt(new \DateTime("now"));
         $this->om->flush();
-        echo "PdfGenCompletionLib:task n°" . $task->getId() . " completion realized\n";
+        echo "PdfGenCompletionLib:task nÂ°" . $task->getId() . " completion realized\n";
     }
 }
