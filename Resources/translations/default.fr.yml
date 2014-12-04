@@ -156,6 +156,9 @@ area:
         empty: Vous n'avez pas configuré le fond de fiche des arrêts présents dans le secteur "%areaName%" pour la saison "%seasonName%"
     stop_point:
         empty: Vous n'avez pas d'arrêt dans le secteur "%areaName%" pour la saison "%seasonName%"
+    save_order: Enregistrer l'ordre
+    download_pdf: Télécharger
+    generate_pdf: Générer
 
 customer:
     list: Liste des clients

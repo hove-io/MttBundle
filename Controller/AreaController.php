@@ -129,6 +129,7 @@ class AreaController extends AbstractController
     {
         $this->isGranted(array('BUSINESS_LIST_AREA', 'BUSINESS_MANAGE_AREA'));
 
+        $this->saveList($areaId);
         $area = $this->get('canal_tp_mtt.area_manager')->find($areaId);
         $seasons = $this->get('canal_tp_mtt.season_manager')->findByPerimeter(
             $area->getPerimeter()
