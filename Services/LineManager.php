@@ -7,7 +7,6 @@
  */
 namespace CanalTP\MttBundle\Services;
 
-use Symfony\Component\DependencyInjection\Container;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

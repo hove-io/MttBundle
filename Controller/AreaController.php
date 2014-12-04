@@ -186,7 +186,7 @@ class AreaController extends AbstractController
                 $perimeter->getExternalCoverageId(),
                 $perimeter->getExternalNetworkId()
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $result = array();
             $this->get('session')->getFlashBag()->add(
@@ -194,6 +194,7 @@ class AreaController extends AbstractController
                 $errorMessage
             );
         }
+
         return $this->render(
             'CanalTPMttBundle:Area:navigation.html.twig',
             array(

@@ -4,7 +4,6 @@ namespace CanalTP\MttBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Collections\ArrayCollection;
 use CanalTP\MttBundle\Entity\LayoutCustomer;
 
 class LayoutCustomerTransformer implements DataTransformerInterface
@@ -30,6 +29,7 @@ class LayoutCustomerTransformer implements DataTransformerInterface
         foreach ($layoutsCustomers as $layoutsCustomer) {
             $layoutCustomer->addLayoutAssigned($layoutsCustomer->getLayout());
         }
+
         return $layoutCustomer;
     }
 

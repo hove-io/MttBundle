@@ -14,7 +14,8 @@ class NotOverlappingEntityValidator extends ConstraintValidator
     private $endFieldGetter = null;
     private $seasonManager = null;
 
-    public function __construct($seasonManager) {
+    public function __construct($seasonManager)
+    {
         $this->seasonManager = $seasonManager;
     }
 

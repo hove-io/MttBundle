@@ -2,8 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * AreaPdf
  */
@@ -29,7 +27,6 @@ class AreaPdf extends AbstractEntity
      */
     private $generatedAt;
 
-
     /**
      * Get id
      *
@@ -43,7 +40,7 @@ class AreaPdf extends AbstractEntity
     /**
      * Set area
      *
-     * @param Object $area
+     * @param  Object  $area
      * @return AreaPdf
      */
     public function setArea($area)
@@ -66,7 +63,7 @@ class AreaPdf extends AbstractEntity
     /**
      * Set season
      *
-     * @param Object $season
+     * @param  Object  $season
      * @return AreaPdf
      */
     public function setSeason($season)
@@ -89,7 +86,7 @@ class AreaPdf extends AbstractEntity
     /**
      * Set generatedAt
      *
-     * @param \DateTime $generatedAt
+     * @param  \DateTime $generatedAt
      * @return AreaPdf
      */
     public function setGeneratedAt($generatedAt)

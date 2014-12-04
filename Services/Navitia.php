@@ -239,6 +239,7 @@ class Navitia
                 'parameters' => '?count=200'
             )
         );
+
         return $this->navitia_component->call($query);
     }
 
@@ -260,7 +261,6 @@ class Navitia
 
         return $response->lines;
     }
-
 
     /**
      * Returns Stop Point external code

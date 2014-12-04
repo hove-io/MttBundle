@@ -63,7 +63,7 @@ class DefaultController extends AbstractController
                 $perimeter->getExternalCoverageId(),
                 $perimeter->getExternalNetworkId()
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $result = array();
             $this->get('session')->getFlashBag()->add(
@@ -71,6 +71,7 @@ class DefaultController extends AbstractController
                 $errorMessage
             );
         }
+
         return $this->render(
             'CanalTPMttBundle:Default:navigation.html.twig',
             array(

@@ -181,8 +181,6 @@ class StopPointManager
                 return null;
             }
 
-
-
             if (!isset($routeStops[$stopPoint['routeId']])) {
                 $routeStops[$stopPoint['routeId']] = $this->getStopPointsByRoute($coverageId, $networkId, $stopPoint['routeId']);
             }
@@ -191,7 +189,7 @@ class StopPointManager
                 $routeLines[$stopPoint['routeId']] = $this->getLineByRoute($coverageId, $networkId, $stopPoint['routeId']);
             }
 
-            if (isset($routeStops[$stopPoint['routeId']]) && $routeStops[$stopPoint['routeId']][$stopPoint['stopPointId']]){
+            if (isset($routeStops[$stopPoint['routeId']]) && $routeStops[$stopPoint['routeId']][$stopPoint['stopPointId']]) {
                 $stopPoint['stopPointname'] = $routeStops[$stopPoint['routeId']][$stopPoint['stopPointId']];
             }
             if (isset($routeLines[$stopPoint['routeId']])) {

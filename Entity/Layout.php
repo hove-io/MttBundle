@@ -2,8 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Layout
  */
@@ -69,7 +67,7 @@ class Layout extends AbstractEntity
     /**
      * Set label
      *
-     * @param string $label
+     * @param  string $label
      * @return Layout
      */
     public function setLabel($label)
@@ -92,7 +90,7 @@ class Layout extends AbstractEntity
     /**
      * Set customers
      *
-     * @param string $customers
+     * @param  string       $customers
      * @return LayoutConfig
      */
     public function setCustomers($customers)
@@ -115,7 +113,7 @@ class Layout extends AbstractEntity
     /**
      * Set path
      *
-     * @param string $path
+     * @param  string $path
      * @return Layout
      */
     public function setPath($path)
@@ -138,7 +136,7 @@ class Layout extends AbstractEntity
     /**
      * Set previewPath
      *
-     * @param string $previewPath
+     * @param  string $previewPath
      * @return Layout
      */
     public function setPreviewPath($previewPath)
@@ -161,7 +159,7 @@ class Layout extends AbstractEntity
     /**
      * Set orientation
      *
-     * @param array $orientation
+     * @param  array  $orientation
      * @return Layout
      */
     public function setOrientation($orientation)
@@ -189,19 +187,20 @@ class Layout extends AbstractEntity
     public function getOrientationAsString()
     {
         $orientationAsString = '';
-        switch($this->orientation){
+        switch ($this->orientation) {
             case self::ORIENTATION_LANDSCAPE:
             default:
                 $orientationAsString = 'landscape';
                 break;
         }
+
         return $orientationAsString;
     }
 
     /**
      * Set notesModes
      *
-     * @param array $notesModes
+     * @param  array  $notesModes
      * @return Layout
      */
     public function setNotesModes($notesModes)

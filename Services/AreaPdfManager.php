@@ -7,7 +7,6 @@ use CanalTP\MttBundle\Entity\AmqpTask;
 use CanalTP\MttBundle\Entity\AreaPdf;
 use CanalTP\MttBundle\Entity\Season;
 use CanalTP\MttBundle\Entity\Area;
-use CanalTP\MttBundle\Services\TaskManager;
 
 class AreaPdfManager
 {
@@ -69,8 +68,7 @@ class AreaPdfManager
             )
         );
 
-        if ($areaPdf == null)
-        {
+        if ($areaPdf == null) {
             $areaPdf = new AreaPdf();
 
             $areaPdf->setArea($area);

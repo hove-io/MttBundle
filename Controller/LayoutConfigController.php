@@ -27,7 +27,6 @@ class LayoutConfigController extends AbstractController
         );
     }
 
-
     private function buildForm($externalNetworkId, $layoutConfigId)
     {
         $form = $this->createForm(

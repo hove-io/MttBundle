@@ -2,8 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * LayoutCustomer
  */
@@ -29,7 +27,6 @@ class LayoutCustomer
      */
     private $layoutsAssigned;
 
-
     /**
      * Constructor
      */
@@ -51,7 +48,7 @@ class LayoutCustomer
     /**
      * Set customer
      *
-     * @param \stdClass $customer
+     * @param  \stdClass      $customer
      * @return LayoutCustomer
      */
     public function setCustomer($customer)
@@ -74,7 +71,7 @@ class LayoutCustomer
     /**
      * Set customer
      *
-     * @param \stdClass $layout
+     * @param  \stdClass      $layout
      * @return LayoutCustomer
      */
     public function setLayout($layout)
@@ -97,7 +94,7 @@ class LayoutCustomer
     /**
      * Set layoutsAssigned
      *
-     * @param \stdClass $layoutsAssigned
+     * @param  \stdClass      $layoutsAssigned
      * @return LayoutCustomer
      */
     public function setLayoutsAssigned($layoutsAssigned)
@@ -120,7 +117,7 @@ class LayoutCustomer
     /**
      * Set layoutsAssigned
      *
-     * @param \stdClass $layoutsAssigned
+     * @param  \stdClass      $layoutsAssigned
      * @return LayoutCustomer
      */
     public function addLayoutAssigned($layoutsAssigned)

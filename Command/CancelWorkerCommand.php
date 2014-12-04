@@ -125,8 +125,8 @@ class CancelWorkerCommand extends ContainerAwareCommand
         $this->initChannel();
         $this->logger = $this->getContainer()->get('logger');
         $this->runProcess(
-            $input->getArgument('routing_key'), 
-            $input->getArgument('task_id'), 
+            $input->getArgument('routing_key'),
+            $input->getArgument('task_id'),
             $input->getArgument('limit')
         );
         $this->channelLib->close();
