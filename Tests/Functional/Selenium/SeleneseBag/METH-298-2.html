@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://samback/admin/login" />
+<title>METH-298-2</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">METH-298-2</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/app_dev.php/admin/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>mtt</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>mtt</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Gestion des saisons</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Créer une saison</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mtt_season_title</td>
+	<td>METH-298</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mtt_season_startDate</td>
+	<td>04/12/2020</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mtt_season_endDate</td>
+	<td>04/12/2022</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tramway</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tram A Vaucanson - Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Choisir un fond de fiche</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=img.layout-preview</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Gestion des fonds de fiche</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Supprimer</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=div.alert.alert-danger &gt; ul &gt; li</td>
+	<td>Vaucanson - Lycée J. Monnet</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=div.modal-footer &gt; a.btn.btn-danger</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tramway</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tram A Vaucanson - Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>link=Choisir un fond de fiche</td>
+	<td>Choisir un fond de fiche</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Choisir un fond de fiche</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertCssCount</td>
+	<td>css=img.layout-preview</td>
+	<td>1</td>
+</tr>
+</tbody></table>
+</body>
+</html>

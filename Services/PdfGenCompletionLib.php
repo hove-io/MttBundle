@@ -195,7 +195,11 @@ class PdfGenCompletionLib
         $timetable = false;
 
         foreach ($task->getAmqpAcks() as $ack) {
-            $lineConfig = $this->getLineConfig($ack, $lineConfig);
+            try {
+                $lineConfig = $this->getLineConfig($ack, $lineConfig);
+            } catch (\Exception $e) {
+                continue;
+            }
             $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
 
             $media = $this->mediaManager->getStopPointTimetableMedia($timetable, $ack->getPayload()->timetableParams->externalStopPointId);

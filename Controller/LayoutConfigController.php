@@ -112,7 +112,6 @@ class LayoutConfigController extends AbstractController
             );
         }
 
-
         $extCoverageId = null;
         foreach ($this->get('security.context')->getToken()->getUser()->getCustomer()->getPerimeters() as $value) {
             if ($value->getExternalNetworkId() == $externalNetworkId) {

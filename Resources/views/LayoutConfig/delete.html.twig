@@ -6,12 +6,15 @@
 
 {% block modal_body %}
     <div class="alert alert-danger">
-        <p>{{'layout_config.used_by'|trans({}, 'default')}}</p>
-        <ul>
-        {% for lineExtCode, lineName in lines %}
-            <li line-id="{{ lineExtCode }}">{{ lineName }}</li>
-        {% endfor %}
-        </ul>
+        {% if lines is not empty %}
+            <p>{{'layout_config.used_by'|trans({}, 'default')}}</p>
+            <ul>
+            {% for lineExtCode, lineName in lines %}
+                <li line-id="{{ lineExtCode }}">{{ lineName }}</li>
+            {% endfor %}
+            </ul>
+            <p>{{'layout_config.need_reassign_layout'|trans({}, 'default')}}</p>
+        {% endif %}
         <p>{{'layout_config.confirm_delete'|trans({}, 'default')}}</p>
     </div>
     
