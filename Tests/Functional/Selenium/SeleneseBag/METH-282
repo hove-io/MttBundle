@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://nmm.local/" />
+<title>METH-282</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">METH-282</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/app_dev.php/admin/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>Admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Gestion des saisons</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Créer une saison</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mtt_season_title</td>
+	<td>Hiver</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mtt_season_startDate</td>
+	<td>02/06/2020</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mtt_season_endDate</td>
+	<td>30/12/2020</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tramway</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tram A Vaucanson - Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Choisir un fond de fiche</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='base-modal']/div/div/form/div[2]/div/div[2]/label/div/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Secteurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Créer un secteur</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mtt_area_label</td>
+	<td>75015</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=75015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Gérer le pdf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=generate-area</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='main-container']/div</td>
+	<td>× Vous n'avez pas d'arrêt dans le secteur &quot;75015&quot; pour la saison &quot;Hiver&quot;</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Secteurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Liste des pdf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>id=generate-area</td>
+	<td>Générer</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.btn.btn-default</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=75015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Bus</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tramway</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tram A Vaucanson - Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='excluded-stops']/li/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='excluded-stops']/li[2]/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='included-stops']/li/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='included-stops']/li/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=3b La Pléiade - Santé Vinci</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Santé Vinci</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='excluded-stops']/li/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='excluded-stops']/li[2]/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=save-area</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Gérer le pdf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=generate-area</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='main-container']/div</td>
+	<td>× Vous n'avez pas configuré le fond de fiche des arrêts présents dans le secteur &quot;75015&quot; pour la saison &quot;Hiver&quot;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tramway</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Secteurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=75015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='included-stops']/li/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='included-stops']/li/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tramway</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tram A Vaucanson - Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='excluded-stops']/li/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='excluded-stops']/li[2]/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='excluded-stops']/li[3]/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=span.glyphicon.glyphicon-floppy-disk</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Gérer le pdf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=generate-area</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='main-container']/div</td>
+	<td>× La génération des 3 pdfs du secteur 75015 a bien été lancée.</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=Annuler</td>
+	<td>Annuler</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Secteurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Supprimer</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Êtes-vous sûr de vouloir supprimer ce secteur ?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='main-container']/div</td>
+	<td>× Le secteur a bien été supprimé</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Secteurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Créer un secteur</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mtt_area_label</td>
+	<td>75016</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TIMETABLE</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Secteurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=75016</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tramway</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Tram A Vaucanson - Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Lycée J. Monnet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='excluded-stops']/li/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='excluded-stops']/li[2]/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//ul[@id='excluded-stops']/li[3]/a[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=save-area</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Réseaux</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Filbleu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Saisons</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Gestion des saisons</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Supprimer</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Êtes-vous sûr de vouloir supprimer cette saison? Toutes les données liées y compris les pdf seront perdus.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Secteurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>link=75016</td>
+	<td>75016</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Supprimer</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='main-container']/div</td>
+	<td>× Le secteur a bien été supprimé</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Admin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Déconnexion</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

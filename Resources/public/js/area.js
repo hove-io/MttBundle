@@ -131,21 +131,22 @@ define('mtt/area', ['mtt_left_menu', 'jquery', 'fosjsrouting', 'jquery_ui_sortab
                 $list.find('> span').addClass('display-none');
                 $list.removeClass('empty-list');
                 if ($list.attr('id') == 'included-stops') {
-                    $('#generate-distribution-list, #save-distribution-list').removeClass('disabled');
+                    $('#generate-distribution-list, #save-area').removeClass('disabled');
                 }
             } else {
                 $list.find('> span').removeClass('display-none');
                 $list.addClass('empty-list');
                 if ($list.attr('id') == 'included-stops') {
-                    $('#generate-distribution-list, #save-distribution-list').addClass('disabled');
+                    $('#generate-distribution-list, #save-area').addClass('disabled');
                 }
             }
         }
     );
     $('.list-group.sortable').disableSelection();
 
+
     var underProgress = false;
-    $('#save-distribution-list').click(function(){
+    var _sendStopPointsList = function(doRedirection) {
         if (underProgress == true) {
             return false;
         }
@@ -161,12 +162,17 @@ define('mtt/area', ['mtt_left_menu', 'jquery', 'fosjsrouting', 'jquery_ui_sortab
             )
             .done(function(data, textStatus){
                 underProgress = false;
-                window.location = $link.attr('href');
+                if ($link.hasAttr('data-toggle')) {
+                    window.location = $link.attr('href');
+                }
             });
         }
 
-        return false;
-    });
+        return true;
+    };
+
+    $('#save-area').click(_sendStopPointsList);
+    $('#manage-area').click(_sendStopPointsList);
 
     var _getStopPointAndRouteIds = function()
     {

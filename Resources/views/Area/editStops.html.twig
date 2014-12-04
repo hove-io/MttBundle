@@ -15,13 +15,13 @@
     <div class="row">
         <div class="col-md-offset-5 col-md-7">
             {% if (is_granted('BUSINESS_LIST_AREA')) %}
-                <a class="btn btn-primary" href="{{ path('canal_tp_mtt_area_list_pdf', {'areaId': area.id }) }}" data-toggle="modal" data-target="#base-modal">
+                <a id="manage-area" class="btn btn-primary" href="{{ path('canal_tp_mtt_area_list_pdf', {'areaId': area.id }) }}" data-toggle="modal" data-target="#base-modal">
                     <span class="glyphicon glyphicon-file"></span> {{'area.pdf.manage'|trans({}, 'default')}}
                 </a>
             {% endif %}
-            <a id="save-distribution-list" class="btn btn-primary" href="{{ path('canal_tp_mtt_area_edit_stops_save',{'externalNetworkId': externalNetworkId, 'areaId': area.id}) }}">
+            <a id="save-area" class="btn btn-primary" href="{{ path('canal_tp_mtt_area_edit_stops_save',{'externalNetworkId': externalNetworkId, 'areaId': area.id}) }}">
                 <span class="glyphicon glyphicon-refresh display-none"></span>
-                <span class="glyphicon glyphicon-floppy-disk"></span> {{'distribution.save_order'|trans({}, 'default')}}
+                <span class="glyphicon glyphicon-floppy-disk"></span> {{'area.save_order'|trans({}, 'default')}}
             </a>
         </div>
     </div>
