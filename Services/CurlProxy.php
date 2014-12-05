@@ -19,6 +19,7 @@ class CurlProxy
         // set URL and other appropriate options
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         // grab URL and pass it to the browser
         $content = curl_exec($ch);
