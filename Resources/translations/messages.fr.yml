@@ -109,6 +109,10 @@ layout_config:
         calendar_end: Heure de fin des grilles horaires
         preview_path: Changer l'image de prévisualisation
         layout: Choix du modèle
+        notes_type: Type de renvois
+        notes_colors: Couleurs
+        exponents: Exposants
+        colors: Couleurs
 
 layout_model:
     labels:

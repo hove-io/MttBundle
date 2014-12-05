@@ -75,8 +75,8 @@ class LayoutConfigType extends AbstractType
             'choice',
             array(
                 'choices' => array(
-                    LayoutConfig::NOTES_TYPE_EXPONENT => 'layout_config.labels.exposant',
-                    LayoutConfig::NOTES_TYPE_COLOR => 'layout_config.labels.couleurs'
+                    LayoutConfig::NOTES_TYPE_EXPONENT => 'layout_config.labels.exponents',
+                    LayoutConfig::NOTES_TYPE_COLOR => 'layout_config.labels.colors'
                 ),
                 'label' => 'layout_config.labels.notes_type'
             )
