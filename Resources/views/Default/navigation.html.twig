@@ -16,7 +16,7 @@
                 {% for line in lines %}
                     <li class="line-menu-wrapper clearfix">
                         <a data-parent="#mode-collapse-{{ loop.parent.loop.index0 }}" data-toggle="collapse" id="" class="line-link-toggle" href="#mode-{{loop.parent.loop.index0}}-routes-collapse-{{ loop.index0 }}">
-                            {% if line.code %}<span class="line-code">{{ line.code }}</span>{% endif %} {{ line.name }}
+                            {% if line.code %}<span class="line-code" style="background-color: #{{ line.color }}">{{ line.code }}</span>{% endif %} {{ line.name }}
                         </a>
                         <!--span class="badge pull-right">{{ line.routes|length }}</span-->
                         <ul id="mode-{{loop.parent.loop.index0}}-routes-collapse-{{ loop.index0 }}" class="nav nav-pills nav-stacked collapse in">
