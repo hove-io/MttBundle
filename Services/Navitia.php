@@ -167,16 +167,6 @@ class Navitia
                 1,
                 $result->pagination->total_result
             );
-            // This can be occur when service return a timeout error
-            if (!empty($result) && isset($result->error)) {
-                throw new \Exception(
-                    $this->translator->trans(
-                        'services.navitia.error',
-                        array(),
-                        'exceptions'
-                    )
-                );
-            }
         }
 
         $lines_by_modes = array();
