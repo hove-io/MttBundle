@@ -94,7 +94,7 @@ class CalendarManager
     {
         foreach ($newCalendar->notes as $note) {
             if (($note->type == 'notes' || $this->isExceptionInsideSeason($note, $season)) &&
-                ($aggregation == false || !in_array($note->id, $this->computedNotesId))) {
+                !in_array($note->id, $this->computedNotesId)) {
                 $note->calendarId = $newCalendar->id;
                 $this->computedNotesId[] = $note->id;
 
@@ -113,7 +113,7 @@ class CalendarManager
     public function getNewColor($colors)
     {
         if (!isset($colors[count($this->colorNotes)])) {
-            return '#ff794e';//#888888
+            return '#ff794e';
         }
 
         return $colors[count($this->colorNotes)];
@@ -167,7 +167,7 @@ class CalendarManager
                 array('%date%' => $date->format('d/m/Y')),
                 'messages'
             );
-            $exceptions[] = $exception;
+            $exceptions[$exception->id] = $exception;
         }
 
         return $exceptions;
@@ -256,6 +256,50 @@ class CalendarManager
         return $calendarsSorted;
     }
 
+    private function getAnnotationsIfIsIncluded($annotations, $links)
+    {
+        $result = array();
+
+        foreach ($links as $link) {
+            foreach ($annotations as $annotation) {
+                if ($link->id == $annotation->id) {
+                    $result[$link->id] = $annotation;
+                }
+            }
+        }
+
+        return ($result);
+    }
+
+    private function purgeAnnotationsNotUsed($stopSchedulesData, $layoutConfig)
+    {
+        $result = array();
+
+        if (empty($stopSchedulesData->notes)) {
+            return ($result);
+        }
+        $hourEnd = ($layoutConfig->getCalendarEnd() == 0) ? 24 : $layoutConfig->getCalendarEnd();
+        $hourStart = $layoutConfig->getCalendarStart();
+        $dateTimes = $stopSchedulesData->stop_schedules->date_times;
+
+        foreach ($dateTimes as $dateTime) {
+
+            foreach ($dateTime as $time) {
+                $hourNote = ($time->date_time->format('H') == 0) ? 24 : $time->date_time->format('H');
+
+                if (!empty($time->links) && $hourNote >= $hourStart && $hourNote <= $hourEnd) {
+                    $result = array_merge(
+                        $result,
+                        $this->getAnnotationsIfIsIncluded($stopSchedulesData->notes, $time->links),
+                        $this->generateExceptionsValues($this->getAnnotationsIfIsIncluded($stopSchedulesData->exceptions, $time->links))
+                    );
+                }
+            }
+        }
+
+        return ($result);
+    }
+
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template
@@ -302,11 +346,9 @@ class CalendarManager
                         $stopSchedulesData->stop_schedules
                     );
                     $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
-                    $calendar->notes = array_merge(
-                        $stopSchedulesData->notes,
-                        $this->generateExceptionsValues(
-                            $stopSchedulesData->exceptions
-                        )
+                    $calendar->notes = $this->purgeAnnotationsNotUsed(
+                        $stopSchedulesData,
+                        $timetable->getLineConfig()->getLayoutConfig()
                     );
                     $notesComputed = $this->computeNotes(
                         $notesComputed,
