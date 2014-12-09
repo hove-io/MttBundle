@@ -222,4 +222,27 @@ class TimetableControllerTest extends AbstractControllerTest
 
         $this->assertContains('#e44155', $backgroundColorNote);
     }
+
+    public function testAnnotations()
+    {
+        $route = $this->client->getContainer()->get('router')->generate(
+            'canal_tp_mtt_timetable_view',
+            array(
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+                'externalLineId' => Fixture::EXTERNAL_LINE_ID,
+                'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
+                'externalStopPointId' => Fixture::EXTERNAL_STOP_POINT_ID,
+                'seasonId' => $this->getSeason()->getId(),
+                'customerId' => $this->getCustomer()->getId()
+            )
+        );
+        $crawler = $this->client->request('GET', $route);
+
+        $annotationNumber = $crawler->filter('.color-reference')->count();
+        $this->assertEquals(
+            2,
+            $annotationNumber,
+            'Some annotations are not present (Number: ' . $annotationNumber . ')'
+        );
+    }
 }
