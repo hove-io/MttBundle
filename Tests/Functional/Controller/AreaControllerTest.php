@@ -77,8 +77,8 @@ class AreaControllerTest extends AbstractControllerTest
         $route = $this->getRoute('canal_tp_mtt_area_list');
         $crawler = $this->doRequestRoute($route, 200);
         $link = $crawler->filter('table tbody tr')->first()->filter('td a')->eq(1)->link();
-        $crawler2 = $crawler = $this->doRequestRoute($link->getUri(), 200);
-        $this->assertTrue($crawler2->filter('table tr')->count() > 0);
+        $crawler2 = $this->doRequestRoute($link->getUri(), 200);
+        $this->assertTrue($crawler->filter('table tr')->count() > 0);
     }
 
     public function testDeleteArea()

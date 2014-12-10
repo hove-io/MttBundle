@@ -41,7 +41,7 @@ class DefaultControllerTest extends AbstractControllerTest
         );
         $crawler = $this->client->request('GET', $route);
         $firstMenuNotActive = $crawler->filter('#application-navbar ul.nav.navbar-nav > li.dropdown ul li.first.active')->count();
-        $this->assertTrue($firstMenuNotActive == 0, "First menu item in perimeter menu should not be active. Expected 0. Count :$firstMenuActive");
+        $this->assertTrue($firstMenuNotActive == 0, "First menu item in perimeter menu should not be active. Expected 0. Count: $firstMenuActive");
         $menuActive = $crawler->filter('#application-navbar ul.nav.navbar-nav > li.dropdown ul li.active')->count();
         $this->assertTrue($menuActive == 1, "Only one menu item in perimeter menu should not be active. Expected 1. Count :$menuActive");
     }
