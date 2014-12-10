@@ -8,19 +8,16 @@ class TaskTypeExtension extends \Twig_Extension
 {
     private $translator;
     private $em;
-    private $distributionListManager;
     private $areaPdfManager;
     private $navitiaManager;
 
     public function __construct(
         $translator,
         $em,
-        $distributionListManager,
         $areaPdfManager,
         $navitiaManager
         )
     {
-        $this->distributionListManager = $distributionListManager;
         $this->areaPdfManager = $areaPdfManager;
         $this->translator = $translator;
         $this->em = $em;
@@ -44,21 +41,6 @@ class TaskTypeExtension extends \Twig_Extension
     {
         $return = '';
         switch ($task->getTypeId()) {
-            case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
-                if ($task->isCompleted()) {
-                    $timetable = $this->em->getRepository('CanalTPMttBundle:Timetable')->find($task->getObjectId());
-                    if (!empty($timetable)) {
-                        $return = '<a class="btn btn-primary btn-sm" target="_blank" href="' . $this->distributionListManager->findPdfPathByTimetable($timetable) . '">';
-                        $return .= '<span class="glyphicon glyphicon-download-alt"></span> ';
-                        $return .= $this->translator->trans(
-                            'distribution.download_distribution_pdf',
-                            array(),
-                            'default'
-                        );
-                        $return .= '</a>';
-                    }
-                }
-                break;
             case AmqpTask::AREA_PDF_GENERATION_TYPE:
             default:
                 if ($task->isCompleted()) {
@@ -67,7 +49,7 @@ class TaskTypeExtension extends \Twig_Extension
                         $return = '<a class="btn btn-primary btn-sm" target="_blank" href="' . $this->areaPdfManager->findPdfPath($areaPdf) . '">';
                         $return .= '<span class="glyphicon glyphicon-download-alt"></span> ';
                         $return .= $this->translator->trans(
-                            'distribution.download_distribution_pdf',
+                            'area.download_pdf',
                             array(),
                             'default'
                         );
@@ -84,24 +66,6 @@ class TaskTypeExtension extends \Twig_Extension
     {
         $return = '';
         switch ($task->getTypeId()) {
-            case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
-                $timetable = $this->em->getRepository('CanalTPMttBundle:Timetable')->find($task->getObjectId());
-                if (!empty($timetable)) {
-                    $navitiaResult = $this->navitiaManager->getRoute(
-                        $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId(),
-                        $timetable->getExternalRouteId()
-                    );
-                    if (isset($navitiaResult->routes)) {
-                        $return = $this->translator->trans(
-                            'task.distribution_list_pdf_generation',
-                            array(
-                                '%routeName%' => $navitiaResult->routes[0]->name
-                            ),
-                            'default'
-                        );
-                    }
-                }
-                break;
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:
             default:
                 $season = $this->em->getRepository('CanalTPMttBundle:Season')->find($task->getObjectId());

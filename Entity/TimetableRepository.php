@@ -59,7 +59,7 @@ class TimetableRepository extends EntityRepository
      * Does this timetable have a task under progress?
      * @return boolean
      */
-    public function hasAmqpTasksRunning($timetableId, $taskTypeId = AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE)
+    public function hasAmqpTasksRunning($timetableId, $taskTypeId = AmqpTask::AREA_PDF_GENERATION_TYPE)
     {
         $result = $this->getEntityManager()->getRepository('CanalTPMttBundle:AmqpTask')->findBy(
             array(

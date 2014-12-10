@@ -17,7 +17,6 @@ parameters:
     canal_tp_mtt.perimeter.class: CanalTP\MttBundle\Services\PerimeterManager
     canal_tp.mtt.navitia_debug_matcher.class: CanalTP\MttBundle\Profiler\NavitiaDebugMatcher
     canal_tp.mtt.season_copier.class: CanalTP\MttBundle\Services\SeasonCopier
-    canal_tp.mtt.distribution_list_manager.class: CanalTP\MttBundle\Services\DistributionListManager
     canal_tp.mtt.validator.constraints.navitia_network_id.class: CanalTP\MttBundle\Validator\Constraints\ContainsNavitiaNetworkIdValidator
     canal_tp.mtt.validator.constraints.greater_than_field.class: CanalTP\MttBundle\Validator\Constraints\GreaterThanFieldValidator
     canal_tp_mtt.pdf_hashing_lib.class: CanalTP\MttBundle\Services\PdfHashingLib
@@ -59,7 +58,7 @@ services:
             - { name: twig.extension }
     canal_tp_mtt.twig.task_type_extension:
         class: CanalTP\MttBundle\Twig\TaskTypeExtension
-        arguments: ['@translator', '@doctrine.orm.entity_manager', '@canal_tp.mtt.distribution_list_manager', '@canal_tp_mtt.area_pdf_manager', '@sam_navitia']
+        arguments: ['@translator', '@doctrine.orm.entity_manager', '@canal_tp_mtt.area_pdf_manager', '@sam_navitia']
         tags:
             - { name: twig.extension }
     canal_tp_mtt.twig.area_extension:
@@ -151,10 +150,6 @@ services:
         class: CanalTP\SamCoreBundle\EventListener\AjaxFormListener
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-    # Service of distribution list
-    canal_tp.mtt.distribution_list_manager:
-        class: %canal_tp.mtt.distribution_list_manager.class%
-        arguments: ['@doctrine.orm.entity_manager', "%kernel.root_dir%/../web/uploads/", '@request_stack']
     #AMQP services
     canal_tp_mtt.amqp_channel:
        class: %canal_tp_mtt.amqp_channel.class%

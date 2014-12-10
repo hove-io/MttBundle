@@ -121,29 +121,6 @@ canal_tp_mtt_block_delete:
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
-
-#DistributionList
-canal_tp_mtt_distribution_list:
-    pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/distribution/seasons/{currentSeasonId}/list/{reset}
-    defaults: { _controller: CanalTPMttBundle:Distribution:list, reset: null}
-    requirements:
-        externalNetworkId: -?[a-zA-Z0-9_\-:]*
-
-canal_tp_mtt_distribution_generate:
-    pattern: /distribution/generate/timetable/{timetableId}/networks/{externalNetworkId}
-    defaults: { _controller: CanalTPMttBundle:Distribution:generate}
-    requirements:
-        externalNetworkId: -?[a-zA-Z0-9_\-:]*
-    options:
-        expose: true
-
-canal_tp_mtt_distribution_list_save:
-    pattern: network/{externalNetworkId}/line/{lineId}/route/{routeId}/seasons/{currentSeasonId}/distribution/list/save/
-    defaults: { _controller: CanalTPMttBundle:Distribution:save}
-    requirements:
-        externalNetworkId: -?[a-zA-Z0-9_\-:]*
-    options:
-        expose: true
 #Calendar
 canal_tp_mtt_calendar_view:
     pattern: /calendars/view/networks/{externalNetworkId}/route/{externalRouteId}/stopPoints/{externalStopPointId}/seasons/{currentSeasonId}

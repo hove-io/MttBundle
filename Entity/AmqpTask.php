@@ -8,7 +8,6 @@ namespace CanalTP\MttBundle\Entity;
 class AmqpTask extends AbstractEntity
 {
     const SEASON_PDF_GENERATION_TYPE = 1;
-    const DISTRIBUTION_LIST_PDF_GENERATION_TYPE = 2;
     const AREA_PDF_GENERATION_TYPE = 3;
 
     const CANCELED_STATUS = 0;
@@ -79,7 +78,7 @@ class AmqpTask extends AbstractEntity
      */
     public function setTypeId($typeId)
     {
-        if (!in_array($typeId, array(self::SEASON_PDF_GENERATION_TYPE, self::DISTRIBUTION_LIST_PDF_GENERATION_TYPE, self::AREA_PDF_GENERATION_TYPE))) {
+        if (!in_array($typeId, array(self::SEASON_PDF_GENERATION_TYPE, self::AREA_PDF_GENERATION_TYPE))) {
             throw new \InvalidArgumentException("Invalid typeId");
         }
         $this->typeId = $typeId;

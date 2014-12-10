@@ -26,11 +26,6 @@
                         <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}
                     </a>
                 {% endif %}
-                {% if (is_granted('BUSINESS_MANAGE_DISTRIBUTION_LIST')) %}
-                    <a class="btn btn-default" href="{{ path('canal_tp_mtt_distribution_list', {'externalNetworkId': externalNetworkId, 'lineId': externalLineId, 'routeId': externalRouteId, 'currentSeasonId': currentSeason.id}) }}">
-                        <span class="glyphicon glyphicon-list"></span> {{'line.manage_distribution'|trans({}, 'default')}}
-                    </a>
-                {% endif %}
               </ul>
             </div>
         {% endif %}

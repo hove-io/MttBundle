@@ -44,7 +44,7 @@ class TaskCancelation
     {
         $task = $this->taskRepo->find($taskId);
         switch ($task->getTypeId()) {
-            case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
+            case AmqpTask::AREA_PDF_GENERATION_TYPE:
                 break;
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:
                 $season = $this->seasonRepo->find($task->getObjectId());

@@ -151,35 +151,6 @@ class PdfGenCompletionLib
         }
     }
 
-    private function completeDistributionList($task)
-    {
-        // save this list in db
-        $timetable = $this->timetableRepo->find($task->getObjectId());
-        $distributionList = $this->om->getRepository('CanalTPMttBundle:DistributionList')->findOneBy(
-            array(
-                'externalRouteId' => $timetable->getExternalRouteId(),
-                'perimeter' => $task->getPerimeter()
-            )
-        );
-        $this->om->refresh($distributionList);
-        $paths = array();
-        foreach ($distributionList->getIncludedStops() as $stopPointId) {
-            $media = $this->mediaManager->getStopPointTimetableMedia($timetable, $stopPointId);
-            $path = $this->mediaManager->getPathByMedia($media);
-            if (!empty($path)) {
-                $paths[] = $path;
-            }
-        }
-        $pdfGenerator = $this->container->get('canal_tp_mtt.pdf_generator');
-        $distributionListManager = $this->container->get('canal_tp.mtt.distribution_list_manager');
-        $pdfGenerator->aggregatePdf(
-            $paths,
-            $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable)
-        );
-
-        echo "Distribution List saved to ", $distributionListManager->generateAbsoluteDistributionListPdfPath($timetable), " / Files aggregated ", count($paths), "\r\n";
-    }
-
     private function completeAreaList($task)
     {
         $pdfGenerator = $this->container->get('canal_tp_mtt.pdf_generator');
@@ -237,9 +208,6 @@ class PdfGenCompletionLib
         } else {
             $this->commit($task);
             switch ($task->getTypeId()) {
-                case AmqpTask::DISTRIBUTION_LIST_PDF_GENERATION_TYPE:
-                    $this->completeDistributionList($task);
-                    break;
                 case AmqpTask::SEASON_PDF_GENERATION_TYPE:
                     $this->completeSeasonPdfGen($task);
                     break;

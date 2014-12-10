@@ -136,7 +136,6 @@ class SeasonController extends AbstractController
         $seasonManager = $this->get('canal_tp_mtt.season_manager');
         $season = $seasonManager->find($seasonId);
         if ($this->addFlashIfSeasonLocked($season) == false) {
-            $this->get('canal_tp.mtt.distribution_list_manager')->deleteSeasonDistributionListPdfs($season);
             $this->get('canal_tp_mtt.media_manager')->deleteSeasonMedias($season);
             $seasonManager->remove($season);
         }

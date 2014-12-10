@@ -28,7 +28,6 @@ stop_point:
 line:
     choose_layout: Choisir un fond de fiche
     layout_chosen: Le gabarit a bien été assigné à la ligne.
-    manage_distribution: Gérer la liste de placardage
 
 timetable:
     edit: Editer la fiche horaire
@@ -56,19 +55,6 @@ block:
     get_form:
         title: Éditer le bloc
 
-distribution:
-    generation_title: Génération de la liste de placardage
-    download_distribution_pdf: Télécharger le pdf
-    generate_distribution_pdf: Générer le pdf
-    no_pdf_at_this_time: Aucun fichier pdf pour le moment
-    pdf_generation_task_has_started: La génération des %countPdfs% fichiers pdf a démarré.
-    stops_included: Arrêts inclus
-    stops_excluded: Arrêts exclus
-    manage_order: Gérer l'ordre
-    reset_order: Trier dans l'ordre de desserte
-    save_order: Enregistrer l'ordre
-    confirm_order_saved: L'ordre de la liste a bien été enregistré
-
 calendar:
     view_title: Voir les horaires
     line_code: Ligne
@@ -87,6 +73,7 @@ frequency:
         add_btn: Ajouter un cadre
 
 season:
+    generation_title: Générer le pdf
     locked: Cette saison est verrouillée. Aucune action ne peut-être réalisée.
     please_create_before_continue: Veuillez créer une saison avant d'éditer les fiches horaires.
     create: Créer une saison
@@ -130,7 +117,6 @@ task:
     completedAt: Terminée à
     area_pdf_generation: Génération de l'ensemble des pdfs du secteur "%sectorLabel%" pour la saison "%seasonTitle%"
     season_pdf_generation: Génération de l'ensemble des pdfs de la saison "%seasonName%"
-    distribution_list_pdf_generation: Génération de la liste de placardage pour la route %routeName%
 
 area:
     title: Liste des secteurs

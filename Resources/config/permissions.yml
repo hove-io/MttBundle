@@ -18,15 +18,9 @@ parameters:
         BUSINESS_MANAGE_SEASON:
             label: Gérer les saisons
             description: Permet de créer de modifier (changer le nom le statut ou les dates) et supprimer une saison
-        BUSINESS_MANAGE_DISTRIBUTION_LIST:
-            label: Gérer la liste de distribution
-            description: Permet de modifier et de sauvergarder les modifications dans les listes de gestion de la distribution
-        BUSINESS_GENERATE_DISTRIBUTION_LIST_PDF:
-            label: Générer une liste de distribution
-            description: Permet de générer le PDF d'une liste de distribution. /!\ Warning /!\ Si un utilisateur possède cette permission sans posséder celle permettant de générer les pdf des fiches horaires, les listes de distributions générées pourront être incomplètes.
         BUSINESS_GENERATE_PDF:
             label: Générer les PDF
-            description: Permet de générer les PDF d'une fiche horaire à l'arrêt et d'une liste de distribution
+            description: Permet de générer les PDF d'une fiche horaire à l'arrêt
         BUSINESS_LIST_AREA:
             label: Lister les secteurs
             description: Permet de lister les secteurs
