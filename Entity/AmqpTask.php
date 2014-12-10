@@ -8,6 +8,7 @@ namespace CanalTP\MttBundle\Entity;
 class AmqpTask extends AbstractEntity
 {
     const SEASON_PDF_GENERATION_TYPE = 1;
+    const DISTRIBUTION_LIST_PDF_GENERATION_TYPE = 2;
     const AREA_PDF_GENERATION_TYPE = 3;
 
     const CANCELED_STATUS = 0;
