@@ -1,3 +1,16 @@
+Notes de publication - METH - Version 1.6.0 (11/12/2014)
+
+** Bogue
+    * [METH-377] - Erreur dans les renvois
+
+** Tâche
+    * [METH-334] - Simplification des archives de modèles
+    * [METH-363] - Intégration du modèle Divia "Fond 3 pavés"
+    * [METH-364] - Intégration du modèle Divia "Fond 1 pavé"
+    * [METH-365] - Intégration du modèle Divia "Fond 3 pavés Proxi"
+    * [METH-366] - Disparition de la liste de distribution
+    * [METH-381] - Titre de la liste des modèles KO
+
 Notes de publication - METH - Version 1.5.1 (04/12/2014)
 
 ** Amélioration
