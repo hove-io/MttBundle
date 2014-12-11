@@ -133,7 +133,7 @@ block:
             content: Calendrier
 
 customer:
-    layout_list: Liste des fonds de fiche
+    layout_list: Liste des modèles
 
 stop_point:
     edit: Editer
