@@ -2,22 +2,28 @@
 
 namespace CanalTP\MttBundle\Twig;
 
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use CanalTP\MttBundle\Entity\Area;
+use CanalTP\MttBundle\Entity\Season;
 use CanalTP\MttBundle\Entity\AmqpTask;
 
 class TaskTypeExtension extends \Twig_Extension
 {
+    private $router;
     private $translator;
     private $em;
     private $areaPdfManager;
     private $navitiaManager;
 
     public function __construct(
+        Router $router,
         $translator,
         $em,
         $areaPdfManager,
         $navitiaManager
         )
     {
+        $this->router = $router;
         $this->areaPdfManager = $areaPdfManager;
         $this->translator = $translator;
         $this->em = $em;
@@ -62,17 +68,40 @@ class TaskTypeExtension extends \Twig_Extension
         return $return;
     }
 
+    private function getSeasonLink(Season $season)
+    {
+        $seasonManageUrl = $this->router->generate(
+            'canal_tp_mtt_season_list',
+            array('externalNetworkId' => $season->getPerimeter()->getExternalNetworkId())
+        );
+
+        return ('<a href="' . $seasonManageUrl . '">' . $season->getTitle() . '</a>');
+    }
+
+    private function getAreaLink(Area $area)
+    {
+        $areaUrl = $this->router->generate(
+            'canal_tp_mtt_area_edit_stops',
+            array(
+                'externalNetworkId' => $area->getPerimeter()->getExternalNetworkId(),
+                'areaId' => $area->getId()
+            )
+        );
+
+        return ('<a href="' . $areaUrl . '">' . $area->getLabel() . '</a>');
+    }
+
     public function taskType($task)
     {
         $return = '';
         switch ($task->getTypeId()) {
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:
             default:
-                $season = $this->em->getRepository('CanalTPMttBundle:Season')->find($task->getObjectId());
+                $seasonLink = $this->getSeasonLink($this->em->getRepository('CanalTPMttBundle:Season')->find($task->getObjectId()));
                 $return = $this->translator->trans(
                     'task.season_pdf_generation',
                     array(
-                        '%seasonName%' => $season->getTitle()
+                        '%seasonName%' => $seasonLink
                     ),
                     'default'
                 );
@@ -83,8 +112,8 @@ class TaskTypeExtension extends \Twig_Extension
                 $return = $this->translator->trans(
                     'task.area_pdf_generation',
                     array(
-                        '%sectorLabel%' => $areaPdf->getArea()->getLabel(),
-                        '%seasonTitle%' => $areaPdf->getSeason()->getTitle()
+                        '%sectorLabel%' => $this->getAreaLink($areaPdf->getArea()),
+                        '%seasonTitle%' => $this->getSeasonLink($areaPdf->getSeason())
                     ),
                     'default'
                 );

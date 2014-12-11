@@ -58,7 +58,7 @@ services:
             - { name: twig.extension }
     canal_tp_mtt.twig.task_type_extension:
         class: CanalTP\MttBundle\Twig\TaskTypeExtension
-        arguments: ['@translator', '@doctrine.orm.entity_manager', '@canal_tp_mtt.area_pdf_manager', '@sam_navitia']
+        arguments: ['@router', '@translator', '@doctrine.orm.entity_manager', '@canal_tp_mtt.area_pdf_manager', '@sam_navitia']
         tags:
             - { name: twig.extension }
     canal_tp_mtt.twig.area_extension:
