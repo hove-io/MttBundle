@@ -1,9 +1,18 @@
 {% macro img(id, block, class, level) %}
-    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="img" class="block">
+    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="img" class="block {{ class }}">
     {% if block %}
         <img class="{{ class }}" src="{{ block.content }}" title="{{ block.title }}" alt="{{ block.title }}" />
     {% endif %}
     </div>
+{% endmacro %}
+
+{% macro flash_info(id, imgPath) %}
+    <div id="flash_info_top"></div>
+    <img class="flash-info" src="{{ asset(imgPath) }}">
+    <div id="{{ id }}">
+        <span class="content">Repérez la période "Anis" ou "Cassis" à consulter, grâce à la couleur du jour de votre voyage indiquée sur le "Calendrier Voyageurs"</span>
+    </div>
+    <div id="flash_info_bottom"></div>
 {% endmacro %}
 
 {% macro text(id, block, level, class) %}
@@ -51,9 +60,6 @@
 
         <div class="content">{% spaceless %}
             {% if stopPoint %}
-                {% if stopPoint.getPois() is empty %}
-                    {{'stop_point.block.pois.empty'|trans({'%distance%':stopPoint.getPoiDistance()}, 'default')}}
-                {% endif %}
                 {% for poi in stopPoint.getPois() %}
                     {{ poi.name }}<br>
                 {% endfor %}
@@ -185,4 +191,11 @@
             <td class="timegrid-column hour-label">{{i}}{{ 'global.hour_label'|trans }}</td>
         {% endfor %}
     </tr>
+{% endmacro %}
+
+{% macro description(class) %}
+    <div data-block-type="text" class="{{ class }}">
+        <b>Agence Divia:</b> 16, place Darcy à Dijon<br>
+        <b>03 80 11 29 29 - www.divia.fr</b>
+    </div>
 {% endmacro %}
