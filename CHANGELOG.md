@@ -1,3 +1,13 @@
+Notes de publication - METH - Version 1.6.2 (12/12/2014)
+
+** Tâche
+    * [METH-334] - Simplification des archives de modèles
+
+Notes de publication - METH - Version 1.6.1 (11/12/2014)
+
+** Récit
+    * [METH-307] - Ajout de raccourcis depuis la liste des tâches (dashboard)
+
 Notes de publication - METH - Version 1.6.0 (11/12/2014)
 
 ** Bogue
