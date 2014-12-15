@@ -19,7 +19,7 @@ stop_point:
             content: %code%
             default: (Code du poteau d'arrêt)
         pois:
-            title: Proches points de vente
+            title: Proches points de vente :
             default: (Points de vente de l'arrêt)
             empty: Il n'y a pas de point de vente à moins de %distance% mètres de cet arrêt
         stop:
@@ -49,7 +49,7 @@ layout_config:
 
 layout_model:
     upload: Ajouter un modèle
-    list: Liste des modèles   
+    list: Liste des modèles
     uploaded: Modèle enregistré
 
 block:
