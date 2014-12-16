@@ -21,7 +21,7 @@
         "symfony/dom-crawler": "~2.0",
         "canaltp/navitia": "@dev",
         "friendsofsymfony/jsrouting-bundle": "1.5.3",
-        "willdurand/js-translation-bundle":"2.0.0",
+        "willdurand/js-translation-bundle":"2.1.4",
         "components/jquery": "1.11.0",
         "components/jqueryui": "1.10.3",
         "oyejorge/less.php": "1.5.1.2",

@@ -4,35 +4,35 @@ parameters:
             label: Éditer les réseaux
             description: Permet d'éditer les réseaux (coverageId, networkId, token)
         BUSINESS_ASSIGN_NETWORK_LAYOUT:
-            label: Assigner un modèle à un réseau
-            description: Permet dans l'application d'indiquer quels templates sont utilisables pour chaque réseau
+            label: Assigner un modèle à un client
+            description: Permet dans l'application d'indiquer quels modèles sont utilisables pour chaque client
         BUSINESS_VIEW_NAVITIA_LOG:
             label: AJOUTER VISU INFO DEBUG
             description: Accéder aux informations de debug et aux appels Navitia
         BUSINESS_CHOOSE_LAYOUT:
-            label: Choisir les modèles
-            description: Permet de choisir un modèle pour chaque ligne puis de le modifier ultérieurement
+            label: Choisir les fonds de fiche
+            description: Permet de choisir un fond de fiche pour chaque ligne puis de le modifier ultérieurement
         BUSINESS_EDIT_LAYOUT:
             label: Éditer les fiches horaires
             description: Permet d'éditer les fiches horaires au niveau arrêt et au niveau route.
         BUSINESS_MANAGE_SEASON:
             label: Gérer les saisons
-            description: Permet de créer de modifier (changer le nom le statut ou les dates) et supprimer une saison
+            description: Permet de créer, de modifier (changer le nom, le statut ou les dates) et supprimer une saison
         BUSINESS_GENERATE_PDF:
             label: Générer les PDF
-            description: Permet de générer les PDF d'une fiche horaire à l'arrêt
+            description: Permet de générer les PDF d'une fiche horaire à l'arrêt, d'un secteur ou d'une saison
         BUSINESS_LIST_AREA:
             label: Lister les secteurs
             description: Permet de lister les secteurs
         BUSINESS_MANAGE_AREA:
-            label: Gestion des secteurs
+            label: Gérer des secteurs
             description: Permet d'éditer, créer, supprimer un secteur.
         BUSINESS_LIST_LAYOUT_CONFIG:
-            label: Lister les layouts
-            description: Permet de lister les layouts
+            label: Lister les fonds de fiche
+            description: Permet de lister les fonds de fiche
         BUSINESS_MANAGE_LAYOUT_CONFIG:
-            label: Gestion des layouts
-            description: Permet d'éditer, créer, supprimer un layout.
+            label: Gestion des fonds de fiche
+            description: Permet d'éditer, créer, supprimer un fond de fiche.
         BUSINESS_MANAGE_CUSTOMER:
             label: Administrer les clients
             description: Donner des droits aux clients.
