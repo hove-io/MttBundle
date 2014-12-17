@@ -75,6 +75,15 @@ canal_tp_mtt_line_choose_layout:
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
+canal_tp_mtt_line_layout:
+    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/line/{externalLineId}/route/{externalRouteId}
+    defaults: { _controller: CanalTPMttBundle:LayoutLine:edit, seasonId: null }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        externalRouteId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+
 #Timetable
 canal_tp_mtt_timetable_edit:
     pattern: /timetable/edit/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}

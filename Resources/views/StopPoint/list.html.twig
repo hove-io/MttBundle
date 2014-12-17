@@ -21,6 +21,11 @@
                         <span class="glyphicon glyphicon-edit"></span> {{'timetable.edit'|trans({}, 'default')}}
                     </a>
                 {% endif %}
+                {% if (is_granted('BUSINESS_EDIT_LAYOUT')) %}
+                    <a class="btn btn-primary" href="{{ path('canal_tp_mtt_line_layout', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id,'externalRouteId': externalRouteId}) }}">
+                        <span class="glyphicon glyphicon-edit"></span> {{'line.edit'|trans({}, 'default')}}
+                    </a>
+                {% endif %}
                 {% if (is_granted('BUSINESS_CHOOSE_LAYOUT')) %}
                     <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}">
                         <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}

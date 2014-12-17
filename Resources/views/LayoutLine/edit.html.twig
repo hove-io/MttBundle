@@ -1,0 +1,80 @@
+{% extends "CanalTPMttBundle::container.html.twig" %}
+{% block breadcrumb %}
+    <li>{{ pageTitle }}</li>
+{% endblock %}
+{% block main_content %}
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Edition de la ligne {{ lineId }}</h1>
+        </div>
+        <div class="col-md-3">
+            Direction :
+            <div class="btn-group" data-toggle="buttons">
+            {% for route in routes %}
+                {% if route.direction.id == currentDirectionId %}
+                    {% set cssClass = "active" %}
+                {% else %}
+                    {% set cssClass = "" %}
+                {% endif %}
+                <label class="btn btn-primary {{ cssClass }}">
+                    <input type="radio" name="direction" id="{{ route.direction.id }}"> {{ route.name }}
+                </label>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a id="manage-area" class="btn btn-primary" href="#" data-toggle="modal" data-target="#base-modal">
+                <span class="glyphicon glyphicon-file"></span> Gérer le pdf
+            </a>
+            <a id="save-area" class="btn btn-primary" href="#">
+                <span class="glyphicon glyphicon-refresh display-none"></span>
+                <span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer l'ordre
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>
+                {{'area.stops'|trans({}, 'default')}}
+                <a id="add-all-stop-points" class="btn btn-default btn-xs pull-right" href="#">
+                    {{'area.add_all'|trans({}, 'default')}} <span class="glyphicon glyphicon-arrow-right"></span>
+                </a>
+            </h4>
+            <hr class="no-border black" />
+            <ul id="excluded-stops" class="list-group">
+                {% for stopPoint in stopPoints %}
+                    <li class="list-group-item"
+                        data-route-id="{{ routeId|raw }}"
+                        data-line-id="{{ lineId|raw }}"
+                        data-stop-point-id="{{ stopPoint.id|raw }}
+                    ">
+                        <span class="glyphicon glyphicon-resize-vertical"></span>
+                        <span class="stop_name">{{ stopPoint.name|raw }}</span>
+                        <a class="pull-right minus-btn toggle-stop-point-btn remove-stop-point-btn" href="#"></a>
+                        <a class="pull-right plus-btn toggle-stop-point-btn add-stop-point-btn" href="#"></a>
+                        <div><span class="line-code" style="display: inline;">{{ lineId|raw }}</span> - {{ currentDirectionName|raw }}</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h4>{{'area.stops_included'|trans({}, 'default')}}</h4>
+            <hr class="no-border black" />
+
+            <ul id="included-stops" class="list-group sortable area-list ui-sortable {% if area.stopPoints|length == 0 %} empty-list{% endif %}">
+                {#{% for stopPoint in stopPointsList %}
+                    {% include 'CanalTPMttBundle:Area:stopPoint.html.twig' with {'stopPoint': stopPoint} %}
+                {% endfor %}#}
+                <span class="help-block{% if area.stopPoints|length != 0 %} display-none{% endif %}">{{'area.list_empty'|trans({}, 'default')}}</span>
+            </ul>
+
+        </div>
+    </div>
+{% endblock main_content %}
+{% block javascripts %}
+
+    <script type="text/javascript">
+        require(['mtt/stop']);
+    </script>
+
+{% endblock %}

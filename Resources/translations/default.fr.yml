@@ -27,6 +27,7 @@ stop_point:
 
 line:
     choose_layout: Choisir un fond de fiche
+    edit: Editer la fiche ligne
     layout_chosen: Le gabarit a bien été assigné à la ligne.
 
 timetable:
