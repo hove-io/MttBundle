@@ -69,15 +69,16 @@ class StopPointController extends AbstractController
             $this->getUser()->getCustomer(),
             $externalNetworkId
         );
-
-        $response = $navitia->getStopPointsByRoute(
+        $response = $navitia->getStopPoints(
             $perimeter->getExternalCoverageId(),
             $externalNetworkId,
+            $lineId,
             $externalRouteId
         );
         $stops = array();
-        foreach ($response->stop_points as $stop) {
-            $stops[$stop->id] = array('name' => $stop->name);
+
+        foreach ($response->route_schedules[0]->table->rows as $row) {
+            $stops[$row->stop_point->id] = array('name' => $row->stop_point->name);
         }
 
         return new JsonResponse(array('stops' => $stops));
