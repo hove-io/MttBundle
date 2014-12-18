@@ -42,7 +42,7 @@
                     {% set disabledBtn = season.locked ? " disabled" : "" %}
                      {% if season.locked %}
                         <div>{{'season.locked'|trans({}, 'default')}}</div>
-                    {% endif %}
+                    {% else %}
                     <div class="btn-group">
                         <a class="btn btn-default{{disabledBtn}}" href="{{ path('canal_tp_mtt_season_edit', {'externalNetworkId': externalNetworkId, 'season_id': season.id }) }}" data-toggle="modal" data-target="#base-modal">
                             <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
@@ -75,6 +75,7 @@
                             <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
                         </a>
                     </div>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

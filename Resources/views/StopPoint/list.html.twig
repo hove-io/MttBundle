@@ -61,7 +61,7 @@
             {% endif %}
             <td class="action">
                 <div class="btn-group pull-right">
-                    {% if lineConfig is not empty %}
+                    {% if lineConfig is not empty and lineConfig.layoutConfig is not null %}
                         <button data-toggle="dropdown" type="button" class="btn btn-default dropdown-toggle{% if currentSeason.locked %} disabled{% endif %}">
                             {{'stop_point.action.header'|trans({}, 'default')}} <span class="caret"></span>
                         </button>
