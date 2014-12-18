@@ -1,4 +1,6 @@
-define('mtt/stop', ['jquery', 'fosjsrouting', 'jquery_ui_sortable'], function(jquery, routing, sortable) {
+define('mtt/stop', ['jquery', 'fosjsrouting', 'jquery_ui_sortable'], function($, sortable) {
+
+    var isChange = false;
 
     // Add All Stop points
     $('#add-all-stop-points.btn').click(function(){
@@ -41,6 +43,8 @@ define('mtt/stop', ['jquery', 'fosjsrouting', 'jquery_ui_sortable'], function(jq
         } else {
             $addAllBtn.removeClass('disabled');
         }
+
+        isChange = true;
     };
 
     // Remove StopPoint inf included
@@ -98,7 +102,19 @@ define('mtt/stop', ['jquery', 'fosjsrouting', 'jquery_ui_sortable'], function(jq
                     $('#generate-distribution-list, #save-area').addClass('disabled');
                 }
             }
+            isChange = true;
         }
     );
     $('.list-group.sortable').disableSelection();
+
+    $('.rDirection').on('change', function(event) {
+        if (true == isChange) {
+            if (confirm('Attention les changements ne seront pas conservés')) {
+                // TODO : Enregistrement des information et rechargement de la page
+            }
+        }
+        return false;
+    });
+
+
 });

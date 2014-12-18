@@ -5,7 +5,7 @@
 {% block main_content %}
     <div class="row">
         <div class="col-md-6">
-            <h1>Edition de la ligne {{ lineId }}</h1>
+            <h1>Edition de la ligne {{ lineId }} <small class="jsDirection">{{ currentDirectionName|raw }}</small></h1>
         </div>
         <div class="col-md-3">
             Direction :
@@ -13,11 +13,13 @@
             {% for route in routes %}
                 {% if route.direction.id == currentDirectionId %}
                     {% set cssClass = "active" %}
+                    {% set radioState = "checked" %}
                 {% else %}
                     {% set cssClass = "" %}
+                    {% set radioState = "" %}
                 {% endif %}
                 <label class="btn btn-primary {{ cssClass }}">
-                    <input type="radio" name="direction" id="{{ route.direction.id }}"> {{ route.name }}
+                    <input class="rDirection" value="{{ loop.index }}" type="radio" name="direction" id="{{ route.direction.id }}" {{ radioState }}> {{ route.name }}
                 </label>
             {% endfor %}
             </div>
@@ -26,7 +28,11 @@
             <a id="manage-area" class="btn btn-primary" href="#" data-toggle="modal" data-target="#base-modal">
                 <span class="glyphicon glyphicon-file"></span> Gérer le pdf
             </a>
-            <a id="save-area" class="btn btn-primary" href="#">
+            <a id="save-area" class="btn btn-primary" href="{{ path('canal_tp_mtt_line_stop_save', {
+                                                                        'externalNetworkId': externalNetworkId,
+                                                                        'externalLineId': lineId,
+                                                                        'externalRouteId' : routeId
+                                                                    }) }}">
                 <span class="glyphicon glyphicon-refresh display-none"></span>
                 <span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer l'ordre
             </a>
@@ -75,6 +81,7 @@
 
     <script type="text/javascript">
         require(['mtt/stop']);
+
     </script>
 
 {% endblock %}
