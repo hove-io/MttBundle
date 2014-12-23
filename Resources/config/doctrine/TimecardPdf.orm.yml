@@ -1,0 +1,36 @@
+CanalTP\MttBundle\Entity\TimecardPdf:
+    type: entity
+    table: mtt.timecard_pdf
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        generatedAt:
+            type: datetime
+            column: generated_at
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    lifecycleCallbacks: {  }
+    manyToOne:
+        timecard:
+            targetEntity: Timecard
+            inversedBy: mtt.timecard_pdf
+            joinColumn:
+                name: timecard_id
+                referencedColumnName: id
+        season:
+            targetEntity: Season
+            joinColumn:
+                name: season_id
+                referencedColumnName: id

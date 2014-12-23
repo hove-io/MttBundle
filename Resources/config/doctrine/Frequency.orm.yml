@@ -29,5 +29,5 @@ CanalTP\MttBundle\Entity\Frequency:
     lifecycleCallbacks: {  }
     manyToOne:
         block:
-            inversedBy: frequencies
+            inversedBy: mtt.frequencies
             targetEntity: Block
