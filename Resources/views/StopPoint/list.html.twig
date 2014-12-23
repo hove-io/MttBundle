@@ -22,7 +22,7 @@
                     </a>
                 {% endif %}
                 {% if (is_granted('BUSINESS_EDIT_LAYOUT')) %}
-                    <a class="btn btn-primary" href="{{ path('canal_tp_mtt_line_layout', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id,'externalRouteId': externalRouteId}) }}">
+                    <a class="btn btn-primary" href="{{ path('canal_tp_mtt_timecard_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id,'externalRouteId': externalRouteId}) }}">
                         <span class="glyphicon glyphicon-edit"></span> {{'line.edit'|trans({}, 'default')}}
                     </a>
                 {% endif %}

@@ -10,10 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
  * Class LayoutLineController
  * @package CanalTP\MttBundle\Controller
  */
-class LayoutLineController extends AbstractController
+class TimecardController extends AbstractController
 {
+
     /**
+     * @param Request $request
      * @param $externalNetworkId
+     * @param $externalLineId
+     * @param $externalRouteId
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, $externalNetworkId, $externalLineId, $externalRouteId)
@@ -44,7 +48,7 @@ class LayoutLineController extends AbstractController
         $index = (is_null($request->query->get('direction'))) ? 0 : 1;
 
         return $this->render(
-            'CanalTPMttBundle:LayoutLine:edit.html.twig',
+            'CanalTPMttBundle:Timecard:edit.html.twig',
             array(
                 'pageTitle' => 'Editer la fiche ligne',
                 'externalNetworkId' => $externalNetworkId,
@@ -56,5 +60,13 @@ class LayoutLineController extends AbstractController
                 'routeId' => $routes[$index]->id
             )
         );
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function saveAction(Request $request)
+    {
+
     }
 }
