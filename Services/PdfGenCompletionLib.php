@@ -151,6 +151,20 @@ class PdfGenCompletionLib
         }
     }
 
+    private function findAckByStop($amqpAcks, $stop)
+    {
+        foreach ($amqpAcks as $ack) {
+            if ($ack->getPayload()->timetableParams->externalStopPointId == $stop->stopPointId
+                && $ack->getPayload()->timetableParams->externalRouteId == $stop->routeId
+                && $ack->getPayload()->timetableParams->externalLineId == $stop->lineId
+            ) {
+                return $ack;
+            }
+        }
+
+        return null;
+    }
+
     private function completeAreaList($task)
     {
         $pdfGenerator = $this->container->get('canal_tp_mtt.pdf_generator');
@@ -161,10 +175,19 @@ class PdfGenCompletionLib
         $lineConfig = false;
         $timetable = false;
 
-        foreach ($task->getAmqpAcks() as $ack) {
+        foreach ($areaPdf->getArea()->getStopPoints() as $stop) {
+            $stopObj = json_decode($stop);
+            $ack = $this->findAckByStop($task->getAmqpAcks(), $stopObj);
+
+            if (is_null($ack)) {
+                echo 'No ack for : ' . $stop;
+                continue;
+            }
+
             try {
                 $lineConfig = $this->getLineConfig($ack, $lineConfig);
             } catch (\Exception $e) {
+                echo 'No lineConfig for : ' . $stop;
                 continue;
             }
             $timetable = $this->getTimetable($ack, $lineConfig, $timetable);

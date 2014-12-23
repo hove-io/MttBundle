@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://samback/admin/login" />
+<title>METH-384</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">METH-384</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/app_dev.php/admin/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>Admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=remember_me</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.dropdown-toggle</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Timetable</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Édition des fiches horaires</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyAttribute</td>
+	<td>xpath=//html/body/div[3]/div[1]/nav/div[2]/ul/li[3]@class</td>
+	<td>active active</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Éditer la fiche horaire</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyAttribute</td>
+	<td>xpath=//html/body/div[3]/div[1]/nav/div[2]/ul/li[3]@class</td>
+	<td>active</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.toggle-button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Prévisualiser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyAttribute</td>
+	<td>xpath=//html/body/div[3]/div[1]/nav/div[2]/ul/li[3]@class</td>
+	<td>active</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Édition des fiches horaires</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Voir les horaires</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyAttribute</td>
+	<td>xpath=//html/body/div[3]/div[1]/nav/div[2]/ul/li[3]@class</td>
+	<td>active</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Secteurs</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyAttribute</td>
+	<td>xpath=//html/body/div[3]/div[1]/nav/div[2]/ul/li[4]@class</td>
+	<td>active active</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Créer un secteur</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mtt_area_label</td>
+	<td>METH-384</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=METH-384</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyAttribute</td>
+	<td>xpath=//html/body/div[3]/div[1]/nav/div[2]/ul/li[4]@class</td>
+	<td>active</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Gestion des fonds de fiche</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyAttribute</td>
+	<td>xpath=//html/body/div[3]/div[1]/nav/div[2]/ul/li[5]@class</td>
+	<td>active active</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Gestion des Clients</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyAttribute</td>
+	<td>xpath=//html/body/div[3]/div[1]/nav/div[2]/ul/li[6]@class</td>
+	<td>active active last</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

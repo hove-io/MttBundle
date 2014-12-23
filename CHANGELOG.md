@@ -1,3 +1,20 @@
+Notes de publication - METH - Version 1.6.4 (19/12/2014)
+
+** Bogue
+    * [METH-384] - Repères de navigation : surbrillance des rubriques
+    * [METH-402] - Génération PDF secteur : ordre non respecté
+
+** Tâche
+    * [METH-386] - Back URL
+    * [METH-404] - Ordre des arrêts lors de l'import dans un secteur
+
+
+Notes de publication - METH - Version 1.6.3 (15/12/2014)
+
+** Amélioration
+    * [METH-325] - Désactiver les boutons lorsqu'une saison est verrouillée
+    * Wording for models
+
 Notes de publication - METH - Version 1.6.2 (12/12/2014)
 
 ** Tâche

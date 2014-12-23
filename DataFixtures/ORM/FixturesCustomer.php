@@ -2,11 +2,11 @@
 
 namespace CanalTP\MttBundle\DataFixtures\ORM;
 
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use CanalTP\SamCoreBundle\DataFixtures\ORM\CustomerTrait;
 
 class FixturesCustomer extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
