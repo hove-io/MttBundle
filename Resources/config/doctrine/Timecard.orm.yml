@@ -34,9 +34,9 @@ CanalTP\MttBundle\Entity\Timecard:
                 name: perimeter_id
                 referencedColumnName: per_id
     oneToMany:
-        areasPdf:
+        timecardsPdf:
             targetEntity: TimecardPdf
-            mappedBy: area
+            mappedBy: timecard
             cascade:
                 - remove
     lifecycleCallbacks: {  }

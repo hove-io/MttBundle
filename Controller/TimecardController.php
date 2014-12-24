@@ -31,6 +31,7 @@ class TimecardController extends AbstractController
             $externalNetworkId
         );
 
+        $seasonId = $request->get('seasonId');
         $externalCoverageId = $perimeter->getExternalCoverageId();
 
         $routes = $navitia->getLineRoutes(
@@ -44,6 +45,24 @@ class TimecardController extends AbstractController
             $externalRouteId
         );
 
+        $timecard = $this->get('canal_tp_mtt.Timecard_manager')->findByUniqueString(
+            $externalLineId,
+            $externalRouteId,
+            $seasonId,
+            $externalNetworkId
+        );
+
+        $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
+        $stopPointsList = null;
+        $stopPointsIncluded = $timecard->getStopPoints();
+        if (!empty($stopPointsIncluded)) {
+            $stopPointsList = $stopPointManager->enrichStopPoints(
+                $timecard->getStopPoints(),
+                $perimeter->getExternalCoverageId(),
+                $perimeter->getExternalNetworkId()
+            );
+        }
+
         // Get the direction if is defined
         $index = (is_null($request->query->get('direction'))) ? 0 : 1;
 
@@ -52,21 +71,77 @@ class TimecardController extends AbstractController
             array(
                 'pageTitle' => 'Editer la fiche ligne',
                 'externalNetworkId' => $externalNetworkId,
+                'externalLineId' => $externalLineId,
                 'routes' => $routes,
                 'stopPoints' => $stopPoints->stop_points,
+                'stopPointsIncluded' => $stopPointsList,
                 'lineId' => $routes[$index]->line->code,
                 'currentDirectionName' => $routes[$index]->name,
                 'currentDirectionId' => $routes[$index]->direction->id,
-                'routeId' => $routes[$index]->id
+                'routeId' => $routes[$index]->id,
+                'seasonId' => $seasonId,
+                'timecard' => $timecard
             )
         );
     }
 
     /**
      * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function saveAction(Request $request)
+    public function saveAction(Request $request, $externalNetworkId, $externalLineId, $externalRouteId)
     {
+
+        if ($this->saveList($request, $externalLineId, $externalRouteId, $externalNetworkId)) {
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                $this->get('translator')->trans(
+                    'timecard.confirm_order_saved',
+                    array(),
+                    'default'
+                )
+            );
+        }
+
+        return $this->redirect(
+            $this->generateUrl(
+                'canal_tp_mtt_timecard_edit',
+                array(
+                    'externalNetworkId' => $externalNetworkId,
+                    'externalLineId' => $externalLineId,
+                    'externalRouteId' => $externalRouteId,
+                    'seasonId' => $request->get('seasonId')
+                )
+            )
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    private function saveList(Request $request, $externalLineId, $externalRouteId, $externalNetworkId)
+    {
+        $stopPoints = $request->get('stopPoints');
+        $seasonId = $request->get('seasonId');
+
+        $getAllStopPoints = !empty($stopPoints);
+
+        if ($getAllStopPoints) {
+            $timecard = $this->get('canal_tp_mtt.timecard_manager')->findByUniqueString(
+                $externalLineId,
+                $externalRouteId,
+                $seasonId,
+                $externalNetworkId
+            );
+
+            $timecard->setStopPoints($stopPoints);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($timecard);
+            $em->flush($timecard);
+        }
+
+        return ($getAllStopPoints);
 
     }
 }

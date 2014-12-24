@@ -1,5 +1,5 @@
 define('mtt/stop', ['jquery', 'fosjsrouting', 'jquery_ui_sortable'], function($, sortable) {
-
+    var stop = {};
     var isChange = false;
 
     // Add All Stop points
@@ -107,14 +107,84 @@ define('mtt/stop', ['jquery', 'fosjsrouting', 'jquery_ui_sortable'], function($,
     );
     $('.list-group.sortable').disableSelection();
 
+
+
+    var underProgress = false;
+
+    var _sendStopPointsList = function(doRedirection) {
+        if (underProgress == true) {
+            return false;
+        }
+        underProgress = true;
+        var $link = $(this);
+        $link.find('span.glyphicon-refresh').toggleClass('icon-refresh-animate display-none');
+        $link.find('span.glyphicon-floppy-disk').toggle();
+        var stopPoints = _getStopPoint();
+        if (stopPoints.length > 0) {
+            $.post(
+                $link.attr('href'),
+                {"stopPoints[]" : stopPoints}
+            ).done(
+                function(data, textStatus) {
+                    underProgress = false;
+                    if ($link.hasAttr('data-toggle')) {
+                        window.location = $link.attr('href');
+                    }
+                }
+            );
+        }
+
+        return true;
+    };
+
+    var _getStopPointAndRouteIds = function()
+    {
+        var stopPointsIds = [];
+        $('ul#included-stops > li.list-group-item').each(function(){
+            stopPointsIds.push($(this).data('route-id') + '-' + $(this).data('stop-point-id'));
+        });
+
+        return stopPointsIds;
+    };
+
+    var _getStopPoint = function()
+    {
+        var stopPoints = [];
+        $('ul#included-stops > li.list-group-item').each(function(){
+            stopPoints.push(JSON.stringify({'stopPointId': $(this).data('stop-point-id'), 'routeId': $(this).data('route-id'), 'lineId': $(this).data('line-id')}));
+        });
+
+        return stopPoints;
+    };
+
+    $('#save-area').click(_sendStopPointsList);
+
     $('.rDirection').on('change', function(event) {
         if (true == isChange) {
             if (confirm('Attention les changements ne seront pas conservés')) {
-                // TODO : Enregistrement des information et rechargement de la page
+                // TODO : Enregistrement des informations et rechargement de la page
             }
         }
         return false;
     });
 
 
+    var _test = function()
+    {
+        stopPointsIds = _getStopPointAndRouteIds();
+        dom = $('ul#excluded-stops > li.list-group-item');
+        dom.each( function(index) {
+            //console.log(dom);
+            tmp =  $(this).data('route-id') + '-' + $(this).data('stop-point-id');
+            if ($.inArray(tmp, stopPointsIds) != -1) {
+                $(this).addClass('active');
+            }
+
+        })
+    }
+
+
+    _test();
+
+    return (stop);
 });

@@ -36,7 +36,7 @@ class Timecard extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $areasPdf;
+    private $timecardsPdf;
 
     /**
      * @var \CanalTP\NmmPortalBundle\Entity\Perimeter
@@ -48,7 +48,7 @@ class Timecard extends AbstractEntity
      */
     public function __construct()
     {
-        $this->areasPdf = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->timecardsPdf = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -154,39 +154,6 @@ class Timecard extends AbstractEntity
     }
 
     /**
-     * Add areasPdf
-     *
-     * @param \CanalTP\MttBundle\Entity\TimecardPdf $areasPdf
-     * @return Timecard
-     */
-    public function addAreasPdf(\CanalTP\MttBundle\Entity\TimecardPdf $areasPdf)
-    {
-        $this->areasPdf[] = $areasPdf;
-
-        return $this;
-    }
-
-    /**
-     * Remove areasPdf
-     *
-     * @param \CanalTP\MttBundle\Entity\TimecardPdf $areasPdf
-     */
-    public function removeAreasPdf(\CanalTP\MttBundle\Entity\TimecardPdf $areasPdf)
-    {
-        $this->areasPdf->removeElement($areasPdf);
-    }
-
-    /**
-     * Get areasPdf
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAreasPdf()
-    {
-        return $this->areasPdf;
-    }
-
-    /**
      * Set perimeter
      *
      * @param \CanalTP\NmmPortalBundle\Entity\Perimeter $perimeter
@@ -207,5 +174,38 @@ class Timecard extends AbstractEntity
     public function getPerimeter()
     {
         return $this->perimeter;
+    }
+
+    /**
+     * Add timecardsPdf
+     *
+     * @param \CanalTP\MttBundle\Entity\TimecardPdf $timecardsPdf
+     * @return Timecard
+     */
+    public function addTimecardsPdf(\CanalTP\MttBundle\Entity\TimecardPdf $timecardsPdf)
+    {
+        $this->timecardsPdf[] = $timecardsPdf;
+
+        return $this;
+    }
+
+    /**
+     * Remove timecardsPdf
+     *
+     * @param \CanalTP\MttBundle\Entity\TimecardPdf $timecardsPdf
+     */
+    public function removeTimecardsPdf(\CanalTP\MttBundle\Entity\TimecardPdf $timecardsPdf)
+    {
+        $this->timecardsPdf->removeElement($timecardsPdf);
+    }
+
+    /**
+     * Get timecardsPdf
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTimecardsPdf()
+    {
+        return $this->timecardsPdf;
     }
 }

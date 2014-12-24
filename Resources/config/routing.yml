@@ -78,20 +78,18 @@ canal_tp_mtt_line_choose_layout:
 #Timecard
 canal_tp_mtt_timecard_edit:
     pattern: /timecard/edit/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}
-    defaults: { _controller: CanalTPMttBundle:Timecard:edit, seasonId: null }
+    defaults: { _controller: CanalTPMttBundle:Timecard:edit }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
-        externalLineId: -?[a-zA-Z0-9_\-:]*
-        externalRouteId: -?[a-zA-Z0-9_\-:]*
-        seasonId: \d+
+        #externalLineId: -?[a-zA-Z0-9_\-:]*
+        #externalRouteId: -?[a-zA-Z0-9_\-:]*
+        #seasonId: \d+
 
 canal_tp_mtt_timecard_save:
-    pattern: /timecard/save/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}
+    pattern: /timecard/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}/save
     defaults: { _controller: CanalTPMttBundle:Timecard:save}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
-        externalLineId: -?[a-zA-Z0-9_\-:]*
-        externalRouteId: -?[a-zA-Z0-9_\-:]*
 
 #Timetable
 canal_tp_mtt_timetable_edit:
