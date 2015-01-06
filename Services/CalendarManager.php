@@ -90,16 +90,18 @@ class CalendarManager
     /**
      * gather notes and ensure these notes are unique. (based on Navitia ID)
      */
-    private function computeNotes($notesToReturn, $newCalendar, $season, $aggregation, $colors = array())
+    private function computeNotes($lineConfig, $notesToReturn, $newCalendar, $aggregation)
     {
+        $layoutConfig = $lineConfig->getLayoutConfig();
+
         foreach ($newCalendar->notes as $note) {
-            if (($note->type == 'notes' || $this->isExceptionInsideSeason($note, $season)) &&
-                !in_array($note->id, $this->computedNotesId)) {
+            if (($note->type == 'notes' || $this->isExceptionInsideSeason($note, $lineConfig->getSeason())) &&
+                ($layoutConfig->dispatchesNotes() || !in_array($note->id, $this->computedNotesId))) {
                 $note->calendarId = $newCalendar->id;
                 $this->computedNotesId[] = $note->id;
 
                 if (!isset($this->colorNotes[$note->id])) {
-                    $this->colorNotes[$note->id] = $this->getNewColor($colors);
+                    $this->colorNotes[$note->id] = $this->getNewColor($layoutConfig->getNotesColors());
                 }
 
                 $note->color = $this->colorNotes[$note->id];
@@ -110,7 +112,7 @@ class CalendarManager
         return $notesToReturn;
     }
 
-    public function getNewColor($colors)
+    public function getNewColor($colors = array())
     {
         if (!isset($colors[count($this->colorNotes)])) {
             return '#ff794e';
@@ -351,11 +353,10 @@ class CalendarManager
                         $timetable->getLineConfig()->getLayoutConfig()
                     );
                     $notesComputed = $this->computeNotes(
+                        $timetable->getLineConfig(),
                         $notesComputed,
                         $calendar,
-                        $timetable->getLineConfig()->getSeason(),
-                        $layout->aggregatesNotes(),
-                        $timetable->getLineConfig()->getLayoutConfig()->getNotesColors()
+                        $layout->aggregatesNotes()
                     );
                     $calendarsFiltered[$calendar->id] = $calendar;
                 }
