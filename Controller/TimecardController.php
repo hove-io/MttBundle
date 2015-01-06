@@ -3,6 +3,7 @@
 
 namespace CanalTP\MttBundle\Controller;
 use CanalTP\MttBundle\CanalTPMttBundle;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -63,8 +64,23 @@ class TimecardController extends AbstractController
             );
         }
 
-        // Get the direction if is defined
-        $index = (is_null($request->query->get('direction'))) ? 0 : 1;
+        $array_search_recursif = function ($needle, $haystack) use (&$array_search_recursif) {
+            foreach($haystack as $key => $value) {
+                $current_key=$key;
+                if( $needle === $value ||
+                    ( is_object($value) && $array_search_recursif($needle, $value) !== false) ) {
+                    return $current_key;
+                }
+            }
+            return false;
+        };
+
+        // Get table index of specified route id
+        $routeIndex = $array_search_recursif($externalRouteId, $routes);
+
+        if (false === $routeIndex) {
+            throw new Exception('Route Id not found');
+        }
 
         return $this->render(
             'CanalTPMttBundle:Timecard:edit.html.twig',
@@ -75,10 +91,9 @@ class TimecardController extends AbstractController
                 'routes' => $routes,
                 'stopPoints' => $stopPoints->stop_points,
                 'stopPointsIncluded' => $stopPointsList,
-                'lineId' => $routes[$index]->line->code,
-                'currentDirectionName' => $routes[$index]->name,
-                'currentDirectionId' => $routes[$index]->direction->id,
-                'routeId' => $routes[$index]->id,
+                'lineId' => $routes[$routeIndex]->line->code,
+                'currentDirectionName' => $routes[$routeIndex]->name,
+                'currentRouteId' => $externalRouteId,
                 'seasonId' => $seasonId,
                 'timecard' => $timecard
             )
@@ -123,6 +138,9 @@ class TimecardController extends AbstractController
     {
         $stopPoints = $request->get('stopPoints');
         $seasonId = $request->get('seasonId');
+        $route = $request->get('route');
+
+        $externalRouteId = (is_null($route)) ? $externalRouteId : $route;
 
         $getAllStopPoints = !empty($stopPoints);
 

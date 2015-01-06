@@ -81,9 +81,11 @@ canal_tp_mtt_timecard_edit:
     defaults: { _controller: CanalTPMttBundle:Timecard:edit }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
-        #externalLineId: -?[a-zA-Z0-9_\-:]*
-        #externalRouteId: -?[a-zA-Z0-9_\-:]*
-        #seasonId: \d+
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        externalRouteId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+    options:
+        expose: true
 
 canal_tp_mtt_timecard_save:
     pattern: /timecard/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}/save

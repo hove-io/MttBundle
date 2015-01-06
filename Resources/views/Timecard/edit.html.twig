@@ -4,14 +4,14 @@
 {% endblock %}
 {% block main_content %}
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <h1>Edition de la ligne {{ lineId }} <small class="jsDirection">{{ currentDirectionName|raw }}</small></h1>
         </div>
-        <div class="col-md-3">
-            Direction :
+        <div class="col-md-4">
+            Routes :
             <div class="btn-group" data-toggle="buttons">
             {% for route in routes %}
-                {% if route.direction.id == currentDirectionId %}
+                {% if route.id == currentRouteId %}
                     {% set cssClass = "active" %}
                     {% set radioState = "checked" %}
                 {% else %}
@@ -19,7 +19,25 @@
                     {% set radioState = "" %}
                 {% endif %}
                 <label class="btn btn-primary {{ cssClass }}">
-                    <input class="rDirection" value="{{ loop.index }}" type="radio" name="direction" id="{{ route.direction.id }}" {{ radioState }}> {{ route.name }}
+                    <input
+                            data-route_id="{{ route.id }}"
+                            data-line_id="{{ externalLineId }}"
+                            data-network_id="{{ externalNetworkId }}"
+                            data-season_id="{{ seasonId }}"
+                            data-href="{{ path('canal_tp_mtt_timecard_save', {
+                                'externalNetworkId': externalNetworkId,
+                                'externalLineId': externalLineId,
+                                'externalRouteId': route.id,
+                                'seasonId': seasonId
+                                }) }}"
+                            data-toggle="route"
+                            class="route"
+                            value="{{ currentRouteId }}"
+                            type="radio"
+                            name="direction"
+                            id="{{ route.direction.id }}" {{ radioState }}>
+                    <span class="glyphicon glyphicon-refresh display-none"></span>
+                    <span class="glyphicon glyphicon-arrow-right"></span> {{ route.name }}
                 </label>
             {% endfor %}
             </div>
@@ -31,7 +49,7 @@
             <a id="save-area" class="btn btn-primary" href="{{ path('canal_tp_mtt_timecard_save', {
                                                                         'externalNetworkId': externalNetworkId,
                                                                         'externalLineId': externalLineId,
-                                                                        'externalRouteId': routeId,
+                                                                        'externalRouteId': currentRouteId,
                                                                         'seasonId': seasonId
                                                                     }) }}">
                 <span class="glyphicon glyphicon-refresh display-none"></span>
@@ -51,7 +69,7 @@
             <ul id="excluded-stops" class="list-group">
                 {% for stopPoint in stopPoints %}
                     <li class="list-group-item"
-                        data-route-id="{{ routeId|raw }}"
+                        data-route-id="{{ currentRouteId|raw }}"
                         data-line-id="{{ lineId|raw }}"
                         data-stop-point-id="{{ stopPoint.id|raw }}"
                     >
@@ -80,7 +98,9 @@
 {% block javascripts %}
 
     <script type="text/javascript">
+
         require(['mtt/stop']);
+
 
     </script>
 
