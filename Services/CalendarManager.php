@@ -9,11 +9,14 @@ namespace CanalTP\MttBundle\Services;
 
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
+use CanalTP\MttBundle\Entity\Block;
+
 class CalendarManager
 {
     private $navitia = null;
     private $translator = null;
     private $computedNotesId = array();
+    private $calendars = array();
     protected $colorNotes = array();
 
     public function __construct(Navitia $navitia, Translator $translator)
@@ -302,6 +305,19 @@ class CalendarManager
         return ($result);
     }
 
+    private function duplicateCalendarsInterpretion($calendar, array &$calendarsSorted, Block $block)
+    {
+        if (in_array($calendar->id, $this->calendars)) {
+            $calendar = clone $calendar;
+            $calendar->id .= '-' . count($this->calendars);
+            $calendarsSorted[$calendar->id] = $calendar;
+            $block->setContent($calendar->id);
+        }
+        $this->calendars[] = $calendar->id;
+
+        return ($calendar);
+    }
+
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template
@@ -320,7 +336,6 @@ class CalendarManager
     )
     {
         $notesComputed = array();
-        $calendarsFiltered = array();
         $calendarsSorted = array();
         // indicates whether to aggregate or dispatch notes
         $layout = $timetable->getLineConfig()->getLayoutConfig();
@@ -343,6 +358,7 @@ class CalendarManager
                         $stopPointInstance->getExternalId(),
                         $block->getContent()
                     );
+                    $calendar = $this->duplicateCalendarsInterpretion($calendar, $calendarsSorted, $block);
                     $calendar = $this->addSchedulesToCalendar(
                         $calendar,
                         $stopSchedulesData->stop_schedules
@@ -358,7 +374,6 @@ class CalendarManager
                         $calendar,
                         $layout->aggregatesNotes()
                     );
-                    $calendarsFiltered[$calendar->id] = $calendar;
                 }
             }
         }
