@@ -72,7 +72,8 @@ menu:
     networks: Réseaux
     seasons: Saisons
     seasons_manage: Gestion des saisons
-    edit_timetables: Édition des fiches horaires
+    edit_timetables: FH à l'arrêt
+    list_timecard: FH de ligne
     networks_manage: Gestion des réseaux
     layouts_manage: Gestion des fonds de fiche
     area_manage: Secteurs

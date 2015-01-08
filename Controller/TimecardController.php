@@ -13,6 +13,59 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TimecardController extends AbstractController
 {
+    /**
+     * @param $externalNetworkId
+     * @param bool $lineId
+     * @param null $seasonId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listAction($externalNetworkId, $lineId = false, $seasonId = null)
+    {
+        /** @var $navitia \CanalTP\MttBundle\Services\Navitia */
+        $navitia = $this->get('canal_tp_mtt.navitia');
+        $customer = $this->getUser()->getCustomer();
+
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $customer,
+            $externalNetworkId
+        );
+
+        $seasons = $this->get('canal_tp_mtt.season_manager')->findByPerimeter($perimeter);
+        $currentSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
+        $this->addFlashIfSeasonLocked($currentSeason);
+        $currentSeasonId = empty($currentSeason) ? false : $currentSeason->getId();
+
+        if (empty($lineId)) {
+            list($lineId, $externalRouteId) = $navitia->getFirstLineAndRouteOfNetwork(
+                $perimeter->getExternalCoverageId(),
+                $externalNetworkId
+            );
+        } else {
+            $listLineRoutes =  $navitia->getLineRoutes(
+                $perimeter->getExternalCoverageId(),
+                $externalNetworkId,
+                $lineId
+            );
+            $externalRouteId = $listLineRoutes[0]->id;
+            $lineInfo = $listLineRoutes[0]->line;
+        }
+
+
+        return $this->render(
+            'CanalTPMttBundle:Timecard:list.html.twig',
+            array(
+                'externalNetworkId' => $externalNetworkId,
+                'externalLineId'    => $lineId,
+                'currentSeasonId'   => $currentSeasonId,
+                'currentSeason'     => $currentSeason,
+                'externalRouteId'   => $externalRouteId,
+                'options'           => array(
+                    'no_route' => true,
+                    'current_line' => $lineId
+                )
+            )
+        );
+    }
 
     /**
      * @param Request $request

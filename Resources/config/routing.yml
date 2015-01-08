@@ -3,8 +3,10 @@ canal_tp_mtt_homepage:
     defaults: { _controller: CanalTPMttBundle:Default:index , externalNetworkId: null}
 
 canal_tp_mtt_menu:
-    pattern:  /navigation/networks/{externalNetworkId}/seasons/{current_season}/route/{current_route}
-    defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null }
+    #pattern:  /navigation/networks/{externalNetworkId}/seasons/{current_season}/route/{current_route}
+    pattern:  /navigation/networks/{externalNetworkId}/seasons/{current_season}
+    #defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null}
+    defaults: { _controller: CanalTPMttBundle:Default:navigation, options: {} }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 #Season
@@ -76,6 +78,13 @@ canal_tp_mtt_line_choose_layout:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #Timecard
+canal_tp_mtt_timecard_list:
+    pattern: /timecard/networks/{externalNetworkId}/list/line/{line_id}
+    defaults: { _controller: CanalTPMttBundle:Timecard:list, line_id : null}
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+
 canal_tp_mtt_timecard_edit:
     pattern: /timecard/edit/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}
     defaults: { _controller: CanalTPMttBundle:Timecard:edit }

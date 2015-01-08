@@ -1,6 +1,15 @@
 {% extends "CanalTPMttBundle::container.html.twig" %}
 {% block breadcrumb %}
-    <li>{{ pageTitle }}</li>
+    <li>
+        <a href="{{ path(
+            'canal_tp_mtt_timecard_list', {
+                'externalNetworkId': externalNetworkId,
+                'line_id' : externalLineId
+            }) }}">
+            {{ 'menu.list_timecard' | trans({}, 'messages') }}
+        </a>
+    </li>
+    / {{ pageTitle }}
 {% endblock %}
 {% block main_content %}
     <div class="row">

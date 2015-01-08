@@ -1,0 +1,59 @@
+{% extends "CanalTPMttBundle::generic_list.html.twig" %}
+
+{% block breadcrumb %}
+    <li>{{'menu.list_timecard'|trans()}}</li>
+{% endblock %}
+
+{% block list_title %}
+    {{ 'timecard.list_page_title'|trans({}, 'default') }}<br><small>{{ options.current_line }}</small>
+{% endblock %}
+{% block line_comment %}
+    <p><span style="color:red;">TODO :</span>Commentaire sur la ligne</p>
+{% endblock %}
+
+{% block list_menu %}
+    {% if (is_granted('BUSINESS_CHOOSE_LAYOUT')) %}
+        <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}">
+            <span class="glyphicon glyphicon-cog"></span><span style="color:red;">TODO :</span> {{'line.choose_layout'|trans({}, 'default')}}
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block table_head -%}
+    <th>{{'timecard.list.columns.label_1'|trans({}, 'default')}}</th>
+    <th>{{'timecard.list.columns.label_2'|trans({}, 'default')}}</th>
+    {% if is_granted('BUSINESS_MANAGE_AREA') %}
+        <th>{{'global.actions'|trans({}, 'messages')}}</th>
+    {% endif %}
+{% endblock %}
+
+{% block table_body -%}
+        <tr>
+            <td>
+                {{ lineInfo.name }}
+            </td>
+            <td>
+            {#
+            {% if lineConfig is not empty %}
+                <td>
+                    {% if route.stop_point.pdfGenerationDate is not empty %}
+                        {{ route.stop_point.pdfGenerationDate|date('d/m/Y - g:ia') }}
+                    {% endif %}
+                </td>
+            {% endif %}
+            #}
+            </td>
+            <td class="action">
+                <div class="btn-group pull-right">
+                    {% if (is_granted('BUSINESS_EDIT_LAYOUT')) %}
+                        <a class="btn btn-primary" href="{{ path('canal_tp_mtt_timecard_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id, 'externalRouteId': externalRouteId}) }}">
+                            <span class="glyphicon glyphicon-edit"></span> {{'timecard.btn.edit'|trans({}, 'default')}}
+                        </a>
+                    {% endif %}
+                        <a class="btn btn-default" href="#">
+                            <span class="glyphicon glyphicon-calendar"></span><span style="color:red;">TODO :</span> {{'stop_point.view_calendars'|trans({}, 'default')}}
+                        </a>
+                </div>
+            </td>
+        </tr>
+{% endblock %}

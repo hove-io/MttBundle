@@ -28,7 +28,6 @@ stop_point:
 line:
     choose_layout: Choisir un fond de fiche
     layout_chosen: Le fond de fiche a bien été assigné à la ligne.
-    edit: Editer la fiche ligne
 
 timetable:
     edit: Éditer la fiche horaire
@@ -155,3 +154,14 @@ customer:
     no_item: Pas de périmètre
     actions:
         assign_twig: Assigner
+
+timecard:
+    list_page_title: Fiche horaire de ligne
+    list_fh_title: Fiche horare de la ligne
+    btn:
+        edit: Choisir les arrêts
+    list:
+        columns:
+            label_1: Ligne
+            label_2: PDF crée le
+
