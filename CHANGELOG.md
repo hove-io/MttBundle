@@ -1,3 +1,19 @@
+Notes de publication - METH - Version 1.6.6 (08/01/2015)
+
+** Bogue
+    * [METH-411] - Annotations et renvois KO
+
+
+Notes de publication - METH - Version 1.6.5 (06/01/2015)
+
+** Bogue
+    * [METH-407] - Incohérence annotations
+    * [METH-408] - Anotations non affichées dans la FH
+
+** Tâche
+    * [METH-410] - Changement archives modèles Divia
+
+
 Notes de publication - METH - Version 1.6.4 (19/12/2014)
 
 ** Bogue
