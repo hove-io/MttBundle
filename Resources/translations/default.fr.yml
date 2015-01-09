@@ -158,8 +158,10 @@ customer:
 timecard:
     list_page_title: Fiche horaire de ligne
     list_fh_title: Fiche horare de la ligne
+    repeat_on_all_routes: Dupliquer la sélection sur les autres directions
     btn:
         edit: Choisir les arrêts
+        inverse_selection: Inverser la sélection
     list:
         columns:
             label_1: Ligne

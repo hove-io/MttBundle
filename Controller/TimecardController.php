@@ -15,8 +15,8 @@ class TimecardController extends AbstractController
 {
     /**
      * @param $externalNetworkId
-     * @param bool $lineId
-     * @param null $seasonId
+     * @param mixed $lineId
+     * @param mixed $seasonId
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listAction($externalNetworkId, $lineId = false, $seasonId = null)
@@ -47,15 +47,16 @@ class TimecardController extends AbstractController
                 $lineId
             );
             $externalRouteId = $listLineRoutes[0]->id;
-            $lineInfo = $listLineRoutes[0]->line;
         }
 
+        $lineInfo = $navitia->getLine($perimeter->getExternalCoverageId(),$externalNetworkId,$lineId);
 
         return $this->render(
             'CanalTPMttBundle:Timecard:list.html.twig',
             array(
                 'externalNetworkId' => $externalNetworkId,
                 'externalLineId'    => $lineId,
+                'currentLine'       => $lineInfo,
                 'currentSeasonId'   => $currentSeasonId,
                 'currentSeason'     => $currentSeason,
                 'externalRouteId'   => $externalRouteId,

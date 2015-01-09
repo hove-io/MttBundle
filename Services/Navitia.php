@@ -196,6 +196,19 @@ class Navitia
     }
 
     /**
+     * @param  String $coverageId
+     * @param  String $networkId
+     * @param  String $lineId
+     * @return mixed
+     */
+    public function getLine($coverageId, $networkId, $lineId)
+    {
+       $response = $this->navitia_sam->getLine($coverageId, $networkId, $lineId);
+
+        return ($response->lines[0]);
+    }
+
+    /**
      * Returns Stop Point title
      *
      * @param  String $coverageId

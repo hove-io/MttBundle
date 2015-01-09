@@ -172,3 +172,23 @@ li.ui-sortable-helper span{
 .list-group li.list-group-item:first-child{
     border-top:0;
 }
+
+.dropdown-menu.checkbox-dropdown-menu {
+    width: 175px;
+}
+
+.dropdown-menu.checkbox-dropdown-menu li div {
+    clear: both;
+}
+
+.dropdown-menu.checkbox-dropdown-menu input[type='checkbox'] {
+    margin-right: 12px;
+    float: right;
+}
+
+.dropdown-menu.checkbox-dropdown-menu label {
+    float: left;
+    width: 70%;
+    padding-left: 12px;
+    font-size: 10px;
+}
