@@ -79,8 +79,8 @@ canal_tp_mtt_line_choose_layout:
 
 #Timecard
 canal_tp_mtt_timecard_list:
-    pattern: /timecard/networks/{externalNetworkId}/list/line/{line_id}
-    defaults: { _controller: CanalTPMttBundle:Timecard:list, line_id : null}
+    pattern: /timecard/networks/{externalNetworkId}/list/line/{lineId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:list, lineId : null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         seasonId: \d+
