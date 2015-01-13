@@ -46,13 +46,13 @@
                         <!--span class="badge pull-right">{{ line.routes|length }}</span-->
                         {% if menuMode == "default" %}
                         <ul id="mode-{{loop.parent.loop.index0}}-routes-collapse-{{ loop.index0 }}" class="nav nav-pills nav-stacked collapse in">
-                        {% for route in line.routes %}_
+                        {% for route in line.routes %}
                             <li {% if route.id == options.current_route %} class="active"{% endif %}>
                                 <a href="{{ path(
                                     'canal_tp_mtt_stop_point_list',
                                     {
                                         'externalNetworkId':line.network.id,
-                                        'lineId':line.id,
+                                        'line_id':line.id,
                                         'externalRouteId': route.id,
                                         'seasonId': current_season
                                     }
