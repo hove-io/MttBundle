@@ -72,8 +72,8 @@ canal_tp_mtt_stop_point_list_json:
 
 #Line
 canal_tp_mtt_line_choose_layout:
-    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/line/{line_id}/choose_layout/route/{externalRouteId}
-    defaults: { _controller: CanalTPMttBundle:Line:chooseLayout }
+    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/line/{line_id}/choose_layout/route/{externalRouteId}/{destRoute}
+    defaults: { _controller: CanalTPMttBundle:Line:chooseLayout, destRoute: null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 

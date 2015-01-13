@@ -31,28 +31,49 @@ class LineController extends AbstractController
             )
         );
 
-        return $this->redirect(
-            $this->generateUrl(
-                'canal_tp_mtt_stop_point_list',
-                array(
-                    'externalNetworkId'        => $params['externalNetworkId'],
-                    'line_id'           => $params['line_id'],
-                    'seasonId'          => $season->getId(),
-                    'externalRouteId'   => $params['externalRouteId'],
+        if (is_null($params['destRoute'])) {
+            return $this->redirect(
+                $this->generateUrl(
+                    'canal_tp_mtt_stop_point_list',
+                    array(
+                        'externalNetworkId' => $params['externalNetworkId'],
+                        'line_id' => $params['line_id'],
+                        'seasonId' => $season->getId(),
+                        'externalRouteId' => $params['externalRouteId'],
+                    )
                 )
-            )
-        );
+            );
+        } else {
+            return $this->redirect(
+              $this->generateUrl(
+                  'canal_tp_mtt_timecard_list',
+                  array(
+                      'externalNetworkId' => $params['externalNetworkId'],
+                      'lineId' => $params['line_id'],
+                  )
+              )
+            );
+        }
     }
 
-    /*
-     * @function display a form to choose a layout for a given line
+    /**
+     *
+     * Display a form to choose a layout for a given line
      * or save this form and redirects
+     *
+     * @param $externalNetworkId
+     * @param $line_id
+     * @param $seasonId
+     * @param $externalRouteId
+     * @param string $destRoute
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function chooseLayoutAction(
         $externalNetworkId,
         $line_id,
         $seasonId,
-        $externalRouteId
+        $externalRouteId,
+        $destRoute
     )
     {
         $this->isGranted('BUSINESS_CHOOSE_LAYOUT');
@@ -70,7 +91,8 @@ class LineController extends AbstractController
         $params = array(
             'externalNetworkId' => $externalNetworkId,
             'line_id'           => $line_id,
-            'externalRouteId'   => $externalRouteId
+            'externalRouteId'   => $externalRouteId,
+            'destRoute'         => $destRoute
         );
         $lineConfig = $this->get('canal_tp_mtt.line_manager')->getLineConfigWithSeasonByExternalLineId(
             $line_id,
