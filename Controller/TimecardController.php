@@ -51,12 +51,17 @@ class TimecardController extends AbstractController
 
         $lineInfo = $navitia->getLine($perimeter->getExternalCoverageId(),$externalNetworkId,$lineId);
 
+        $lineConfig = $this->getDoctrine()->getRepository(
+            'CanalTPMttBundle:LineConfig'
+        )->findOneBy(array('externalLineId' => $lineId, 'season' => $currentSeasonId));
+
         return $this->render(
             'CanalTPMttBundle:Timecard:list.html.twig',
             array(
                 'externalNetworkId' => $externalNetworkId,
                 'externalLineId'    => $lineId,
                 'currentLine'       => $lineInfo,
+                'lineConfig'        => $lineConfig,
                 'currentSeasonId'   => $currentSeasonId,
                 'currentSeason'     => $currentSeason,
                 'externalRouteId'   => $externalRouteId,

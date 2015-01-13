@@ -12,16 +12,24 @@
 {% endblock %}
 
 {% block list_menu %}
-    {% if (is_granted('BUSINESS_CHOOSE_LAYOUT')) %}
-        <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}">
-            <span class="glyphicon glyphicon-cog"></span><span style="color:red;">TODO :</span> {{'line.choose_layout'|trans({}, 'default')}}
-        </a>
+    {%  if (is_granted('BUSINESS_CHOOSE_LAYOUT') ) %}
+        {% if (lineConfig is empty or lineConfig.layoutConfig is null)  %}
+
+            <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}">
+                <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}
+            </a>
+        {% else %}
+            <div class="btn-group pull-right marg10b">
+                <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}">
+                    <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}
+                </a>
+            </div>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
 {% block table_head -%}
     <th>{{'timecard.list.columns.label_1'|trans({}, 'default')}}</th>
-    <th>{{'timecard.list.columns.label_2'|trans({}, 'default')}}</th>
     {% if is_granted('BUSINESS_MANAGE_AREA') %}
         <th>{{'global.actions'|trans({}, 'messages')}}</th>
     {% endif %}
@@ -30,29 +38,20 @@
 {% block table_body -%}
         <tr>
             <td>
-                {{ lineInfo.name }}
-            </td>
-            <td>
-            {#
-            {% if lineConfig is not empty %}
-                <td>
-                    {% if route.stop_point.pdfGenerationDate is not empty %}
-                        {{ route.stop_point.pdfGenerationDate|date('d/m/Y - g:ia') }}
-                    {% endif %}
-                </td>
-            {% endif %}
-            #}
             </td>
             <td class="action">
                 <div class="btn-group pull-right">
-                    {% if (is_granted('BUSINESS_EDIT_LAYOUT')) %}
-                        <a class="btn btn-primary" href="{{ path('canal_tp_mtt_timecard_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id, 'externalRouteId': externalRouteId}) }}">
+                    {% if lineConfig is not empty and lineConfig.layoutConfig is not null %}
+                        <a class="btn btn-default" href="{{ path('canal_tp_mtt_timecard_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id, 'externalRouteId': externalRouteId}) }}">
                             <span class="glyphicon glyphicon-edit"></span> {{'timecard.btn.edit'|trans({}, 'default')}}
                         </a>
-                    {% endif %}
-                        <a class="btn btn-default" href="#">
-                            <span class="glyphicon glyphicon-calendar"></span><span style="color:red;">TODO :</span> {{'stop_point.view_calendars'|trans({}, 'default')}}
+                        <a class="btn btn-default" href="#" style="color:red">
+                            <span class="glyphicon glyphicon-edit"></span> {{'timecard.btn.download'|trans({}, 'default')}}
                         </a>
+                        <a class="btn btn-primary" href="#"  style="color:red">
+                            <span class="glyphicon glyphicon-search"></span> {{'global.preview'|trans}}
+                        </a>
+                    {% endif %}
                 </div>
             </td>
         </tr>

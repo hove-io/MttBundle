@@ -162,8 +162,8 @@ timecard:
     btn:
         edit: Choisir les arrêts
         inverse_selection: Inverser la sélection
+        download: Télécharger la FH
     list:
         columns:
-            label_1: Ligne
-            label_2: PDF crée le
+            label_1: PDF crée le
 
