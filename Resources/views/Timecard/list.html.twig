@@ -14,12 +14,16 @@
 {% block list_menu %}
     {%  if (is_granted('BUSINESS_CHOOSE_LAYOUT') ) %}
         {% if (lineConfig is empty or lineConfig.layoutConfig is null)  %}
-
             <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId, 'destRoute': 'canal_tp_mtt_timecard_list'}) }}">
                 <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}
             </a>
         {% else %}
             <div class="btn-group pull-right marg10b">
+                {% if (is_granted('BUSINESS_EDIT_LAYOUT')) %}
+                    <a class="btn btn-primary{% if currentSeason.locked %} disabled{% endif %}" href="#">
+                        <span class="glyphicon glyphicon-edit"></span> {{'timetable.edit'|trans({}, 'default')}}
+                    </a>
+                {% endif %}
                 <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId, 'destRoute': 'canal_tp_mtt_timecard_list'}) }}">
                     <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}
                 </a>
