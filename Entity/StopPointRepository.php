@@ -30,8 +30,7 @@ class StopPointRepository extends EntityRepository
 
         $stopPoint->setPdfGenerationDate(new \DateTime());
         $stopPoint->setPdfHash($hash);
-        $this->getEntityManager()->persist($stopPoint);
-        $this->getEntityManager()->flush();
+        $this->getEntityManager()->flush($stopPoint);
     }
 
     public function getStopPoint($externalStopPointId, $timetable)
