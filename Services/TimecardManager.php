@@ -34,6 +34,19 @@ class TimecardManager
 
 
     /**
+     * @param $networkId
+     * @return \CanalTP\NmmPortalBundle\Entity\Perimeter
+     */
+    private function getPerimeter($networkId)
+    {
+        /** @var  $perimeter \CanalTP\NmmPortalBundle\Entity\Perimeter */
+        return $this->perimeterManager->findOneByExternalNetworkId(
+            $this->user->getCustomer(),
+            $networkId
+        );
+    }
+
+    /**
      * @return array
      */
     public function findAll()
@@ -77,32 +90,55 @@ class TimecardManager
     }
 
     /**
+     * Find timecard for a route
+     *
      * @param $lineId
      * @param $routeId
      * @param $seasonId
      * @param $networkId
      * @return \CanalTP\MttBundle\Entity\Timecard|object
      */
-    public function findByUniqueString($lineId,$routeId,$seasonId,$networkId)
+    public function findByCompositeKey($lineId,$routeId,$seasonId,$networkId)
     {
-        $uniqueString = $networkId . '-' . $lineId . '-' . $routeId . '-' . $seasonId;
-
         /** @var  $perimeter \CanalTP\NmmPortalBundle\Entity\Perimeter */
-        $perimeter = $this->perimeterManager->findOneByExternalNetworkId(
-            $this->user->getCustomer(),
-            $networkId
-        );
+        $perimeter = $this->getPerimeter($networkId);
 
         $timecard = $this->repository->findOneBy(array(
-            'label' => $uniqueString,
-            'perimeter' => $perimeter->getId()
+            'perimeter' => $perimeter->getId(),
+            'lineId' => $lineId,
+            'routeId' => $routeId,
+            'seasonId' => $seasonId
         ));
 
         if ($timecard == null) {
             $timecard = new Timecard();
             $timecard->setPerimeter($perimeter);
-            $timecard->setLabel($uniqueString);
+            $timecard->setLineId($lineId);
+            $timecard->setRouteId($routeId);
+            $timecard->setSeasonId($seasonId);
         }
+
+        return $timecard;
+    }
+
+    /**
+     * Find Timecard for a line
+     *
+     * @param $lineId
+     * @param $seasonId
+     * @param $networkId
+     * @return array
+     */
+    public function findTimecardListByCompositeKey($lineId,$seasonId,$networkId)
+    {
+        /** @var  $perimeter \CanalTP\NmmPortalBundle\Entity\Perimeter */
+        $perimeter = $this->getPerimeter($networkId);
+
+        $timecard = $this->repository->findBy(array(
+            'perimeter' => $perimeter->getId(),
+            'lineId' => $lineId,
+            'seasonId' => $seasonId
+        ));
 
         return $timecard;
     }
@@ -120,16 +156,13 @@ class TimecardManager
     }
 
     /**
+     *
      * @param $timecard
-     * @param $user
-     * @param $externaNetworkId
+     * @param $networkId
      */
-    public function save($timecard, $user, $externaNetworkId)
+    public function save($timecard, $networkId)
     {
-        $perimeter = $this->perimeterManager->findOneByExternalNetworkId(
-            $user->getCustomer(),
-            $externaNetworkId
-        );
+        $perimeter = $this->getPerimeter($networkId);
 
         $timecard->setPerimeter($perimeter);
         $this->om->persist($timecard);

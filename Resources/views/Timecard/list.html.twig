@@ -20,7 +20,7 @@
         {% else %}
             <div class="btn-group pull-right marg10b">
                 {% if (is_granted('BUSINESS_EDIT_LAYOUT')) %}
-                    <a class="btn btn-primary{% if currentSeason.locked %} disabled{% endif %}" href="#">
+                    <a class="btn btn-primary{% if currentSeason.locked %} disabled{% endif %}" href="{{ path('canal_tp_mtt_timecard_edit_layout', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id}) }}">
                         <span class="glyphicon glyphicon-edit"></span> {{'timetable.edit'|trans({}, 'default')}}
                     </a>
                 {% endif %}

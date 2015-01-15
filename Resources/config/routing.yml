@@ -96,6 +96,15 @@ canal_tp_mtt_timecard_edit:
     options:
         expose: true
 
+canal_tp_mtt_timecard_edit_layout:
+    pattern: /timecard/editLayout/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:editLayout }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+
+
 canal_tp_mtt_timecard_save:
     pattern: /timecard/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}/save
     defaults: { _controller: CanalTPMttBundle:Timecard:save}

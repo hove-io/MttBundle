@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 
 /**
- * Class LayoutLineController
+ * Class TimecardController
  * @package CanalTP\MttBundle\Controller
  */
 class TimecardController extends AbstractController
@@ -41,7 +41,7 @@ class TimecardController extends AbstractController
                 $externalNetworkId
             );
         } else {
-            $listLineRoutes =  $navitia->getLineRoutes(
+            $listLineRoutes = $navitia->getLineRoutes(
                 $perimeter->getExternalCoverageId(),
                 $externalNetworkId,
                 $lineId
@@ -49,7 +49,7 @@ class TimecardController extends AbstractController
             $externalRouteId = $listLineRoutes[0]->id;
         }
 
-        $lineInfo = $navitia->getLine($perimeter->getExternalCoverageId(),$externalNetworkId,$lineId);
+        $lineInfo = $navitia->getLine($perimeter->getExternalCoverageId(), $externalNetworkId, $lineId);
 
         $lineConfig = $this->getDoctrine()->getRepository(
             'CanalTPMttBundle:LineConfig'
@@ -59,13 +59,13 @@ class TimecardController extends AbstractController
             'CanalTPMttBundle:Timecard:list.html.twig',
             array(
                 'externalNetworkId' => $externalNetworkId,
-                'externalLineId'    => $lineId,
-                'currentLine'       => $lineInfo,
-                'lineConfig'        => $lineConfig,
-                'currentSeasonId'   => $currentSeasonId,
-                'currentSeason'     => $currentSeason,
-                'externalRouteId'   => $externalRouteId,
-                'options'           => array(
+                'externalLineId' => $lineId,
+                'currentLine' => $lineInfo,
+                'lineConfig' => $lineConfig,
+                'currentSeasonId' => $currentSeasonId,
+                'currentSeason' => $currentSeason,
+                'externalRouteId' => $externalRouteId,
+                'options' => array(
                     'no_route' => true,
                     'current_line' => $lineId
                 )
@@ -105,7 +105,7 @@ class TimecardController extends AbstractController
             $externalRouteId
         );
 
-        $timecard = $this->get('canal_tp_mtt.Timecard_manager')->findByUniqueString(
+        $timecard = $this->get('canal_tp_mtt.Timecard_manager')->findByCompositeKey(
             $externalLineId,
             $externalRouteId,
             $seasonId,
@@ -124,10 +124,11 @@ class TimecardController extends AbstractController
         }
 
         $array_search_recursif = function ($needle, $haystack) use (&$array_search_recursif) {
-            foreach($haystack as $key => $value) {
-                $current_key=$key;
-                if( $needle === $value ||
-                    ( is_object($value) && $array_search_recursif($needle, $value) !== false) ) {
+            foreach ($haystack as $key => $value) {
+                $current_key = $key;
+                if ($needle === $value ||
+                    (is_object($value) && $array_search_recursif($needle, $value) !== false)
+                ) {
                     return $current_key;
                 }
             }
@@ -161,6 +162,9 @@ class TimecardController extends AbstractController
 
     /**
      * @param Request $request
+     * @param $externalNetworkId
+     * @param $externalLineId
+     * @param $externalRouteId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function saveAction(Request $request, $externalNetworkId, $externalLineId, $externalRouteId)
@@ -191,6 +195,10 @@ class TimecardController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @param $externalLineId
+     * @param $externalRouteId
+     * @param $externalNetworkId
      * @return bool
      */
     private function saveList(Request $request, $externalLineId, $externalRouteId, $externalNetworkId)
@@ -204,7 +212,7 @@ class TimecardController extends AbstractController
         $getAllStopPoints = !empty($stopPoints);
 
         if ($getAllStopPoints) {
-            $timecard = $this->get('canal_tp_mtt.timecard_manager')->findByUniqueString(
+            $timecard = $this->get('canal_tp_mtt.timecard_manager')->findByCompositeKey(
                 $externalLineId,
                 $externalRouteId,
                 $seasonId,
@@ -221,4 +229,27 @@ class TimecardController extends AbstractController
         return ($getAllStopPoints);
 
     }
+
+    /**
+     * @param $externalNetworkId
+     * @param $externalLineId
+     * @param $seasonId
+     *
+     * @return bool
+     */
+    public function editLayoutAction($externalNetworkId, $externalLineId, $seasonId)
+    {
+        $this->isGranted('BUSINESS_EDIT_LAYOUT');
+
+        /** @var \CanalTp\MttBundle\Entity\Timecard $timecard */
+        $timecard = $this->get('canal_tp_mtt.timecard_manager')->findTimecardListByCompositeKey(
+            $externalLineId,
+            $seasonId,
+            $externalNetworkId
+        );
+
+        return true;
+        //return $this->renderLayout($timecard, $externalStopPointId, true, true, $stopPointId);
+    }
+
 }

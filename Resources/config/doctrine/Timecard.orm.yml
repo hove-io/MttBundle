@@ -8,9 +8,14 @@ CanalTP\MttBundle\Entity\Timecard:
             generator:
                 strategy: IDENTITY
     fields:
-        label:
+        lineId:
             type: string
             length: 255
+        routeId:
+            type: string
+            length: 255
+        seasonId:
+            type: integer
         stopPoints:
             type: array
             column: stop_points
@@ -25,8 +30,9 @@ CanalTP\MttBundle\Entity\Timecard:
                 timestampable:
                     on: update
     uniqueConstraints:
-        perimeter_area_idx:
-            columns: [ label, perimeter_id ]
+        perimeter_timecard_idx:
+            # columns: [ label, perimeter_id ]
+            columns: [perimeter_id, seasonId, lineId, routeId]
     manyToOne:
         perimeter:
             targetEntity: CanalTP\NmmPortalBundle\Entity\Perimeter

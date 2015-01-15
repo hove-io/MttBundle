@@ -14,11 +14,6 @@ class Timecard extends AbstractEntity
     private $id;
 
     /**
-     * @var string
-     */
-    private $label;
-
-    /**
      * @var array
      */
     private $stopPoints;
@@ -62,29 +57,6 @@ class Timecard extends AbstractEntity
     }
 
     /**
-     * Set label
-     *
-     * @param string $label
-     * @return Timecard
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-
-        return $this;
-    }
-
-    /**
-     * Get label
-     *
-     * @return string 
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    /**
      * Set stopPoints
      *
      * @param array $stopPoints
@@ -105,52 +77,6 @@ class Timecard extends AbstractEntity
     public function getStopPoints()
     {
         return $this->stopPoints;
-    }
-
-    /**
-     * Set created
-     *
-     * @param \DateTime $created
-     * @return Timecard
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return \DateTime 
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * Set updated
-     *
-     * @param \DateTime $updated
-     * @return Timecard
-     */
-    public function setUpdated($updated)
-    {
-        $this->updated = $updated;
-
-        return $this;
-    }
-
-    /**
-     * Get updated
-     *
-     * @return \DateTime 
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
     }
 
     /**
@@ -207,5 +133,89 @@ class Timecard extends AbstractEntity
     public function getTimecardsPdf()
     {
         return $this->timecardsPdf;
+    }
+    /**
+     * @var string
+     */
+    private $lineId;
+
+    /**
+     * @var string
+     */
+    private $routeId;
+
+    /**
+     * @var integer
+     */
+    private $seasonId;
+
+
+    /**
+     * Set lineId
+     *
+     * @param string $lineId
+     * @return Timecard
+     */
+    public function setLineId($lineId)
+    {
+        $this->lineId = $lineId;
+
+        return $this;
+    }
+
+    /**
+     * Get lineId
+     *
+     * @return string 
+     */
+    public function getLineId()
+    {
+        return $this->lineId;
+    }
+
+    /**
+     * Set routeId
+     *
+     * @param string $routeId
+     * @return Timecard
+     */
+    public function setRouteId($routeId)
+    {
+        $this->routeId = $routeId;
+
+        return $this;
+    }
+
+    /**
+     * Get routeId
+     *
+     * @return string 
+     */
+    public function getRouteId()
+    {
+        return $this->routeId;
+    }
+
+    /**
+     * Set seasonId
+     *
+     * @param integer $seasonId
+     * @return Timecard
+     */
+    public function setSeasonId($seasonId)
+    {
+        $this->seasonId = $seasonId;
+
+        return $this;
+    }
+
+    /**
+     * Get seasonId
+     *
+     * @return integer 
+     */
+    public function getSeasonId()
+    {
+        return $this->seasonId;
     }
 }

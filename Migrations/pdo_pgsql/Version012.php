@@ -22,7 +22,9 @@ class Version012 extends AbstractMigration
         $this->addSql("CREATE TABLE mtt.timecard (
             id SERIAL NOT NULL,
             perimeter_id INT DEFAULT NULL,
-            label VARCHAR(255) NOT NULL,
+            lineId VARCHAR(255) NOT NULL,
+            routeId VARCHAR(255) NOT NULL,
+            seasonId INT NOT NULL,
             stop_points TEXT NOT NULL,
             created TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
             updated TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
@@ -40,7 +42,7 @@ class Version012 extends AbstractMigration
         );");
 
         $this->addSql('CREATE INDEX IDX_D29EC30177570A4C ON mtt.timecard (perimeter_id);');
-        $this->addSql('CREATE UNIQUE INDEX perimeter_timecard_idx ON mtt.timecard (label, perimeter_id);');
+        $this->addSql('CREATE UNIQUE INDEX perimeter_timecard_idx ON mtt.timecard (perimeter_id, seasonId, lineId, routeId);');
         $this->addSql('COMMENT ON COLUMN mtt.timecard.stop_points IS \'(DC2Type:array)\';');
         $this->addSql('CREATE INDEX IDX_EFD19966EA093255 ON mtt.timecard_pdf (timecard_id);');
         $this->addSql('CREATE INDEX IDX_EFD199664EC001D1 ON mtt.timecard_pdf (season_id);');

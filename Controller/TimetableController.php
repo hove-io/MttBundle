@@ -8,6 +8,10 @@ class TimetableController extends AbstractController
 
     /**
      * @function retrieve a timetable entity
+     * @param $routeExternalId
+     * @param $externalCoverageId
+     * @param $lineConfig
+     * @return \CanalTp\MttBundle\Entity\Timetable
      */
     private function getTimetable($routeExternalId, $externalCoverageId, $lineConfig)
     {
@@ -16,6 +20,12 @@ class TimetableController extends AbstractController
         return $timetableManager->getTimetable($routeExternalId, $externalCoverageId, $lineConfig);
     }
 
+    /**
+     * @param $externalStopPointId
+     * @param $timetable
+     * @param $externalCoverageId
+     * @return array
+     */
     private function getStopPoint($externalStopPointId, $timetable, $externalCoverageId)
     {
         // are we on a specific stop_point
@@ -46,6 +56,14 @@ class TimetableController extends AbstractController
         );
     }
 
+    /**
+     * @param \CanalTp\MttBundle\Entity\Timetable $timetable
+     * @param $externalStopPointId
+     * @param bool $editable
+     * @param bool $displayMenu
+     * @param null $stopPointId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     private function renderLayout($timetable, $externalStopPointId, $editable = true, $displayMenu = true, $stopPointId = null)
     {
         $externalCoverageId = $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
@@ -97,8 +115,16 @@ class TimetableController extends AbstractController
         );
     }
 
-    /*
+    /**
+     *
      * Display a layout and make it editable via javascript
+     *
+     * @param $externalNetworkId
+     * @param $externalRouteId
+     * @param $externalLineId
+     * @param $seasonId
+     * @param null $externalStopPointId
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
