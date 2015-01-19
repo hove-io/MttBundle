@@ -85,8 +85,9 @@ class TimetableController extends AbstractController
         }
         $this->addFlashIfSeasonLocked($timetable->getLineConfig()->getSeason());
 
+        $layoutConf = json_decode($timetable->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
         return $this->render(
-            'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getTwigPath(),
+            'CanalTPMttBundle:Layouts:' . $layoutConf->stopPointsTpl->templateName,
             array(
                 'pageTitle'             => 'timetable.titles.' . ($editable ? 'edition' : 'preview'),
                 'timetable'             => $timetable,

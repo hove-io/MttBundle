@@ -27,6 +27,11 @@ class Layout extends AbstractEntity
     /**
      * @var string
      */
+    private $configuration;
+
+    /**
+     * @var string
+     */
     private $previewPath;
 
     /**
@@ -131,6 +136,26 @@ class Layout extends AbstractEntity
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Set configuration
+     *
+     * @param $templateConf
+     */
+    public function setConfiguration($configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * Get configuration
+     *
+     * @return mixed
+     */
+    public function getConfiguration()
+    {
+        return $this->configuration;
     }
 
     /**

@@ -45,7 +45,7 @@ class LayoutModelManager
         $this->moveTwigFiles($tmpDir, $templateDir, $id);
         $this->moveCssFiles($tmpDir, $templateDir, $id);
 
-        $this->saveInDb($config['label'], 'uploads/' . $id . '/' . $config['templateName'], '/bundles/canaltpmtt/img/uploads/' . $id . '/' . $config['previewFileName'], $config['orientation']);
+        $this->saveInDb($config, $id);
     }
 
     protected function getUploadDir()
@@ -130,12 +130,22 @@ class LayoutModelManager
         return $layout->getId();
     }
 
-    protected function saveInDb($label, $twigPath, $previewPath, $orientation)
+    protected function saveInDb($config, $idFolder)
     {
-        $this->layout->setLabel($label);
-        $this->layout->setPath($twigPath);
+        $templatePath = 'uploads/'.$idFolder;
+        $previewPath = "/bundles/canaltpmtt/img/uploads/{$idFolder}/{$config['previewFileName']}";
+
+        $config['templates']['stopPointsTpl']['templateName'] = "{$templatePath}/{$config['templates']['stopPointsTpl']['templateName']}";
+        $config['templates']['LineTpl']['templateName'] = "{$templatePath}/{$config['templates']['LineTpl']['templateName']}";
+
+        $templateConf = json_encode($config['templates']);
+
+        $this->layout->setLabel($config['label']);
+        $this->layout->setPath('deprecated');
+        $this->layout->setConfiguration($templateConf);
         $this->layout->setPreviewPath($previewPath);
-        $this->layout->setOrientation($orientation);
+        // TODO Orientation with multiple template
+        $this->layout->setOrientation(1);
         $this->layout->setNotesModes(array(0 => 1));
         $this->layout->setCssVersion(1);
 

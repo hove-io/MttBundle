@@ -23,6 +23,9 @@ class LineManager
         $this->repository = $this->om->getRepository('CanalTPMttBundle:LineConfig');
     }
 
+    /**
+     * @param \CanalTP\MttBundle\Entity\LineConfig $lineConfig
+     */
     public function initTwigPath($lineConfig)
     {
         if (empty($lineConfig)) {

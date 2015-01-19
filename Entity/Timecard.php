@@ -39,6 +39,11 @@ class Timecard extends AbstractEntity
     private $perimeter;
 
     /**
+     * @var \CanalTP\MttBundle\Entity\LineConfig
+     */
+    private $line_config;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -218,4 +223,19 @@ class Timecard extends AbstractEntity
     {
         return $this->seasonId;
     }
+
+    public function setLineConfig($lineConfig)
+    {
+        $this->line_config = $lineConfig;
+    }
+    /**
+     * Get Lineconfig
+     *
+     * @return \CanalTP\MttBundle\Entity\LineConfig
+     */
+    public function getLineConfig()
+    {
+        return $this->line_config;
+    }
 }
+

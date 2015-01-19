@@ -31,6 +31,11 @@ CanalTP\MttBundle\Entity\LineConfig:
             mappedBy: line_config
             cascade:
                 - remove
+        timecards:
+            targetEntity: Timecard
+            mappedBy: line_config
+            cascade:
+                - remove
     manyToOne:
         layoutConfig:
             targetEntity: LayoutConfig

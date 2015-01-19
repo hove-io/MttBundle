@@ -234,22 +234,48 @@ class TimecardController extends AbstractController
      * @param $externalNetworkId
      * @param $externalLineId
      * @param $seasonId
-     *
-     * @return bool
      */
     public function editLayoutAction($externalNetworkId, $externalLineId, $seasonId)
     {
         $this->isGranted('BUSINESS_EDIT_LAYOUT');
 
-        /** @var \CanalTp\MttBundle\Entity\Timecard $timecard */
-        $timecard = $this->get('canal_tp_mtt.timecard_manager')->findTimecardListByCompositeKey(
+        /** @var \CanalTP\MttBundle\Services\TimecardManager $timecardManager */
+        $timecardManager = $this->get('canal_tp_mtt.timecard_manager');
+        $lineManager = $this->get('canal_tp_mtt.line_manager');
+
+        $timecards = $timecardManager->findTimecardListByCompositeKey(
             $externalLineId,
             $seasonId,
             $externalNetworkId
         );
 
-        return true;
-        //return $this->renderLayout($timecard, $externalStopPointId, true, true, $stopPointId);
+        $timecardManager->updateLineConfig(
+            $timecards,
+            $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
+        );
+
+
+        return $this->renderLayout($timecards);
+    }
+
+    /**
+     * @param $timecards array of timecard
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function renderLayout($timecards)
+    {
+        $layoutConfig = json_decode($timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
+
+        return $this->render(
+            'CanalTPMttBundle:Layouts:' . $layoutConfig->lineTpl->templateName,
+            array(
+                'displayMenu'           => false,
+                'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/'
+            )
+        );
     }
 
 }

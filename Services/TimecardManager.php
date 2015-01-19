@@ -34,6 +34,8 @@ class TimecardManager
 
 
     /**
+     * Get Perimeter
+     *
      * @param $networkId
      * @return \CanalTP\NmmPortalBundle\Entity\Perimeter
      */
@@ -47,6 +49,7 @@ class TimecardManager
     }
 
     /**
+     * Return all Timecards
      * @return array
      */
     public function findAll()
@@ -55,33 +58,7 @@ class TimecardManager
     }
 
     /**
-     * @param $perimeter
-     * @param $timecardId
-     * @return Timecard|null|object
-     */
-    public function getTimecardWithPerimeter($perimeter, $timecardId)
-    {
-        $timecard = $this->find($timecardId);
-
-        if ($timecard == null) {
-            $timecard = new Timecard();
-            $timecard->setPerimeter($perimeter);
-        }
-
-        return ($timecard);
-    }
-
-    /**
-     * @param $perimeter
-     * @return mixed
-     */
-    public function findByPerimeter($perimeter)
-    {
-        return $this->repository->findByPerimeter($perimeter);
-    }
-
-    /**
-     * @param $timecardId
+     * @param integer $timecardId
      * @return null|object
      */
     public function find($timecardId)
@@ -156,16 +133,44 @@ class TimecardManager
     }
 
     /**
+     * Persist data timecard
      *
-     * @param $timecard
-     * @param $networkId
+     * @param \CanalTP\MttBundle\Entity\Timecard $timecard
      */
-    public function save($timecard, $networkId)
+    public function update($timecard)
     {
-        $perimeter = $this->getPerimeter($networkId);
-
-        $timecard->setPerimeter($perimeter);
         $this->om->persist($timecard);
         $this->om->flush();
+    }
+
+    /**
+     * Update lineConfig of list of timecards
+     *
+     * @param array $timecards
+     * @param $lineConfig
+     * @throws Exception
+     */
+    public function updateLineConfig(Array $timecards, $lineConfig)
+    {
+        if (is_array($timecards)) {
+            /**@var  $timecard \CanalTP\MttBundle\Entity\Timecard */
+            foreach($timecards as $key => $timecard) {
+                $timecard->setLineConfig($lineConfig);
+                $this->update($timecard);
+            }
+        } else {
+            throw new Exception('Timecard must be an array');
+        }
+
+    }
+
+    /**
+     * Check if lineConfig of timecard is set.
+     *
+     * @param \CanalTP\MttBundle\Entity\Timecard $timecard
+     * @return bool
+     */
+    public function checkLineConfig($timecard) {
+        return ( is_null($timecard->getLineConfig()) )? false : true;
     }
 }
