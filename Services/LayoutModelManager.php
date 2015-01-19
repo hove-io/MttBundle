@@ -136,7 +136,7 @@ class LayoutModelManager
         $previewPath = "/bundles/canaltpmtt/img/uploads/{$idFolder}/{$config['previewFileName']}";
 
         $config['templates']['stopPointsTpl']['templateName'] = "{$templatePath}/{$config['templates']['stopPointsTpl']['templateName']}";
-        $config['templates']['LineTpl']['templateName'] = "{$templatePath}/{$config['templates']['LineTpl']['templateName']}";
+        $config['templates']['lineTpl']['templateName'] = "{$templatePath}/{$config['templates']['lineTpl']['templateName']}";
 
         $templateConf = json_encode($config['templates']);
 
