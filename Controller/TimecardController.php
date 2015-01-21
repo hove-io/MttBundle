@@ -265,12 +265,18 @@ class TimecardController extends AbstractController
      */
     public function renderLayout($timecards)
     {
+        $externalCoverageId = $timecards[0]->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
         $layoutConfig = json_decode($timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
+        //$lineId = $timecards[0]->getLineCongig()->getExternalLineId();
+
+        // Get route calendars
+        $calendars = $this->get('canal_tp_mtt.calendar_manager')->getTimecardCalendars($externalCoverageId, $timecards[0]);
 
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $layoutConfig->lineTpl->templateName,
             array(
                 'displayMenu'           => false,
+                'layout'                => $timecards[0]->getLineConfig()->getLayoutConfig(),
                 'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
                 'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
                 'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/'

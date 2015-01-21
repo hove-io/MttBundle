@@ -372,6 +372,27 @@ class Navitia
     }
 
     /**
+     * Returns all calendars for a line
+     *
+     * @param string $externalCoverageId
+     * @param string $externalLineId
+     * @return object
+     */
+    public function getAllCalendarsForLine($externalCoverageId, $externalLineId)
+    {
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $externalCoverageId,
+                'action' => 'calendars',
+                'path_filter' => 'lines/' . $externalLineId
+            )
+        );
+
+        return $this->navitia_component->call($query);
+    }
+
+    /**
      * Returns Calendars for a stop point and a route
      *
      * @param String $externalCoverageId

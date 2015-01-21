@@ -1,6 +1,6 @@
-CanalTP\MttBundle\Entity\Timecard:
+CanalTP\MttBundle\Entity\LineTimecard:
     type: entity
-    table: mtt.timecard
+    table: mtt.line_timecard
     id:
         id:
             type: integer
@@ -8,17 +8,9 @@ CanalTP\MttBundle\Entity\Timecard:
             generator:
                 strategy: IDENTITY
     fields:
-        lineId:
+        line_id:
             type: string
             length: 255
-        routeId:
-            type: string
-            length: 255
-        seasonId:
-            type: integer
-        stopPoints:
-            type: array
-            column: stop_points
         created:
             type: datetime
             gedmo:
@@ -29,10 +21,7 @@ CanalTP\MttBundle\Entity\Timecard:
             gedmo:
                 timestampable:
                     on: update
-    uniqueConstraints:
-        perimeter_timecard_idx:
-            # columns: [ label, perimeter_id ]
-            columns: [perimeter_id, seasonId, lineId, routeId]
+    uniqueConstraints: { }
     manyToOne:
         perimeter:
             targetEntity: CanalTP\NmmPortalBundle\Entity\Perimeter
@@ -43,10 +32,5 @@ CanalTP\MttBundle\Entity\Timecard:
             targetEntity: LineConfig
             joinColumn:
                 name: line_config_id
-                referencedColumnName: id
-        line_timecard:
-            targetEntity: LineTimecard
-            joinColumn:
-                name: line_timecard_id
                 referencedColumnName: id
     lifecycleCallbacks: {  }

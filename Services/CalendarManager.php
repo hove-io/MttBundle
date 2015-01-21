@@ -382,6 +382,30 @@ class CalendarManager
     }
 
     /**
+     * @param $externalCoverageId
+     * @param \CanalTP\MttBundle\Entity\Timecard $timecard
+     * @return array
+     */
+    public function getTimecardCalendars($externalCoverageId, $timecard) {
+
+        $notesComputed = array();
+        $calendarsSorted = array();
+
+        $calendarsData = $this->navitia->getAllCalendarsForLine($externalCoverageId, $timecard->getLineConfig()->getExternalLineId());
+
+        if (isset($calendarData->calendars)) {
+            $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
+        }
+
+        // TODO define block metode for timecard
+        //if (count($timecard->getBlocks()) > 0) {
+
+        //}
+
+        return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
+    }
+
+    /**
      * Returns Calendars for a route
      * Datetimes are not parsed
      *
