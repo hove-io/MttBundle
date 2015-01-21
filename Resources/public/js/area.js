@@ -146,27 +146,45 @@ define('mtt/area', ['mtt_left_menu', 'jquery', 'fosjsrouting', 'jquery_ui_sortab
 
 
     var underProgress = false;
-    var _sendStopPointsList = function(doRedirection) {
+    var _sendStopPointsList = function(e) {
         if (underProgress == true) {
             return false;
         }
         underProgress = true;
         var $link = $(this);
-        $link.find('span.glyphicon-refresh').toggleClass('icon-refresh-animate display-none');
+        $link.find('span.glyphicon-refresh').toggle();
         $link.find('span.glyphicon-floppy-disk').toggle();
+
+        $('#included-stops li').each(function() {
+            $(this).toggleClass('active');
+        });
+
         var stopPoints = _getStopPoint();
         if (stopPoints.length > 0) {
-            $.post(
-                $link.attr('href'),
-                {"stopPoints[]" : stopPoints}
-            )
-            .done(function(data, textStatus){
-                underProgress = false;
-                if ($link.hasAttr('data-toggle')) {
-                    window.location = $link.attr('href');
+            $.ajax({
+                url: $link.attr('href'),
+                data: {"stopPoints[]" : stopPoints},
+                error: function() {
+                    underProgress = false;
+                    $('div.alert-danger').show();
+
+                    $link.find('span.glyphicon-floppy-disk').toggle();
+                    $link.find('span.glyphicon-refresh').toggle();
+
+                    $('#included-stops li').each(function() {
+                        $(this).toggleClass('active');
+                    });
+                },
+                type: 'POST',
+                success: function(data, textStatus){
+                    underProgress = false;
+                    if (data.location) {
+                        window.location = data.location;
+                    }
                 }
             });
         }
+        e.preventDefault();
 
         return true;
     };
