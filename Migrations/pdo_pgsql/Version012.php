@@ -33,7 +33,6 @@ class Version012 extends AbstractMigration
         $this->addSql("CREATE TABLE mtt.timecard (
             id SERIAL NOT NULL,
             perimeter_id INT DEFAULT NULL,
-            line_config_id integer,
             line_timecard_id INT DEFAULT NULL,
             lineId VARCHAR(255) NOT NULL,
             routeId VARCHAR(255) NOT NULL,
@@ -59,10 +58,8 @@ class Version012 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_74D5941377570A4C ON mtt.line_timecard (perimeter_id);');
         $this->addSql('CREATE INDEX IDX_74D5941394D8FDF1 ON mtt.line_timecard (line_config_id);');
         $this->addSql('CREATE INDEX IDX_D29EC30177570A4C ON mtt.timecard (perimeter_id);');
-        $this->addSql('CREATE INDEX IDX_D29EC30194D8FDF1 ON mtt.timecard (line_config_id);');
         $this->addSql('CREATE UNIQUE INDEX perimeter_timecard_idx ON mtt.timecard (perimeter_id, seasonId, lineId, routeId);');
 
-        $this->addSql('ALTER TABLE mtt.timecard ADD CONSTRAINT FK_D29EC30194D8FDF1 FOREIGN KEY (line_config_id) REFERENCES mtt.line_config (id);');
         $this->addSql('ALTER TABLE mtt.timecard ADD CONSTRAINT FK_D29EC301DD6FB2B6 FOREIGN KEY (line_timecard_id) REFERENCES mtt.line_timecard (id)');
         $this->addSql('COMMENT ON COLUMN mtt.timecard.stop_points IS \'(DC2Type:array)\';');
         $this->addSql('CREATE INDEX IDX_EFD19966EA093255 ON mtt.timecard_pdf (timecard_id);');

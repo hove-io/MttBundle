@@ -41,7 +41,7 @@ class Timecard extends AbstractEntity
     /**
      * @var \CanalTP\MttBundle\Entity\LineConfig
      */
-    private $line_config;
+    //private $line_config;
 
     /**
      * @var \CanalTP\MttBundle\Entity\LineTimecard
@@ -230,26 +230,6 @@ class Timecard extends AbstractEntity
     }
 
     /**
-     * Set LineConfig
-     *
-     * @param $lineConfig
-     */
-    public function setLineConfig($lineConfig)
-    {
-        $this->line_config = $lineConfig;
-    }
-
-    /**
-     * Get Lineconfig
-     *
-     * @return \CanalTP\MttBundle\Entity\LineConfig
-     */
-    public function getLineConfig()
-    {
-        return $this->line_config;
-    }
-
-    /**
     * Set LineTimecard
     *
     * @param $lineTimecard
@@ -264,7 +244,7 @@ class Timecard extends AbstractEntity
      *
      * @return \CanalTP\MttBundle\Entity\LineTimecard
      */
-    public function getLinTimecard()
+    public function getLineTimecard()
     {
         return $this->line_timecard;
     }

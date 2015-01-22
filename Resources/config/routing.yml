@@ -86,13 +86,14 @@ canal_tp_mtt_timecard_list:
         seasonId: \d+
 
 canal_tp_mtt_timecard_edit:
-    pattern: /timecard/edit/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}
-    defaults: { _controller: CanalTPMttBundle:Timecard:edit }
+    pattern: /timecard/edit/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}/ltc/{lineTimecardId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:edit}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         externalLineId: -?[a-zA-Z0-9_\-:]*
         externalRouteId: -?[a-zA-Z0-9_\-:]*
         seasonId: \d+
+        lineTimecardId: \d+
     options:
         expose: true
 
@@ -106,7 +107,7 @@ canal_tp_mtt_timecard_edit_layout:
 
 
 canal_tp_mtt_timecard_save:
-    pattern: /timecard/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}/save
+    pattern: /timecard/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}/ltc/{lineTimecardId}/save
     defaults: { _controller: CanalTPMttBundle:Timecard:save}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*

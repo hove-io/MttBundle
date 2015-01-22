@@ -31,7 +31,6 @@ CanalTP\MttBundle\Entity\Timecard:
                     on: update
     uniqueConstraints:
         perimeter_timecard_idx:
-            # columns: [ label, perimeter_id ]
             columns: [perimeter_id, seasonId, lineId, routeId]
     manyToOne:
         perimeter:
@@ -39,14 +38,9 @@ CanalTP\MttBundle\Entity\Timecard:
             joinColumn:
                 name: perimeter_id
                 referencedColumnName: per_id
-        line_config:
-            targetEntity: LineConfig
-            joinColumn:
-                name: line_config_id
-                referencedColumnName: id
         line_timecard:
             targetEntity: LineTimecard
             joinColumn:
                 name: line_timecard_id
                 referencedColumnName: id
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks: {}

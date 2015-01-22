@@ -33,6 +33,7 @@ parameters:
     canal_tp_mtt.area_pdf_manager.class: CanalTP\MttBundle\Services\AreaPdfManager
     # Timecard
     canal_tp_mtt.timecard_manager.class: CanalTP\MttBundle\Services\TimecardManager
+    canal_tp_mtt.line_timecard_manager.class: CanalTP\MttBundle\Services\LineTimecardManager
 #   canal_tp_mtt.timecard_pdf_manager.class: CanalTP\MttBundle\Services\TimecardPdfManager
     # Layout
     canal_tp_mtt.layout.class: CanalTP\MttBundle\Services\LayoutManager
@@ -184,6 +185,11 @@ services:
     canal_tp_mtt.timecard_manager:
       class: %canal_tp_mtt.timecard_manager.class%
       arguments: ['@doctrine.orm.entity_manager', '@nmm.perimeter_manager', '@security.context']
+
+    canal_tp_mtt.line_timecard_manager:
+          class: %canal_tp_mtt.line_timecard_manager.class%
+          arguments: ['@doctrine.orm.entity_manager', '@nmm.perimeter_manager', '@security.context']
+
     # LayoutConfig
     canal_tp_mtt.layout_config:
         class: %canal_tp_mtt.layout_config.class%
