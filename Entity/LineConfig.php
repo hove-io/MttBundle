@@ -50,7 +50,7 @@ class LineConfig extends AbstractEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $timecards;
+    //private $timecards;
 
     /**
      * Set id
@@ -229,31 +229,6 @@ class LineConfig extends AbstractEntity
     {
         return $this->timetables;
     }
-
-    /**
-     * Set timetables
-     *
-     * @param  array $timecard
-     * @return LineConfig
-     */
-    public function setTimecards($timecards)
-    {
-        $this->timecards = $timecards;
-
-        return $this;
-    }
-
-
-    /**
-     * Get timetables
-     *
-     * @return array
-     */
-    public function getTimecards()
-    {
-        return $this->getTimecards;
-    }
-
 
     public function isLocked()
     {

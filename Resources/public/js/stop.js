@@ -192,7 +192,8 @@ define('mtt/stop', ['jquery', 'jquery_ui_sortable'], function($, sortable) {
                 'externalNetworkId': element.data('network_id'),
                 'externalLineId': element.data('line_id'),
                 'externalRouteId': element.data('route_id'),
-                'seasonId': element.data('season_id')
+                'seasonId': element.data('season_id'),
+                'lineTimecardId': element.data('linetimecard_id')
             }
             window.location = Routing.generate('canal_tp_mtt_timecard_edit', param);
         }

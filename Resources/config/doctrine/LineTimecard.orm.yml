@@ -1,6 +1,7 @@
 CanalTP\MttBundle\Entity\LineTimecard:
     type: entity
     table: mtt.line_timecard
+    repositoryClass: CanalTP\MttBundle\Entity\LineTimecardRepository
     id:
         id:
             type: integer

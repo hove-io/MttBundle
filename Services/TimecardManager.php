@@ -112,7 +112,7 @@ class TimecardManager
         $perimeter = $this->getPerimeter($networkId);
 
         $timecard = $this->repository->findBy(array(
-            'perimeter' => $perimeter->getId(),
+            'perimeter' => $perimeter,
             'lineId' => $lineId,
             'seasonId' => $seasonId
         ));
@@ -126,8 +126,6 @@ class TimecardManager
     public function remove($timecardId)
     {
         $timecard = $this->repository->find($timecardId);
-
-        //$this->timecardPdfManager->removeTimecardPdfByTimecard($timecard);
         $this->om->remove($timecard);
         $this->om->flush();
     }
@@ -143,26 +141,7 @@ class TimecardManager
         $this->om->flush();
     }
 
-    /**
-     * Update lineConfig of list of timecards
-     *
-     * @param array $timecards
-     * @param $lineConfig
-     * @throws Exception
-     */
-    public function updateLineConfig(Array $timecards, $lineConfig)
-    {
-        if (is_array($timecards)) {
-            /**@var  $timecard \CanalTP\MttBundle\Entity\Timecard */
-            foreach($timecards as $key => $timecard) {
-                $timecard->setLineConfig($lineConfig);
-                $this->update($timecard);
-            }
-        } else {
-            throw new Exception('Timecard must be an array');
-        }
 
-    }
 
     /**
      * Check if lineConfig of timecard is set.

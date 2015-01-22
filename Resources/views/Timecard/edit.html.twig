@@ -12,6 +12,7 @@
     / {{ pageTitle }}
 {% endblock %}
 {% block main_content %}
+    {{ dump(lineTimecardId) }}
     <div class="row">
         <div class="col-md-5">
             <h1>Edition de la ligne {{ lineId }} <small class="jsDirection">{{ currentDirectionName|raw }}</small></h1>
@@ -33,11 +34,13 @@
                             data-line_id="{{ externalLineId }}"
                             data-network_id="{{ externalNetworkId }}"
                             data-season_id="{{ seasonId }}"
+                            data-linetimecard_id="{{ lineTimecardId }}"
                             data-href="{{ path('canal_tp_mtt_timecard_save', {
                                 'externalNetworkId': externalNetworkId,
                                 'externalLineId': externalLineId,
                                 'externalRouteId': route.id,
-                                'seasonId': seasonId
+                                'seasonId': seasonId,
+                                'lineTimecardId': lineTimecardId
                                 }) }}"
                             data-toggle="route"
                             class="route"
@@ -64,7 +67,8 @@
                         'externalNetworkId': externalNetworkId,
                         'externalLineId': externalLineId,
                         'externalRouteId': currentRouteId,
-                        'seasonId': seasonId
+                        'seasonId': seasonId,
+                        'lineTimecardId': lineTimecardId
                     }) }}">
                         <span class="glyphicon glyphicon-refresh display-none"></span>
                         <span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer l'ordre

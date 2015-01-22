@@ -55,6 +55,21 @@ class TimecardController extends AbstractController
             'CanalTPMttBundle:LineConfig'
         )->findOneBy(array('externalLineId' => $lineId, 'season' => $currentSeasonId));
 
+
+        if (!empty($lineConfig)) {
+            /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
+            $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
+
+            $lineTimecard = $lineTimecardManager->createLineTimecardIfNotExist(
+                $lineId,
+                $externalNetworkId,
+                $lineConfig
+            );
+        }
+
+        $lineTimecardId =  (isset($lineTimecard)) ? $lineTimecard->getId() : null ;
+
+
         return $this->render(
             'CanalTPMttBundle:Timecard:list.html.twig',
             array(
@@ -65,6 +80,7 @@ class TimecardController extends AbstractController
                 'currentSeasonId' => $currentSeasonId,
                 'currentSeason' => $currentSeason,
                 'externalRouteId' => $externalRouteId,
+                'lineTimecardId' => $lineTimecardId,
                 'options' => array(
                     'no_route' => true,
                     'current_line' => $lineId
@@ -78,9 +94,10 @@ class TimecardController extends AbstractController
      * @param $externalNetworkId
      * @param $externalLineId
      * @param $externalRouteId
+     * @param $lineTimecardId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, $externalNetworkId, $externalLineId, $externalRouteId)
+    public function editAction(Request $request, $externalNetworkId, $externalLineId, $externalRouteId, $lineTimecardId)
     {
         /** @var $navitia \CanalTP\MttBundle\Services\Navitia */
         $navitia = $this->get('canal_tp_mtt.navitia');
@@ -148,6 +165,7 @@ class TimecardController extends AbstractController
                 'pageTitle' => 'Editer la fiche ligne',
                 'externalNetworkId' => $externalNetworkId,
                 'externalLineId' => $externalLineId,
+                'lineTimecardId' => $lineTimecardId,
                 'routes' => $routes,
                 'stopPoints' => $stopPoints->stop_points,
                 'stopPointsIncluded' => $stopPointsList,
@@ -165,12 +183,13 @@ class TimecardController extends AbstractController
      * @param $externalNetworkId
      * @param $externalLineId
      * @param $externalRouteId
+     * @param $lineTimecardId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function saveAction(Request $request, $externalNetworkId, $externalLineId, $externalRouteId)
+    public function saveAction(Request $request, $externalNetworkId, $externalLineId, $externalRouteId, $lineTimecardId)
     {
 
-        if ($this->saveList($request, $externalLineId, $externalRouteId, $externalNetworkId)) {
+        if ($this->saveList($request, $externalLineId, $externalRouteId, $externalNetworkId, $lineTimecardId)) {
             $this->get('session')->getFlashBag()->add(
                 'success',
                 $this->get('translator')->trans(
@@ -188,7 +207,8 @@ class TimecardController extends AbstractController
                     'externalNetworkId' => $externalNetworkId,
                     'externalLineId' => $externalLineId,
                     'externalRouteId' => $externalRouteId,
-                    'seasonId' => $request->get('seasonId')
+                    'seasonId' => $request->get('seasonId'),
+                    'lineTimecardId' => $lineTimecardId
                 )
             )
         );
@@ -199,9 +219,10 @@ class TimecardController extends AbstractController
      * @param $externalLineId
      * @param $externalRouteId
      * @param $externalNetworkId
+     * @param $lineTimecardId
      * @return bool
      */
-    private function saveList(Request $request, $externalLineId, $externalRouteId, $externalNetworkId)
+    private function saveList(Request $request, $externalLineId, $externalRouteId, $externalNetworkId, $lineTimecardId)
     {
         $stopPoints = $request->get('stopPoints');
         $seasonId = $request->get('seasonId');
@@ -212,6 +233,7 @@ class TimecardController extends AbstractController
         $getAllStopPoints = !empty($stopPoints);
 
         if ($getAllStopPoints) {
+
             $timecard = $this->get('canal_tp_mtt.timecard_manager')->findByCompositeKey(
                 $externalLineId,
                 $externalRouteId,
@@ -220,6 +242,9 @@ class TimecardController extends AbstractController
             );
 
             $timecard->setStopPoints($stopPoints);
+
+            $lineTimecard = $this->getDoctrine()->getRepository('CanalTPMttBundle:LineTimecard')->find($lineTimecardId);
+            $timecard->setLineTimecard($lineTimecard);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($timecard);
@@ -239,47 +264,40 @@ class TimecardController extends AbstractController
     {
         $this->isGranted('BUSINESS_EDIT_LAYOUT');
 
-        /** @var \CanalTP\MttBundle\Services\TimecardManager $timecardManager */
-        $timecardManager = $this->get('canal_tp_mtt.timecard_manager');
-        $lineManager = $this->get('canal_tp_mtt.line_manager');
+        /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
+        $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
 
-        $timecards = $timecardManager->findTimecardListByCompositeKey(
+        $lineTimecard = $lineTimecardManager->getLineTimecard(
             $externalLineId,
-            $seasonId,
             $externalNetworkId
         );
 
-        $timecardManager->updateLineConfig(
-            $timecards,
-            $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
-        );
 
-
-        return $this->renderLayout($timecards);
+        return $this->renderLayout($lineTimecard);
     }
 
     /**
-     * @param $timecards array of timecard
+     * @param LineTimecard $lineTimecard
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderLayout($timecards)
+    public function renderLayout($lineTimecard)
     {
-        $externalCoverageId = $timecards[0]->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
-        $layoutConfig = json_decode($timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
-        //$lineId = $timecards[0]->getLineCongig()->getExternalLineId();
+        $externalCoverageId = $lineTimecard->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
+        $layoutConfig = json_decode($lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
+        //$lineId = $lineTimecard->getLineCongig()->getExternalLineId();
 
         // Get route calendars
-        $calendars = $this->get('canal_tp_mtt.calendar_manager')->getTimecardCalendars($externalCoverageId, $timecards[0]);
+        //$calendars = $this->get('canal_tp_mtt.calendar_manager')->getTimecardCalendars($externalCoverageId, $timecards[0]);
 
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $layoutConfig->lineTpl->templateName,
             array(
                 'displayMenu'           => false,
-                'layout'                => $timecards[0]->getLineConfig()->getLayoutConfig(),
-                'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
-                'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
-                'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $timecards[0]->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/'
+                'layout'                => $lineTimecard->getLineConfig()->getLayoutConfig(),
+                'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/'
             )
         );
     }
