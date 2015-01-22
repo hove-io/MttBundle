@@ -70,6 +70,19 @@ class PdfManager
         return $this->hashingLib->getPdfHash($response, $cssVersion);
     }
 
+    private function getCurrentHttpHost()
+    {
+        $url = null;
+
+        if ($this->co->hasParameter('canal_tp_mtt.payload_host')) {
+            $url = 'http://' . $this->co->getParameter('canal_tp_mtt.payload_host');
+        } else {
+            $url = $this->co->get('request')->getHttpHost();
+        }
+
+        return ($url);
+    }
+
     public function getStoppointPdfUrl(Timetable $timetable, $externalStopPointId)
     {
         $hash = $this->getPdfHash($timetable, $externalStopPointId);
@@ -78,7 +91,7 @@ class PdfManager
         if (!empty($stopPoint) && $hash == $stopPoint->getPdfHash()) {
             $pdfMedia = $this->mediaManager->getStopPointTimetableMedia($timetable, $externalStopPointId);
         } else {
-            $url = $this->co->get('request')->getHttpHost() . $this->co->get('router')->generate(
+            $url = $this->getCurrentHttpHost() . $this->co->get('router')->generate(
                 'canal_tp_mtt_timetable_view',
                 array(
                     'externalNetworkId' => $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
