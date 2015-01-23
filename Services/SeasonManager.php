@@ -105,9 +105,9 @@ class SeasonManager
         $this->om->flush();
     }
 
-    public function findSeasonForDateTime(\DateTime $dateTime)
+    public function findSeasonByPerimeterAndDateTime(Perimeter $perimeter, \DateTime $dateTime)
     {
-        return $this->repository->findSeasonForDateTime($dateTime);
+        return $this->repository->findSeasonByPerimeterAndDateTime($perimeter, $dateTime);
     }
 
     public function getSelected($seasonId, $seasons)

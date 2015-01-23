@@ -48,6 +48,18 @@ class PdfPayloadsGenerator
         $this->translator = $translator;
     }
 
+    private function generatePayloadUrl()
+    {
+        if ($this->co->hasParameter('canal_tp_mtt.payload_host')) {
+            $url = 'http://' . $this->co->getParameter('canal_tp_mtt.payload_host');
+        } else {
+            $url = $this->co->get('request')->getScheme() . '://';
+            $url .= $this->co->get('request')->getHttpHost();
+        }
+
+        return ($url);
+    }
+
     // construct payload for AMQP message
     private function getPayload($perimeter, $season, $lineConfig, $externalRouteId, $stopPoint)
     {
@@ -57,8 +69,7 @@ class PdfPayloadsGenerator
             'orientation' => $lineConfig->getLayoutConfig()->getLayout()->getOrientationAsString(),
         );
         $payload['cssVersion'] = $lineConfig->getLayoutConfig()->getLayout()->getCssVersion();
-        $payload['url'] = $this->co->get('request')->getScheme() . '://';
-        $payload['url'] .= $this->co->get('request')->getHttpHost();
+        $payload['url'] = $this->generatePayloadUrl();
         $payload['url'] .= $this->router->generate(
             'canal_tp_mtt_timetable_view',
             array(

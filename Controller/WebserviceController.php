@@ -25,7 +25,26 @@ class WebserviceController extends AbstractController
         return $mediaManager->getUrlByMedia($media);
     }
 
-    public function getTimetableUrlAction($externalNetworkId, $externalRouteId, $externalStopPointId)
+    private function findSeasionByCustomerAndDate($customerNameCanonical, $externalNetworkId, \DateTime $date)
+    {
+        $customer = $this->get('sam_core.customer')->findOneBy(array('nameCanonical' => $customerNameCanonical));
+        $seasonManager = $this->get('canal_tp_mtt.season_manager');
+
+        if ($customer == null) {
+            throw new \Exception($this->get('translator')->trans('webservice.no_customer_found', array('%customer%' => $customerNameCanonical), 'exceptions'), 404);
+        }
+        $season = $seasonManager->findSeasonByPerimeterAndDateTime(
+            $this->get('canal_tp_mtt.perimeter_manager')->findOneByExternalNetworkId(
+                $customer,
+                $externalNetworkId
+            ),
+            $date
+        );
+
+        return ($season);
+    }
+
+    public function getTimetableUrlAction($customerNameCanonical, $externalNetworkId, $externalRouteId, $externalStopPointId)
     {
         try {
             $filter = $this->getRequest()->query->get('filter');
@@ -35,8 +54,7 @@ class WebserviceController extends AbstractController
             } else {
                 $date = new \DateTime($filter);
             }
-            $seasonManager = $this->get('canal_tp_mtt.season_manager');
-            $season = $seasonManager->findSeasonForDateTime($date);
+            $season = $this->findSeasionByCustomerAndDate($customerNameCanonical, $externalNetworkId, $date);
             if (empty($season)) {
                 $trans = $this->get('translator');
                 throw new \Exception($this->get('translator')->trans(
