@@ -383,17 +383,17 @@ class CalendarManager
 
     /**
      * @param $externalCoverageId
-     * @param \CanalTP\MttBundle\Entity\Timecard $timecard
+     * @param \CanalTP\MttBundle\Entity\LineTimecard $lineTimecard
      * @return array
      */
-    public function getTimecardCalendars($externalCoverageId, $timecard) {
+    public function getTimecardCalendars($externalCoverageId, $lineTimecard) {
 
         $notesComputed = array();
         $calendarsSorted = array();
 
-        $calendarsData = $this->navitia->getAllCalendarsForLine($externalCoverageId, $timecard->getLineConfig()->getExternalLineId());
+        $calendarsData = $this->navitia->getAllCalendarsForLine($externalCoverageId, $lineTimecard->getLineConfig()->getExternalLineId());
 
-        if (isset($calendarData->calendars)) {
+        if (isset($calendarsData->calendars)) {
             $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
         }
 

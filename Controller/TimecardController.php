@@ -287,14 +287,19 @@ class TimecardController extends AbstractController
         $layoutConfig = json_decode($lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
         //$lineId = $lineTimecard->getLineCongig()->getExternalLineId();
 
-        // Get route calendars
-        //$calendars = $this->get('canal_tp_mtt.calendar_manager')->getTimecardCalendars($externalCoverageId, $timecards[0]);
+        // Get line calendars
+        $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getTimecardCalendars($externalCoverageId, $lineTimecard);
 
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $layoutConfig->lineTpl->templateName,
             array(
+                'lineTimecard'          => $lineTimecard,
                 'displayMenu'           => false,
                 'layout'                => $lineTimecard->getLineConfig()->getLayoutConfig(),
+                'notesType'             => $lineTimecard->getLineConfig()->getLayoutConfig()->getNotesType(),
+                'externalNetworkId'     => $lineTimecard->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                'calendars'             => $calendarsAndNotes['calendars'],
+                'notes'                 => $calendarsAndNotes['notes'],
                 'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
                 'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
                 'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/'

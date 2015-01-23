@@ -39,14 +39,16 @@ class Timecard extends AbstractEntity
     private $perimeter;
 
     /**
-     * @var \CanalTP\MttBundle\Entity\LineConfig
+     * @var object
      */
-    //private $line_config;
+    private $blocks;
 
     /**
      * @var \CanalTP\MttBundle\Entity\LineTimecard
      */
     private $line_timecard;
+
+
 
     /**
      * Constructor
@@ -248,6 +250,30 @@ class Timecard extends AbstractEntity
     {
         return $this->line_timecard;
     }
+
+    /**
+     * Set blocks
+     *
+     * @param  array $blocks
+     * @return Line
+     */
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+
+        return $this;
+    }
+
+    /**
+     * Get blocks
+     *
+     * @return array
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
 
 }
 
