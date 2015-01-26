@@ -144,10 +144,12 @@ canal_tp_mtt_timetable_download_pdf:
 #Block
 canal_tp_mtt_block_edit:
     # stop point must be the last param so it can be empty
-    pattern: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
-    defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null }
+    pattern: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/{objectType}/{objectId}/block_type/{block_type}/stop_point/{stop_point}
+    defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        objectType: -?[a-zA-Z0-9_\-:]*
+        objectId: \d+
     options:
         expose: true
 

@@ -39,6 +39,11 @@ CanalTP\MttBundle\Entity\Block:
             joinColumn:
                 name: timetable_id
                 referencedColumnName: id
+        lineTimecard:
+            targetEntity: LineTimecard
+            joinColumn:
+                name: line_timecard_id
+                referencedColumnName: id
         stopPoint:
             targetEntity: StopPoint
             joinColumn:

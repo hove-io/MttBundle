@@ -72,6 +72,11 @@ class TimetableManager
         return $this->timetable;
     }
 
+    public function getById($objectId, $externalCoverageId)
+    {
+        return $this->getTimetableById($objectId, $externalCoverageId);
+    }
+
     /**
      * Return timetable Object with navitia data added
      *

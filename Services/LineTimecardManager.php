@@ -16,6 +16,7 @@ class LineTimecardManager
     private $om = null;
     private $perimeterManager = null;
     private $user = null;
+    private $lineTimecard = null;
 
     /**
      * @param ObjectManager $om
@@ -27,6 +28,7 @@ class LineTimecardManager
         $this->om = $om;
         $this->perimeterManager = $perimeterManager;
         $this->user = $securityContext->getToken()->getUser()->getCustomer();
+        $this->repository = $this->om->getRepository('CanalTPMttBundle:LineTimecard');
 
     }
 
@@ -77,13 +79,44 @@ class LineTimecardManager
             $networkId
         );
 
-        $lineTimecard = $this->om->getRepository('CanalTPMttBundle:LineTimecard')->findOneBy(
+        $this->lineTimecard = $this->om->getRepository('CanalTPMttBundle:LineTimecard')->findOneBy(
             array(
                 'line_id' => $lineId,
                 'perimeter' => $perimeter
             )
         );
 
-        return $lineTimecard;
+        $this->initBlocks();
+
+        return $this->lineTimecard;
+    }
+
+    public function getById($objectId, $externalCoverageId = null)
+    {
+        $this->lineTimecard = $this->repository->find($objectId);
+
+        $this->initBlocks();
+
+        return $this->lineTimecard;
+
+    }
+
+    /*
+     * get corresponding blocks and index them by dom_id
+     */
+    private function initBlocks()
+    {
+        $lineTimecardBlocks = $this->repository->findBlocksByLineTimecardIdOnly($this->lineTimecard->getId());
+
+        if (count($lineTimecardBlocks) > 0) {
+            $blocks = array();
+
+            foreach ($lineTimecardBlocks as $block) {
+                $blocks[$block->getDomId()] = $block;
+            }
+            if (count($blocks) > 0) {
+                $this->lineTimecard->setBlocks($blocks);
+            }
+        }
     }
 }
