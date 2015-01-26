@@ -16,6 +16,7 @@ class LineTimecardManager
     private $om = null;
     private $perimeterManager = null;
     private $user = null;
+    private $lineTimecard = null;
 
     /**
      * @param ObjectManager $om
@@ -27,6 +28,7 @@ class LineTimecardManager
         $this->om = $om;
         $this->perimeterManager = $perimeterManager;
         $this->user = $securityContext->getToken()->getUser()->getCustomer();
+        $this->repository = $this->om->getRepository('CanalTPMttBundle:LineTimecard');
 
     }
 
@@ -85,5 +87,34 @@ class LineTimecardManager
         );
 
         return $lineTimecard;
+    }
+
+    public function getById($objectId, $externalCoverageId = null)
+    {
+        $this->lineTimecard = $this->repository->find($objectId);
+
+        //$this->initBlocks();
+
+        return $this->lineTimecard;
+
+    }
+
+    /*
+     * get corresponding blocks and index them by dom_id
+     */
+    private function initBlocks()
+    {
+        $timetableBlocks = $this->repository->findBlocksByTimetableIdOnly($this->lineTimecard->getId());
+
+        if (count($timetableBlocks) > 0) {
+            $blocks = array();
+
+            foreach ($timetableBlocks as $block) {
+                $blocks[$block->getDomId()] = $block;
+            }
+            if (count($blocks) > 0) {
+                $this->timetable->setBlocks($blocks);
+            }
+        }
     }
 }

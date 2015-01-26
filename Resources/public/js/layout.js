@@ -4,11 +4,11 @@ define(['jquery'], function($) {
     var url_params = {};
     var $icon_tpl = $('<span class="glyphicon"></span>');
     
-    layout.init = function($wrapper, blockTypes, timetableId, externalNetworkId, stop_point)
+    layout.init = function($wrapper, blockTypes, objectId, externalNetworkId, stop_point)
     {
         // store url params for later
         url_params.externalNetworkId  = externalNetworkId;
-        url_params.timetableId        = timetableId;
+        url_params.timetableId        = objectId;
         url_params.stop_point         = stop_point;
         // needed properties
         layout.blockLevel = stop_point == false ? 'route' : 'stop_point';
@@ -41,7 +41,9 @@ define(['jquery'], function($) {
     {
         var params = {
             'dom_id'    : $(this).attr('id'),
-            'block_type': $(this).data('block-type')
+            'block_type': $(this).data('block-type'),
+            'objectType':  $(this).data('block-object'),
+            'objectId':  $(this).data('block-object-id')
         };
         $.extend(params, url_params);
         var url = Routing.generate(

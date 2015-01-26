@@ -3,6 +3,9 @@
 namespace CanalTP\MttBundle\Controller;
 
 use CanalTP\MttBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\LineTimecard;
+use CanalTP\MttBundle\Entity\Timetable;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class BlockController extends AbstractController
 {
@@ -13,26 +16,37 @@ class BlockController extends AbstractController
     public function editAction(
         $externalNetworkId,
         $dom_id,
-        $timetableId,
+        $objectType,
+        $objectId,
         $block_type = 'text',
         $stop_point = null
     )
     {
+        $objectManager = $this->getObjectManager($objectType);
+
         $blockTypeFactory = $this->get('canal_tp_mtt.form.factory.block');
+
         $blockManager = $this->get('canal_tp_mtt.block_manager');
-        $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
         $perimeterManager = $this->get('nmm.perimeter_manager');
+
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
             $this->getUser()->getCustomer(),
             $externalNetworkId
         );
+
+
+        $object = $objectManager->getById(
+            $objectId,
+            $perimeter->getExternalCoverageId()
+        );
+
         $data = array(
             'dom_id' => $dom_id,
             'type_id' => $block_type,
             'stop_point' => $stop_point
         );
 
-        $block = $blockManager->getBlock($dom_id, $timetableId, $stop_point);
+        $block = $blockManager->getBlock($dom_id, $objectId, $objectType, $stop_point);
 
         $blockTypeFactory->init(
             $block_type,
@@ -44,25 +58,35 @@ class BlockController extends AbstractController
             ->setAction($this->getRequest()->getRequestUri())
             ->setMethod('POST')->getForm();
         $form->handleRequest($this->getRequest());
-        $timetable = $timetableManager->getTimetableById(
-            $timetableId,
-            $perimeter->getExternalCoverageId()
-        );
-        if ($form->isValid()) {
-            $blockTypeFactory->buildHandler()->process($form->getData(), $timetable);
 
-            return $this->redirect(
-                $this->generateUrl(
-                    'canal_tp_mtt_timetable_edit',
-                    array(
-                        'externalNetworkId'     => $externalNetworkId,
-                        'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
-                        'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
-                        'externalRouteId'       => $timetable->getExternalRouteId(),
-                        'externalStopPointId'   => $stop_point
+        if ($form->isValid()) {
+            $blockTypeFactory->buildHandler()->process($form->getData(), $object);
+
+            if ($objectType == Timetable::OBJECT_TYPE) {
+                return $this->redirect(
+                    $this->generateUrl(
+                        'canal_tp_mtt_timetable_edit',
+                        array(
+                            'externalNetworkId' => $externalNetworkId,
+                            'seasonId' => $object->getLineConfig()->getSeason()->getId(),
+                            'externalLineId' => $object->getLineConfig()->getExternalLineId(),
+                            'externalRouteId' => $object->getExternalRouteId(),
+                            'externalStopPointId' => $stop_point
+                        )
                     )
-                )
-            );
+                );
+            } else if($objectType == LineTimecard::OBJECT_TYPE) {
+                return $this->redirect(
+                    $this->generateUrl(
+                        'canal_tp_mtt_timecard_edit_layout',
+                        array(
+                            'externalNetworkId' => $externalNetworkId,
+                            'seasonId' => $object->getLineConfig()->getSeason()->getId(),
+                            'externalLineId' => $object->getLineConfig()->getExternalLineId()
+                        )
+                    )
+                );
+            }
         }
 
         return $this->render(
@@ -112,5 +136,21 @@ class BlockController extends AbstractController
                 )
             )
         );
+    }
+
+    private function getObjectManager($object) {
+        switch($object) {
+            case 'timetable':
+                $service = 'canal_tp_mtt.timetable_manager';
+                break;
+            case 'lineTimecard':
+                $service = 'canal_tp_mtt.line_timecard_manager';
+                break;
+            default:
+                throw new Exception('Object not supported');
+                break;
+        }
+
+        return $this->get($service);
     }
 }

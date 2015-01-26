@@ -293,6 +293,8 @@ class TimecardController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $layoutConfig->lineTpl->templateName,
             array(
+                'editable'              => true,
+                'blockTypes'            => $this->container->getParameter('blocks'),
                 'lineTimecard'          => $lineTimecard,
                 'displayMenu'           => false,
                 'layout'                => $lineTimecard->getLineConfig()->getLayoutConfig(),

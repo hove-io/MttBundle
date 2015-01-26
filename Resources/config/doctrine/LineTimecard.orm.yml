@@ -34,4 +34,12 @@ CanalTP\MttBundle\Entity\LineTimecard:
             joinColumn:
                 name: line_config_id
                 referencedColumnName: id
+    oneToMany:
+        blocks:
+            targetEntity: Block
+            mappedBy: lineTimecard
+            orderBy:
+                domId: ASC
+            cascade:
+                - remove
     lifecycleCallbacks: {  }

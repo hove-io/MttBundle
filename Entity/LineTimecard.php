@@ -2,12 +2,16 @@
 
 namespace CanalTP\MttBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class LineTimecard
  * @package CanalTP\MttBundle\Entity
  */
 class LineTimecard extends AbstractEntity
 {
+    const OBJECT_TYPE = 'lineTimecard';
+
     /**
      * @var integer
      */
@@ -27,6 +31,17 @@ class LineTimecard extends AbstractEntity
      * @var \CanalTP\MttBundle\Entity\LineConfig
      */
     private $line_config;
+
+    /**
+     * @var ArrayCollection $blocks
+     */
+    private $blocks;
+
+
+    public function __construct()
+    {
+        $this->block = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -105,5 +120,46 @@ class LineTimecard extends AbstractEntity
     public function getLineConfig()
     {
         return $this->line_config;
+    }
+
+
+    /**
+     * Set Blocks
+     *
+     * @param array $blocks
+     *
+     * @return LineTimecard
+     */
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+        foreach ($this->blocks as $block) {
+            $block->setLineTimecard($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get Blocks
+     *
+     * @return array of Block
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    public function isLocked()
+    {
+        return $this->getLineConfig()->isLocked();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return self::OBJECT_TYPE;
     }
 }
