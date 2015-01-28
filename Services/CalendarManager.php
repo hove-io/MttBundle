@@ -17,12 +17,14 @@ class CalendarManager
     private $translator = null;
     private $computedNotesId = array();
     private $calendars = array();
-    protected $colorNotes = array();
+    private $colorNotes = array();
+    private $additionalInformationsExcluded;
 
     public function __construct(Navitia $navitia, Translator $translator)
     {
         $this->navitia = $navitia;
         $this->translator = $translator;
+        $this->additionalInformationsExcluded = array('partial_terminus');
     }
 
     /**
@@ -201,7 +203,7 @@ class CalendarManager
     {
         $additionalInformations = null;
 
-        if (!empty($additionalInformationsId)) {
+        if (!empty($additionalInformationsId) && !in_array($additionalInformationsId, $this->additionalInformationsExcluded)) {
             $additionalInformations = $this->translator->trans(
                 'calendar.schedules.additional_informations.' . $additionalInformationsId,
                 array(),
