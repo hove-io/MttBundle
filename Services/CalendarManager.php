@@ -282,6 +282,10 @@ class CalendarManager
     {
         $result = array();
 
+        if (empty($stopSchedulesData->notes) && empty($stopSchedulesData->exceptions)) {
+            return ($result);
+        }
+
         $hourEnd = ($layoutConfig->getCalendarEnd() == 0) ? 24 : $layoutConfig->getCalendarEnd();
         $hourStart = $layoutConfig->getCalendarStart();
         $dateTimes = $stopSchedulesData->stop_schedules->date_times;
