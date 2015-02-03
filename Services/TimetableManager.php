@@ -72,6 +72,13 @@ class TimetableManager
         return $this->timetable;
     }
 
+    /**
+     * Return timetable object
+     *
+     * @param $objectId
+     * @param $externalCoverageId
+     * @return Timetable
+     */
     public function getById($objectId, $externalCoverageId)
     {
         return $this->getTimetableById($objectId, $externalCoverageId);

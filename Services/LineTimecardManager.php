@@ -19,6 +19,8 @@ class LineTimecardManager
     private $lineTimecard = null;
 
     /**
+     * Constructor
+     *
      * @param ObjectManager $om
      * @param $perimeterManager
      * @param $securityContext
@@ -65,7 +67,7 @@ class LineTimecardManager
     }
 
     /**
-     * Get LineTimecard.
+     * Get LineTimecard by line and network id
      *
      * @param $lineId
      * @param $networkId
@@ -91,6 +93,13 @@ class LineTimecardManager
         return $this->lineTimecard;
     }
 
+    /**
+     * Get LineTimecard by id
+     *
+     * @param $objectId
+     * @param null $externalCoverageId
+     * @return null|object
+     */
     public function getById($objectId, $externalCoverageId = null)
     {
         $this->lineTimecard = $this->repository->find($objectId);
@@ -101,8 +110,8 @@ class LineTimecardManager
 
     }
 
-    /*
-     * get corresponding blocks and index them by dom_id
+    /**
+     * Get corresponding blocks and index them by dom_id
      */
     private function initBlocks()
     {
