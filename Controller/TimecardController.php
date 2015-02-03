@@ -297,6 +297,7 @@ class TimecardController extends AbstractController
                 'blockTypes'            => $this->container->getParameter('blocks'),
                 'lineTimecard'          => $lineTimecard,
                 'displayMenu'           => false,
+                'stopPoint'             => false,
                 'layout'                => $lineTimecard->getLineConfig()->getLayoutConfig(),
                 'notesType'             => $lineTimecard->getLineConfig()->getLayoutConfig()->getNotesType(),
                 'externalNetworkId'     => $lineTimecard->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
