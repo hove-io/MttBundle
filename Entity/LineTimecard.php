@@ -2,7 +2,6 @@
 
 namespace CanalTP\MttBundle\Entity;
 
-//use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class LineTimecard
@@ -37,11 +36,6 @@ class LineTimecard extends AbstractEntity
      */
     private $blocks;
 
-
-    /*public function __construct()
-    {
-        $this->blocks = new ArrayCollection();
-    }*/
 
     /**
      * Get id
@@ -133,9 +127,6 @@ class LineTimecard extends AbstractEntity
     public function setBlocks($blocks)
     {
         $this->blocks = $blocks;
-        /*foreach ($this->blocks as $block) {
-            $block->setLineTimecard($this);
-        }*/
 
         return $this;
     }
