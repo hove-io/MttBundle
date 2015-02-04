@@ -24,7 +24,7 @@ class CalendarManager
     {
         $this->navitia = $navitia;
         $this->translator = $translator;
-        $this->additionalInformationsExcluded = array('partial_terminus');
+        $this->additionalInformationsExcluded = array('partial_terminus', 'none');
     }
 
     /**
