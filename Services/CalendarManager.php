@@ -17,12 +17,14 @@ class CalendarManager
     private $translator = null;
     private $computedNotesId = array();
     private $calendars = array();
-    protected $colorNotes = array();
+    private $colorNotes = array();
+    private $additionalInformationsExcluded;
 
     public function __construct(Navitia $navitia, Translator $translator)
     {
         $this->navitia = $navitia;
         $this->translator = $translator;
+        $this->additionalInformationsExcluded = array('partial_terminus');
     }
 
     /**
@@ -201,7 +203,7 @@ class CalendarManager
     {
         $additionalInformations = null;
 
-        if (!empty($additionalInformationsId)) {
+        if (!empty($additionalInformationsId) && !in_array($additionalInformationsId, $this->additionalInformationsExcluded)) {
             $additionalInformations = $this->translator->trans(
                 'calendar.schedules.additional_informations.' . $additionalInformationsId,
                 array(),
@@ -280,9 +282,10 @@ class CalendarManager
     {
         $result = array();
 
-        if (empty($stopSchedulesData->notes)) {
+        if (empty($stopSchedulesData->notes) && empty($stopSchedulesData->exceptions)) {
             return ($result);
         }
+
         $hourEnd = ($layoutConfig->getCalendarEnd() == 0) ? 24 : $layoutConfig->getCalendarEnd();
         $hourStart = $layoutConfig->getCalendarStart();
         $dateTimes = $stopSchedulesData->stop_schedules->date_times;

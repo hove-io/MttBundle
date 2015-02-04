@@ -44,6 +44,12 @@ class WebserviceController extends AbstractController
         return ($season);
     }
 
+    #TODO: Remove this route when divia.fr updated (Refs #METH-420)
+    public function getTimetableUrlOldAction($externalNetworkId, $externalRouteId, $externalStopPointId)
+    {
+        return ($this->getTimetableUrlAction('divia', $externalNetworkId, $externalRouteId, $externalStopPointId));
+    }
+
     public function getTimetableUrlAction($customerNameCanonical, $externalNetworkId, $externalRouteId, $externalStopPointId)
     {
         try {
