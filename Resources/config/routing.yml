@@ -195,6 +195,14 @@ canal_tp_mtt_WS_timetable:
         customerNameCanonical: -?[a-zA-Z0-9_\-]*
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
+#TODO: Remove this route when divia.fr updated (Refs #METH-420)
+canal_tp_mtt_WS_timetable_old:
+    pattern: /networks/{externalNetworkId}/routes/{externalRouteId}/stop_points/{externalStopPointId}/seasons
+    defaults: { _controller: CanalTPMttBundle:Webservice:getTimetableUrlOld}
+    requirements:
+        customerNameCanonical: -?[a-zA-Z0-9_\-]*
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
 # AMQP Tasks
 canal_tp_mtt_cancel_amqp_task:
     pattern: /amqp/networks/{externalNetworkId}/task/{taskId}/cancel/
