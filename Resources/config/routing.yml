@@ -155,10 +155,12 @@ canal_tp_mtt_block_edit:
 
 canal_tp_mtt_block_delete:
     # stop point must be the last param so it can be empty
-    pattern: /block/delete/networks/{externalNetworkId}/timetable/{timetableId}/blockId/{blockId}
+    pattern: /block/delete/networks/{externalNetworkId}/{objectType}/{objectId}/blockId/{blockId}
     defaults: { _controller: CanalTPMttBundle:Block:delete }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        objectType: -?[a-zA-Z0-9_\-:]*
+        objectId: \d+
 
 #Calendar
 canal_tp_mtt_calendar_view:

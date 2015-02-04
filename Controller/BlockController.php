@@ -97,14 +97,15 @@ class BlockController extends AbstractController
         );
     }
 
-    public function deleteAction($timetableId, $blockId, $externalNetworkId)
+    public function deleteAction($objectType, $objectId, $blockId, $externalNetworkId)
     {
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
             $this->getUser()->getCustomer(),
             $externalNetworkId
         );
-        $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
+
+
         $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block');
 
         $block = $repo->find($blockId);
@@ -119,23 +120,39 @@ class BlockController extends AbstractController
             $this->getDoctrine()->getEntityManager()->remove($block);
             $this->getDoctrine()->getEntityManager()->flush();
         }
-        $timetable = $timetableManager->getTimetableById(
-            $timetableId,
+
+        $objectManager = $this->getObjectManager($objectType);
+        $object = $objectManager->getById(
+            $objectId,
             $perimeter->getExternalCoverageId()
         );
 
-        return $this->redirect(
-            $this->generateUrl(
-                'canal_tp_mtt_timetable_edit',
-                array(
-                    'externalNetworkId'     => $externalNetworkId,
-                    'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
-                    'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
-                    'externalRouteId'       => $timetable->getExternalRouteId(),
-                    'externalStopPointId'   => null
+        if ($objectType == Timetable::OBJECT_TYPE) {
+            return $this->redirect(
+                $this->generateUrl(
+                    'canal_tp_mtt_timetable_edit',
+                    array(
+                        'externalNetworkId' => $externalNetworkId,
+                        'seasonId' => $object->getLineConfig()->getSeason()->getId(),
+                        'externalLineId' => $object->getLineConfig()->getExternalLineId(),
+                        'externalRouteId' => $object->getExternalRouteId(),
+                        'externalStopPointId' =>null
+                    )
                 )
-            )
-        );
+            );
+        } else if($objectType == LineTimecard::OBJECT_TYPE) {
+            return $this->redirect(
+                $this->generateUrl(
+                    'canal_tp_mtt_timecard_edit_layout',
+                    array(
+                        'externalNetworkId' => $externalNetworkId,
+                        'seasonId' => $object->getLineConfig()->getSeason()->getId(),
+                        'externalLineId' => $object->getLineConfig()->getExternalLineId()
+                    )
+                )
+            );
+        }
+
     }
 
     private function getObjectManager($object) {
