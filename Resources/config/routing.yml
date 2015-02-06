@@ -108,7 +108,14 @@ canal_tp_mtt_timecard_edit_layout:
 
 canal_tp_mtt_timecard_save:
     pattern: /timecard/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}/ltc/{lineTimecardId}/save
-    defaults: { _controller: CanalTPMttBundle:Timecard:save}
+    defaults: { _controller: CanalTPMttBundle:Timecard:save }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+
+canal_tp_mtt_timecard_view:
+    pattern: /timecard/view/networks/{externalNetworkId}/line/{externalLineId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:view }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 

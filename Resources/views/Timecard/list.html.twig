@@ -52,8 +52,8 @@
                         <a class="btn btn-default" href="#" style="color:red">
                             <span class="glyphicon glyphicon-edit"></span> {{'timecard.btn.download'|trans({}, 'default')}}
                         </a>
-                        <a class="btn btn-primary" href="#"  style="color:red">
-                            <span class="glyphicon glyphicon-search"></span> {{'global.preview'|trans}}
+                        <a class="btn btn-primary" href="{{ path('canal_tp_mtt_timecard_view', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId}) }}"  style="color:red">
+                            <span class="glyphicon glyphicon-search"></span> {{'global.preview'|trans}} {{ externalNetworkId }}
                         </a>
                     {% endif %}
                 </div>

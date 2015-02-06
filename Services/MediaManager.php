@@ -10,18 +10,23 @@ use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManagerBundle\Entity\Media;
 
 use CanalTP\MttBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Entity\LineTimecard;
+
+
 
 class MediaManager
 {
     private $mediaDataCollector = null;
     const TIMETABLE_FILENAME = 'timetable';
+    const LINETIMECARD_FILENAME = 'linetimecard';
 
     public function __construct(MediaDataCollector $mediaDataCollector)
     {
         $this->mediaDataCollector = $mediaDataCollector;
     }
 
-    public function getSeasonCategory($networkCategoryValue, $routeCategoryValue, $seasonCategoryValue, $externalStopPointId = false)
+    public function getSeasonCategory($objectType, $networkCategoryValue, $routeCategoryValue, $seasonCategoryValue, $externalStopPointId = false)
     {
         $networkCategory = new Category(
             $networkCategoryValue,
@@ -32,11 +37,14 @@ class MediaManager
             $routeCategoryValue,
             CategoryType::LINE
         );
+
+        // TODO condition sur objectype
         $routeCategory->setRessourceId('routes');
         $seasonCategory = new Category(
             $seasonCategoryValue,
             CategoryType::LINE
         );
+
         $seasonCategory->setRessourceId('seasons');
 
         $routeCategory->setParent($networkCategory);
@@ -56,14 +64,24 @@ class MediaManager
     }
 
     // prepare media regarding Mtt policy
-    private function getMedia($timetable, $externalStopPointId = false)
+    private function getMedia($object, $externalStopPointId = false)
     {
-        $seasonCategory = $this->getSeasonCategory(
-            $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
-            $timetable->getExternalRouteId(),
-            $timetable->getLineConfig()->getSeason()->getId(),
-            $externalStopPointId
-        );
+        $objectType = $object->__toString();
+        $externalNetworkId = $object->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId();
+        $seasonId = $object->getLineConfig()->getSeason()->getId();
+
+        if ($objectType == LineTimecard::OBJECT_TYPE) {
+            // TODO : construire chemin adapté pour les lignes
+        } else if ($objectType == Timetable::OBJECT_TYPE) {
+            $seasonCategory = $this->getSeasonCategory(
+                $externalNetworkId,
+                $object->getExternalRouteId(),
+                $seasonId,
+                $externalStopPointId
+            );
+        }
+
+
 
         $media = new Media();
         $media->setCategory($seasonCategory);
@@ -110,6 +128,16 @@ class MediaManager
     public function saveByTimetable($timetable, $file, $fileName)
     {
         $media = $this->getMedia($timetable);
+        $media->setFileName($fileName);
+        $media->setFile($file);
+        $this->mediaDataCollector->save($media);
+
+        return ($media);
+    }
+
+    public function saveByObject($object, $file, $fileName)
+    {
+        $media = $this->getMedia($object);
         $media->setFileName($fileName);
         $media->setFile($file);
         $this->mediaDataCollector->save($media);

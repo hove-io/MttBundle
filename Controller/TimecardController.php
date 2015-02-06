@@ -278,10 +278,11 @@ class TimecardController extends AbstractController
 
     /**
      * @param LineTimecard $lineTimecard
+     * @param boolean $editable
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderLayout($lineTimecard)
+    public function renderLayout($lineTimecard, $editable = true)
     {
         $externalCoverageId = $lineTimecard->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
         $layoutConfig = json_decode($lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
@@ -293,7 +294,7 @@ class TimecardController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $layoutConfig->lineTpl->templateName,
             array(
-                'editable'              => true,
+                'editable'              => $editable,
                 'blockTypes'            => $this->container->getParameter('blocks'),
                 'lineTimecard'          => $lineTimecard,
                 'displayMenu'           => false,
@@ -310,4 +311,18 @@ class TimecardController extends AbstractController
         );
     }
 
+    /**
+     * @param $externalNetworkId
+     * @param $externalLineId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function viewAction($externalNetworkId, $externalLineId)
+    {
+        /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
+        $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
+
+        $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $externalNetworkId);
+
+        return $this->renderLayout($lineTimecard, false);
+    }
 }

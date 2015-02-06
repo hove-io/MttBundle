@@ -36,6 +36,11 @@ class LineTimecard extends AbstractEntity
      */
     private $blocks;
 
+    /**
+     * @var object $timecards
+     */
+    private $timecards;
+
 
     /**
      * Get id
@@ -139,6 +144,30 @@ class LineTimecard extends AbstractEntity
     public function getBlocks()
     {
         return $this->blocks;
+    }
+
+    /**
+     * Set Timecards
+     *
+     * @param array $timecards
+     *
+     * @return LineTimecard
+     */
+    public function setTimecards($timecards)
+    {
+        $this->timecards = $timecards;
+
+        return $this;
+    }
+
+    /**
+     * Get Timecards
+     *
+     * @return array of Timecards
+     */
+    public function getTimecards()
+    {
+        return $this->timecards;
     }
 
     public function isLocked()
