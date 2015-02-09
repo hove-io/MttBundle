@@ -49,7 +49,7 @@
                         <a class="btn btn-default" href="{{ path('canal_tp_mtt_timecard_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id, 'externalRouteId': externalRouteId, 'lineTimecardId': lineTimecardId}) }}">
                             <span class="glyphicon glyphicon-edit"></span> {{'timecard.btn.edit'|trans({}, 'default')}}
                         </a>
-                        <a class="btn btn-default" href="#" style="color:red">
+                        <a class="btn btn-default" href="{{ path('canal_tp_mtt_generate_pdf', {'externalNetworkId':externalNetworkId, 'objectType': lineTimecard, 'objectId':lineTimecardId}) }}" style="color:red">
                             <span class="glyphicon glyphicon-edit"></span> {{'timecard.btn.download'|trans({}, 'default')}}
                         </a>
                         <a class="btn btn-primary" href="{{ path('canal_tp_mtt_timecard_view', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId}) }}"  style="color:red">

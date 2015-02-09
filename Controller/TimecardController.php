@@ -62,7 +62,7 @@ class TimecardController extends AbstractController
 
             $lineTimecard = $lineTimecardManager->createLineTimecardIfNotExist(
                 $lineId,
-                $externalNetworkId,
+                $perimeter,
                 $lineConfig
             );
         }
@@ -81,6 +81,7 @@ class TimecardController extends AbstractController
                 'currentSeason' => $currentSeason,
                 'externalRouteId' => $externalRouteId,
                 'lineTimecardId' => $lineTimecardId,
+                'lineTimecard' => (isset($lineTimecard)) ? $lineTimecard : null ,
                 'options' => array(
                     'no_route' => true,
                     'current_line' => $lineId
@@ -318,10 +319,22 @@ class TimecardController extends AbstractController
      */
     public function viewAction($externalNetworkId, $externalLineId)
     {
+        $customerId = $this->getRequest()->get('customerId');
+
+        if ($customerId == NULL) {
+            $customer = $this->getUser()->getCustomer();
+        } else {
+            $customer = $this->get('sam_core.customer')->find($customerId);
+        }
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $customer,
+            $externalNetworkId
+        );
+
         /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
         $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
 
-        $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $externalNetworkId);
+        $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
 
         return $this->renderLayout($lineTimecard, false);
     }

@@ -41,6 +41,11 @@ class LineTimecard extends AbstractEntity
      */
     private $timecards;
 
+    /**
+     * @var string $hashPdf
+     */
+    private $hash_pdf;
+
 
     /**
      * Get id
@@ -173,6 +178,24 @@ class LineTimecard extends AbstractEntity
     public function isLocked()
     {
         return $this->getLineConfig()->isLocked();
+    }
+
+    /**
+     * Set hash Pdf
+     * @param string $hashPdf
+     */
+    public function setPdfHash($hashPdf)
+    {
+       $this->hash_pdf = $hashPdf;
+    }
+
+    /**
+     * Get hash pdf
+     * @return string
+     */
+    public function getPdfHash()
+    {
+        return $this->hash_pdf;
     }
 
     /**

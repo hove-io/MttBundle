@@ -66,6 +66,7 @@ class Version012 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_EFD199664EC001D1 ON mtt.timecard_pdf (season_id);');
 
         $this->addSql('ALTER TABLE mtt.layout ADD COLUMN "configuration" text;');
+        $this->addSql('ALTER TABLE mtt.line_timecard ADD COLUMN hash_pdf VARCHAR(255);');
     }
 
     public function down(Schema $schema)

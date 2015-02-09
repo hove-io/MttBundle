@@ -134,9 +134,9 @@ canal_tp_mtt_timetable_view:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
-canal_tp_mtt_timetable_generate_pdf:
-    pattern: /pdf/generate/timetable/{timetableId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
-    defaults: { _controller: CanalTPMttBundle:Pdf:generate}
+canal_tp_mtt_generate_pdf:
+    pattern: /pdf/generate/objectType/{objectType}/objectId/{objectId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
+    defaults: { _controller: CanalTPMttBundle:Pdf:generate, externalStopPointId: null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 

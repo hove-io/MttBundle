@@ -25,11 +25,10 @@ class LineTimecardManager
      * @param $perimeterManager
      * @param $securityContext
      */
-    public function __construct(ObjectManager $om, $perimeterManager, $securityContext)
+    public function __construct(ObjectManager $om, $perimeterManager)
     {
         $this->om = $om;
         $this->perimeterManager = $perimeterManager;
-        $this->user = $securityContext->getToken()->getUser()->getCustomer();
         $this->repository = $this->om->getRepository('CanalTPMttBundle:LineTimecard');
 
     }
@@ -38,16 +37,11 @@ class LineTimecardManager
      * Create LineTimecard if not exist.
      *
      * @param $lineId
-     * @param $networkId
+     * @param $perimeter
      * @param $lineConfig
      * @return LineTimecard
      */
-    public function createLineTimecardIfNotExist($lineId, $networkId, LineConfig $lineConfig) {
-
-        $perimeter = $this->perimeterManager->findOneByExternalNetworkId(
-            $this->user,
-            $networkId
-        );
+    public function createLineTimecardIfNotExist($lineId, $perimeter, LineConfig $lineConfig) {
 
         $lineTimecard = $this->om->getRepository('CanalTPMttBundle:LineTimecard')->findOneBy(
             array(
@@ -70,16 +64,11 @@ class LineTimecardManager
      * Get LineTimecard by line and network id
      *
      * @param $lineId
-     * @param $networkId
+     * @param $perimeter
      * @return LineTimecard
      */
-    public function getLineTimecard($lineId, $networkId)
+    public function getLineTimecard($lineId, $perimeter)
     {
-
-        $perimeter = $this->perimeterManager->findOneByExternalNetworkId(
-            $this->user,
-            $networkId
-        );
 
         $this->lineTimecard = $this->om->getRepository('CanalTPMttBundle:LineTimecard')->findOneBy(
             array(

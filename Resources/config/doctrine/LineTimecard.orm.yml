@@ -12,6 +12,9 @@ CanalTP\MttBundle\Entity\LineTimecard:
         line_id:
             type: string
             length: 255
+        hash_pdf:
+            type: string
+            length: 255
         created:
             type: datetime
             gedmo:

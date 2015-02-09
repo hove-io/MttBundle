@@ -26,4 +26,14 @@ class LineTimecardRepository extends EntityRepository
 
         return $result;
     }
+
+    /*
+     *
+     */
+    public function updatePdfGenerationInfos($lineTimeCard, $hash)
+    {
+        //$lineTimeCard->setPdfGenerationDate(new \DateTime());
+        $lineTimeCard->setPdfHash($hash);
+        $this->getEntityManager()->flush($lineTimeCard);
+    }
 }

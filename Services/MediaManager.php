@@ -2,6 +2,7 @@
 
 namespace CanalTP\MttBundle\Services;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\File\File;
 
 use CanalTP\MediaManager\Category\CategoryType;
@@ -12,7 +13,7 @@ use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Timetable;
 use CanalTP\MttBundle\Entity\LineTimecard;
-
+use Symfony\Component\Validator\Constraints\Time;
 
 
 class MediaManager
@@ -26,7 +27,7 @@ class MediaManager
         $this->mediaDataCollector = $mediaDataCollector;
     }
 
-    public function getSeasonCategory($objectType, $networkCategoryValue, $routeCategoryValue, $seasonCategoryValue, $externalStopPointId = false)
+    public function getSeasonCategory($networkCategoryValue, $routeCategoryValue, $seasonCategoryValue, $externalStopPointId = false)
     {
         $networkCategory = new Category(
             $networkCategoryValue,
@@ -38,7 +39,6 @@ class MediaManager
             CategoryType::LINE
         );
 
-        // TODO condition sur objectype
         $routeCategory->setRessourceId('routes');
         $seasonCategory = new Category(
             $seasonCategoryValue,
@@ -63,25 +63,58 @@ class MediaManager
         return $seasonCategory;
     }
 
+    public function getSeasonCategoryForLine($networkCategoryValue, $lineCategoryValue, $seasonCategoryValue)
+    {
+        $networkCategory = new Category(
+            $networkCategoryValue,
+            CategoryType::NETWORK
+        );
+        $networkCategory->setRessourceId('networks');
+        $lineCategory = new Category(
+            $lineCategoryValue,
+            CategoryType::LINE
+        );
+
+        $lineCategory->setRessourceId('lines');
+        $seasonCategory = new Category(
+            $seasonCategoryValue,
+            CategoryType::LINE
+        );
+
+        $seasonCategory->setRessourceId('seasons');
+
+        $lineCategory->setParent($networkCategory);
+        $seasonCategory->setParent($lineCategory);
+
+
+        return $seasonCategory;
+    }
+
     // prepare media regarding Mtt policy
     private function getMedia($object, $externalStopPointId = false)
     {
-        $objectType = $object->__toString();
         $externalNetworkId = $object->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId();
         $seasonId = $object->getLineConfig()->getSeason()->getId();
 
-        if ($objectType == LineTimecard::OBJECT_TYPE) {
-            // TODO : construire chemin adapté pour les lignes
-        } else if ($objectType == Timetable::OBJECT_TYPE) {
-            $seasonCategory = $this->getSeasonCategory(
-                $externalNetworkId,
-                $object->getExternalRouteId(),
-                $seasonId,
-                $externalStopPointId
-            );
+        switch($object->__toString()) {
+            case lineTimecard::OBJECT_TYPE:
+                $seasonCategory = $this->getSeasonCategoryForLine(
+                    $externalNetworkId,
+                    $object->getLineId(),
+                    $seasonId
+                );
+                break;
+            case Timetable::OBJECT_TYPE:
+                $seasonCategory = $this->getSeasonCategory(
+                    $externalNetworkId,
+                    $object->getExternalRouteId(),
+                    $seasonId,
+                    $externalStopPointId
+                );
+                break;
+            default:
+                throw new Exception('Object ' . $object . ' not supported');
         }
-
-
 
         $media = new Media();
         $media->setCategory($seasonCategory);
@@ -108,6 +141,16 @@ class MediaManager
         return $media;
     }
 
+
+
+    public function getLineTimecardMedia($lineTimecard)
+    {
+        $media = $this->getMedia($lineTimecard);
+        $media->setFileName(self::LINETIMECARD_FILENAME);
+
+        return $media;
+    }
+
     public function findMediaPathByTimeTable($timetable, $fileName)
     {
         $media = $this->getMedia($timetable);
@@ -119,6 +162,22 @@ class MediaManager
     public function saveStopPointTimetable($timetable, $externalStopPointId, $path)
     {
         $media = $this->getStopPointTimetableMedia($timetable, $externalStopPointId);
+        $media->setFile(new File($path));
+        $this->mediaDataCollector->save($media);
+
+        return ($media);
+    }
+
+    public function savePdf($object, $path, $externalStopPointId = null)
+    {
+        if ($object instanceof LineTimecard) {
+            $media = $this->getLineTimecardMedia($object);
+        } else if ($object instanceof Timetable) {
+            $media = $this->getStopPointTimetableMedia($object, $externalStopPointId);
+        } else {
+            throw new Exception('Object ' . $object . ' is not suported' );
+        }
+
         $media->setFile(new File($path));
         $this->mediaDataCollector->save($media);
 
