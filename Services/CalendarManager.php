@@ -286,14 +286,16 @@ class CalendarManager
             return ($result);
         }
 
-        $hourEnd = ($layoutConfig->getCalendarEnd() == 0) ? 24 : $layoutConfig->getCalendarEnd();
         $hourStart = $layoutConfig->getCalendarStart();
+        $hourEnd = $layoutConfig->getCalendarEnd();
+        $isPM = ($hourEnd <= $hourStart);
+        $hourEnd = ($isPM) ? ($hourEnd + 24) : $hourEnd;
         $dateTimes = $stopSchedulesData->stop_schedules->date_times;
 
         foreach ($dateTimes as $dateTime) {
-
             foreach ($dateTime as $time) {
-                $hourNote = ($time->date_time->format('H') == 0) ? 24 : $time->date_time->format('H');
+                $hourNote = $time->date_time->format('H');
+                $hourNote = ($isPM && $hourNote < $hourStart) ? $hourNote + 24 : $hourNote;
 
                 if (!empty($time->links) && $hourNote >= $hourStart && $hourNote <= $hourEnd) {
                     $result = array_merge(
