@@ -38,7 +38,7 @@ CanalTP\MttBundle\Entity\Timecard:
             joinColumn:
                 name: perimeter_id
                 referencedColumnName: per_id
-        line_timecard:
+        lineTimecard:
             targetEntity: LineTimecard
             joinColumn:
                 name: line_timecard_id

@@ -1,6 +1,8 @@
 <?php
 namespace CanalTP\MttBundle\Form\Type\Block;
 
+use CanalTP\MttBundle\Entity\LineTimecard;
+use CanalTP\MttBundle\Entity\Timetable;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
@@ -25,13 +27,23 @@ class CalendarType extends BlockType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $season = $this->blockInstance->getTimetable()->getLineConfig()->getSeason();
-        $calendars = $this->calendarManager->getCalendarsForRoute(
-            $this->externalCoverageId,
-            $this->blockInstance->getTimetable()->getExternalRouteId(),
-            $season->getStartDate(),
-            $season->getEndDate()
-        );
+        if ($this->blockInstance->getTimetable() instanceof Timetable) {
+            $season = $this->blockInstance->getTimetable()->getLineConfig()->getSeason();
+            $externalRouteId = $this->blockInstance->getTimetable()->getExternalRouteId();
+
+            $calendars = $this->calendarManager->getCalendarsForRoute(
+                $this->externalCoverageId,
+                $externalRouteId,
+                $season->getStartDate(),
+                $season->getEndDate()
+            );
+        } else if($this->blockInstance->getLineTimecard() instanceof LineTimecard) {
+            $calendars = $this->calendarManager->getCalendarsForLine(
+                $this->externalCoverageId,
+                $this->blockInstance->getLineTimecard()->getLineConfig()->getExternalLineId()
+            );
+        }
+
         $this->choices = $this->getChoices($calendars);
 
         $builder

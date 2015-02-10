@@ -2,12 +2,15 @@
 
 namespace CanalTP\MttBundle\Entity;
 
+
 /**
  * Class LineTimecard
  * @package CanalTP\MttBundle\Entity
  */
 class LineTimecard extends AbstractEntity
 {
+    const OBJECT_TYPE = 'lineTimecard';
+
     /**
      * @var integer
      */
@@ -27,6 +30,22 @@ class LineTimecard extends AbstractEntity
      * @var \CanalTP\MttBundle\Entity\LineConfig
      */
     private $line_config;
+
+    /**
+     * @var object $blocks
+     */
+    private $blocks;
+
+    /**
+     * @var object $timecards
+     */
+    private $timecards;
+
+    /**
+     * @var string $hashPdf
+     */
+    private $hash_pdf;
+
 
     /**
      * Get id
@@ -105,5 +124,85 @@ class LineTimecard extends AbstractEntity
     public function getLineConfig()
     {
         return $this->line_config;
+    }
+
+
+    /**
+     * Set Blocks
+     *
+     * @param array $blocks
+     *
+     * @return LineTimecard
+     */
+    public function setBlocks($blocks)
+    {
+        $this->blocks = $blocks;
+
+        return $this;
+    }
+
+    /**
+     * Get Blocks
+     *
+     * @return array of Block
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+
+    /**
+     * Set Timecards
+     *
+     * @param array $timecards
+     *
+     * @return LineTimecard
+     */
+    public function setTimecards($timecards)
+    {
+        $this->timecards = $timecards;
+
+        return $this;
+    }
+
+    /**
+     * Get Timecards
+     *
+     * @return array of Timecards
+     */
+    public function getTimecards()
+    {
+        return $this->timecards;
+    }
+
+    public function isLocked()
+    {
+        return $this->getLineConfig()->isLocked();
+    }
+
+    /**
+     * Set hash Pdf
+     * @param string $hashPdf
+     */
+    public function setPdfHash($hashPdf)
+    {
+       $this->hash_pdf = $hashPdf;
+    }
+
+    /**
+     * Get hash pdf
+     * @return string
+     */
+    public function getPdfHash()
+    {
+        return $this->hash_pdf;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return self::OBJECT_TYPE;
     }
 }

@@ -4,6 +4,8 @@ namespace CanalTP\MttBundle\Form\Handler\Block;
 
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\StopPoint;
+use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Entity\LineTimecard;
 
 abstract class AbstractHandler implements HandlerInterface
 {
@@ -11,7 +13,7 @@ abstract class AbstractHandler implements HandlerInterface
     protected $om = null;
     protected $block = null;
 
-    protected function saveBlock(Block $formBlock, $timetable)
+    protected function saveBlock(Block $formBlock, $object)
     {
         if (empty($this->block)) {
             $this->block = new Block();
@@ -24,7 +26,7 @@ abstract class AbstractHandler implements HandlerInterface
         // we need to init the relations even if the block is already filled with the post values
         // because stop_point_id in post contains the navitiaId value and doctrine expects a bdd ID
         // Plus, init Relations updates modified dates of line entity or stopPoint
-        $this->initRelation($formBlock, $timetable);
+        $this->initRelation($formBlock, $object);
         $this->om->persist($this->block);
 
         $this->om->flush();
@@ -42,18 +44,23 @@ abstract class AbstractHandler implements HandlerInterface
         return $this->stopPoint;
     }
 
-    protected function initRelation(Block $block, $timetable)
+    protected function initRelation(Block $block, $object)
     {
+        $isTimetable = ($object instanceof Timetable) ? true : false;
+        // TODO preserve setter method name into object $object
+        $setter = ($isTimetable) ? 'setTimetable' : 'setLineTimecard';
+
         $externalStopPointId = $block->getStopPoint();
 
         // all blocks are linked at least to a timetable
-        $this->block->setTimetable($timetable);
-        if (!empty($externalStopPointId)) {
+        $this->block->$setter($object);
+
+        if (!empty($externalStopPointId) && $isTimetable) {
             // link block to this stop point
             $this->block->setStopPoint(
                 $this->getStopPointReference(
                     $externalStopPointId,
-                    $timetable
+                    $object
                 )
             );
         }

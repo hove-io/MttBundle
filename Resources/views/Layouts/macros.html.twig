@@ -10,13 +10,20 @@
     <div id="flash_info_top"></div>
     <img class="flash-info" src="{{ asset(imgPath) }}">
     <div id="{{ id }}">
-        <span class="content">Repérez la période "Anis" ou "Cassis" à consulter, grâce à la couleur du jour de votre voyage indiquée sur le "Calendrier Voyageurs"</span>
+        <span class="content">Repérez la période "Anis" ou "Cassis" à consulter, grâce à la couleur du jour de votre
+            voyage indiquée sur le "Calendrier Voyageurs"</span>
     </div>
     <div id="flash_info_bottom"></div>
 {% endmacro %}
 
-{% macro text(id, block, level, class) %}
-    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text" class="{{ class }}">
+{% macro text(id, block, level, class, object) %}
+    <div id="{{ id }}"
+         class="{{ class }}"
+         data-block-level="{{ level }}"
+         data-block-type="text"
+         data-block-object="{{ object }}"
+         data-block-object-id="{{ object.id }}"
+    >
     {% if block %}
         <div class="title">{{ block.title }}</div>
         <div class="content">{{ block.content|nl2br }}</div>
@@ -71,7 +78,8 @@
 {% endmacro %}
 
 {% macro centered_text(id, block, level, class) %}
-    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text" class="centered-text-block {{ class }}">
+    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text"
+         class="centered-text-block {{ class }}">
         <div class="title">{% if block %}{{ block.title }}{% endif %}</div>
         <div class="relative">
             <div class="content"><p>{% if block %}{{ block.content|nl2br }}{% endif %}</p></div>
@@ -116,10 +124,11 @@
                                     'canal_tp_mtt_block_edit',
                                     {
                                         'externalNetworkId':externalNetworkId,
-                                        'timetableId': timetable.id,
                                         'dom_id' : dom_id,
                                         'blockId' : block.id,
-                                        'block_type' : 'calendar'
+                                        'block_type' : 'calendar',
+                                        'objectType' : timetable,
+                                        'objectId' : timetable.id
                                     }
                                 )
                             }}" data-target="#base-modal">

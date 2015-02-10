@@ -12,5 +12,28 @@ use Doctrine\ORM\EntityRepository;
  */
 class LineTimecardRepository extends EntityRepository
 {
+    /*
+     * Return blocks defined for this lineTimecard on route level
+     */
+    public function findBlocksByLineTimecardIdOnly($lineTimecardId)
+    {
+        $result = $this->getEntityManager()->getRepository('CanalTPMttBundle:Block')->findBy(
+            array(
+                'lineTimecard' => $lineTimecardId
+            ),
+            array('domId' => 'ASC')
+        );
 
+        return $result;
+    }
+
+    /*
+     *
+     */
+    public function updatePdfGenerationInfos($lineTimeCard, $hash)
+    {
+        //$lineTimeCard->setPdfGenerationDate(new \DateTime());
+        $lineTimeCard->setPdfHash($hash);
+        $this->getEntityManager()->flush($lineTimeCard);
+    }
 }

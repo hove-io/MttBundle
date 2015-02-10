@@ -404,7 +404,6 @@ class CalendarManager
         //if (count($timecard->getBlocks()) > 0) {
 
         //}
-
         return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
     }
 
@@ -421,6 +420,29 @@ class CalendarManager
     {
         $calendarsData = $this->navitia->getRouteCalendars($externalCoverageId, $externalRouteId, $startDate, $endDate);
         $calendarsSorted = array();
+        if (isset($calendarsData->calendars) && !empty($calendarsData->calendars)) {
+            foreach ($calendarsData->calendars as $calendar) {
+                //make it easier for template
+                $calendarsSorted[$calendar->id] = $calendar;
+            }
+        }
+
+        return $calendarsSorted;
+    }
+
+    /**
+     * Get all calendars for a line
+     *
+     * @param $externalCoverageId
+     * @param $externalLineId
+     * @return array
+     */
+    public function getCalendarsForLine($externalCoverageId, $externalLineId)
+    {
+        $calendarsSorted = array();
+
+        $calendarsData = $this->navitia->getAllCalendarsForLine($externalCoverageId, $externalLineId);
+
         if (isset($calendarsData->calendars) && !empty($calendarsData->calendars)) {
             foreach ($calendarsData->calendars as $calendar) {
                 //make it easier for template

@@ -12,6 +12,9 @@ CanalTP\MttBundle\Entity\LineTimecard:
         line_id:
             type: string
             length: 255
+        hash_pdf:
+            type: string
+            length: 255
         created:
             type: datetime
             gedmo:
@@ -34,4 +37,15 @@ CanalTP\MttBundle\Entity\LineTimecard:
             joinColumn:
                 name: line_config_id
                 referencedColumnName: id
+    oneToMany:
+        blocks:
+            targetEntity: Block
+            mappedBy: lineTimecard
+            orderBy:
+                domId: ASC
+            cascade:
+                - remove
+        timecards:
+            targetEntity: Timecard
+            mappedBy: lineTimecard
     lifecycleCallbacks: {  }

@@ -1,6 +1,8 @@
 <?php
 
 namespace CanalTP\MttBundle\Entity;
+use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Entity\LineTimecard;
 
 /**
  * Block
@@ -33,9 +35,14 @@ class Block extends AbstractEntity
     private $title;
 
     /**
-     * @var Object
+     * @var Timetable Object
      */
     private $timetable;
+
+    /**
+     * @var LineTimecard Object
+     */
+    private $lineTimecard;
 
     /**
      * @var Object
@@ -178,6 +185,30 @@ class Block extends AbstractEntity
     }
 
     /**
+     * Set lineTimecard
+     *
+     * @param integer $lineTimecard
+     *
+     * @return Block
+     */
+    public function setLineTimecard($lineTimecard)
+    {
+        $this->lineTimecard = $lineTimecard;
+
+        return $this;
+    }
+
+    /**
+     * Get lineTimecard
+     *
+     * @return string
+     */
+    public function getLineTimecard()
+    {
+        return $this->lineTimecard;
+    }
+
+    /**
      * Set stopPoint
      *
      * @param integer $stopPoint
@@ -260,6 +291,12 @@ class Block extends AbstractEntity
 
     public function isLocked()
     {
-        return $this->getTimetable()->isLocked();
+        if ($this->getTimetable() instanceof Timetable) {
+            return $this->getTimetable()->isLocked();
+        } else if ($this->getLineTimecard() instanceof LineTimecard) {
+            return $this->getLineTimecard()->isLocked();
+        }
     }
+
+
 }

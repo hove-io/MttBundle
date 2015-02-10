@@ -108,7 +108,14 @@ canal_tp_mtt_timecard_edit_layout:
 
 canal_tp_mtt_timecard_save:
     pattern: /timecard/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}/ltc/{lineTimecardId}/save
-    defaults: { _controller: CanalTPMttBundle:Timecard:save}
+    defaults: { _controller: CanalTPMttBundle:Timecard:save }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+
+canal_tp_mtt_timecard_view:
+    pattern: /timecard/view/networks/{externalNetworkId}/line/{externalLineId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:view }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
@@ -127,9 +134,9 @@ canal_tp_mtt_timetable_view:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
-canal_tp_mtt_timetable_generate_pdf:
-    pattern: /pdf/generate/timetable/{timetableId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
-    defaults: { _controller: CanalTPMttBundle:Pdf:generate}
+canal_tp_mtt_generate_pdf:
+    pattern: /pdf/generate/objectType/{objectType}/objectId/{objectId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
+    defaults: { _controller: CanalTPMttBundle:Pdf:generate, externalStopPointId: null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
@@ -144,19 +151,23 @@ canal_tp_mtt_timetable_download_pdf:
 #Block
 canal_tp_mtt_block_edit:
     # stop point must be the last param so it can be empty
-    pattern: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
-    defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null }
+    pattern: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/{objectType}/{objectId}/block_type/{block_type}/stop_point/{stop_point}
+    defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        objectType: -?[a-zA-Z0-9_\-:]*
+        objectId: \d+
     options:
         expose: true
 
 canal_tp_mtt_block_delete:
     # stop point must be the last param so it can be empty
-    pattern: /block/delete/networks/{externalNetworkId}/timetable/{timetableId}/blockId/{blockId}
+    pattern: /block/delete/networks/{externalNetworkId}/{objectType}/{objectId}/blockId/{blockId}
     defaults: { _controller: CanalTPMttBundle:Block:delete }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        objectType: -?[a-zA-Z0-9_\-:]*
+        objectId: \d+
 
 #Calendar
 canal_tp_mtt_calendar_view:
