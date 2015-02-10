@@ -52,7 +52,7 @@ class TaskTypeExtension extends \Twig_Extension
                 if ($task->isCompleted()) {
                     $areaPdf = $this->em->getRepository('CanalTPMttBundle:AreaPdf')->find($task->getObjectId());
                     if (!empty($areaPdf)) {
-                        $return = '<a class="btn btn-primary btn-sm" target="_blank" href="' . $this->areaPdfManager->findPdfPath($areaPdf) . '?' . time() .'">';
+                        $return = '<a class="btn btn-primary btn-sm" target="_blank" href="' . $this->areaPdfManager->findPdfPath($areaPdf) . '">';
                         $return .= '<span class="glyphicon glyphicon-download-alt"></span> ';
                         $return .= $this->translator->trans(
                             'area.download_pdf',
