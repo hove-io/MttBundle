@@ -1,7 +1,7 @@
 README
 ======
 
-What is MethBundle ?
+What is MttBundle ?
 -----------------------------
 
 __Coming Soon__
