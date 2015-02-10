@@ -46,6 +46,10 @@ class LineTimecard extends AbstractEntity
      */
     private $hash_pdf;
 
+    /**
+     * @var datetime
+     */
+    protected $pdfGenerationDate;
 
     /**
      * Get id
@@ -196,6 +200,24 @@ class LineTimecard extends AbstractEntity
     public function getPdfHash()
     {
         return $this->hash_pdf;
+    }
+
+    /**
+     * @param $datetime
+     */
+    public function setPdfGenerationDate($datetime)
+    {
+        $this->pdfGenerationDate = $datetime;
+    }
+
+    /**
+     * Get pdfGenerationDate
+     *
+     * @return string
+     */
+    public function getPdfGenerationDate()
+    {
+        return ($this->pdfGenerationDate);
     }
 
     /**

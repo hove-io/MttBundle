@@ -268,9 +268,22 @@ class TimecardController extends AbstractController
         /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
         $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
 
+        $customerId = $this->getRequest()->get('customerId');
+
+        if ($customerId == NULL) {
+            $customer = $this->getUser()->getCustomer();
+        } else {
+            $customer = $this->get('sam_core.customer')->find($customerId);
+        }
+
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $customer,
+            $externalNetworkId
+        );
+
         $lineTimecard = $lineTimecardManager->getLineTimecard(
             $externalLineId,
-            $externalNetworkId
+            $perimeter
         );
 
 

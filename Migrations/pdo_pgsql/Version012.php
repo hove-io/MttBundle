@@ -67,6 +67,7 @@ class Version012 extends AbstractMigration
 
         $this->addSql('ALTER TABLE mtt.layout ADD COLUMN "configuration" text;');
         $this->addSql('ALTER TABLE mtt.line_timecard ADD COLUMN hash_pdf VARCHAR(255);');
+        $this->addSql('ALTER TABLE mtt.line_timecard ADD pdf_generation_date TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL;');
     }
 
     public function down(Schema $schema)

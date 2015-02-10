@@ -15,6 +15,10 @@ CanalTP\MttBundle\Entity\LineTimecard:
         hash_pdf:
             type: string
             length: 255
+        pdfGenerationDate:
+              type: datetime
+              nullable: TRUE
+              column: pdf_generation_date
         created:
             type: datetime
             gedmo:
