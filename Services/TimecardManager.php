@@ -49,6 +49,15 @@ class TimecardManager
     }
 
     /**
+     * Return TimecardRepository Object
+     * @return \Doctrine\Common\Persistence\ObjectRepository|null
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
      * Return all Timecards
      * @return array
      */
@@ -97,6 +106,8 @@ class TimecardManager
 
         return $timecard;
     }
+
+
 
     /**
      * Find Timecard for a line

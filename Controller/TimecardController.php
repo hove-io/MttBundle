@@ -292,11 +292,12 @@ class TimecardController extends AbstractController
 
     /**
      * @param LineTimecard $lineTimecard
+     * @param array $calendars
      * @param boolean $editable
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderLayout($lineTimecard, $editable = true)
+    public function renderLayout($lineTimecard, $calendars, $editable = true)
     {
         $externalCoverageId = $lineTimecard->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
         $layoutConfig = json_decode($lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
@@ -304,6 +305,8 @@ class TimecardController extends AbstractController
 
         // Get line calendars
         $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getTimecardCalendars($externalCoverageId, $lineTimecard);
+
+
 
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $layoutConfig->lineTpl->templateName,
@@ -349,6 +352,8 @@ class TimecardController extends AbstractController
 
         $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
 
-        return $this->renderLayout($lineTimecard, false);
+        $calendars = $lineTimecardManager->getAllCalendars($lineTimecard);
+
+        return $this->renderLayout($lineTimecard, $calendars, false);
     }
 }
