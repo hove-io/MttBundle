@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Bridge\Monolog\Logger;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 use CanalTP\MttBundle\Services\Navitia;
 use CanalTP\MttBundle\Services\TimetableManager;
@@ -35,7 +35,7 @@ class PdfPayloadsGenerator
         StopPointManager $stopPointManager,
         LineManager $lineManager,
         Logger $logger,
-        Translator $translator
+        TranslatorInterface $translator
     )
     {
         $this->co = $co;
