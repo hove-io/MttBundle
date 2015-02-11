@@ -35,12 +35,6 @@ class BlockManager
     public function getBlock($dom_id, $objectId, $objectType, $stop_point = null)
     {
         if (empty($stop_point)) {
-           /* if ($objectType == \CanalTP\MttBundle\Entity\Timetable::OBJECT_TYPE) {
-                $block = $this->repo->findByTimetableIdAndDomId($objectId, $dom_id);
-            } else if ($objectType == \CanalTP\MttBundle\Entity\LineTimecard::OBJECT_TYPE) {
-                $block = $this->repo->findByLineTimecardIdAndDomId($objectId, $dom_id);
-            }*/
-
              $block = $this->repo->findByObjectIdAndDomId($objectId, $objectType, $dom_id);
         } else {
             $block = $this->repo->findByTimetableAndStopPointAndDomId($objectId, $stop_point, $dom_id);

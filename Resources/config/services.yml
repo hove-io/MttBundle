@@ -188,7 +188,7 @@ services:
 
     canal_tp_mtt.line_timecard_manager:
           class: %canal_tp_mtt.line_timecard_manager.class%
-          arguments: ['@doctrine.orm.entity_manager', '@nmm.perimeter_manager']
+          arguments: ['@doctrine.orm.entity_manager', '@nmm.perimeter_manager', '@canal_tp_mtt.navitia', '@canal_tp_mtt.timecard_manager']
 
     # LayoutConfig
     canal_tp_mtt.layout_config:

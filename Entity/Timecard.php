@@ -254,29 +254,5 @@ class Timecard extends AbstractEntity
         return $this->lineTimecard;
     }
 
-    /**
-     * Set blocks
-     *
-     * @param  array $blocks
-     * @return Line
-     */
-    public function setBlocks($blocks)
-    {
-        $this->blocks = $blocks;
-
-        return $this;
-    }
-
-    /**
-     * Get blocks
-     *
-     * @return array
-     */
-    public function getBlocks()
-    {
-        return $this->blocks;
-    }
-
-
 }
 

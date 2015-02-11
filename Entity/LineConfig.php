@@ -38,7 +38,7 @@ class LineConfig extends AbstractEntity
     private $stopPoints;
 
     /**
-     * @var Object
+     * @var \CanalTP\MttBundle\Entity\Season
      */
     private $season;
 
@@ -185,20 +185,20 @@ class LineConfig extends AbstractEntity
     }
 
     /**
-     * Get season
+     * Get Season
      *
-     * @return object
+     * @return Season
      */
     public function getSeason()
     {
-        return ($this->season);
+        return $this->season;
     }
 
     /**
      * Set season
      *
      * @param  string $season
-     * @return Season
+     * @return LineConfig
      */
     public function setSeason($season)
     {
