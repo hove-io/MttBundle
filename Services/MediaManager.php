@@ -4,49 +4,39 @@ namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\HttpFoundation\File\File;
 
-use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector;
-use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManagerBundle\Entity\Media;
+use CanalTP\MttBundle\MediaManager\Category\CategoryType;
+use CanalTP\MttBundle\MediaManager\Category\Factory\CategoryFactory;
 
 use CanalTP\MttBundle\Entity\Block;
 
 class MediaManager
 {
     private $mediaDataCollector = null;
+    private $categoryFactory = null;
     const TIMETABLE_FILENAME = 'timetable';
 
     public function __construct(MediaDataCollector $mediaDataCollector)
     {
         $this->mediaDataCollector = $mediaDataCollector;
+        $this->categoryFactory = new CategoryFactory();
     }
 
     public function getSeasonCategory($networkCategoryValue, $routeCategoryValue, $seasonCategoryValue, $externalStopPointId = false)
     {
-        $networkCategory = new Category(
-            $networkCategoryValue,
-            CategoryType::NETWORK
-        );
-        $networkCategory->setRessourceId('networks');
-        $routeCategory = new Category(
-            $routeCategoryValue,
-            CategoryType::LINE
-        );
-        $routeCategory->setRessourceId('routes');
-        $seasonCategory = new Category(
-            $seasonCategoryValue,
-            CategoryType::LINE
-        );
-        $seasonCategory->setRessourceId('seasons');
+        $networkCategory = $this->categoryFactory->create(CategoryType::NETWORK);
+        $networkCategory->setId($networkCategoryValue);
+        $routeCategory = $this->categoryFactory->create(CategoryType::ROUTE);
+        $routeCategory->setId($routeCategoryValue);
+        $seasonCategory = $this->categoryFactory->create(CategoryType::SEASON);
+        $seasonCategory->setId($seasonCategoryValue);
 
         $routeCategory->setParent($networkCategory);
         if ($externalStopPointId) {
-            $stopPointCategory = new Category(
-                $externalStopPointId,
-                CategoryType::LINE
-            );
+            $stopPointCategory = $this->categoryFactory->create(CategoryType::STOP_POINT);
+            $stopPointCategory->setId($externalStopPointId);
             $stopPointCategory->setParent($routeCategory);
-            $stopPointCategory->setRessourceId('stop_points');
             $seasonCategory->setParent($stopPointCategory);
         } else {
             $seasonCategory->setParent($routeCategory);
