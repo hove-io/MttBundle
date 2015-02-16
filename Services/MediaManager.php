@@ -9,52 +9,40 @@ use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector;
 use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManagerBundle\Entity\Media;
+use CanalTP\MttBundle\MediaManager\Category\Factory\CategoryFactory;
 
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Timetable;
 use CanalTP\MttBundle\Entity\LineTimecard;
 use Symfony\Component\Validator\Constraints\Time;
 
-
 class MediaManager
 {
     private $mediaDataCollector = null;
+    private $categoryFactory = null;
     const TIMETABLE_FILENAME = 'timetable';
     const LINETIMECARD_FILENAME = 'linetimecard';
 
     public function __construct(MediaDataCollector $mediaDataCollector)
     {
         $this->mediaDataCollector = $mediaDataCollector;
+        $this->categoryFactory = new CategoryFactory();
     }
 
     public function getSeasonCategory($networkCategoryValue, $routeCategoryValue, $seasonCategoryValue, $externalStopPointId = false)
     {
-        $networkCategory = new Category(
-            $networkCategoryValue,
-            CategoryType::NETWORK
-        );
-        $networkCategory->setRessourceId('networks');
-        $routeCategory = new Category(
-            $routeCategoryValue,
-            CategoryType::LINE
-        );
-
-        $routeCategory->setRessourceId('routes');
-        $seasonCategory = new Category(
-            $seasonCategoryValue,
-            CategoryType::LINE
-        );
-
-        $seasonCategory->setRessourceId('seasons');
+        $networkCategory = $this->categoryFactory->create(CategoryType::NETWORK);
+        $networkCategory->setId($networkCategoryValue);
+        $routeCategory = $this->categoryFactory->create(CategoryType::ROUTE);
+        $routeCategory->setId($routeCategoryValue);
+        $seasonCategory = $this->categoryFactory->create(CategoryType::SEASON);
+        $seasonCategory->setId($seasonCategoryValue);
 
         $routeCategory->setParent($networkCategory);
         if ($externalStopPointId) {
-            $stopPointCategory = new Category(
-                $externalStopPointId,
-                CategoryType::LINE
-            );
+            $stopPointCategory = $this->categoryFactory->create(CategoryType::STOP_POINT);
+            $stopPointCategory->setId($externalStopPointId);
             $stopPointCategory->setParent($routeCategory);
-            $stopPointCategory->setRessourceId('stop_points');
             $seasonCategory->setParent($stopPointCategory);
         } else {
             $seasonCategory->setParent($routeCategory);
@@ -88,33 +76,17 @@ class MediaManager
 
 
         return $seasonCategory;
-    }
-
+    } 
+    
     // prepare media regarding Mtt policy
-    private function getMedia($object, $externalStopPointId = false)
+    private function getMedia($timetable, $externalStopPointId = false)
     {
-        $externalNetworkId = $object->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId();
-        $seasonId = $object->getLineConfig()->getSeason()->getId();
-
-        switch($object->__toString()) {
-            case lineTimecard::OBJECT_TYPE:
-                $seasonCategory = $this->getSeasonCategoryForLine(
-                    $externalNetworkId,
-                    $object->getLineId(),
-                    $seasonId
-                );
-                break;
-            case Timetable::OBJECT_TYPE:
-                $seasonCategory = $this->getSeasonCategory(
-                    $externalNetworkId,
-                    $object->getExternalRouteId(),
-                    $seasonId,
-                    $externalStopPointId
-                );
-                break;
-            default:
-                throw new Exception('Object ' . $object . ' not supported');
-        }
+        $seasonCategory = $this->getSeasonCategory(
+            $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+            $timetable->getExternalRouteId(),
+            $timetable->getLineConfig()->getSeason()->getId(),
+            $externalStopPointId
+        );
 
         $media = new Media();
         $media->setCategory($seasonCategory);
@@ -140,8 +112,6 @@ class MediaManager
 
         return $media;
     }
-
-
 
     public function getLineTimecardMedia($lineTimecard)
     {
@@ -203,7 +173,7 @@ class MediaManager
 
         return ($media);
     }
-
+    
     public function deleteSeasonMedias($season)
     {
         $seasonCategory = $this->getSeasonCategory($season->getPerimeter()->getExternalNetworkId(), '*', $season->getId(), '*');
