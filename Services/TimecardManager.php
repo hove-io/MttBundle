@@ -117,10 +117,10 @@ class TimecardManager
      * @param $networkId
      * @return array
      */
-    public function findTimecardListByCompositeKey($lineId,$seasonId,$networkId)
+    public function findTimecardListByCompositeKey($lineId,$seasonId,$perimeter)
     {
         /** @var  $perimeter \CanalTP\NmmPortalBundle\Entity\Perimeter */
-        $perimeter = $this->getPerimeter($networkId);
+        //$perimeter = $this->getPerimeter($networkId);
 
         $timecard = $this->repository->findBy(array(
             'perimeter' => $perimeter,

@@ -79,14 +79,30 @@ class MediaManager
     } 
     
     // prepare media regarding Mtt policy
-    private function getMedia($timetable, $externalStopPointId = false)
+    private function getMedia($object, $externalStopPointId = false)
     {
-        $seasonCategory = $this->getSeasonCategory(
-            $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
-            $timetable->getExternalRouteId(),
-            $timetable->getLineConfig()->getSeason()->getId(),
-            $externalStopPointId
-        );
+        $externalNetworkId = $object->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId();
+        $seasonId = $object->getLineConfig()->getSeason()->getId();
+
+        switch($object->__toString()) {
+            case lineTimecard::OBJECT_TYPE:
+                $seasonCategory = $this->getSeasonCategoryForLine(
+                    $externalNetworkId,
+                    $object->getLineId(),
+                    $seasonId
+                );
+                break;
+            case Timetable::OBJECT_TYPE:
+                $seasonCategory = $this->getSeasonCategory(
+                    $object->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                    $object->getExternalRouteId(),
+                    $object->getLineConfig()->getSeason()->getId(),
+                    $externalStopPointId
+                );
+                break;
+            default:
+                throw new Exception('Object ' . $object . ' not supported');
+        }
 
         $media = new Media();
         $media->setCategory($seasonCategory);

@@ -287,7 +287,7 @@ class TimecardController extends AbstractController
         );
 
 
-        return $this->renderLayout($lineTimecard);
+        return $this->renderLayout($lineTimecard, null, true);
     }
 
     /**
@@ -297,7 +297,7 @@ class TimecardController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderLayout($lineTimecard, $calendars, $editable = true)
+    public function renderLayout($lineTimecard, $calendars = null, $editable = true)
     {
         $externalCoverageId = $lineTimecard->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
         $layoutConfig = json_decode($lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());

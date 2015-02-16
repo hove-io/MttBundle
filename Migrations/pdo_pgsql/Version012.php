@@ -68,6 +68,11 @@ class Version012 extends AbstractMigration
         $this->addSql('ALTER TABLE mtt.layout ADD COLUMN "configuration" text;');
         $this->addSql('ALTER TABLE mtt.line_timecard ADD COLUMN hash_pdf VARCHAR(255);');
         $this->addSql('ALTER TABLE mtt.line_timecard ADD pdf_generation_date TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL;');
+
+
+        $this->addSql('ALTER TABLE mtt.block ADD line_timecard_id INT DEFAULT NULL;');
+        $this->addSql('ALTER TABLE mtt.block ADD CONSTRAINT FK_3871D76DD6FB2B6 FOREIGN KEY (line_timecard_id) REFERENCES mtt.line_timecard (id) NOT DEFERRABLE INITIALLY IMMEDIATE;');
+        $this->addSql('CREATE INDEX IDX_3871D76DD6FB2B6 ON mtt.block (line_timecard_id);');
     }
 
     public function down(Schema $schema)

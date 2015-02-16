@@ -157,7 +157,7 @@ class LineTimecardManager
         $timecards = $this->timecardManager->findTimecardListByCompositeKey(
             $lineTimecard->getLineId(),
             $lineTimecard->getLineConfig()->getSeason()->getId(),
-            $lineTimecard->getPerimeter()->getExternalNetworkId()
+            $lineTimecard->getPerimeter()
         );
 
         /*
