@@ -305,7 +305,7 @@ class TimecardController extends AbstractController
 
         // Get line calendars
         $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getTimecardCalendars($externalCoverageId, $lineTimecard);
-
+        //$timecard = $this->this->get('canal_tp_mtt.line_timecard_manager')->
 
 
         return $this->render(
@@ -320,6 +320,7 @@ class TimecardController extends AbstractController
                 'notesType'             => $lineTimecard->getLineConfig()->getLayoutConfig()->getNotesType(),
                 'externalNetworkId'     => $lineTimecard->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
                 'calendars'             => $calendarsAndNotes['calendars'],
+                'cals'                  => $calendars,
                 'notes'                 => $calendarsAndNotes['notes'],
                 'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
                 'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',

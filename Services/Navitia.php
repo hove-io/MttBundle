@@ -449,4 +449,30 @@ class Navitia
 
         return $response;
     }
+
+    public function getCalendarSchedulesByRoute($externalCoverageId, $externalRouteId, $externalCalendarId)
+    {
+        $fromdatetime = new \DateTime("now");
+        $fromdatetime->setTime(4, 0);
+
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $externalCoverageId,
+                'action' => 'route_schedules',
+                'path_filter' => 'routes/' . $externalRouteId,
+                'parameters' => '?calendar=' . $externalCalendarId . '&show_codes=true&from_datetime=' . $fromdatetime->format('Ymd\THis')
+            )
+        );
+
+        $stop_schedulesResponse = $this->navitia_component->call($query);
+        // Since we give route id to navitia, only one route schedule is returned
+        $response = new \stdClass;
+        $response->direction = $stop_schedulesResponse->route_schedules[0]->display_informations->direction;
+        $response->stop_schedules = $stop_schedulesResponse->route_schedules[0]->table->rows;
+        $response->notes = isset($stop_schedulesResponse->notes) ? $stop_schedulesResponse->notes : array();
+        $response->exceptions = isset($stop_schedulesResponse->exceptions) ? $stop_schedulesResponse->exceptions : array();
+
+        return $response;
+    }
 }

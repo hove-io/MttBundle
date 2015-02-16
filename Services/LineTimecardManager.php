@@ -136,15 +136,15 @@ class LineTimecardManager
      * @param LineTimecard $lineTimecard
      * @return array
      */
-    public function getAllCalendars(LineTimecard $lineTimecard, $options = null )
+    public function getAllCalendars(LineTimecard $lineTimecard, $options = array() )
     {
         $params = array(
             'maxColForHours' => 24,
-            'minHour' => 060000,
-            'maxHour' => 210000
+            'minHour' => '060000',
+            'maxHour' => '190000'
         );
 
-        //$options = array_merge($params, $options);
+        $params = array_merge($params, $options);
 
         // Get Routes
         $routes = $this->navitiaManager->getLineRoutes(
@@ -160,17 +160,17 @@ class LineTimecardManager
             $lineTimecard->getPerimeter()->getExternalNetworkId()
         );
 
+        /*
         // Get all calendars for line
         $calendars = $this->navitiaManager->getAllCalendarsForLine(
             $lineTimecard->getPerimeter()->getExternalCoverageId(),
             $lineTimecard->getLineId()
-        );
+        );*/
 
         // Get  blocks of lineTimecard
         $blocks = $lineTimecard->getBlocks();
 
         foreach ($routes as $route) {
-            $direction = $route->direction->name;
             $stopPoints = array();
 
             foreach($timecards as $timecard) {
@@ -181,82 +181,83 @@ class LineTimecardManager
             }
 
             if (count($stopPoints) > 0) {
+                foreach($blocks as $block) {
+                    if ($block->getTypeId() == 'calendar' && !is_null($block->getContent())) {
+                        $stopSchedules = $this->navitiaManager->getCalendarSchedulesByRoute(
+                            $lineTimecard->getPerimeter()->getExternalCoverageId(),
+                            $route->id,
+                            $block->getContent()
+                        );
 
-                $lineTpl = 0;
+                        $tResult['routes'][$route->id]['calendars'][$block->getContent()] = $stopSchedules;
+                        $p_tResult = &$tResult['routes'][$route->id]['calendars'][$block->getContent()];
 
-                $stopPointsByRoute = $this->navitiaManager->getStopPointsByRoute(
-                    $lineTimecard->getPerimeter()->getExternalCoverageId(),
-                    $lineTimecard->getPerimeter()->getExternalNetworkId(),
-                    $route->id
-                );
+                        foreach($stopPoints as $stopPoint) {
+                            $stopPoint = json_decode($stopPoint);
 
+                            // Search stopPoint object by id into $p_tResult->stop_schedules
+                            $stopPointSelected = array_values(
+                                array_filter(
+                                    $p_tResult->stop_schedules,
+                                    function ($object) use ($stopPoint) {
+                                        return ($object->stop_point->id == $stopPoint->stopPointId);
+                                    }
+                                )
+                            )[0];
 
-                foreach($stopPoints as $stopPoint) {
-                    $stopPoint = json_decode($stopPoint);
-
-                    // Search stopPoint object by id into $stopPointsByRoute->stop_points
-                    $stopPointSelected = array_values(
-                        array_filter(
-                            $stopPointsByRoute->stop_points,
-                            function($object) use ($stopPoint) {
-                                return ($object->id == $stopPoint->stopPointId);
+                            if (is_null($stopPointSelected)) {
+                                throw new \Exception('Duplicate or non-existent stopPoint id');
                             }
-                        )
-                    )[0];
 
-                    if (is_null($stopPointSelected)) {
-                        throw new \Exception('Duplicate or non-existent stopPoint id');
-                    }
+                            $p_tResult->stopPointsSelected[] = $stopPointSelected;
+                        }
 
-                    // Get all calendars for each stoppoint referenced in lineTimecard's blocks
-                    foreach($blocks as $block) {
-                        if ($block->getTypeId() == 'calendar' && !is_null($block->getContent())) {
-                            $stopSchedules = $this->navitiaManager->getCalendarStopSchedulesByRoute(
-                                $lineTimecard->getPerimeter()->getExternalCoverageId(),
-                                $route->id,
-                                $stopPointSelected->id,
-                                $block->getContent()
-                            );
+                        unset($p_tResult->stop_schedules);
 
-                            $tResult[$route->id][$stopPoint->stopPointId]['calendars'][$block->getContent()] = null;
-                            $ptResult = &$tResult[$route->id][$stopPoint->stopPointId]['calendars'][$block->getContent()];
+                        // Gestion du format d'affichage
+                        foreach($p_tResult->stopPointsSelected as $stop) {
                             $lineTpl = 0;
                             $currentCol = 1;
-                            foreach($stopSchedules->stop_schedules->date_times as $key => $date) {
-                                if($currentCol <= $params['maxColForHours']) {
-                                    if ((int)$date->date_time >= $params['minHour'] && (int)$date->date_time <= $params['maxHour']) {
-                                        $ptResult['line'][$lineTpl]['schedule'][] = $date;
-                                        $currentCol++;
+                            $p_tResult->stops[$stop->stop_point->id] = $stop;
+                            foreach ($stop->date_times as $detail) {
+                                if (!empty($detail->date_time)) {
+                                    $detail->date_time_formated = date('His', strtotime($detail->date_time));
+                                    if ($currentCol <= $params['maxColForHours']) {
+                                        if ((int)$detail->date_time_formated >= (int)$params['minHour']
+                                            && (int)$detail->date_time_formated <= (int)$params['maxHour']
+                                        ) {
+
+                                            $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['schedule'][] = $detail->date_time_formated;
+                                            $currentCol++;
+                                        }
+                                    } else {
+                                        $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['name'] = $stop->stop_point->name;
+                                        $lineTpl++;
+                                        $currentCol = 1;
                                     }
                                 } else {
-                                    $ptResult['line'][$lineTpl]['name'] = $stopPointSelected->name;
-                                    $lineTpl++;
-                                    $currentCol = 1;
+                                    if ($currentCol <= $params['maxColForHours']) {
+                                        $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['schedule'][] = null;
+                                        $currentCol++;
+                                    } else {
+                                        $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['name'] = $stop->stop_point->name;
+                                        $lineTpl++;
+                                        $currentCol = 1;
+                                    }
                                 }
                             }
-
                             if ($currentCol != 1) {
-                                $ptResult['line'][$lineTpl]['name'] = $stopPointSelected->name;
+                                $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['name'] = $stop->stop_point->name;;
                             }
+                        }
 
-                            unset($ptResult);
-                         }
+                        unset($p_tResult->stopPointsSelected, $p_tResult);
                     }
-
-                    // Get calendars for this stoppoint
-                    /*$stopPointCalendars = $this->navitiaManager->getStopPointCalendarsData(
-                        $lineTimecard->getPerimeter()->getExternalCoverageId(),
-                        $route->id,
-                        $stopPoint->stopPointId
-                    );*/
-
                 }
 
-
             } // eo if
-        }
 
-
+        } // eo foreach $routes
         return $tResult;
     }
 }
