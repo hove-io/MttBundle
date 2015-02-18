@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "Mtt Bundle",
     "keywords": [],
-    "homepage": "http://hg.prod.canaltp.fr/ctp/SymfonyBundles/CanalTPMttBundle/summary",
+    "homepage": "https://github.com/CanalTP/MttBundle",
     "license": "MIT",
     "authors": [
         {
@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "canaltp/navitia": "~0@dev",
+        "canaltp/navitia": "V1.0.0",
         "symfony/dom-crawler": "~2.0",
         "canaltp/navitia": "@dev",
         "friendsofsymfony/jsrouting-bundle": "1.5.3",
@@ -30,7 +30,7 @@
         "braincrafted/bootstrap-bundle": "2.0.0",
         "videlalvaro/php-amqplib": "2.2.6",
         "itbz/fpdi": "1.4.4",
-	    "canaltp/media-manager-bundle": "0.0.10"
+	    "canaltp/media-manager-bundle": "0.0.11"
     },
     "autoload": {
         "psr-0": { "CanalTP\\MttBundle\\": "" }
