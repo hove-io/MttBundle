@@ -160,13 +160,6 @@ class LineTimecardManager
             $lineTimecard->getPerimeter()
         );
 
-        /*
-        // Get all calendars for line
-        $calendars = $this->navitiaManager->getAllCalendarsForLine(
-            $lineTimecard->getPerimeter()->getExternalCoverageId(),
-            $lineTimecard->getLineId()
-        );*/
-
         // Get  blocks of lineTimecard
         $blocks = $lineTimecard->getBlocks();
 
@@ -215,10 +208,16 @@ class LineTimecardManager
                         unset($p_tResult->stop_schedules);
 
                         // Gestion du format d'affichage
+
+                        $line = 0;
+                        $p_tResult->lines[] = array();
                         foreach($p_tResult->stopPointsSelected as $stop) {
+
                             $lineTpl = 0;
                             $currentCol = 1;
                             $p_tResult->stops[$stop->stop_point->id] = $stop;
+                            $schedule = array();
+
                             foreach ($stop->date_times as $detail) {
                                 if (!empty($detail->date_time)) {
                                     $detail->date_time_formated = date('His', strtotime($detail->date_time));
@@ -227,28 +226,54 @@ class LineTimecardManager
                                             && (int)$detail->date_time_formated <= (int)$params['maxHour']
                                         ) {
 
-                                            $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['schedule'][] = $detail->date_time_formated;
+                                           // $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['schedule'][] = $detail->date_time_formated;
+                                            $schedule[] = $detail->date_time_formated;
+
                                             $currentCol++;
                                         }
                                     } else {
-                                        $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['name'] = $stop->stop_point->name;
+                                        //$p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['name'] = $stop->stop_point->name;
+                                        $p_tResult->lines[$lineTpl][$line] = array(
+                                            'name' => $stop->stop_point->name,
+                                            'schedule' => $schedule
+                                        );
+                                        $schedule = array();
                                         $lineTpl++;
                                         $currentCol = 1;
                                     }
                                 } else {
                                     if ($currentCol <= $params['maxColForHours']) {
-                                        $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['schedule'][] = null;
+                                        //$p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['schedule'][] = null;
+                                        $schedule[] = null;
                                         $currentCol++;
                                     } else {
-                                        $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['name'] = $stop->stop_point->name;
+                                        //$p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['name'] = $stop->stop_point->name;
+                                        $p_tResult->lines[$lineTpl][$line] = array(
+                                            'name' => $stop->stop_point->name,
+                                            'schedule' => $schedule
+                                        );
+                                        $schedule = array();
                                         $lineTpl++;
                                         $currentCol = 1;
                                     }
                                 }
                             }
                             if ($currentCol != 1) {
-                                $p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['name'] = $stop->stop_point->name;;
+                                //$p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['name'] = $stop->stop_point->name;
+
+                                // fill $schedule for obtained maxColForHours entries
+                                $schedule = array_merge($schedule, array_fill(
+                                        (count($schedule)-1),
+                                        ((int)$params['maxColForHours'] - (int) count($schedule)),
+                                        null
+                                    )
+                                );
+                                $p_tResult->lines[$lineTpl][$line] = array(
+                                    'name' => $stop->stop_point->name,
+                                    'schedule' => $schedule
+                                );
                             }
+                            $line++;
                         }
 
                         unset($p_tResult->stopPointsSelected, $p_tResult);
