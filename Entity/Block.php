@@ -54,6 +54,16 @@ class Block extends AbstractEntity
      */
     private $frequencies;
 
+    /**
+     * @var string $color
+     */
+    private $color;
+
+    /**
+     * @var string $route
+     */
+    private $route;
+
     public function __construct()
     {
         $this->frequencies = new \Doctrine\Common\Collections\ArrayCollection();
@@ -257,6 +267,55 @@ class Block extends AbstractEntity
     public function getFrequencies()
     {
         return $this->frequencies;
+    }
+
+    /**
+     * Set color
+     *
+     * @param integer $color
+     *
+     * @return Block
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+
+    /**
+     * Set route
+     *
+     * @param integer $route
+     *
+     * @return Block
+     */
+    public function setRoute($route)
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    /**
+     * Get route
+     *
+     * @return string
+     */
+    public function getRoute()
+    {
+        return $this->route;
     }
 
     /**

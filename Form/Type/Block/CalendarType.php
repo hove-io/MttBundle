@@ -3,6 +3,7 @@ namespace CanalTP\MttBundle\Form\Type\Block;
 
 use CanalTP\MttBundle\Entity\LineTimecard;
 use CanalTP\MttBundle\Entity\Timetable;
+use MyProject\Proxies\__CG__\stdClass;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
@@ -17,6 +18,7 @@ class CalendarType extends BlockType
     private $externalCoverageId = null;
     private $blockInstance = null;
     private $choices = null;
+    private $routeList = null;
 
     public function __construct($calendarManager, $instance, $externalCoverageId)
     {
@@ -42,6 +44,15 @@ class CalendarType extends BlockType
                 $this->externalCoverageId,
                 $this->blockInstance->getLineTimecard()->getLineConfig()->getExternalLineId()
             );
+            foreach($this->blockInstance->getLineTimecard()->getTimecards() as $timecard) {
+                $item = (object) array(
+                    'id' => $timecard->getRouteId(),
+                    'name' => $timecard->getRouteId()
+                );
+                $routes[] = $item;
+            }
+            unset($item);
+            $this->routeList = $this->getChoices($routes);;
         }
 
         $this->choices = $this->getChoices($calendars);
@@ -57,7 +68,7 @@ class CalendarType extends BlockType
                 'choice',
                 array(
                     'choices'       => $this->choices,
-                    'disabled'      => $this->isDisabled(),
+                    'disabled'      => $this->isDisabled($this->choices),
                     'label'         => 'block.calendar.labels.content',
                     'attr'      => array(
                         // attribute to tell javascript to fill automatically title
@@ -70,19 +81,49 @@ class CalendarType extends BlockType
                 )
             );
 
+        if ($this->blockInstance->getLineTimecard() instanceof LineTimecard) {
+            $builder
+                ->add(
+                    'color',
+                    'text',
+                    array(
+                        'label' => 'block.calendar.labels.color',
+                        'constraints' => array(
+                            new NotBlank()
+                        )
+                    )
+                )
+                ->add(
+                    'route',
+                    'choice',
+                    array(
+                        'choices' => $this->routeList,
+                        'disabled'      => $this->isDisabled($this->routeList),
+                        'label'         => 'block.calendar.labels.route',
+                        'constraints' => array(
+                            new NotBlank()
+                        )
+                    )
+                );
+        }
+
         parent::buildForm($builder, $options);
     }
 
-    private function isDisabled()
+    /**
+     * @param array $list list of choices
+     * @return bool
+     */
+    private function isDisabled($list)
     {
-        return (count($this->choices) == 1 && $this->blockInstance->getContent() != null);
+        return (count($list) == 1 && $this->blockInstance->getContent() != null);
     }
 
-    private function getChoices($calendars)
+    private function getChoices($items)
     {
         $choices = array();
-        foreach ($calendars as $calendar) {
-            $choices[$calendar->id] = $calendar->name;
+        foreach ($items as $item) {
+            $choices[$item->id] = $item->name;
         }
 
         return $choices;
@@ -97,6 +138,11 @@ class CalendarType extends BlockType
             $form->get('content')->addError(new FormError('calendar.error.all_calendars_selected'));
         } elseif (count($this->choices) == 0) {
             $form->get('content')->addError(new FormError('calendar.error.no_calendars_found'));
+        }
+        if ($form->get('route')->isDisabled()) {
+            $form->get('content')->addError(new FormError('route.error.all_route_selected'));
+        } elseif (count($this->routeList) == 0) {
+            $form->get('content')->addError(new FormError('route.error.no_routes_found'));
         }
     }
 

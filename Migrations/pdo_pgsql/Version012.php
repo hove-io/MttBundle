@@ -71,6 +71,8 @@ class Version012 extends AbstractMigration
 
 
         $this->addSql('ALTER TABLE mtt.block ADD line_timecard_id INT DEFAULT NULL;');
+        $this->addSql('ALTER TABLE mtt.block ADD color VARCHAR(255) DEFAULT NULL;');
+        $this->addSql('ALTER TABLE mtt.block ADD route VARCHAR(255) DEFAULT NULL;;');
         $this->addSql('ALTER TABLE mtt.block ADD CONSTRAINT FK_3871D76DD6FB2B6 FOREIGN KEY (line_timecard_id) REFERENCES mtt.line_timecard (id) NOT DEFERRABLE INITIALLY IMMEDIATE;');
         $this->addSql('CREATE INDEX IDX_3871D76DD6FB2B6 ON mtt.block (line_timecard_id);');
     }

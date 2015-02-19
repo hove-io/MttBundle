@@ -22,6 +22,14 @@ CanalTP\MttBundle\Entity\Block:
             type: string
             length: 255
             nullable: true
+        color:
+            type: string
+            length: 255
+            nullable: true
+        route:
+            type: string
+            length: 255
+            nullable: true
         created:
             type: datetime
             gedmo:

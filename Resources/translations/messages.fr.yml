@@ -68,6 +68,10 @@ calendar:
         content_higher_than_wrapper: Au moins un bloc dépasse la hauteur prévue.
         no_calendars_found: Pas de calendrier trouvé pour cet arrêt et cette saison
 
+route:
+    error:
+        no_routes_found: Pas de routes trouvés pour cet ligne
+
 menu:
     networks: Réseaux
     seasons: Saisons
@@ -132,6 +136,8 @@ block:
         labels:
             title: Titre
             content: Calendrier
+            color: Choix de la couleur
+            route: Choix de la route
 
 customer:
     layout_list: Liste des modèles
