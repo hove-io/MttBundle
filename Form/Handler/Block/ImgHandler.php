@@ -46,6 +46,7 @@ class ImgHandler extends AbstractHandler
     public function process(Block $formBlock, $object)
     {
         $file = $formBlock->getContent();
+
         // convert into png if a jpeg was given
         if ($file->getMimeType() == ImgType::MIME_IMAGETYPE_JPEG) {
             $input = imagecreatefromjpeg($file->getRealPath());
@@ -58,7 +59,7 @@ class ImgHandler extends AbstractHandler
             $file = new File($file->getRealPath() . '.png');
         }
 
-        $media = $this->mediaManager->saveByTimetable($object, $file, $this->block->getDomId());
+        $media = $this->mediaManager->saveByObject($object, $file, $this->block->getDomId());
 
         // TODO: saved with domain, we should store without it. Waiting for mediaDataCollector to be updated
         $formBlock->setContent($this->mediaManager->getUrlByMedia($media) . '?' . time());

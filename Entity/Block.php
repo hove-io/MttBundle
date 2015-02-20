@@ -329,6 +329,17 @@ class Block extends AbstractEntity
     }
 
     /**
+     * Check if it is svg image
+     * @return bool
+     */
+    public function isImgSvg() {
+        if (preg_match("/\.svg/", $this->content)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Check if it is Text block
      *
      * @return boolean
