@@ -294,24 +294,23 @@ class TimecardController extends AbstractController
      * @param LineTimecard $lineTimecard
      * @param array $calendars
      * @param boolean $editable
+     * @param boolean $pdf
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderLayout($lineTimecard, $calendars = null, $editable = true)
+    public function renderLayout($lineTimecard, $calendars = null, $editable = true, $pdf = false)
     {
         $externalCoverageId = $lineTimecard->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
         $layoutConfig = json_decode($lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
-        //$lineId = $lineTimecard->getLineCongig()->getExternalLineId();
 
         // Get line calendars
         $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getTimecardCalendars($externalCoverageId, $lineTimecard);
-        //$timecard = $this->this->get('canal_tp_mtt.line_timecard_manager')->
 
-        //dump($calendars['routes']['route:97_1']['calendars']['Y2FsZW5kYXI6MQ']->lines[2]);
         return $this->render(
             'CanalTPMttBundle:Layouts:' . $layoutConfig->lineTpl->templateName,
             array(
                 'editable'              => $editable,
+                'isSvgToPdf'            => $pdf,
                 'blockTypes'            => $this->container->getParameter('blocks'),
                 'lineTimecard'          => $lineTimecard,
                 'displayMenu'           => false,
@@ -332,17 +331,26 @@ class TimecardController extends AbstractController
     /**
      * @param $externalNetworkId
      * @param $externalLineId
+     * @param $pdf
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function viewAction($externalNetworkId, $externalLineId)
     {
         $customerId = $this->getRequest()->get('customerId');
 
+        /*
+         * When this method is called to generate a pdf, the template must be customized
+         * to display the svg files correctly
+         */
+        $pdf = $this->getRequest()->get('pdf');
+        $pdf =  ($pdf) ? $pdf : false;
+
         if ($customerId == NULL) {
             $customer = $this->getUser()->getCustomer();
         } else {
             $customer = $this->get('sam_core.customer')->find($customerId);
         }
+
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
             $customer,
             $externalNetworkId
@@ -350,11 +358,9 @@ class TimecardController extends AbstractController
 
         /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
         $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
-
         $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
-
         $calendars = $lineTimecardManager->getAllCalendars($lineTimecard);
 
-        return $this->renderLayout($lineTimecard, $calendars, false);
+        return $this->renderLayout($lineTimecard, $calendars, false, $pdf);
     }
 }

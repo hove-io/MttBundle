@@ -152,7 +152,8 @@ class PdfManager
                         'seasonId'          => $lineTimecard->getLineConfig()->getSeason()->getId(),
                         'externalLineId'    => $lineTimecard->getLineConfig()->getExternalLineId(),
                         'customerId'        => $this->co->get('security.context')->getToken()->getUser()->getCustomer()->getId(),
-                        'timetableOnly'     => true
+                        'timetableOnly'     => true,
+                        'pdf'               => true
                     )
             );
 

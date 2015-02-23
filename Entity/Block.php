@@ -340,6 +340,24 @@ class Block extends AbstractEntity
     }
 
     /**
+     * Get base64 svg content file
+     * @return string
+     */
+    public function getSvgContent() {
+        $svg = file_get_contents($this->content);
+        return $svg;
+    }
+
+    /**
+     * Get base64 svg content file
+     * @return string
+     */
+    public function getBase64SvgContent() {
+        $svg = base64_encode(file_get_contents($this->content));
+        return $svg;
+    }
+
+    /**
      * Check if it is Text block
      *
      * @return boolean
