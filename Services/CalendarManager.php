@@ -454,4 +454,5 @@ class CalendarManager
 
         return $calendarsSorted;
     }
+
 }

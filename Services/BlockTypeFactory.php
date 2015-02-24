@@ -28,6 +28,7 @@ class BlockTypeFactory
     private $type = null;
     private $data = null;
     private $externalCoverageId = null;
+    private $externalNetworkId = null;
     private $oldData = array();
     private $instance = null;
 
@@ -44,12 +45,13 @@ class BlockTypeFactory
         $this->formFactory = $formFactory;
     }
 
-    public function init($type, $data, $instance, $externalCoverageId)
+    public function init($type, $data, $instance, $externalCoverageId, $externalNetworkId)
     {
         $this->type = $type;
         $this->data = $data;
         $this->instance = $instance;
         $this->externalCoverageId = $externalCoverageId;
+        $this->externalNetworkId = $externalNetworkId;
         $serializer = new Serializer(array(new BlockNormalizer()));
         // store data before we give Entity to forms (used by ImgBlock so far)
         $this->oldData = $serializer->normalize($this->instance);
@@ -63,8 +65,10 @@ class BlockTypeFactory
             case BlockRepository::CALENDAR_TYPE:
                 $objectType = new CalendarBlockType(
                     $this->co->get('canal_tp_mtt.calendar_manager'),
+                    $this->co->get('canal_tp_mtt.navitia'),
                     $this->instance,
-                    $this->externalCoverageId
+                    $this->externalCoverageId,
+                    $this->externalNetworkId
                 );
                 break;
             case BlockRepository::TEXT_TYPE:

@@ -3,7 +3,6 @@ namespace CanalTP\MttBundle\Form\Type\Block;
 
 use CanalTP\MttBundle\Entity\LineTimecard;
 use CanalTP\MttBundle\Entity\Timetable;
-use MyProject\Proxies\__CG__\stdClass;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
@@ -15,16 +14,22 @@ use CanalTP\MttBundle\Form\Type\BlockType;
 class CalendarType extends BlockType
 {
     private $calendarManager = null;
+
+    /** @var \CanalTP\MttBundle\Services\Navitia */
+    private $navitia = null;
     private $externalCoverageId = null;
+    private $externalNextorkId = null;
     private $blockInstance = null;
     private $choices = null;
     private $routeList = null;
 
-    public function __construct($calendarManager, $instance, $externalCoverageId)
+    public function __construct($calendarManager, $navitia, $instance, $externalCoverageId, $externalNetworkId)
     {
         $this->calendarManager = $calendarManager;
+        $this->navitia = $navitia;
         $this->blockInstance = $instance;
         $this->externalCoverageId = $externalCoverageId;
+        $this->externalNextorkId = $externalNetworkId;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -44,10 +49,25 @@ class CalendarType extends BlockType
                 $this->externalCoverageId,
                 $this->blockInstance->getLineTimecard()->getLineConfig()->getExternalLineId()
             );
+
+            $routes = $this->navitia->getLineRoutes(
+                $this->externalCoverageId,
+                $this->externalNextorkId,
+                $this->blockInstance->getLineTimecard()->getLineConfig()->getExternalLineId()
+            );
+
             foreach($this->blockInstance->getLineTimecard()->getTimecards() as $timecard) {
+
+                $routeDirection = array_values(array_filter(
+                    $routes,
+                    function ($object) use ($timecard) {
+                        return ($object->id == $timecard->getRouteId());
+                    }
+                ))[0]->direction->name;
+
                 $item = (object) array(
                     'id' => $timecard->getRouteId(),
-                    'name' => $timecard->getRouteId()
+                    'name' => $timecard->getRouteId() . ' - ' . $routeDirection
                 );
                 $routes[] = $item;
             }

@@ -52,7 +52,8 @@ class BlockController extends AbstractController
             $block_type,
             $data,
             $block,
-            $perimeter->getExternalCoverageId()
+            $perimeter->getExternalCoverageId(),
+            $externalNetworkId
         );
         $form = $blockTypeFactory->buildForm()
             ->setAction($this->getRequest()->getRequestUri())
