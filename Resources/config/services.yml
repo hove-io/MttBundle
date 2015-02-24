@@ -70,6 +70,10 @@ services:
         arguments: ['@doctrine.orm.entity_manager', '@translator', '@canal_tp_mtt.area_pdf_manager']
         tags:
             - { name: twig.extension }
+    canal_tp_mtt.twig.svg_extension:
+            class: CanalTP\MttBundle\Twig\SvgExtension
+            tags:
+                - { name: twig.extension }
     # Service of mediaManager
     canal_tp.media_manager:
         class: %canal_tp.media_manager.class%
