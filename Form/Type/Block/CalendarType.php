@@ -22,6 +22,7 @@ class CalendarType extends BlockType
     private $blockInstance = null;
     private $choices = null;
     private $routeList = null;
+    private $classList = null;
 
     public function __construct($calendarManager, $navitia, $instance, $externalCoverageId, $externalNetworkId)
     {
@@ -56,6 +57,23 @@ class CalendarType extends BlockType
                 $this->blockInstance->getLineTimecard()->getLineConfig()->getExternalLineId()
             );
 
+            $themeList = json_decode(
+                $this->blockInstance->getLineTimecard()
+                        ->getLineConfig()
+                        ->getLayoutConfig()
+                        ->getLayout()
+                        ->getConfiguration()
+                );
+
+            foreach($themeList->lineTpl->theme->titleCalendar as $key => $themeCalendar) {
+                $classList[] = (object) array(
+                    'id' => "lineTpl_titleCalendar_{$key}_{$themeCalendar->name}",
+                    'name' => $themeCalendar->label
+                );
+            }
+
+            $this->classList = $this->getChoices($classList);
+
             foreach($this->blockInstance->getLineTimecard()->getTimecards() as $timecard) {
 
                 $routeDirection = array_values(array_filter(
@@ -65,13 +83,12 @@ class CalendarType extends BlockType
                     }
                 ))[0]->direction->name;
 
-                $item = (object) array(
+                $routes[] = (object) array(
                     'id' => $timecard->getRouteId(),
                     'name' => $timecard->getRouteId() . ' - ' . $routeDirection
                 );
-                $routes[] = $item;
             }
-            unset($item);
+
             $this->routeList = $this->getChoices($routes);;
         }
 
@@ -105,8 +122,9 @@ class CalendarType extends BlockType
             $builder
                 ->add(
                     'color',
-                    'text',
+                    'choice',
                     array(
+                        'choices'       => $this->classList,
                         'label' => 'block.calendar.labels.color',
                         'constraints' => array(
                             new NotBlank()
@@ -144,6 +162,7 @@ class CalendarType extends BlockType
         $choices = array();
         foreach ($items as $item) {
             $choices[$item->id] = $item->name;
+
         }
 
         return $choices;
