@@ -156,9 +156,13 @@ class PdfManager
                         'pdf'               => true
                     )
             );
+            $layout = $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout();
+            $configuration = json_decode($layout->getConfiguration());
+            $orientation = $layout->getOrientationAsString(
+                $configuration->lineTpl->orientation
+            );
 
-            $pdfPath = $this->pdfGenerator->getPdf($url, 'landscape');
-            //$lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getOrientationAsString()
+            $pdfPath = $this->pdfGenerator->getPdf($url, $orientation);
 
             if ($pdfPath) {
                 $pdfMedia = $this->mediaManager->savePdf($lineTimecard, $pdfPath);
