@@ -9,3 +9,6 @@ parameters:
         calendar:
             label: Calendar block type
             icon: calendar
+        pageBreak:
+            label: Page breaker
+            icon: edit

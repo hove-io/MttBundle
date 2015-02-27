@@ -310,7 +310,7 @@ class TimecardController extends AbstractController
             'CanalTPMttBundle:Layouts:' . $layoutConfig->lineTpl->templateName,
             array(
                 'editable'              => $editable,
-                'isSvgToPdf'            => $pdf,
+                'contextPdf'            => $pdf,
                 'blockTypes'            => $this->container->getParameter('blocks'),
                 'lineTimecard'          => $lineTimecard,
                 'displayMenu'           => false,

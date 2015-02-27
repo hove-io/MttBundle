@@ -17,6 +17,8 @@ use CanalTP\MttBundle\Form\Type\Block\ImgType as ImgBlockType;
 use CanalTP\MttBundle\Form\Handler\Block\ImgHandler as ImgBlockHandler;
 // Calendar Block
 use CanalTP\MttBundle\Form\Type\Block\CalendarType as CalendarBlockType;
+// Page breaker block
+use CanalTP\MttBundle\Form\Type\Block\PageBreakType as PageBreakBlockType;
 
 class BlockTypeFactory
 {
@@ -77,6 +79,9 @@ class BlockTypeFactory
             case BlockRepository::IMG_TYPE:
                 $objectType = new ImgBlockType();
                 break;
+            case BlockRepository::PAGE_BREAK_TYPE:
+                $objectType = new PageBreakBlockType();
+                break;
         }
 
         return ($objectType);
@@ -102,6 +107,7 @@ class BlockTypeFactory
         switch ($this->type) {
             case BlockRepository::CALENDAR_TYPE:
             case BlockRepository::TEXT_TYPE:
+            case BlockRepository::PAGE_BREAK_TYPE:
                 $handler = new TextBlockHandler($this->om, $this->instance);
                 break;
             case BlockRepository::IMG_TYPE:

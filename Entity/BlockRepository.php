@@ -13,6 +13,7 @@ class BlockRepository extends EntityRepository
     const TEXT_TYPE      = 'text';
     const IMG_TYPE       = 'img';
     const CALENDAR_TYPE  = 'calendar';
+    const PAGE_BREAK_TYPE   = 'pageBreak';
 
     /**
      * find a block by Route Id And DomId
