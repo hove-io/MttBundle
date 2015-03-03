@@ -8,7 +8,9 @@
     {{ 'timecard.list_page_title'|trans({}, 'default') }}<br><small>{{ options.current_line }}</small>
 {% endblock %}
 {% block line_comment %}
-    <p><span style="color:red;">TODO :</span>Commentaire sur la ligne</p>
+    {% if currentLine.comment %}
+        <p>{{ currentLine.comment }}</p>
+    {% endif %}
 {% endblock %}
 
 {% block list_menu %}
