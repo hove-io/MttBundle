@@ -5,7 +5,7 @@ namespace CanalTP\MttBundle\Services;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\File\File;
 
-use CanalTP\MediaManager\Category\CategoryType;
+use CanalTP\MttBundle\MediaManager\Category\CategoryType;
 use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector;
 use CanalTP\MediaManagerBundle\Entity\Category;
 use CanalTP\MediaManagerBundle\Entity\Media;

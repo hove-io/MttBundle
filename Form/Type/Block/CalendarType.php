@@ -173,15 +173,20 @@ class CalendarType extends BlockType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        $child = $form->all();
+
         if ($form->get('content')->isDisabled()) {
             $form->get('content')->addError(new FormError('calendar.error.all_calendars_selected'));
         } elseif (count($this->choices) == 0) {
             $form->get('content')->addError(new FormError('calendar.error.no_calendars_found'));
         }
-        if ($form->get('route')->isDisabled()) {
-            $form->get('content')->addError(new FormError('route.error.all_route_selected'));
-        } elseif (count($this->routeList) == 0) {
-            $form->get('content')->addError(new FormError('route.error.no_routes_found'));
+
+        if ( in_array('route',$child) ) {
+            if ($form->get('route')->isDisabled()) {
+                $form->get('content')->addError(new FormError('route.error.all_route_selected'));
+            } elseif (count($this->routeList) == 0) {
+                $form->get('content')->addError(new FormError('route.error.no_routes_found'));
+            }
         }
     }
 

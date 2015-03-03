@@ -90,7 +90,7 @@ class ScheduleExtension extends \Twig_Extension
     public function formatHour($hour) {
 
         if (is_null($hour)) return '-';
-        return substr($hour,0,2) . ':' . substr($hour,2,2);
+        return substr($hour,0,2) . '.' . substr($hour,2,2);
     }
 
     public function getName()

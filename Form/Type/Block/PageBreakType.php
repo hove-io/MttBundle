@@ -11,7 +11,7 @@ class PageBreakType extends BlockType
         $builder->add(
                 'title', 'text',
                     array(
-                        'data' => 'Line Break',
+                        'data' => 'Page Break',
                         'disabled' => true,
                         'label' => 'block.pageBreaker.labels.pageBreak',
                         'required' => false

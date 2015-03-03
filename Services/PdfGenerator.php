@@ -30,8 +30,8 @@ class PdfGenerator
         $params['url'] = $url;
         $params['orientation'] = $orientation;
         // TODO: make these parameters configurable via layout?
-        $params['zoom'] = '2';
-        $params['margin'] = '0';
+        $params['zoom'] = '1';
+        $params['margin'] = '5';
         $generation_url = $this->serverUrl . '?' . http_build_query($params);
 
         $pdfContent = $this->curlProxy->get($generation_url);
