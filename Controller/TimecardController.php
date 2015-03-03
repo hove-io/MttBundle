@@ -311,6 +311,7 @@ class TimecardController extends AbstractController
             array(
                 'editable'              => $editable,
                 'contextPdf'            => $pdf,
+                'pageTitle'             =>'timetable.titles.' . ($editable ? 'edition' : 'preview'),
                 'blockTypes'            => $this->container->getParameter('blocks'),
                 'lineTimecard'          => $lineTimecard,
                 'displayMenu'           => false,
@@ -318,6 +319,7 @@ class TimecardController extends AbstractController
                 'layout'                => $lineTimecard->getLineConfig()->getLayoutConfig(),
                 'notesType'             => $lineTimecard->getLineConfig()->getLayoutConfig()->getNotesType(),
                 'externalNetworkId'     => $lineTimecard->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                'externalLineId'        => $lineTimecard->getLineId(),
                 'calendars'             => $calendarsAndNotes['calendars'],
                 'calendarsList'         => $calendars,
                 'notes'                 => $calendarsAndNotes['notes'],
