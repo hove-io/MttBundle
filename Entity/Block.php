@@ -340,7 +340,7 @@ class Block extends AbstractEntity
     }
 
     /**
-     * Get base64 svg content file
+     * Get svg content file
      * @return string
      */
     public function getSvgContent() {
