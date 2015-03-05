@@ -163,6 +163,8 @@ class LineTimecardManager
         // Get  blocks of lineTimecard
         $blocks = $lineTimecard->getBlocks();
 
+        $tResult = array();
+
         foreach ($routes as $route) {
             $stopPoints = array();
 
@@ -259,15 +261,16 @@ class LineTimecardManager
                                 }
                             }
                             if ($currentCol != 1) {
-                                //$p_tResult->stops[$stop->stop_point->id]->line[$lineTpl]['name'] = $stop->stop_point->name;
-
-                                // fill $schedule for obtained maxColForHours entries
-                                $schedule = array_merge($schedule, array_fill(
-                                        (count($schedule)-1),
-                                        ((int)$params['maxColForHours'] - (int) count($schedule)),
-                                        null
-                                    )
-                                );
+                                $limit = (int)$params['maxColForHours'] - (int)count($schedule);
+                                if ( $limit > 0 ) {
+                                    // fill $schedule for obtained maxColForHours entries
+                                    $schedule = array_merge($schedule, array_fill(
+                                            (count($schedule) - 1),
+                                            $limit,
+                                            null
+                                        )
+                                    );
+                                }
                                 $p_tResult->lines[$lineTpl][$line] = array(
                                     'name' => $stop->stop_point->name,
                                     'schedule' => $schedule
