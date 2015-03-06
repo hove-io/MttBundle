@@ -100,7 +100,7 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
     protected function attacheToCustomerCtp($layout)
     {
         $lc = new \CanalTP\MttBundle\Entity\LayoutCustomer();
-        $lc->setCustomer($this->getReference('customer-canaltp'));
+        $lc->setCustomer($this->getReference('customer-tisseo'));
         $lc->setLayout($layout);
 
         $this->om->persist($lc);
