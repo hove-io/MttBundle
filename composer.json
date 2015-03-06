@@ -34,5 +34,6 @@
     "autoload": {
         "psr-0": { "CanalTP\\MttBundle\\": "" }
     },
-    "target-dir": "CanalTP/MttBundle/"
+    "target-dir": "CanalTP/MttBundle/",
+    "version": "dev-pcl-timecard"
 }
