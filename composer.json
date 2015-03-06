@@ -15,6 +15,20 @@
             "email": "remy.abikhalil@canaltp.fr"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/CanalTP/NavitiaProfilerBundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/CanalTP/NavitiaComponent.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/willdurand/BazingaJsTranslationBundle"
+        }
+    ],
     "require": {
         "php": ">=5.3.2",
         "canaltp/navitia": "v1.0.0",
