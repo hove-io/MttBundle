@@ -21,7 +21,7 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
             'email'     => 'mtt@canaltp.fr',
             'password'  => 'mtt',
             'roles'     => array('role-admin-mtt', 'role-user-mtt'),
-            'customer'  => 'customer-canaltp'
+            'customer'  => 'customer-tisseo'
         ),
         array(
             'id'        => null,
@@ -31,7 +31,7 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
             'email'     => 'obs-mtt@canaltp.fr',
             'password'  => 'mtt',
             'roles'     => array('role-obs-mtt'),
-            'customer'  => 'customer-canaltp'
+            'customer'  => 'customer-tisseo'
         ),
         array(
             'id'        => null,
@@ -41,7 +41,7 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
             'email'     => 'user-mtt@canaltp.fr',
             'password'  => 'mtt',
             'roles'     => array('role-user-mtt'),
-            'customer'  => 'customer-canaltp'
+            'customer'  => 'customer-tisseo'
         ),
         array(
             'id'        => null,
@@ -51,7 +51,7 @@ class FixturesUser extends AbstractFixture implements OrderedFixtureInterface
             'email'     => 'admin-mtt@canaltp.fr',
             'password'  => 'mtt',
             'roles'     => array('role-admin-mtt'),
-            'customer'  => 'customer-canaltp'
+            'customer'  => 'customer-tisseo'
         )
     );
 
