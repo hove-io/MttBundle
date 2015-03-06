@@ -69,6 +69,21 @@ class TimecardController extends AbstractController
 
         $lineTimecardId =  (isset($lineTimecard)) ? $lineTimecard->getId() : null ;
 
+        // Search if an associated timecard has stop points selected
+        $isStopPoint = false;
+        if (isset($lineTimecard)) {
+            $timecards = ( is_null($lineTimecard->getTimecards()) ) ? array() : $lineTimecard->getTimecards();
+            dump($timecards);
+            /** @var \CanalTP\MttBundle\Entity\Timecard $timecard **/
+            foreach($timecards as $timecard) {
+                if ( !empty($timecard->getStopPoints()) ) {
+                    $isStopPoint = true;
+                    continue;
+                }
+            }
+        }
+
+
 
         return $this->render(
             'CanalTPMttBundle:Timecard:list.html.twig',
@@ -82,6 +97,7 @@ class TimecardController extends AbstractController
                 'externalRouteId' => $externalRouteId,
                 'lineTimecardId' => $lineTimecardId,
                 'lineTimecard' => (isset($lineTimecard)) ? $lineTimecard : null ,
+                'isStopPoint' => $isStopPoint,
                 'options' => array(
                     'no_route' => true,
                     'current_line' => $lineId
