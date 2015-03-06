@@ -1,0 +1,26 @@
+<button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle pull-right">
+    <span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer <span class="caret"></span>
+</button>
+<a class="btn btn-default pull-right" href="#">
+    <span class="glyphicon glyphicon-calendar"></span> <span style="color: red">{{'timecard.btn.time'|trans({}, 'default')}}</span>
+</a>
+<ul class="dropdown-menu pull-right checkbox-dropdown-menu" role="menu">
+    <li>
+        <a class="save-area btn" href="{{ path('canal_tp_mtt_timecard_save', {
+        'externalNetworkId': externalNetworkId,
+        'externalLineId': externalLineId,
+        'externalRouteId': currentRouteId,
+        'seasonId': seasonId,
+        'lineTimecardId': lineTimecardId
+        }) }}">
+            <span class="glyphicon glyphicon-refresh display-none"></span>
+            <span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer l'ordre
+        </a>
+    </li>
+    <li role="presentation" class="divider"></li>
+    <li>
+        <div><input type="checkbox" id="opt1" /><label for="opt1">
+                <span style="color:red;">TODO : </span>{{'timecard.repeat_on_all_routes'|trans({}, 'default')}}
+            </label></div>
+    </li>
+</ul>

@@ -198,3 +198,7 @@ li.ui-sortable-helper span{
     width: 100%
     overflow: auto;
 }
+
+.stopPointEditor {
+    padding-top: 20px;
+}

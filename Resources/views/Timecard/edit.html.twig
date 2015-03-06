@@ -13,9 +13,38 @@
 {% endblock %}
 {% block main_content %}
     <div class="row">
-        <div class="col-md-5">
-            <h1>Edition de la ligne {{ lineId }} <small class="jsDirection">{{ currentDirectionName|raw }}</small></h1>
+        <div class="col-md-9">
+            <h1>Edition de la ligne {{ lineId }}
+            <select class="route" style="font-size: 15px;">
+                {% for route in routes %}
+                    {% if route.id == currentRouteId %}
+                        {% set cssClass = "active" %}
+                        {% set optionState = 'selected="selected"' %}
+                    {% else %}
+                        {% set cssClass = "" %}
+                        {% set optionState = "" %}
+                    {% endif %}
+                    <option
+                        value="{{ currentRouteId|raw }}" {{ optionState }}
+                        data-route_id="{{ route.id|raw }}"
+                        data-line_id="{{ externalLineId|raw }}"
+                        data-network_id="{{ externalNetworkId|raw }}"
+                        data-season_id="{{ seasonId|raw }}"
+                        data-linetimecard_id="{{ lineTimecardId|raw }}"
+                        data-href="{{ path('canal_tp_mtt_timecard_save', {
+                        'externalNetworkId': externalNetworkId,
+                        'externalLineId': externalLineId,
+                        'externalRouteId': route.id,
+                        'seasonId': seasonId,
+                        'lineTimecardId': lineTimecardId
+                        }) }}"
+                        >{{ route.name }}</option>
+                {% endfor %}
+            </select>
+            </h1>
         </div>
+
+        <!--
         <div class="col-md-4">
             Routes :
             <div class="btn-group" data-toggle="buttons">
@@ -53,36 +82,12 @@
             {% endfor %}
             </div>
         </div>
+        -->
         <div class="col-md-3">
-            <a id="manage-area" class="btn btn-primary" href="#" data-toggle="modal" data-target="#base-modal">
-                <span class="glyphicon glyphicon-file"></span> Gérer le pdf
-            </a>
-            <button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle">
-                <span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu pull-right checkbox-dropdown-menu" role="menu">
-                <li>
-                    <a id="save-area" class="btn" href="{{ path('canal_tp_mtt_timecard_save', {
-                        'externalNetworkId': externalNetworkId,
-                        'externalLineId': externalLineId,
-                        'externalRouteId': currentRouteId,
-                        'seasonId': seasonId,
-                        'lineTimecardId': lineTimecardId
-                    }) }}">
-                        <span class="glyphicon glyphicon-refresh display-none"></span>
-                        <span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer l'ordre
-                    </a>
-                </li>
-                <li role="presentation" class="divider"></li>
-                <li>
-                    <div><input type="checkbox" id="opt1" /><label for="opt1">
-                        <span style="color:red;">TODO : </span>{{'timecard.repeat_on_all_routes'|trans({}, 'default')}}
-                    </label></div>
-                </li>
-            </ul>
+            {% include 'CanalTPMttBundle:Timecard:partial_saveButton.html.twig' %}
         </div>
     </div>
-    <div class="row">
+    <div class="row stopPointEditor">
         <div class="col-md-6">
             <h4>
                 {{'area.stops'|trans({}, 'default')}}
@@ -122,6 +127,11 @@
                 <span class="help-block{% if timecard.stopPoints|length != 0 %} display-none{% endif %}">{{'area.list_empty'|trans({}, 'default')}}</span>
             </ul>
 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'CanalTPMttBundle:Timecard:partial_saveButton.html.twig' %}
         </div>
     </div>
 {% endblock main_content %}

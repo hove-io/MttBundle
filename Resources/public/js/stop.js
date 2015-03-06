@@ -108,13 +108,13 @@ define('mtt/stop', ['jquery', 'jquery_ui_sortable'], function($, sortable) {
                 $list.find('> span').addClass('display-none');
                 $list.removeClass('empty-list');
                 if ($list.attr('id') == 'included-stops') {
-                    $('#generate-distribution-list, #save-area').removeClass('disabled');
+                    $('#generate-distribution-list, .save-area').removeClass('disabled');
                 }
             } else {
                 $list.find('> span').removeClass('display-none');
                 $list.addClass('empty-list');
                 if ($list.attr('id') == 'included-stops') {
-                    $('#generate-distribution-list, #save-area').addClass('disabled');
+                    $('#generate-distribution-list, .save-area').addClass('disabled');
                 }
             }
             isChange = true;
@@ -144,7 +144,7 @@ define('mtt/stop', ['jquery', 'jquery_ui_sortable'], function($, sortable) {
 
     var _getRoute = function()
     {
-        return $('input.route:checked').val();
+        return $('select.route>option:selected').val();
     }
 
     var _sendStopPointsList = function(element) {
@@ -166,9 +166,7 @@ define('mtt/stop', ['jquery', 'jquery_ui_sortable'], function($, sortable) {
             ).done(
                 function() {
                     underProgress = false;
-                    if (undefined !== element.data('toggle')) {
-                        window.location = element.data('href') || element.attr('href');
-                    }
+                    window.location = element.data('href') || element.attr('href');
                 }
             );
         }
@@ -176,12 +174,12 @@ define('mtt/stop', ['jquery', 'jquery_ui_sortable'], function($, sortable) {
         return true;
     };
 
-    $('#save-area').on('click', function() {
+    $('.save-area').on('click', function() {
         _sendStopPointsList($(this))
     });
 
     $('.route').on('change', function(event) {
-        element = $(this);
+        element = $(this).find(':selected');
 
         if (true == isChange && confirm('Souhaitez-vous enregistrer les changements ?')) {
             _sendStopPointsList(element);
