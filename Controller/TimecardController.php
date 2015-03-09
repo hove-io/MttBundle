@@ -76,7 +76,7 @@ class TimecardController extends AbstractController
             dump($timecards);
             /** @var \CanalTP\MttBundle\Entity\Timecard $timecard **/
             foreach($timecards as $timecard) {
-                if ( !empty($timecard->getStopPoints()) ) {
+                if ( !$timecard->getStopPoints()->isEmpty() ) {
                     $isStopPoint = true;
                     continue;
                 }
