@@ -41,7 +41,12 @@
                 </a>
             {% else %}
                 <div class="btn-group pull-right marg10b">
-                    <a class="btn btn-default" href="#">
+                    <a class="btn btn-default"
+                       href="#"
+                       data-toggle="modal"
+                       data-target="#base-modal"
+                       data-remote="{{ path('canal_tp_mtt_timecard_show_calendars',{'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId}) }}"
+                    >
                         <span class="glyphicon glyphicon-calendar"></span> <span style="color: red">{{'timecard.btn.time'|trans({}, 'default')}}</span>
                     </a>
                     <a class="btn btn-default" href="{{ path('canal_tp_mtt_timecard_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id, 'externalRouteId': externalRouteId, 'lineTimecardId': lineTimecardId}) }}">

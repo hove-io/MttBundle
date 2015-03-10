@@ -41,7 +41,7 @@
                                href="#mode-{{loop.parent.loop.index0}}-routes-collapse-{{ loop.index0 }}"
                            {% endif %}
                         >
-                            {% if line.code %}<span class="line-code" style="background-color: {{ line.color }}">{{ line.code }}</span>{% endif %} {{ line.name }}
+                            {% if line.code %}<span class="line-code" style="background-color: #{{ line.color }}">{{ line.code }}</span>{% endif %} {{ line.name }}
                         </a>
                         <!--span class="badge pull-right">{{ line.routes|length }}</span-->
                         {% if menuMode == "default" %}

@@ -202,3 +202,38 @@ li.ui-sortable-helper span{
 .stopPointEditor {
     padding-top: 20px;
 }
+
+#base-modal .modal-body .modalLineTimetable {
+    width: 100%;
+}
+
+#base-modal .modal-body .modalLineTimetable tr {
+    height: 14px;
+    vertical-align: middle;
+    font-size: 10px;
+}
+
+#base-modal .modal-body .modalLineTimetable .line td {
+    text-align: center;
+}
+
+#base-modal .modal-body .modalLineTimetable tr.firstLine {
+    font-weight: bold;
+}
+
+#base-modal .modal-body .modalLineTimetable tr.line:nth-child(odd) {
+    background-color: #eee;
+}
+
+#base-modal .modal-body  .modalLineTimetable tr.line:nth-child(even) {
+    background-color: #fff;
+}
+
+#base-modal .modal-body  .modalLineTimetable.infoComp {
+
+}
+#base-modal .modal-body  .modalLineTimetable.infoComp td {
+    width: 33%;
+    vertical-align: top;
+    font-size: 12px;
+}

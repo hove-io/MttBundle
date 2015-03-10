@@ -1,0 +1,89 @@
+{% extends "::modal.html.twig" %}
+
+{# <-- TODO Change the path to macros. Should not be localized in templatePath #}
+{% import templatePath ~ "macros.html.twig" as macros %}
+
+{% block modal_title %}
+    {{'timecard.show_calendars'|trans({}, 'default')}}
+{% endblock %}
+
+{% block modal_body %}
+
+{% set calendars = lineCalendars.routes['route:97_2'].calendars %}
+<ul class="nav nav-tabs" id="calendars-tab-menu">
+    {% for calendar in calendars %}
+        <li{% if loop.index == 1 %} class="active"{% endif %}>
+            <a href="#calendar-{{ calendar.id }}" data-toggle="tab">{{ calendar.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<div class="tab-content">
+    {% if calendars is empty %}
+        <div class="panel-body clearfix">
+            <p class="text-center">{{ 'calendar.empty'|trans({}, 'messages') }}</p>
+        </div>
+    {% endif %}
+
+    {% for calendar in calendars %}
+        <div class="tab-pane fade row pad30t{% if loop.index == 1 %} in active{% endif %}"
+             id="calendar-{{ calendar.id }}">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid-time-wrapper panel panel-default">
+                        <div class="panel-body clearfix">
+                            <table class="modalLineTimetable">
+                            {{  macros.lineCalendar('0', '0', calendar ) }}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid-time-wrapper panel panel-default">
+                        <div class="panel-body clearfix">
+                            <table class="modalLineTimetable infoComp">
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <label class="bold">{{'global.period_title'|trans({}, 'messages')}}</label>:
+                                        </div>
+                                        {% for period in calendar.active_periods %}
+                                            <div>
+                                                <label class="bold">
+                                                    {% if (loop.first) %}
+                                                        {{'global.validity_period.start'|trans({}, 'messages')|capitalize}}
+                                                    {% else %}
+                                                        {{'global.validity_period.and'|trans({}, 'messages')}}
+                                                        {{'global.validity_period.start'|trans({}, 'messages')}}
+                                                    {% endif %}
+                                                </label>
+                                                {{ period.begin|date('d/m/Y') }}
+                                                <label class="bold">{{'global.validity_period.end'|trans({}, 'messages')}}</label>
+                                                {{ period.end|date('d/m/Y') }}
+                                            </div>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <div class="bold">{{'calendar.days'|trans}}</div>
+                                        <div>
+                                            {% for day, active in calendar.week_pattern %}
+                                                {% if active %}
+                                                    {{ day }}{% if loop.last != true %}-{% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="bold">{{'calendar.validity'|trans}}</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock modal_body %}

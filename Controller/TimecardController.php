@@ -389,8 +389,43 @@ class TimecardController extends AbstractController
         /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
         $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
         $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
-        $calendars = $lineTimecardManager->getAllCalendars($lineTimecard);
+        $calendars = $lineTimecardManager->getAllBlockCalendars($lineTimecard);
 
         return $this->renderLayout($lineTimecard, $calendars, false, $pdf);
+    }
+
+    public function showCalendarsAction($externalNetworkId, $externalLineId)
+    {
+        /** @var \CanalTP\MttBundle\Services\CalendarManager $calendarManager */
+        $calendarManager = $this->get('canal_tp_mtt.calendar_manager');
+
+        /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
+        $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
+
+        /** @var \CanalTP\MttBundle\Services\PerimeterManager $perimeterManager */
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser()->getCustomer(),
+            $externalNetworkId
+        );
+
+        $externalCoverageId = $perimeter->getExternalCoverageId();
+        $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
+
+        $calendarList = $calendarManager->getCalendarsForLine($externalCoverageId,$externalLineId);
+        $lineCalendars = $lineTimecardManager->getAllCalendars($lineTimecard, $calendarList, array('maxColForHours' => 15));
+
+        $layoutConfig = json_decode($lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
+
+        return $this->render(
+            'CanalTPMttBundle:Timecard:showCalendars.html.twig',
+            array(
+                'route'         => 'route:34_2',
+                'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'lineCalendars' => $lineCalendars,
+                'lineTimecard' => $lineTimecard
+            )
+        );
     }
 }

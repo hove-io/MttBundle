@@ -1,9 +1,14 @@
 <button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle pull-right">
     <span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer <span class="caret"></span>
 </button>
-<a class="btn btn-default pull-right" href="#">
+<a class="btn btn-default pull-right"
+   href="#"
+   data-toggle="modal"
+   data-target="#base-modal"
+   data-remote="{{ path('canal_tp_mtt_timecard_show_calendars',{'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId}) }}">
     <span class="glyphicon glyphicon-calendar"></span> <span style="color: red">{{'timecard.btn.time'|trans({}, 'default')}}</span>
 </a>
+
 <ul class="dropdown-menu pull-right checkbox-dropdown-menu" role="menu">
     <li>
         <a class="save-area btn" href="{{ path('canal_tp_mtt_timecard_save', {
