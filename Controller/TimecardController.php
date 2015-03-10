@@ -73,7 +73,6 @@ class TimecardController extends AbstractController
         $isStopPoint = false;
         if (isset($lineTimecard)) {
             $timecards = ( is_null($lineTimecard->getTimecards()) ) ? array() : $lineTimecard->getTimecards();
-
             /** @var \CanalTP\MttBundle\Entity\Timecard $timecard **/
             foreach($timecards as $timecard) {
                 if ( !is_null($timecard->getStopPoints())) {
