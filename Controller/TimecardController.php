@@ -138,6 +138,19 @@ class TimecardController extends AbstractController
             $externalRouteId
         );
 
+        // stop point in alphabetical order
+        usort($stopPoints->stop_points,
+            function ($a, $b)
+            {
+                $al = strtolower($a->name);
+                $bl = strtolower($b->name);
+                if ($al == $bl) {
+                    return 0;
+                }
+                return ($al > $bl) ? +1 : -1;
+            }
+        );
+
         $timecard = $this->get('canal_tp_mtt.Timecard_manager')->findByCompositeKey(
             $externalLineId,
             $externalRouteId,
