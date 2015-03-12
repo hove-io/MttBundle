@@ -9,11 +9,11 @@ class PageBreakType extends BlockType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-                'title', 'text',
+                'title', 'hidden',
                     array(
                         'data' => 'Page Break',
                         'disabled' => true,
-                        'label' => 'block.pageBreaker.labels.pageBreak',
+                        'label' => 'block.calendar.labels.page_break',
                         'required' => false
                     )
         )
@@ -21,8 +21,8 @@ class PageBreakType extends BlockType
             'content',
             'choice',
             array(
-                'choices'       => array(0 => 'non', 1 => 'oui'),
-                'label' => 'block.calendar.labels.color'
+                'choices'       => array(0 => 'block.calendar.labels.no', 1 => 'block.calendar.labels.yes'),
+                'label' => 'block.calendar.labels.page_break'
             )
         );
         parent::buildForm($builder, $options);

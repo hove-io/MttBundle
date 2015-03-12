@@ -138,6 +138,9 @@ block:
             content: Calendrier
             color: Choix de la couleur
             route: Choix de la route
+            page_break: Saut de page
+            yes: Oui
+            no: Non
 
 customer:
     layout_list: Liste des modèles
