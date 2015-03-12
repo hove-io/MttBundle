@@ -1,4 +1,4 @@
-{% extends "CanalTPMttBundle::container.html.twig" %}
+{% extends "CanalTPMttBundle::generic_list.html.twig" %}
 {% block breadcrumb %}
     <li>
         <a href="{{ path(
@@ -13,7 +13,7 @@
 {% endblock %}
 {% block main_content %}
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-7">
             <h1>Edition de la ligne {{ lineId }}
             <select class="route" style="font-size: 15px;">
                 {% for route in routes %}
@@ -43,47 +43,7 @@
             </select>
             </h1>
         </div>
-
-        <!--
-        <div class="col-md-4">
-            Routes :
-            <div class="btn-group" data-toggle="buttons">
-            {% for route in routes %}
-                {% if route.id == currentRouteId %}
-                    {% set cssClass = "active" %}
-                    {% set radioState = "checked" %}
-                {% else %}
-                    {% set cssClass = "" %}
-                    {% set radioState = "" %}
-                {% endif %}
-                <label class="btn btn-primary {{ cssClass }}">
-                    <input
-                            data-route_id="{{ route.id }}"
-                            data-line_id="{{ externalLineId }}"
-                            data-network_id="{{ externalNetworkId }}"
-                            data-season_id="{{ seasonId }}"
-                            data-linetimecard_id="{{ lineTimecardId }}"
-                            data-href="{{ path('canal_tp_mtt_timecard_save', {
-                                'externalNetworkId': externalNetworkId,
-                                'externalLineId': externalLineId,
-                                'externalRouteId': route.id,
-                                'seasonId': seasonId,
-                                'lineTimecardId': lineTimecardId
-                                }) }}"
-                            data-toggle="route"
-                            class="route"
-                            value="{{ currentRouteId }}"
-                            type="radio"
-                            name="direction"
-                            id="{{ route.direction.id }}" {{ radioState }}>
-                    <span class="glyphicon glyphicon-refresh display-none"></span>
-                    <span class="glyphicon glyphicon-arrow-right"></span> {{ route.name }}
-                </label>
-            {% endfor %}
-            </div>
-        </div>
-        -->
-        <div class="col-md-3">
+        <div class="col-md-5">
             {% include 'CanalTPMttBundle:Timecard:partial_saveButton.html.twig' %}
         </div>
     </div>

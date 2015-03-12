@@ -202,7 +202,11 @@ class TimecardController extends AbstractController
                 'currentDirectionName' => $routes[$routeIndex]->name,
                 'currentRouteId' => $externalRouteId,
                 'seasonId' => $seasonId,
-                'timecard' => $timecard
+                'timecard' => $timecard,
+                'options' => array(
+                    'no_route' => true,
+                    'current_line' => $externalLineId
+                )
             )
         );
     }
