@@ -404,7 +404,56 @@ class TimecardController extends AbstractController
         return $this->renderLayout($lineTimecard, $calendars, false, $pdf);
     }
 
+
+    /**
+     * @param $externalNetworkId
+     * @param $externalLineId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function showCalendarsAction($externalNetworkId, $externalLineId)
+    {
+        /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
+        $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
+
+        /** @var \CanalTP\MttBundle\Services\PerimeterManager $perimeterManager */
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+
+        /** @var $navitia \CanalTP\MttBundle\Services\Navitia */
+        $navitia = $this->get('canal_tp_mtt.navitia');
+
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser()->getCustomer(),
+            $externalNetworkId
+        );
+
+        $routes = $navitia->getLineRoutes(
+            $perimeter->getExternalCoverageId(),
+            $externalNetworkId,
+            $externalLineId
+        );
+
+        $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
+
+
+        return $this->render(
+            'CanalTPMttBundle:Timecard:showCalendars.html.twig',
+            array(
+                'routes' => $routes,
+                'externalNetworkId' => $externalNetworkId,
+                'externalLineId' => $externalLineId
+            )
+        );
+    }
+
+
+    /**
+     * @param $externalNetworkId
+     * @param $externalLineId
+     * @param $routeId
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function loadCalendarsAction($externalNetworkId, $externalLineId, $routeId)
     {
         /** @var \CanalTP\MttBundle\Services\CalendarManager $calendarManager */
         $calendarManager = $this->get('canal_tp_mtt.calendar_manager');
@@ -420,10 +469,12 @@ class TimecardController extends AbstractController
             $externalNetworkId
         );
 
-        $externalCoverageId = $perimeter->getExternalCoverageId();
         $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
 
-        $calendarList = $calendarManager->getCalendarsForLine($externalCoverageId,$externalLineId);
+        $calendarList = $calendarManager->getCalendarsForLine(
+                $perimeter->getExternalCoverageId(),
+                $externalLineId
+        );
 
         $params = array(
             'minHour' => $lineTimecard->getLayoutStartHour(),
@@ -433,13 +484,11 @@ class TimecardController extends AbstractController
 
         $lineCalendars = $lineTimecardManager->getAllCalendars($lineTimecard, $calendarList, $params);
 
-        $layoutConfig = json_decode($lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
-
         return $this->render(
-            'CanalTPMttBundle:Timecard:showCalendars.html.twig',
+            'CanalTPMttBundle:Timecard:partial_calendars.html.twig',
             array(
-                'route'         => 'route:34_2',
                 'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'routeId' => $routeId,
                 'lineCalendars' => $lineCalendars,
                 'lineTimecard' => $lineTimecard
             )

@@ -125,6 +125,15 @@ canal_tp_mtt_timecard_show_calendars:
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
+canal_tp_mtt_timecard_load_calendars:
+    pattern: /timecard/calendars/load/networks/{externalNetworkId}/line/{externalLineId}/route/{routeId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:loadCalendars }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        routeId: -?[a-zA-Z0-9_\-:]*
+    options:
+        expose: true
+
 #Timetable
 canal_tp_mtt_timetable_edit:
     pattern: /timetable/edit/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}

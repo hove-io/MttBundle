@@ -166,6 +166,7 @@ timecard:
         inverse_selection: Inverser la sélection
         download: Télécharger la FH
         time: Voir les horaires
+        select_route: Direction
     list:
         columns:
             label_1: PDF crée le
