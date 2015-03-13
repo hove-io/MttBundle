@@ -18,7 +18,7 @@ class LineConfig extends AbstractEntity
     private $externalLineId;
 
     /**
-     * @var string
+     * @var \CanalTP\MttBundle\Entity\LayoutConfig
      */
     private $layoutConfig;
 
@@ -108,7 +108,7 @@ class LineConfig extends AbstractEntity
     /**
      * Get getLayoutConfig
      *
-     * @return string
+     * @return LayoutConfig
      */
     public function getLayoutConfig()
     {

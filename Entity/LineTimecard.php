@@ -221,6 +221,29 @@ class LineTimecard extends AbstractEntity
     }
 
     /**
+     * Get formated start hour defined in Layout config
+     * @return string (format 'His')
+     */
+    public function getLayoutStartHour()
+    {
+        return date('His', mktime(
+            $this->getLineConfig()->getLayoutConfig()->getCalendarStart(), 0, 0
+        ));
+
+    }
+
+    /**
+     * Get formated end hour defined in Layout config
+     * @return string (format 'His')
+     */
+    public function getLayoutEndHour()
+    {
+        return date('His', mktime(
+            $this->getLineConfig()->getLayoutConfig()->getCalendarEnd(), 0, 0
+        ));
+    }
+
+    /**
      * @return string
      */
     public function __toString()

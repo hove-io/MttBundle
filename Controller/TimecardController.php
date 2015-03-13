@@ -393,7 +393,13 @@ class TimecardController extends AbstractController
         /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
         $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
         $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
-        $calendars = $lineTimecardManager->getAllBlockCalendars($lineTimecard);
+
+        $params = array(
+            'minHour' => $lineTimecard->getLayoutStartHour(),
+            'maxHour' => $lineTimecard->getLayoutEndHour(),
+        );
+
+        $calendars = $lineTimecardManager->getAllBlockCalendars($lineTimecard, $params);
 
         return $this->renderLayout($lineTimecard, $calendars, false, $pdf);
     }
@@ -418,7 +424,14 @@ class TimecardController extends AbstractController
         $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
 
         $calendarList = $calendarManager->getCalendarsForLine($externalCoverageId,$externalLineId);
-        $lineCalendars = $lineTimecardManager->getAllCalendars($lineTimecard, $calendarList, array('maxColForHours' => 15));
+
+        $params = array(
+            'minHour' => $lineTimecard->getLayoutStartHour(),
+            'maxHour' => $lineTimecard->getLayoutEndHour(),
+            'maxColForHours' => 15
+        );
+
+        $lineCalendars = $lineTimecardManager->getAllCalendars($lineTimecard, $calendarList, $params);
 
         $layoutConfig = json_decode($lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getConfiguration());
 
