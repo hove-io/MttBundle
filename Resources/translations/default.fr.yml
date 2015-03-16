@@ -161,6 +161,7 @@ timecard:
     confirm_order_saved: L'ordre de la liste a bien été enregistré
     repeat_on_all_routes: Dupliquer la sélection sur les autres direction
     show_calendars : Voir les horaires
+    line: Ligne
     btn:
         edit: Choisir les arrêts
         inverse_selection: Inverser la sélection

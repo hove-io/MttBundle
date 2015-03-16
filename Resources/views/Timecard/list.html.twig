@@ -5,15 +5,16 @@
 {% endblock %}
 
 {% block list_title %}
-    {{ 'timecard.list_page_title'|trans({}, 'default') }}<br><small>{{ options.current_line }}</small>
-{% endblock %}
-{% block line_comment %}
-    {% if currentLine.comment %}
-        <p>{{ currentLine.comment }}</p>
-    {% endif %}
+    {{ 'timecard.list_page_title'|trans({}, 'default') }}
 {% endblock %}
 
 {% block list_menu %}
+    <h4>{{ 'timecard.line'|trans({}, 'default') }} {{ options.current_line }}</h4>
+    {% block line_comment %}
+        {% if currentLine.comment %}
+            <p>{{ currentLine.comment }}</p>
+        {% endif %}
+    {% endblock %}
     {%  if (is_granted('BUSINESS_CHOOSE_LAYOUT') ) %}
         <div class="actionButtonBlock clearfix">
         {% if (lineConfig is empty or lineConfig.layoutConfig is null)  %}

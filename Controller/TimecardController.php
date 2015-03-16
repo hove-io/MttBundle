@@ -99,7 +99,7 @@ class TimecardController extends AbstractController
                 'isStopPoint' => $isStopPoint,
                 'options' => array(
                     'no_route' => true,
-                    'current_line' => $lineId
+                    'current_line' => substr($lineId, strpos($lineId,':')+1, strlen($lineId))
                 )
             )
         );
