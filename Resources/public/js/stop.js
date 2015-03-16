@@ -14,26 +14,6 @@ define('mtt/stop', ['jquery', 'jquery_ui_sortable'], function($, sortable) {
         return (false);
     })
 
-    // Inverse selection
-    $('#inverse-selection-stop-points').on('click', function(){
-        var stoppoints = $('ul#included-stops > li.list-group-item');
-        var inversedStoppoints = $(stoppoints.get().reverse());
-        var container = $('ul#included-stops');
-
-        //$(this).parent().detach()
-        stoppoints.each(function(i) {
-            $(this).remove();
-        });
-
-        inversedStoppoints.each(function(i) {
-            $('ul#included-stops').append($(this));
-        });
-        $('ul#included-stops').trigger('sortupdate');
-
-
-        _refreshAddAllStopPointsButton();
-    });
-
     $('.dropdown-menu').on('click', function(e) {
         if($(this).hasClass('checkbox-dropdown-menu')) {
             e.stopPropagation();

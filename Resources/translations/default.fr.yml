@@ -164,7 +164,6 @@ timecard:
     line: Ligne
     btn:
         edit: Choisir les arrêts
-        inverse_selection: Inverser la sélection
         download: Télécharger la FH
         time: Voir les horaires
         select_route: Direction

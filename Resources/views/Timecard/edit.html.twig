@@ -75,9 +75,6 @@
         <div class="col-md-6">
             <h4>
                 {{'area.stops_included'|trans({}, 'default')}}
-                <a id="inverse-selection-stop-points" class="btn btn-default btn-xs pull-right" href="#">
-                    {{'timecard.btn.inverse_selection'|trans({}, 'default')}} <span class="glyphicon glyphicon-retweet"></span>
-                </a>
             </h4>
             <hr class="no-border black" />
             <ul id="included-stops" class="list-group sortable area-list ui-sortable {% if timecard.stopPoints|length == 0 %} empty-list{% endif %}">
