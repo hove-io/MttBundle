@@ -203,10 +203,14 @@ class PdfManager
                     )
                 );
 
-            $pdfPath = $this->pdfGenerator->getPdf(
-                $url,
-                $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientationAsString()
+            $layout = $timetable->getLineConfig()->getLayoutConfig()->getLayout();
+            $configuration = json_decode($layout->getConfiguration());
+            $orientation = $layout->getOrientationAsString(
+                $configuration->stopPointsTpl->orientation
             );
+
+            $pdfPath = $this->pdfGenerator->getPdf($url,$orientation);
+
             if ($pdfPath) {
                 $pdfMedia = $this->mediaManager->savePdf($timetable, $pdfPath, $externalStopPointId);
                 $this->stopPoint->updatePdfGenerationInfos($externalStopPointId, $timetable, $hash);
