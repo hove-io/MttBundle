@@ -119,6 +119,9 @@ class TimecardController extends AbstractController
         $navitia = $this->get('canal_tp_mtt.navitia');
         $customer = $this->getUser()->getCustomer();
 
+        /** @var \CanalTP\MttBundle\Services\TimecardManager $timecardManager */
+        $timecardManager =  $this->get('canal_tp_mtt.Timecard_manager');
+
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
             $customer,
             $externalNetworkId
@@ -151,7 +154,7 @@ class TimecardController extends AbstractController
             }
         );
 
-        $timecard = $this->get('canal_tp_mtt.Timecard_manager')->findByCompositeKey(
+        $timecard = $timecardManager->findByCompositeKey(
             $externalLineId,
             $externalRouteId,
             $seasonId,
@@ -167,6 +170,22 @@ class TimecardController extends AbstractController
                 $perimeter->getExternalCoverageId(),
                 $perimeter->getExternalNetworkId()
             );
+        } else {
+            // Getting the stop points of the second route and inversing selection
+            $timecards = $timecardManager->findTimecardListByCompositeKey($externalLineId, $seasonId, $perimeter);
+            foreach ($timecards as $key => $tc) {
+                if( $tc->getRouteId() !== $timecard->getRouteId() ) {
+                    $stopPointsIncluded = $tc->getStopPoints();
+                    if (!empty($stopPointsIncluded)) {
+                        $stopPointsList = array_reverse($stopPointManager->enrichStopPoints(
+                            $tc->getStopPoints(),
+                            $perimeter->getExternalCoverageId(),
+                            $perimeter->getExternalNetworkId()
+                        ));
+
+                    }
+                }
+            }
         }
 
         $array_search_recursif = function ($needle, $haystack) use (&$array_search_recursif) {

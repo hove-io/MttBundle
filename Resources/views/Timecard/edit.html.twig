@@ -11,6 +11,14 @@
     </li>
     / {{ pageTitle }}
 {% endblock %}
+{% block subheader %}
+    {% if (stopPointsIncluded|length != 0) and (timecard.stopPoints|length == 0) %}
+        <div class="alert alert-dismissable alert-warning" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{'timecard.warning_empty_list'|trans({}, 'default')}}
+        </div>
+    {% endif %}
+{% endblock %}
 {% block main_content %}
     <div class="row">
         <div class="col-md-7">
@@ -47,6 +55,7 @@
             {% include 'CanalTPMttBundle:Timecard:partial_saveButton.html.twig' %}
         </div>
     </div>
+
     <div class="row stopPointEditor">
         <div class="col-md-6">
             <h4>
@@ -77,11 +86,11 @@
                 {{'area.stops_included'|trans({}, 'default')}}
             </h4>
             <hr class="no-border black" />
-            <ul id="included-stops" class="list-group sortable area-list ui-sortable {% if timecard.stopPoints|length == 0 %} empty-list{% endif %}">
+            <ul id="included-stops" class="list-group sortable area-list ui-sortable {% if stopPointsIncluded|length == 0 %} empty-list{% endif %}">
                 {% for stopPoint in stopPointsIncluded %}
                     {% include 'CanalTPMttBundle:Area:stopPoint.html.twig' with {'stopPoint': stopPoint} %}
                 {% endfor %}
-                <span class="help-block{% if timecard.stopPoints|length != 0 %} display-none{% endif %}">{{'area.list_empty'|trans({}, 'default')}}</span>
+                <span class="help-block{% if stopPointsIncluded|length != 0 %} display-none{% endif %}">{{'area.list_empty'|trans({}, 'default')}}</span>
             </ul>
 
         </div>
