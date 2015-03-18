@@ -162,6 +162,7 @@ timecard:
     repeat_on_all_routes: Dupliquer la sélection sur les autres direction
     show_calendars : Voir les horaires
     line: Ligne
+    warning_empty_list: Liste d'arrêt proposée selon la liste définie pour l'Aller. Cliquez sur le bouton "Enregistrer" pour la conserver.
     btn:
         edit: Choisir les arrêts
         download: Télécharger la FH
@@ -170,4 +171,3 @@ timecard:
     list:
         columns:
             label_1: PDF crée le
-
