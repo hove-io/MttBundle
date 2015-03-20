@@ -30,6 +30,15 @@ class LineTimecardManager
     private $timecardManager =  null;
 
     /**
+     * @var array default options for displaying schedule
+     */
+    private $params = array(
+        'maxColForHours' => 24,
+        'minHour' => '060000',
+        'maxHour' => '190000'
+    );
+
+    /**
      * Constructor
      *
      * @param ObjectManager $om
@@ -140,13 +149,7 @@ class LineTimecardManager
      */
     public function getAllBlockCalendars(LineTimecard $lineTimecard, $options = array() )
     {
-        $params = array(
-            'maxColForHours' => 24,
-            'minHour' => '060000',
-            'maxHour' => '190000'
-        );
-
-        $params = array_merge($params, $options);
+        $params = array_merge($this->params, $options);
 
         // Get Routes
         $routes = $this->navitiaManager->getLineRoutes(
@@ -216,13 +219,7 @@ class LineTimecardManager
      */
     public function getAllCalendars(LineTimecard $lineTimecard, $calendarList, $options = array())
     {
-        $params = array(
-            'maxColForHours' => 24,
-            'minHour' => '060000',
-            'maxHour' => '190000'
-        );
-
-        $params = array_merge($params, $options);
+        $params = array_merge($this->params, $options);
 
         // Get Routes
         $routes = $this->navitiaManager->getLineRoutes(
@@ -282,6 +279,71 @@ class LineTimecardManager
                 }
             }
         }
+        return $tResult;
+    }
+
+    /**
+     * @param LineTimecard $lineTimecard
+     * @param string $routeId
+     * @param array $calendar
+     * @param array $options
+     */
+    public function getCalendar(LineTimecard $lineTimecard, $routeId, $calendar, $options = array())
+    {
+        $params = array_merge($this->params, $options);
+
+        // Get Routes
+        $routes = $this->navitiaManager->getLineRoutes(
+            $lineTimecard->getPerimeter()->getExternalCoverageId(),
+            $lineTimecard->getPerimeter()->getExternalNetworkId(),
+            $lineTimecard->getLineId()
+        );
+
+        // Get Timecards
+        $timecards = $this->timecardManager->findTimecardListByCompositeKey(
+            $lineTimecard->getLineId(),
+            $lineTimecard->getLineConfig()->getSeason()->getId(),
+            $lineTimecard->getPerimeter()
+        );
+
+        $tResult = array();
+        $stopPoints = array();
+        foreach($timecards as $timecard) {
+            if ($timecard->getRouteId() == $routeId) {
+                $stopPoints = $timecard->getStopPoints();
+                break;
+            }
+        }
+
+        if (count($stopPoints) > 0) {
+            $stopSchedules = $this->navitiaManager->getCalendarSchedulesByRoute(
+                $lineTimecard->getPerimeter()->getExternalCoverageId(),
+                $routeId,
+                $calendar->id
+            );
+
+            $tResult[$calendar->id] = $stopSchedules;
+
+            // Create pointer
+            $p_tResult = &$tResult[$calendar->id];
+            $p_tResult->name = $calendar->name;
+            $p_tResult->id = $calendar->id;
+            $p_tResult->active_periods = $calendar->active_periods;
+            $p_tResult->week_pattern = (array) $calendar->week_pattern;
+            $p_tResult->validity_pattern = $calendar->validity_pattern;
+
+            // Get stop points selected
+            $p_tResult->stopPointsSelected = $this->getStopPointSelected(
+                $stopPoints,
+                $p_tResult->stop_schedules
+            );
+
+            // Load results
+            $p_tResult->lines = $this->getLineSchedules($p_tResult->stopPointsSelected, $params);
+
+            unset($p_tResult->stopPointsSelected, $p_tResult->stop_schedules, $p_tResult);
+        }
+
         return $tResult;
     }
 

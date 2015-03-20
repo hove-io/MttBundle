@@ -13,8 +13,12 @@ define(['jquery'], function($) {
         // needed properties
         layout.blockLevel = stop_point == false ? 'route' : 'stop_point';
         layout.blockTypes = blockTypes;
+
+        $(".loading").hide();
+
         _bind_listeners();
         _bind_blocks_listeners();
+        _bind_blocks_loader_listener();
     };
     
     var _bind_blocks_listeners = function()
@@ -36,7 +40,47 @@ define(['jquery'], function($) {
             }
         });
     };
-    
+
+    var _bind_blocks_loader_listener = function()
+    {
+        var blockLoader = $('.blockLoadCalendar');
+        blockLoader.each(function(){
+            block = $(this);
+            if (block.data('target') !== undefined && block.data('calendar') !== undefined ) {
+                block.on('click', function () {
+                    var elem  = $(this);
+                    var target = $(elem.data('target'));
+                    var calendar = $(elem.data('calendar'));
+                    $(this).hide();
+                    $(".loading." + elem.data('calendar')).show();
+
+                    var param = {
+                        'externalNetworkId': elem.data('network_id'),
+                        'externalLineId': elem.data('line_id'),
+                        'calendarId': elem.data('block_content'),
+                        'routeId': elem.data('block_route_id')
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: Routing.generate('canal_tp_mtt_timecard_load_one_calendar', param),
+                        cache: false,
+                        success: function(data){
+                            target.html(data.content);
+                            $(".loading." + elem.data('calendar')).hide();
+                        },
+                        error: function() {
+                            $(".loading." + elem.data('calendar')).hide();
+                            $(this).show();
+                        }
+                    });
+                    return false;
+
+                });
+            }
+        });
+    };
+
     var _get_remote_modal = function()
     {
         var params = {
@@ -61,6 +105,10 @@ define(['jquery'], function($) {
             var data = $elem.data();
             if (data.blockLevel == layout.blockLevel && layout.blockTypes[data.blockType])
             {
+                if(data.blockType == 'calendar') {
+                    var icon_class_loader = icon_class + layout.blockTypes[data.blockType].icon_loader;
+                    $elem.prepend($icon_tpl.clone().addClass(icon_class_loader));
+                }
                 icon_class += layout.blockTypes[data.blockType].icon;
             }
             else
@@ -69,7 +117,9 @@ define(['jquery'], function($) {
                 $elem.addClass('disabled-block');
             }
             $elem.prepend($icon_tpl.clone().addClass(icon_class));
+
         });
+
         // return editable blocks only
         return $blocks.filter(function() { 
             return $(this).data("block-level") == layout.blockLevel;

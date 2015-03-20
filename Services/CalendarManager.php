@@ -402,10 +402,6 @@ class CalendarManager
             $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
         }
 
-        // TODO define block metode for timecard
-        //if (count($timecard->getBlocks()) > 0) {
-
-        //}
         return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
     }
 
@@ -453,6 +449,17 @@ class CalendarManager
         }
 
         return $calendarsSorted;
+    }
+
+    public function getCalendar($externalCalendarId, $externalCoverageId, $externalLineId)
+    {
+        $calendarList = $this->getCalendarsForLine(
+            $externalCoverageId,
+            $externalLineId
+        );
+
+        $calendar = $this->findCalendar($externalCalendarId,$calendarList);
+        return $calendar;
     }
 
 }

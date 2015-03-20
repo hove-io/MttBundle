@@ -133,6 +133,14 @@ canal_tp_mtt_timecard_load_calendars:
         routeId: -?[a-zA-Z0-9_\-:]*
     options:
         expose: true
+canal_tp_mtt_timecard_load_one_calendar:
+    pattern: /timecard/calendar/{calendarId}/load/networks/{externalNetworkId}/line/{externalLineId}/route/{routeId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:loadOneCalendar }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        routeId: -?[a-zA-Z0-9_\-:]*
+    options:
+        expose: true
 
 #Timetable
 canal_tp_mtt_timetable_edit:

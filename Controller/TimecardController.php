@@ -425,6 +425,8 @@ class TimecardController extends AbstractController
 
 
     /**
+     * Load content for modal who display route schedule
+     *
      * @param $externalNetworkId
      * @param $externalLineId
      * @return \Symfony\Component\HttpFoundation\Response
@@ -451,9 +453,6 @@ class TimecardController extends AbstractController
             $externalLineId
         );
 
-        $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
-
-
         return $this->render(
             'CanalTPMttBundle:Timecard:showCalendars.html.twig',
             array(
@@ -466,6 +465,8 @@ class TimecardController extends AbstractController
 
 
     /**
+     * Load all calendars for a line/route (Ajax request)
+     *
      * @param $externalNetworkId
      * @param $externalLineId
      * @param $routeId
@@ -512,5 +513,56 @@ class TimecardController extends AbstractController
                 'lineTimecard' => $lineTimecard
             )
         );
+    }
+
+    /**
+     * Load one calendar (Ajax request)
+     *
+     * @param $externalNetworkId
+     * @param $externalLineId
+     * @param $routeId
+     * @param $calendar calendar id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function loadOneCalendarAction($externalNetworkId, $externalLineId, $routeId, $calendarId)
+    {
+        /** @var \CanalTP\MttBundle\Services\CalendarManager $calendarManager */
+        $calendarManager = $this->get('canal_tp_mtt.calendar_manager');
+
+        /** @var \CanalTP\MttBundle\Services\LineTimecardManager $lineTimecardManager */
+        $lineTimecardManager = $this->get('canal_tp_mtt.line_timecard_manager');
+
+        /** @var \CanalTP\MttBundle\Services\PerimeterManager $perimeterManager */
+        $perimeterManager = $this->get('nmm.perimeter_manager');
+
+        $perimeter = $perimeterManager->findOneByExternalNetworkId(
+            $this->getUser()->getCustomer(),
+            $externalNetworkId
+        );
+
+        $lineTimecard = $lineTimecardManager->getLineTimecard($externalLineId, $perimeter);
+
+        $params = array(
+            'minHour' => $lineTimecard->getLayoutStartHour(),
+            'maxHour' => $lineTimecard->getLayoutEndHour(),
+            'maxColForHours' => 15
+        );
+
+        $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getTimecardCalendars($perimeter->getExternalCoverageId(), $lineTimecard);
+
+        $calendar = $calendarManager->getCalendar($calendarId,$perimeter->getExternalCoverageId(),$externalLineId);
+        $lineCalendar = $lineTimecardManager->getCalendar($lineTimecard, $routeId, $calendar, $params);
+
+        return $this->render(
+            'CanalTPMttBundle:Timecard:partial_one_calendar.html.twig',
+            array(
+                'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $lineTimecard->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'routeId' => $routeId,
+                'lineCalendar' => $lineCalendar[$calendarId],
+                'lineTimecard' => $lineTimecard
+            )
+        );
+
     }
 }
