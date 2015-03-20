@@ -52,6 +52,7 @@ error:
 help:
     edit_block: Cliquer pour éditer ce bloc
     drop_here: Déposez les éléments ici
+    load_block: Cliquer pour re/charger le calendrier
 
 calendar:
     start: Heure de début des calendriers

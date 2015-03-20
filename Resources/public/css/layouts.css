@@ -15,12 +15,15 @@ body.editable{
     margin:10px auto;
     position:relative;
 }
-.editable .block{
+.editable .block,
+.blockLineCalendar .targetDataCalendar {
     border: 1px solid transparent;
     cursor:pointer;
     position:relative;
 }
-.editable .block:hover{
+
+.editable .block:hover,
+.blockLineCalendar .targetDataCalendar:hover {
     border:1px dashed black;
 }
 .editable .block.disabled-block:hover{
@@ -40,11 +43,17 @@ body.editable{
     left:0;
     width:100%;
 }
-.block > .glyphicon{
+.block > .glyphicon,
+.blockLineCalendar .targetDataCalendar .glyphicon {
     color:#398439;
     position:absolute;
     right:5px;
     top:5px;
+}
+.blockLineCalendar .targetDataCalendar .glyphicon {
+    display: block;
+    font-size: 15px;
+    right: -20px;
 }
 .block.disabled-block .glyphicon{
     color: rgba(0,0,0,0.3);
@@ -132,4 +141,16 @@ body.editable{
     display: inline-block;
     height: 11px;
     width: 11px;
+}
+
+.pageBreak {
+    display: block;
+    page-break-after: always;
+}
+
+.visual-pageBreak {
+    text-align: center;
+    border: 1px dashed #ccc;
+    height: 25px;
+    line-height: 25px;
 }

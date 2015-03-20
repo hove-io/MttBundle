@@ -43,15 +43,14 @@ define(['jquery'], function($) {
 
     var _bind_blocks_loader_listener = function()
     {
-        var blockLoader = $('.blockLoadCalendar');
+        var blockLoader = $('.targetDataCalendar');
         blockLoader.each(function(){
             block = $(this);
-            if (block.data('target') !== undefined && block.data('calendar') !== undefined ) {
+            if (block.data('calendar') !== undefined ) {
                 block.on('click', function () {
                     var elem  = $(this);
-                    var target = $(elem.data('target'));
-                    var calendar = $(elem.data('calendar'));
-                    $(this).hide();
+                    var target = $('#' + elem.attr('id') + ' > .target');
+                    target.hide();
                     $(".loading." + elem.data('calendar')).show();
 
                     var param = {
@@ -67,11 +66,12 @@ define(['jquery'], function($) {
                         cache: false,
                         success: function(data){
                             target.html(data.content);
+                            target.show();
                             $(".loading." + elem.data('calendar')).hide();
                         },
                         error: function() {
+                            target.show();
                             $(".loading." + elem.data('calendar')).hide();
-                            $(this).show();
                         }
                     });
                     return false;
