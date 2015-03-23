@@ -22,10 +22,26 @@ body.editable{
     position:relative;
 }
 
+.blockLineCalendar .actionBarCalendar {
+    position: absolute; display: block; width: 30px; right: -35px;
+}
+
+.blockLineCalendar .actionBarCalendar ul {
+    list-style-type:none;
+    margin: 0; padding: 5px;
+    font-size: 15px;
+}
+
+.blockLineCalendar .targetDataCalendar {
+    cursor: default;
+}
+
 .editable .block:hover,
-.blockLineCalendar .targetDataCalendar:hover {
+.blockLineCalendar .targetDataCalendar:hover,
+.blockLineCalendar .targetDataCalendar.active {
     border:1px dashed black;
 }
+
 .editable .block.disabled-block:hover{
     border:1px solid transparent;
 }
@@ -43,18 +59,13 @@ body.editable{
     left:0;
     width:100%;
 }
-.block > .glyphicon,
-.blockLineCalendar .targetDataCalendar .glyphicon {
+.block > .glyphicon {
     color:#398439;
     position:absolute;
     right:5px;
     top:5px;
 }
-.blockLineCalendar .targetDataCalendar .glyphicon {
-    display: block;
-    font-size: 15px;
-    right: -20px;
-}
+
 .block.disabled-block .glyphicon{
     color: rgba(0,0,0,0.3);
 }

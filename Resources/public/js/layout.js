@@ -43,42 +43,57 @@ define(['jquery'], function($) {
 
     var _bind_blocks_loader_listener = function()
     {
-        var blockLoader = $('.targetDataCalendar');
-        blockLoader.each(function(){
-            block = $(this);
-            if (block.data('calendar') !== undefined ) {
-                block.on('click', function () {
-                    var elem  = $(this);
-                    var target = $('#' + elem.attr('id') + ' > .target');
-                    target.hide();
-                    $(".loading." + elem.data('calendar')).show();
+        $('.action-calendar').each(function() {
+            action = $(this);
+            action.on('mouseover', function(){
+                var button = $(this);
+                var blockTarget = button.data('target');
+                var elem =  $('#' + blockTarget);
 
-                    var param = {
-                        'externalNetworkId': elem.data('network_id'),
-                        'externalLineId': elem.data('line_id'),
-                        'calendarId': elem.data('block_content'),
-                        'routeId': elem.data('block_route_id')
+                elem.addClass('active');
+            });
+            action.on('mouseout', function(){
+                var button = $(this);
+                var blockTarget = button.data('target');
+                var elem =  $('#' + blockTarget);
+
+                elem.removeClass('active');
+            });
+            action.on('click', function(){
+                var button = $(this);
+                var blockTarget = button.data('target');
+                var elem =  $('#' + blockTarget);
+
+                var target = $('#' + elem.attr('id') + ' > .target');
+                target.hide();
+                $(".loading." + elem.data('calendar')).show();
+
+                var param = {
+                    'externalNetworkId': elem.data('network_id'),
+                    'externalLineId': elem.data('line_id'),
+                    'calendarId': elem.data('block_content'),
+                    'routeId': elem.data('block_route_id')
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: Routing.generate('canal_tp_mtt_timecard_load_one_calendar', param),
+                    cache: false,
+                    success: function(data){
+                        target.html(data.content);
+                        target.show();
+                        $(".loading." + elem.data('calendar')).hide();
+                    },
+                    error: function() {
+                        target.show();
+                        $(".loading." + elem.data('calendar')).hide();
                     }
-
-                    $.ajax({
-                        type: "POST",
-                        url: Routing.generate('canal_tp_mtt_timecard_load_one_calendar', param),
-                        cache: false,
-                        success: function(data){
-                            target.html(data.content);
-                            target.show();
-                            $(".loading." + elem.data('calendar')).hide();
-                        },
-                        error: function() {
-                            target.show();
-                            $(".loading." + elem.data('calendar')).hide();
-                        }
-                    });
-                    return false;
-
                 });
-            }
-        });
+                return false;
+
+            });
+        })
+
     };
 
     var _get_remote_modal = function()
