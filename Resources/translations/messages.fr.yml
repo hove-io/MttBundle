@@ -52,7 +52,9 @@ error:
 help:
     edit_block: Cliquer pour éditer ce bloc
     drop_here: Déposez les éléments ici
-    load_block: Cliquer pour re/charger le calendrier
+    load_block: Re/Charger le block
+    edit_frequency_block: Fréquences
+    edit_note_block: Notes
 
 calendar:
     start: Heure de début des calendriers
@@ -99,7 +101,7 @@ season:
 
 frequency:
     labels:
-        start_time: Heure de ébut
+        start_time: Heure de début
         end_time: Heure de fin
         content: Texte
 

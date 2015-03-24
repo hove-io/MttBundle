@@ -205,6 +205,8 @@ canal_tp_mtt_frequency_edit:
     defaults: { _controller: CanalTPMttBundle:Frequency:edit}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+    options:
+        expose: true
 
 #LayoutConfigs
 canal_tp_mtt_layout_config_list:

@@ -23,7 +23,13 @@ body.editable{
 }
 
 .blockLineCalendar .actionBarCalendar {
-    position: absolute; display: block; width: 30px; right: -35px;
+    position: absolute;
+    display: block;
+    width: 25px; right: -23px;
+}
+
+.blockLineCalendar .actionBarCalendar.active {
+    background-color: #eeeeee;
 }
 
 .blockLineCalendar .actionBarCalendar ul {
