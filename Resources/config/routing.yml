@@ -201,7 +201,7 @@ canal_tp_mtt_calendar_view:
 
 #Frequency
 canal_tp_mtt_frequency_edit:
-    pattern: /frequency/edit/networks/{externalNetworkId}/block/{blockId}/
+    pattern: /frequency/edit/networks/{externalNetworkId}/block/{blockId}/objectType/{objectType}
     defaults: { _controller: CanalTPMttBundle:Frequency:edit}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*

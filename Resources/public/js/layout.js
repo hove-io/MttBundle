@@ -96,9 +96,7 @@ define(['jquery'], function($) {
             var params = {
                 'blockId'    : elem.data('block_id'),
                 'externalNetworkId': elem.data('network_id'),
-                /*'block_type': elem.data('block-type'),*/
-                'objectType':  elem.data('block-object'),
-                'objectId':  elem.data('block-object-id')
+                'objectType':  elem.data('block-object')
             };
             $.extend(params, url_params);
             var url = Routing.generate(
