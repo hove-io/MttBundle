@@ -393,6 +393,8 @@ class LineTimecardManager
     {
         $line = 0;
         $result = array();
+        $beginFrequenciesIndex = array();
+        $endFrequenciesIndex = array();
         $params['frequencyNbCol'] = 3;
 
         $bFrequency = false;
@@ -405,13 +407,14 @@ class LineTimecardManager
 
             $lineTpl = 0;
             $currentCol = 1;
+            $noFrequencyCurrentCol = 1;
             $schedule = array();
             $allFrequenciesPassed = false;
+            $currenltyInsideFrequency = false;
             if($bFrequency) {
                 $nextFrequencyBeginTime = $params['frequencies'][0]->getStartTime()->format('His');
                 $nextFrequencyEndTime = $params['frequencies'][0]->getEndTime()->format('His');
                 $frequencyIndex = 0;
-                $currenltyInsideFrequency = false;
             }
 
             foreach ($stop->date_times as $detail) {
@@ -423,34 +426,80 @@ class LineTimecardManager
                         ) {
 
                             if ($bFrequency && !$allFrequenciesPassed) { // Frequency use case
-                                if($currenltyInsideFrequency)
-                                {
-                                    if ( (int)$detail->date_time_formated > $nextFrequencyEndTime) {
-                                        $currenltyInsideFrequency = false;
-                                        $frequencyIndex++;
-                                        if( $frequencyIndex < $numberOfFrequencies) {
-                                            $nextFrequencyBeginTime = $params['frequencies'][$frequencyIndex]->getStartTime()->format('His');
-                                            $nextFrequencyEndTime = $params['frequencies'][$frequencyIndex]->getEndTime()->format('His');
+                                if($line == 0) {
+                                    if($currenltyInsideFrequency)
+                                    {
+                                        if ( (int)$detail->date_time_formated > $nextFrequencyEndTime) {
+                                            $currenltyInsideFrequency = false;
+                                            if ($currentCol + 3 > $params['maxColForHours']) { // If frequency block number of column overlapse 'maxColForHours' then we reduce it
+                                                $frequencyNbOfCol = $params['maxColForHours'] - $currentCol + 1;
+                                            }
+                                            else
+                                            {
+                                                $frequencyNbOfCol = 3;
+                                            }
+                                            for($i=0;$i<$frequencyNbOfCol;$i++) {
+                                                $schedule[] = $params['frequencies'][$frequencyIndex]->getContent();
+                                            }
+                                            $frequencyIndex++;
+                                            if( $frequencyIndex < $numberOfFrequencies) {
+                                                $nextFrequencyBeginTime = $params['frequencies'][$frequencyIndex]->getStartTime()->format('His');
+                                                $nextFrequencyEndTime = $params['frequencies'][$frequencyIndex]->getEndTime()->format('His');
+                                            }
+                                            else
+                                            {
+                                                $allFrequenciesPassed = true;
+                                            }
+                                            $endFrequenciesIndex[] = $noFrequencyCurrentCol;
+                                            $currentCol += $frequencyNbOfCol;
                                         }
                                         else
                                         {
-                                            $allFrequenciesPassed = true;
+                                            $noFrequencyCurrentCol++;
+                                            continue; // Ignore all datetime before $nextFrequencyEndTime
                                         }
                                     }
                                     else
                                     {
-                                        continue; // Ignore all datetime before $nextFrequencyEndTime
-                                    }
+                                        if ( (int)$detail->date_time_formated >= $nextFrequencyBeginTime) {
+                                            $currenltyInsideFrequency = true;
+                                            $beginFrequenciesIndex[] = $currentCol;
+                                            $noFrequencyCurrentCol++;
+                                            continue;
+                                        }
+                                   }
                                 }
                                 else
                                 {
-                                    if ( (int)$detail->date_time_formated >= $nextFrequencyBeginTime) {
-                                        $currenltyInsideFrequency = true;
-                                        $schedule[] = $params['frequencies'][$frequencyIndex]->getContent();
-                                        $schedule[] = $params['frequencies'][$frequencyIndex]->getContent();
-                                        $schedule[] = $params['frequencies'][$frequencyIndex]->getContent();
-                                        $currentCol += 3;
+                                    if($currenltyInsideFrequency) {
+                                        $noFrequencyCurrentCol++;
+                                        if($noFrequencyCurrentCol == $endFrequenciesIndex[$frequencyIndex]) {
+                                            $currenltyInsideFrequency = false;
+                                            if ($currentCol + 3 > $params['maxColForHours']) { // If frequency block number of column overlapse 'maxColForHours' then we reduce it
+                                                $frequencyNbOfCol = $params['maxColForHours'] - $currentCol + 1;
+                                            }
+                                            else
+                                            {
+                                                $frequencyNbOfCol = 3;
+                                            }
+                                            for($i=0;$i<$frequencyNbOfCol;$i++) {
+                                                $schedule[] = $params['frequencies'][$frequencyIndex]->getContent();
+                                            }
+                                            $frequencyIndex++;
+                                            if( $frequencyIndex >= $numberOfFrequencies) {
+                                                $allFrequenciesPassed = true;
+                                            }
+                                            $currentCol += $frequencyNbOfCol;
+                                        }
                                         continue;
+                                    }
+                                    else
+                                    {
+                                        if($noFrequencyCurrentCol == $beginFrequenciesIndex[$frequencyIndex]) {
+                                            $currenltyInsideFrequency = true;
+                                            $noFrequencyCurrentCol++;
+                                            continue;
+                                        }
                                     }
                                 }
                             }
@@ -458,6 +507,7 @@ class LineTimecardManager
                             // Ajout de l'horaire
                             $schedule[] = $detail->date_time_formated;
                             $currentCol++;
+                            $noFrequencyCurrentCol++;
                         }
                     } else {
                         $result[$lineTpl][$line] = array(
@@ -467,11 +517,13 @@ class LineTimecardManager
                         $schedule = array();
                         $lineTpl++;
                         $currentCol = 1;
+                        $noFrequencyCurrentCol = 1;
                     }
                 } else {
                     if ($currentCol <= $params['maxColForHours']) {
                         $schedule[] = null;
                         $currentCol++;
+                        $noFrequencyCurrentCol++;
                     } else {
                         $result[$lineTpl][$line] = array(
                             'name' => $stop->stop_point->name,
@@ -480,6 +532,7 @@ class LineTimecardManager
                         $schedule = array();
                         $lineTpl++;
                         $currentCol = 1;
+                        $noFrequencyCurrentCol = 1;
                     }
                 }
             }
@@ -500,6 +553,18 @@ class LineTimecardManager
                 );
             }
             $line++;
+            if($currenltyInsideFrequency) { // There is no stop schedule outside of frequency range : we must close frequency block
+                if ($currentCol + 3 > $params['maxColForHours']) { // If frequency block number of column overlapse 'maxColForHours' then we reduce it
+                    $frequencyNbOfCol = $params['maxColForHours'] - $currentCol + 1;
+                }
+                else
+                {
+                    $frequencyNbOfCol = 3;
+                }
+                for($i=0;$i<$frequencyNbOfCol;$i++) {
+                    $schedule[] = $params['frequencies'][$frequencyIndex]->getContent();
+                }
+            }
         }
 
         return $result;
