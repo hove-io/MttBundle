@@ -122,7 +122,8 @@ define(['jquery'], function($) {
                 'externalNetworkId': elem.data('network_id'),
                 'externalLineId': elem.data('line_id'),
                 'calendarId': elem.data('block_content'),
-                'routeId': elem.data('block_route_id')
+                'routeId': elem.data('block_route_id'),
+                'blockId': elem.data('block_id')
             }
 
             $.ajax({

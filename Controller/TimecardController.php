@@ -525,7 +525,7 @@ class TimecardController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function loadOneCalendarAction($externalNetworkId, $externalLineId, $routeId, $calendarId)
+    public function loadOneCalendarAction($externalNetworkId, $externalLineId, $routeId, $calendarId, $blockId)
     {
         /** @var \CanalTP\MttBundle\Services\CalendarManager $calendarManager */
         $calendarManager = $this->get('canal_tp_mtt.calendar_manager');
@@ -535,6 +535,9 @@ class TimecardController extends AbstractController
 
         /** @var \CanalTP\MttBundle\Services\PerimeterManager $perimeterManager */
         $perimeterManager = $this->get('nmm.perimeter_manager');
+
+        /** @var \CanalTP\MTTBundle\Services\FrequencyManager $frequencyManager */
+        $frequencyManager = $this->get('canal_tp_mtt.frequency_manager');
 
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
             $this->getUser()->getCustomer(),
@@ -546,7 +549,8 @@ class TimecardController extends AbstractController
         $params = array(
             'minHour' => $lineTimecard->getLayoutStartHour(),
             'maxHour' => $lineTimecard->getLayoutEndHour(),
-            'maxColForHours' => 15
+            'maxColForHours' => 15,
+            'frequencies' => $frequencyManager->getByBlockId($blockId)
         );
 
         $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getTimecardCalendars($perimeter->getExternalCoverageId(), $lineTimecard);

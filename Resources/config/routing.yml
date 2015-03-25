@@ -134,7 +134,7 @@ canal_tp_mtt_timecard_load_calendars:
     options:
         expose: true
 canal_tp_mtt_timecard_load_one_calendar:
-    pattern: /timecard/calendar/{calendarId}/load/networks/{externalNetworkId}/line/{externalLineId}/route/{routeId}
+    pattern: /timecard/calendar/{calendarId}/load/networks/{externalNetworkId}/line/{externalLineId}/route/{routeId}/block/{blockId}
     defaults: { _controller: CanalTPMttBundle:Timecard:loadOneCalendar }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*

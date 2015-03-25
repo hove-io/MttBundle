@@ -393,20 +393,37 @@ class LineTimecardManager
     {
         $line = 0;
         $result = array();
+        $params['frequencyNbCol'] = 3;
+
+        $bFrequency = (count($params['frequencies']) > 0) ? false : true;
 
         foreach($stopPointSelected as $stop) {
 
             $lineTpl = 0;
             $currentCol = 1;
+            $cptFrequency = 0;
             $schedule = array();
 
             foreach ($stop->date_times as $detail) {
+                $f = '';
                 if (!empty($detail->date_time)) {
                     $detail->date_time_formated = date('His', strtotime($detail->date_time));
                     if ($currentCol <= $params['maxColForHours']) {
                         if ((int)$detail->date_time_formated >= (int)$params['minHour']
                             && (int)$detail->date_time_formated <= (int)$params['maxHour']
                         ) {
+
+                            if ($bFrequency) { // Gestion des fréquences
+                                /** @var \CanalTP\MttBundle\Entity\Frequency $frequency */
+                                foreach ($params['frequencies'] as $frequency) {
+                                    if ( (int)$detail->date_time_formated >= $frequency->getStartTime()->format('His')
+                                        && (int)$detail->date_time_formated <= $frequency->getEndTime()->format('His') ) {
+
+                                    }
+                                }
+                            }
+
+                            // Ajout de l'horaire
                             $schedule[] = $detail->date_time_formated;
                             $currentCol++;
                         }
