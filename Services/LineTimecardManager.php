@@ -397,18 +397,24 @@ class LineTimecardManager
 
         $bFrequency = false;
         if (isset($params['frequencies'])) {
-            $bFrequency = (count($params['frequencies']) > 0) ? false : true;
+            $numberOfFrequencies = count($params['frequencies']);
+            $bFrequency = ($numberOfFrequencies > 0) ? true : false;
         }
-
+        
         foreach($stopPointSelected as $stop) {
 
             $lineTpl = 0;
             $currentCol = 1;
-            $cptFrequency = 0;
             $schedule = array();
+            $allFrequenciesPassed = false;
+            if($bFrequency) {
+                $nextFrequencyBeginTime = $params['frequencies'][0]->getStartTime()->format('His');
+                $nextFrequencyEndTime = $params['frequencies'][0]->getEndTime()->format('His');
+                $frequencyIndex = 0;
+                $currenltyInsideFrequency = false;
+            }
 
             foreach ($stop->date_times as $detail) {
-                $f = '';
                 if (!empty($detail->date_time)) {
                     $detail->date_time_formated = date('His', strtotime($detail->date_time));
                     if ($currentCol <= $params['maxColForHours']) {
@@ -416,12 +422,35 @@ class LineTimecardManager
                             && (int)$detail->date_time_formated <= (int)$params['maxHour']
                         ) {
 
-                            if ($bFrequency) { // Gestion des fréquences
-                                /** @var \CanalTP\MttBundle\Entity\Frequency $frequency */
-                                foreach ($params['frequencies'] as $frequency) {
-                                    if ( (int)$detail->date_time_formated >= $frequency->getStartTime()->format('His')
-                                        && (int)$detail->date_time_formated <= $frequency->getEndTime()->format('His') ) {
-
+                            if ($bFrequency && !$allFrequenciesPassed) { // Frequency use case
+                                if($currenltyInsideFrequency)
+                                {
+                                    if ( (int)$detail->date_time_formated > $nextFrequencyEndTime) {
+                                        $currenltyInsideFrequency = false;
+                                        $frequencyIndex++;
+                                        if( $frequencyIndex < $numberOfFrequencies) {
+                                            $nextFrequencyBeginTime = $params['frequencies'][$frequencyIndex]->getStartTime()->format('His');
+                                            $nextFrequencyEndTime = $params['frequencies'][$frequencyIndex]->getEndTime()->format('His');
+                                        }
+                                        else
+                                        {
+                                            $allFrequenciesPassed = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        continue; // Ignore all datetime before $nextFrequencyEndTime
+                                    }
+                                }
+                                else
+                                {
+                                    if ( (int)$detail->date_time_formated >= $nextFrequencyBeginTime) {
+                                        $currenltyInsideFrequency = true;
+                                        $schedule[] = $params['frequencies'][$frequencyIndex]->getContent();
+                                        $schedule[] = $params['frequencies'][$frequencyIndex]->getContent();
+                                        $schedule[] = $params['frequencies'][$frequencyIndex]->getContent();
+                                        $currentCol += 3;
+                                        continue;
                                     }
                                 }
                             }
