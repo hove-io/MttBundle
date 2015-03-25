@@ -395,7 +395,10 @@ class LineTimecardManager
         $result = array();
         $params['frequencyNbCol'] = 3;
 
-        $bFrequency = (count($params['frequencies']) > 0) ? false : true;
+        $bFrequency = false;
+        if (isset($params['frequencies'])) {
+            $bFrequency = (count($params['frequencies']) > 0) ? false : true;
+        }
 
         foreach($stopPointSelected as $stop) {
 
