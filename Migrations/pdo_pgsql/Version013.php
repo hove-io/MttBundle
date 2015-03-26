@@ -4,7 +4,6 @@ namespace CanalTP\MttBundle\Migrations\pdo_pgsql;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
-use CanalTP\MttBundle\Entity\AmqpTask;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
