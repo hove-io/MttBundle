@@ -55,6 +55,7 @@ class Version012 extends AbstractMigration
         $this->addSql('ALTER TABLE mtt.line_timecard ADD COLUMN hash_pdf VARCHAR(255);');
         $this->addSql('ALTER TABLE mtt.line_timecard ADD pdf_generation_date TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL;');
 
+        $this->addSql('ALTER TABLE mtt.frequency ADD COLUMN filled_column bigint;');
 
         $this->addSql('ALTER TABLE mtt.block ADD line_timecard_id INT DEFAULT NULL;');
         $this->addSql('ALTER TABLE mtt.block ADD color VARCHAR(255) DEFAULT NULL;');

@@ -104,6 +104,7 @@ frequency:
         start_time: Heure de début
         end_time: Heure de fin
         content: Texte
+        cols: Colonnes occupés
 
 area:
     labels:

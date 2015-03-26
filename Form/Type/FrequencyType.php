@@ -26,20 +26,21 @@ class FrequencyType extends AbstractType
             'startTime',
             'time',
             array(
-                'with_minutes'  => false,
+                'with_minutes'  => true,
                 'hours' => $this->hoursRange,
                 'constraints' => array(
                     new NotBlank(),
                     new DateTime()
                 ),
                 'label' => 'frequency.labels.start_time'
+                //'data' => array('OO','30')
             )
         );
         $builder->add(
             'endTime',
             'time',
             array(
-                'with_minutes'  => false,
+                'with_minutes'  => true,
                 'hours' => $this->endHours,
                 'constraints' => array(
                     new NotBlank(),
@@ -63,6 +64,11 @@ class FrequencyType extends AbstractType
                 ),
                 'label' => 'frequency.labels.content'
             )
+        );
+        $builder->add(
+            'filledColumn',
+            'text',
+            array('label' => 'frequency.labels.cols')
         );
     }
 
