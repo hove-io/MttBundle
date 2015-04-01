@@ -374,7 +374,8 @@ class Navitia
             'parameters' => array(
                 'region' => $externalCoverageId,
                 'action' => 'calendars',
-                'path_filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId
+                'path_filter' => 'routes/' . $externalRouteId . '/stop_points/' . $externalStopPointId,
+                'parameters' => '?count=100'
             )
         );
 
