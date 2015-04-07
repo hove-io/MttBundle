@@ -35,8 +35,6 @@ class TimetableManager
         $lineConfig = $this->timetable->getLineConfig();
         $this->lineManager->initTwigPath($lineConfig);
 
-        //Before METH-453
-        //$this->timetable->setTitle($data->name);
         $this->timetable->setTitle($data->direction->stop_point->name);
     }
 
