@@ -35,7 +35,7 @@ class TimetableManager
         $lineConfig = $this->timetable->getLineConfig();
         $this->lineManager->initTwigPath($lineConfig);
 
-        $this->timetable->setTitle($data->name);
+        $this->timetable->setTitle($data->direction->stop_point->name);
     }
 
     /*
