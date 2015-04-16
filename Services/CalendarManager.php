@@ -256,7 +256,7 @@ class CalendarManager
                 $this->generateExceptionsValues($stopSchedulesData->exceptions)
             );
             $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
-            $calendar->active_periods = $this->parsePeriods($calendar->active_periods);
+            $calendar->active_periods = $this->parsePeriods((isset($calendar->active_periods) ? $calendar->active_periods : array()));
             $calendarsSorted[$calendar->id] = $calendar;
         }
 
