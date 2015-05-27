@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use CanalTP\MttBundle\Twig\CalendarExtension;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Frequency;
+use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Entity\LineTimecard;
 use CanalTP\MttBundle\Validator\Constraints\NotOverlapping;
 
 /*
@@ -18,9 +20,14 @@ class FrequenciesType extends AbstractType
 {
     private $hoursRange;
 
-    public function __construct(Block $block)
+    public function __construct(Block $block, $objectType)
     {
-        $layout = $block->getTimetable()->getLineConfig()->getLayoutConfig();
+        if($objectType == LineTimecard::OBJECT_TYPE) {
+            $layout = $block->getLineTimecard()->getLineConfig()->getLayoutConfig();
+        } elseif ($objectType == Timetable::OBJECT_TYPE) {
+            $layout = $block->getTimetable()->getLineConfig()->getLayoutConfig();
+        }
+
         $extension = new CalendarExtension();
         $this->hoursRange = $extension->calendarRange($layout);
         // add at least one empty frequency to show empty form

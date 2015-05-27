@@ -1,0 +1,55 @@
+CanalTP\MttBundle\Entity\LineTimecard:
+    type: entity
+    table: mtt.line_timecard
+    repositoryClass: CanalTP\MttBundle\Entity\LineTimecardRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        line_id:
+            type: string
+            length: 255
+        hash_pdf:
+            type: string
+            length: 255
+        pdfGenerationDate:
+              type: datetime
+              nullable: TRUE
+              column: pdf_generation_date
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    uniqueConstraints: { }
+    manyToOne:
+        perimeter:
+            targetEntity: CanalTP\NmmPortalBundle\Entity\Perimeter
+            joinColumn:
+                name: perimeter_id
+                referencedColumnName: per_id
+        line_config:
+            targetEntity: LineConfig
+            joinColumn:
+                name: line_config_id
+                referencedColumnName: id
+    oneToMany:
+        blocks:
+            targetEntity: Block
+            mappedBy: lineTimecard
+            orderBy:
+                domId: ASC
+            cascade:
+                - remove
+        timecards:
+            targetEntity: Timecard
+            mappedBy: lineTimecard
+    lifecycleCallbacks: {  }

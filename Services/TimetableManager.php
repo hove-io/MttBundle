@@ -74,10 +74,22 @@ class TimetableManager
     }
 
     /**
+     * Return timetable object
+     *
+     * @param $objectId
+     * @param $externalCoverageId
+     * @return Timetable
+     */
+    public function getById($objectId, $externalCoverageId)
+    {
+        return $this->getTimetableById($objectId, $externalCoverageId);
+    }
+
+    /**
      * Return timetable Object with navitia data added
      *
      * @param  Integer   $externalId
-     * @return timetable
+     * @return \CanalTp\MttBundle\Entity\Timetable
      */
     public function getTimetable($externalRouteId, $externalCoverageId, $lineConfig)
     {

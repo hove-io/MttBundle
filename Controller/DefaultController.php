@@ -49,8 +49,11 @@ class DefaultController extends AbstractController
         );
     }
 
-    public function navigationAction($externalNetworkId, $current_season, $current_route = null)
+    public function navigationAction($externalNetworkId, $current_season, $options = Array())
+//$current_season, $current_route = null)
     {
+        if ( !isset($options['current_route']) ) $options['current_route'] = null;
+
         // TODO: Put the default Network of User. (for $externalNetworkId)
         $mtt_navitia = $this->get('canal_tp_mtt.navitia');
         $perimeterManager = $this->get('nmm.perimeter_manager');
@@ -58,6 +61,7 @@ class DefaultController extends AbstractController
             $this->getUser()->getCustomer(),
             $externalNetworkId
         );
+
         try {
             $result = $mtt_navitia->findAllLinesByMode(
                 $perimeter->getExternalCoverageId(),
@@ -77,8 +81,8 @@ class DefaultController extends AbstractController
             array(
                 'result'            => $result,
                 'coverageId'        => $perimeter->getExternalCoverageId(),
-                'current_route'     => $current_route,
-                'current_season'    => $current_season
+                'current_season'    => $current_season,
+                'options'           => $options
             )
         );
     }

@@ -4,17 +4,26 @@ define(['jquery'], function($) {
     var url_params = {};
     var $icon_tpl = $('<span class="glyphicon"></span>');
     
-    layout.init = function($wrapper, blockTypes, timetableId, externalNetworkId, stop_point)
+    layout.init = function($wrapper, blockTypes, objectId, externalNetworkId, stop_point)
     {
         // store url params for later
         url_params.externalNetworkId  = externalNetworkId;
-        url_params.timetableId        = timetableId;
+        url_params.timetableId        = objectId;
         url_params.stop_point         = stop_point;
         // needed properties
         layout.blockLevel = stop_point == false ? 'route' : 'stop_point';
         layout.blockTypes = blockTypes;
+
+        $(".loading").hide();
+        $('.action-button').tooltip({
+            placement: 'right',
+            animation: true,
+            delay: { "show": 500, "hide": 100 }
+        });
+
         _bind_listeners();
         _bind_blocks_listeners();
+        _bind_blocks_calendar();
     };
     
     var _bind_blocks_listeners = function()
@@ -35,13 +44,121 @@ define(['jquery'], function($) {
                 });
             }
         });
+
+
     };
-    
+
+    var _bind_blocks_calendar = function()
+    {
+        $('.action-button').each(function() {
+            var action = $(this);
+
+            if (action.data('action_type') != undefined || action.data('action_target') != undefined) {
+                action.hover(function () {
+                    console.log('#' + $(this).data('action_target'));
+                    $('#' + $(this).data('action_target')).addClass('active');
+                }, function () {
+                    $('#' + $(this).data('action_target')).removeClass('active');
+                });
+
+                switch (action.data('action_type')) {
+                    case 'load-calendar':
+                        _bind_action_dataLoad(action);
+                        break;
+                    case 'edit-frequency':
+                        _bind_action_editFrequency(action);
+                        break;
+                    case 'edit-note':
+                        _bind_action_editNote(action);
+                        break;
+                    default:
+                        // do nothing
+                }
+            }
+        });
+
+        $('.targetDataCalendar').each(function() {
+            var elem = $(this);
+            var target = elem.parent().prev('.actionBarCalendar');
+            elem.hover(function(){
+                $(target).addClass('active');
+            }, function(){
+                $(target).removeClass('active');
+            });
+        });
+    };
+
+    _bind_action_editFrequency = function(action) {
+        action.on('click', function(){
+            var blockTarget = $(this).data('action_target');
+            var elem =  $('#' + blockTarget);
+
+            var params = {
+                'blockId'    : elem.data('block_id'),
+                'externalNetworkId': elem.data('network_id'),
+                'objectType':  elem.data('block-object')
+            };
+            $.extend(params, url_params);
+            var url = Routing.generate(
+                'canal_tp_mtt_frequency_edit',
+                params
+            );
+
+            $('#base-modal').modal({remote: url});
+            //return false;
+        });
+    };
+
+    var _bind_action_dataLoad = function(action) {
+        action.on('click', function(){
+            var blockTarget = $(this).data('action_target');
+            var elem =  $('#' + blockTarget);
+            var target = $('#' + elem.attr('id') + ' > .target');
+
+            target.hide();
+            $(".loading." + elem.data('calendar')).show();
+
+            var param = {
+                'externalNetworkId': elem.data('network_id'),
+                'externalLineId': elem.data('line_id'),
+                'calendarId': elem.data('block_content'),
+                'routeId': elem.data('block_route_id'),
+                'blockId': elem.data('block_id')
+            }
+
+            $.ajax({
+                type: "POST",
+                url: Routing.generate('canal_tp_mtt_timecard_load_one_calendar', param),
+                cache: false,
+                success: function(data){
+                    target.html(data.content);
+                    target.show();
+                    $(".loading." + elem.data('calendar')).hide();
+                },
+                error: function() {
+                    target.show();
+                    $(".loading." + elem.data('calendar')).hide();
+                }
+            });
+            return false;
+
+        });
+    };
+
+    _bind_action_editNote = function(action) {
+        action.on('click', function(){
+
+            return false;
+        });
+    };
+
     var _get_remote_modal = function()
     {
         var params = {
             'dom_id'    : $(this).attr('id'),
-            'block_type': $(this).data('block-type')
+            'block_type': $(this).data('block-type'),
+            'objectType':  $(this).data('block-object'),
+            'objectId':  $(this).data('block-object-id')
         };
         $.extend(params, url_params);
         var url = Routing.generate(
@@ -59,6 +176,10 @@ define(['jquery'], function($) {
             var data = $elem.data();
             if (data.blockLevel == layout.blockLevel && layout.blockTypes[data.blockType])
             {
+                if(data.blockType == 'calendar') {
+                    var icon_class_loader = icon_class + layout.blockTypes[data.blockType].icon_loader;
+                    $elem.prepend($icon_tpl.clone().addClass(icon_class_loader));
+                }
                 icon_class += layout.blockTypes[data.blockType].icon;
             }
             else
@@ -67,7 +188,9 @@ define(['jquery'], function($) {
                 $elem.addClass('disabled-block');
             }
             $elem.prepend($icon_tpl.clone().addClass(icon_class));
+
         });
+
         // return editable blocks only
         return $blocks.filter(function() { 
             return $(this).data("block-level") == layout.blockLevel;

@@ -1,0 +1,40 @@
+{% import templatePath ~ "macros.html.twig" as macros %}
+
+{% extends templatePath ~ "base_layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" media="all" href="{{ asset(cssPath ~ 'default.css') }}?{{ assets_version }}" />
+{% endblock %}
+
+{% block timecard_content %}
+    <div id="layout-1-wrapper">
+        <div class="layout-container">
+            <h1>Template de LIGNE</h1>
+            <div id="header" class="clearfix">
+                <div id="direction-title-wrapper" data-block-level="route" data-auto-filled="1">
+                    {% if timetable.title is defined %}
+                        {{ 'global.direction'|trans }} {{ timetable.title }}
+                    {% endif %}
+                </div>
+                <div id="stop-point-title-wrapper" data-block-level="stop_point" data-auto-filled="1">
+                    <div class="bold">{{'stop_point.label'|trans({}, 'default')}}:</div> {{ stopPoint.title }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {%
+    include "CanalTPMttBundle:Layouts:common.js.twig"
+    with {
+    'editable'          : editable,
+    'stopPointLevel'    : stopPointLevel,
+    'externalNetworkId' : externalNetworkId,
+    'blockTypes'        : blockTypes,
+    'timetable'         : timetable,
+    'stopPoint'         : stopPoint,
+    'selector'          : '#layout-1-wrapper' }
+    %}
+{% endblock %}

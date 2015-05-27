@@ -30,9 +30,12 @@
                 <div class="col-lg-2">
                     {{ form_row(frequency.endTime) }}
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-5">
                     {% set remaining_chars = frequency.content.vars.attr.maxlength - frequency.content.vars.data|length %}
                     {{ form_row(frequency.content, {'attr': {'help_text' : 'global.remaining_chars'|trans({'%nb_chars%': remaining_chars}, 'messages')}}) }}
+                </div>
+                <div class="col-lg-3">
+                    {{ form_row(frequency.filledColumn) }}
                 </div>
             </div>
             <hr/>

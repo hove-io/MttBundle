@@ -1,0 +1,68 @@
+{% extends "::modal.html.twig" %}
+
+{% block modal_title %}
+    {{'timecard.show_calendars'|trans({}, 'default')}}
+{% endblock %}
+
+{% block modal_body %}
+<div class="row">
+    <div class="col-md-12">
+        <label for="routeList">{{'timecard.btn.select_route'|trans({}, 'default')}}</label>
+        <select class="routeList">
+            {% for route in routes %}
+            <option value="{{ route.id|raw }}"
+                    data-line_id="{{ externalLineId|raw }}"
+                    data-network_id="{{ externalNetworkId|raw }}"
+                    {% if loop.index == 1 %}selected="selected"{%  endif %}>{{ route.name }}</option>
+            {%  endfor %}
+        </select>
+        <div class="loading">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+<div id="calendarsView">
+</div>
+
+{% endblock modal_body %}
+{% block javascripts %}
+    <script type="text/javascript">
+        require(['jquery'], function($) {
+            var popup_calendar = {};
+
+            $('.routeList').on('change', function(event) {
+                element = $(this).find(':selected');
+
+                $(".loading").show();
+
+                var param = {
+                    'externalNetworkId': element.data('network_id'),
+                    'externalLineId': element.data('line_id'),
+                    'routeId': element.val()
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: Routing.generate('canal_tp_mtt_timecard_load_calendars', param),
+                    cache: false,
+                    success: function(data){
+                        $('#calendarsView').html(data.content);
+                        $(".loading").hide();
+                    }
+                });
+                return false;
+            });
+
+            var _init = function()
+            {
+                $('.routeList').trigger('change');
+            }
+
+            _init();
+        });
+    </script>
+{% endblock %}

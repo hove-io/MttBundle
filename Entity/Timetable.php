@@ -7,6 +7,8 @@ namespace CanalTP\MttBundle\Entity;
  */
 class Timetable extends AbstractEntity
 {
+    const OBJECT_TYPE = 'timetable';
+
     /**
      * @var integer
      */
@@ -170,7 +172,7 @@ class Timetable extends AbstractEntity
      /**
      * Set lineConfig
      *
-     * @param  Object    $line
+     * @param  \CanalTP\MttBundle\Entity\Lineconfig $lineConfig
      * @return Timetable
      */
     public function setLineConfig($lineConfig)
@@ -193,5 +195,12 @@ class Timetable extends AbstractEntity
     public function isLocked()
     {
         return $this->getLineConfig()->isLocked();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() {
+        return self::OBJECT_TYPE;
     }
 }

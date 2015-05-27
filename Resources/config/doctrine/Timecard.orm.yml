@@ -1,0 +1,46 @@
+CanalTP\MttBundle\Entity\Timecard:
+    type: entity
+    table: mtt.timecard
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        lineId:
+            type: string
+            length: 255
+        routeId:
+            type: string
+            length: 255
+        seasonId:
+            type: integer
+        stopPoints:
+            type: array
+            column: stop_points
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    uniqueConstraints:
+        perimeter_timecard_idx:
+            columns: [perimeter_id, seasonId, lineId, routeId]
+    manyToOne:
+        perimeter:
+            targetEntity: CanalTP\NmmPortalBundle\Entity\Perimeter
+            joinColumn:
+                name: perimeter_id
+                referencedColumnName: per_id
+        lineTimecard:
+            targetEntity: LineTimecard
+            joinColumn:
+                name: line_timecard_id
+                referencedColumnName: id
+    lifecycleCallbacks: {}

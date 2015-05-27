@@ -154,3 +154,20 @@ customer:
     no_item: Pas de périmètre
     actions:
         assign_twig: Assigner
+
+timecard:
+    list_page_title: Fiche horaire de ligne
+    list_fh_title: Fiche horare de la ligne
+    confirm_order_saved: L'ordre de la liste a bien été enregistré
+    repeat_on_all_routes: Dupliquer la sélection sur les autres direction
+    show_calendars : Voir les horaires
+    line: Ligne
+    warning_empty_list: Liste d'arrêt proposée selon la liste définie pour l'Aller. Cliquez sur le bouton "Enregistrer" pour la conserver.
+    btn:
+        edit: Choisir les arrêts
+        download: Télécharger la FH
+        time: Voir les horaires
+        select_route: Direction
+    list:
+        columns:
+            label_1: PDF crée le

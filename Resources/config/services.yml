@@ -31,6 +31,10 @@ parameters:
     # Area
     canal_tp_mtt.area_manager.class: CanalTP\MttBundle\Services\AreaManager
     canal_tp_mtt.area_pdf_manager.class: CanalTP\MttBundle\Services\AreaPdfManager
+    # Timecard
+    canal_tp_mtt.timecard_manager.class: CanalTP\MttBundle\Services\TimecardManager
+    canal_tp_mtt.line_timecard_manager.class: CanalTP\MttBundle\Services\LineTimecardManager
+#   canal_tp_mtt.timecard_pdf_manager.class: CanalTP\MttBundle\Services\TimecardPdfManager
     # Layout
     canal_tp_mtt.layout.class: CanalTP\MttBundle\Services\LayoutManager
     canal_tp_mtt.layout_config.class: CanalTP\MttBundle\Services\LayoutConfigManager
@@ -66,6 +70,10 @@ services:
         arguments: ['@doctrine.orm.entity_manager', '@translator', '@canal_tp_mtt.area_pdf_manager']
         tags:
             - { name: twig.extension }
+    canal_tp_mtt.twig.svg_extension:
+            class: CanalTP\MttBundle\Twig\SvgExtension
+            tags:
+                - { name: twig.extension }
     # Service of mediaManager
     canal_tp.media_manager:
         class: %canal_tp.media_manager.class%
@@ -172,10 +180,20 @@ services:
     # Area
     canal_tp_mtt.area_manager:
         class: %canal_tp_mtt.area_manager.class%
-        arguments: ['@doctrine.orm.entity_manager', @nmm.perimeter_manager, '@canal_tp_mtt.area_pdf_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@nmm.perimeter_manager', '@canal_tp_mtt.area_pdf_manager']
     canal_tp_mtt.area_pdf_manager:
         class: %canal_tp_mtt.area_pdf_manager.class%
         arguments: ['@doctrine.orm.entity_manager', '@request_stack', "%kernel.root_dir%/../web/uploads/", '@canal_tp_mtt.task_manager']
+
+    # Timecard
+    canal_tp_mtt.timecard_manager:
+      class: %canal_tp_mtt.timecard_manager.class%
+      arguments: ['@doctrine.orm.entity_manager', '@nmm.perimeter_manager', '@security.context']
+
+    canal_tp_mtt.line_timecard_manager:
+          class: %canal_tp_mtt.line_timecard_manager.class%
+          arguments: ['@doctrine.orm.entity_manager', '@nmm.perimeter_manager', '@canal_tp_mtt.navitia', '@canal_tp_mtt.timecard_manager']
+
     # LayoutConfig
     canal_tp_mtt.layout_config:
         class: %canal_tp_mtt.layout_config.class%

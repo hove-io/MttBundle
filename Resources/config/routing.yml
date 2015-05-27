@@ -3,8 +3,10 @@ canal_tp_mtt_homepage:
     defaults: { _controller: CanalTPMttBundle:Default:index , externalNetworkId: null}
 
 canal_tp_mtt_menu:
-    pattern:  /navigation/networks/{externalNetworkId}/seasons/{current_season}/route/{current_route}
-    defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null }
+    #pattern:  /navigation/networks/{externalNetworkId}/seasons/{current_season}/route/{current_route}
+    pattern:  /navigation/networks/{externalNetworkId}/seasons/{current_season}
+    #defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null}
+    defaults: { _controller: CanalTPMttBundle:Default:navigation, options: {} }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 #Season
@@ -70,10 +72,75 @@ canal_tp_mtt_stop_point_list_json:
 
 #Line
 canal_tp_mtt_line_choose_layout:
-    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/line/{line_id}/choose_layout/route/{externalRouteId}
-    defaults: { _controller: CanalTPMttBundle:Line:chooseLayout }
+    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/line/{line_id}/choose_layout/route/{externalRouteId}/{destRoute}
+    defaults: { _controller: CanalTPMttBundle:Line:chooseLayout, destRoute: null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+#Timecard
+canal_tp_mtt_timecard_list:
+    pattern: /timecard/networks/{externalNetworkId}/list/line/{lineId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:list, lineId : null}
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+
+canal_tp_mtt_timecard_edit:
+    pattern: /timecard/edit/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}/ltc/{lineTimecardId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:edit}
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        externalRouteId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+        lineTimecardId: \d+
+    options:
+        expose: true
+
+canal_tp_mtt_timecard_edit_layout:
+    pattern: /timecard/editLayout/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:editLayout }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+
+
+canal_tp_mtt_timecard_save:
+    pattern: /timecard/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/route/{externalRouteId}/ltc/{lineTimecardId}/save
+    defaults: { _controller: CanalTPMttBundle:Timecard:save }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+
+canal_tp_mtt_timecard_view:
+    pattern: /timecard/view/networks/{externalNetworkId}/line/{externalLineId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:view }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+canal_tp_mtt_timecard_show_calendars:
+    pattern: /timecard/calendars/networks/{externalNetworkId}/line/{externalLineId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:showCalendars }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+canal_tp_mtt_timecard_load_calendars:
+    pattern: /timecard/calendars/load/networks/{externalNetworkId}/line/{externalLineId}/route/{routeId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:loadCalendars }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        routeId: -?[a-zA-Z0-9_\-:]*
+    options:
+        expose: true
+canal_tp_mtt_timecard_load_one_calendar:
+    pattern: /timecard/calendar/{calendarId}/load/networks/{externalNetworkId}/line/{externalLineId}/route/{routeId}/block/{blockId}
+    defaults: { _controller: CanalTPMttBundle:Timecard:loadOneCalendar }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        routeId: -?[a-zA-Z0-9_\-:]*
+    options:
+        expose: true
 
 #Timetable
 canal_tp_mtt_timetable_edit:
@@ -90,9 +157,9 @@ canal_tp_mtt_timetable_view:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
-canal_tp_mtt_timetable_generate_pdf:
-    pattern: /pdf/generate/timetable/{timetableId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
-    defaults: { _controller: CanalTPMttBundle:Pdf:generate}
+canal_tp_mtt_generate_pdf:
+    pattern: /pdf/generate/objectType/{objectType}/objectId/{objectId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
+    defaults: { _controller: CanalTPMttBundle:Pdf:generate, externalStopPointId: null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
@@ -107,19 +174,23 @@ canal_tp_mtt_timetable_download_pdf:
 #Block
 canal_tp_mtt_block_edit:
     # stop point must be the last param so it can be empty
-    pattern: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
-    defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null }
+    pattern: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/{objectType}/{objectId}/block_type/{block_type}/stop_point/{stop_point}
+    defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        objectType: -?[a-zA-Z0-9_\-:]*
+        objectId: \d+
     options:
         expose: true
 
 canal_tp_mtt_block_delete:
     # stop point must be the last param so it can be empty
-    pattern: /block/delete/networks/{externalNetworkId}/timetable/{timetableId}/blockId/{blockId}
+    pattern: /block/delete/networks/{externalNetworkId}/{objectType}/{objectId}/blockId/{blockId}
     defaults: { _controller: CanalTPMttBundle:Block:delete }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        objectType: -?[a-zA-Z0-9_\-:]*
+        objectId: \d+
 
 #Calendar
 canal_tp_mtt_calendar_view:
@@ -130,10 +201,12 @@ canal_tp_mtt_calendar_view:
 
 #Frequency
 canal_tp_mtt_frequency_edit:
-    pattern: /frequency/edit/networks/{externalNetworkId}/block/{blockId}/
+    pattern: /frequency/edit/networks/{externalNetworkId}/block/{blockId}/objectType/{objectType}
     defaults: { _controller: CanalTPMttBundle:Frequency:edit}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+    options:
+        expose: true
 
 #LayoutConfigs
 canal_tp_mtt_layout_config_list:

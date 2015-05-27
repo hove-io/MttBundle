@@ -387,6 +387,25 @@ class CalendarManager
     }
 
     /**
+     * @param $externalCoverageId
+     * @param \CanalTP\MttBundle\Entity\LineTimecard $lineTimecard
+     * @return array
+     */
+    public function getTimecardCalendars($externalCoverageId, $lineTimecard) {
+
+        $notesComputed = array();
+        $calendarsSorted = array();
+
+        $calendarsData = $this->navitia->getAllCalendarsForLine($externalCoverageId, $lineTimecard->getLineConfig()->getExternalLineId());
+
+        if (isset($calendarsData->calendars)) {
+            $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
+        }
+
+        return array('calendars' => $calendarsSorted, 'notes' => $notesComputed);
+    }
+
+    /**
      * Returns Calendars for a route
      * Datetimes are not parsed
      *
@@ -408,4 +427,39 @@ class CalendarManager
 
         return $calendarsSorted;
     }
+
+    /**
+     * Get all calendars for a line
+     *
+     * @param $externalCoverageId
+     * @param $externalLineId
+     * @return array
+     */
+    public function getCalendarsForLine($externalCoverageId, $externalLineId)
+    {
+        $calendarsSorted = array();
+
+        $calendarsData = $this->navitia->getAllCalendarsForLine($externalCoverageId, $externalLineId);
+
+        if (isset($calendarsData->calendars) && !empty($calendarsData->calendars)) {
+            foreach ($calendarsData->calendars as $calendar) {
+                //make it easier for template
+                $calendarsSorted[$calendar->id] = $calendar;
+            }
+        }
+
+        return $calendarsSorted;
+    }
+
+    public function getCalendar($externalCalendarId, $externalCoverageId, $externalLineId)
+    {
+        $calendarList = $this->getCalendarsForLine(
+            $externalCoverageId,
+            $externalLineId
+        );
+
+        $calendar = $this->findCalendar($externalCalendarId,$calendarList);
+        return $calendar;
+    }
+
 }

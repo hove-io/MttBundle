@@ -1,0 +1,110 @@
+{% extends "CanalTPMttBundle::generic_list.html.twig" %}
+{% block breadcrumb %}
+    <li>
+        <a href="{{ path(
+            'canal_tp_mtt_timecard_list', {
+                'externalNetworkId': externalNetworkId,
+                'lineId' : externalLineId
+            }) }}">
+            {{ 'menu.list_timecard' | trans({}, 'messages') }}
+        </a>
+    </li>
+    / {{ pageTitle }}
+{% endblock %}
+{% block subheader %}
+    {% if (stopPointsIncluded|length != 0) and (timecard.stopPoints|length == 0) %}
+        <div class="alert alert-dismissable alert-warning" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{'timecard.warning_empty_list'|trans({}, 'default')}}
+        </div>
+    {% endif %}
+{% endblock %}
+{% block main_content %}
+    <div class="row">
+        <div class="col-md-7">
+            <h1>Edition de la ligne {{ lineId }}
+            <select class="route" style="font-size: 15px;">
+                {% for route in routes %}
+                    {% if route.id == currentRouteId %}
+                        {% set cssClass = "active" %}
+                        {% set optionState = 'selected="selected"' %}
+                    {% else %}
+                        {% set cssClass = "" %}
+                        {% set optionState = "" %}
+                    {% endif %}
+                    <option
+                        value="{{ currentRouteId|raw }}" {{ optionState }}
+                        data-route_id="{{ route.id|raw }}"
+                        data-line_id="{{ externalLineId|raw }}"
+                        data-network_id="{{ externalNetworkId|raw }}"
+                        data-season_id="{{ seasonId|raw }}"
+                        data-linetimecard_id="{{ lineTimecardId|raw }}"
+                        data-href="{{ path('canal_tp_mtt_timecard_save', {
+                        'externalNetworkId': externalNetworkId,
+                        'externalLineId': externalLineId,
+                        'externalRouteId': route.id,
+                        'seasonId': seasonId,
+                        'lineTimecardId': lineTimecardId
+                        }) }}"
+                        >{{ route.name }}</option>
+                {% endfor %}
+            </select>
+            </h1>
+        </div>
+        <div class="col-md-5">
+            {% include 'CanalTPMttBundle:Timecard:partial_saveButton.html.twig' %}
+        </div>
+    </div>
+
+    <div class="row stopPointEditor">
+        <div class="col-md-6">
+            <h4>
+                {{'area.stops'|trans({}, 'default')}}
+                <a id="add-all-stop-points" class="btn btn-default btn-xs pull-right" href="#">
+                    {{'area.add_all'|trans({}, 'default')}} <span class="glyphicon glyphicon-arrow-right"></span>
+                </a>
+            </h4>
+            <hr class="no-border black" />
+            <ul id="excluded-stops" class="list-group">
+                {% for stopPoint in stopPoints %}
+                    <li class="list-group-item"
+                        data-route-id="{{ currentRouteId|raw }}"
+                        data-line-id="{{ lineId|raw }}"
+                        data-stop-point-id="{{ stopPoint.id|raw }}"
+                    >
+                        <span class="glyphicon glyphicon-resize-vertical"></span>
+                        <span class="stop_name">{{ stopPoint.name|raw }}</span>
+                        <a class="pull-right minus-btn toggle-stop-point-btn remove-stop-point-btn" href="#"></a>
+                        <a class="pull-right plus-btn toggle-stop-point-btn add-stop-point-btn" href="#"></a>
+                        <div><span class="line-code" style="display: inline;">{{ lineId|raw }}</span> - {{ currentDirectionName|raw }}</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h4>
+                {{'area.stops_included'|trans({}, 'default')}}
+            </h4>
+            <hr class="no-border black" />
+            <ul id="included-stops" class="list-group sortable area-list ui-sortable {% if stopPointsIncluded|length == 0 %} empty-list{% endif %}">
+                {% for stopPoint in stopPointsIncluded %}
+                    {% include 'CanalTPMttBundle:Area:stopPoint.html.twig' with {'stopPoint': stopPoint} %}
+                {% endfor %}
+                <span class="help-block{% if stopPointsIncluded|length != 0 %} display-none{% endif %}">{{'area.list_empty'|trans({}, 'default')}}</span>
+            </ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'CanalTPMttBundle:Timecard:partial_saveButton.html.twig' %}
+        </div>
+    </div>
+{% endblock main_content %}
+{% block javascripts %}
+
+    <script type="text/javascript">
+        require(['mtt/stop']);
+    </script>
+
+{% endblock %}

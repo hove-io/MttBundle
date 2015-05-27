@@ -18,7 +18,7 @@ class LineConfig extends AbstractEntity
     private $externalLineId;
 
     /**
-     * @var string
+     * @var \CanalTP\MttBundle\Entity\LayoutConfig
      */
     private $layoutConfig;
 
@@ -38,7 +38,7 @@ class LineConfig extends AbstractEntity
     private $stopPoints;
 
     /**
-     * @var Object
+     * @var \CanalTP\MttBundle\Entity\Season
      */
     private $season;
 
@@ -46,6 +46,11 @@ class LineConfig extends AbstractEntity
      * @var \Doctrine\Common\Collections\Collection
      */
     private $timetables;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    //private $timecards;
 
     /**
      * Set id
@@ -103,7 +108,7 @@ class LineConfig extends AbstractEntity
     /**
      * Get getLayoutConfig
      *
-     * @return string
+     * @return LayoutConfig
      */
     public function getLayoutConfig()
     {
@@ -180,20 +185,20 @@ class LineConfig extends AbstractEntity
     }
 
     /**
-     * Get season
+     * Get Season
      *
-     * @return object
+     * @return Season
      */
     public function getSeason()
     {
-        return ($this->season);
+        return $this->season;
     }
 
     /**
      * Set season
      *
      * @param  string $season
-     * @return Season
+     * @return LineConfig
      */
     public function setSeason($season)
     {

@@ -52,6 +52,9 @@ error:
 help:
     edit_block: Cliquer pour éditer ce bloc
     drop_here: Déposez les éléments ici
+    load_block: Re/Charger le block
+    edit_frequency_block: Fréquences
+    edit_note_block: Notes
 
 calendar:
     start: Heure de début des calendriers
@@ -68,11 +71,16 @@ calendar:
         content_higher_than_wrapper: Au moins un bloc dépasse la hauteur prévue.
         no_calendars_found: Pas de calendrier trouvé pour cet arrêt et cette saison
 
+route:
+    error:
+        no_routes_found: Pas de routes trouvés pour cet ligne
+
 menu:
     networks: Réseaux
     seasons: Saisons
     seasons_manage: Gestion des saisons
-    edit_timetables: Édition des fiches horaires
+    edit_timetables: FH à l'arrêt
+    list_timecard: FH de ligne
     networks_manage: Gestion des réseaux
     layouts_manage: Gestion des fonds de fiche
     area_manage: Secteurs
@@ -93,9 +101,10 @@ season:
 
 frequency:
     labels:
-        start_time: Heure de ébut
+        start_time: Heure de début
         end_time: Heure de fin
         content: Texte
+        cols: Colonnes occupés
 
 area:
     labels:
@@ -131,6 +140,11 @@ block:
         labels:
             title: Titre
             content: Calendrier
+            color: Choix de la couleur
+            route: Choix de la route
+            page_break: Saut de page
+            yes: Oui
+            no: Non
 
 customer:
     layout_list: Liste des modèles

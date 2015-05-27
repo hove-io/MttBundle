@@ -10,7 +10,7 @@ require(['jquery', 'mtt/layout', 'bootstrap'], function($, Layout){
     var layout = Layout.init(
         $('{{ selector|raw }}'),
         {{ blockTypes|json_encode()|raw }},
-        {{timetable.id|raw}},
+        {{ objectId|raw }},
         {{externalNetworkId|json_encode()|raw}},
         {{stopPointJs|json_encode()|raw}}
     );

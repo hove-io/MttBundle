@@ -1,6 +1,8 @@
 <?php
 
 namespace CanalTP\MttBundle\Entity;
+use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Entity\LineTimecard;
 
 /**
  * Block
@@ -33,9 +35,14 @@ class Block extends AbstractEntity
     private $title;
 
     /**
-     * @var Object
+     * @var Timetable Object
      */
     private $timetable;
+
+    /**
+     * @var LineTimecard Object
+     */
+    private $lineTimecard;
 
     /**
      * @var Object
@@ -46,6 +53,16 @@ class Block extends AbstractEntity
      * @var Object
      */
     private $frequencies;
+
+    /**
+     * @var string $color
+     */
+    private $color;
+
+    /**
+     * @var string $route
+     */
+    private $route;
 
     public function __construct()
     {
@@ -178,6 +195,30 @@ class Block extends AbstractEntity
     }
 
     /**
+     * Set lineTimecard
+     *
+     * @param integer $lineTimecard
+     *
+     * @return Block
+     */
+    public function setLineTimecard($lineTimecard)
+    {
+        $this->lineTimecard = $lineTimecard;
+
+        return $this;
+    }
+
+    /**
+     * Get lineTimecard
+     *
+     * @return string
+     */
+    public function getLineTimecard()
+    {
+        return $this->lineTimecard;
+    }
+
+    /**
      * Set stopPoint
      *
      * @param integer $stopPoint
@@ -229,6 +270,55 @@ class Block extends AbstractEntity
     }
 
     /**
+     * Set color
+     *
+     * @param integer $color
+     *
+     * @return Block
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+
+    /**
+     * Set route
+     *
+     * @param integer $route
+     *
+     * @return Block
+     */
+    public function setRoute($route)
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    /**
+     * Get route
+     *
+     * @return string
+     */
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
+    /**
      * Check if it is Img block
      *
      * @return boolean
@@ -236,6 +326,35 @@ class Block extends AbstractEntity
     public function isImg()
     {
         return ($this->getTypeId() == BlockRepository::IMG_TYPE);
+    }
+
+    /**
+     * Check if it is svg image
+     * @return bool
+     */
+    public function isImgSvg() {
+        if (preg_match("/\.svg/", $this->content)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get svg content file
+     * @return string
+     */
+    public function getSvgContent() {
+        $svg = file_get_contents($this->content);
+        return $svg;
+    }
+
+    /**
+     * Get base64 svg content file
+     * @return string
+     */
+    public function getBase64SvgContent() {
+        $svg = base64_encode(file_get_contents($this->content));
+        return $svg;
     }
 
     /**
@@ -260,6 +379,12 @@ class Block extends AbstractEntity
 
     public function isLocked()
     {
-        return $this->getTimetable()->isLocked();
+        if ($this->getTimetable() instanceof Timetable) {
+            return $this->getTimetable()->isLocked();
+        } else if ($this->getLineTimecard() instanceof LineTimecard) {
+            return $this->getLineTimecard()->isLocked();
+        }
     }
+
+
 }

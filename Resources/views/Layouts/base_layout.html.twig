@@ -49,7 +49,7 @@
                         </a>
                     </li>
                     <li{% if currentSeason.locked %} class="disabled"{% endif %}>
-                        <a href="{{ path('canal_tp_mtt_timetable_generate_pdf', {'timetableId': timetable.id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
+                        <a href="{{ path('canal_tp_mtt_generate_pdf', {'objectId': timetable.id, 'objectType': timetable, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
                             <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
                         </a>
                     </li>

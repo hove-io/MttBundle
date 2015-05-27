@@ -22,6 +22,14 @@ CanalTP\MttBundle\Entity\Block:
             type: string
             length: 255
             nullable: true
+        color:
+            type: string
+            length: 255
+            nullable: true
+        route:
+            type: string
+            length: 255
+            nullable: true
         created:
             type: datetime
             gedmo:
@@ -38,6 +46,11 @@ CanalTP\MttBundle\Entity\Block:
             targetEntity: Timetable
             joinColumn:
                 name: timetable_id
+                referencedColumnName: id
+        lineTimecard:
+            targetEntity: LineTimecard
+            joinColumn:
+                name: line_timecard_id
                 referencedColumnName: id
         stopPoint:
             targetEntity: StopPoint

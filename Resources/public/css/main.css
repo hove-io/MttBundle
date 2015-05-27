@@ -172,3 +172,150 @@ li.ui-sortable-helper span{
 .list-group li.list-group-item:first-child{
     border-top:0;
 }
+
+.dropdown-menu.checkbox-dropdown-menu {
+    width: 175px;
+}
+
+.dropdown-menu.checkbox-dropdown-menu li div {
+    clear: both;
+}
+
+.dropdown-menu.checkbox-dropdown-menu input[type='checkbox'] {
+    margin-right: 12px;
+    float: right;
+}
+
+.dropdown-menu.checkbox-dropdown-menu label {
+    float: left;
+    width: 70%;
+    padding-left: 12px;
+    font-size: 10px;
+}
+
+/*Line timecard */
+.actionButtonBlock {
+    width: 100%
+    overflow: auto;
+}
+
+.stopPointEditor {
+    padding-top: 20px;
+}
+
+#base-modal .modal-body .modalLineTimetable {
+    width: 100%;
+}
+
+#base-modal .modal-body .modalLineTimetable tr {
+    height: 14px;
+    vertical-align: middle;
+    font-size: 10px;
+}
+
+#base-modal .modal-body .modalLineTimetable .line td {
+    text-align: center;
+}
+
+#base-modal .modal-body .modalLineTimetable tr.firstLine {
+    font-weight: bold;
+}
+
+#base-modal .modal-body .modalLineTimetable tr.line:nth-child(odd) {
+    background-color: #eee;
+}
+
+#base-modal .modal-body  .modalLineTimetable tr.line:nth-child(even) {
+    background-color: #fff;
+}
+
+#base-modal .modal-body  .modalLineTimetable.infoComp {
+
+}
+#base-modal .modal-body  .modalLineTimetable.infoComp td {
+    width: 33%;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.loading {
+    width: 40px;
+    height: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+/** LOADER **/
+.loading > div {
+    content: " ";
+    width: 8px;
+    height: 8px;
+    background: #2196F3;
+    border-radius: 100%;
+    position: absolute;
+    -webkit-animation: shift 2s linear infinite;
+    animation: shift 2s linear infinite;
+}
+.loading > div:nth-of-type(1) {
+    -webkit-animation-delay: -.4s;
+    animation-delay: -.4s;
+}
+.loading > div:nth-of-type(2) {
+    -webkit-animation-delay: -.8s;
+    animation-delay: -.8s;
+}
+.loading > div:nth-of-type(3) {
+    -webkit-animation-delay: -1.2s;
+    animation-delay: -1.2s;
+}
+.loading > div:nth-of-type(4) {
+    -webkit-animation-delay: -1.6s;
+    animation-delay: -1.6s;
+}
+
+@-webkit-keyframes shift {
+    0% {
+        left: -24px;
+        opacity: 0;
+        background-color: yellow;
+    }
+    10% {
+        left: 0;
+        opacity: 1;
+    }
+    90% {
+        left: 40px;
+        opacity: 1;
+    }
+    100% {
+        left: 64px;
+        background-color: red;
+        opacity: 0;
+    }
+}
+
+@keyframes shift {
+    0% {
+        left: -24px;
+        opacity: 0;
+        background-color: yellow;
+    }
+    10% {
+        left: 0;
+        opacity: 1;
+    }
+    90% {
+        left: 40px;
+        opacity: 1;
+    }
+    100% {
+        left: 64px;
+        background-color: red;
+        opacity: 0;
+    }
+}
+/** LOADER **/

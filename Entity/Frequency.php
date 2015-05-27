@@ -28,6 +28,11 @@ class Frequency extends AbstractEntity
     private $content;
 
     /**
+     * @var int
+     */
+    private $filledColumn;
+
+    /**
      * @var Block
      */
     private $block;
@@ -109,6 +114,28 @@ class Frequency extends AbstractEntity
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set columns number who must filled by frequency
+     *
+     * @param integer $filledColumn
+     * @return $this
+     */
+    public function setFilledColumn($filledColumn)
+    {
+        $this->filledColumn = $filledColumn;
+        return $this;
+    }
+
+    /**
+     * Get columns number who must filled by frequency
+     *
+     * @return integer
+     */
+    public function getFilledColumn()
+    {
+        return $this->filledColumn;
     }
 
     /**

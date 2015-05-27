@@ -8,4 +8,5 @@ class CategoryType
     const ROUTE             = 'route';
     const SEASON            = 'season';
     const STOP_POINT        = 'stop_point';
+    const LINE              = 'line';
 }

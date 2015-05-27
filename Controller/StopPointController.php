@@ -51,13 +51,13 @@ class StopPointController extends AbstractController
                 'pageTitle'         => "menu.edit_timetables",
                 'lineConfig'        => $lineConfig,
                 'routes'            => $routes,
-                'current_route'     => $externalRouteId,
                 'externalNetworkId' => $perimeter->getExternalNetworkId(),
                 'externalLineId'    => $line_id,
                 'seasons'           => $seasons,
                 'currentSeason'     => $currentSeason,
                 'currentSeasonId'   => $currentSeasonId,
                 'externalRouteId'   => $externalRouteId,
+                'options'           => array('current_route' => $externalRouteId)
             )
         );
     }

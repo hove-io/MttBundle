@@ -29,6 +29,8 @@ class CalendarExtension extends \Twig_Extension
      * also used to determine the index of a hour value (ex: when validating forms)
      *
      * @param $layout Layout entity object
+     *
+     * @return array
      */
     public function calendarRange($layout)
     {
@@ -56,6 +58,8 @@ class CalendarExtension extends \Twig_Extension
      * @param $hour String hour value in string
      * @param $frequencies Array of frequency entities
      * @param $hours array as returned by this->calendarRange
+     *
+     * @return boolean
      */
     public function isWithinFrequency($hour, $frequencies, $hours)
     {
@@ -76,6 +80,8 @@ class CalendarExtension extends \Twig_Extension
      *
      * @param $datetime DateTime object
      * @param $hours Array
+     *
+     * @return integer
      */
     public function hourIndex($datetime, $hours)
     {
@@ -84,6 +90,10 @@ class CalendarExtension extends \Twig_Extension
         return $this->getIndex($searchedHour, $hours);
     }
 
+    /**
+     * Return name extension
+     * @return string
+     */
     public function getName()
     {
         return 'calendar_extension';

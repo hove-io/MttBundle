@@ -17,6 +17,8 @@ use CanalTP\MttBundle\Form\Type\Block\ImgType as ImgBlockType;
 use CanalTP\MttBundle\Form\Handler\Block\ImgHandler as ImgBlockHandler;
 // Calendar Block
 use CanalTP\MttBundle\Form\Type\Block\CalendarType as CalendarBlockType;
+// Page breaker block
+use CanalTP\MttBundle\Form\Type\Block\PageBreakType as PageBreakBlockType;
 
 class BlockTypeFactory
 {
@@ -28,6 +30,7 @@ class BlockTypeFactory
     private $type = null;
     private $data = null;
     private $externalCoverageId = null;
+    private $externalNetworkId = null;
     private $oldData = array();
     private $instance = null;
 
@@ -44,12 +47,13 @@ class BlockTypeFactory
         $this->formFactory = $formFactory;
     }
 
-    public function init($type, $data, $instance, $externalCoverageId)
+    public function init($type, $data, $instance, $externalCoverageId, $externalNetworkId)
     {
         $this->type = $type;
         $this->data = $data;
         $this->instance = $instance;
         $this->externalCoverageId = $externalCoverageId;
+        $this->externalNetworkId = $externalNetworkId;
         $serializer = new Serializer(array(new BlockNormalizer()));
         // store data before we give Entity to forms (used by ImgBlock so far)
         $this->oldData = $serializer->normalize($this->instance);
@@ -63,8 +67,10 @@ class BlockTypeFactory
             case BlockRepository::CALENDAR_TYPE:
                 $objectType = new CalendarBlockType(
                     $this->co->get('canal_tp_mtt.calendar_manager'),
+                    $this->co->get('canal_tp_mtt.navitia'),
                     $this->instance,
-                    $this->externalCoverageId
+                    $this->externalCoverageId,
+                    $this->externalNetworkId
                 );
                 break;
             case BlockRepository::TEXT_TYPE:
@@ -72,6 +78,9 @@ class BlockTypeFactory
                 break;
             case BlockRepository::IMG_TYPE:
                 $objectType = new ImgBlockType();
+                break;
+            case BlockRepository::PAGE_BREAK_TYPE:
+                $objectType = new PageBreakBlockType();
                 break;
         }
 
@@ -98,6 +107,7 @@ class BlockTypeFactory
         switch ($this->type) {
             case BlockRepository::CALENDAR_TYPE:
             case BlockRepository::TEXT_TYPE:
+            case BlockRepository::PAGE_BREAK_TYPE:
                 $handler = new TextBlockHandler($this->om, $this->instance);
                 break;
             case BlockRepository::IMG_TYPE:

@@ -13,6 +13,7 @@ class BlockRepository extends EntityRepository
     const TEXT_TYPE      = 'text';
     const IMG_TYPE       = 'img';
     const CALENDAR_TYPE  = 'calendar';
+    const PAGE_BREAK_TYPE   = 'pageBreak';
 
     /**
      * find a block by Route Id And DomId
@@ -37,6 +38,57 @@ class BlockRepository extends EntityRepository
                 $timetableId
             );
             $block->setTimetable($timetable);
+        }
+
+        return $block;
+    }
+
+    /**
+     * @param $lineTimecardId
+     * @param $domId
+     * @return lock Entity or null
+     */
+    public function findByLineTimecardIdAndDomId($lineTimecardId, $domId)
+    {
+        $block = $this->findOneBy(
+            array(
+                'lineTimecard' => $lineTimecardId,
+                'domId' => $domId,
+            )
+        );
+
+        // no block found so create first a non persistent block
+        if (empty($block)) {
+            $block = new Block();
+            $block->setDomId($domId);
+            $lineTimecard = $this->getEntityManager()->getRepository('CanalTPMttBundle:LineTimecard')->find(
+                $lineTimecardId
+            );
+            $block->setLineTimecard($lineTimecard);
+        }
+
+        return $block;
+    }
+
+    public function findByObjectIdAndDomId($objectId, $objectType, $domId)
+    {
+
+        $block = $this->findOneBy(
+            array(
+                $objectType => $objectId,
+                'domId' => $domId,
+            )
+        );
+
+        // no block found so create first a non persistent block
+        if (empty($block)) {
+            $block = new Block();
+            $block->setDomId($domId);
+            $object = $this->getEntityManager()->getRepository('CanalTPMttBundle:'.ucfirst($objectType))->find(
+                $objectId
+            );
+            $setter = 'set' . ucfirst($objectType);
+            $block->$setter($object);
         }
 
         return $block;

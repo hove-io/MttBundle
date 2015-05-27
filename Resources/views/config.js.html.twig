@@ -1,14 +1,16 @@
 <script>
 requirejs.config({
+    urlArgs: '{{ assets_version }}',
     paths: {
         'mtt_left_menu':                'bundles/canaltpmtt/js/left_menu',
         'mtt/layout':                   'bundles/canaltpmtt/js/layout',
         'mtt/layout/validator':         'bundles/canaltpmtt/js/layout/validator',
         'mtt/form':                     'bundles/canaltpmtt/js/form',
         'mtt/form/collection':          'bundles/canaltpmtt/js/form/collection',
-        'mtt/form/chooseLayout':          'bundles/canaltpmtt/js/form/chooseLayout',
+        'mtt/form/chooseLayout':        'bundles/canaltpmtt/js/form/chooseLayout',
         'mtt/form/validation/frequency':'bundles/canaltpmtt/js/form/validation/frequency',
-        'mtt/area':                     'bundles/canaltpmtt/js/area'
+        'mtt/area':                     'bundles/canaltpmtt/js/area',
+        'mtt/stop':                     'bundles/canaltpmtt/js/stop'
     },
     deps: ['utils', 'mtt/form']
 });
