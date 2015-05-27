@@ -32,7 +32,6 @@
 	"canaltp/media-manager-bundle": "0.0.11"
     },
     "autoload": {
-        "psr-0": { "CanalTP\\MttBundle\\": "" }
-    },
-    "target-dir": "CanalTP/MttBundle/"
+        "psr-4": { "CanalTP\\MttBundle\\": "" }
+    }
 }
