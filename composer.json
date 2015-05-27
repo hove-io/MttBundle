@@ -4,7 +4,7 @@
     "description": "Mtt Bundle",
     "keywords": [],
     "homepage": "https://github.com/CanalTP/MttBundle",
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "authors": [
         {
             "name": "Vincent Degroote",
