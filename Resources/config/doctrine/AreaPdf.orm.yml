@@ -30,6 +30,7 @@ CanalTP\MttBundle\Entity\AreaPdf:
             joinColumn:
                 name: area_id
                 referencedColumnName: id
+            cascade: ["refresh"]
         season:
             targetEntity: Season
             joinColumn:
