@@ -33,7 +33,7 @@ class LayoutModelControllerTest extends AbstractControllerTest
     {
         $form = $this->getEditForm();
         $archive = new \Symfony\Component\HttpFoundation\File\UploadedFile(
-            'vendor/canaltp/mtt-bundle/CanalTP/MttBundle/Tests/DataFixtures/ORM/layout1.zip',
+            'vendor/canaltp/mtt-bundle/Tests/DataFixtures/ORM/layout1.zip',
             'layout1.zip'
         );
         $form['layout_config[file]'] = $archive;
