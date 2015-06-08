@@ -170,6 +170,7 @@ class PdfGenCompletionLib
         $pdfGenerator = $this->container->get('canal_tp_mtt.pdf_generator');
         $areaPdfManager = $this->container->get('canal_tp_mtt.area_pdf_manager');
         $areaPdf = $this->areaPdfRepo->find($task->getObjectId());
+        $this->om->refresh($areaPdf);
 
         $paths = array();
         $lineConfig = false;
