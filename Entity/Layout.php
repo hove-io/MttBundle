@@ -187,15 +187,13 @@ class Layout extends AbstractEntity
      */
     public function getOrientationAsString()
     {
-        $orientationAsString = '';
         switch ($this->orientation) {
+            case self::ORIENTATION_PORTRAIT:
+                return 'portrait';
             case self::ORIENTATION_LANDSCAPE:
             default:
-                $orientationAsString = 'landscape';
-                break;
+                return 'landscape';
         }
-
-        return $orientationAsString;
     }
 
     /**

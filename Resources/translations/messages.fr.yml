@@ -118,12 +118,6 @@ layout_model:
     labels:
         archive_path: Chemin de l'archive
 
-layout:
-    orientation:
-        landscape: Paysage
-        portrait: Portrait
-        unknown: Inconnu
-
 block:
     img:
         labels:

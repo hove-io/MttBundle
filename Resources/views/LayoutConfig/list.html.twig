@@ -38,7 +38,7 @@
                     <img class="layout-preview" src="{{ app.request.basePath ~ layoutConfig.previewPath }}" />
                 </td>
                 <td>
-                    {{ orientationName(layoutConfig.layout.orientation) }}
+                    {{ ('layout.orientation.' ~ layoutConfig.layout.orientationAsString)|trans }}
                 </td>
                 <td>
                     {{ layoutConfig.calendarStart }}

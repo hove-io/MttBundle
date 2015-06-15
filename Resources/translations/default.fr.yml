@@ -52,6 +52,11 @@ layout_model:
     list: Liste des modèles
     uploaded: Modèle enregistré
 
+layout:
+    orientation:
+        landscape: Paysage
+        portrait: Portrait
+
 block:
     get_form:
         title: Éditer le bloc
