@@ -8,6 +8,7 @@ namespace CanalTP\MttBundle\Entity;
 class Layout extends AbstractEntity
 {
     const ORIENTATION_LANDSCAPE = 0;
+    const ORIENTATION_PORTRAIT = 1;
 
     /**
      * @var integer
