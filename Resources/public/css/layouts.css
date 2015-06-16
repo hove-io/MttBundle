@@ -4,15 +4,13 @@ body.editable{
     min-width:1100px;
 }
 /**
-*@ToDo check min-witdh usage ?
+*@ToDo check editable min-witdh usage
 */
 #layout-main-wrapper{
     background-color:white;
     font-family:Arial, Helvetica, sans-serif;
-
     -webkit-print-color-adjust: exact;
     border:1px solid black;
-
     margin:10px auto;
     position:relative;
 }
