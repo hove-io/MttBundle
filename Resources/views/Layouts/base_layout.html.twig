@@ -105,7 +105,7 @@
         %}
         </div>
     {% endif %}
-    <div id="layout-main-wrapper"{% if editable == true %} class="editable"{% endif %}>
+    <div id="layout-main-wrapper" class="{{orientation}} {% if editable == true %}editable{% endif %}">
         {% block timetable_content %}{% endblock %}
     </div>
 
