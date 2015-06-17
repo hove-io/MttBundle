@@ -40,7 +40,8 @@ class PdfController extends AbstractController
                     'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
                     'externalRouteId'       => $timetable->getExternalRouteId(),
                     'externalStopPointId'   => $externalStopPointId,
-                    'customerId'            => $customer->getId()
+                    'orientation'           => $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientationAsString(),
+                    'customerId'            => $customer->getId(),
                 )
             );
         } else {
