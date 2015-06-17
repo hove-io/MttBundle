@@ -269,7 +269,7 @@ class CalendarManager
 
         foreach ($links as $link) {
             foreach ($annotations as $annotation) {
-                if ($link->id == $annotation->id) {
+                if (isset($link->id) && $link->id == $annotation->id) {
                     $result[$link->id] = $annotation;
                 }
             }

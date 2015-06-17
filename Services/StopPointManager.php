@@ -45,11 +45,11 @@ class StopPointManager
 
     private function initStopPointCode($externalCoverageId)
     {
-        $externalCode = $this->navitia->getStopPointExternalCode(
+        $codes = $this->navitia->getStopPointCodes(
             $externalCoverageId,
             $this->stopPoint->getExternalId()
         );
-        $this->stopPoint->setExternalCode($externalCode);
+        $this->stopPoint->setCodes($codes);
     }
 
     private function initStopPointPois($externalCoverageId)

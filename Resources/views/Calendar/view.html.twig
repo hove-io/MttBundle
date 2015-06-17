@@ -119,7 +119,15 @@
                             <hr/>
                         </div>
                         {% endif %}
-                        <div><label class="bold">{{'global.stop_point_code'|trans({}, 'messages')}}</label>: {{ calendar.schedules.stop_point.codes|externalCode }}</div>
+                        <div>
+                            <dl>
+                                <dt>{{'global.stop_point_code'|trans({}, 'messages')}}</dt>
+                                {% for code in calendar.schedules.stop_point.codes %}
+                                {% set value = code.type == 'external_code' ? code.value|slice(3) : code.value %}
+                                <dd>{{ code.type }} : {{ value }}</dd>
+                                {% endfor %}
+                            </dl>
+                        </div>
                         <div><label class="bold">{{'global.mode'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.commercial_mode }}</div>
                         <div><label class="bold">{{'global.direction'|trans({}, 'messages')}}</label>: {{ calendar.schedules.display_informations.direction }}</div>
                         <div><label class="bold">{{'calendar.line_code'|trans}}</label>: {{ calendar.schedules.display_informations.code }}</div>
