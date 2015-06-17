@@ -2,8 +2,8 @@
 .display-none{
     display:none;
 }
-.btn.disabled, 
-.btn[disabled], 
+.btn.disabled,
+.btn[disabled],
 fieldset[disabled] .btn {
     pointer-events:auto;
 }
@@ -22,7 +22,7 @@ textarea {
 .layout-preview{
     border:1px solid black;
     max-height:240px;
-    width:100%;
+    max-width:100%;
 }
 .layout-choice{
     float:left;
