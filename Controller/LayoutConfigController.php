@@ -21,8 +21,7 @@ class LayoutConfigController extends AbstractController
             array(
                 'pageTitle' => 'menu.layouts_manage',
                 'layoutConfigs' => $this->get('canal_tp_mtt.layout_config')->findLayoutConfigByCustomer(),
-                'externalNetworkId' => $externalNetworkId,
-                'layoutConfigRepo' => $layoutConfigRepo
+                'externalNetworkId' => $externalNetworkId
             )
         );
     }
