@@ -5,11 +5,11 @@
     .row,
     .col-md-12,
     #global-flexible-wrapper {
-        background:white;
+        background: white;
         margin: 0 auto;
         padding: 0;
-        min-height:initial;
-        max-width:1116px;
+        min-height: initial;
+        max-width: 1116px;
     }
     #header-bg,
     #footer-bg,
@@ -18,19 +18,19 @@
     .alert,
     .navbar,
     .breadcrumb,
-    .no-print{
-        display:none;
+    .no-print {
+        display: none;
     }
-    #layout-main-wrapper{
-        border:none;
-        height:auto;
-        margin:0;
+    #layout-main-wrapper {
+        border: none;
+        height: auto;
+        margin: 0;
     }
-    #layout-main-wrapper > div{
+    #layout-main-wrapper > div {
         box-sizing: border-box;
-        max-width:1116px;
+        max-width: 1116px;
     }
-    #layout-main-wrapper.wrapper-portrait{
+    #layout-main-wrapper.wrapper-portrait {
         margin: 14px;
     }
 }
