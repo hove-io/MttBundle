@@ -28,7 +28,7 @@ class StopPointExtension extends \Twig_Extension
             }
         }
 
-        return $this->getCode($codes, 'external_code');
+        return;
     }
 
     public function getName()
