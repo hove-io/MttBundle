@@ -1,7 +1,7 @@
 /* common layouts */
 body.editable{
     background-color:#e6e6e6;
-    min-width:1100px;
+    max-width:1100px;
 }
 /**
 *@ToDo check editable min-witdh usage
@@ -11,17 +11,16 @@ body.editable{
     height:800px;
 }
 .wrapper-portrait{
-    /*A4 perfect fit, no margin*/
-    width:1116px;
-    height:1578px;
+    width:800px;
+    height:1100px;
 }
 #layout-main-wrapper{
     background-color:white;
     font-family:Arial, Helvetica, sans-serif;
     -webkit-print-color-adjust: exact;
     border:1px solid black;
-    margin:10px auto;
     position:relative;
+    margin: 10px auto;
 }
 .editable .block{
     border: 1px solid transparent;
