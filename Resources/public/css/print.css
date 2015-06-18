@@ -9,6 +9,7 @@
         margin: 0 auto;
         padding: 0;
         min-height:initial;
+        width:1116px;
     }
     #header-bg,
     #footer-bg,
@@ -27,14 +28,6 @@
     }
     #layout-main-wrapper > div{
         box-sizing: border-box;
-    }
-    #layout-main-wrapper.landscape{
         width:1116px;
     }
-    #layout-main-wrapper.portrait{
-        width:800px;
-        height:1116px;
-    }
-
-
 }

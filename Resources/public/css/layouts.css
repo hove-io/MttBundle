@@ -19,8 +19,9 @@ body.editable{
     height:800px;
 }
 #layout-main-wrapper.portrait{
-    width:800px;
-    height:1100px;
+    /*A4 perfect fit, no margin*/
+    width:1116px;
+    height:1578px;
 }
 .editable .block{
     border: 1px solid transparent;
