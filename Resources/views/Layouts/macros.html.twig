@@ -38,7 +38,7 @@
     </div>
 {% endmacro %}
 
-{% macro stop_point_code(id, stopPoint, class, title = null, type = 'extenal_code') %}
+{% macro stop_point_code(id, stopPoint, class, title = null, type = 'external_code') %}
     <div id="{{ id }}"  class="{{ class }}">
         {% set blockTitle = title ? title : 'stop_point.block.code.title' %}
         <div class="title">{{blockTitle|trans({}, 'default')}}</div>
