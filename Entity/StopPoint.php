@@ -40,7 +40,7 @@ class StopPoint extends AbstractEntity
     /**
      * @var string
      */
-    private $externalCode;
+    private $codes;
 
     /**
      * @var string
@@ -195,24 +195,25 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get externalCode
+     * Get codes
      *
-     * @return string
+     * @return array
      */
-    public function getExternalCode()
+    public function getCodes()
     {
-        return $this->externalCode;
+        return $this->codes;
     }
 
     /**
-     * Set externalCode
+     * Set codes
      *
-     * @param  string    $externalCode
+     * @param array $codes
+     *
      * @return StopPoint
      */
-    public function setExternalCode($externalCode)
+    public function setCodes(array $codes)
     {
-        $this->externalCode = $externalCode;
+        $this->codes = $codes;
 
         return $this;
     }
