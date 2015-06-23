@@ -40,7 +40,7 @@ class SeasonRepository extends EntityRepository
         $qb = $this->createQueryBuilder('s');
         $qb->where("s.perimeter = :perimeter")
             ->setParameter('perimeter', $perimeter)
-            ->orderBy('s.startDate', 'ASC')
+            ->orderBy('s.startDate', 'DESC')
         ;
 
         return $qb->getQuery()->getResult();
