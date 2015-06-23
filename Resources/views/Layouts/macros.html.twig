@@ -38,6 +38,7 @@
     </div>
 {% endmacro %}
 
+{# params string note    additional small text #}
 {% macro stop_point_code(id, stopPoint, class, title = null, type = 'external_code', note = 'false') %}
     <div id="{{ id }}"  class="{{ class }}">
         {% set blockTitle = title ? title : 'stop_point.block.code.title' %}
@@ -98,6 +99,7 @@
     {% endif %}
 {% endmacro %}
 
+{# params string colorAltern    how to style timegrid, color direction, line or column #}
 {% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin, notesType, colorAltern = 'line') %}
     {% if linesMin is empty %}
         {% set loopMax = calendar|calendarMax %}
