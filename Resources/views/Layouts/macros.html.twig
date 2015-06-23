@@ -96,7 +96,7 @@
     {% endif %}
 {% endmacro %}
 
-{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin, notesType) %}
+{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin, notesType, colorAltern = 'line') %}
     {% if linesMin is empty %}
         {% set loopMax = calendar|calendarMax %}
     {% else %}
@@ -160,9 +160,9 @@
         </tr>
     {% endif %}
     {% for i in 0..loopMax - 1 %}
-        <tr class="{% if i % 2  == 0 %}even{% else %}odd{% endif %}">
+        <tr {% if colorAltern == 'line' %}class="{% if i % 2  == 0 %}even{% else %}odd{% endif %}"{% endif %}>
         {% for index,hour in hours_range %}
-            <td class="timegrid-column">{% spaceless %}
+            <td class="timegrid-column{% if colorAltern == 'column' %}{% if index % 2  == 0 %} even{% else %} odd{% endif %}{% endif %}">{% spaceless %}
                 {% if calendar and calendar.schedules.additional_informations is null %}
                     {% set datetime = attribute(calendar.schedules.date_times, hour) %}
                     {% if
