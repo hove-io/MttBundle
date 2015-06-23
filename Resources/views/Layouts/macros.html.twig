@@ -38,7 +38,10 @@
     </div>
 {% endmacro %}
 
-{# params string note    additional small text #}
+{# params
+    string type    external code
+    string note    additional small text
+#}
 {% macro stop_point_code(id, stopPoint, class, title = null, type = 'external_code', note = 'false') %}
     <div id="{{ id }}"  class="{{ class }}">
         {% set blockTitle = title ? title : 'stop_point.block.code.title' %}
