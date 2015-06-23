@@ -42,11 +42,11 @@
     string type    external code
     string note    additional small text
 #}
-{% macro stop_point_code(id, stopPoint, class, title = null, type = 'external_code', note = 'false') %}
+{% macro stop_point_code(id, stopPoint, class, title = null, type = 'external_code', note = null) %}
     <div id="{{ id }}"  class="{{ class }}">
         {% set blockTitle = title ? title : 'stop_point.block.code.title' %}
         <div class="title">{{blockTitle|trans({}, 'default')}}</div>
-        {% if note %}
+        {% if note is not null %}
             <span class="note">{{note}}</span>
         {% endif %}
         <div class="content">{% spaceless %}
