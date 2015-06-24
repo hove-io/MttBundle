@@ -39,21 +39,21 @@ global:
         and: et
     previous_stop_point: Arrêt précédent
     next_stop_point: Arrêt suivant
-    confirm_season_delete: Êtes-vous sûr de vouloir supprimer cette saison? Toutes les données liées y compris les pdf seront perdus.
+    confirm_season_delete: Êtes-vous sûr de vouloir supprimer cette saison ? Toutes les données liées y compris les pdf seront perdus.
     orientation:
         landscape: Paysage
         portrait: Portrait
 
 error:
     element_locked: Cet élément est verrouillé et ne peut être modifié.
-    start_end_time_incoherent: L'heure de début et l'heure de fin ne sont pas cohérentes
+    start_end_time_incoherent: Les heures de début et de fin ne sont pas cohérentes
     entities_overlapping: Les éléments n°%firstElement% et n°%secondElement% se chevauchent
     navitia_network_id: "%string% n'est pas conforme au format navitia."
     greater_than_field: Ce champ doit être supérieur au champ %field%.
     seasons_overlapping: Cette saison n'a pu être sauvegardée car elle entre en conflit avec la saison "%saison_title%"
 
 help:
-    edit_block: Cliquer pour éditer ce bloc
+    edit_block: Cliquez pour éditer ce bloc
     drop_here: Déposez les éléments ici
 
 calendar:
@@ -68,7 +68,7 @@ calendar:
             no_departure_this_day: Pas de départ prévu : pas d'horaires à cet arrêt
     error:
         all_calendars_selected: "Vous ne pouvez pas modifier ce calendrier car toutes les périodes sont actuellement sélectionnées."
-        content_higher_than_wrapper: Au moins un bloc dépasse la hauteur prévue.
+        content_higher_than_wrapper: Au moins un bloc dépasse la hauteur prévue
         no_calendars_found: Pas de calendrier trouvé pour cet arrêt et cette saison
 
 menu:
@@ -84,7 +84,7 @@ menu:
 #should be in error namespace above
 network:
     error:
-        wrong_token: Le token n'est pas correct
+        wrong_token: La clef navitia n'est pas correcte
 
 # Labels
 season:
@@ -96,7 +96,7 @@ season:
 
 frequency:
     labels:
-        start_time: Heure de ébut
+        start_time: Heure de début
         end_time: Heure de fin
         content: Texte
 
@@ -139,5 +139,5 @@ customer:
     layout_list: Liste des modèles
 
 stop_point:
-    edit: Editer
+    edit: Éditer
     view: Prévisualiser
