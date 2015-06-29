@@ -206,6 +206,19 @@ class Navitia
         return ($response->stop_points[0]->name);
     }
 
+    /**
+     * Returns Stop Point City
+     *
+     * @param  String $coverageId
+     * @param  String $stopPointId
+     * @return string
+     */
+    public function getStopPointCity($coverageId, $stopPointId, $params)
+    {
+        $response = $this->getStopPoint($coverageId, $stopPointId, $params);
+        return ($response->stop_points[0]->administrative_regions[0]->name);
+    }
+
     public function getRouteStopPoints($perimeter, $externalRouteId)
     {
         $pathFilter = 'networks/'.$perimeter->getExternalNetworkId().'/routes/'.$externalRouteId;

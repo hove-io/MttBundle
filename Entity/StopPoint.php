@@ -30,6 +30,11 @@ class StopPoint extends AbstractEntity
     /**
      * @var Object
      */
+    private $city;
+
+    /**
+     * @var Object
+     */
     private $blocks;
 
     /**
@@ -146,6 +151,30 @@ class StopPoint extends AbstractEntity
     public function getLine()
     {
         return $this->line;
+    }
+
+    /**
+     * Set city
+     *
+     * @param integer $city
+     *
+     * @return StopPoint
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
     }
 
     /**
