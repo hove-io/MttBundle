@@ -196,36 +196,6 @@ class Navitia
         return ($response->lines[0]->name);
     }
 
-    /**
-     * Returns Stop Point title.
-     *
-     * @param string $coverageId
-     * @param string $stopPointId
-     *
-     * @return type
-     */
-    public function getStopPointTitle($coverageId, $stopPointId)
-    {
-        $response = $this->navitia_sam->getStopPoint($coverageId, $stopPointId);
-
-        return ($response->stop_points[0]->name);
-    }
-
-    /**
-     * Returns Stop Point City.
-     *
-     * @param string $coverageId
-     * @param string $stopPointId
-     *
-     * @return string
-     */
-    public function getStopPointCity($coverageId, $stopPointId, $params)
-    {
-        $response = $this->getStopPoint($coverageId, $stopPointId, $params);
-
-        return ($response->stop_points[0]->administrative_regions[0]->name);
-    }
-
     public function getRouteStopPoints($perimeter, $externalRouteId)
     {
         $pathFilter = 'networks/'.$perimeter->getExternalNetworkId().'/routes/'.$externalRouteId;
@@ -276,21 +246,6 @@ class Navitia
         $response = $this->navitia_component->call($query);
 
         return $response->lines;
-    }
-
-    /**
-     * Returns Stop Point Codes.
-     *
-     * @param string $coverageId
-     * @param string $stopPointId
-     *
-     * @return array Codes
-     */
-    public function getStopPointCodes($coverageId, $stopPointId)
-    {
-        $response = $this->getStopPoint($coverageId, $stopPointId, array('depth' => 1, 'show_codes' => 'true'));
-
-        return $response->stop_points[0]->codes;
     }
 
     /**
