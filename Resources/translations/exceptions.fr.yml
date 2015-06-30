@@ -3,6 +3,9 @@ controller:
         network_not_found_4_user: Nous n'avons pas trouvé ce réseau dans la liste à laquelle vous avez accès.
         navigation:
             no_networks: Veuillez demander à l'administrateur de vous donner accès à un réseau
+    block:
+        delete:
+            block_not_found: Ce bloc n'a pas été supprimé car il est introuvable
 services:
     navitia:
         no_lines_for_network: Aucune ligne n'a été trouvée pour le réseau %network%

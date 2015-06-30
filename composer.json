@@ -4,7 +4,7 @@
     "description": "Mtt Bundle",
     "keywords": [],
     "homepage": "https://github.com/CanalTP/MttBundle",
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "authors": [
         {
             "name": "Vincent Degroote",
@@ -32,7 +32,6 @@
 	"canaltp/media-manager-bundle": "0.0.11"
     },
     "autoload": {
-        "psr-0": { "CanalTP\\MttBundle\\": "" }
-    },
-    "target-dir": "CanalTP/MttBundle/"
+        "psr-4": { "CanalTP\\MttBundle\\": "" }
+    }
 }

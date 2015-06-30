@@ -32,10 +32,11 @@ class TimetableManager
     private function initAdditionalData($externalRouteId, $externalCoverageId)
     {
         $data = $this->navitia->getRouteData($externalRouteId, $externalCoverageId);
+        $embedded_type = $data->direction->embedded_type;
         $lineConfig = $this->timetable->getLineConfig();
         $this->lineManager->initTwigPath($lineConfig);
 
-        $this->timetable->setTitle($data->direction->stop_point->name);
+        $this->timetable->setTitle($data->direction->$embedded_type->name);
     }
 
     /*

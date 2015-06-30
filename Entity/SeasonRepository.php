@@ -3,7 +3,6 @@
 namespace CanalTP\MttBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-
 use CanalTP\NmmPortalBundle\Entity\Perimeter;
 
 /**
@@ -27,5 +26,23 @@ class SeasonRepository extends EntityRepository
                     ->getQuery();
 
         return $query->getResult();
+    }
+
+    /**
+     * Find Seasons by perimeter and order by start date
+     *
+     * @param Perimeter $perimeter The perimeter
+     *
+     * @return Doctrine\Common\Collections\Collection Collection of seasons
+     */
+    public function findByPerimeter(Perimeter $perimeter)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->where("s.perimeter = :perimeter")
+            ->setParameter('perimeter', $perimeter)
+            ->orderBy('s.startDate', 'DESC')
+        ;
+
+        return $qb->getQuery()->getResult();
     }
 }

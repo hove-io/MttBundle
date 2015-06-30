@@ -7,7 +7,7 @@
  */
 namespace CanalTP\MttBundle\Services;
 
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 use CanalTP\MttBundle\Entity\Block;
 
@@ -20,7 +20,7 @@ class CalendarManager
     private $colorNotes = array();
     private $additionalInformationsExcluded;
 
-    public function __construct(Navitia $navitia, Translator $translator)
+    public function __construct(Navitia $navitia, TranslatorInterface $translator)
     {
         $this->navitia = $navitia;
         $this->translator = $translator;
