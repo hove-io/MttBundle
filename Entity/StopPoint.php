@@ -122,7 +122,7 @@ class StopPoint extends AbstractEntity
     /**
      * Get timetable
      *
-     * @return Object
+     * @return object
      */
     public function getTimetable()
     {
@@ -158,7 +158,7 @@ class StopPoint extends AbstractEntity
      *
      * @param integer $city
      *
-     * @return StopPoint
+     * @return string
      */
     public function setCity($city)
     {

@@ -49,7 +49,7 @@ class StopPointManager
             $this->navitia->getStopPointCity(
                 $externalCoverageId,
                 $this->stopPoint->getExternalId(),
-                ["depth" => 1, "show_codes" => "true"]
+                array("depth" => 1)
             )
         );
     }
