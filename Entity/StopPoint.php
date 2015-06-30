@@ -3,12 +3,12 @@
 namespace CanalTP\MttBundle\Entity;
 
 /**
- * StopPoint
+ * StopPoint.
  */
 class StopPoint extends AbstractEntity
 {
     /**
-     * @var integer
+     * @var int
      */
     private $id;
 
@@ -18,17 +18,22 @@ class StopPoint extends AbstractEntity
     private $externalId;
 
     /**
-     * @var Object
+     * @var object
      */
     private $timetable;
 
     /**
-     * @var Object
+     * @var object
      */
     private $line;
 
     /**
-     * @var Object
+     * @var object
+     */
+    private $city;
+
+    /**
+     * @var object
      */
     private $blocks;
 
@@ -48,7 +53,7 @@ class StopPoint extends AbstractEntity
     private $pois;
 
     /**
-     * @var integer
+     * @var int
      */
     private $poisDistance;
 
@@ -69,9 +74,9 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -79,9 +84,10 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set externalId
+     * Set externalId.
      *
-     * @param  string $externalId
+     * @param string $externalId
+     *
      * @return Line
      */
     public function setExternalId($externalId)
@@ -92,7 +98,7 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get external Id
+     * Get external Id.
      *
      * @return string
      */
@@ -102,9 +108,10 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set timetable
+     * Set timetable.
      *
-     * @param  string    $timetable
+     * @param string $timetable
+     *
      * @return StopPoint
      */
     public function setTimetable($timetable)
@@ -115,9 +122,9 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get timetable
+     * Get timetable.
      *
-     * @return Object
+     * @return object
      */
     public function getTimetable()
     {
@@ -125,9 +132,9 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set line
+     * Set line.
      *
-     * @param integer $line
+     * @param int $line
      *
      * @return StopPoint
      */
@@ -139,7 +146,7 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get line
+     * Get line.
      *
      * @return string
      */
@@ -149,9 +156,34 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set blocks
+     * Set city.
      *
-     * @param  array $blocks
+     * @param int $city
+     *
+     * @return string
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city.
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set blocks.
+     *
+     * @param array $blocks
+     *
      * @return Line
      */
     public function setBlocks($blocks)
@@ -162,7 +194,7 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get blocks
+     * Get blocks.
      *
      * @return array
      */
@@ -172,7 +204,7 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -182,9 +214,10 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set title
+     * Set title.
      *
-     * @param  string    $title
+     * @param string $title
+     *
      * @return StopPoint
      */
     public function setTitle($title)
@@ -195,7 +228,7 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get codes
+     * Get codes.
      *
      * @return array
      */
@@ -205,7 +238,7 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set codes
+     * Set codes.
      *
      * @param array $codes
      *
@@ -219,7 +252,7 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get pois
+     * Get pois.
      *
      * @return string
      */
@@ -229,9 +262,10 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set pois_distance
+     * Set pois_distance.
      *
-     * @param  integer   $poiDistance
+     * @param int $poiDistance
+     *
      * @return StopPoint
      */
     public function setPoiDistance($poiDistance)
@@ -242,7 +276,7 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get pois_distance
+     * Get pois_distance.
      *
      * @return string
      */
@@ -252,9 +286,10 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set pois
+     * Set pois.
      *
-     * @param  string    $poi
+     * @param string $poi
+     *
      * @return StopPoint
      */
     public function setPois($pois)
@@ -265,7 +300,7 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get pdfGenerationDate
+     * Get pdfGenerationDate.
      *
      * @return string
      */
@@ -275,9 +310,10 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set pdfGenerationDate
+     * Set pdfGenerationDate.
      *
-     * @param  string    $pdfGenerationDate
+     * @param string $pdfGenerationDate
+     *
      * @return StopPoint
      */
     public function setPdfGenerationDate($pdfGenerationDate)
@@ -288,7 +324,7 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Get pdfHash
+     * Get pdfHash.
      *
      * @return string
      */
@@ -298,9 +334,10 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set pdfHash
+     * Set pdfHash.
      *
-     * @param  string    $pdfHash
+     * @param string $pdfHash
+     *
      * @return StopPoint
      */
     public function setPdfHash($pdfHash)

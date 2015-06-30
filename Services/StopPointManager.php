@@ -43,6 +43,17 @@ class StopPointManager
         );
     }
 
+    private function initCity($externalCoverageId)
+    {
+        $this->stopPoint->setCity(
+            $this->navitia->getStopPointCity(
+                $externalCoverageId,
+                $this->stopPoint->getExternalId(),
+                array("depth" => 1)
+            )
+        );
+    }
+
     private function initStopPointCode($externalCoverageId)
     {
         $codes = $this->navitia->getStopPointCodes(
@@ -104,6 +115,7 @@ class StopPointManager
             $this->stopPoint->setTimetable($timetable);
         }
         $this->initTitle($externalCoverageId);
+        $this->initCity($externalCoverageId);
         $this->initStopPointCode($externalCoverageId);
         $this->initStopPointPois($externalCoverageId);
 
