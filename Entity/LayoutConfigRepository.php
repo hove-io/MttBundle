@@ -13,20 +13,6 @@ use CanalTP\NmmPortalBundle\Entity\Customer;
  */
 class LayoutConfigRepository extends EntityRepository
 {
-    // TODO: Add Translator service.
-    public function orientationName($orientationType)
-    {
-        $name = 'Unknown';
-
-        switch ($orientationType) {
-            case Layout::ORIENTATION_LANDSCAPE:
-                $name = 'Landscape';
-                break;
-        }
-
-        return ($name);
-    }
-
     public function findLayoutConfigByCustomer(Customer $customer)
     {
         $query = $this->getEntityManager()->createQueryBuilder()

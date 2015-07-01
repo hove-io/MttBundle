@@ -38,14 +38,20 @@
     </div>
 {% endmacro %}
 
-{% macro stop_point_code(id, stopPoint, class, title) %}
+{# params
+    string type    external code
+    string note    additional small text
+#}
+{% macro stop_point_code(id, stopPoint, class, title = null, type = 'external_code', note = null) %}
     <div id="{{ id }}"  class="{{ class }}">
         {% set blockTitle = title ? title : 'stop_point.block.code.title' %}
         <div class="title">{{blockTitle|trans({}, 'default')}}</div>
-
+        {% if note is not null %}
+            <span class="note">{{note}}</span>
+        {% endif %}
         <div class="content">{% spaceless %}
             {% if stopPoint %}
-                {{'stop_point.block.code.content'|trans({'%code%':stopPoint.getExternalCode()}, 'default')}}
+                {{'stop_point.block.code.content'|trans({'%code%':stopPoint.codes|code(type)}, 'default')}}
             {% else %}
                 {{'stop_point.block.code.default'|trans({}, 'default')}}
             {% endif %}
@@ -96,7 +102,8 @@
     {% endif %}
 {% endmacro %}
 
-{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin, notesType) %}
+{# params string colorAltern    how to style timegrid, color direction, line or column #}
+{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin, notesType, colorAltern = 'line') %}
     {% if linesMin is empty %}
         {% set loopMax = calendar|calendarMax %}
     {% else %}
@@ -160,9 +167,9 @@
         </tr>
     {% endif %}
     {% for i in 0..loopMax - 1 %}
-        <tr class="{% if i % 2  == 0 %}even{% else %}odd{% endif %}">
+        <tr {% if colorAltern == 'line' %}class="{{ cycle(['even', 'odd'], i) }}"{% endif %}>
         {% for index,hour in hours_range %}
-            <td class="timegrid-column">{% spaceless %}
+            <td class="timegrid-column{% if colorAltern == 'column' %}{{ cycle([' even', ' odd'], index) }}{% endif %}">{% spaceless %}
                 {% if calendar and calendar.schedules.additional_informations is null %}
                     {% set datetime = attribute(calendar.schedules.date_times, hour) %}
                     {% if
