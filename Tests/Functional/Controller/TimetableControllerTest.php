@@ -95,9 +95,11 @@ class TimetableControllerTest extends AbstractControllerTest
     private function checkCodeBlockInTimetableViewPage($translator, $seasonId)
     {
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $seasonId));
-        $this->assertNotEmpty(
+
+        $this->assertEquals(
+            '654895',
             $crawler->filter('div#text_block_4 div.content')->text(),
-            "Stop point code (external code) not found in stop point timetable view page"
+            "Stop point code totem not found in stop point timetable view page"
         );
 
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_edit', $seasonId, false));

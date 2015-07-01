@@ -7,22 +7,28 @@ class StopPointExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('externalCode', array($this, 'getExternalCode')),
+            new \Twig_SimpleFilter('code', array($this, 'getCode')),
         );
     }
 
-    public function getExternalCode($codes)
+    /**
+     * Get the code by type
+     * If type = external_code we strip the 3 first characters
+     *
+     * @param array  $codes Array of codes
+     * @param string $type  the type (external_code, totem...)
+     *
+     * @return string|null The code
+     */
+    public function getCode($codes, $type)
     {
-        $externalCode = null;
-
         foreach ($codes as $code) {
-            if ($code->type == 'external_code') {
-                $externalCode = substr($code->value, 3);
-                break ;
+            if ($code->type === $type) {
+                return $code->type === 'external_code' ? substr($code->value, 3) : $code->value;
             }
         }
 
-        return ($externalCode);
+        return;
     }
 
     public function getName()
