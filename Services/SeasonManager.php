@@ -68,11 +68,7 @@ class SeasonManager
 
     public function findByPerimeter(Perimeter $perimeter)
     {
-        return $this->repository->findBy(
-            array(
-                'perimeter' => $perimeter
-            )
-        );
+        return $this->repository->findByPerimeter($perimeter);
     }
 
     public function remove($season)

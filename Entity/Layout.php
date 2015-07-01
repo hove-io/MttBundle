@@ -8,6 +8,7 @@ namespace CanalTP\MttBundle\Entity;
 class Layout extends AbstractEntity
 {
     const ORIENTATION_LANDSCAPE = 0;
+    const ORIENTATION_PORTRAIT = 1;
 
     /**
      * @var integer
@@ -186,15 +187,13 @@ class Layout extends AbstractEntity
      */
     public function getOrientationAsString()
     {
-        $orientationAsString = '';
         switch ($this->orientation) {
+            case self::ORIENTATION_PORTRAIT:
+                return 'portrait';
             case self::ORIENTATION_LANDSCAPE:
             default:
-                $orientationAsString = 'landscape';
-                break;
+                return 'landscape';
         }
-
-        return $orientationAsString;
     }
 
     /**
