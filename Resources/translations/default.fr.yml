@@ -128,8 +128,8 @@ area:
             label: Nom du secteur
     created: Le secteur a bien été ajouté
     deleted: Le secteur a bien été supprimé
-    pdf_list: Liste des pdf
-    pdf_modal_title: Pdf du secteur "%areaTitle%"
+    generate_pdf: Générer les pdf
+    pdf_modal_title: De quelle saison voulez-vous générer les PDF ?
     stops: Choisir les arrêts
     stops_included: Arrêts inclus
     list_empty: Liste vide
@@ -146,6 +146,7 @@ area:
     save_order: Enregistrer l'ordre
     download_pdf: Télécharger
     generate_pdf: Générer
+    no_seasons_created: Il n'y a pas de saison créée
 
 customer:
     list: Liste des clients

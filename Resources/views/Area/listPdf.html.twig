@@ -1,10 +1,11 @@
 {% extends "::modal.html.twig" %}
 
 {% block modal_title %}
-    {{ 'area.pdf_modal_title'|trans({'%areaTitle%':area.label}, 'default') }}
+    {{ 'area.pdf_modal_title'|trans({}, 'default') }}
 {% endblock %}
 
 {% block modal_body %}
+    {% if seasons|length %}
     <table class="table {% block table_classes -%}table-hover{% endblock %}">
         <thead>
             <th>{{ 'season.title'|trans({}, 'default') }}</th>
@@ -35,4 +36,14 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        <p>{{ 'area.no_seasons_created'|trans({}, 'default') }}</p>
+    </div>
+    <p>
+        <a href="{{ path('canal_tp_mtt_season_edit', {'coverage_id': coverageId, 'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal2" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span> {{'season.create'|trans({}, 'default')}}
+        </a>
+    </p>
+    {% endif %}
 {% endblock %}
