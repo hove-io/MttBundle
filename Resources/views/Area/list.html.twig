@@ -51,14 +51,3 @@
         </tr>
     {% endfor %}
 {% endblock %}
-
-{% block modal_container %}
-    {{ parent() }}
-     <div id="base-modal2" class="modal fade">
-        <div class="modal-dialog ">
-            <div class="modal-content">
-                {% include 'CanalTPSamCoreBundle::modal.html.twig' %}
-            </div>
-        </div>
-    </div>
-{% endblock %}

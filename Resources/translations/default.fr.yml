@@ -83,6 +83,7 @@ season:
     start_date: Début
     end_date: Fin
     list: Liste des saisons
+    management: Gestion des saisons
     generate_pdf: Générer les pdfs
     publication_and_generation: Souhaitez-vous également mettre à jour tous les pdfs de cette saison avant sa publication?
     block:
@@ -146,7 +147,7 @@ area:
     save_order: Enregistrer l'ordre
     download_pdf: Télécharger
     generate_pdf: Générer
-    no_seasons_created: Il n'y a pas de saison créée
+    no_seasons_created: Pour créer une saison veuillez vous rendre sur la page de gestion des saisons
 
 customer:
     list: Liste des clients

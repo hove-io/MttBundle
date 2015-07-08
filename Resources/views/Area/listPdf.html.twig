@@ -41,8 +41,8 @@
         <p>{{ 'area.no_seasons_created'|trans({}, 'default') }}</p>
     </div>
     <p>
-        <a href="{{ path('canal_tp_mtt_season_edit', {'coverage_id': coverageId, 'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal2" class="btn btn-success">
-            <span class="glyphicon glyphicon-plus"></span> {{'season.create'|trans({}, 'default')}}
+        <a href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': externalNetworkId}) }}" class="btn btn-primary">
+            {{'season.management'|trans({}, 'default')}}
         </a>
     </p>
     {% endif %}
