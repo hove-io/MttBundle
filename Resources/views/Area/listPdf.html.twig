@@ -17,7 +17,7 @@
                     <td>{{ season.title }}</td>
                     <td>
                         <a id="generate-area" href="{{ path('canal_tp_mtt_area_generate_pdfs', {'seasonId': season.id, 'externalNetworkId': areaExternalNetworkId, 'areaId': area.id }) }}" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-file"></span> {{'area.generate_pdf'|trans({}, 'default')}}
+                            <span class="glyphicon glyphicon-file"></span> {{'area.generate'|trans({}, 'default')}}
                         </a>
 
                         {% set pdfUrl = area|hasPdf(season) %}

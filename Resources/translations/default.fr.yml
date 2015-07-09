@@ -146,7 +146,7 @@ area:
         empty: Vous n'avez pas d'arrêt dans le secteur "%areaName%" pour la saison "%seasonName%"
     save_order: Enregistrer l'ordre
     download_pdf: Télécharger
-    generate_pdf: Générer
+    generate: Générer
     no_seasons_created: Pour créer une saison veuillez vous rendre sur la page de gestion des saisons
 
 customer:
