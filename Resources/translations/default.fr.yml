@@ -85,7 +85,7 @@ season:
     list: Liste des saisons
     management: Gestion des saisons
     generate_pdf: Générer les pdfs
-    publication_and_generation: Souhaitez-vous également mettre à jour tous les pdfs de cette saison avant sa publication?
+    publication_and_generation: Souhaitez-vous également mettre à jour tous les pdfs de cette saison avant sa publication ?
     block:
         title: Horaires valables
         content: du %startDate% au %endDate%
