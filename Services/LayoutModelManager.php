@@ -3,6 +3,7 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 class LayoutModelManager
@@ -20,8 +21,9 @@ class LayoutModelManager
     }
 
     /**
-     * Persist template and move zip archive's elements
-     * @param type $model
+     * Persist template and move zip archive's elements.
+     *
+     * @param CanalTP\MttBundle\Model\LayoutModel $model
      */
     public function save($model)
     {
@@ -41,9 +43,14 @@ class LayoutModelManager
 
         $id = $this->getUniqueId();
         $config = $this->readConfiguration($tmpDir);
-        $this->movePictures($tmpDir, $templateDir.'/img/' . $id);
+        $this->movePictures($tmpDir, $templateDir . '/img/' . $id);
         $this->moveTwigFiles($tmpDir, $templateDir, $id);
         $this->moveCssFiles($tmpDir, $templateDir, $id);
+
+        // If the layout has a fonts directory, we copy this directory to the css one.
+        if ($fontsDirs = $this->getDirectories($tmpDir, 'fonts')) {
+            $this->rename(current($fontsDirs), $templateDir . '/css/' . $id . '/fonts');
+        }
 
         $this->saveInDb($config['label'], 'uploads/' . $id . '/' . $config['templateName'], '/bundles/canaltpmtt/img/uploads/' . $id . '/' . $config['previewFileName'], $config['orientation']);
     }
@@ -54,10 +61,11 @@ class LayoutModelManager
     }
 
     /**
-     * Move from working directory to final directory the first image found
+     * Move from working directory to final directory the first image found.
      *
-     * @param  String $actualDir working directory
-     * @param  String $targetDir destination directory
+     * @param String $actualDir working directory
+     * @param String $targetDir destination directory
+     *
      * @return String FileName
      */
     protected function movePictures($actualDir, $targetDir)
@@ -65,11 +73,9 @@ class LayoutModelManager
         $finder = new Finder();
         $finder->files()->in($actualDir)->name('*.png')->name('*.jpg');
 
-//        $files = iterator_to_array($finder);
         if (iterator_count($finder) < 1) {
             throw new \Exception('The preview file is missing.');
         }
-//        $file = current($files);
 
         foreach ($finder as $file) {
             $f = new \Symfony\Component\HttpFoundation\File\File($file->getRealpath(), true);
@@ -82,7 +88,7 @@ class LayoutModelManager
     }
 
     /**
-     * Move files of extension type
+     * Move files of extension type.
      *
      * @param String $extension exemple: '*.EXTENSION'
      * @param type   $actualDir
@@ -143,9 +149,10 @@ class LayoutModelManager
     }
 
     /**
-     * Return an array from the configuration yml file
+     * Return an array from the configuration yml file.
      *
-     * @param  string $actualDir
+     * @param string $actualDir
+     *
      * @return array
      */
     protected function readConfiguration($actualDir)
@@ -163,5 +170,42 @@ class LayoutModelManager
         $config = \Symfony\Component\Yaml\Yaml::parse($file->getContents());
 
         return $config;
+    }
+
+    /**
+     * Get directories.
+     *
+     * @param string $dir           Where to search
+     * @param string $directoryName The directory name you want to find
+     *
+     * @return array|bool
+     */
+    private function getDirectories($dir, $directoryName = null)
+    {
+        $finder = new Finder();
+        $finder->directories()->in($dir);
+
+        if (null !== $directoryName) {
+            $finder->name($directoryName);
+        }
+
+        if (iterator_count($finder) > 0) {
+            return iterator_to_array($finder);
+        }
+
+        return false;
+    }
+
+    /**
+     * Rename a file or a directory
+     * Copy, rename and remove.
+     *
+     * @param string $source The filename or directory you want to rename
+     * @param string $target The new filename or directory
+     */
+    private function rename($source, $target)
+    {
+        $fs = new Filesystem();
+        $fs->rename($source, $target);
     }
 }
