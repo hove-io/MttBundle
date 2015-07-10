@@ -1,10 +1,11 @@
 {% extends "::modal.html.twig" %}
 
 {% block modal_title %}
-    {{ 'area.pdf_modal_title'|trans({'%areaTitle%':area.label}, 'default') }}
+    {{ 'area.pdf_modal_title'|trans({}, 'default') }}
 {% endblock %}
 
 {% block modal_body %}
+    {% if seasons|length %}
     <table class="table {% block table_classes -%}table-hover{% endblock %}">
         <thead>
             <th>{{ 'season.title'|trans({}, 'default') }}</th>
@@ -16,7 +17,7 @@
                     <td>{{ season.title }}</td>
                     <td>
                         <a id="generate-area" href="{{ path('canal_tp_mtt_area_generate_pdfs', {'seasonId': season.id, 'externalNetworkId': areaExternalNetworkId, 'areaId': area.id }) }}" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-file"></span> {{'area.generate_pdf'|trans({}, 'default')}}
+                            <span class="glyphicon glyphicon-file"></span> {{'area.generate'|trans({}, 'default')}}
                         </a>
 
                         {% set pdfUrl = area|hasPdf(season) %}
@@ -35,4 +36,14 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        <p>{{ 'area.no_seasons_created'|trans({}, 'default') }}</p>
+    </div>
+    <p>
+        <a href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': externalNetworkId}) }}" class="btn btn-primary">
+            {{'season.management'|trans({}, 'default')}}
+        </a>
+    </p>
+    {% endif %}
 {% endblock %}
