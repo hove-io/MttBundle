@@ -17,12 +17,9 @@ class StopPointManager
     private $navitia = null;
     private $repository = null;
     private $om = null;
-    private $container = null;
 
-    public function __construct(Container $co, ObjectManager $om, Navitia $navitia)
+    public function __construct(ObjectManager $om, Navitia $navitia)
     {
-        $this->stopPoint = null;
-        $this->container = $co;
         $this->navitia = $navitia;
         $this->repository = $om->getRepository('CanalTPMttBundle:StopPoint');
         $this->om = $om;
