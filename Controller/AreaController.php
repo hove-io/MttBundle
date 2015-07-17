@@ -125,7 +125,7 @@ class AreaController extends AbstractController
     }
 
     // pdf
-    public function listPdfAction($areaId)
+    public function listPdfAction($externalNetworkId, $areaId)
     {
         $this->isGranted(array('BUSINESS_LIST_AREA', 'BUSINESS_MANAGE_AREA'));
 
@@ -138,10 +138,11 @@ class AreaController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Area:listPdf.html.twig',
             array(
-                'area'      => $area,
-                'seasons'   => $seasons,
-                'areaPdf'   => $area->getAreasPdf(),
-                'areaExternalNetworkId' => $area->getPerimeter()->getExternalNetworkId()
+                'area'                  => $area,
+                'seasons'               => $seasons,
+                'areaPdf'               => $area->getAreasPdf(),
+                'areaExternalNetworkId' => $area->getPerimeter()->getExternalNetworkId(),
+                'externalNetworkId'     => $externalNetworkId
             )
         );
     }

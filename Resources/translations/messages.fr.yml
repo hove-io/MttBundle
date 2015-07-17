@@ -93,6 +93,10 @@ season:
         start_date: Date de début
         end_date: Date de fin
         season_to_clone: Saison à cloner
+    clone_explanation : >
+        Si vous utilisez cette option, les éléments suivants seront reproduits depuis les fiches horaires de la saison clonée vers celles de la saison que vous êtes en train de créer :
+        <ul><li>Images que vous avez téléchargées via Timetable</li>
+            <li>Textes que vous avez saisis</li></ul>
 
 frequency:
     labels:
