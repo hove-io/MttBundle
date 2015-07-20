@@ -6,22 +6,9 @@ use CanalTP\SamCoreBundle\Tests\Functional\Controller\BaseControllerTest AS SamB
 
 abstract class AbstractControllerTest extends SamBaseTestController
 {
-    /**
-     * This variable check if the bdd was mocked.
-     *
-     * @var boolean
-     */
-    protected static $mockDb = true;
-
     protected function reloadMttFixtures()
     {
         $this->runConsole("doctrine:fixtures:load", array("--fixtures" => __DIR__ . "/../../DataFixtures", '--append' => null, '-e' => 'test_mtt'));
-    }
-
-    private function mockDb()
-    {
-        $this->runConsole("sam:database:reset", array('-e' => 'test_mtt'));
-        $this->reloadMttFixtures();
     }
 
     protected function logIn()
@@ -34,11 +21,6 @@ abstract class AbstractControllerTest extends SamBaseTestController
         $this->client = parent::createClient(array('environment' => 'test_mtt'));
         parent::setUp();
 
-        if (self::$mockDb === true) {
-            self::$mockDb = false;
-
-            $this->mockDb();
-        }
         if ($login == true)
             $this->logIn();
     }
