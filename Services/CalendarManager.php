@@ -408,4 +408,26 @@ class CalendarManager
 
         return $calendarsSorted;
     }
+
+    /**
+     * Check if calendar is valid during a season, even partially
+     */
+    public function isIncluded($calendarId, Season $season)
+    {
+        $externalCoverageId = $season->getPerimeter()->getExternalCoverageId();
+        $calendarsData = $this->navitia->getCalendar($externalCoverageId, $calendarId);
+        $calendar = $calendarsData->calendars[0];
+        $calendarBeginDate = new \DateTime($calendar->active_periods[0]->begin);
+        $calendarEndDate = new \DateTime($calendar->active_periods[0]->end);
+
+        if ($season->getStartDate() < $calendarBeginDate && $calendarBeginDate < $season->getEndDate()) {
+            return true;
+        }
+        if ($season->getStartDate() < $calendarEndDate && $calendarEndDate < $season->getEndDate()) {
+            return true;
+        }
+        return false;
+    }
+
+
 }
