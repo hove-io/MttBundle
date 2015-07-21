@@ -10,6 +10,7 @@ namespace CanalTP\MttBundle\Services;
 use Symfony\Component\Translation\TranslatorInterface;
 
 use CanalTP\MttBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\Season;
 
 class CalendarManager
 {
