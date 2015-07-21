@@ -211,8 +211,10 @@ canal_tp_mtt_area_remove:
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_area_list_pdf:
-    pattern: /areas/{areaId}/listPdf
+    pattern: /networks/{externalNetworkId}/areas/{areaId}/listPdf
     defaults: { _controller: CanalTPMttBundle:Area:listPdf}
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_area_generate_pdfs:
     pattern: /networks/{externalNetworkId}/seasons/{seasonId}/areas/{areaId}/generatePdf
     defaults: { _controller: CanalTPMttBundle:Area:generatePdf }

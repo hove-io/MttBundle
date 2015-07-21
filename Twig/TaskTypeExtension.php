@@ -48,7 +48,6 @@ class TaskTypeExtension extends \Twig_Extension
         $return = '';
         switch ($task->getTypeId()) {
             case AmqpTask::AREA_PDF_GENERATION_TYPE:
-            default:
                 if ($task->isCompleted()) {
                     $areaPdf = $this->em->getRepository('CanalTPMttBundle:AreaPdf')->find($task->getObjectId());
                     if (!empty($areaPdf)) {
