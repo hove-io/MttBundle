@@ -14,11 +14,13 @@ class BlockManager
     private $repository = null;
     private $om = null;
     private $mediaManager = null;
+    private $calendarManager = null;
 
-    public function __construct(ObjectManager $om, MediaManager $mediaManager)
+    public function __construct(ObjectManager $om, MediaManager $mediaManager, CalendarManager $calendarManager)
     {
         $this->om = $om;
         $this->mediaManager = $mediaManager;
+        $this->calendarManager = $calendarManager;
         $this->repo = $om->getRepository('CanalTPMttBundle:Block');
     }
 
@@ -48,18 +50,21 @@ class BlockManager
      */
     public function copy($block, $destTimetable, $destStopPoint = false)
     {
-        if ($block->isCalendar() == false) {
-            $blockCloned = clone $block;
-            $blockCloned->setTimetable($destTimetable);
-            if ($destStopPoint != false) {
-                $blockCloned->setStopPoint($destStopPoint);
-            }
-            if ($block->isImg()) {
-                $this->mediaManager->copy($block, $blockCloned, $destTimetable);
-            }
-            $this->om->persist($blockCloned);
+        $destSeason = $destTimetable->getLineConfig()->getSeason();
+        if ($block->isCalendar() AND !$this->calendarManager->isIncluded($block->getContent(), $destSeason)) {
+            return false;
+        }
+        $blockCloned = clone $block;
+        $blockCloned->setTimetable($destTimetable);
+        if ($destStopPoint != false) {
+            $blockCloned->setStopPoint($destStopPoint);
+        }
+        if ($block->isImg()) {
+            $this->mediaManager->copy($block, $blockCloned, $destTimetable);
         }
 
-        return isset($blockCloned) ? $blockCloned : false;
+        $this->om->persist($blockCloned);
+
+        return $blockCloned;
     }
 }
