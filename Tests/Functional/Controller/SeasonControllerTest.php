@@ -103,6 +103,16 @@ class SeasonControllerTest extends AbstractControllerTest
         $this->assertGreaterThan(0, $crawler->filter('.modal-body .alert.alert-danger')->count());
     }
 
+
+    public function testCloneSeason()
+    {
+        $form = $this->getEditForm();
+        $form['mtt_season[title]'] = 'Clone season';
+        $season1EndDate = new \DateTime($this->endDate);
+        $form['mtt_season[startDate]'] = $season1EndDate->add(new \DateInterval('P1Y'))->format('d/m/Y');
+        $form['mtt_season[endDate]'] = '02/04/2016';
+    }
+
     public function testSeasonPublicationAndUnpublication()
     {
         $route = $this->generateRoute(
