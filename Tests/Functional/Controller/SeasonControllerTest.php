@@ -38,12 +38,12 @@ class SeasonControllerTest extends AbstractControllerTest
             $form['mtt_season[title]'] = $this->titleClone;
             $form['mtt_season[startDate]'] = $this->startDateClone;
             $form['mtt_season[endDate]'] = $this->endDateClone;
+            $form['mtt_season']->select($this->title);
         }else{
             $form['mtt_season[title]'] = $this->title;
             $form['mtt_season[startDate]'] = $this->startDate;
             $form['mtt_season[endDate]'] = $this->endDate;
         }
-
         return $form;
     }
 
@@ -115,11 +115,12 @@ class SeasonControllerTest extends AbstractControllerTest
 
     public function testCloneSeason()
     {
-        $form = $this->getEditForm();
-        $form['mtt_season[title]'] = 'Clone season';
-        $season1EndDate = new \DateTime($this->endDate);
-        $form['mtt_season[startDate]'] = $season1EndDate->add(new \DateInterval('P1Y'))->format('d/m/Y');
-        $form['mtt_season[endDate]'] = '02/04/2016';
+        $form = $this->getEditForm('clone');
+        $crawler = $this->client->submit($form);
+        $crawler = $this->client->followRedirect();
+
+        // Check if the clone season is saved correctly
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("' . $this->titleClone . '")')->count());
     }
 
     public function testSeasonPublicationAndUnpublication()
