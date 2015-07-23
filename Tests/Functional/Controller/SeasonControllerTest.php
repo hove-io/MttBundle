@@ -38,7 +38,8 @@ class SeasonControllerTest extends AbstractControllerTest
             $form['mtt_season[title]'] = $this->titleClone;
             $form['mtt_season[startDate]'] = $this->startDateClone;
             $form['mtt_season[endDate]'] = $this->endDateClone;
-            $form['mtt_season']->select($this->title);
+            $seasonToClone = $this->getRepository('CanalTPMttBundle:Season')->findOneByTitle($this->title);
+            $form['mtt_season[seasonToClone]']->select($seasonToClone->getId());
         }else{
             $form['mtt_season[title]'] = $this->title;
             $form['mtt_season[startDate]'] = $this->startDate;
