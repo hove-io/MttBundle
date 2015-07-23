@@ -20,7 +20,9 @@ class SeleneseBlockTest extends \PHPUnit_Extensions_SeleniumTestCase
         $this->captureScreenshotOnFailure = false;
 
         self::$seleneseDirectory = dirname(__FILE__). DIRECTORY_SEPARATOR . 'SeleneseNewBag';
+        //Directory 'SeleneseBag' needs to be straighten up
         $baseUrl = 'http://nmm-ihm.ci.dev.canaltp.fr';
+        //$baseUrl = 'http://nmm.local/app_dev.php';
 
         $this->setBrowserUrl($baseUrl);
         $this->setSpeed(50);

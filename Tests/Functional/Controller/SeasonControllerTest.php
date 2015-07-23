@@ -10,6 +10,9 @@ class SeasonControllerTest extends AbstractControllerTest
     private $title = 'Saison 1';
     private $startDate = '01/04/2015';
     private $endDate = '03/10/2015';
+    private $titleClone = 'Saison Clone';
+    private $startDateClone = '01/11/2015';
+    private $endDateClone = '03/11/2015';
 
     private function getRoute($route)
     {
@@ -21,7 +24,7 @@ class SeasonControllerTest extends AbstractControllerTest
         );
     }
 
-    private function getEditForm()
+    private function getEditForm($clone=false)
     {
         // Check if the form is correctly display
         $route = $this->getRoute('canal_tp_mtt_season_edit');
@@ -31,9 +34,15 @@ class SeasonControllerTest extends AbstractControllerTest
         $title = 'Centre';
         $form = $crawler->selectButton('Enregistrer')->form();
 
-        $form['mtt_season[title]'] = $this->title;
-        $form['mtt_season[startDate]'] = $this->startDate;
-        $form['mtt_season[endDate]'] = $this->endDate;
+        if ($clone == 'clone') {
+            $form['mtt_season[title]'] = $this->titleClone;
+            $form['mtt_season[startDate]'] = $this->startDateClone;
+            $form['mtt_season[endDate]'] = $this->endDateClone;
+        }else{
+            $form['mtt_season[title]'] = $this->title;
+            $form['mtt_season[startDate]'] = $this->startDate;
+            $form['mtt_season[endDate]'] = $this->endDate;
+        }
 
         return $form;
     }

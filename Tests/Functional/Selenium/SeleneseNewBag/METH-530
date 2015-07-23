@@ -16,18 +16,18 @@
             <tbody>
                 <tr>
                     <td>open</td>
-                    <td>/app_dev.php/admin/login</td>
+                    <td>/admin/login</td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>type</td>
                     <td>id=username</td>
-                    <td>Admin</td>
+                    <td>sam</td>
                 </tr>
                 <tr>
                     <td>type</td>
                     <td>id=password</td>
-                    <td>admin</td>
+                    <td>sam</td>
                 </tr>
                 <tr>
                     <td>clickAndWait</td>
@@ -37,7 +37,7 @@
                 <!--To avoid bad route at login-->
                 <tr>
                     <td>open</td>
-                    <td>/app_dev.php/mtt</td>
+                    <td>/mtt</td>
                     <td></td>
                 </tr>
                 <tr>
