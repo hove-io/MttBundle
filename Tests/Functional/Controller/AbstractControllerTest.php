@@ -20,7 +20,6 @@ abstract class AbstractControllerTest extends SamBaseTestController
 
     private function mockDb()
     {
-        $this->runConsole("sam:database:reset", array('-e' => 'test_mtt'));
         $this->reloadMttFixtures();
     }
 
