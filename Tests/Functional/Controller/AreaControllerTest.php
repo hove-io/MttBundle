@@ -77,7 +77,7 @@ class AreaControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($route, 200);
         $link = $crawler->filter('table tbody tr')->first()->filter('td a')->eq(1)->link();
         $crawler2 = $this->doRequestRoute($link->getUri(), 200);
-        $this->assertTrue($crawler2->selectLink('Gestion des saisons')->count() > 0);
+        $this->assertTrue($crawler2->selectLink('Créer une saison')->count() > 0);
     }
 
     public function testAreaEditModal()
