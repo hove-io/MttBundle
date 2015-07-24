@@ -77,9 +77,8 @@ class AreaControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($route, 200);
         $link = $crawler->filter('table tbody tr')->first()->filter('td a')->eq(1)->link();
         $crawler2 = $this->doRequestRoute($link->getUri(), 200);
-       //NOK as a season exists already
-       //$this->assertTrue($crawler2->selectLink('Gestion des saisons')->count() > 0);
-        $this->assertTrue($crawler->filter('table tr')->count() > 0);
+        $this->assertTrue($crawler2->filter('table tr')->count() > 0);
+//        @ToDo Assertion on network without season (selectLink('Gestion des saisons')->count() > 0)
     }
 
     public function testAreaEditModal()
