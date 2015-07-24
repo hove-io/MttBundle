@@ -188,3 +188,11 @@ li.ui-sortable-helper span {
     font-weight: bold;
     font-size: 16px;
 }
+#title-all-stop-points{
+    position: relative;
+}
+#add-all-stop-points{
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+}
