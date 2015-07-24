@@ -14,7 +14,7 @@ class AreaControllerTest extends AbstractControllerTest
         return $this->generateRoute(
             $route,
             array(
-                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
             )
         );
     }
@@ -43,7 +43,7 @@ class AreaControllerTest extends AbstractControllerTest
         $crawler = $this->client->followRedirect();
 
         // Check if the value is saved correctly
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("' . $this->label . '")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("'.$this->label.'")')->count());
     }
 
     public function testEmptyForm()
@@ -73,7 +73,6 @@ class AreaControllerTest extends AbstractControllerTest
 
     public function testAreaPdfModal()
     {
-
         $route = $this->getRoute('canal_tp_mtt_area_list');
         $crawler = $this->doRequestRoute($route, 200);
         $link = $crawler->filter('table tbody tr')->first()->filter('td a')->eq(1)->link();
@@ -103,6 +102,6 @@ class AreaControllerTest extends AbstractControllerTest
         );
         $crawler = $this->doRequestRoute($route, 200);
         $areas = $this->getRepository('CanalTPMttBundle:Area')->find(Fixture::AREA_ID);
-        $this->assertTrue(count($areas) == 0, "Area was not deleted.");
+        $this->assertTrue(count($areas) == 0, 'Area was not deleted.');
     }
 }
