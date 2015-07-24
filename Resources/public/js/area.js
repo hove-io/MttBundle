@@ -10,9 +10,9 @@ define('mtt/area', ['mtt_left_menu', 'jquery', 'fosjsrouting', 'jquery_ui_sortab
         var $excludedStopsIsEmpty = $('#excluded-stops').hasClass('empty-list');
 
         if ($excludedStopsIsEmpty || $excludedStopsActive >= $excludedStops) {
-            $addAllBtn.addClass('disabled');
+            $addAllBtn.addClass('hide');
         } else {
-            $addAllBtn.removeClass('disabled');
+            $addAllBtn.removeClass('hide');
         }
     };
 
