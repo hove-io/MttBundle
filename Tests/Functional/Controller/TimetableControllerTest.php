@@ -48,7 +48,29 @@ class TimetableControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $season->getId(), false));
         $this->checkBlockAndDates($crawler, $season);
     }
+    //List all stop-points default page
+    public function testStoppointsList()
+    {
+        parent::setUp(false);
 
+        $route = $this->client->getContainer()->get('router')->generate(
+            'canal_tp_mtt_stop_point_list_defaults',
+            array(
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+                'externalLineId' => Fixture::EXTERNAL_LINE_ID,
+                'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
+                'seasonId' => $this->getSeason()->getId()
+            )
+        );
+        $crawler = $this->client->request('GET', $route);
+        $this->assertEquals(
+            302,
+            $this->client->getResponse()->getStatusCode(),
+            'Response status NOK:' . $this->client->getResponse()->getStatusCode()
+        );
+    }
+
+    // Stop-point timetable preview page
     public function testAnonymousAccess()
     {
         $route = $this->client->getContainer()->get('router')->generate(
