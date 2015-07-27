@@ -184,8 +184,15 @@ li.ui-sortable-helper span {
 .list-group li.list-group-item:first-child {
     border-top: 0;
 }
-
 .area-label, .area-label a {
     font-weight: bold;
     font-size: 16px;
+}
+#title-all-stop-points{
+    position: relative;
+}
+#add-all-stop-points{
+    position: absolute;
+    bottom: 10px;
+    right: 0;
 }
