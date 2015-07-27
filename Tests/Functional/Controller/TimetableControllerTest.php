@@ -54,10 +54,10 @@ class TimetableControllerTest extends AbstractControllerTest
         parent::setUp(false);
 
         $route = $this->client->getContainer()->get('router')->generate(
-            'canal_tp_mtt_stop_point_list_defaults',
+            'canal_tp_mtt_stop_point_list',
             array(
                 'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
-                'externalLineId' => Fixture::EXTERNAL_LINE_ID,
+                'line_id' => Fixture::EXTERNAL_LINE_ID,
                 'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
                 'seasonId' => $this->getSeason()->getId()
             )
