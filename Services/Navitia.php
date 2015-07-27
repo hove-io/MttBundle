@@ -370,6 +370,28 @@ class Navitia
     }
 
     /**
+     * Returns a Calendar.
+     *
+     * @param string $externalCoverageId
+     * @param string $calendarId
+     *
+     * @return object
+     */
+    public function getCalendar($externalCoverageId, $calendarId)
+    {
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $externalCoverageId,
+                'action' => $calendarId,
+                'path_filter' => 'calendars'
+            ),
+        );
+
+        return $this->navitia_component->call($query);
+    }
+
+    /**
      * Returns Calendars for a stop point and a route
      *
      * @param string $externalCoverageId
