@@ -68,8 +68,9 @@ class TimetableControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($route, 200);
         $this->checkContextualBtnsPresence($crawler);
     }
-    
-     public function checkContextualBtnsPresence ($crawler) {
+
+    //METH-297
+    public function checkContextualBtnsPresence ($crawler) {
         $stopPointfirstRow = $crawler->filter('table tbody tr')->first();
         $this->assertEquals('Voir les horaires', trim($stopPointfirstRow->filter('td[class="action"] a')->eq(0)->text()));
         $this->assertEquals('Prévisualiser', trim($stopPointfirstRow->filter('td[class="action"] a')->eq(1)->text()));
