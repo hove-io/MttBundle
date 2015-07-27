@@ -1,6 +1,6 @@
 <?php
 
-namespace CanalTP\JourneyBundle\Tests;
+namespace CanalTP\MttBundle\Tests;
 
 class SeleneseBlockTest extends \PHPUnit_Extensions_SeleniumTestCase
 {
@@ -8,9 +8,9 @@ class SeleneseBlockTest extends \PHPUnit_Extensions_SeleniumTestCase
 
     public static $browsers = array(
         array(
-            'name' => 'Internet Explorer on Windows',
-            'browser' => '*iexplore C:\Program Files\Internet Explorer\iexplore.exe',
-            'host' => '10.2.16.20',
+            'name' => 'Firefox on Windows7x64',
+            'browser' => '*firefox C:\Users\usrrec-selcli\AppData\Local\Mozilla Firefox\firefox.exe',
+            'host' => '10.2.16.22',
             'port' => 4444
         )
     );
@@ -19,8 +19,10 @@ class SeleneseBlockTest extends \PHPUnit_Extensions_SeleniumTestCase
     {
         $this->captureScreenshotOnFailure = false;
 
-        self::$seleneseDirectory = dirname(__FILE__). DIRECTORY_SEPARATOR . 'SeleneseBag';
-        $baseUrl = 'http://iussaad.dev.canaltp.fr';
+        self::$seleneseDirectory = dirname(__FILE__). DIRECTORY_SEPARATOR . 'SeleneseNewBag';
+        //Directory 'SeleneseBag' needs to be straighten up
+        $baseUrl = 'http://nmm-ihm.ci.dev.canaltp.fr';
+        //$baseUrl = 'http://nmm.local/app_dev.php';
 
         $this->setBrowserUrl($baseUrl);
         $this->setSpeed(50);

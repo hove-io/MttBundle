@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="selenium.base" href="http://nmm.local/" />
+        <title>METH-530</title>
+    </head>
+    <body>
+        <table cellpadding="1" cellspacing="1" border="1">
+            <thead>
+                <tr>
+                    <td rowspan="1" colspan="3">METH-530</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>open</td>
+                    <td>/admin/login</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>id=username</td>
+                    <td>sam</td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>id=password</td>
+                    <td>sam</td>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>id=_submit</td>
+                    <td></td>
+                </tr>
+                <!--To avoid bad route at login-->
+                <tr>
+                    <td>open</td>
+                    <td>/mtt</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>clickAndWait</td>
+                    <td>link=Gestion des saisons</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>click</td>
+                    <td>link=Créer une saison</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>waitForElementPresent</td>
+                    <td>id=mtt_season_title</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>id=mtt_season_title</td>
+                    <td>Hiver</td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>id=mtt_season_startDate</td>
+                    <td>02/06/2020</td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>id=mtt_season_endDate</td>
+                    <td>30/12/2020</td>
+                </tr>
+                <tr>
+                    <td>click</td>
+                    <td>css=button.btn.btn-success</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>pause</td>
+                    <td>3000</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>click</td>
+                    <td>link=Créer une saison</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>waitForElementPresent</td>
+                    <td>id=mtt_season_title</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>id=mtt_season_title</td>
+                    <td>Ete</td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>id=mtt_season_startDate</td>
+                    <td>02/06/2022</td>
+                </tr>
+                <tr>
+                    <td>type</td>
+                    <td>id=mtt_season_endDate</td>
+                    <td>30/12/2022</td>
+                </tr>
+                <tr>
+                    <td>select</td>
+                    <td>id=mtt_season_seasonToClone</td>
+                    <td>label=Hiver</td>
+                </tr>
+                <tr>
+                    <td>click</td>
+                    <td>css=button.btn.btn-success</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>pause</td>
+                    <td>3000</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>click</td>
+                    <td>link=Supprimer</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>assertConfirmation</td>
+                    <td>Êtes-vous sûr de vouloir supprimer cette saison ? Toutes les données liées y compris les pdf seront perdus.</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>pause</td>
+                    <td>3000</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>click</td>
+                    <td>link=Supprimer</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>assertConfirmation</td>
+                    <td>Êtes-vous sûr de vouloir supprimer cette saison ? Toutes les données liées y compris les pdf seront perdus.</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
