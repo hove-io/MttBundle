@@ -15,21 +15,35 @@
             "email": "remy.abikhalil@canaltp.fr"
         }
     ],
+    "repositories": [
+
+        {
+            "type": "git",
+            "url": "git@github.com:CanalTP/MediaManagerBundle.git"
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:CanalTP/MediaManagerComponent.git"
+        }
+    ],
     "require": {
         "php": ">=5.3.2",
+        "braincrafted/bootstrap-bundle": "2.0.0",
+        "canaltp/media-manager-bundle": "0.0.11",
         "canaltp/navitia": "V1.0.0",
-        "symfony/dom-crawler": "~2.0",
-        "friendsofsymfony/jsrouting-bundle": "1.5.3",
-        "willdurand/js-translation-bundle":"2.1.4",
         "components/jquery": "1.11.0",
         "components/jqueryui": "1.10.3",
-        "oyejorge/less.php": "1.5.1.2",
-        "twbs/bootstrap": "3.1.0",
         "eternicode/bootstrap-datepicker": "1.3.0",
-        "braincrafted/bootstrap-bundle": "2.0.0",
-        "videlalvaro/php-amqplib": "2.2.6",
+        "friendsofsymfony/jsrouting-bundle": "1.5.3",
         "itbz/fpdi": "1.4.4",
-	"canaltp/media-manager-bundle": "0.0.11"
+        "oyejorge/less.php": "1.5.1.2",
+        "symfony/dom-crawler": "~2.0",
+        "twbs/bootstrap": "3.1.0",
+        "videlalvaro/php-amqplib": "2.2.6",
+        "willdurand/js-translation-bundle":"2.1.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.5.*"
     },
     "autoload": {
         "psr-4": { "CanalTP\\MttBundle\\": "" }
