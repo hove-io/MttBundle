@@ -18,36 +18,36 @@
 {% endblock %}
 
 {% block table_body -%}
-    {% if areas|length == 0 %}
+    {% for area in areas %}
+        <tr>
+            <td>
+                <span class="area-label">
+                {% if is_granted('BUSINESS_MANAGE_AREA') %}
+                    <a href="{{ path('canal_tp_mtt_area_edit', {'externalNetworkId': externalNetworkId, 'areaId': area.id }) }}" data-toggle="modal" data-target="#base-modal">{{ area.label }}</a>
+                {% else %}
+                    {{ area.label }}
+                {% endif %}
+                </span>
+            </td>
+            <td>
+                {% if is_granted('BUSINESS_MANAGE_AREA') %}
+                    <a class="btn btn-default" href="{{ path('canal_tp_mtt_area_list_pdf', {'areaId': area.id, externalNetworkId: externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal">
+                        <span class="glyphicon glyphicon-list-alt"></span> {{'area.generate_pdf'|trans({}, 'default')}}
+                    </a>
+                    <a class="btn btn-default" href="{{ path('canal_tp_mtt_area_edit_stops', {'areaId': area.id, 'externalNetworkId': externalNetworkId}) }}">
+                        <span class="glyphicon glyphicon-edit"></span> {{'area.stops'|trans({}, 'default')}}
+                    </a>
+                    <a onClick="javascript:return confirm('{{'area.confirm_delete'|trans({}, 'messages')}}')" class="btn btn-danger" href="{{ path('canal_tp_mtt_area_remove', {'externalNetworkId': externalNetworkId, 'areaId': area.id }) }}">
+                        <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
+                    </a>
+                {% endif %}
+            </td>
+        </tr>
+    {% else %}
         <tr>
             <td colspan="4">
                 {{'global.no_items'|trans}}
             </td>
         </tr>
-    {% else %}
-        {% for area in areas %}
-            <tr>
-                <td>
-                    {% if is_granted('BUSINESS_MANAGE_AREA') %}
-                        <a href="{{ path('canal_tp_mtt_area_edit_stops', {'areaId': area.id, 'externalNetworkId': externalNetworkId}) }}">{{ area.label }}</a>
-                    {% else %}
-                        {{ area.label }}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if is_granted('BUSINESS_MANAGE_AREA') %}
-                        <a class="btn btn-default" href="{{ path('canal_tp_mtt_area_list_pdf', {'areaId': area.id }) }}" data-toggle="modal" data-target="#base-modal">
-                            <span class="glyphicon glyphicon-list-alt"></span> {{'area.pdf_list'|trans({}, 'default')}}
-                        </a>
-                        <a class="btn btn-default" href="{{ path('canal_tp_mtt_area_edit', {'externalNetworkId': externalNetworkId, 'areaId': area.id }) }}" data-toggle="modal" data-target="#base-modal">
-                            <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
-                        </a>
-                        <a onClick="javascript:return confirm('{{'area.confirm_delete'|trans({}, 'messages')}}')" class="btn btn-danger" href="{{ path('canal_tp_mtt_area_remove', {'externalNetworkId': externalNetworkId, 'areaId': area.id }) }}">
-                            <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
-                        </a>
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-    {% endif %}
+    {% endfor %}
 {% endblock %}

@@ -6,9 +6,9 @@ use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
 
 class TimetableControllerTest extends AbstractControllerTest
 {
-    public function setUp()
+    public function setUp($login = true)
     {
-        parent::setUp();
+        parent::setUp($login);
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
     }
 
@@ -49,6 +49,34 @@ class TimetableControllerTest extends AbstractControllerTest
         $this->checkBlockAndDates($crawler, $season);
     }
 
+
+    //List all stop-points default page
+    public function testStoppointsList()
+    {
+        parent::setUp();
+
+        $route = $this->client->getContainer()->get('router')->generate(
+            'canal_tp_mtt_stop_point_list',
+            array(
+                'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
+                'line_id' => Fixture::EXTERNAL_LINE_ID,
+                'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
+                'seasonId' => $this->getSeason()->getId()
+            )
+        );
+        $crawler = $this->client->request('GET', $route);
+        $crawler = $this->doRequestRoute($route, 200);
+        $this->checkContextualBtnsPresence($crawler);
+    }
+
+    //METH-297
+    public function checkContextualBtnsPresence ($crawler) {
+        $stopPointfirstRow = $crawler->filter('table tbody tr')->first();
+        $this->assertEquals('Voir les horaires', trim($stopPointfirstRow->filter('td[class="action"] a')->eq(0)->text()));
+        $this->assertEquals('Prévisualiser', trim($stopPointfirstRow->filter('td[class="action"] a')->eq(1)->text()));
+    }
+
+    // Stop-point timetable preview page
     public function testAnonymousAccess()
     {
         $route = $this->client->getContainer()->get('router')->generate(
