@@ -332,7 +332,7 @@ class Navitia
      */
     public function getRouteData($routeExternalId, $externalCoverageId)
     {
-//      param depth '3' to get 'administrative_region' in response
+        // param depth '3' to get 'administrative_region' in response
         $response = $this->navitia_sam->getRoute($externalCoverageId, $routeExternalId, 3);
         if (!isset($response->routes) || empty($response->routes)) {
             throw new \Exception(
