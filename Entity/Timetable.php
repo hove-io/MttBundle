@@ -139,7 +139,7 @@ class Timetable extends AbstractEntity
     /**
      * Set title
      *
-     * @param  string $networkId
+     * @param  string $title
      * @return Line
      */
     public function setTitle($title)
@@ -162,7 +162,7 @@ class Timetable extends AbstractEntity
     /**
      * Set direction city
      *
-     * @param  string $networkId
+     * @param  string $directionCity
      * @return Line
      */
     public function setDirectionCity($directionCity)
