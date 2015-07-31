@@ -38,6 +38,11 @@ class Timetable extends AbstractEntity
     private $title;
 
     /**
+     * @var string - non persistent
+     */
+    private $directionCity;
+
+    /**
      * @var Object - non persistent
      */
     private $line_config;
@@ -140,6 +145,29 @@ class Timetable extends AbstractEntity
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getDirectionCity()
+    {
+        return $this->directionCity;
+    }
+
+    /**
+     * Set direction city
+     *
+     * @param  string $networkId
+     * @return Line
+     */
+    public function setDirectionCity($directionCity)
+    {
+        $this->directionCity = $directionCity;
 
         return $this;
     }
