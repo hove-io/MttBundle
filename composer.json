@@ -47,5 +47,10 @@
     },
     "autoload": {
         "psr-4": { "CanalTP\\MttBundle\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.9.x-dev"
+        }
     }
 }
