@@ -146,9 +146,17 @@ canal_tp_mtt_layout_config_edit:
     defaults: { _controller: CanalTPMttBundle:LayoutConfig:edit, layoutConfigId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
+canal_tp_mtt_model_list:
+    pattern: /layouts/networks/{externalNetworkId}/model/list
+    defaults: { _controller: CanalTPMttBundle:LayoutModel:list }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+
 canal_tp_mtt_model_upload:
     pattern: /layouts/networks/{externalNetworkId}/model/upload
     defaults: { _controller: CanalTPMttBundle:LayoutModel:uploadModel }
+
 canal_tp_mtt_layoutconfig_delete:
     pattern: /layouts/networks/{externalNetworkId}/delete/{layoutConfigId}
     defaults: { _controller: CanalTPMttBundle:LayoutConfig:delete, layoutConfigId: null, confirm: null }

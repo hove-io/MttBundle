@@ -51,6 +51,9 @@ layout_model:
     upload: Ajouter un modèle
     list: Liste des modèles
     uploaded: Modèle enregistré
+    manage: Gestion des modèles
+    label: Libellé
+    upload_date: Date d'upload
 
 block:
     get_form:
@@ -150,9 +153,10 @@ area:
     no_seasons_created: Pour créer une saison veuillez vous rendre sur la page de gestion des saisons
 
 customer:
-    list: Liste des clients
+    assignation: Assignation des modèles aux clients
     name: Nom du client
     perimeters: Périmètre(s)
+    models: Modèle(s)
     no_item: Pas de périmètre
     actions:
         assign_twig: Assigner

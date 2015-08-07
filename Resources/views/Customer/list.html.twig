@@ -1,17 +1,13 @@
 {% extends "CanalTPMttBundle::generic_list.html.twig" %}
 
 {% block list_title -%}
-    {{'customer.list'|trans({}, 'default')}}
-    -
-    <a href="{{ path('canal_tp_mtt_model_upload', {'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus"></span> {{'layout_model.upload'|trans({}, 'default')}}
-    </a>
-
+    {{'customer.assignation'|trans({}, 'default')}}
 {% endblock %}
 
 {% block table_head -%}
     <th>{{'customer.name'|trans({}, 'default')}}</th>
     <th>{{'customer.perimeters'|trans({}, 'default')}}</th>
+    <th>{{'customer.models'|trans({}, 'default')}}</th>
     <th>{{'global.actions'|trans({}, 'messages')}}</th>
 {% endblock %}
 
@@ -23,7 +19,8 @@
             </td>
         </tr>
     {% else %}
-        {% for customer in customers %}
+        {% for row in customers %}
+            {% set customer = row.customerEntity %}
             <tr>
                 <td>
                     {{ customer.name }}
@@ -38,6 +35,13 @@
                         {% endfor %}
                         </ul>
                     {% endif %}
+                </td>
+                <td>
+                    <ul>
+                    {% for layout in row.layouts %}
+                        <li>{{ layout.label }}</li>
+                    {% endfor %}
+                    </ul>
                 </td>
                 <td class="action">
                     <div class="btn-group">
