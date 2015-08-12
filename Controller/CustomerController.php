@@ -16,18 +16,24 @@ class CustomerController extends AbstractController
         $this->isGranted('BUSINESS_MANAGE_CUSTOMER');
         $customerManager = $this->get('sam_core.customer');
         $customerApplications = $customerManager->findByCurrentApp();
+        $layoutManager = $this->get('canal_tp_mtt.layout');
         $customers = array();
 
         foreach ($customerApplications as $customerApplication) {
             $customer = $customerManager->find($customerApplication->getCustomer());
-            $customers[] = $customer;
+            $layouts = $layoutManager->findByCustomer($customer);
+            $customers[] = array(
+                'customerEntity' => $customer,
+                'layouts' => $layouts
+            );
         }
 
         return $this->render(
             'CanalTPMttBundle:Customer:list.html.twig',
             array(
                 'externalNetworkId' => $externalNetworkId,
-                'customers' => $customers
+                'customers' => $customers,
+                'no_left_menu' => true
             )
         );
     }

@@ -7,6 +7,20 @@ use CanalTP\MttBundle\Form\Type\LayoutModelType;
 
 class LayoutModelController extends AbstractController
 {
+    public function listAction(Request $request, $externalNetworkId)
+    {
+        $this->isGranted('BUSINESS_MANAGE_LAYOUT_CONFIG');
+
+        return $this->render(
+            'CanalTPMttBundle:LayoutModel:list.html.twig',
+            array(
+                'externalNetworkId' => $externalNetworkId,
+                'layouts' => $this->get('canal_tp_mtt.layout')->findAll(),
+                'no_left_menu' => true
+            )
+        );
+    }
+
     public function uploadModelAction(Request $request, $externalNetworkId)
     {
         $form = $this->createForm(
@@ -53,7 +67,7 @@ class LayoutModelController extends AbstractController
 
             return $this->redirect(
                 $this->generateUrl(
-                    'canal_tp_mtt_customer_list',
+                    'canal_tp_mtt_model_list',
                     array('externalNetworkId' => $externalNetworkId)
                 )
             );

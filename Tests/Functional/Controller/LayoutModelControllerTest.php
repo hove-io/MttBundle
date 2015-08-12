@@ -42,6 +42,8 @@ class LayoutModelControllerTest extends AbstractControllerTest
         $crawler = $this->client->submit($form);
 
         // Check if the value is saved correctly
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Gestion des modèles")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Modèle enregistré")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("layout 1 de type paysage (Dijon 1)")')->count());
     }
 }

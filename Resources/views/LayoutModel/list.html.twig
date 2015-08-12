@@ -1,0 +1,32 @@
+{% extends "CanalTPMttBundle::generic_list.html.twig" %}
+
+{% block list_title -%}
+    {{'layout_model.manage'|trans({}, 'default')}}
+    -
+    <a href="{{ path('canal_tp_mtt_model_upload', {'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span> {{'layout_model.upload'|trans({}, 'default')}}
+    </a>
+
+{% endblock %}
+
+{% block table_head -%}
+    <th>{{'layout_model.label'|trans({}, 'default')}}</th>
+    <th>{{'layout_model.upload_date'|trans({}, 'default')}}</th>
+{% endblock %}
+
+{% block table_body -%}
+    {% if layouts|length == 0 %}
+        <tr>
+            <td colspan="4">
+                {{'global.no_items'|trans}}
+            </td>
+        </tr>
+    {% else %}
+        {% for layout in layouts %}
+            <tr>
+                <td>{{ layout.label }}</td>
+                <td>{{ layout.updated|date('d/m/Y H:i:s') }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

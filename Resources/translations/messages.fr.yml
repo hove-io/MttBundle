@@ -77,9 +77,10 @@ menu:
     seasons_manage: Gestion des saisons
     edit_timetables: Édition des fiches horaires
     networks_manage: Gestion des réseaux
-    layouts_manage: Gestion des fonds de fiche
+    models_manage: Ajouter/Mettre à jour les modèles
+    layouts_manage: Configurer les fonds de fiche
     area_manage: Secteurs
-    customer_manage: Gestion des Clients
+    assign_models_to_customers: Assigner les modèles aux clients
 
 #should be in error namespace above
 network:
