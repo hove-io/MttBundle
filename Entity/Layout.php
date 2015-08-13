@@ -2,6 +2,8 @@
 
 namespace CanalTP\MttBundle\Entity;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * Layout
  */
@@ -54,6 +56,8 @@ class Layout extends AbstractEntity
      * @var \Doctrine\Common\Collections\Collection
      */
     private $customers;
+
+    protected $file;
 
     /**
      * Get id
@@ -261,5 +265,17 @@ class Layout extends AbstractEntity
     public function __toString()
     {
         return $this->label;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+
+        return $this;
     }
 }

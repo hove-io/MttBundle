@@ -12,6 +12,7 @@
 {% block table_head -%}
     <th>{{'layout_model.label'|trans({}, 'default')}}</th>
     <th>{{'layout_model.upload_date'|trans({}, 'default')}}</th>
+    <th>{{'global.actions'|trans({}, 'messages')}}</th>
 {% endblock %}
 
 {% block table_body -%}
@@ -26,6 +27,13 @@
             <tr>
                 <td>{{ layout.label }}</td>
                 <td>{{ layout.updated|date('d/m/Y H:i:s') }}</td>
+                <td class="action">
+                    <div class="btn-group">
+                        <a class="btn btn-default{{disabledBtn}}" href="{{ path('canal_tp_mtt_model_upload', {'externalNetworkId': externalNetworkId, id: layout.id}) }}" data-toggle="modal" data-target="#base-modal">
+                            <span class="glyphicon glyphicon-edit"></span> {{'layout_model.actions.update'|trans({}, 'default')}}
+                        </a>
+                    </div>
+                </td>
             </tr>
         {% endfor %}
     {% endif %}
