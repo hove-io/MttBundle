@@ -121,7 +121,7 @@ class LayoutModelManager
         }
         $this->layout->setPath($twigPath);
         $this->layout->setPreviewPath($previewPath);
-        $this->layout->setOrientation(0);
+        $this->layout->setOrientation($orientation);
         $this->layout->setNotesModes(array(0 => 1));
         $this->layout->setCssVersion(1);
         $this->layout->setUpdated(new \DateTime());
