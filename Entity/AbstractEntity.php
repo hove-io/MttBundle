@@ -28,6 +28,16 @@ abstract class AbstractEntity
     }
 
     /**
+     * Set updated date
+     *
+     * @param \Datetime $date The updated date
+     */
+    public function setUpdated($date)
+    {
+        $this->updated = $date;
+    }
+
+    /**
      * Get updated date
      *
      * @return DateTime
