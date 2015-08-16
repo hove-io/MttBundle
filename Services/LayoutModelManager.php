@@ -51,7 +51,7 @@ class LayoutModelManager
         // Move the assets
         $this->moveFiles(array('*.png', '*.jpg'), $tmpDir, $templateDir.'/img/'.$id);
         $this->moveFiles('*.twig', $tmpDir, $templateDir.'/twig/'.$id);
-        $this->moveFiles('*.css', $tmpDir, $templateDir.'/css/'.$id);
+        $this->moveFiles('*.css', $tmpDir, $templateDir.'/css/'.$id, false);
 
         // If the layout has a fonts directory, we copy this directory to the css one.
         if ($fontsDirs = $this->getDirectories($tmpDir, 'fonts')) {
@@ -78,11 +78,14 @@ class LayoutModelManager
     /**
      * Move files of extension type.
      *
-     * @param string|array $extension The extensions you need to find
-     * @param string       $actualDir Source directory
-     * @param string       $targetDir Target directory
+     * @param string|array $extension                 The extensions you need to find
+     * @param string       $actualDir                 Source directory
+     * @param string       $targetDir                 Target directory
+     * @param bool         $$throwExceptionIfNotFound Throws an exeption if files are not found
+     *
+     * @throws Exception If files are not found
      */
-    protected function moveFiles($extension, $actualDir, $targetDir)
+    protected function moveFiles($extension, $actualDir, $targetDir, $throwExceptionIfNotFound = true)
     {
         if (!is_array($extension)) {
             $extension = (array) $extension;
@@ -96,6 +99,10 @@ class LayoutModelManager
         }
 
         if (iterator_count($finder) < 1) {
+            if (!$throwExceptionIfNotFound) {
+                return;
+            }
+
             throw new \Exception(sprintf('There is no files with extensions %s.', implode(', ', $extension)));
         }
 
