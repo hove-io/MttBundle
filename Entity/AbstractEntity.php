@@ -32,7 +32,7 @@ abstract class AbstractEntity
      *
      * @param \Datetime $date The updated date
      */
-    public function setUpdated($date)
+    public function setUpdated(\Datetime $date)
     {
         $this->updated = $date;
     }

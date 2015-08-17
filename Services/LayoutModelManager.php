@@ -81,7 +81,7 @@ class LayoutModelManager
      * @param string|array $extension                 The extensions you need to find
      * @param string       $actualDir                 Source directory
      * @param string       $targetDir                 Target directory
-     * @param bool         $$throwExceptionIfNotFound Throws an exeption if files are not found
+     * @param bool         $throwExceptionIfNotFound Throws an exeption if files are not found
      *
      * @throws Exception If files are not found
      */
