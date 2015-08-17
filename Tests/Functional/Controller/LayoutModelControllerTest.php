@@ -29,6 +29,17 @@ class LayoutModelControllerTest extends AbstractControllerTest
         return $form;
     }
 
+    public function testListModels()
+    {
+        $route = $this->getRoute('canal_tp_mtt_model_list');
+        $crawler = $this->doRequestRoute($route);
+
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Gestion des modèles")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Template par défaut")')->count());
+        $this->assertEquals(1, $crawler->selectLink('Mettre à jour')->count());
+        $this->assertEquals(1, $crawler->selectLink('Ajouter un modèle')->count());
+    }
+
     public function testUploadGoodArchive()
     {
         $form = $this->getEditForm();
@@ -42,8 +53,6 @@ class LayoutModelControllerTest extends AbstractControllerTest
         $crawler = $this->client->submit($form);
 
         // Check if the value is saved correctly
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Gestion des modèles")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Modèle enregistré")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("layout 1 de type paysage (Dijon 1)")')->count());
     }
 }
