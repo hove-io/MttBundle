@@ -53,7 +53,9 @@ layout_model:
     uploaded: Modèle enregistré
     manage: Gestion des modèles
     label: Libellé
-    upload_date: Date d'upload
+    upload_date: Date de téléversement
+    actions:
+        update: Mettre à jour
 
 block:
     get_form:

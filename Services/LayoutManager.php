@@ -17,6 +17,11 @@ class LayoutManager
         $this->repository = $this->om->getRepository('CanalTPMttBundle:Layout');
     }
 
+    public function findById($id)
+    {
+        return $this->repository->findOneById($id);
+    }
+
     public function findAll()
     {
         return ($this->repository->findAll());

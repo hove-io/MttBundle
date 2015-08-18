@@ -2,57 +2,72 @@
 
 namespace CanalTP\MttBundle\Services;
 
+use CanalTP\MttBundle\Entity\Layout;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Yaml\Yaml;
 
 class LayoutModelManager
 {
-    protected $om = null;
-    protected $repository = null;
-    protected $uploadDir = '/tmp/';
+    private $om;
+    private $uploadDir = '/tmp/';
     private $layout;
 
     public function __construct(ObjectManager $om, $uploadDir)
     {
         $this->om = $om;
-        $this->repository = $this->om->getRepository('CanalTPMttBundle:Layout');
         $this->uploadDir = $uploadDir;
+        $this->filesystem = new Filesystem();
     }
 
     /**
      * Persist template and move zip archive's elements.
      *
-     * @param CanalTP\MttBundle\Model\LayoutModel $model
+     * @param Layout $layout
      */
-    public function save($model)
+    public function save(Layout $layout)
     {
-        $archiveDir = $this->getUploadDir() . '/archives';
-        $templateDir = $this->getUploadDir() . '/templates';
-        $tmpDir = $this->getUploadDir() . '/tmp/' . time();
+        $archiveDir = $this->getUploadDir().'/archives';
+        $templateDir = $this->getUploadDir().'/templates';
+        $tmpDir = $this->getUploadDir().'/tmp/'.time();
 
-        $file = $model->getFile()->move(
+        // Copy the archive to the archive directory
+        $file = $layout->getFile()->move(
             $archiveDir,
-            $model->getFile()->getClientOriginalName()
+            $layout->getFile()->getClientOriginalName()
         );
 
+        // Extract the archive
         $zip = new \ZipArchive();
-        $zip->open($archiveDir . '/' . $model->getFile()->getClientOriginalName());
+        $zip->open($archiveDir.'/'.$layout->getFile()->getClientOriginalName());
         $zip->extractTo($tmpDir);
         $zip->close();
 
-        $id = $this->getUniqueId();
+        $id = $this->getUniqueId($layout);
         $config = $this->readConfiguration($tmpDir);
-        $this->movePictures($tmpDir, $templateDir . '/img/' . $id);
-        $this->moveTwigFiles($tmpDir, $templateDir, $id);
-        $this->moveCssFiles($tmpDir, $templateDir, $id);
+
+        // Move the assets
+        $this->moveFiles(array('*.png', '*.jpg'), $tmpDir, $templateDir.'/img/'.$id);
+        $this->moveFiles('*.twig', $tmpDir, $templateDir.'/twig/'.$id);
+        $this->moveFiles('*.css', $tmpDir, $templateDir.'/css/'.$id, false);
 
         // If the layout has a fonts directory, we copy this directory to the css one.
         if ($fontsDirs = $this->getDirectories($tmpDir, 'fonts')) {
-            $this->rename(current($fontsDirs), $templateDir . '/css/' . $id . '/fonts');
+            $this->filesystem->remove($templateDir.'/css/'.$id.'/fonts');
+            $this->filesystem->rename(current($fontsDirs), $templateDir.'/css/'.$id.'/fonts', true);
         }
 
-        $this->saveInDb($config['label'], 'uploads/' . $id . '/' . $config['templateName'], '/bundles/canaltpmtt/img/uploads/' . $id . '/' . $config['previewFileName'], $config['orientation']);
+        // Remove the tmp directory
+        $this->filesystem->remove($tmpDir);
+
+        $this->saveInDb(
+            $config['label'],
+            'uploads/'.$id.'/'.$config['templateName'],
+            '/bundles/canaltpmtt/img/uploads/'.$id.'/'.$config['previewFileName'],
+            $config['orientation']
+        );
     }
 
     protected function getUploadDir()
@@ -61,75 +76,44 @@ class LayoutModelManager
     }
 
     /**
-     * Move from working directory to final directory the first image found.
-     *
-     * @param String $actualDir working directory
-     * @param String $targetDir destination directory
-     *
-     * @return String FileName
-     */
-    protected function movePictures($actualDir, $targetDir)
-    {
-        $finder = new Finder();
-        $finder->files()->in($actualDir)->name('*.png')->name('*.jpg');
-
-        if (iterator_count($finder) < 1) {
-            throw new \Exception('The preview file is missing.');
-        }
-
-        foreach ($finder as $file) {
-            $f = new \Symfony\Component\HttpFoundation\File\File($file->getRealpath(), true);
-
-            $f->move(
-                $targetDir,
-                $file->getFilename()
-            );
-        }
-    }
-
-    /**
      * Move files of extension type.
      *
-     * @param String $extension exemple: '*.EXTENSION'
-     * @param type   $actualDir
-     * @param type   $targetDir
+     * @param string|array $extension                 The extensions you need to find
+     * @param string       $actualDir                 Source directory
+     * @param string       $targetDir                 Target directory
+     * @param bool         $throwExceptionIfNotFound Throws an exeption if files are not found
+     *
+     * @throws Exception If files are not found
      */
-    protected function moveFiles($extension, $actualDir, $targetDir)
+    protected function moveFiles($extension, $actualDir, $targetDir, $throwExceptionIfNotFound = true)
     {
+        if (!is_array($extension)) {
+            $extension = (array) $extension;
+        }
+
         $finder = new Finder();
-        $finder->files()->in($actualDir)->name($extension);
+        $finder->files()->in($actualDir);
+
+        foreach ($extension as $ext) {
+            $finder->name($ext);
+        }
 
         if (iterator_count($finder) < 1) {
-            throw new \Exception('There\'s no "' . $extension . '" file.');
+            if (!$throwExceptionIfNotFound) {
+                return;
+            }
+
+            throw new \Exception(sprintf('There is no files with extensions %s.', implode(', ', $extension)));
         }
 
         foreach ($finder as $file) {
-            $f = new \Symfony\Component\HttpFoundation\File\File($file->getRealpath(), true);
-
-            $f->move(
-                $targetDir,
-                $file->getFilename()
-            );
+            $f = new File($file->getRealpath(), true);
+            $f->move($targetDir, $file->getFilename());
         }
     }
 
-    protected function moveCssFiles($actualDir, $targetDir, $id)
+    protected function getUniqueId($layout)
     {
-        try {
-            $this->moveFiles('*.css', $actualDir, $targetDir . '/css/' . $id);
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    protected function moveTwigFiles($actualDir, $targetDir, $id)
-    {
-        $this->moveFiles('*.twig', $actualDir, $targetDir . '/twig/' . $id);
-    }
-
-    protected function getUniqueId()
-    {
-        $layout = new \CanalTP\MttBundle\Entity\Layout();
         $this->om->persist($layout);
         $this->layout = $layout;
 
@@ -138,12 +122,16 @@ class LayoutModelManager
 
     protected function saveInDb($label, $twigPath, $previewPath, $orientation)
     {
-        $this->layout->setLabel($label);
+        // Do not change the name if we update the layout
+        if (null === $this->layout->getLabel()) {
+            $this->layout->setLabel($label);
+        }
         $this->layout->setPath($twigPath);
         $this->layout->setPreviewPath($previewPath);
         $this->layout->setOrientation($orientation);
         $this->layout->setNotesModes(array(0 => 1));
         $this->layout->setCssVersion(1);
+        $this->layout->setUpdated(new \DateTime());
 
         $this->om->flush($this->layout);
     }
@@ -167,7 +155,7 @@ class LayoutModelManager
         $files = iterator_to_array($finder);
         $file = current($files);
 
-        $config = \Symfony\Component\Yaml\Yaml::parse($file->getContents());
+        $config = Yaml::parse($file->getContents());
 
         return $config;
     }
@@ -194,18 +182,5 @@ class LayoutModelManager
         }
 
         return false;
-    }
-
-    /**
-     * Rename a file or a directory
-     * Copy, rename and remove.
-     *
-     * @param string $source The filename or directory you want to rename
-     * @param string $target The new filename or directory
-     */
-    private function rename($source, $target)
-    {
-        $fs = new Filesystem();
-        $fs->rename($source, $target);
     }
 }

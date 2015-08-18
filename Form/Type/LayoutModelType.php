@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints\File;
 
 class LayoutModelType extends AbstractType
 {
-
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -26,10 +25,10 @@ class LayoutModelType extends AbstractType
                     new File(
                         array(
                             'maxSize' => '20M',
-                            'mimeTypes' => 'application/zip'
+                            'mimeTypes' => 'application/zip',
                         )
-                    )
-                )
+                    ),
+                ),
             )
         );
     }
@@ -41,7 +40,7 @@ class LayoutModelType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'CanalTP\MttBundle\Model\LayoutModel'
+                'data_class' => 'CanalTP\MttBundle\Entity\Layout',
             )
         );
     }

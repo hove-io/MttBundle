@@ -23,13 +23,23 @@ class LayoutModelController extends AbstractController
 
     public function uploadModelAction(Request $request, $externalNetworkId)
     {
+        $id = $request->query->get('id');
+
+        $layout = empty($id)
+            ? new \CanalTP\MttBundle\Entity\Layout()
+            : $this->get('canal_tp_mtt.layout')->findById($id);
+
+
         $form = $this->createForm(
             new LayoutModelType(),
-            null,
+            $layout,
             array(
                 'action' => $this->generateUrl(
                     'canal_tp_mtt_model_upload',
-                    array('externalNetworkId' => $externalNetworkId)
+                    array(
+                        'externalNetworkId' => $externalNetworkId,
+                        'id' => $id
+                    )
                 )
             )
         );
@@ -51,7 +61,7 @@ class LayoutModelController extends AbstractController
 
                 return $this->redirect(
                     $this->generateUrl(
-                        'canal_tp_mtt_customer_list',
+                        'canal_tp_mtt_model_list',
                         array('externalNetworkId' => $externalNetworkId)
                     )
                 );
