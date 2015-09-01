@@ -25,7 +25,7 @@ class WebserviceController extends AbstractController
         return $mediaManager->getUrlByMedia($media);
     }
 
-    private function findSeasionByCustomerAndDate($customerNameCanonical, $externalNetworkId, \DateTime $date)
+    private function findSeasonByCustomerAndDate($customerNameCanonical, $externalNetworkId, \DateTime $date)
     {
         $customer = $this->get('sam_core.customer')->findOneBy(array('nameCanonical' => $customerNameCanonical));
         $seasonManager = $this->get('canal_tp_mtt.season_manager');
@@ -60,9 +60,8 @@ class WebserviceController extends AbstractController
             } else {
                 $date = new \DateTime($filter);
             }
-            $season = $this->findSeasionByCustomerAndDate($customerNameCanonical, $externalNetworkId, $date);
+            $season = $this->findSeasonByCustomerAndDate($customerNameCanonical, $externalNetworkId, $date);
             if (empty($season)) {
-                $trans = $this->get('translator');
                 throw new \Exception($this->get('translator')->trans(
                     'webservice.no_season_found',
                     array('%date%' => $date->format('d/m/Y')),
