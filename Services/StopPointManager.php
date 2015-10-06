@@ -46,8 +46,12 @@ class StopPointManager
         );
 
         $this->stopPoint->setTitle($navitiaStopPoint->stop_points[0]->name);
-        $this->stopPoint->setCity($navitiaStopPoint->stop_points[0]->administrative_regions[0]->name);
         $this->stopPoint->setCodes($navitiaStopPoint->stop_points[0]->codes);
+
+        $administrativeRegion = isset($navitiaStopPoint->stop_points[0]->administrative_regions)
+            ? $navitiaStopPoint->stop_points[0]->administrative_regions[0]->name
+            : null;
+        $this->stopPoint->setCity($administrativeRegion);
     }
 
     private function initStopPointPois($externalCoverageId)
