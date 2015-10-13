@@ -55,8 +55,11 @@ class LineTimetableController extends AbstractController
                 )
             );
 
-        $lineTimetable = $this->get('canal_tp_mtt.line_timetable_manager')
-            ->findOrCreateLineTimetable($lineConfig);
+        if (!empty($lineConfig))
+        {
+            $lineTimetable = $this->get('canal_tp_mtt.line_timetable_manager')
+                ->findOrCreateLineTimetable($lineConfig);
+        }
 
         return $this->render(
             'CanalTPMttBundle:LineTimetable:list.html.twig',
@@ -65,7 +68,8 @@ class LineTimetableController extends AbstractController
                 'currentSeason'     => $currentSeason,
                 'seasons'           => $seasons,
                 'externalLineData'  => $externalLineData,
-                'lineTimetable'     => $lineTimetable
+                'externalLineId'    => $externalLineData->id,
+                'lineTimetable'     => isset($lineTimetable) ? $lineTimetable : null
             )
         );
     }

@@ -40,5 +40,5 @@ parameters:
             label: Gérer les fiches horaires à l'arrêt
             description: Edition, impression, consultation
         BUSINESS_MANAGE_LINE_TIMETABLE:
-            label: Gérer les fiches horaires à l'arrêt
+            label: Gérer les fiches horaires de ligne
             description: Edition, impression, consultation

@@ -45,7 +45,6 @@ class StopPointController extends AbstractController
                 );
             }
         }
-        $currentSeasonId = empty($currentSeason) ? false : $currentSeason->getId();
 
         return $this->render(
             'CanalTPMttBundle:StopPoint:list.html.twig',
@@ -53,13 +52,11 @@ class StopPointController extends AbstractController
                 'pageTitle'         => "menu.edit_timetables",
                 'lineConfig'        => $lineConfig,
                 'routes'            => $routes,
-                'current_route'     => $externalRouteId,
                 'externalNetworkId' => $perimeter->getExternalNetworkId(),
                 'externalLineId'    => $externalLineId,
-                'seasons'           => $seasons,
-                'currentSeason'     => $currentSeason,
-                'currentSeasonId'   => $currentSeasonId,
                 'externalRouteId'   => $externalRouteId,
+                'seasons'           => $seasons,
+                'currentSeason'     => $currentSeason
             )
         );
     }

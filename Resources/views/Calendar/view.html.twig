@@ -1,9 +1,5 @@
 {% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
 
-{% block left_menu %}
-    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season' : currentSeason.id })) }}
-{% endblock %}
-
 {% trans_default_domain "default" %}
 
 {% block main_content %}
@@ -15,10 +11,10 @@
             {% set prev_url = path(
                 'canal_tp_mtt_calendar_view',
                 {
-                    'externalNetworkId':externalNetworkId,
-                    'externalRouteId': current_route,
-                    'externalStopPointId' : prevNextStopPoints.prev,
-                    'currentSeasonId':currentSeason.id
+                    'externalNetworkId':    externalNetworkId,
+                    'externalRouteId':      externalRouteId,
+                    'externalStopPointId':  prevNextStopPoints.prev,
+                    'currentSeasonId':      currentSeason.id
                 }
             ) %}
         {% endif %}
@@ -26,10 +22,10 @@
             {% set next_url = path(
                 'canal_tp_mtt_calendar_view',
                 {
-                    'externalNetworkId':externalNetworkId,
-                    'externalRouteId': current_route,
-                    'externalStopPointId' : prevNextStopPoints.next,
-                    'currentSeasonId':currentSeason.id
+                    'externalNetworkId':    externalNetworkId,
+                    'externalRouteId':      externalRouteId,
+                    'externalStopPointId':  prevNextStopPoints.next,
+                    'currentSeasonId':      currentSeason.id
                 }
             ) %}
         {% endif %}

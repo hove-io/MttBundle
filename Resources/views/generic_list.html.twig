@@ -4,7 +4,10 @@
 
 {% block main_content -%}
     <h1>{% block list_title -%}{% endblock %}</h1>
-    {% block list_menu -%}{% endblock %}
+    {% block list_menu -%}
+        {% block line_comment %}
+        {% endblock %}
+    {% endblock %}
     <table class="table {% block table_classes -%}table-hover{% endblock %}">
         <thead>
             <tr>
