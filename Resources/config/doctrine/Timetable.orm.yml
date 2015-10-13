@@ -45,6 +45,7 @@ CanalTP\MttBundle\Entity\Timetable:
     manyToOne:
         line_config:
             targetEntity: LineConfig
+            inversedBy: timetables
             joinColumn:
                 name: line_config_id
                 referencedColumnName: id

@@ -93,6 +93,32 @@ class Navitia
     }
 
     /**
+     * Get first line of network
+     *
+     * @param string $externalCoverageId
+     * @param string $externalNetworkId
+     * @return string
+     */
+    public function getFirstLineOfNetwork($externalCoverageId, $externalNetworkId)
+    {
+        return $this->navitia_sam->getLines($externalCoverageId, $externalNetworkId)->lines[0]->id;
+    }
+
+    /**
+     * Get line
+     * @param string $coverageId
+     * @param string $networkId
+     * @param string $externalLineId
+     * @return mixed
+     */
+    public function getLine($externalCoverageId, $externalNetworkId, $externalLineId, $depth = 0)
+    {
+       $response = $this->navitia_sam->getLine($externalCoverageId, $externalNetworkId, $externalLineId, $depth);
+
+        return ($response->lines[0]);
+    }
+
+    /**
      * Get route StopPoints.
      *
      * @param type $externalCoverageId

@@ -36,3 +36,9 @@ parameters:
         BUSINESS_ASSIGN_MODEL:
             label: Assignation de modèles aux clients
             description: Permet d'assigner des modèles aux clients.
+        BUSINESS_MANAGE_STOP_TIMETABLE:
+            label: Gérer les fiches horaires à l'arrêt
+            description: Edition, impression, consultation
+        BUSINESS_MANAGE_LINE_TIMETABLE:
+            label: Gérer les fiches horaires à l'arrêt
+            description: Edition, impression, consultation

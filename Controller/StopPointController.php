@@ -6,8 +6,10 @@ use \Symfony\Component\HttpFoundation\JsonResponse;
 
 class StopPointController extends AbstractController
 {
-    public function listAction($externalNetworkId, $line_id = false, $externalRouteId = false, $seasonId = null)
+    public function listAction($externalNetworkId, $externalLineId = false, $externalRouteId = false, $seasonId = null)
     {
+        $this->isGranted('BUSINESS_MANAGE_STOP_TIMETABLE');
+
         $navitia = $this->get('canal_tp_mtt.navitia');
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
             $this->getUser()->getCustomer(),
@@ -16,8 +18,8 @@ class StopPointController extends AbstractController
         $seasons = $this->get('canal_tp_mtt.season_manager')->findByPerimeter($perimeter);
         $currentSeason = $this->get('canal_tp_mtt.season_manager')->getSelected($seasonId, $seasons);
         $this->addFlashIfSeasonLocked($currentSeason);
-        if (empty($line_id)) {
-            list($line_id, $externalRouteId) = $navitia->getFirstLineAndRouteOfNetwork(
+        if (empty($externalLineId)) {
+            list($externalLineId, $externalRouteId) = $navitia->getFirstLineAndRouteOfNetwork(
                 $perimeter->getExternalCoverageId(),
                 $externalNetworkId
             );
@@ -25,12 +27,12 @@ class StopPointController extends AbstractController
         $routes = $navitia->getStopPoints(
             $perimeter->getExternalCoverageId(),
             $externalNetworkId,
-            $line_id,
+            $externalLineId,
             $externalRouteId
         );
         $lineConfig = $this->getDoctrine()->getRepository(
             'CanalTPMttBundle:LineConfig'
-        )->findOneBy(array('externalLineId' => $line_id, 'season' => $currentSeason));
+        )->findOneBy(array('externalLineId' => $externalLineId, 'season' => $currentSeason));
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         if (!empty($lineConfig)) {
@@ -53,7 +55,7 @@ class StopPointController extends AbstractController
                 'routes'            => $routes,
                 'current_route'     => $externalRouteId,
                 'externalNetworkId' => $perimeter->getExternalNetworkId(),
-                'externalLineId'    => $line_id,
+                'externalLineId'    => $externalLineId,
                 'seasons'           => $seasons,
                 'currentSeason'     => $currentSeason,
                 'currentSeasonId'   => $currentSeasonId,
