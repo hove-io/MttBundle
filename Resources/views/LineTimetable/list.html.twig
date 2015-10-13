@@ -29,7 +29,7 @@
                 {{ 'season.create'|trans({}, 'default') }}
             </a>
         {% else %}
-            <a class="btn btn-default pull-right{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId': currentSeason.id, 'externalLineId': externalLineData.id}) }}">
+            <a class="btn btn-default pull-right{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId': currentSeason.id, 'externalLineId': externalLineId}) }}">
                 <span class="glyphicon glyphicon-cog"></span> {{ 'line.choose_layout'|trans({}, 'default') }}
             </a>
         {% endif %}

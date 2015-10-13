@@ -3,10 +3,12 @@ canal_tp_mtt_homepage:
     defaults: { _controller: CanalTPMttBundle:Default:index , externalNetworkId: null}
 
 canal_tp_mtt_menu:
-    pattern:  /navigation/networks/{externalNetworkId}/seasons/{current_season}/route/{current_route}
-    defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null }
+    pattern:  /navigation/networks/{externalNetworkId}/seasons/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:Default:navigation, options: {} }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+
 #Season
 canal_tp_mtt_season_list:
     pattern: /networks/{externalNetworkId}/seasons/list
