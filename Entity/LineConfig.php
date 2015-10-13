@@ -2,8 +2,11 @@
 
 namespace CanalTP\MttBundle\Entity;
 
+use \Doctrine\Common\Collections\ArrayCollection;
+use \Doctrine\Common\Collections\Collection;
+
 /**
- * Line
+ * LineConfig
  */
 class LineConfig extends AbstractEntity
 {
@@ -18,34 +21,33 @@ class LineConfig extends AbstractEntity
     private $externalLineId;
 
     /**
-     * @var string
+     * @var LayoutConfig
      */
     private $layoutConfig;
 
     /**
-     * @var string
-     */
-    private $twigPath;
-
-    /**
-     * @var Array
-     */
-    private $blocks;
-
-    /**
-     * @var Array
-     */
-    private $stopPoints;
-
-    /**
-     * @var Object
+     * @var Season
      */
     private $season;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
     private $timetables;
+
+    /**
+     * @var Collection
+     */
+    private $lineTimetables;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->timetables = new ArrayCollection();
+        $this->lineTimetables = new ArrayCollection();
+    }
 
     /**
      * Set id
@@ -72,8 +74,8 @@ class LineConfig extends AbstractEntity
     /**
      * Set externalLineId
      *
-     * @param  string $externalLineId
-     * @return Line
+     * @param string $externalLineId
+     * @return LineConfig
      */
     public function setExternalLineId($externalLineId)
     {
@@ -82,6 +84,11 @@ class LineConfig extends AbstractEntity
         return $this;
     }
 
+    /**
+     * Get externalLineId
+     *
+     * @return string
+     */
     public function getExternalLineId()
     {
         return $this->externalLineId;
@@ -90,10 +97,10 @@ class LineConfig extends AbstractEntity
     /**
      * Set LayoutConfig
      *
-     * @param  string $layoutConfig
-     * @return Line
+     * @param LayoutConfig $layoutConfig
+     * @return LineConfig
      */
-    public function setLayoutConfig($layoutConfig)
+    public function setLayoutConfig(LayoutConfig $layoutConfig)
     {
         $this->layoutConfig = $layoutConfig;
 
@@ -103,7 +110,7 @@ class LineConfig extends AbstractEntity
     /**
      * Get getLayoutConfig
      *
-     * @return string
+     * @return LayoutConfig
      */
     public function getLayoutConfig()
     {
@@ -113,8 +120,8 @@ class LineConfig extends AbstractEntity
     /**
      * Set blocks
      *
-     * @param  array $blocks
-     * @return Line
+     * @param array $blocks
+     * @return LineConfig
      */
     public function setBlocks($blocks)
     {

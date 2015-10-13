@@ -1,6 +1,6 @@
 {% extends "CanalTPMttBundle::generic_list.html.twig" %}
 
-{% block list_title -%}{{'menu.edit_timetables'|trans}}{% endblock %}
+{% block list_title -%}{{ 'menu.stop_timetable.list'|trans }}{% endblock %}
 
 {% block list_menu %}
     <h4>{{'global.line_label'|trans}} {{ routes.route_schedules[0].display_informations.label }} <span class="glyphicon glyphicon-arrow-right"></span> {{ routes.route_schedules[0].display_informations.direction }}</h4>
@@ -11,7 +11,7 @@
             </a>
     {% elseif seasons|length != 0 %}
         {% if is_granted('BUSINESS_CHOOSE_LAYOUT') and (lineConfig is empty or lineConfig.layoutConfig is null) %}
-            <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}" class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}">
+            <a href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'externalLineId': externalLineId, 'externalRouteId': externalRouteId}) }}" class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}">
                 <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}
             </a>
         {% elseif (lineConfig is not empty) %}
@@ -22,7 +22,7 @@
                     </a>
                 {% endif %}
                 {% if (is_granted('BUSINESS_CHOOSE_LAYOUT')) %}
-                    <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'line_id': externalLineId, 'externalRouteId': externalRouteId}) }}">
+                    <a class="btn btn-default{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId':currentSeason.id, 'externalLineId': externalLineId, 'externalRouteId': externalRouteId}) }}">
                         <span class="glyphicon glyphicon-cog"></span> {{'line.choose_layout'|trans({}, 'default')}}
                     </a>
                 {% endif %}

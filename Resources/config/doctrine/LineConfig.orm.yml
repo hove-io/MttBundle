@@ -31,9 +31,15 @@ CanalTP\MttBundle\Entity\LineConfig:
             mappedBy: line_config
             cascade:
                 - remove
+        lineTimetables:
+            targetEntity: LineTimetable
+            mappedBy: lineConfig
+            cascade:
+                - remove
     manyToOne:
         layoutConfig:
             targetEntity: LayoutConfig
+            inversedBy: lineConfigs
             joinColumn:
                 name: layout_config_id
                 referencedColumnName: id

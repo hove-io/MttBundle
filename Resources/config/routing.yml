@@ -54,10 +54,12 @@ canal_tp_mtt_stop_point_list_defaults:
         seasonId: \d+
 
 canal_tp_mtt_stop_point_list:
-    pattern: /networks/{externalNetworkId}/line/{line_id}/route/{externalRouteId}/list/seasons/{seasonId}
+    pattern: /networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/list/seasons/{seasonId}
     defaults: { _controller: CanalTPMttBundle:StopPoint:list, seasonId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        externalRouteId: -?[a-zA-Z0-9_\-:]*
         seasonId: \d+
 
 canal_tp_mtt_stop_point_list_json:
@@ -70,10 +72,29 @@ canal_tp_mtt_stop_point_list_json:
 
 #Line
 canal_tp_mtt_line_choose_layout:
-    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/line/{line_id}/choose_layout/route/{externalRouteId}
-    defaults: { _controller: CanalTPMttBundle:Line:chooseLayout }
+    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/line/{externalLineId}/choose_layout/route/{externalRouteId}
+    defaults: { _controller: CanalTPMttBundle:Line:chooseLayout, externalRouteId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        externalRouteId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+
+#LineTimetable
+canal_tp_mtt_line_timetable_list_defaults:
+    pattern: /line-timetable/networks/{externalNetworkId}/list/season/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:LineTimetable:list, seasonId : null }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        seasonId: -?\d+
+
+canal_tp_mtt_line_timetable_list:
+    pattern: /line-timetable/networks/{externalNetworkId}/list/season/{seasonId}/line/{externalLineId}
+    defaults: { _controller: CanalTPMttBundle:LineTimetable:list, externalLineId : null }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        seasonId: -?\d+
 
 #Timetable
 canal_tp_mtt_timetable_edit:
