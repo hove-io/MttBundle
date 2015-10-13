@@ -2,12 +2,14 @@
 
 namespace CanalTP\MttBundle\Services;
 
-use CanalTP\MttBundle\Entity\Layout;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Yaml\Yaml;
+
+use CanalTP\MttBundle\Entity\Layout;
+use CanalTP\MttBundle\Entity\Template;
 
 class LayoutModelManager
 {
@@ -63,10 +65,11 @@ class LayoutModelManager
         $this->filesystem->remove($tmpDir);
 
         $this->saveInDb(
-            $config['label'],
-            'uploads/'.$id.'/'.$config['templateName'],
-            '/bundles/canaltpmtt/img/uploads/'.$id.'/'.$config['previewFileName'],
-            $config['orientation']
+            'uploads/'.$id.'/',
+            $config['layout']['label'],
+            '/bundles/canaltpmtt/img/uploads/'.$id.'/'.$config['layout']['previewFileName'],
+            $config['layout']['orientation'],
+            $config['templates']
         );
     }
 
@@ -120,20 +123,56 @@ class LayoutModelManager
         return $layout->getId();
     }
 
-    protected function saveInDb($label, $twigPath, $previewPath, $orientation)
+    protected function saveInDb($path, $label, $previewPath, $orientation, $templates)
     {
         // Do not change the name if we update the layout
         if (null === $this->layout->getLabel()) {
             $this->layout->setLabel($label);
         }
-        $this->layout->setPath($twigPath);
         $this->layout->setPreviewPath($previewPath);
         $this->layout->setOrientation($orientation);
         $this->layout->setNotesModes(array(0 => 1));
         $this->layout->setCssVersion(1);
         $this->layout->setUpdated(new \DateTime());
 
-        $this->om->flush($this->layout);
+        // Deleting unused templates
+        foreach ($this->layout->getTemplates() as $template)
+        {
+            if (!array_key_exists($template->getType(), $templates))
+            {
+                $this->layout->removeTemplate($template);
+                $this->om->remove($template);
+            }
+        }
+
+        // Adding/updating templates
+        foreach ($templates as $templateType => $templateConfig)
+        {
+            if (!in_array($templateType, $this->layout->getTemplatesTypes()))
+            {
+                $template = new Template();
+
+                $template->setType($templateType);
+                $template->setPath($path.$templateConfig['file']);
+
+                $this->om->persist($template);
+                $this->layout->addTemplate($template);
+            }
+            else
+            {
+                $template = $this->layout->getTemplate($templateType);
+
+                if ($template->getPath() != $path.$templateConfig['file'])
+                {
+                    $template->setPath($path.$templateConfig['file']);
+                    $template->setUpdated(new \Datetime());
+                    $this->om->persist($template);
+                }
+            }
+        }
+
+        $this->om->persist($this->layout);
+        $this->om->flush();
     }
 
     /**

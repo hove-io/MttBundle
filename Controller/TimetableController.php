@@ -2,6 +2,9 @@
 
 namespace CanalTP\MttBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+use CanalTP\MttBundle\Entity\Template;
+
 class TimetableController extends AbstractController
 {
     private $mediaManager;
@@ -46,8 +49,25 @@ class TimetableController extends AbstractController
         );
     }
 
-    private function renderLayout($timetable, $externalStopPointId, $editable = true, $displayMenu = true, $stopPointId = null)
+    /**
+     * Render layout
+     *
+     * @param Request $request
+     * @param Timetable $timetable
+     * @param string $externalStopPointId
+     * @param boolean $editable = true
+     * @param boolean $displayMenu = true
+     * @param integer $stopPointId = null
+     */
+    private function renderLayout(Request $request, $timetable, $externalStopPointId, $editable = true, $displayMenu = true, $stopPointId = null)
     {
+        // Checking the associated Layout has a Template of type STOP_TYPE before rendering it
+        if (!$timetable->getLineConfig()->getLayoutConfig()->getLayout()->getTemplate(Template::STOP_TYPE))
+        {
+            $this->addFlashMessage('danger', 'error.template.not_found', array('%type%' => Template::STOP_TYPE));
+            return $this->redirect($request->headers->get('referer'));
+        }
+
         $externalCoverageId = $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
 
         $stopPointData = $this->getStopPoint(
@@ -68,7 +88,7 @@ class TimetableController extends AbstractController
         $this->addFlashIfSeasonLocked($timetable->getLineConfig()->getSeason());
 
         return $this->render(
-            'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getTwigPath(),
+            'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getTemplate(Template::STOP_TYPE)->getPath(),
             array(
                 'pageTitle'             => 'timetable.titles.' . ($editable ? 'edition' : 'preview'),
                 'timetable'             => $timetable,
@@ -101,9 +121,10 @@ class TimetableController extends AbstractController
     /*
      * Display a layout and make it editable via javascript
      */
-    public function editAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
+    public function editAction(Request $request, $externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
         $this->isGranted('BUSINESS_EDIT_LAYOUT');
+
         $lineManager = $this->get('canal_tp_mtt.line_manager');
         $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
             $this->getUser()->getCustomer(),
@@ -121,14 +142,14 @@ class TimetableController extends AbstractController
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
 
-        return $this->renderLayout($timetable, $externalStopPointId, true, true, $stopPointId);
+        return $this->renderLayout($request, $timetable, $externalStopPointId, true, true, $stopPointId);
     }
 
     /*
      * Display a layout
      * This action needs to be accessible by an anonymous user
      */
-    public function viewAction($externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
+    public function viewAction(Request $request, $externalNetworkId, $externalRouteId, $externalLineId, $seasonId, $externalStopPointId = null)
     {
         $lineManager = $this->get('canal_tp_mtt.line_manager');
         $customerId = $this->getRequest()->get('customerId');
@@ -151,6 +172,6 @@ class TimetableController extends AbstractController
         if ($displayMenu)
             $displayMenu = $this->get('request')->get('timetableOnly', false) != true;
 
-        return $this->renderLayout($timetable, $externalStopPointId, false, $displayMenu);
+        return $this->renderLayout($request, $timetable, $externalStopPointId, false, $displayMenu);
     }
 }

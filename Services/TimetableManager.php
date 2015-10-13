@@ -33,8 +33,6 @@ class TimetableManager
     {
         $data = $this->navitia->getRouteData($externalRouteId, $externalCoverageId);
         $embedded_type = $data->direction->embedded_type;
-        $lineConfig = $this->timetable->getLineConfig();
-        $this->lineManager->initTwigPath($lineConfig);
 
         $this->timetable->setTitle($data->direction->$embedded_type->name);
         $this->timetable->setDirectionCity($data->direction->$embedded_type->administrative_regions[0]->name);

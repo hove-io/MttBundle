@@ -157,29 +157,6 @@ class LineConfig extends AbstractEntity
     }
 
     /**
-     * Get twigPath
-     *
-     * @return string
-     */
-    public function getTwigPath()
-    {
-        return ($this->twigPath);
-    }
-
-    /**
-     * Set twigPath
-     *
-     * @param  string $twigPath
-     * @return Line
-     */
-    public function setTwigPath($twigPath)
-    {
-        $this->twigPath = $twigPath;
-
-        return $this;
-    }
-
-    /**
      * Get season
      *
      * @return object
