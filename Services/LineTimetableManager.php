@@ -35,7 +35,7 @@ class LineTimetableManager
      * @param $lineConfig
      * @return LineTimetable
      */
-    public function findOrCreateLineTimetable(LineConfig $lineConfig)
+    public function findOrCreateLineTimetable(LineConfig $lineConfig = null)
     {
         $lineTimetable = $this->repository->findOneBy(
             array(

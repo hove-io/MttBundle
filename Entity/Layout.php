@@ -108,7 +108,7 @@ class Layout extends AbstractEntity
      * Set previewPath
      *
      * @param string $previewPath
-     * @return Template
+     * @return Layout
      */
     public function setPreviewPath($previewPath)
     {

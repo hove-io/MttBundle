@@ -11,8 +11,8 @@
         <li><a href="{{ path(
             'canal_tp_mtt_stop_point_list',
             {
-                'externalNetworkId'        : externalNetworkId,
-                'line_id'           : externalLineId,
+                'externalNetworkId' : externalNetworkId,
+                'externalLineId'    : externalLineId,
                 'externalRouteId'   : externalRouteId,
                 'seasonId'          : currentSeason.id
             }
@@ -32,8 +32,8 @@
                     <a href="{{ path(
                         'canal_tp_mtt_stop_point_list',
                         {
-                            'externalNetworkId'        : externalNetworkId,
-                            'line_id'           : externalLineId,
+                            'externalNetworkId' : externalNetworkId,
+                            'externalLineId'    : externalLineId,
                             'externalRouteId'   : externalRouteId,
                             'seasonId'          : currentSeason.id
                         }
@@ -61,7 +61,18 @@
                 </li>
                 {% endif %}
             </ul>
-            {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': currentSeason.id})) }}
+            {{ render(controller(
+                'CanalTPMttBundle:Default:navigation',
+                {
+                    'externalNetworkId': externalNetworkId,
+                    'seasonId': currentSeason.id,
+                    'options':
+                    {
+                        'externalLineId': externalLineId,
+                        'externalRouteId': externalRouteId
+                    }
+                }
+            )) }}
         </div>
         <div class="toggle-button">
             <span class="glyphicon glyphicon-transfer"></span>
