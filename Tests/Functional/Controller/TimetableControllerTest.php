@@ -220,6 +220,7 @@ class TimetableControllerTest extends AbstractControllerTest
     /**
      * Test legend colors
      * @TODO test background color in a timetable
+     * @group fail
      */
     public function testCalendarExceptionsColors()
     {
@@ -246,8 +247,9 @@ class TimetableControllerTest extends AbstractControllerTest
 
         $this->getEm()->persist($block);
         $this->getEm()->flush();
-
+var_dump($this->getRoute('canal_tp_mtt_timetable_view', $season->getId()));
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_timetable_view', $season->getId()));
+        file_put_contents(sys_get_temp_dir().'/content.html', $crawler->html());
         $backgroundColorNote = $crawler->filter('.color-reference')->first()->attr('style');
 
         $this->assertContains('#e44155', $backgroundColorNote);

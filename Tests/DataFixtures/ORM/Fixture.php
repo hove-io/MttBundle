@@ -33,8 +33,8 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $season = new Season();
         $season->setPerimeter($perimeter);
         $season->setTitle('hiver 2014');
-        $season->setStartDate(new \DateTime("-1 year"));
-        $season->setEndDate(new \DateTime("-6 month"));
+        $season->setStartDate(\DateTime::createFromFormat('d/m/Y', '21/12/2013'));
+        $season->setEndDate(\DateTime::createFromFormat('d/m/Y', '21/03/2014'));
         $season->setPublished(TRUE);
 
         $em->persist($season);
