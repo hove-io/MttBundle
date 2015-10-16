@@ -82,14 +82,14 @@ class SeasonManager
             )
         );
         // remove season tasks
-        $timetableIds = array();
+        $stopTimetableIds = array();
         foreach ($season->getLineConfigs() as $lineConfig) {
-            foreach ($lineConfig->getTimetables() as $timetable) {
-                $timetableIds[] = $timetable->getId();
+            foreach ($lineConfig->getStopTimetables() as $stopTimetable) {
+                $stopTimetableIds[] = $stopTimetable->getId();
             }
         }
-        if (!empty($timetableIds)) {
-            $tasks = array_merge($tasks, $taskRepo->findTasksByObjectIds($timetableIds));
+        if (!empty($stopTimetableIds)) {
+            $tasks = array_merge($tasks, $taskRepo->findTasksByObjectIds($stopTimetableIds));
         }
         if (count($tasks) > 0) {
             foreach ($tasks as $task) {

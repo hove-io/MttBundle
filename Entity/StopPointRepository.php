@@ -12,33 +12,33 @@ use Doctrine\ORM\EntityRepository;
  */
 class StopPointRepository extends EntityRepository
 {
-    public function getBlocks($stopPoint, $timetable)
+    public function getBlocks($stopPoint, $stopTimetable)
     {
         $result = $this->getEntityManager()->getRepository('CanalTPMttBundle:Block')->findBy(
             array(
                 'stopPoint' => $stopPoint->getId(),
-                'timetable' => $timetable->getId()
+                'stopTimetable' => $stopTimetable->getId()
             )
         );
 
         return $result;
     }
 
-    public function updatePdfGenerationInfos($externalStopPointId, $timetable, $hash)
+    public function updatePdfGenerationInfos($externalStopPointId, $stopTimetable, $hash)
     {
-        $stopPoint = $this->getStopPoint($externalStopPointId, $timetable);
+        $stopPoint = $this->getStopPoint($externalStopPointId, $stopTimetable);
 
         $stopPoint->setPdfGenerationDate(new \DateTime());
         $stopPoint->setPdfHash($hash);
         $this->getEntityManager()->flush($stopPoint);
     }
 
-    public function getStopPoint($externalStopPointId, $timetable)
+    public function getStopPoint($externalStopPointId, $stopTimetable)
     {
         $stopPoint = $this->findOneBy(
             array(
                 'externalId' => $externalStopPointId,
-                'timetable' => $timetable->getId(),
+                'stopTimetable' => $stopTimetable->getId(),
             )
         );
 
@@ -46,18 +46,18 @@ class StopPointRepository extends EntityRepository
         if (empty($stopPoint)) {
             $stopPoint = $this->insertStopPoint(
                 $externalStopPointId,
-                $timetable
+                $stopTimetable
             );
         }
 
         return $stopPoint;
     }
 
-    private function insertStopPoint($externalStopPointId, $timetable)
+    private function insertStopPoint($externalStopPointId, $stopTimetable)
     {
         $stopPoint = new StopPoint();
         $stopPoint->setExternalId($externalStopPointId);
-        $stopPoint->setTimetable($timetable);
+        $stopPoint->setStopTimetable($stopTimetable);
         $this->getEntityManager()->persist($stopPoint);
 
         return $stopPoint;
@@ -74,17 +74,17 @@ class StopPointRepository extends EntityRepository
         return (true);
     }
 
-    public function hasPdfUpToDate($stopPoint, $timetable)
+    public function hasPdfUpToDate($stopPoint, $stopTimetable)
     {
-        $timetableRepo = $this->getEntityManager()->getRepository('CanalTPMttBundle:Timetable');
+        $stopTimetableRepo = $this->getEntityManager()->getRepository('CanalTPMttBundle:StopTimetable');
 
         // no stop point
         // no pdf generated yet => return FALSE
         return (!$stopPoint->getPdfGenerationDate() == null ||
-            // timetable was modified after pdf generation
+            // stopTimetable was modified after pdf generation
             ($this->isUpToDate(
                 $stopPoint->getPdfGenerationDate(),
-                $timetableRepo->findBlocksByTimetableIdOnly($timetable->getId())
+                $stopTimetableRepo->findBlocksByStopTimetableIdOnly($stopTimetable->getId())
             ) &&
             $this->isUpToDate($stopPoint->getPdfGenerationDate(), $stopPoint->getBlocks()))
         );

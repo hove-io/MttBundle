@@ -249,7 +249,7 @@ class Navitia
     {
         $response = $this->getStopPoint($coverageId, $stopPointId, $params);
 
-        return ($response->stop_points[0]->administrative_regions[0]->name);
+        return null;
     }
 
     public function getRouteStopPoints($perimeter, $externalRouteId)

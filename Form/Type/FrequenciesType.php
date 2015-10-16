@@ -20,7 +20,7 @@ class FrequenciesType extends AbstractType
 
     public function __construct(Block $block)
     {
-        $layout = $block->getTimetable()->getLineConfig()->getLayoutConfig();
+        $layout = $block->getStopTimetable()->getLineConfig()->getLayoutConfig();
         $extension = new CalendarExtension();
         $this->hoursRange = $extension->calendarRange($layout);
         // add at least one empty frequency to show empty form

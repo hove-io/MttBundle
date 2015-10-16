@@ -17,8 +17,8 @@
         {% elseif (lineConfig is not empty) %}
             <div class="btn-group pull-right marg10b">
                 {% if (is_granted('BUSINESS_EDIT_LAYOUT')) %}
-                    <a class="btn btn-primary{% if currentSeason.locked %} disabled{% endif %}" href="{{ path('canal_tp_mtt_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id, 'externalRouteId': externalRouteId}) }}">
-                        <span class="glyphicon glyphicon-edit"></span> {{'timetable.edit'|trans({}, 'default')}}
+                    <a class="btn btn-primary{% if currentSeason.locked %} disabled{% endif %}" href="{{ path('canal_tp_mtt_stop_timetable_edit', {'externalNetworkId':externalNetworkId, 'externalLineId':externalLineId, 'seasonId':currentSeason.id, 'externalRouteId': externalRouteId}) }}">
+                        <span class="glyphicon glyphicon-edit"></span> {{'stop_timetable.edit'|trans({}, 'default')}}
                     </a>
                 {% endif %}
                 {% if (is_granted('BUSINESS_CHOOSE_LAYOUT')) %}
@@ -68,7 +68,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a {% if currentSeason.locked %} disabled{% endif %} href="{{ path('canal_tp_mtt_timetable_download_pdf', {'externalRouteId': externalRouteId, 'externalStopPointId': route.stop_point.id, 'lineConfigId': lineConfig.id }) }}">
+                                <a {% if currentSeason.locked %} disabled{% endif %} href="{{ path('canal_tp_mtt_stop_timetable_download_pdf', {'externalRouteId': externalRouteId, 'externalStopPointId': route.stop_point.id, 'lineConfigId': lineConfig.id }) }}">
                                     <span class="glyphicon glyphicon-download-alt"></span> {{'global.downloadPdf'|trans({}, 'messages')}}
                                 </a>
                             </li>
@@ -78,7 +78,7 @@
                             <span class="glyphicon glyphicon-calendar"></span> {{'stop_point.view_calendars'|trans({}, 'default')}}
                         </a>
                         {% endif %}
-                        <a class="btn btn-primary" href="{{ path('canal_tp_mtt_timetable_view',  {'externalNetworkId': externalNetworkId, 'externalLineId': externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId': route.stop_point.id, 'seasonId': currentSeason.id }) }}">
+                        <a class="btn btn-primary" href="{{ path('canal_tp_mtt_stop_timetable_view', {'externalNetworkId': externalNetworkId, 'externalLineId': externalLineId, 'externalRouteId': externalRouteId, 'externalStopPointId': route.stop_point.id, 'seasonId': currentSeason.id }) }}">
                             <span class="glyphicon glyphicon-search"></span> {{'global.preview'|trans}}
                         </a>
                     {% else %}

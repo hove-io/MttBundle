@@ -76,11 +76,11 @@
     vertical-align: middle;
 }
 #layout-1-wrapper.layout-2-overload .information-text-blocks,
-#timetables-wrapper{
+#stop-timetables-wrapper{
     margin-top:5px;
     width:100%;
 }
-#timetables-wrapper .timegrid-container{
+#stop-timetables-wrapper .timegrid-container{
     float:left;
     font-size:12px;
     margin-top:5px;
@@ -91,7 +91,7 @@
     width:50%;
 }
 .information-text-blocks .text-block-wrapper .title,
-#timetables-wrapper .timegrid-header{
+#stop-timetables-wrapper .timegrid-header{
     background-color:black;
     color:white;
     font-weight:bold;
@@ -101,7 +101,7 @@
     height:25px;
     width:100%;
 }
-#timetables-wrapper .timegrid-body{
+#stop-timetables-wrapper .timegrid-body{
     background-color: white;
     height: 183px;
     width:100%;
@@ -136,7 +136,7 @@
 .timegrid-body{
     position:relative;
 }
-.timetable-notes{
+.stop-timetable-notes{
     position:absolute;
     bottom:0;
     left:0;
@@ -156,7 +156,7 @@
 /**
  * Layout 2
  */
-#layout-1-wrapper.layout-2-overload #timetables-wrapper{
+#layout-1-wrapper.layout-2-overload #stop-timetables-wrapper{
     float:left;
     width:49%;
 }
@@ -164,7 +164,7 @@
     float:right;
     width:49%;
 }
-#layout-1-wrapper.layout-2-overload #timetables-wrapper .timegrid-container{
+#layout-1-wrapper.layout-2-overload #stop-timetables-wrapper .timegrid-container{
     width:100%;
 }
 #layout-1-wrapper.layout-2-overload .timegrid-body tr.even{

@@ -35,7 +35,7 @@ class Block extends AbstractEntity
     /**
      * @var Object
      */
-    private $timetable;
+    private $stopTimetable;
 
     /**
      * @var Object
@@ -154,27 +154,27 @@ class Block extends AbstractEntity
     }
 
     /**
-     * Set timetable
+     * Set stopTimetable
      *
-     * @param integer $timetable
+     * @param integer $stopTimetable
      *
      * @return Block
      */
-    public function setTimetable($timetable)
+    public function setStopTimetable($stopTimetable)
     {
-        $this->timetable = $timetable;
+        $this->stopTimetable = $stopTimetable;
 
         return $this;
     }
 
     /**
-     * Get timetable
+     * Get stopTimetable
      *
      * @return string
      */
-    public function getTimetable()
+    public function getStopTimetable()
     {
-        return $this->timetable;
+        return $this->stopTimetable;
     }
 
     /**
@@ -260,6 +260,6 @@ class Block extends AbstractEntity
 
     public function isLocked()
     {
-        return $this->getTimetable()->isLocked();
+        return $this->getStopTimetable()->isLocked();
     }
 }
