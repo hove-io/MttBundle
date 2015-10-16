@@ -98,28 +98,28 @@ canal_tp_mtt_line_timetable_list:
         externalLineId: -?[a-zA-Z0-9_\-:]*
         seasonId: -?\d+
 
-#Timetable
-canal_tp_mtt_timetable_edit:
-    path: /timetable/edit/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
-    defaults: { _controller: CanalTPMttBundle:Timetable:edit, externalStopPointId: null }
+#StopTimetable
+canal_tp_mtt_stop_timetable_edit:
+    path: /stopTimetable/edit/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
+    defaults: { _controller: CanalTPMttBundle:StopTimetable:edit, externalStopPointId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
-canal_tp_mtt_timetable_view:
-    path: /timetable/view/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
-    defaults: { _controller: CanalTPMttBundle:Timetable:view, externalStopPointId: null }
+canal_tp_mtt_stop_timetable_view:
+    path: /stopTimetable/view/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
+    defaults: { _controller: CanalTPMttBundle:StopTimetable:view, externalStopPointId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
-canal_tp_mtt_timetable_generate_pdf:
-    path: /pdf/generate/timetable/{timetableId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
+canal_tp_mtt_stop_timetable_generate_pdf:
+    path: /pdf/generate/stopTimetable/{stopTimetableId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Pdf:generate}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
-canal_tp_mtt_timetable_download_pdf:
+canal_tp_mtt_stop_timetable_download_pdf:
     path: /pdf/generate/routes/{externalRouteId}/stopPoints/{externalStopPointId}/lines/{lineConfigId}
     defaults: { _controller: CanalTPMttBundle:Pdf:download}
     requirements:
@@ -130,7 +130,7 @@ canal_tp_mtt_timetable_download_pdf:
 #Block
 canal_tp_mtt_block_edit:
     # stop point must be the last param so it can be empty
-    path: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
+    path: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/stopTimetable/{stopTimetableId}/block_type/{block_type}/stop_point/{stop_point}
     defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
@@ -139,7 +139,7 @@ canal_tp_mtt_block_edit:
 
 canal_tp_mtt_block_delete:
     # stop point must be the last param so it can be empty
-    path: /block/delete/networks/{externalNetworkId}/timetable/{timetableId}/blockId/{blockId}
+    path: /block/delete/networks/{externalNetworkId}/stopTimetable/{stopTimetableId}/blockId/{blockId}
     defaults: { _controller: CanalTPMttBundle:Block:delete }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
@@ -200,17 +200,17 @@ canal_tp_mtt_layoutconfig_delete_confirm:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #Webservice
-canal_tp_mtt_WS_timetable:
+canal_tp_mtt_WS_stop_timetable:
     path: /customers/{customerNameCanonical}/networks/{externalNetworkId}/routes/{externalRouteId}/stop_points/{externalStopPointId}/seasons
-    defaults: { _controller: CanalTPMttBundle:Webservice:getTimetableUrl}
+    defaults: { _controller: CanalTPMttBundle:Webservice:getStopTimetableUrl}
     requirements:
         customerNameCanonical: -?[a-zA-Z0-9_\-]*
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #TODO: Remove this route when divia.fr updated (Refs #METH-420)
-canal_tp_mtt_WS_timetable_old:
+canal_tp_mtt_WS_stop_timetable_old:
     path: /networks/{externalNetworkId}/routes/{externalRouteId}/stop_points/{externalStopPointId}/seasons
-    defaults: { _controller: CanalTPMttBundle:Webservice:getTimetableUrlOld}
+    defaults: { _controller: CanalTPMttBundle:Webservice:getStopTimetableUrlOld}
     requirements:
         customerNameCanonical: -?[a-zA-Z0-9_\-]*
         externalNetworkId: -?[a-zA-Z0-9_\-:]*

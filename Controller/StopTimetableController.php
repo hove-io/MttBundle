@@ -5,21 +5,21 @@ namespace CanalTP\MttBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use CanalTP\MttBundle\Entity\Template;
 
-class TimetableController extends AbstractController
+class StopTimetableController extends AbstractController
 {
     private $mediaManager;
 
     /**
-     * @function retrieve a timetable entity
+     * @function retrieve a stopTimetable entity
      */
-    private function getTimetable($routeExternalId, $externalCoverageId, $lineConfig)
+    private function getStopTimetable($routeExternalId, $externalCoverageId, $lineConfig)
     {
-        $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
+        $stopTimetableManager = $this->get('canal_tp_mtt.stop_timetable_manager');
 
-        return $timetableManager->getTimetable($routeExternalId, $externalCoverageId, $lineConfig);
+        return $stopTimetableManager->getStopTimetable($routeExternalId, $externalCoverageId, $lineConfig);
     }
 
-    private function getStopPoint($externalStopPointId, $timetable, $externalCoverageId)
+    private function getStopPoint($externalStopPointId, $stopTimetable, $externalCoverageId)
     {
         // are we on a specific stop_point
         if ($externalStopPointId != '') {
@@ -27,12 +27,12 @@ class TimetableController extends AbstractController
             $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
             $stopPointInstance = $stopPointManager->getStopPoint(
                 $externalStopPointId,
-                $timetable,
+                $stopTimetable,
                 $externalCoverageId
             );
             $prevNextStopPoints = $stopPointManager->getPrevNextStopPoints(
-                $timetable->getLineConfig()->getSeason()->getPerimeter(),
-                $timetable->getExternalRouteId(),
+                $stopTimetable->getLineConfig()->getSeason()->getPerimeter(),
+                $stopTimetable->getExternalRouteId(),
                 $externalStopPointId
             );
         // route level
@@ -53,65 +53,65 @@ class TimetableController extends AbstractController
      * Render layout
      *
      * @param Request $request
-     * @param Timetable $timetable
+     * @param StopTimetable $stopTimetable
      * @param string $externalStopPointId
      * @param boolean $editable = true
      * @param boolean $displayMenu = true
      * @param integer $stopPointId = null
      */
-    private function renderLayout(Request $request, $timetable, $externalStopPointId, $editable = true, $displayMenu = true, $stopPointId = null)
+    private function renderLayout(Request $request, $stopTimetable, $externalStopPointId, $editable = true, $displayMenu = true, $stopPointId = null)
     {
         // Checking the associated Layout has a Template of type STOP_TYPE before rendering it
-        if (!$timetable->getLineConfig()->getLayoutConfig()->getLayout()->getTemplate(Template::STOP_TYPE))
+        if (!$stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getTemplate(Template::STOP_TYPE))
         {
             $this->addFlashMessage('danger', 'error.template.not_found', array('%type%' => Template::STOP_TYPE));
             return $this->redirect($request->headers->get('referer'));
         }
 
-        $externalCoverageId = $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
+        $externalCoverageId = $stopTimetable->getLineConfig()->getSeason()->getPerimeter()->getExternalCoverageId();
 
         $stopPointData = $this->getStopPoint(
             $externalStopPointId,
-            $timetable,
+            $stopTimetable,
             $externalCoverageId
         );
 
         if (!empty($stopPointData['stopPointInstance'])) {
             $calendarsAndNotes = $this->get('canal_tp_mtt.calendar_manager')->getCalendars(
                 $externalCoverageId,
-                $timetable,
+                $stopTimetable,
                 $stopPointData['stopPointInstance']
             );
         } else {
             $calendarsAndNotes = array('calendars'=>'', 'notes'=> '');
         }
-        $this->addFlashIfSeasonLocked($timetable->getLineConfig()->getSeason());
+        $this->addFlashIfSeasonLocked($stopTimetable->getLineConfig()->getSeason());
 
-        $layoutId = $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId();
+        $layoutId = $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getId();
         $templatePath = '@CanalTPMtt/Layouts/uploads/' . $layoutId . '/';
-        $templateFile = $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getTemplate(Template::STOP_TYPE)->getPath();
+        $templateFile = $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getTemplate(Template::STOP_TYPE)->getPath();
 
         return $this->render(
             $templatePath . $templateFile,
             array(
-                'pageTitle'             => 'timetable.titles.' . ($editable ? 'edition' : 'preview'),
-                'timetable'             => $timetable,
-                'notesType'             => $timetable->getLineConfig()->getLayoutConfig()->getNotesType(),
-                'orientation'           => $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientationAsString(),
-                'currentNetwork'        => $timetable->getLineConfig()->getSeason()->getPerimeter(),
-                'externalNetworkId'     => $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
-                'externalRouteId'       => $timetable->getExternalRouteId(),
+                'pageTitle'             => 'stop_timetable.titles.' . ($editable ? 'edition' : 'preview'),
+                'stopTimetable'         => $stopTimetable,
+                'notesType'             => $stopTimetable->getLineConfig()->getLayoutConfig()->getNotesType(),
+                'orientation'           => $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientationAsString(),
+                'currentNetwork'        => $stopTimetable->getLineConfig()->getSeason()->getPerimeter(),
+                'externalNetworkId'     => $stopTimetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                'externalRouteId'       => $stopTimetable->getExternalRouteId(),
                 'externalCoverageId'    => $externalCoverageId,
-                'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
-                'currentSeason'         => $timetable->getLineConfig()->getSeason(),
-                'currentSeasonId'       => $timetable->getLineConfig()->getSeason()->getId(),
+                'externalLineId'        => $stopTimetable->getLineConfig()->getExternalLineId(),
+                'currentSeason'         => $stopTimetable->getLineConfig()->getSeason(),
+                'currentSeasonId'       => $stopTimetable->getLineConfig()->getSeason()->getId(),
                 'stopPointLevel'        => $stopPointData['stopPointLevel'],
                 'stopPoint'             => $stopPointData['stopPointInstance'],
                 'prevNextStopPoints'    => $stopPointData['prevNextStopPoints'],
                 'calendars'             => $calendarsAndNotes['calendars'],
                 'notes'                 => $calendarsAndNotes['notes'],
                 'blockTypes'            => $this->container->getParameter('blocks'),
-                'layout'                => $timetable->getLineConfig()->getLayoutConfig(),
+                'layout'                => $stopTimetable->getLineConfig()->getLayoutConfig(),
                 'editable'              => $editable,
                 'displayMenu'           => $displayMenu,
                 'templatePath'          => $templatePath,
@@ -140,13 +140,13 @@ class TimetableController extends AbstractController
             $externalLineId,
             $externalRouteId
         )->route_schedules[0]->table->rows[0]->stop_point->id;
-        $timetable = $this->getTimetable(
+        $stopTimetable = $this->getStopTimetable(
             $externalRouteId,
             $perimeter->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
 
-        return $this->renderLayout($request, $timetable, $externalStopPointId, true, true, $stopPointId);
+        return $this->renderLayout($request, $stopTimetable, $externalStopPointId, true, true, $stopPointId);
     }
 
     /*
@@ -167,7 +167,7 @@ class TimetableController extends AbstractController
             $customer,
             $externalNetworkId
         );
-        $timetable = $this->getTimetable(
+        $stopTimetable = $this->getStopTimetable(
             $externalRouteId,
             $perimeter->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
@@ -175,9 +175,9 @@ class TimetableController extends AbstractController
 
         $displayMenu = $this->get('security.context')->getToken()->getUser() != 'anon.';
         if ($displayMenu) {
-            $displayMenu = $this->get('request')->get('timetableOnly', false) != true;
+            $displayMenu = $this->get('request')->get('stopTimetableOnly', false) != true;
         }
 
-        return $this->renderLayout($request, $timetable, $externalStopPointId, false, $displayMenu);
+        return $this->renderLayout($request, $stopTimetable, $externalStopPointId, false, $displayMenu);
     }
 }

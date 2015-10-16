@@ -8,7 +8,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
 use CanalTP\MttBundle\Entity\Season;
 use CanalTP\MttBundle\Entity\LineConfig;
-use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Entity\StopTimetable;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\BlockRepository;
 use CanalTP\MttBundle\Entity\Layout;
@@ -26,7 +26,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     const AREA_ID = 1;
     const EXTERNAL_LAYOUT_CONFIG_ID_1 = 1;
     const EXTERNAL_LAYOUT_CONFIG_ID_2 = 2;
-    public static $timetableId;
+    public static $stopTimetableId;
 
     private function createSeason(ObjectManager $em, $perimeter)
     {
@@ -54,23 +54,23 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($lineConfig);
     }
 
-    private function createTimetable(ObjectManager $em, $lineConfig)
+    private function createStopTimetable(ObjectManager $em, $lineConfig)
     {
-        $timetable = new Timetable();
-        $timetable->setLineConfig($lineConfig);
-        $timetable->setExternalRouteId(Fixture::EXTERNAL_ROUTE_ID);
+        $stopTimetable = new StopTimetable();
+        $stopTimetable->setLineConfig($lineConfig);
+        $stopTimetable->setExternalRouteId(Fixture::EXTERNAL_ROUTE_ID);
 
-        $em->persist($timetable);
+        $em->persist($stopTimetable);
 
-        self::$timetableId = $timetable->getId();
+        self::$stopTimetableId = $stopTimetable->getId();
 
-        return ($timetable);
+        return ($stopTimetable);
     }
 
-    private function createBlock(ObjectManager $em, $timetable, $typeId = BlockRepository::TEXT_TYPE)
+    private function createBlock(ObjectManager $em, $stopTimetable, $typeId = BlockRepository::TEXT_TYPE)
     {
         $block = new Block();
-        $block->setTimetable($timetable);
+        $block->setStopTimetable($stopTimetable);
         $block->setTypeId($typeId);
         $block->setDomId('timegrid_block_1');
         $block->setContent('test');
@@ -121,8 +121,8 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $layoutConfig = $em->getRepository('CanalTPMttBundle:LayoutConfig')->find(Fixture::EXTERNAL_LAYOUT_CONFIG_ID_1);
 
         $lineConfig = $this->createLineConfig($em, $season, $layoutConfig);
-        $timetable = $this->createTimetable($em, $lineConfig);
-        $block = $this->createBlock($em, $timetable);
+        $stopTimetable = $this->createStopTimetable($em, $lineConfig);
+        $block = $this->createBlock($em, $stopTimetable);
 
         $this->assignLayoutToCustomer($em, $customer);
         $em->flush();

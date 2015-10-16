@@ -7,12 +7,12 @@ class FrequencyControllerTest extends AbstractControllerTest
     private function getViewRoute($block)
     {
         return $this->generateRoute(
-            'canal_tp_mtt_timetable_view',
+            'canal_tp_mtt_stop_timetable_view',
             array(
-                'externalNetworkId' => $block->getTimetable()->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
-                'externalLineId'    => $block->getTimetable()->getLineConfig()->getExternalLineId(),
-                'externalRouteId'   => $block->getTimetable()->getExternalRouteId(),
-                'seasonId'          => $block->getTimetable()->getLineConfig()->getSeason()->getId()
+                'externalNetworkId' => $block->getStopTimetable()->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                'externalLineId' 	=> $block->getStopTimetable()->getLineConfig()->getExternalLineId(),
+                'externalRouteId' 	=> $block->getStopTimetable()->getExternalRouteId(),
+                'seasonId' 			=> $block->getStopTimetable()->getLineConfig()->getSeason()->getId()
             )
         );
     }
@@ -22,9 +22,9 @@ class FrequencyControllerTest extends AbstractControllerTest
         return $this->generateRoute(
             'canal_tp_mtt_frequency_edit',
             array(
-                'externalNetworkId' => $block->getTimetable()->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                'externalNetworkId' => $block->getStopTimetable()->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
                 'blockId'           => $block->getId(),
-                'layoutId'          => $block->getTimetable()->getLineConfig()->getLayoutConfig()->getId(),
+                'layoutId'          => $block->getStopTimetable()->getLineConfig()->getLayoutConfig()->getId(),
             )
         );
     }

@@ -13,7 +13,7 @@ class PdfGenCompletionLib
     private $mediaManager = null;
     private $container = null;
     private $lineConfigRepo = null;
-    private $timetableRepo = null;
+    private $stopTimetableRepo = null;
     private $stopPointRepo = null;
     private $areaPdfRepo = null;
 
@@ -23,7 +23,7 @@ class PdfGenCompletionLib
         $this->mediaManager = $mediaManager;
         $this->container = $container;
         $this->lineConfigRepo = $this->om->getRepository('CanalTPMttBundle:LineConfig');
-        $this->timetableRepo = $this->om->getRepository('CanalTPMttBundle:Timetable');
+        $this->stopTimetableRepo = $this->om->getRepository('CanalTPMttBundle:StopTimetable');
         $this->stopPointRepo = $this->om->getRepository('CanalTPMttBundle:StopPoint');
         $this->areaPdfRepo = $this->om->getRepository('CanalTPMttBundle:AreaPdf');
     }
@@ -32,12 +32,12 @@ class PdfGenCompletionLib
     {
         if ($lineConfig == false ||
             // check if this ack is for a different lineConfig than the previous one
-            $lineConfig->getExternalLineId() != $ack->getPayload()->timetableParams->externalLineId
+            $lineConfig->getExternalLineId() != $ack->getPayload()->stopTimetableParams->externalLineId
         ) {
             $lineConfig = $this->lineConfigRepo->findOneBy(
                 array(
-                    'externalLineId' => $ack->getPayload()->timetableParams->externalLineId,
-                    'season' => $ack->getPayload()->timetableParams->seasonId
+                    'externalLineId' => $ack->getPayload()->stopTimetableParams->externalLineId,
+                    'season' => $ack->getPayload()->stopTimetableParams->seasonId
                 )
             );
         }
@@ -49,29 +49,29 @@ class PdfGenCompletionLib
         return $lineConfig;
     }
 
-    private function getTimetable($ack, $lineConfig, $timetable)
+    private function getStopTimetable($ack, $lineConfig, $stopTimetable)
     {
-        if ($timetable == false ||
-            // check if this ack is for a different timetable than the previous one
-            $timetable->getExternalRouteId() != $ack->getPayload()->timetableParams->externalRouteId
+        if ($stopTimetable == false ||
+            // check if this ack is for a different stopTimetable than the previous one
+            $stopTimetable->getExternalRouteId() != $ack->getPayload()->stopTimetableParams->externalRouteId
         ) {
-            $timetable = $this->timetableRepo->findOneBy(
+            $stopTimetable = $this->stopTimetableRepo->findOneBy(
                 array(
-                    'externalRouteId' => $ack->getPayload()->timetableParams->externalRouteId,
+                    'externalRouteId' => $ack->getPayload()->stopTimetableParams->externalRouteId,
                     'line_config' => $lineConfig->getId()
                 )
             );
         }
 
-        return $timetable;
+        return $stopTimetable;
     }
 
-    private function getStopPoint($ack, $timetable)
+    private function getStopPoint($ack, $stopTimetable)
     {
         return $this->stopPointRepo->findOneBy(
             array(
-                'timetable' => $timetable->getId(),
-                'externalId' => $ack->getPayload()->timetableParams->externalStopPointId
+                'stopTimetable' => $stopTimetable->getId(),
+                'externalId' => $ack->getPayload()->stopTimetableParams->externalStopPointId
             )
         );
     }
@@ -88,29 +88,29 @@ class PdfGenCompletionLib
     private function commit($task)
     {
         $lineConfig = false;
-        $timetable = false;
+        $stopTimetable = false;
         foreach ($task->getAmqpAcks() as $ack) {
             try {
                 if ($ack->getPayload()->generated == true) {
                     $lineConfig = $this->getLineConfig($ack, $lineConfig);
-                    $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
-                    $stopPoint = $this->getStopPoint($ack, $timetable);
+                    $stopTimetable = $this->getStopTimetable($ack, $lineConfig, $stopTimetable);
+                    $stopPoint = $this->getStopPoint($ack, $stopTimetable);
                     if (empty($stopPoint)) {
                         $stopPoint = new StopPoint();
-                        $stopPoint->setTimetable($timetable);
-                        $stopPoint->setExternalId($ack->getPayload()->timetableParams->externalStopPointId);
+                        $stopPoint->setStopTimetable($stopTimetable);
+                        $stopPoint->setExternalId($ack->getPayload()->stopTimetableParams->externalStopPointId);
                     }
                     $stopPoint->setPdfHash($ack->getPayload()->generationResult->pdfHash);
                     $pdfGenerationDate = new \DateTime();
                     $pdfGenerationDate->setTimestamp($ack->getPayload()->generationResult->created);
                     $stopPoint->setPdfGenerationDate($pdfGenerationDate);
                     $this->om->persist($stopPoint);
-                    $this->mediaManager->saveStopPointTimetable(
-                        $timetable,
+                    $this->mediaManager->saveStopPointStopTimetable(
+                        $stopTimetable,
                         $stopPoint->getExternalId(),
                         $ack->getPayload()->generationResult->filepath
                     );
-                    $this->removeTmpMedia($timetable, $stopPoint->getExternalId());
+                    $this->removeTmpMedia($stopTimetable, $stopPoint->getExternalId());
                 } elseif (isset($ack->getPayload()->error)) {
                     throw new \Exception('Ack error msg: ' . $ack->getPayload()->error);
                 }
@@ -123,10 +123,10 @@ class PdfGenCompletionLib
         $task->complete();
     }
 
-    private function removeTmpMedia($timetable, $externalStopPointId)
+    private function removeTmpMedia($stopTimetable, $externalStopPointId)
     {
-        $media = $this->mediaManager->getStopPointTimetableMedia(
-            $timetable,
+        $media = $this->mediaManager->getStopPointStopTimetableMedia(
+            $stopTimetable,
             $externalStopPointId
         );
         //TODO: mutualize this with workers when refactoring
@@ -140,12 +140,12 @@ class PdfGenCompletionLib
     {
         echo "Rollback task n°" . $task->getId() . "\r\n";
         $lineConfig = false;
-        $timetable = false;
+        $stopTimetable = false;
         foreach ($task->getAmqpAcks() as $ack) {
             if ($ack->getPayload()->generated == true) {
                 $lineConfig = $this->getLineConfig($ack, $lineConfig);
-                $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
-                $this->removeTmpMedia($timetable, $ack->getPayload()->timetableParams->externalStopPointId);
+                $stopTimetable = $this->getStopTimetable($ack, $lineConfig, $stopTimetable);
+                $this->removeTmpMedia($stopTimetable, $ack->getPayload()->stopTimetableParams->externalStopPointId);
             }
         }
     }
@@ -153,9 +153,9 @@ class PdfGenCompletionLib
     private function findAckByStop($amqpAcks, $stop)
     {
         foreach ($amqpAcks as $ack) {
-            if ($ack->getPayload()->timetableParams->externalStopPointId == $stop->stopPointId
-                && $ack->getPayload()->timetableParams->externalRouteId == $stop->routeId
-                && $ack->getPayload()->timetableParams->externalLineId == $stop->lineId
+            if ($ack->getPayload()->stopTimetableParams->externalStopPointId == $stop->stopPointId
+                && $ack->getPayload()->stopTimetableParams->externalRouteId == $stop->routeId
+                && $ack->getPayload()->stopTimetableParams->externalLineId == $stop->lineId
             ) {
                 return $ack;
             }
@@ -173,7 +173,7 @@ class PdfGenCompletionLib
 
         $paths = array();
         $lineConfig = false;
-        $timetable = false;
+        $stopTimetable = false;
 
         foreach ($areaPdf->getArea()->getStopPoints() as $stop) {
             $stopObj = json_decode($stop);
@@ -190,9 +190,9 @@ class PdfGenCompletionLib
                 echo 'No lineConfig for : ' . $stop;
                 continue;
             }
-            $timetable = $this->getTimetable($ack, $lineConfig, $timetable);
+            $stopTimetable = $this->getStopTimetable($ack, $lineConfig, $stopTimetable);
 
-            $media = $this->mediaManager->getStopPointTimetableMedia($timetable, $ack->getPayload()->timetableParams->externalStopPointId);
+            $media = $this->mediaManager->getStopPointStopTimetableMedia($stopTimetable, $ack->getPayload()->stopTimetableParams->externalStopPointId);
             $path = $this->mediaManager->getPathByMedia($media);
             if (!empty($path)) {
                 $paths[] = $path;

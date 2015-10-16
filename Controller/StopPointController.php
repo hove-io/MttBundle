@@ -36,12 +36,12 @@ class StopPointController extends AbstractController
 
         $stopPointManager = $this->get('canal_tp_mtt.stop_point_manager');
         if (!empty($lineConfig)) {
-            $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
-            $timetable = $timetableManager->findTimetableByExternalRouteIdAndLineConfig($externalRouteId, $lineConfig);
-            if (!empty($timetable)) {
+            $stopTimetableManager = $this->get('canal_tp_mtt.stop_timetable_manager');
+            $stopTimetable = $stopTimetableManager->findStopTimetableByExternalRouteIdAndLineConfig($externalRouteId, $lineConfig);
+            if (!empty($stopTimetable)) {
                 $routes->route_schedules[0]->table->rows = $stopPointManager->enhanceStopPoints(
                     $routes->route_schedules[0]->table->rows,
-                    $timetable
+                    $stopTimetable
                 );
             }
         }

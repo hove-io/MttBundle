@@ -5,7 +5,7 @@ parameters:
     canal_tp_mtt.user.class: CanalTP\MttBundle\Services\UserManager
     canal_tp_mtt.navitia.class: CanalTP\MttBundle\Services\Navitia
     canal_tp_mtt.line_manager.class: CanalTP\MttBundle\Services\LineManager
-    canal_tp_mtt.timetable_manager.class: CanalTP\MttBundle\Services\TimetableManager
+    canal_tp_mtt.stop_timetable_manager.class: CanalTP\MttBundle\Services\StopTimetableManager
     canal_tp_mtt.line_timetable_manager.class: CanalTP\MttBundle\Services\LineTimetableManager
     canal_tp_mtt.stop_point_manager.class: CanalTP\MttBundle\Services\StopPointManager
     canal_tp_mtt.calendar_manager.class: CanalTP\MttBundle\Services\CalendarManager
@@ -79,7 +79,7 @@ services:
     # Copier
     canal_tp_mtt.season_copier:
         class: "%canal_tp.mtt.season_copier.class%"
-        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.line_manager', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.stop_point_manager', '@canal_tp_mtt.block_manager', '@canal_tp_mtt.frequency_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.line_manager', '@canal_tp_mtt.stop_timetable_manager', '@canal_tp_mtt.stop_point_manager', '@canal_tp_mtt.block_manager', '@canal_tp_mtt.frequency_manager']
     #Profiler
     canal_tp_mtt.matcher.navitia_debug:
         class: "%canal_tp.mtt.navitia_debug_matcher.class%"
@@ -124,8 +124,8 @@ services:
     canal_tp_mtt.line_manager:
        class: %canal_tp_mtt.line_manager.class%
        arguments: ['@doctrine.orm.entity_manager']
-    canal_tp_mtt.timetable_manager:
-       class: %canal_tp_mtt.timetable_manager.class%
+    canal_tp_mtt.stop_timetable_manager:
+       class: %canal_tp_mtt.stop_timetable_manager.class%
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia', '@canal_tp_mtt.line_manager']
     canal_tp_mtt.line_timetable_manager:
        class: %canal_tp_mtt.line_timetable_manager.class%
@@ -164,7 +164,7 @@ services:
        arguments: ['@doctrine.orm.entity_manager', '%pdf_generator_url%', '@canal_tp_mtt.amqp_channel']
     canal_tp_mtt.pdf_payload_generator:
        class: %canal_tp_mtt.pdf_payload_generator.class%
-       arguments: ['@service_container', '@router', '@canal_tp_mtt.navitia', '@canal_tp_mtt.timetable_manager', '@canal_tp_mtt.stop_point_manager', '@canal_tp_mtt.line_manager', '@logger', '@translator']
+       arguments: ['@service_container', '@router', '@canal_tp_mtt.navitia', '@canal_tp_mtt.stop_timetable_manager', '@canal_tp_mtt.stop_point_manager', '@canal_tp_mtt.line_manager', '@logger', '@translator']
     canal_tp_mtt.pdf_gen_completion_lib:
        class: %canal_tp_mtt.pdf_gen_completion_lib.class%
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.media_manager', '@service_container']
