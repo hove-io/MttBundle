@@ -33,7 +33,7 @@ class LineConfig extends AbstractEntity
     /**
      * @var Collection
      */
-    private $timetables;
+    private $stopTimetables;
 
     /**
      * @var Collection
@@ -45,7 +45,7 @@ class LineConfig extends AbstractEntity
      */
     public function __construct()
     {
-        $this->timetables = new ArrayCollection();
+        $this->stopTimetables = new ArrayCollection();
         $this->lineTimetables = new ArrayCollection();
     }
 
@@ -187,26 +187,26 @@ class LineConfig extends AbstractEntity
     }
 
     /**
-     * Set timetables
+     * Set stopTimetables
      *
-     * @param  array      $timetables
+     * @param  array      $stopTimetables
      * @return LineConfig
      */
-    public function setTimetables($timetables)
+    public function setStopTimetables($stopTimetables)
     {
-        $this->timetables = $timetables;
+        $this->stopTimetables = $stopTimetables;
 
         return $this;
     }
 
     /**
-     * Get timetables
+     * Get stopTimetables
      *
      * @return array
      */
-    public function getTimetables()
+    public function getStopTimetables()
     {
-        return $this->timetables;
+        return $this->stopTimetables;
     }
 
     public function isLocked()

@@ -82,7 +82,7 @@ body.editable {
 .editable .block.error {
     border: 1px solid red;
 }
-.timetable-notes {
+.stop-timetable-notes {
     font-size: 12px;
     line-height: 14px;
 }

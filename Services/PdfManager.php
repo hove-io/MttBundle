@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use CanalTP\MttBundle\Entity\StopPoint;
-use CanalTP\MttBundle\Entity\Timetable;
+use CanalTP\MttBundle\Entity\StopTimetable;
 
 class PdfManager
 {
@@ -43,29 +43,29 @@ class PdfManager
     /**
      * We use http kernel to forward, would take more time using curl
      */
-    public function getTimetableHtml($args)
+    public function getStopTimetableHtml($args)
     {
-        $args['_controller'] = 'CanalTPMttBundle:Timetable:view';
+        $args['_controller'] = 'CanalTPMttBundle:StopTimetable:view';
         $subRequest = $this->co->get('request')->duplicate(array(), null, $args);
         $subRequest->headers->remove('X-Requested-With');
 
         return $this->co->get('http_kernel')->handle($subRequest, HttpKernelInterface::SUB_REQUEST)->getContent();
     }
 
-    public function getPdfHash(Timetable $timetable, $externalStopPointId)
+    public function getPdfHash(StopTimetable $stopTimetable, $externalStopPointId)
     {
-        $response = $this->getTimetableHtml(
+        $response = $this->getStopTimetableHtml(
             array(
-                'externalNetworkId'     => $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
-                'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
-                'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
+                'externalNetworkId'     => $stopTimetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                'seasonId'              => $stopTimetable->getLineConfig()->getSeason()->getId(),
+                'externalLineId'        => $stopTimetable->getLineConfig()->getExternalLineId(),
                 'externalStopPointId'   => $externalStopPointId,
-                'externalRouteId'       => $timetable->getExternalRouteId(),
+                'externalRouteId'       => $stopTimetable->getExternalRouteId(),
                 'customerId'            => $this->co->get('security.context')->getToken()->getUser()->getCustomer()->getId(),
-                'timetableOnly'         => true
+                'stopTimetableOnly'         => true
             )
         );
-        $cssVersion = $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getCssVersion();
+        $cssVersion = $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getCssVersion();
 
         return $this->hashingLib->getPdfHash($response, $cssVersion);
     }
@@ -83,34 +83,34 @@ class PdfManager
         return ($url);
     }
 
-    public function getStoppointPdfUrl(Timetable $timetable, $externalStopPointId)
+    public function getStoppointPdfUrl(StopTimetable $stopTimetable, $externalStopPointId)
     {
-        $hash = $this->getPdfHash($timetable, $externalStopPointId);
+        $hash = $this->getPdfHash($stopTimetable, $externalStopPointId);
         $stopPoint = $this->stopPoint->findOneByExternalId($externalStopPointId);
 
         if (!empty($stopPoint) && $hash == $stopPoint->getPdfHash()) {
-            $pdfMedia = $this->mediaManager->getStopPointTimetableMedia($timetable, $externalStopPointId);
+            $pdfMedia = $this->mediaManager->getStopPointStopTimetableMedia($stopTimetable, $externalStopPointId);
         } else {
             $url = $this->getCurrentHttpHost() . $this->co->get('router')->generate(
-                'canal_tp_mtt_timetable_view',
+                'canal_tp_mtt_stop_timetable_view',
                 array(
-                    'externalNetworkId' => $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
-                    'seasonId'          => $timetable->getLineConfig()->getSeason()->getId(),
-                    'externalLineId'    => $timetable->getLineConfig()->getExternalLineId(),
+                    'externalNetworkId' => $stopTimetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                    'seasonId'          => $stopTimetable->getLineConfig()->getSeason()->getId(),
+                    'externalLineId'    => $stopTimetable->getLineConfig()->getExternalLineId(),
                     'externalStopPointId'=> $externalStopPointId,
-                    'externalRouteId'    => $timetable->getExternalRouteId(),
+                    'externalRouteId'    => $stopTimetable->getExternalRouteId(),
                     'customerId'        => $this->co->get('security.context')->getToken()->getUser()->getCustomer()->getId(),
-                    'timetableOnly'     => true
+                    'stopTimetableOnly'     => true
                 )
             );
 
             $pdfPath = $this->pdfGenerator->getPdf(
                 $url,
-                $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientationAsString()
+                $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientationAsString()
             );
             if ($pdfPath) {
-                $pdfMedia = $this->mediaManager->saveStopPointTimetable($timetable, $externalStopPointId, $pdfPath);
-                $this->stopPoint->updatePdfGenerationInfos($externalStopPointId, $timetable, $hash);
+                $pdfMedia = $this->mediaManager->saveStopPointStopTimetable($stopTimetable, $externalStopPointId, $pdfPath);
+                $this->stopPoint->updatePdfGenerationInfos($externalStopPointId, $stopTimetable, $hash);
             } else {
                 throw new \Exception('PdfGenerator Webservice returned an empty response.');
             }

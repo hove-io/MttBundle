@@ -36,11 +36,11 @@ CanalTP\MttBundle\Entity\StopPoint:
             targetEntity: Block
             mappedBy: stopPoint
     manyToOne:
-        timetable:
-            targetEntity: Timetable
+        stopTimetable:
+            targetEntity: StopTimetable
             joinColumn:
-                name: timetable_id
+                name: stop_timetable_id
                 referencedColumnName: id
     uniqueConstraints:
-        stop_point_timetable_idx:
-            columns: [ timetable_id, external_id ]
+        stop_point_stop_timetable_idx:
+            columns: [ stop_timetable_id, external_id ]

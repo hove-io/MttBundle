@@ -3,9 +3,9 @@
 namespace CanalTP\MttBundle\Entity;
 
 /**
- * Timetable
+ * StopTimetable
  */
-class Timetable extends AbstractEntity
+class StopTimetable extends AbstractEntity
 {
     /**
      * @var integer
@@ -61,7 +61,7 @@ class Timetable extends AbstractEntity
      * Set externalRouteId
      *
      * @param  string    $externalRouteId
-     * @return Timetable
+     * @return StopTimetable
      */
     public function setExternalRouteId($externalRouteId)
     {
@@ -107,7 +107,7 @@ class Timetable extends AbstractEntity
      * Set stopPoints
      *
      * @param  array     $blocks
-     * @return Timetable
+     * @return StopTimetable
      */
     public function setStopPoints($stopPoints)
     {
@@ -173,10 +173,10 @@ class Timetable extends AbstractEntity
     }
 
      /**
-     * Set line
+     * Set perimeter
      *
-     * @param  Object    $line
-     * @return Timetable
+     * @param Object $line
+     * @return StopTimetable
      */
     public function setPerimeter($network)
     {
@@ -198,8 +198,8 @@ class Timetable extends AbstractEntity
      /**
      * Set lineConfig
      *
-     * @param  Object    $line
-     * @return Timetable
+     * @param LineConfig $lineConfig
+     * @return StopTimetable
      */
     public function setLineConfig($lineConfig)
     {

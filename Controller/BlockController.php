@@ -13,14 +13,14 @@ class BlockController extends AbstractController
     public function editAction(
         $externalNetworkId,
         $dom_id,
-        $timetableId,
+        $stopTimetableId,
         $block_type = 'text',
         $stop_point = null
     )
     {
         $blockTypeFactory = $this->get('canal_tp_mtt.form.factory.block');
         $blockManager = $this->get('canal_tp_mtt.block_manager');
-        $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
+        $stopTimetableManager = $this->get('canal_tp_mtt.stop_timetable_manager');
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
             $this->getUser()->getCustomer(),
@@ -32,7 +32,7 @@ class BlockController extends AbstractController
             'stop_point' => $stop_point
         );
 
-        $block = $blockManager->getBlock($dom_id, $timetableId, $stop_point);
+        $block = $blockManager->getBlock($dom_id, $stopTimetableId, $stop_point);
 
         $blockTypeFactory->init(
             $block_type,
@@ -44,21 +44,21 @@ class BlockController extends AbstractController
             ->setAction($this->getRequest()->getRequestUri())
             ->setMethod('POST')->getForm();
         $form->handleRequest($this->getRequest());
-        $timetable = $timetableManager->getTimetableById(
-            $timetableId,
+        $stopTimetable = $stopTimetableManager->getStopTimetableById(
+            $stopTimetableId,
             $perimeter->getExternalCoverageId()
         );
         if ($form->isValid()) {
-            $blockTypeFactory->buildHandler()->process($form->getData(), $timetable);
+            $blockTypeFactory->buildHandler()->process($form->getData(), $stopTimetable);
 
             return $this->redirect(
                 $this->generateUrl(
-                    'canal_tp_mtt_timetable_edit',
+                    'canal_tp_mtt_stop_timetable_edit',
                     array(
                         'externalNetworkId'     => $externalNetworkId,
-                        'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
-                        'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
-                        'externalRouteId'       => $timetable->getExternalRouteId(),
+                        'seasonId'              => $stopTimetable->getLineConfig()->getSeason()->getId(),
+                        'externalLineId'        => $stopTimetable->getLineConfig()->getExternalLineId(),
+                        'externalRouteId'       => $stopTimetable->getExternalRouteId(),
                         'externalStopPointId'   => $stop_point
                     )
                 )
@@ -73,14 +73,14 @@ class BlockController extends AbstractController
         );
     }
 
-    public function deleteAction($timetableId, $blockId, $externalNetworkId)
+    public function deleteAction($stopTimetableId, $blockId, $externalNetworkId)
     {
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
             $this->getUser()->getCustomer(),
             $externalNetworkId
         );
-        $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
+        $stopTimetableManager = $this->get('canal_tp_mtt.stop_timetable_manager');
         $repo = $this->getDoctrine()->getRepository('CanalTPMttBundle:Block');
 
         $block = $repo->find($blockId);
@@ -95,19 +95,19 @@ class BlockController extends AbstractController
             $this->getDoctrine()->getEntityManager()->remove($block);
             $this->getDoctrine()->getEntityManager()->flush();
         }
-        $timetable = $timetableManager->getTimetableById(
-            $timetableId,
+        $stopTimetable = $stopTimetableManager->getStopTimetableById(
+            $stopTimetableId,
             $perimeter->getExternalCoverageId()
         );
 
         return $this->redirect(
             $this->generateUrl(
-                'canal_tp_mtt_timetable_edit',
+                'canal_tp_mtt_stop_timetable_edit',
                 array(
                     'externalNetworkId'     => $externalNetworkId,
-                    'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
-                    'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
-                    'externalRouteId'       => $timetable->getExternalRouteId(),
+                    'seasonId'              => $stopTimetable->getLineConfig()->getSeason()->getId(),
+                    'externalLineId'        => $stopTimetable->getLineConfig()->getExternalLineId(),
+                    'externalRouteId'       => $stopTimetable->getExternalRouteId(),
                     'externalStopPointId'   => null
                 )
             )

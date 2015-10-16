@@ -20,7 +20,7 @@ class StopPoint extends AbstractEntity
     /**
      * @var object
      */
-    private $timetable;
+    private $stopTimetable;
 
     /**
      * @var object
@@ -108,27 +108,27 @@ class StopPoint extends AbstractEntity
     }
 
     /**
-     * Set timetable.
+     * Set stopTimetable.
      *
-     * @param string $timetable
+     * @param string $stopTimetable
      *
      * @return StopPoint
      */
-    public function setTimetable($timetable)
+    public function setStopTimetable($stopTimetable)
     {
-        $this->timetable = $timetable;
+        $this->stopTimetable = $stopTimetable;
 
         return $this;
     }
 
     /**
-     * Get timetable.
+     * Get stopTimetable.
      *
      * @return object
      */
-    public function getTimetable()
+    public function getStopTimetable()
     {
-        return $this->timetable;
+        return $this->stopTimetable;
     }
 
     /**
