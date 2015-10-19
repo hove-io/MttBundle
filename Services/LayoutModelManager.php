@@ -65,7 +65,6 @@ class LayoutModelManager
         $this->filesystem->remove($tmpDir);
 
         $this->saveInDb(
-            'uploads/'.$id.'/',
             $config['layout']['label'],
             '/bundles/canaltpmtt/img/uploads/'.$id.'/'.$config['layout']['previewFileName'],
             $config['layout']['orientation'],
@@ -123,7 +122,7 @@ class LayoutModelManager
         return $layout->getId();
     }
 
-    protected function saveInDb($path, $label, $previewPath, $orientation, $templates)
+    protected function saveInDb($label, $previewPath, $orientation, $templates)
     {
         // Do not change the name if we update the layout
         if (null === $this->layout->getLabel()) {
@@ -153,7 +152,7 @@ class LayoutModelManager
                 $template = new Template();
 
                 $template->setType($templateType);
-                $template->setPath($path.$templateConfig['file']);
+                $template->setPath($templateConfig['file']);
 
                 $this->om->persist($template);
                 $this->layout->addTemplate($template);
@@ -162,12 +161,11 @@ class LayoutModelManager
             {
                 $template = $this->layout->getTemplate($templateType);
 
-                if ($template->getPath() != $path.$templateConfig['file'])
-                {
-                    $template->setPath($path.$templateConfig['file']);
-                    $template->setUpdated(new \Datetime());
-                    $this->om->persist($template);
-                }
+                if ($template->getPath() != $templateConfig['file'])
+                    $template->setPath($templateConfig['file']);
+
+                $template->setUpdated(new \DateTime());
+                $this->om->persist($template);
             }
         }
 
