@@ -87,8 +87,12 @@ class TimetableController extends AbstractController
         }
         $this->addFlashIfSeasonLocked($timetable->getLineConfig()->getSeason());
 
+        $layoutId = $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId();
+        $templatePath = '@CanalTPMtt/Layouts/uploads/' . $layoutId . '/';
+        $templateFile = $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getTemplate(Template::STOP_TYPE)->getPath();
+
         return $this->render(
-            'CanalTPMttBundle:Layouts:' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getTemplate(Template::STOP_TYPE)->getPath(),
+            $templatePath . $templateFile,
             array(
                 'pageTitle'             => 'timetable.titles.' . ($editable ? 'edition' : 'preview'),
                 'timetable'             => $timetable,
@@ -110,9 +114,9 @@ class TimetableController extends AbstractController
                 'layout'                => $timetable->getLineConfig()->getLayoutConfig(),
                 'editable'              => $editable,
                 'displayMenu'           => $displayMenu,
-                'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
-                'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
-                'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'templatePath'          => $templatePath,
+                'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $layoutId . '/',
+                'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $layoutId . '/',
                 'externalStopPointId'   => $stopPointId
             )
         );
