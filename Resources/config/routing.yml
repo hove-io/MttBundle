@@ -91,8 +91,8 @@ canal_tp_mtt_line_timetable_list_defaults:
         seasonId: -?\d+
 
 canal_tp_mtt_line_timetable_list:
-    path: /line-timetable/networks/{externalNetworkId}/list/season/{seasonId}/line/{externalLineId}
-    defaults: { _controller: CanalTPMttBundle:LineTimetable:list, externalLineId : null }
+    path: /line-timetable/networks/{externalNetworkId}/line/{externalLineId}/list/season/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:LineTimetable:list, seasonId : null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         externalLineId: -?[a-zA-Z0-9_\-:]*
