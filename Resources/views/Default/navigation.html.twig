@@ -1,10 +1,9 @@
 <ul id="lines-accordion" class="nav nav-pills nav-stacked">
     {% set locked = false %}
-    {% set menuMode = 'routes' %}
     {% for mode,lines in result %}
         {% set cssClass = "collapsed" %}
         {% if not locked %}
-            {% if options.externalRouteId %}
+            {% if navigationMode == 'routes' %}
                 {% for line in lines %}
                     {% for route in line.routes %}
                         {% if route.id == options.externalRouteId %}
@@ -14,16 +13,13 @@
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
-            {% elseif options.externalLineId %}
-                {% set menuMode = 'lines' %}
+            {% elseif navigationMode == 'lines' %}
                 {% for line in lines %}
                     {% if line.id == options.externalLineId %}
                         {% set cssClass = "" %}
                         {% set locked = true %}
                     {% endif %}
                 {% endfor %}
-            {% else %}
-                {% set locked = true %}
             {% endif %}
         {% endif %}
 
@@ -37,7 +33,7 @@
                 <a data-parent="#mode-collapse-{{ loop.parent.loop.index0 }}"
                     id=""
                     class="line-link-toggle"
-                    {% if menuMode == 'routes' %}
+                    {% if navigationMode == 'routes' %}
                         data-toggle="collapse"
                         href="#mode-{{ loop.parent.loop.index0 }}-routes-collapse-{{ loop.index0 }}"
                     {% else %}
@@ -46,7 +42,7 @@
                 >
                     {% if line.code %}<span class="line-code" style="background-color: #{{ line.color }}">{{ line.code }}</span>{% endif %} {{ line.name }}
                 </a>
-                {% if menuMode == 'routes' %}
+                {% if navigationMode == 'routes' %}
                     <ul id="mode-{{ loop.parent.loop.index0 }}-routes-collapse-{{ loop.index0 }}" class="nav nav-pills nav-stacked collapse in">
                     {% for route in line.routes %}
                         <li{% if route.id == options.externalRouteId %} class="active"{% endif %}>
@@ -71,6 +67,6 @@
 
 <script type="text/javascript">
     require(['mtt_left_menu'], function(menu) {
-        menu.init($('#lines-accordion'), {{ menuMode|json_encode|raw }});
+        menu.init($('#lines-accordion'), {{ navigationMode|json_encode|raw }});
     });
 </script>
