@@ -1,6 +1,8 @@
 {% extends "CanalTPMttBundle::generic_list.html.twig" %}
 {% set navigationMode = 'lines' %}
 
+{% import "CanalTPMttBundle::macros.html.twig" as rendering %}
+
 {% block breadcrumb %}
     <li>{{ 'menu.edit_timetables'|trans }}</li>
 {% endblock %}
@@ -10,12 +12,7 @@
 {% endblock %}
 
 {% block list_menu %}
-    <h4>
-        {{ 'global.line_label'|trans }}
-        <span class="line-code" style="background-color: #{{ externalLineData.color }}">
-            {{ externalLineData.code }}
-        </span>
-    </h4>
+    <h4>{{ rendering.lineNumber(externalLineData) }}</h4>
 
     {% block line_comment %}
         {% if externalLineData.comment %}
