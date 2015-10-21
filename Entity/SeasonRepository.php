@@ -45,23 +45,4 @@ class SeasonRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
-
-    /**
-     * Find Season(s) by title
-     *
-     * @param String $title
-     *
-     * @return Doctrine\Common\Collections\Collection Collection of seasons
-     */
-
-    public function findByTitle($title)
-    {
-        $qb = $this->createQueryBuilder('s');
-        $qb->select("s.id")
-            -> where("s.title = :title")
-            ->setParameter('title', $title)
-        ;
-
-        return $qb->getQuery()->getResult();
-    }
 }
