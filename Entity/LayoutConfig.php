@@ -171,11 +171,21 @@ class LayoutConfig extends AbstractEntity
         return $this->notesMode;
     }
 
+    public function aggregatesNotes()
+    {
+        return $this->getNotesMode() == self::NOTES_MODE_AGGREGATED;
+    }
+
+    public function dispatchesNotes()
+    {
+        return $this->getNotesMode() == self::NOTES_MODE_DISPATCHED;
+    }
+
     /**
      * Set previewPath
      *
-     * @param  string $previewPath
-     * @return Layout
+     * @param string $previewPath
+     * @return Template
      */
     public function setPreviewPath($previewPath)
     {
@@ -194,14 +204,48 @@ class LayoutConfig extends AbstractEntity
         return ($this->previewPath ? $this->getWebPreviewPath() : $this->getLayout()->getPreviewPath());
     }
 
-    public function aggregatesNotes()
+    /**
+     * Get absolutePreviewPath
+     *
+     * @return $string
+     */
+    public function getAbsolutePreviewPath()
     {
-        return $this->getNotesMode() == self::NOTES_MODE_AGGREGATED;
+        return null === $this->previewPath
+            ? null
+            : $this->getUploadRootDir().'/'.$this->previewPath;
     }
 
-    public function dispatchesNotes()
+    /**
+     * Get webPreviewPath
+     *
+     * @return $string
+     */
+    public function getWebPreviewPath()
     {
-        return $this->getNotesMode() == self::NOTES_MODE_DISPATCHED;
+        return null === $this->previewPath
+            ? null
+            : $this->getUploadDir().'/'.$this->previewPath;
+    }
+
+    /**
+     * Get uploadRootDir
+     *
+     * @return $string
+     */
+    private function getUploadRootDir()
+    {
+        return __DIR__.'/../../../../../../web/'.$this->getUploadDir();
+    }
+
+    /**
+     * Get uploadDir
+     *
+     * @return $string
+     */
+    private function getUploadDir()
+    {
+        return '/uploads/layouts/previews/';
     }
 
     public function getLineConfigs()
@@ -327,38 +371,13 @@ class LayoutConfig extends AbstractEntity
             $this->getUploadRootDir(),
             $this->getFile()->getClientOriginalName()
         );
-    $fileName = $this->getId() . '.' . $file->getExtension();
+        $fileName = $this->getId() . '.' . $file->getExtension();
         $file->move(
             $this->getUploadRootDir(),
             $fileName
         );
 
-        $this->previewPath = $fileName;
         $this->file = null;
-    }
-
-    public function getAbsolutePreviewPath()
-    {
-        return null === $this->previewPath
-            ? null
-            : $this->getUploadRootDir().'/'.$this->previewPath;
-    }
-
-    public function getWebPreviewPath()
-    {
-        return null === $this->previewPath
-            ? null
-            : $this->getUploadDir().'/'.$this->previewPath;
-    }
-
-    private function getUploadRootDir()
-    {
-        return __DIR__.'/../../../../../../web/'.$this->getUploadDir();
-    }
-
-    private function getUploadDir()
-    {
-        return '/uploads/layouts/previews/';
     }
 
     public function __toString()

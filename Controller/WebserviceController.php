@@ -45,12 +45,12 @@ class WebserviceController extends AbstractController
     }
 
     #TODO: Remove this route when divia.fr updated (Refs #METH-420)
-    public function getTimetableUrlOldAction($externalNetworkId, $externalRouteId, $externalStopPointId)
+    public function getStopTimetableUrlOldAction($externalNetworkId, $externalRouteId, $externalStopPointId)
     {
-        return ($this->getTimetableUrlAction('divia', $externalNetworkId, $externalRouteId, $externalStopPointId));
+        return ($this->getStopTimetableUrlAction('divia', $externalNetworkId, $externalRouteId, $externalStopPointId));
     }
 
-    public function getTimetableUrlAction($customerNameCanonical, $externalNetworkId, $externalRouteId, $externalStopPointId)
+    public function getStopTimetableUrlAction($customerNameCanonical, $externalNetworkId, $externalRouteId, $externalStopPointId)
     {
         try {
             $filter = $this->getRequest()->query->get('filter');
@@ -71,7 +71,7 @@ class WebserviceController extends AbstractController
             }
             $mediaUrl = $this->getMediaUrl($externalNetworkId, $externalRouteId, $externalStopPointId, $season[0]['id']);
             if (empty($mediaUrl)) {
-                throw new \Exception($this->get('translator')->trans('webservice.no_timetable_found', array('%date%' => $date->format('d/m/Y')), 'exceptions'), 404);
+                throw new \Exception($this->get('translator')->trans('webservice.no_stop_timetable_found', array('%date%' => $date->format('d/m/Y')), 'exceptions'), 404);
             }
 
             return $this->redirect($mediaUrl);

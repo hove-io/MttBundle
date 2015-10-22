@@ -51,6 +51,8 @@ error:
     navitia_network_id: "%string% n'est pas conforme au format navitia."
     greater_than_field: Ce champ doit être supérieur au champ %field%.
     seasons_overlapping: Cette saison n'a pu être sauvegardée car elle entre en conflit avec la saison "%saison_title%"
+    template:
+        not_found: Le template de type %type% n'existe pas pour ce fond de fiche.
 
 help:
     edit_block: Cliquez pour éditer ce bloc
@@ -81,6 +83,10 @@ menu:
     layouts_manage: Configurer les fonds de fiche
     area_manage: Secteurs
     assign_models_to_customers: Assigner les modèles aux clients
+    stop_timetable:
+        list: Fiche horaire à l'arrêt
+    line_timetable:
+        list: Fiche horaire de ligne
 
 #should be in error namespace above
 network:

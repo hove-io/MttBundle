@@ -7,17 +7,17 @@ class PdfController extends AbstractController
     public function downloadAction($externalRouteId, $externalStopPointId, $lineConfigId)
     {
         $mediaManager = $this->get('canal_tp_mtt.media_manager');
-        $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
+        $stopTimetableManager = $this->get('canal_tp_mtt.stop_timetable_manager');
 
-        $media = $mediaManager->getStopPointTimetableMedia(
-            $timetableManager->findTimetableByExternalRouteIdAndLineConfigId($externalRouteId, $lineConfigId),
+        $media = $mediaManager->getStopPointStopTimetableMedia(
+            $stopTimetableManager->findStopTimetableByExternalRouteIdAndLineConfigId($externalRouteId, $lineConfigId),
             $externalStopPointId
         );
 
         return $this->redirect($mediaManager->getUrlByMedia($media));
     }
 
-    public function generateAction($timetableId, $externalNetworkId, $externalStopPointId)
+    public function generateAction($stopTimetableId, $externalNetworkId, $externalStopPointId)
     {
         $this->isGranted('BUSINESS_GENERATE_PDF');
         $perimeterManager = $this->get('nmm.perimeter_manager');
@@ -26,26 +26,26 @@ class PdfController extends AbstractController
             $customer,
             $externalNetworkId
         );
-        $timetable = $this->get('canal_tp_mtt.timetable_manager')->getTimetableById(
-            $timetableId,
+        $stopTimetable = $this->get('canal_tp_mtt.stop_timetable_manager')->getStopTimetableById(
+            $stopTimetableId,
             $perimeter->getExternalCoverageId()
         );
         $pdfManager = $this->get('canal_tp_mtt.pdf_manager');
-        if ($timetable->isLocked()) {
+        if ($stopTimetable->isLocked()) {
             $url = $this->generateUrl(
-                'canal_tp_mtt_timetable_view',
+                'canal_tp_mtt_stop_timetable_view',
                 array(
                     'externalNetworkId'     => $externalNetworkId,
-                    'seasonId'              => $timetable->getLineConfig()->getSeason()->getId(),
-                    'externalLineId'        => $timetable->getLineConfig()->getExternalLineId(),
-                    'externalRouteId'       => $timetable->getExternalRouteId(),
+                    'seasonId'              => $stopTimetable->getLineConfig()->getSeason()->getId(),
+                    'externalLineId'        => $stopTimetable->getLineConfig()->getExternalLineId(),
+                    'externalRouteId'       => $stopTimetable->getExternalRouteId(),
                     'externalStopPointId'   => $externalStopPointId,
-                    'orientation'           => $timetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientationAsString(),
+                    'orientation'           => $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getOrientationAsString(),
                     'customerId'            => $customer->getId(),
                 )
             );
         } else {
-            $url = $pdfManager->getStoppointPdfUrl($timetable, $externalStopPointId);
+            $url = $pdfManager->getStoppointPdfUrl($stopTimetable, $externalStopPointId);
         }
 
         return $this->redirect($url);

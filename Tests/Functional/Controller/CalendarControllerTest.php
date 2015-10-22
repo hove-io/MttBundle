@@ -156,7 +156,7 @@ class CalendarControllerTest extends AbstractControllerTest
         $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("MERMB-1")')->count(),
-            "Stop point code (external code) not found in stop point timetable view page"
+            "Stop point code (external code) not found in stop point stopTimetable view page"
         );
     }
 }

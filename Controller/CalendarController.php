@@ -22,7 +22,6 @@ class CalendarController extends AbstractController
             $externalRouteId,
             $externalStopPointId
         );
-
         $prevNextStopPoints = $stopPointManager->getPrevNextStopPoints(
             $perimeter,
             $externalRouteId,
@@ -34,17 +33,17 @@ class CalendarController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Calendar:view.html.twig',
             array(
-                'pageTitle'         => $this->get('translator')->trans(
+                'pageTitle' => $this->get('translator')->trans(
                     'calendar.view_title',
                     array(),
                     'default'
                 ),
-                'externalNetworkId' => $externalNetworkId,
-                'externalStopPointId' => $externalStopPointId,
-                'calendars'         => $calendars,
-                'current_route'     => $externalRouteId,
-                'currentSeason'     => $currentSeason,
-                'prevNextStopPoints'=> $prevNextStopPoints,
+                'externalNetworkId'     => $externalNetworkId,
+                'externalStopPointId'   => $externalStopPointId,
+                'calendars'             => $calendars,
+                'externalRouteId'       => $externalRouteId,
+                'currentSeason'         => $currentSeason,
+                'prevNextStopPoints'    => $prevNextStopPoints
             )
         );
     }

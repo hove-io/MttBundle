@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
+use CanalTP\MttBundle\Entity\LayoutCustomer;
 use CanalTP\MttBundle\Entity\LayoutConfig;
 use CanalTP\MttBundle\Entity\Layout;
 
@@ -17,7 +18,6 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
     {
         $layout = new Layout();
         $layout->setLabel($layoutProperties['label']);
-        $layout->setPath($layoutProperties['path']);
         $layout->setPreviewPath($layoutProperties['previewPath']);
         $layout->setOrientation($layoutProperties['orientation']);
         $layout->setNotesModes($layoutProperties['notesModes']);
@@ -36,13 +36,15 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
         $layoutConfig->setCalendarEnd($layoutConfigProperties['calendarEnd']);
         $layoutConfig->setNotesMode($layoutConfigProperties['notesMode']);
         $layoutConfig->setNotesType($layoutConfigProperties['notesType']);
-        $layoutConfig->setNotesColors(array(
-            '#e44155',
-            '#ff794e',
-            '#4460c5',
-            '#0cc2dd',
-            '#6ebf52',
-            '#bacd40')
+        $layoutConfig->setNotesColors(
+            array(
+                '#e44155',
+                '#ff794e',
+                '#4460c5',
+                '#0cc2dd',
+                '#6ebf52',
+                '#bacd40'
+            )
         );
         $layoutConfig->setLayout($layout);
 
@@ -53,39 +55,50 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
 
     private function createLayouts()
     {
-        $layout = $this->createLayout(
+        $defaultStopLayout = $this->createLayout(
             array(
-                'label'         => 'Template par défaut',
-                'path'          => 'default.html.twig',
-                'previewPath'   => '/bundles/canaltpmtt/img/default.png',
+                'label'         => 'Template arrêt par défaut',
+                'previewPath'   => '/bundles/canaltpmtt/img/default-stop-layout.png',
                 'orientation'   => Layout::ORIENTATION_LANDSCAPE,
                 'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
                 'cssVersion'    => 1
             )
         );
+        $this->attachToCustomerCtp($defaultStopLayout);
+        $this->addReference('default-stop-layout', $defaultStopLayout);
 
-        $this->attacheToCustomerCtp($layout);
+        $colorStopLayout = $this->createLayout(
+            array(
+                'label'         => 'Template arrêt couleur',
+                'previewPath'   => '/bundles/canaltpmtt/img/color-stop-layout.png',
+                'orientation'   => Layout::ORIENTATION_LANDSCAPE,
+                'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
+                'cssVersion'    => 1
+            )
+        );
+        $this->attachToCustomerCtp($colorStopLayout);
+        $this->addReference('color-stop-layout', $colorStopLayout);
 
         $layoutConfig = $this->createLayoutConfig(
             array(
-                'label' => 'Template par défaut (exposant)',
+                'label'         => 'Template arrêt par défaut (exposant)',
                 'calendarStart' => 5,
-                'calendarEnd' => 22,
-                'notesMode' => 1,
-                'notesType' => LayoutConfig::NOTES_TYPE_EXPONENT
+                'calendarEnd'   => 22,
+                'notesMode'     => 1,
+                'notesType'     => LayoutConfig::NOTES_TYPE_EXPONENT
             ),
-            $layout
+            $defaultStopLayout
         );
 
         $layoutConfig = $this->createLayoutConfig(
             array(
-                'label' => 'Template par défaut (color)',
+                'label'         => 'Template arrêt par défaut (color)',
                 'calendarStart' => 5,
-                'calendarEnd' => 22,
-                'notesMode' => 1,
-                'notesType' => LayoutConfig::NOTES_TYPE_COLOR
+                'calendarEnd'   => 22,
+                'notesMode'     => 1,
+                'notesType'     => LayoutConfig::NOTES_TYPE_COLOR
             ),
-            $layout
+            $colorStopLayout
         );
     }
 
@@ -97,14 +110,14 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
         $this->om->flush();
     }
 
-    protected function attacheToCustomerCtp($layout)
+    protected function attachToCustomerCtp($layout)
     {
-        $lc = new \CanalTP\MttBundle\Entity\LayoutCustomer();
-        $lc->setCustomer($this->getReference('customer-canaltp'));
-        $lc->setLayout($layout);
+        $layoutCustomer = new LayoutCustomer();
+        $layoutCustomer->setCustomer($this->getReference('customer-canaltp'));
+        $layoutCustomer->setLayout($layout);
 
-        $this->om->persist($lc);
-        $this->om->flush($lc);
+        $this->om->persist($layoutCustomer);
+        $this->om->flush($layoutCustomer);
     }
 
     /**

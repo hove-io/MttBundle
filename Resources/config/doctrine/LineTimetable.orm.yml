@@ -1,0 +1,28 @@
+CanalTP\MttBundle\Entity\LineTimetable:
+    type: entity
+    table: mtt.line_timetable
+    repositoryClass: CanalTP\MttBundle\Entity\LineTimetableRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        lineConfig:
+            targetEntity: LineConfig
+            inversedBy: lineTimetables
+            joinColumn:
+                name: line_config_id
+                referencedColumnName: id

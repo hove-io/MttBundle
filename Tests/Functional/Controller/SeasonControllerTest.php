@@ -162,8 +162,8 @@ class SeasonControllerTest extends AbstractControllerTest
         $this->assertTrue(count($seasons) == 0, "Season was not deleted.");
         $lineConfigs = $this->getRepository('CanalTPMttBundle:LineConfig')->findAll();
         $this->assertTrue(count($lineConfigs) == 0, "lineConfig was not deleted.");
-        $timetables = $this->getRepository('CanalTPMttBundle:Timetable')->findAll();
-        $this->assertTrue(count($timetables) == 0, "timetable was not deleted.");
+        $stopTimetables = $this->getRepository('CanalTPMttBundle:StopTimetable')->findAll();
+        $this->assertTrue(count($stopTimetables) == 0, "stopTimetable was not deleted.");
         $blocks = $this->getRepository('CanalTPMttBundle:Block')->findAll();
         $this->assertTrue(count($blocks) == 0, "block was not deleted.");
         //reload fixtures after Delete
