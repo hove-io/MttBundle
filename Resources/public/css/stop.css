@@ -76,11 +76,11 @@
     vertical-align: middle;
 }
 #layout-1-wrapper.layout-2-overload .information-text-blocks,
-#timetables-wrapper{
+#stop-timetables-wrapper{
     margin-top:5px;
     width:100%;
 }
-#timetables-wrapper .timegrid-container{
+#stop-timetables-wrapper .timegrid-container{
     font-size:12px;
     margin-top:5px;
     height:212px;
@@ -90,7 +90,7 @@
     width:100%;
 }
 .information-text-blocks .text-block-wrapper .title,
-#timetables-wrapper .timegrid-header{
+#stop-timetables-wrapper .timegrid-header{
     background-color:white;
     border-bottom: 2px solid black;
     color:black;
@@ -101,7 +101,7 @@
     height:25px;
     width:100%;
 }
-#timetables-wrapper .timegrid-body{
+#stop-timetables-wrapper .timegrid-body{
     background-color: white;
     height: 183px;
     width:100%;
@@ -136,7 +136,7 @@
 .timegrid-body{
     position:relative;
 }
-.timetable-notes{
+.stop-timetable-notes{
     position:absolute;
     bottom:0;
     left:0;

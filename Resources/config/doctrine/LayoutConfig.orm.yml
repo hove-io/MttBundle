@@ -26,6 +26,12 @@ CanalTP\MttBundle\Entity\LayoutConfig:
         notesMode:
             type: integer
             column: notes_mode
+        notesColors:
+            type: array
+            column: notes_colors
+        notesType:
+            type: string
+            column: notes_type
         created:
             type: datetime
             gedmo:
@@ -36,12 +42,6 @@ CanalTP\MttBundle\Entity\LayoutConfig:
             gedmo:
                 timestampable:
                     on: update
-        notesColors:
-            type: array
-            column: notes_colors
-        notesType:
-            type: string
-            column: notes_type
     oneToMany:
         lineConfigs:
             targetEntity: LineConfig
@@ -50,6 +50,7 @@ CanalTP\MttBundle\Entity\LayoutConfig:
     manyToOne:
         layout:
             targetEntity: Layout
+            inversedBy: layoutConfigs
             joinColumn:
                 name: layout_id
                 referencedColumnName: id

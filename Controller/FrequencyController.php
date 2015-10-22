@@ -49,12 +49,12 @@ class FrequencyController extends AbstractController
 
             return $this->redirect(
                 $this->generateUrl(
-                    'canal_tp_mtt_timetable_edit',
+                    'canal_tp_mtt_stop_timetable_edit',
                     array(
                         'externalNetworkId'     => $externalNetworkId,
-                        'seasonId'              => $block->getTimetable()->getLineConfig()->getSeason()->getId(),
-                        'externalLineId'        => $block->getTimetable()->getLineConfig()->getExternalLineId(),
-                        'externalRouteId'       => $block->getTimetable()->getExternalRouteId(),
+                        'seasonId'              => $block->getStopTimetable()->getLineConfig()->getSeason()->getId(),
+                        'externalLineId'        => $block->getStopTimetable()->getLineConfig()->getExternalLineId(),
+                        'externalRouteId'       => $block->getStopTimetable()->getExternalRouteId(),
                         'externalStopPointId'   => null
                     )
                 )

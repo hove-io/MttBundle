@@ -31,4 +31,23 @@ abstract class AbstractController extends Controller
 
         return $isLocked;
     }
+
+    /**
+     * Add flash message
+     *
+     * @param string $type
+     * @param string $message
+     * @param array $parameters
+     */
+    protected function addFlashMessage($type, $message, $parameters = null)
+    {
+        $this->addFlash(
+            $type,
+            $this->get('translator')->trans(
+                $message,
+                $parameters,
+                'messages'
+            )
+        );
+    }
 }
