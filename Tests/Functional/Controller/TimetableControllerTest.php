@@ -220,7 +220,6 @@ class TimetableControllerTest extends AbstractControllerTest
     /**
      * Test legend colors
      * @TODO test background color in a timetable
-     * @group fail
      */
     public function testCalendarExceptionsColors()
     {
