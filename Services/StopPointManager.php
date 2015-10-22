@@ -17,12 +17,9 @@ class StopPointManager
     private $navitia = null;
     private $repository = null;
     private $om = null;
-    private $container = null;
 
-    public function __construct(Container $co, ObjectManager $om, Navitia $navitia)
+    public function __construct(ObjectManager $om, Navitia $navitia)
     {
-        $this->stopPoint = null;
-        $this->container = $co;
         $this->navitia = $navitia;
         $this->repository = $om->getRepository('CanalTPMttBundle:StopPoint');
         $this->om = $om;
@@ -33,34 +30,28 @@ class StopPointManager
         return ($this->repository->findByExternalId($externalId));
     }
 
-    private function initTitle($externalCoverageId)
+    /**
+     * Populate stopPoint from navitia
+     *
+     * @param  string $externalCoverageId External coverage id
+     *
+     * @return StopPoint The populated StopPoint
+     */
+    private function initStopPoint($externalCoverageId)
     {
-        $this->stopPoint->setTitle(
-            $this->navitia->getStopPointTitle(
-                $externalCoverageId,
-                $this->stopPoint->getExternalId()
-            )
-        );
-    }
-
-    private function initCity($externalCoverageId)
-    {
-        $this->stopPoint->setCity(
-            $this->navitia->getStopPointCity(
-                $externalCoverageId,
-                $this->stopPoint->getExternalId(),
-                array("depth" => 1)
-            )
-        );
-    }
-
-    private function initStopPointCode($externalCoverageId)
-    {
-        $codes = $this->navitia->getStopPointCodes(
+        $navitiaStopPoint = $this->navitia->getStopPoint(
             $externalCoverageId,
-            $this->stopPoint->getExternalId()
+            $this->stopPoint->getExternalId(),
+            array('depth' => 1, 'show_codes' => 'true')
         );
-        $this->stopPoint->setCodes($codes);
+
+        $this->stopPoint->setTitle($navitiaStopPoint->stop_points[0]->name);
+        $this->stopPoint->setCodes($navitiaStopPoint->stop_points[0]->codes);
+
+        $administrativeRegion = isset($navitiaStopPoint->stop_points[0]->administrative_regions)
+            ? $navitiaStopPoint->stop_points[0]->administrative_regions[0]->name
+            : null;
+        $this->stopPoint->setCity($administrativeRegion);
     }
 
     private function initStopPointPois($externalCoverageId)
@@ -114,9 +105,8 @@ class StopPointManager
             $this->stopPoint->setExternalId($externalStopPointId);
             $this->stopPoint->setTimetable($timetable);
         }
-        $this->initTitle($externalCoverageId);
-        $this->initCity($externalCoverageId);
-        $this->initStopPointCode($externalCoverageId);
+
+        $this->initStopPoint($externalCoverageId);
         $this->initStopPointPois($externalCoverageId);
 
         return $this->stopPoint;
