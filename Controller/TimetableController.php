@@ -147,6 +147,7 @@ class TimetableController extends AbstractController
             $perimeter->getExternalCoverageId(),
             $lineManager->getLineConfigByExternalLineIdAndSeasonId($externalLineId, $seasonId)
         );
+
         $displayMenu = $this->get('security.context')->getToken()->getUser() != 'anon.';
         if ($displayMenu)
             $displayMenu = $this->get('request')->get('timetableOnly', false) != true;
