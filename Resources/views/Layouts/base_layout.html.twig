@@ -11,8 +11,8 @@
         <li><a href="{{ path(
             'canal_tp_mtt_stop_point_list',
             {
-                'externalNetworkId'        : externalNetworkId,
-                'line_id'           : externalLineId,
+                'externalNetworkId' : externalNetworkId,
+                'externalLineId'    : externalLineId,
                 'externalRouteId'   : externalRouteId,
                 'seasonId'          : currentSeason.id
             }
@@ -32,8 +32,8 @@
                     <a href="{{ path(
                         'canal_tp_mtt_stop_point_list',
                         {
-                            'externalNetworkId'        : externalNetworkId,
-                            'line_id'           : externalLineId,
+                            'externalNetworkId' : externalNetworkId,
+                            'externalLineId'    : externalLineId,
                             'externalRouteId'   : externalRouteId,
                             'seasonId'          : currentSeason.id
                         }
@@ -44,24 +44,35 @@
                 </li>
                 {% if stopPoint and is_granted('BUSINESS_GENERATE_PDF') %}
                     <li{% if currentSeason.locked %} class="disabled"{% endif %}>
-                        <a href="{{ path('canal_tp_mtt_timetable_edit', {'externalLineId': externalLineId, 'externalNetworkId': externalNetworkId, 'seasonId': currentSeason.id, 'externalRouteId': externalRouteId}) }}">
+                        <a href="{{ path('canal_tp_mtt_stop_timetable_edit', {'externalLineId': externalLineId, 'externalNetworkId': externalNetworkId, 'seasonId': currentSeason.id, 'externalRouteId': externalRouteId}) }}">
                             <span class="glyphicon glyphicon-edit"></span> {{'stop_point.edit'|trans}}
                         </a>
                     </li>
                     <li{% if currentSeason.locked %} class="disabled"{% endif %}>
-                        <a href="{{ path('canal_tp_mtt_timetable_generate_pdf', {'timetableId': timetable.id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
+                        <a href="{{ path('canal_tp_mtt_stop_timetable_generate_pdf', {'stopTimetableId': stopTimetable.Id, 'externalNetworkId': externalNetworkId, 'externalStopPointId' : stopPoint.externalId}) }}">
                             <span class="glyphicon glyphicon-download-alt"></span> {{'global.generatePdf'|trans}}
                         </a>
                     </li>
                 {% else %}
                 <li>
-                    <a href="{{ path('canal_tp_mtt_timetable_view', {'externalNetworkId': externalNetworkId, 'externalLineId': externalLineId, 'externalRouteId': externalRouteId, 'seasonId': currentSeason.id, 'externalStopPointId': externalStopPointId}) }}">
+                    <a href="{{ path('canal_tp_mtt_stop_timetable_view', {'externalNetworkId': externalNetworkId, 'externalLineId': externalLineId, 'externalRouteId': externalRouteId, 'seasonId': currentSeason.id, 'externalStopPointId': externalStopPointId}) }}">
                         <span class="glyphicon glyphicon-eye-open"></span> {{'stop_point.view'|trans}}
                     </a>
                 </li>
                 {% endif %}
             </ul>
-            {{ render(controller('CanalTPMttBundle:Default:navigation', {'externalNetworkId': externalNetworkId, 'current_route': externalRouteId, 'current_season': currentSeason.id})) }}
+            {{ render(controller(
+                'CanalTPMttBundle:Default:navigation',
+                {
+                    'externalNetworkId': externalNetworkId,
+                    'seasonId': currentSeason.id,
+                    'options':
+                    {
+                        'externalLineId': externalLineId,
+                        'externalRouteId': externalRouteId
+                    }
+                }
+            )) }}
         </div>
         <div class="toggle-button">
             <span class="glyphicon glyphicon-transfer"></span>
@@ -70,7 +81,7 @@
     {% endif %}
 
     {% if prevNextStopPoints and stopPointLevel == true %}
-        {% set route = editable == true ? 'canal_tp_mtt_timetable_edit': 'canal_tp_mtt_timetable_view' %}
+        {% set route = editable == true ? 'canal_tp_mtt_stop_timetable_edit': 'canal_tp_mtt_stop_timetable_view' %}
         {% if prevNextStopPoints.prev %}
             {% set prev_url = path(
                 route,
@@ -106,7 +117,7 @@
         </div>
     {% endif %}
     <div id="layout-main-wrapper" class="wrapper-{{orientation}}{% if editable == true %} editable{% endif %}">
-        {% block timetable_content %}{% endblock %}
+        {% block stop_timetable_content %}{% endblock %}
     </div>
 
     {% block scripts %}{% endblock %}

@@ -32,17 +32,17 @@ class DefaultController extends AbstractController
         );
     }
 
-    public function navigationAction($externalNetworkId, $current_season, $current_route = null)
+    public function navigationAction($externalNetworkId, $seasonId, $options = array())
     {
         // TODO: Put the default Network of User. (for $externalNetworkId)
-        $mtt_navitia = $this->get('canal_tp_mtt.navitia');
+        $mttNavitia = $this->get('canal_tp_mtt.navitia');
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(
             $this->getUser()->getCustomer(),
             $externalNetworkId
         );
         try {
-            $result = $mtt_navitia->findAllLinesByMode(
+            $result = $mttNavitia->findAllLinesByMode(
                 $perimeter->getExternalCoverageId(),
                 $perimeter->getExternalNetworkId()
             );
@@ -58,10 +58,9 @@ class DefaultController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Default:navigation.html.twig',
             array(
-                'result'            => $result,
-                'coverageId'        => $perimeter->getExternalCoverageId(),
-                'current_route'     => $current_route,
-                'current_season'    => $current_season
+                'result'    => $result,
+                'seasonId'  => $seasonId,
+                'options'   => $options
             )
         );
     }

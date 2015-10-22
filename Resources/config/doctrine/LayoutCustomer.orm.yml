@@ -11,6 +11,7 @@ CanalTP\MttBundle\Entity\LayoutCustomer:
     manyToOne:
         layout:
             targetEntity: Layout
+            inversedBy: customers
             joinColumn:
                 name: layout_id
                 referencedColumnName: id

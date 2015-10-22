@@ -51,7 +51,6 @@ class CalendarController extends AbstractController
             $externalRouteId,
             $externalStopPointId
         );
-
         $prevNextStopPoints = $stopPointManager->getPrevNextStopPoints(
             $perimeter,
             $externalRouteId,

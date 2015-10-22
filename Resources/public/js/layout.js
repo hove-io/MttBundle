@@ -4,11 +4,11 @@ define(['jquery'], function($) {
     var url_params = {};
     var $icon_tpl = $('<span class="glyphicon"></span>');
     
-    layout.init = function($wrapper, blockTypes, timetableId, externalNetworkId, stop_point)
+    layout.init = function($wrapper, blockTypes, stopTimetableId, externalNetworkId, stop_point)
     {
         // store url params for later
         url_params.externalNetworkId  = externalNetworkId;
-        url_params.timetableId        = timetableId;
+        url_params.stopTimetableId    = stopTimetableId;
         url_params.stop_point         = stop_point;
         // needed properties
         layout.blockLevel = stop_point == false ? 'route' : 'stop_point';

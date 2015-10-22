@@ -24,12 +24,12 @@ class BlockManager
         $this->repo = $om->getRepository('CanalTPMttBundle:Block');
     }
 
-    public function getBlock($dom_id, $timetableId, $stop_point = null)
+    public function getBlock($dom_id, $stopTimetableId, $stop_point = null)
     {
         if (empty($stop_point)) {
-            $block = $this->repo->findByTimetableAndDomId($timetableId, $dom_id);
+            $block = $this->repo->findByStopTimetableAndDomId($stopTimetableId, $dom_id);
         } else {
-            $block = $this->repo->findByTimetableAndStopPointAndDomId($timetableId, $stop_point, $dom_id);
+            $block = $this->repo->findByStopTimetableAndStopPointAndDomId($stopTimetableId, $stop_point, $dom_id);
         }
 
         return $block;
@@ -44,23 +44,23 @@ class BlockManager
      * Return Block
      *
      * @param  Object $block
-     * @param  Object $destTimetable
+     * @param  Object $destStopTimetable
      * @param  Object $destStopPoint
      * @return block
      */
-    public function copy($block, $destTimetable, $destStopPoint = false)
+    public function copy($block, $destStopTimetable, $destStopPoint = false)
     {
-        $destSeason = $destTimetable->getLineConfig()->getSeason();
+        $destSeason = $destStopTimetable->getLineConfig()->getSeason();
         if ($block->isCalendar() and !$this->calendarManager->isIncluded($block->getContent(), $destSeason)) {
             return false;
         }
         $blockCloned = clone $block;
-        $blockCloned->setTimetable($destTimetable);
+        $blockCloned->setStopTimetable($destStopTimetable);
         if ($destStopPoint != false) {
             $blockCloned->setStopPoint($destStopPoint);
         }
         if ($block->isImg()) {
-            $this->mediaManager->copy($block, $blockCloned, $destTimetable);
+            $this->mediaManager->copy($block, $blockCloned, $destStopTimetable);
         }
 
         $this->om->persist($blockCloned);

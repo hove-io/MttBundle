@@ -1,0 +1,31 @@
+CanalTP\MttBundle\Entity\Template:
+    type: entity
+    table: mtt.template
+    repositoryClass: CanalTP\MttBundle\Entity\TemplateRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        type:
+            type: string
+            length: 255
+            column: type
+            nullable: false
+        path:
+            type: string
+            length: 255
+            column: path
+            nullable: false
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update

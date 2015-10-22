@@ -4,16 +4,16 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" media="all" href="{{ asset('bundles/canaltpmtt/css/default.css') }}?{{ assets_version }}" />
+    <link rel="stylesheet" media="all" href="{{ asset('bundles/canaltpmtt/css/stop.css') }}?{{ assets_version }}" />
 {% endblock %}
 
-{% block timetable_content %}
+{% block stop_timetable_content %}
     <div id="layout-1-wrapper" class="{% block additionnal_wrapper_class %}{% endblock %}">
         <div class="layout-container">
             <div id="header" class="clearfix">
                 <div id="direction-title-wrapper" data-block-level="route" data-auto-filled="1">
-                    {% if timetable.title is defined %}
-                        {{ 'global.direction'|trans }} {{ timetable.title }}
+                    {% if stop_timetable.title is defined %}
+                        {{ 'global.direction'|trans }} {{ stop_timetable.title }}
                     {% endif %}
                 </div>
                 <div id="stop-point-title-wrapper" data-block-level="stop_point" data-auto-filled="1">
@@ -24,17 +24,17 @@
                 <div id="small-left-blocks">
                     {{ macros.stop_point_pois('text_block_3', stopPoint, 'small-block') }}
                     {{ macros.season_validity('text_block_1', currentSeason, 'small-block') }}
-                    {{ macros.stop_point_code('text_block_4', stopPoint, 'small-block') }}
-                    {{ macros.text('text_block_2', attribute(timetable.blocks, 'text_block_2'), 'route', 'small-block block') }}
+                    {{ macros.stop_point_code('text_block_4', stopPoint, 'small-block', null, 'totem') }}
+                    {{ macros.text('text_block_2', attribute(stop_timetable.blocks, 'text_block_2'), 'route', 'small-block block') }}
                 </div>
-                {{ macros.img('line_map_block', attribute(timetable.blocks, 'line_map_block'), 'line_map_img', 'route') }}
+                {{ macros.img('line_map_block', attribute(stop_timetable.blocks, 'line_map_block'), 'line_map_img', 'route') }}
 
             </div>
-            {% block timetables_wrapper %}
-                <div id="timetables-wrapper" class="clearfix">
+            {% block stop_timetables_wrapper %}
+                <div id="stop-timetables-wrapper" class="clearfix">
                     {% for i in 1..2 %}
                         {% set id = 'timegrid_block_' ~ i %}
-                        {% set block = attribute(timetable.blocks, id) %}
+                        {% set block = attribute(stop_timetable.blocks, id) %}
                         <div {% if editable %}title="{{ 'help.edit_block'|trans }}"{% endif %} id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
                             <div class="timegrid-header">
                                 {% if block %}{{ block.title }}{% endif %}
@@ -56,18 +56,11 @@
                                             with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
                                         %}
                                     {% endif %}
-                                    {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, null, notesType) }}
+                                    {{ macros.calendar(id, stopPointLevel, externalNetworkId, stop_timetable, layout, block, calendar, notes, hours_range, null, notesType) }}
                                 </table>
 
-                                {# position is specific to this layout ie i==1... #}
-                                {% if i == 1 and notes|length > 0 %}
-                                    <div class="timetable-notes">
-                                    {% for note in notes %}
-                                        {% if note.color is not null %}
-                                            <div><span class="bold color-reference" style="background-color: {{ note.color }}">&nbsp;_&nbsp;</span>: {{ note.value|raw }}</div>
-                                        {% endif %}
-                                    {% endfor %}
-                                    </div>
+                                {% if i == 1 %}
+                                    {{ macros.notes(notes, notesType) }}
                                 {% endif %}
                             </div>
                         </div>
@@ -86,7 +79,7 @@
             'stopPointLevel'    : stopPointLevel,
             'externalNetworkId' : externalNetworkId,
             'blockTypes'        : blockTypes,
-            'timetable'         : timetable,
+            'stopTimetable'     : stopTimetable,
             'stopPoint'         : stopPoint,
             'selector'          : '#layout-1-wrapper' }
     %}

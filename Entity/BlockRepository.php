@@ -21,11 +21,11 @@ class BlockRepository extends EntityRepository
      * @param  string $domId  Dom Id in layout
      * @return Block  Entity or null
      */
-    public function findByTimetableAndDomId($timetableId, $domId)
+    public function findByStopTimetableAndDomId($stopTimetableId, $domId)
     {
         $block = $this->findOneBy(
             array(
-                'timetable' => $timetableId,
+                'stopTimetable' => $stopTimetableId,
                 'domId' => $domId,
             )
         );
@@ -33,10 +33,10 @@ class BlockRepository extends EntityRepository
         if (empty($block)) {
             $block = new Block();
             $block->setDomId($domId);
-            $timetable = $this->getEntityManager()->getRepository('CanalTPMttBundle:Timetable')->find(
-                $timetableId
+            $stopTimetable = $this->getEntityManager()->getRepository('CanalTPMttBundle:StopTimetable')->find(
+                $stopTimetableId
             );
-            $block->setTimetable($timetable);
+            $block->setStopTimetable($stopTimetable);
         }
 
         return $block;
@@ -49,18 +49,18 @@ class BlockRepository extends EntityRepository
      * @param  string $domId               Dom Id in layout
      * @return Block  Entity or null
      */
-    public function findByTimetableAndStopPointAndDomId($timetableId, $externalStopPointId, $domId)
+    public function findByStopTimetableAndStopPointAndDomId($stopTimetableId, $externalStopPointId, $domId)
     {
         $query = $this->getEntityManager()
             ->createQuery(
                 'SELECT block FROM CanalTPMttBundle:Block block
                 INNER JOIN block.stopPoint stop_point
                 WHERE stop_point.externalId = :externalStopPointId
-                AND block.timetable = :timetable
+                AND block.stopTimetable = :stopTimetable
                 AND block.domId = :domId'
             )
             ->setParameter('externalStopPointId', $externalStopPointId)
-            ->setParameter('timetable', $timetableId)
+            ->setParameter('stopTimetable', $stopTimetableId)
             ->setParameter('domId', $domId);
 
         return $query->getOneOrNullResult();

@@ -12,9 +12,6 @@ CanalTP\MttBundle\Entity\Layout:
         label:
             type: string
             length: 255
-        path:
-            type: string
-            length: 255
         pageSize:
             type: string
             length: 255
@@ -24,6 +21,7 @@ CanalTP\MttBundle\Entity\Layout:
             type: string
             length: 255
             column: preview_path
+            nullable: true
         orientation:
             type: integer
         notesModes:
@@ -49,4 +47,16 @@ CanalTP\MttBundle\Entity\Layout:
         customers:
             targetEntity: LayoutCustomer
             mappedBy: layout
+    manyToMany:
+        templates:
+            targetEntity: Template
+            joinTable:
+                name: mtt.layout_template
+                joinColumns:
+                    layout_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    template_id:
+                        referencedColumnName: id
+            cascade: ['persist','remove']
     lifecycleCallbacks: {  }

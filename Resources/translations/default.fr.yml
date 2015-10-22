@@ -29,7 +29,7 @@ line:
     choose_layout: Choisir un fond de fiche
     layout_chosen: Le fond de fiche a bien été assigné à la ligne.
 
-timetable:
+stop_timetable:
     edit: Éditer la fiche horaire
     titles:
         edition: Édition

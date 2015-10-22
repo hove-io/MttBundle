@@ -268,7 +268,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="url" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">${ihm_host}/mtt/timetable/view/networks/${network_id}/line/${line_id}/route/${route_id}/seasons/${season_id}/stopPoints/${stoppoint_id}</stringProp>
+                <stringProp name="Argument.value">${ihm_host}/mtt/stopTimetable/view/networks/${network_id}/line/${line_id}/route/${route_id}/seasons/${season_id}/stopPoints/${stoppoint_id}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">url</stringProp>
@@ -331,7 +331,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/mtt/timetable/view/networks/${network_id}/line/${line_id}/route/${route_id}/seasons/${season_id}/stopPoints/${stoppoint_id}</stringProp>
+          <stringProp name="HTTPSampler.path">/mtt/stopTimetable/view/networks/${network_id}/line/${line_id}/route/${route_id}/seasons/${season_id}/stopPoints/${stoppoint_id}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
