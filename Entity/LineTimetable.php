@@ -124,12 +124,12 @@ class LineTimetable extends AbstractEntity
      */
     public function clearSelectedStopPoints($externalRouteId = null)
     {
-        if (!$externalRouteId)
+        if (!$externalRouteId) {
             $this->selectedStopPoints->clear();
-        else
-        {
-            foreach ($this->getSelectedStopPointsByRoute($externalRouteId) as $selectedStopPoint)
+        } else {
+            foreach ($this->getSelectedStopPointsByRoute($externalRouteId) as $selectedStopPoint) {
                 $this->selectedStopPoints->removeElement($selectedStopPoint);
+            }
         }
 
         return $this;

@@ -20,16 +20,45 @@
         {% endif %}
     {% endblock %}
 
-    {% if (is_granted('BUSINESS_CHOOSE_LAYOUT')) %}
+    {% if (is_granted('BUSINESS_MANAGE_LINE_TIMETABLE')) %}
         {% if seasons is empty %}
             {{ 'season.please_create_before_continue'|trans({}, 'default') }}
-            <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': externalNetworkId}) }}">
+            <a class="btn btn-default pull-right" href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': externalNetworkId}) }}">
                 {{ 'season.create'|trans({}, 'default') }}
             </a>
         {% else %}
-            <a class="btn btn-default pull-right{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId': currentSeason.id, 'externalLineId': externalLineId}) }}">
-                <span class="glyphicon glyphicon-cog"></span> {{ 'line.choose_layout'|trans({}, 'default') }}
-            </a>
+            <div class="btn-group pull-right marg10b" >
+                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">{{ 'global.actions'|trans }}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    {% if (is_granted('BUSINESS_CHOOSE_LAYOUT')) %}
+                    <li>
+                        <a
+                            {% if currentSeason.locked %}class="disabled"{% endif %}
+                            href="#"
+                            data-toggle="modal"
+                            data-target="#base-modal"
+                            data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId': currentSeason.id, 'externalLineId': externalLineId}) }}"
+                        >
+                            <span class="glyphicon glyphicon-cog"></span> {{ 'line.choose_layout'|trans({}, 'default') }}
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if lineTimetable %}
+                    <li>
+                        <a
+                            href="{{ path('canal_tp_mtt_line_timetable_select_stops', {
+                                'externalNetworkId': externalNetworkId,
+                                'seasonId': currentSeason.id,
+                                'lineTimetableId': lineTimetable.id }) }}"
+                        >
+                            <span class="glyphicon glyphicon-edit"></span> {{ 'line_timetable.action.select_stops'|trans({}, 'default') }}
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         {% endif %}
     {% endif %}
 {% endblock %}
