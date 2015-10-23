@@ -35,6 +35,20 @@ stop_timetable:
         edition: Édition
         preview: Prévisualisation
 
+line_timetable:
+    title:
+        select_stops: Sélection des points d'arrêt
+    action:
+        select_stops: Choisir les arrêts
+        select_all_stops: Ajouter tous les arrêts
+        remove_all_stops: Vider la sélection des arrêts
+    label:
+        way: vers
+        available_stops: Arrêts disponibles
+        selected_stops: Arrêts choisis
+    message:
+        no_stops: Aucun arrêt choisi pour cette route.
+
 layout_config:
     actions: Actions
     list: Liste des fonds de fiche
