@@ -26,3 +26,11 @@ CanalTP\MttBundle\Entity\LineTimetable:
             joinColumn:
                 name: line_config_id
                 referencedColumnName: id
+    oneToMany:
+        selectedStopPoints:
+            targetEntity: SelectedStopPoint
+            mappedBy: lineTimetable
+            cascade: ['remove']
+            orderBy: { 'externalRouteId': 'ASC', 'rank': 'ASC' }
+            orphanRemoval: true
+            fetch: 'EXTRA_LAZY'
