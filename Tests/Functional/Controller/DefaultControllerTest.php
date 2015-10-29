@@ -18,7 +18,7 @@ class DefaultControllerTest extends AbstractControllerTest
             'canal_tp_mtt_menu',
             array(
                 'externalNetworkId' => 'network:JDR:2',
-                'current_season' => 1
+                'seasonId' => 1
             )
         );
         $crawler = $this->doRequestRoute($route);
