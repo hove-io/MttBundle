@@ -59,7 +59,7 @@ class TimetableControllerTest extends AbstractControllerTest
             'canal_tp_mtt_stop_point_list',
             array(
                 'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
-                'line_id' => Fixture::EXTERNAL_LINE_ID,
+                'externalLineId' => Fixture::EXTERNAL_LINE_ID,
                 'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
                 'seasonId' => $this->getSeason()->getId()
             )
@@ -225,7 +225,7 @@ class TimetableControllerTest extends AbstractControllerTest
     {
         $season = $this->getSeason();
 
-        $tt = $this->getTimetable(Fixture::EXTERNAL_ROUTE_ID);
+        $tt = $this->getStopTimetable(Fixture::EXTERNAL_ROUTE_ID);
         $tt->getLineConfig()->getLayoutConfig()->setNotesType(\CanalTP\MttBundle\Entity\LayoutConfig::NOTES_TYPE_COLOR);
         $tt->getLineConfig()->getLayoutConfig()->setNotesColors(
             array(
@@ -242,7 +242,7 @@ class TimetableControllerTest extends AbstractControllerTest
         $block->setContent('idcalendar2');
         $block->setDomId('timegrid_block_2');
         $block->setTypeId('calendar');
-        $block->setTimetable($tt);
+        $block->setStopTimetable($tt);
 
         $this->getEm()->persist($block);
         $this->getEm()->flush();
