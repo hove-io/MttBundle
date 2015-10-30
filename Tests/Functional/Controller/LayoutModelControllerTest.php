@@ -34,10 +34,11 @@ class LayoutModelControllerTest extends AbstractControllerTest
         $route = $this->getRoute('canal_tp_mtt_model_list');
         $crawler = $this->doRequestRoute($route);
 
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Gestion des modèles")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Template par défaut")')->count());
-        $this->assertEquals(1, $crawler->selectLink('Mettre à jour')->count());
-        $this->assertEquals(1, $crawler->selectLink('Ajouter un modèle')->count());
+        $this->assertCount(1, $crawler->filter('html:contains("Gestion des modèles")'));
+        $this->assertCount(1, $crawler->filter('html:contains("Template arrêt par défaut")'));
+        $this->assertCount(1, $crawler->filter('html:contains("Template arrêt couleur")'));
+        $this->assertCount(2, $crawler->selectLink('Mettre à jour'));
+        $this->assertCount(1, $crawler->selectLink('Ajouter un modèle'));
     }
 
     public function testUploadGoodArchive()

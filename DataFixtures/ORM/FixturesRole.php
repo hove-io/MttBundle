@@ -47,7 +47,9 @@ class FixturesRole extends AbstractFixture implements OrderedFixtureInterface
                 'BUSINESS_MANAGE_AREA',
                 'BUSINESS_LIST_LAYOUT_CONFIG',
                 'BUSINESS_MANAGE_LAYOUT_CONFIG',
-                'BUSINESS_MANAGE_CUSTOMER'
+                'BUSINESS_MANAGE_CUSTOMER',
+                'BUSINESS_MANAGE_STOP_TIMETABLE',
+                'BUSINESS_MANAGE_LINE_TIMETABLE'
             )
         ),
         array(

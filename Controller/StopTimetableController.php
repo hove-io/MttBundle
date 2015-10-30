@@ -88,7 +88,7 @@ class StopTimetableController extends AbstractController
         $this->addFlashIfSeasonLocked($stopTimetable->getLineConfig()->getSeason());
 
         $layoutId = $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getId();
-        $templatePath = '@CanalTPMtt/Layouts/uploads/' . $layoutId . '/';
+        $templatePath = 'CanalTPMttBundle:Layouts:';
         $templateFile = $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getTemplate(Template::STOP_TYPE)->getPath();
 
         return $this->render(
