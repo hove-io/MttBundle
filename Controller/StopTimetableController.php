@@ -88,11 +88,10 @@ class StopTimetableController extends AbstractController
         $this->addFlashIfSeasonLocked($stopTimetable->getLineConfig()->getSeason());
 
         $layoutId = $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getId();
-        $templatePath = 'CanalTPMttBundle:Layouts:';
         $templateFile = $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getTemplate(Template::STOP_TYPE)->getPath();
 
         return $this->render(
-            $templatePath . $templateFile,
+            'CanalTPMttBundle:Layouts:' . $templateFile,
             array(
                 'pageTitle'             => 'stop_timetable.titles.' . ($editable ? 'edition' : 'preview'),
                 'stopTimetable'         => $stopTimetable,
@@ -114,7 +113,7 @@ class StopTimetableController extends AbstractController
                 'layout'                => $stopTimetable->getLineConfig()->getLayoutConfig(),
                 'editable'              => $editable,
                 'displayMenu'           => $displayMenu,
-                'templatePath'          => $templatePath,
+                'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
                 'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $layoutId . '/',
                 'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $layoutId . '/',
                 'externalStopPointId'   => $stopPointId
