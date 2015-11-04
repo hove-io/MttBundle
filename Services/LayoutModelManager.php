@@ -135,34 +135,31 @@ class LayoutModelManager
         $this->layout->setUpdated(new \DateTime());
 
         // Deleting unused templates
-        foreach ($this->layout->getTemplates() as $template)
-        {
-            if (!array_key_exists($template->getType(), $templates))
-            {
+        foreach ($this->layout->getTemplates() as $template) {
+            if (!array_key_exists($template->getType(), $templates)) {
                 $this->layout->removeTemplate($template);
                 $this->om->remove($template);
             }
         }
 
         // Adding/updating templates
-        foreach ($templates as $templateType => $templateConfig)
-        {
-            if (!in_array($templateType, $this->layout->getTemplatesTypes()))
-            {
+        foreach ($templates as $templateType => $templateConfig) {
+            $templatePath = 'uploads/'.$this->layout->getId().'/'.$templateConfig['file'];
+
+            if (!in_array($templateType, $this->layout->getTemplatesTypes())) {
                 $template = new Template();
 
                 $template->setType($templateType);
-                $template->setPath($templateConfig['file']);
+                $template->setPath($templatePath);
 
                 $this->om->persist($template);
                 $this->layout->addTemplate($template);
-            }
-            else
-            {
+            } else {
                 $template = $this->layout->getTemplate($templateType);
 
-                if ($template->getPath() != $templateConfig['file'])
-                    $template->setPath($templateConfig['file']);
+                if ($template->getPath() != $templatePath) {
+                    $template->setPath($templatePath);
+                }
 
                 $template->setUpdated(new \DateTime());
                 $this->om->persist($template);
