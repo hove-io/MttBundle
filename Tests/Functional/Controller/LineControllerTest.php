@@ -16,7 +16,7 @@ class LineControllerTest extends AbstractControllerTest
                 'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
                 'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
                 'seasonId' => Fixture::SEASON_ID,
-                'line_id' => $line_id
+                'externalLineId' => $line_id
             )
         );
     }

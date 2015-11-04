@@ -1,0 +1,37 @@
+{% extends "CanalTPMttBundle::generic_list.html.twig" %}
+
+{% block breadcrumb %}
+    <li>{{ 'menu.edit_timetables'|trans }}</li>
+{% endblock %}
+
+{% block list_title %}
+    {{ 'menu.line_timetable.list'|trans }}
+{% endblock %}
+
+{% block list_menu %}
+    <h4>
+        {{ 'global.line_label'|trans }}
+        <span class="line-code" style="background-color: #{{ externalLineData.color }}">
+            {{ externalLineData.code }}
+        </span>
+    </h4>
+
+    {% block line_comment %}
+        {% if externalLineData.comment %}
+            <p>{{ externalLineData.comment }}</p>
+        {% endif %}
+    {% endblock %}
+
+    {% if (is_granted('BUSINESS_CHOOSE_LAYOUT')) %}
+        {% if seasons is empty %}
+            {{ 'season.please_create_before_continue'|trans({}, 'default') }}
+            <a class="btn btn-default" href="{{ path('canal_tp_mtt_season_list', {'externalNetworkId': externalNetworkId}) }}">
+                {{ 'season.create'|trans({}, 'default') }}
+            </a>
+        {% else %}
+            <a class="btn btn-default pull-right{% if currentSeason.locked %} disabled{% endif %}" href="#" data-toggle="modal" data-target="#base-modal" data-remote="{{ path('canal_tp_mtt_line_choose_layout', {'externalNetworkId': externalNetworkId, 'seasonId': currentSeason.id, 'externalLineId': externalLineId}) }}">
+                <span class="glyphicon glyphicon-cog"></span> {{ 'line.choose_layout'|trans({}, 'default') }}
+            </a>
+        {% endif %}
+    {% endif %}
+{% endblock %}

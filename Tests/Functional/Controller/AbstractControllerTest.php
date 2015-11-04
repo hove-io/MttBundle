@@ -49,12 +49,12 @@ abstract class AbstractControllerTest extends SamBaseTestController
         return array_pop($seasons);
     }
 
-    protected function getTimetable($extRouteId)
+    protected function getStopTimetable($extRouteId)
     {
-        $tt = $this->getRepository('CanalTPMttBundle:Timetable')->findOneByExternalRouteId($extRouteId);
+        $tt = $this->getRepository('CanalTPMttBundle:StopTimetable')->findOneByExternalRouteId($extRouteId);
 
         if (count($tt) == 0) {
-            throw new \RuntimeException('No timetable');
+            throw new \RuntimeException('No StopTimetable');
         }
 
         return $tt;

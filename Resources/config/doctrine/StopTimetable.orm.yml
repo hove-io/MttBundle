@@ -1,7 +1,7 @@
-CanalTP\MttBundle\Entity\Timetable:
+CanalTP\MttBundle\Entity\StopTimetable:
     type: entity
-    table: mtt.timetable
-    repositoryClass: CanalTP\MttBundle\Entity\TimetableRepository
+    table: mtt.stop_timetable
+    repositoryClass: CanalTP\MttBundle\Entity\StopTimetableRepository
     fields:
         id:
             type: integer
@@ -9,7 +9,7 @@ CanalTP\MttBundle\Entity\Timetable:
             generator:
                 strategy: SEQUENCE
             sequenceGenerator:
-                sequenceName: mtt.timetable_id_seq
+                sequenceName: mtt.stop_timetable_id_seq
                 allocationSize: 1
                 initialValue: 1
         externalRouteId:
@@ -27,24 +27,25 @@ CanalTP\MttBundle\Entity\Timetable:
                 timestampable:
                     on: update
     uniqueConstraints:
-        timetable_external_route_idx:
+        stop_timetable_external_route_idx:
             columns: [ line_config_id, external_route_id ]
     oneToMany:
         blocks:
             targetEntity: Block
-            mappedBy: timetable
+            mappedBy: stopTimetable
             orderBy:
                 domId: ASC
             cascade:
                 - remove
         stopPoints:
             targetEntity: StopPoint
-            mappedBy: timetable
+            mappedBy: stopTimetable
             cascade:
                 - remove
     manyToOne:
         line_config:
             targetEntity: LineConfig
+            inversedBy: timetables
             joinColumn:
                 name: line_config_id
                 referencedColumnName: id

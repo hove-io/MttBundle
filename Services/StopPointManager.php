@@ -69,11 +69,11 @@ class StopPointManager
         }
     }
 
-    // TODO: mutualize with timetable manager?
+    // TODO: mutualize with stopTimetable manager?
     private function initBlocks()
     {
         $blocks = array();
-        $stopPointBlocks = $this->repository->getBlocks($this->stopPoint, $this->timetable);
+        $stopPointBlocks = $this->repository->getBlocks($this->stopPoint, $this->stopTimetable);
 
         if (!empty($stopPointBlocks)) {
             foreach ($stopPointBlocks as $block) {
@@ -90,20 +90,20 @@ class StopPointManager
      * @param  Line      $line                Line Entity
      * @return stopPoint
      */
-    public function getStopPoint($externalStopPointId, $timetable, $externalCoverageId)
+    public function getStopPoint($externalStopPointId, $stopTimetable, $externalCoverageId)
     {
         $this->stopPoint = $this->repository->findOneBy(array(
             'externalId' => $externalStopPointId,
-            'timetable' => $timetable->getId()
+            'stopTimetable' => $stopTimetable->getId()
         ));
-        $this->timetable = $timetable;
+        $this->stopTimetable = $stopTimetable;
         if (!empty($this->stopPoint)) {
             $this->initBlocks();
         } else {
             $this->stopPoint = new StopPoint();
 
             $this->stopPoint->setExternalId($externalStopPointId);
-            $this->stopPoint->setTimetable($timetable);
+            $this->stopPoint->setStopTimetable($stopTimetable);
         }
 
         $this->initStopPoint($externalCoverageId);
@@ -141,7 +141,7 @@ class StopPointManager
      *
      * @return array
      */
-    public function enhanceStopPoints($stopPoints, $timetable)
+    public function enhanceStopPoints($stopPoints, $stopTimetable)
     {
         $externalStopPointIds = array();
         $stopPointsIndexed = array();
@@ -157,8 +157,8 @@ class StopPointManager
             ->where("stopPoint.externalId IN(:externalStopPointIds)")
             ->from('CanalTPMttBundle:StopPoint', 'stopPoint')
             ->setParameter('externalStopPointIds', array_values($externalStopPointIds))
-            ->andWhere("stopPoint.timetable = :timetableId")
-            ->setParameter('timetableId', $timetable->getId())
+            ->andWhere("stopPoint.stopTimetable = :stopTimetableId")
+            ->setParameter('stopTimetableId', $stopTimetable->getId())
             ->getQuery();
         $db_stop_points = $query->getResult();
         // add pdf generation date and Hash to stop points
@@ -238,14 +238,14 @@ class StopPointManager
      * Return StopPoint
      *
      * @param  Object $block
-     * @param  Object $destTimetable
+     * @param  Object $destStopTimetable
      * @param  Object $destStopPoint
      * @return line
      */
-    public function copy($stopPoint, $destTimetable)
+    public function copy($stopPoint, $destStopTimetable)
     {
         $stopPointCloned = clone $stopPoint;
-        $stopPointCloned->setTimetable($destTimetable);
+        $stopPointCloned->setStopTimetable($destStopTimetable);
 
         $this->om->persist($stopPointCloned);
 

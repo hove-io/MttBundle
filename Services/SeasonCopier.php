@@ -8,7 +8,7 @@ class SeasonCopier
 {
     private $om = null;
     private $lineManager = null;
-    private $timetableManager = null;
+    private $stopTimetableManager = null;
     private $blockManager = null;
     private $frequencyManager = null;
     private $stopPointManager = null;
@@ -16,7 +16,7 @@ class SeasonCopier
     public function __construct(
         ObjectManager $om,
         LineManager $lineManager,
-        TimetableManager $timetableManager,
+        StopTimetableManager $stopTimetableManager,
         StopPointManager $stopPointManager,
         BlockManager $blockManager,
         FrequencyManager $frequencyManager
@@ -24,48 +24,48 @@ class SeasonCopier
     
         $this->om = $om;
         $this->lineManager = $lineManager;
-        $this->timetableManager = $timetableManager;
+        $this->stopTimetableManager = $stopTimetableManager;
         $this->stopPointManager = $stopPointManager;
         $this->blockManager = $blockManager;
         $this->frequencyManager = $frequencyManager;
     }
 
-    public function copyBlocksForStopPoint($origStopPoint, $destStopPoint, $destTimetable)
+    public function copyBlocksForStopPoint($origStopPoint, $destStopPoint, $destStopTimetable)
     {
         foreach ($origStopPoint->getBlocks() as $origBlock) {
-            $this->blockManager->copy($origBlock, $destTimetable, $destStopPoint);
+            $this->blockManager->copy($origBlock, $destStopTimetable, $destStopPoint);
         }
     }
 
-    public function copyBlocksForTimetable($origTimetable, $destTimetable)
+    public function copyBlocksForStopTimetable($origStopTimetable, $destStopTimetable)
     {
-        $origBlocks = $this->om->getRepository('CanalTPMttBundle:Timetable')
-            ->findBlocksByTimetableIdOnly($origTimetable->getId());
+        $origBlocks = $this->om->getRepository('CanalTPMttBundle:StopTimetable')
+            ->findBlocksByStopTimetableIdOnly($origStopTimetable->getId());
 
         foreach ($origBlocks as $origBlock) {
-            $this->blockManager->copy($origBlock, $destTimetable);
+            $this->blockManager->copy($origBlock, $destStopTimetable);
         }
     }
 
-    public function copyStopPoints($origTimetable, $destTimetable)
+    public function copyStopPoints($origStopTimetable, $destStopTimetable)
     {
         $stopPoints = $this->om->getRepository('CanalTPMttBundle:StopPoint')
-            ->findByTimetable($origTimetable);
+            ->findByStopTimetable($origStopTimetable);
 
         foreach ($stopPoints as $origStopPoint) {
-            $destStopPoint = $this->stopPointManager->copy($origStopPoint, $destTimetable);
+            $destStopPoint = $this->stopPointManager->copy($origStopPoint, $destStopTimetable);
 
-            $this->copyBlocksForStopPoint($origStopPoint, $destStopPoint, $destTimetable);
+            $this->copyBlocksForStopPoint($origStopPoint, $destStopPoint, $destStopTimetable);
         }
-        $this->copyBlocksForTimetable($origTimetable, $destTimetable);
+        $this->copyBlocksForStopTimetable($origStopTimetable, $destStopTimetable);
     }
 
-    public function copyTimetables($origLineConfig, $destLineConfig)
+    public function copyStopTimetables($origLineConfig, $destLineConfig)
     {
-        foreach ($origLineConfig->getTimetables() as $origTimetable) {
-            $destTimetable = $this->timetableManager->copy($origTimetable, $destLineConfig);
+        foreach ($origLineConfig->getStopTimetables() as $origStopTimetable) {
+            $destStopTimetable = $this->stopTimetableManager->copy($origStopTimetable, $destLineConfig);
 
-            $this->copyStopPoints($origTimetable, $destTimetable);
+            $this->copyStopPoints($origStopTimetable, $destStopTimetable);
         }
     }
 
@@ -74,7 +74,7 @@ class SeasonCopier
         foreach ($lineConfigs as $origLineConfig) {
             $destLineConfig = $this->lineManager->copy($origLineConfig, $destSeason);
 
-            $this->copyTimetables($origLineConfig, $destLineConfig);
+            $this->copyStopTimetables($origLineConfig, $destLineConfig);
         }
     }
 

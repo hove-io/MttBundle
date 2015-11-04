@@ -2,12 +2,14 @@
 
 namespace CanalTP\MttBundle\Services;
 
-use CanalTP\MttBundle\Entity\Layout;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Yaml\Yaml;
+
+use CanalTP\MttBundle\Entity\Layout;
+use CanalTP\MttBundle\Entity\Template;
 
 class LayoutModelManager
 {
@@ -55,10 +57,11 @@ class LayoutModelManager
             $id = $this->getUniqueId($layout);
 
             $this->saveInDb(
-                $config['label'],
-                'uploads/' . $id . '/' . $config['templateName'],
-                '/bundles/canaltpmtt/img/uploads/' . $id . '/' . $config['previewFileName'],
-                $config['orientation'],
+                'uploads/'.$id.'/',
+                $config['layout']['label'],
+               '/bundles/canaltpmtt/img/uploads/'.$id.'/'.$config['layout']['previewFileName'],
+                $config['layout']['orientation'],
+                $config['templates'],
                 isset($config['pageSize']) ? $config['pageSize'] : Layout::PAGE_SIZE_A4
             );
 
@@ -132,13 +135,12 @@ class LayoutModelManager
         return $layout->getId();
     }
 
-    protected function saveInDb($label, $twigPath, $previewPath, $orientation, $pageSize = Layout::PAGE_SIZE_A4)
-    {
+(??)    protected function saveInDb($path, $label, $previewPath, $orientation, $templates)
+(??)    {
         // Do not change the name if we update the layout
         if (null === $this->layout->getLabel()) {
             $this->layout->setLabel($label);
         }
-        $this->layout->setPath($twigPath);
         $this->layout->setPreviewPath($previewPath);
         $this->layout->setOrientation($orientation);
         $this->layout->setPageSize($pageSize);
@@ -146,7 +148,40 @@ class LayoutModelManager
         $this->layout->setCssVersion(1);
         $this->layout->setUpdated(new \DateTime());
 
-        $this->om->flush($this->layout);
+        // Deleting unused templates
+        foreach ($this->layout->getTemplates() as $template) {
+            if (!array_key_exists($template->getType(), $templates)) {
+                $this->layout->removeTemplate($template);
+                $this->om->remove($template);
+            }
+        }
+
+        // Adding/updating templates
+        foreach ($templates as $templateType => $templateConfig) {
+            $templatePath = 'uploads/'.$this->layout->getId().'/'.$templateConfig['file'];
+
+            if (!in_array($templateType, $this->layout->getTemplatesTypes())) {
+                $template = new Template();
+
+                $template->setType($templateType);
+                $template->setPath($templatePath);
+
+                $this->om->persist($template);
+                $this->layout->addTemplate($template);
+            } else {
+                $template = $this->layout->getTemplate($templateType);
+
+                if ($template->getPath() != $templatePath) {
+                    $template->setPath($templatePath);
+                }
+
+                $template->setUpdated(new \DateTime());
+                $this->om->persist($template);
+            }
+        }
+
+        $this->om->persist($this->layout);
+        $this->om->flush();
     }
 
     /**
