@@ -2,6 +2,8 @@
 
 namespace CanalTP\MttBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -23,19 +25,14 @@ class Layout extends AbstractEntity
     private $label;
 
     /**
-     * @var string
+     * @var array
      */
-    private $path;
+    private $orientation = self::ORIENTATION_LANDSCAPE;
 
     /**
      * @var string
      */
     private $previewPath;
-
-    /**
-     * @var array
-     */
-    private $orientation = self::ORIENTATION_LANDSCAPE;
 
     /**
      * @var array
@@ -48,16 +45,31 @@ class Layout extends AbstractEntity
     private $cssVersion;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
     private $layoutConfigs;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
     private $customers;
 
+    /**
+     * @var Collection
+     */
+    private $templates;
+
     protected $file;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->layoutConfigs = new ArrayCollection();
+        $this->customers = new ArrayCollection();
+        $this->templates = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -93,55 +105,9 @@ class Layout extends AbstractEntity
     }
 
     /**
-     * Set customers
-     *
-     * @param  string       $customers
-     * @return LayoutConfig
-     */
-    public function setCustomers($customers)
-    {
-        $this->customers = $customers;
-
-        return $this;
-    }
-
-    /**
-     * Get customers
-     *
-     * @return string
-     */
-    public function getCustomers()
-    {
-        return $this->customers;
-    }
-
-    /**
-     * Set path
-     *
-     * @param  string $path
-     * @return Layout
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    /**
      * Set previewPath
      *
-     * @param  string $previewPath
+     * @param string $previewPath
      * @return Layout
      */
     public function setPreviewPath($previewPath)
@@ -185,7 +151,7 @@ class Layout extends AbstractEntity
     }
 
     /**
-     * Get orientation
+     * Get orientation as string
      *
      * @return array
      */
@@ -241,9 +207,33 @@ class Layout extends AbstractEntity
     }
 
     /**
+     * Set customers
+     *
+     * @param Collection $customers
+     * @return LayoutConfig
+     */
+    public function setCustomers(Collection $customers)
+    {
+        $this->customers = $customers;
+
+        return $this;
+    }
+
+    /**
+     * Get customers
+     *
+     * @return Collection
+     */
+    public function getCustomers()
+    {
+        return $this->customers;
+    }
+
+
+    /**
      * Set LayoutConfigs
      *
-     * @return Collections\Collection
+     * @return Collection
      */
     public function getLayoutConfigs()
     {
@@ -262,20 +252,113 @@ class Layout extends AbstractEntity
         return ($this);
     }
 
-    public function __toString()
-    {
-        return $this->label;
-    }
-
+    /**
+     * Get file
+     *
+     * @return Layout
+     */
     public function getFile()
     {
         return $this->file;
+
+        return $this;
     }
 
+    /**
+     * Set file
+     *
+     * @param string $file
+     */
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
 
         return $this;
+    }
+
+    /**
+     * Get templates
+     *
+     * @return Collection
+     */
+    public function getTemplates()
+    {
+        return $this->templates;
+    }
+
+    /**
+     * Get template
+     *
+     * @param string $type
+     * @return Template or null
+     */
+    public function getTemplate($type)
+    {
+        foreach ($this->templates as $template)
+        {
+            if ($template->getType() == $type)
+                return $template;
+        }
+
+        return null;
+    }
+
+    /**
+     * Get templatesTypes
+     *
+     * @return array
+     */
+    public function getTemplatesTypes()
+    {
+        $templateTypes = array();
+
+        foreach ($this->templates as $template)
+            $templateTypes[] = $template->getType();
+
+        return $templateTypes;
+    }
+
+    /**
+     * Set templates
+     *
+     * @param Collection $templates
+     * @return Layout
+     */
+    public function setTemplates(Collection $templates)
+    {
+        $this->templates = $templates;
+
+        return $this;
+    }
+
+    /**
+     * Add template
+     *
+     * @param Template $template
+     * @return Layout
+     */
+    public function addTemplate(Template $template)
+    {
+        $this->templates->add($template);
+
+        return $this;
+    }
+
+    /**
+     * Remove template
+     *
+     * @param Template $template
+     * @return Layout
+     */
+    public function removeTemplate(Template $template)
+    {
+        $this->templates->removeElement($template);
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->label;
     }
 }

@@ -17,7 +17,7 @@ class BlockControllerTest extends AbstractControllerTest
                 'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
                 'block_type' => $type,
                 'dom_id' => 'text_block_2',
-                'timetableId' => 1,
+                'stopTimetableId' => 1,
                 'stop_point' => false
             )
         );

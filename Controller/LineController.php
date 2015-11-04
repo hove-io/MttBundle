@@ -31,17 +31,31 @@ class LineController extends AbstractController
             )
         );
 
-        return $this->redirect(
-            $this->generateUrl(
-                'canal_tp_mtt_stop_point_list',
+        if (empty($params['externalRouteId']))
+        {
+            return $this->redirectToRoute(
+                'canal_tp_mtt_line_timetable_list',
                 array(
-                    'externalNetworkId'        => $params['externalNetworkId'],
-                    'line_id'           => $params['line_id'],
-                    'seasonId'          => $season->getId(),
-                    'externalRouteId'   => $params['externalRouteId'],
+                    'externalNetworkId' => $params['externalNetworkId'],
+                    'externalLineId'    => $params['externalLineId'],
+                    'seasonId'          => $season->getId()
                 )
-            )
-        );
+            );
+        }
+        else
+        {
+            return $this->redirect(
+                $this->generateUrl(
+                    'canal_tp_mtt_stop_point_list',
+                    array(
+                        'externalNetworkId' => $params['externalNetworkId'],
+                        'externalLineId'    => $params['externalLineId'],
+                        'seasonId'          => $season->getId(),
+                        'externalRouteId'   => $params['externalRouteId'],
+                    )
+                )
+            );
+        }
     }
 
     /*
@@ -50,9 +64,9 @@ class LineController extends AbstractController
      */
     public function chooseLayoutAction(
         $externalNetworkId,
-        $line_id,
+        $externalLineId,
         $seasonId,
-        $externalRouteId
+        $externalRouteId = null
     )
     {
         $this->isGranted('BUSINESS_CHOOSE_LAYOUT');
@@ -69,11 +83,11 @@ class LineController extends AbstractController
 
         $params = array(
             'externalNetworkId' => $externalNetworkId,
-            'line_id'           => $line_id,
+            'externalLineId'    => $externalLineId,
             'externalRouteId'   => $externalRouteId
         );
         $lineConfig = $this->get('canal_tp_mtt.line_manager')->getLineConfigWithSeasonByExternalLineId(
-            $line_id,
+            $externalLineId,
             $season
         );
 
@@ -87,7 +101,7 @@ class LineController extends AbstractController
 
         $form->handleRequest($this->getRequest());
         if ($form->isValid()) {
-            return ($this->processForm($form, $season, $params, $line_id));
+            return ($this->processForm($form, $season, $params, $externalLineId));
         } else {
             return $this->render(
                 'CanalTPMttBundle:Line:chooseLayout.html.twig',

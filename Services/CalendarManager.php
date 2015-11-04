@@ -192,9 +192,9 @@ class CalendarManager
         return $calendar;
     }
 
-    public function getCalendars($externalCoverageId, $timetable, $stopPointInstance)
+    public function getCalendars($externalCoverageId, $stopTimetable, $stopPointInstance)
     {
-        return $this->getCalendarsForStopPointAndTimetable($externalCoverageId, $timetable, $stopPointInstance);
+        return $this->getCalendarsForStopPointAndStopTimetable($externalCoverageId, $stopTimetable, $stopPointInstance);
     }
 
     /**
@@ -231,7 +231,7 @@ class CalendarManager
      * *All* calendars coming from Navitia for this stoppoint are returned
      *
      * @param String $externalCoverageId
-     * @param Object $timetable
+     * @param Object $stopTimetable
      * @param Object $stopPointInstance
      *
      * @return object
@@ -327,40 +327,40 @@ class CalendarManager
     /**
      * Returns Calendars enhanced with schedules for a stop point and a route
      * Datetimes are parsed and response formatted for template
-     * Only calendars added to timetable are kept
+     * Only calendars added to stopTimetable are kept
      *
      * @param String $externalCoverageId
-     * @param Object $timetable
+     * @param Object $stopTimetable
      * @param Object $stopPointInstance
      *
      * @return object
      */
-    public function getCalendarsForStopPointAndTimetable(
+    public function getCalendarsForStopPointAndStopTimetable(
         $externalCoverageId,
-        $timetable,
+        $stopTimetable,
         $stopPointInstance
     )
     {
         $notesComputed = array();
         $calendarsSorted = array();
         // indicates whether to aggregate or dispatch notes
-        $layout = $timetable->getLineConfig()->getLayoutConfig();
+        $layout = $stopTimetable->getLineConfig()->getLayoutConfig();
         $calendarsData = $this->navitia->getStopPointCalendarsData(
             $externalCoverageId,
-            $timetable->getExternalRouteId(),
+            $stopTimetable->getExternalRouteId(),
             $stopPointInstance->getExternalId()
         );
         if (isset($calendarsData->calendars)) {
             $calendarsSorted = $this->sortCalendars($calendarsData->calendars);
         }
-        // calendar blocks are defined on route/timetable level
-        if (count($timetable->getBlocks()) > 0) {
-            foreach ($timetable->getBlocks() as $block) {
+        // calendar blocks are defined on route/stopTimetable level
+        if (count($stopTimetable->getBlocks()) > 0) {
+            foreach ($stopTimetable->getBlocks() as $block) {
                 if ($block->getTypeId() == 'calendar') {
                     $calendar = $this->findCalendar($block->getContent(), $calendarsSorted);
                     $stopSchedulesData = $this->navitia->getCalendarStopSchedulesByRoute(
                         $externalCoverageId,
-                        $timetable->getExternalRouteId(),
+                        $stopTimetable->getExternalRouteId(),
                         $stopPointInstance->getExternalId(),
                         $block->getContent()
                     );
@@ -372,10 +372,10 @@ class CalendarManager
                     $calendar->schedules->additional_informations = $this->generateAdditionalInformations($calendar->schedules->additional_informations);
                     $calendar->notes = $this->purgeAnnotationsNotUsed(
                         $stopSchedulesData,
-                        $timetable->getLineConfig()->getLayoutConfig()
+                        $stopTimetable->getLineConfig()->getLayoutConfig()
                     );
                     $notesComputed = $this->computeNotes(
-                        $timetable->getLineConfig(),
+                        $stopTimetable->getLineConfig(),
                         $notesComputed,
                         $calendar,
                         $layout->aggregatesNotes()

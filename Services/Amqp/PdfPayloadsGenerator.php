@@ -13,7 +13,7 @@ use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Translation\TranslatorInterface;
 
 use CanalTP\MttBundle\Services\Navitia;
-use CanalTP\MttBundle\Services\TimetableManager;
+use CanalTP\MttBundle\Services\StopTimetableManager;
 use CanalTP\MttBundle\Services\StopPointManager;
 use CanalTP\MttBundle\Services\LineManager;
 
@@ -22,7 +22,7 @@ class PdfPayloadsGenerator
     private $co = null;
     private $router = null;
     private $navitia = null;
-    private $timetableManager = null;
+    private $stopTimetableManager = null;
     private $stopPointManager = null;
     private $lineManager = null;
     private $logger = null;
@@ -31,7 +31,7 @@ class PdfPayloadsGenerator
         Container $co,
         Router $router,
         Navitia $navitia,
-        TimetableManager $timetableManager,
+        StopTimetableManager $stopTimetableManager,
         StopPointManager $stopPointManager,
         LineManager $lineManager,
         Logger $logger,
@@ -42,7 +42,7 @@ class PdfPayloadsGenerator
         $this->logger = $logger;
         $this->router = $router;
         $this->navitia = $navitia;
-        $this->timetableManager = $timetableManager;
+        $this->stopTimetableManager = $stopTimetableManager;
         $this->stopPointManager = $stopPointManager;
         $this->lineManager = $lineManager;
         $this->translator = $translator;
@@ -71,7 +71,7 @@ class PdfPayloadsGenerator
         $payload['cssVersion'] = $lineConfig->getLayoutConfig()->getLayout()->getCssVersion();
         $payload['url'] = $this->generatePayloadUrl();
         $payload['url'] .= $this->router->generate(
-            'canal_tp_mtt_timetable_view',
+            'canal_tp_mtt_stop_timetable_view',
             array(
                 'externalNetworkId'     => $perimeter->getExternalNetworkId(),
                 'externalLineId'        => $lineConfig->getExternalLineId(),
@@ -79,10 +79,10 @@ class PdfPayloadsGenerator
                 'seasonId'              => $season->getId(),
                 'externalStopPointId'   => $stopPoint->id,
                 'customerId'            => $this->co->get('security.context')->getToken()->getUser()->getCustomer()->getId(),
-                'timetableOnly'         => true
+                'stopTimetableOnly'         => true
             )
         );
-        $payload['timetableParams'] = array(
+        $payload['stopTimetableParams'] = array(
             'seasonId'              => $season->getId(),
             'externalNetworkId'     => $perimeter->getExternalNetworkId(),
             'externalRouteId'       => $externalRouteId,
@@ -93,14 +93,14 @@ class PdfPayloadsGenerator
         return $payload;
     }
 
-    private function getRouteEnhancedStopPoints($perimeter, $externalRouteId, $timetable)
+    private function getRouteEnhancedStopPoints($perimeter, $externalRouteId, $stopTimetable)
     {
         $routeSchedulesData = $this->navitia->getRouteStopPoints($perimeter, $externalRouteId);
         if (isset($routeSchedulesData->route_schedules[0])) {
-            if (!empty($timetable)) {
+            if (!empty($stopTimetable)) {
                 $stopPoints = $this->stopPointManager->enhanceStopPoints(
                     $routeSchedulesData->route_schedules[0]->table->rows,
-                    $timetable
+                    $stopTimetable
                 );
             } else {
                 $stopPoints = $routeSchedulesData->route_schedules[0]->table->rows;
@@ -110,13 +110,13 @@ class PdfPayloadsGenerator
         return $stopPoints;
     }
 
-    public function getStopPointsPayloads($timetable, $stopPointsExternalIds)
+    public function getStopPointsPayloads($stopTimetable, $stopPointsExternalIds)
     {
-        $lineConfig = $timetable->getLineConfig();
-        $externalRouteId = $timetable->getExternalRouteId();
+        $lineConfig = $stopTimetable->getLineConfig();
+        $externalRouteId = $stopTimetable->getExternalRouteId();
         $season = $lineConfig->getSeason();
         $perimeter = $season->getPerimeter();
-        $routeEnhancedStopPoints = $this->getRouteEnhancedStopPoints($perimeter, $externalRouteId, $timetable);
+        $routeEnhancedStopPoints = $this->getRouteEnhancedStopPoints($perimeter, $externalRouteId, $stopTimetable);
         $payloads = array();
         foreach ($routeEnhancedStopPoints as $enhancedStopPoint) {
             if (in_array($enhancedStopPoint->stop_point->id, $stopPointsExternalIds)) {
@@ -145,11 +145,11 @@ class PdfPayloadsGenerator
                 $externalLineId
             );
             foreach ($routes as $route) {
-                $timetable = $this->timetableManager->findTimetableByExternalRouteIdAndLineConfig(
+                $stopTimetable = $this->stopTimetableManager->findStopTimetableByExternalRouteIdAndLineConfig(
                     $route->id,
                     $lineConfig
                 );
-                $stopPoints = $this->getRouteEnhancedStopPoints($perimeter, $route->id, $timetable);
+                $stopPoints = $this->getRouteEnhancedStopPoints($perimeter, $route->id, $stopTimetable);
                 foreach ($stopPoints as $stopPoint) {
                     $payloads[] = $this->getPayload(
                         $perimeter,
@@ -190,19 +190,19 @@ class PdfPayloadsGenerator
                     $this->logger->addInfo('One pdf in area (' . $area->getId() . ') was not generated.');
                     continue ;
                 }
-                $timetable = $this->timetableManager->getTimetable(
+                $stopTimetable = $this->stopTimetableManager->getStopTimetable(
                     $externalRouteId,
                     $perimeter->getExternalCoverageId(),
                     $lineConfig
                 );
 
-                $routeEnhancedStopPoints = $this->getRouteEnhancedStopPoints($perimeter, $externalRouteId, $timetable);
+                $routeEnhancedStopPoints = $this->getRouteEnhancedStopPoints($perimeter, $externalRouteId, $stopTimetable);
                 foreach ($routeEnhancedStopPoints as $routeEnhancedStopPoint) {
                     if (in_array($routeEnhancedStopPoint->stop_point->id, $areaStopPoints)) {
                         $payloads[] = $this->getPayload(
                             $perimeter,
-                            $timetable->getLineConfig()->getSeason(),
-                            $timetable->getLineConfig(),
+                            $stopTimetable->getLineConfig()->getSeason(),
+                            $stopTimetable->getLineConfig(),
                             $externalRouteId,
                             $routeEnhancedStopPoint->stop_point
                         );

@@ -88,7 +88,7 @@
 {% macro notes(notes, notesType) %}
     {# position is specific to this layout ie i==1... #}
     {% if notes|length > 0 %}
-        <div class="timetable-notes">
+        <div class="stop-timetable-notes">
         {% if notesType == constant('CanalTP\\MttBundle\\Entity\\LayoutConfig::NOTES_TYPE_COLOR') %}
             {% for note in notes %}
                 <div><span class="bold color-reference" style="background-color: {{ note.color }}"></span>: {{ note.value|raw }}</div>
@@ -103,7 +103,7 @@
 {% endmacro %}
 
 {# params string colorAltern    how to style timegrid, color direction, line or column #}
-{% macro calendar(dom_id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, notes, hours_range, linesMin, notesType, colorAltern = 'line') %}
+{% macro calendar(dom_id, stopPointLevel, externalNetworkId, stopTimetable, layout, block, calendar, notes, hours_range, linesMin, notesType, colorAltern = 'line') %}
     {% if linesMin is empty %}
         {% set loopMax = calendar|calendarMax %}
     {% else %}
@@ -123,7 +123,7 @@
                                     'canal_tp_mtt_block_edit',
                                     {
                                         'externalNetworkId':externalNetworkId,
-                                        'timetableId': timetable.id,
+                                        'stopTimetableId': stopTimetable.id,
                                         'dom_id' : dom_id,
                                         'blockId' : block.id,
                                         'block_type' : 'calendar'
@@ -153,7 +153,7 @@
                                     'canal_tp_mtt_block_delete',
                                     {
                                         'externalNetworkId':externalNetworkId,
-                                        'timetableId': timetable.id,
+                                        'stopTimetableId': stopTimetable.id,
                                         'blockId': block.id
                                     }
                                 )

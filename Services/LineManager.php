@@ -23,14 +23,6 @@ class LineManager
         $this->repository = $this->om->getRepository('CanalTPMttBundle:LineConfig');
     }
 
-    public function initTwigPath($lineConfig)
-    {
-        if (empty($lineConfig)) {
-            throw new NotFoundHttpException("LineConfig not found");
-        }
-        $lineConfig->setTwigPath($lineConfig->getLayoutConfig()->getLayout()->getPath());
-    }
-
     public function getLineConfigWithSeasonByExternalLineId($externalLineId, $season)
     {
         return $this->repository
@@ -49,16 +41,12 @@ class LineManager
             )
         );
 
-        $this->initTwigPath($this->lineConfig);
-
         return $this->lineConfig;
     }
 
     public function getLineConfig($lineConfigId)
     {
         $this->lineConfig = $this->repository->find($lineId);
-
-        $this->initTwigPath($this->lineConfig);
 
         return $this->lineConfig;
     }

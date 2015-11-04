@@ -36,3 +36,9 @@ parameters:
         BUSINESS_MANAGE_CUSTOMER:
             label: Administrer les clients
             description: Donner des droits aux clients.
+        BUSINESS_MANAGE_STOP_TIMETABLE:
+            label: Gérer les fiches horaires à l'arrêt
+            description: Edition, impression, consultation
+        BUSINESS_MANAGE_LINE_TIMETABLE:
+            label: Gérer les fiches horaires de ligne
+            description: Edition, impression, consultation
