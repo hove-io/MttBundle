@@ -106,6 +106,13 @@ season:
             <li>Textes que vous avez saisis</li>
             <li>Calendriers que vous avez choisis, s’ils existent encore</li></ul>
 
+line_timetable:
+    flash:
+        saved_stop_points: La sélection des points d'arrêt est sauvegardée
+        reversed: Attention, la sélection actuelle est générée automatiquement par rapport à la sélection des arrêts de l'autre route. Veuillez cliquer sur le bouton 'Enregistrer' pour sauvegarder.
+    message:
+        save_stop_selection: Souhaitez-vous enregistrer les changements avant de changer de route ?
+
 frequency:
     labels:
         start_time: Heure de début

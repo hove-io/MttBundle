@@ -3,6 +3,7 @@
 namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use CanalTP\MttBundle\Entity\Template;
 
 class LineTimetableController extends AbstractController
@@ -32,8 +33,7 @@ class LineTimetableController extends AbstractController
         $this->addFlashIfSeasonLocked($currentSeason);
 
         // No externalLineId provided, get first one found
-        if (empty($externalLineId))
-        {
+        if (empty($externalLineId)) {
             $externalLineId = $navitia->getFirstLineOfNetwork(
                 $perimeter->getExternalCoverageId(),
                 $externalNetworkId
@@ -55,8 +55,7 @@ class LineTimetableController extends AbstractController
                 )
             );
 
-        if (!empty($lineConfig))
-        {
+        if (!empty($lineConfig)) {
             $lineTimetable = $this->get('canal_tp_mtt.line_timetable_manager')
                 ->findOrCreateLineTimetable($lineConfig);
         }
@@ -70,6 +69,100 @@ class LineTimetableController extends AbstractController
                 'externalLineData'  => $externalLineData,
                 'externalLineId'    => $externalLineData->id,
                 'lineTimetable'     => isset($lineTimetable) ? $lineTimetable : null
+            )
+        );
+    }
+
+    /**
+     * Selecting stops displayed in the LineTimetable.
+     *
+     * @param integer $lineTimetableId
+     * @param integer $seasonId
+     * @param string $externalNetworkId
+     * @param string $externalRouteId
+     */
+    public function selectStopsAction(Request $request, $lineTimetableId, $seasonId, $externalNetworkId, $externalRouteId = null)
+    {
+        $this->isGranted('BUSINESS_MANAGE_LINE_TIMETABLE');
+
+        $lineTimetable = $this->getDoctrine()
+            ->getRepository('CanalTPMttBundle:LineTimetable')
+            ->find($lineTimetableId);
+
+        // On POST request, save selected stop points
+        if ($request->isXmlHttpRequest() && $request->getMethod() === 'POST') {
+            try {
+                $this->get('canal_tp_mtt.selected_stop_point_manager')->updateStopPointSelection($request->getContent(), $lineTimetable);
+                $this->addFlash('success', 'line_timetable.flash.saved_stop_points');
+                return $this->redirectToRoute(
+                    'canal_tp_mtt_line_timetable_select_stops',
+                    array(
+                        'lineTimetableId' => $lineTimetableId,
+                        'seasonId' => $seasonId,
+                        'externalNetworkId' => $externalNetworkId,
+                        'externalRouteId' => $externalRouteId
+                    )
+                );
+            } catch (\Exception $e) {
+                return new Response($e->getMessage());
+            }
+        }
+
+        $navitia = $this->get('canal_tp_mtt.navitia');
+        $customer = $this->getUser()->getCustomer();
+
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $customer,
+            $externalNetworkId
+        );
+
+        $seasonManager = $this->get('canal_tp_mtt.season_manager');
+        $seasons = $seasonManager->findByPerimeter($perimeter);
+        $currentSeason = $seasonManager->getSelected($seasonId, $seasons);
+        $this->addFlashIfSeasonLocked($currentSeason);
+
+        $externalLineId = $lineTimetable->getLineConfig()->getExternalLineId();
+        $externalCoverageId = $perimeter->getExternalCoverageId();
+
+        $routes = $navitia->getLineRoutes(
+            $externalCoverageId,
+            $externalNetworkId,
+            $externalLineId
+        );
+
+        if ($externalRouteId == null) {
+            $externalRouteId = $routes[0]->id;
+        }
+
+        $externalLineData = array(
+            'code' => $routes[0]->line->code,
+            'color' => $routes[0]->line->color
+        );
+
+        list($availableStopPoints, $reversed) = $this->get('canal_tp_mtt.selected_stop_point_manager')
+            ->prepareStopsSelection(
+                $externalCoverageId,
+                $externalRouteId,
+                $lineTimetable,
+                $routes
+            );
+
+        if ($reversed) {
+            $this->addFlash('info', 'line_timetable.flash.reversed');
+        }
+
+        return $this->render(
+            'CanalTPMttBundle:LineTimetable:selectStopPoints.html.twig',
+            array(
+                'externalNetworkId'     => $externalNetworkId,
+                'currentSeason'         => $currentSeason,
+                'externalLineId'        => $externalLineId,
+                'externalRouteId'       => $externalRouteId,
+                'lineTimetable'         => $lineTimetable,
+                'externalLineData'      => $externalLineData,
+                'routes'                => $routes,
+                'availableStopPoints'   => $availableStopPoints,
+                'selectedStopPoints'    => $lineTimetable->getSelectedStopPointsByRoute($externalRouteId)
             )
         );
     }

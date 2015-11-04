@@ -1,0 +1,6 @@
+{% macro lineNumber(externalLineData, withLabel = true) %}
+    {% if withLabel %}
+        {{ 'global.line_label'|trans }}
+    {% endif %}
+    <span class="line-code" style="background-color:#{{ externalLineData.color }}">{{ externalLineData.code }}</span>
+{% endmacro %}

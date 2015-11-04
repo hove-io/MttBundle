@@ -8,6 +8,7 @@ parameters:
     canal_tp_mtt.stop_timetable_manager.class: CanalTP\MttBundle\Services\StopTimetableManager
     canal_tp_mtt.line_timetable_manager.class: CanalTP\MttBundle\Services\LineTimetableManager
     canal_tp_mtt.stop_point_manager.class: CanalTP\MttBundle\Services\StopPointManager
+    canal_tp_mtt.selected_stop_point_manager.class: CanalTP\MttBundle\Services\SelectedStopPointManager
     canal_tp_mtt.calendar_manager.class: CanalTP\MttBundle\Services\CalendarManager
     canal_tp_mtt.form.factory.class: CanalTP\MttBundle\Services\BlockTypeFactory
     canal_tp_mtt.form.image_type_extension.class: CanalTP\MttBundle\Form\Extension\ImageTypeExtension
@@ -135,6 +136,9 @@ services:
     canal_tp_mtt.stop_point_manager:
        class: %canal_tp_mtt.stop_point_manager.class%
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia']
+    canal_tp_mtt.selected_stop_point_manager:
+       class: %canal_tp_mtt.selected_stop_point_manager.class%
+       arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia', '@jms_serializer']
     canal_tp_mtt.form.factory.block:
        class: %canal_tp_mtt.form.factory.class%
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canal_tp_mtt.media_manager']

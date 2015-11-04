@@ -75,9 +75,10 @@ class DefaultController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Default:navigation.html.twig',
             array(
-                'result'    => $result,
-                'seasonId'  => $seasonId,
-                'options'   => $options
+                'result'            => $result,
+                'seasonId'          => $seasonId,
+                'options'           => $options,
+                'navigationMode'    => isset($options['navigationMode']) ? $options['navigationMode'] : 'routes'
             )
         );
     }
