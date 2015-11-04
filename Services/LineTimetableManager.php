@@ -3,7 +3,6 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
 use CanalTP\MttBundle\Entity\LineTimetable;
 use CanalTP\MttBundle\Entity\LineConfig;
 

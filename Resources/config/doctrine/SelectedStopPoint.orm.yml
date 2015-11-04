@@ -1,0 +1,41 @@
+CanalTP\MttBundle\Entity\SelectedStopPoint:
+    type: entity
+    table: mtt.selected_stop_point
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        externalRouteId:
+            type: string
+            length: 255
+            column: external_route_id
+            nullable: false
+        externalStopPointId:
+            type: string
+            length: 255
+            column: external_stop_point_id
+            nullable: false
+        rank:
+            type: integer
+            column: rank
+            nullable: false
+        created:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        lineTimetable:
+            targetEntity: LineTimetable
+            inversedBy: selectedStopPoints
+            joinColumn:
+                name: line_timetable_id
+                referencedColumnName: id
