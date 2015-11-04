@@ -196,3 +196,24 @@ li.ui-sortable-helper span {
     bottom: 10px;
     right: 0;
 }
+/* Stop selection view (LineTimetable) */
+.top-menu {
+    margin-bottom:20px;
+}
+li span.stop-name {
+    font-weight:bold;
+    display:inline;
+}
+#available-stops .remove-stop-point {
+    display:none;
+}
+#selected-stops .add-stop-point {
+    display:none;
+}
+li.active .add-stop-point {
+    display:none;
+}
+.sortable-dropzone {
+    background-color:#cccccc;
+    min-height:30px;
+}

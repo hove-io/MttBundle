@@ -39,7 +39,7 @@ abstract class AbstractController extends Controller
      * @param string $message
      * @param array $parameters
      */
-    protected function addFlashMessage($type, $message, $parameters = null)
+    protected function addFlashMessage($type, $message, $parameters = array())
     {
         $this->addFlash(
             $type,
