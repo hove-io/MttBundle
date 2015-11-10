@@ -43,6 +43,7 @@ global:
     orientation:
         landscape: Paysage
         portrait: Portrait
+    go_back: Retour
 
 error:
     element_locked: Cet élément est verrouillé et ne peut être modifié.
