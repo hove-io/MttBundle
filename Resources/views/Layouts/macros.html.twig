@@ -206,3 +206,63 @@
         <b>03 80 11 29 29 - www.divia.fr</b>
     </div>
 {% endmacro %}
+
+{# display a table with a line schedule, its hours for all the stop points on the route #}
+{% macro lineSchedule(calendar, columnsLimit) %}
+    {% set tableNumbers = (calendar.columns/columnsLimit)|round(0, 'ceil') - 1 %}
+    {% for i in 0..tableNumbers %}
+        {# these lines are separators between calendars #}
+        {% if not loop.first %}
+            <tr>
+                <td colspan="{{ columnsLimit+1 }}"></td>
+            </tr>
+            <tr class="separator">
+                <td colspan="{{ columnsLimit+1 }}"></td>
+            </tr>
+        {% endif %}
+
+        {# select next trips metadata #}
+        {% set metadata = calendar.metadata|slice(i*columnsLimit, ((i+1)*columnsLimit)) %}
+        {% for stop in calendar.stops %}
+            {# select next stopTimes #}
+            {% set stopTimes = stop.stopTimes|slice(i*columnsLimit, ((i+1)*columnsLimit)) %}
+            {% if loop.first %}
+                <tr class="notes">
+                    <th></th>
+                    {%- for i in 0..columnsLimit-1 -%}
+                        <td>{{ metadata[i].note.code }}</td>
+                    {%- endfor -%}
+                </tr>
+            {% endif %}
+
+            <tr class="schedule">
+                <th>{{ stop.stopName }}</th>
+                {% for i in 0..columnsLimit-1 %}
+                    {% set class = "" %}
+                    {% if metadata[i].firstHour == stopTimes[i] %}
+                        {% set class = "first-hour" %}
+                    {% endif %}
+                    {% if metadata[i].note %}
+                        {% set class = class ~ " has-note" %}
+                    {% endif %}
+
+                    <td data-toggle="ui-state-default" class="{{ class }}">
+                        {%- if stopTimes[i] -%}
+                            {{ stopTimes[i]|date('H:i') }}
+                        {%- elseif stopTimes|length > i -%}
+                            -
+                        {%- endif -%}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endfor %}
+
+    {# this part force the table width to fit with the maximum number of columns #}
+    <tr class="pattern">
+        <th></th>
+        {%- for i in 1..columnsLimit -%}
+            <td>00:00</td>
+        {%- endfor -%}
+    </tr>
+{% endmacro %}
