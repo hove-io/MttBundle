@@ -29,7 +29,7 @@
     </div>
 
     {% for routeId, route in schedule %}
-        <ul class="nav nav-tabs calendars-tab" id="{{ loop.index }}">
+        <ul class="nav nav-tabs calendars-tab {{ loop.index }}">
             {% for calendar in route.calendars %}
                 <li{% if loop.first %} class="active"{% endif %}>
                     <a href="#{{ loop.parent.loop.index }}-calendar-{{ calendar.id }}" data-toggle="tab">{{ calendar.name }}</a>
@@ -37,7 +37,7 @@
             {% endfor %}
         </ul>
 
-        <div class="tab-content calendars-tab" id="{{ loop.index }}">
+        <div class="tab-content calendars-tab {{ loop.index }}">
             {% for calendar in route.calendars %}
                 <div
                     class="tab-pane fade row pad30t{% if loop.first %} in active{% endif %}"
@@ -65,7 +65,7 @@
         require(['jquery'], function($) {
             $(document).on('change', '#select-route', function() {
                 $('.calendars-tab').hide();
-                $('#'+$(this).val()+'.calendars-tab').show();
+                $('.'+$(this).val()+'.calendars-tab').show();
             });
             $('#select-route').trigger('change');
         });
