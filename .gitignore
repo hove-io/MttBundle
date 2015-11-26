@@ -1,6 +1,7 @@
 vendor
 composer.lock
 *~
+*.swp
 docs/*
 Resources/config/config.media_manager.yml
 Resources/public/img/uploads
