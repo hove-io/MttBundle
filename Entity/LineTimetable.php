@@ -9,7 +9,7 @@ use \Doctrine\Common\Collections\Criteria;
 /**
  * Class LineTimetable
  */
-class LineTimetable extends AbstractEntity
+class LineTimetable extends Timetable
 {
     /**
      * @var integer
@@ -32,6 +32,7 @@ class LineTimetable extends AbstractEntity
     public function __construct()
     {
         $this->selectedStopPoints = new ArrayCollection();
+        $this->blocks = new ArrayCollection();
     }
 
     /**
@@ -45,19 +46,6 @@ class LineTimetable extends AbstractEntity
     }
 
     /**
-     * Set lineConfig
-     *
-     * @param LineConfig $lineConfig
-     * @return LineTimetable
-     */
-    public function setLineConfig(LineConfig $lineConfig = null)
-    {
-        $this->lineConfig = $lineConfig;
-
-        return $this;
-    }
-
-    /**
      * Get lineConfig
      *
      * @return LineConfig
@@ -65,6 +53,19 @@ class LineTimetable extends AbstractEntity
     public function getLineConfig()
     {
         return $this->lineConfig;
+    }
+
+    /**
+     * Set lineConfig
+     *
+     * @param LineConfig $lineConfig
+     * @return Timetable
+     */
+    public function setLineConfig(LineConfig $lineConfig = null)
+    {
+        $this->lineConfig = $lineConfig;
+
+        return $this;
     }
 
     /**
