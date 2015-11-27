@@ -6,11 +6,11 @@
     </div>
 {% endmacro %}
 
-{% macro flash_info(id, imgPath) %}
+{% macro flash_info(id, imgPath, texte = 'Repérez la période "Anis" ou "Cassis" à consulter, grâce à la couleur du jour de votre voyage indiquée sur le "Calendrier Voyageurs"') %}
     <div id="flash_info_top"></div>
     <img class="flash-info" src="{{ asset(imgPath) }}">
     <div id="{{ id }}">
-        <span class="content">Repérez la période "Anis" ou "Cassis" à consulter, grâce à la couleur du jour de votre voyage indiquée sur le "Calendrier Voyageurs"</span>
+        <span class="content">{{texte}}</span>
     </div>
     <div id="flash_info_bottom"></div>
 {% endmacro %}
