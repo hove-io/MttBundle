@@ -115,6 +115,7 @@ line_timetable:
         reversed: Attention, la sélection actuelle est générée automatiquement par rapport à la sélection des arrêts de l'autre route. Veuillez cliquer sur le bouton 'Enregistrer' pour sauvegarder.
     message:
         save_stop_selection: Souhaitez-vous enregistrer les changements avant de changer de route ?
+        empty_calendar: Aucune horaire présente dans ce calendrier.
 
 frequency:
     labels:

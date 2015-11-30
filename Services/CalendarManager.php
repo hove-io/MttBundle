@@ -9,7 +9,6 @@ namespace CanalTP\MttBundle\Services;
 
 use Navitia\Component\Exception\NotFound\UnknownObjectException;
 use Symfony\Component\Translation\TranslatorInterface;
-
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Season;
 
@@ -453,12 +452,17 @@ class CalendarManager
             $schedule[$externalRouteId]['direction'] = $route->name;
 
             foreach ($calendars as $calendar) {
-                $routeSchedules = $this->navitia->getRouteSchedulesByRouteAndCalendar(
-                    $externalCoverageId,
-                    $externalRouteId,
-                    $calendar->id,
-                    \DateTime::createFromFormat('Ymd', $calendar->validity_pattern->beginning_date)
-                );
+                try {
+                    $routeSchedules = $this->navitia->getRouteSchedulesByRouteAndCalendar(
+                        $externalCoverageId,
+                        $externalRouteId,
+                        $calendar->id,
+                        \DateTime::createFromFormat('Ymd', $calendar->validity_pattern->beginning_date)
+                    );
+                } catch(\Exception $e) {
+                    $schedule[$externalRouteId]['calendars'][$calendar->id] = $this->createEmptyLineCalendar($calendar);
+                    continue;
+                }
 
                 $this->prepareRouteSchedules($routeSchedules, $calendar);
 
@@ -475,6 +479,17 @@ class CalendarManager
         }
 
         return $schedule;
+    }
+
+    private function createEmptyLineCalendar(&$calendar)
+    {
+        $data = new \stdClass;
+        $data->route_schedules = array('columns' => 0);
+        $data->notes = array();
+        $data->name = $calendar->name;
+        $data->id = $calendar->id;
+
+        return $data;
     }
 
     private function prepareRouteSchedules(&$routeSchedules, &$calendar)
