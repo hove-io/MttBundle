@@ -251,3 +251,7 @@ li.active .add-stop-point {
 .line-timetable-calendar tr.schedule:nth-child(even) {
     background-color:inherit;
 }
+.line-timetable-calendar tr .empty-calendar {
+    font-weight:bold;
+    font-size:12px;
+}
