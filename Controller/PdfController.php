@@ -4,6 +4,13 @@ namespace CanalTP\MttBundle\Controller;
 
 class PdfController extends AbstractController
 {
+    /**
+     * Downloading the PDF file relative to a stopPoint
+     *
+     * @param integer $lineConfigId
+     * @param string $externalRouteId
+     * @param string $externalStopPointId
+     */
     public function downloadAction($externalRouteId, $externalStopPointId, $lineConfigId)
     {
         $mediaManager = $this->get('canal_tp_mtt.media_manager');
@@ -17,6 +24,13 @@ class PdfController extends AbstractController
         return $this->redirect($mediaManager->getUrlByMedia($media));
     }
 
+    /**
+     * Launching the PDF file generation for a specific stopPoint
+     *
+     * @param integer $stopTimetableId
+     * @param string $externalNetworkId
+     * @param string $externalStopPointId
+     */
     public function generateAction($stopTimetableId, $externalNetworkId, $externalStopPointId)
     {
         $this->isGranted('BUSINESS_GENERATE_PDF');

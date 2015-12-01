@@ -39,11 +39,6 @@ CanalTP\MttBundle\Entity\Block:
             joinColumn:
                 name: stop_timetable_id
                 referencedColumnName: id
-        stopPoint:
-            targetEntity: StopPoint
-            joinColumn:
-                name: stop_point_id
-                referencedColumnName: id
     oneToMany:
         frequencies:
             targetEntity: Frequency

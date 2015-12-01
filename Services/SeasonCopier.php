@@ -30,34 +30,20 @@ class SeasonCopier
         $this->frequencyManager = $frequencyManager;
     }
 
-    public function copyBlocksForStopPoint($origStopPoint, $destStopPoint, $destStopTimetable)
-    {
-        foreach ($origStopPoint->getBlocks() as $origBlock) {
-            $this->blockManager->copy($origBlock, $destStopTimetable, $destStopPoint);
-        }
-    }
-
-    public function copyBlocksForStopTimetable($origStopTimetable, $destStopTimetable)
-    {
-        $origBlocks = $this->om->getRepository('CanalTPMttBundle:StopTimetable')
-            ->findBlocksByStopTimetableIdOnly($origStopTimetable->getId());
-
-        foreach ($origBlocks as $origBlock) {
-            $this->blockManager->copy($origBlock, $destStopTimetable);
-        }
-    }
-
     public function copyStopPoints($origStopTimetable, $destStopTimetable)
     {
         $stopPoints = $this->om->getRepository('CanalTPMttBundle:StopPoint')
             ->findByStopTimetable($origStopTimetable);
 
         foreach ($stopPoints as $origStopPoint) {
-            $destStopPoint = $this->stopPointManager->copy($origStopPoint, $destStopTimetable);
-
-            $this->copyBlocksForStopPoint($origStopPoint, $destStopPoint, $destStopTimetable);
+            $this->stopPointManager->copy($origStopPoint, $destStopTimetable);
         }
-        $this->copyBlocksForStopTimetable($origStopTimetable, $destStopTimetable);
+
+        $origBlocks = $origStopTimetable->getBlocks();
+
+        foreach ($origBlocks as $origBlock) {
+            $this->blockManager->copy($origBlock, $destStopTimetable);
+        }
     }
 
     public function copyStopTimetables($origLineConfig, $destLineConfig)

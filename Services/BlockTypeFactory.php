@@ -17,6 +17,7 @@ use CanalTP\MttBundle\Form\Type\Block\ImgType as ImgBlockType;
 use CanalTP\MttBundle\Form\Handler\Block\ImgHandler as ImgBlockHandler;
 // Calendar Block
 use CanalTP\MttBundle\Form\Type\Block\CalendarType as CalendarBlockType;
+use CanalTP\MttBundle\Entity\Block;
 
 class BlockTypeFactory
 {
@@ -44,11 +45,19 @@ class BlockTypeFactory
         $this->formFactory = $formFactory;
     }
 
-    public function init($type, $data, $instance, $externalCoverageId)
+    /**
+     * Initializing a block with data
+     *
+     * @param string $type
+     * @param array $data
+     * @param Block $block
+     * @param string $externalCoverageId
+     */
+    public function init($type, $data, Block $block = null, $externalCoverageId)
     {
         $this->type = $type;
         $this->data = $data;
-        $this->instance = $instance;
+        $this->instance = $block;
         $this->externalCoverageId = $externalCoverageId;
         $serializer = new Serializer(array(new BlockNormalizer()));
         // store data before we give Entity to forms (used by ImgBlock so far)

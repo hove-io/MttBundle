@@ -69,20 +69,6 @@ class StopPointManager
         }
     }
 
-    // TODO: mutualize with stopTimetable manager?
-    private function initBlocks()
-    {
-        $blocks = array();
-        $stopPointBlocks = $this->repository->getBlocks($this->stopPoint, $this->stopTimetable);
-
-        if (!empty($stopPointBlocks)) {
-            foreach ($stopPointBlocks as $block) {
-                $blocks[$block->getDomId()] = $block;
-            }
-            $this->stopPoint->setBlocks($blocks);
-        }
-    }
-
     /**
      * Return StopPoint with data from navitia
      *
@@ -97,9 +83,7 @@ class StopPointManager
             'stopTimetable' => $stopTimetable->getId()
         ));
         $this->stopTimetable = $stopTimetable;
-        if (!empty($this->stopPoint)) {
-            $this->initBlocks();
-        } else {
+        if (empty($this->stopPoint)) {
             $this->stopPoint = new StopPoint();
 
             $this->stopPoint->setExternalId($externalStopPointId);

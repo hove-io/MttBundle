@@ -14,9 +14,6 @@ class BlockType extends AbstractType
         $builder->add('dom_id', 'hidden', array('data' => $options['data']['dom_id']));
         $builder->add('type_id', 'hidden', array('data' => $options['data']['type_id']));
 
-        if (isset($options['data']['stop_point']) && $options['data']['stop_point'] != null) {
-            $builder->add('stop_point', 'hidden', array('data' => $options['data']['stop_point']));
-        }
         $builder->addEventSubscriber(new SeasonLockedSubscriber());
     }
 
@@ -24,7 +21,7 @@ class BlockType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class'         => 'CanalTP\MttBundle\Entity\Block'
+                'data_class' => 'CanalTP\MttBundle\Entity\Block'
             )
         );
     }
