@@ -80,7 +80,7 @@
     </div>
     {% endif %}
 
-    {% if prevNextStopPoints and stopPointLevel == true %}
+    {% if prevNextStopPoints %}
         {% set route = editable == true ? 'canal_tp_mtt_stop_timetable_edit': 'canal_tp_mtt_stop_timetable_view' %}
         {% if prevNextStopPoints.prev %}
             {% set prev_url = path(

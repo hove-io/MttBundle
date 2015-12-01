@@ -12,7 +12,7 @@ class TimetableControllerTest extends AbstractControllerTest
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
     }
 
-    private function getRoute($route, $seasonId, $externalStopPointId = Fixture::EXTERNAL_STOP_POINT_ID)
+    private function getRoute($route, $seasonId)
     {
         return $this->generateRoute(
             $route,
@@ -20,8 +20,8 @@ class TimetableControllerTest extends AbstractControllerTest
                 'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
                 'externalLineId' => Fixture::EXTERNAL_LINE_ID,
                 'externalRouteId' => Fixture::EXTERNAL_ROUTE_ID,
-                'externalStopPointId' => $externalStopPointId,
-                "seasonId" => $seasonId
+                'externalStopPointId' => Fixture::EXTERNAL_STOP_POINT_ID,
+                'seasonId' => $seasonId
             )
         );
     }

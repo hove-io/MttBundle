@@ -33,29 +33,10 @@ class StopTimetableManager
     private function initAdditionalData($externalRouteId, $externalCoverageId)
     {
         $data = $this->navitia->getRouteData($externalRouteId, $externalCoverageId);
-        $embedded_type = $data->direction->embedded_type;
+        $embeddedType = $data->direction->embedded_type;
 
-        $this->stopTimetable->setTitle($data->direction->$embedded_type->name);
+        $this->stopTimetable->setTitle($data->direction->$embeddedType->name);
         $this->stopTimetable->setDirectionCity(null);
-    }
-
-    /*
-     * get corresponding blocks and index them by dom_id
-     */
-    private function initBlocks()
-    {
-        $stopTimetableBlocks = $this->repository->findBlocksByStopTimetableIdOnly($this->stopTimetable->getId());
-
-        if (count($stopTimetableBlocks) > 0) {
-            $blocks = new ArrayCollection();
-
-            foreach ($stopTimetableBlocks as $block) {
-                $blocks[$block->getDomId()] = $block;
-            }
-            if (count($blocks) > 0) {
-                $this->stopTimetable->setBlocks($blocks);
-            }
-        }
     }
 
     /**
@@ -68,7 +49,6 @@ class StopTimetableManager
     {
         $this->stopTimetable = $this->repository->find($stopTimetableId);
         $this->initAdditionalData($this->stopTimetable->getExternalRouteId(), $externalCoverageId);
-        $this->initBlocks();
 
         return $this->stopTimetable;
     }
@@ -81,9 +61,8 @@ class StopTimetableManager
      */
     public function getStopTimetable($externalRouteId, $externalCoverageId, $lineConfig)
     {
-        $this->stopTimetable = $this->repository->getStopTimetableByRouteExternalId($externalRouteId, $lineConfig);
+        $this->stopTimetable = $this->repository->findOrCreateStopTimetable($externalRouteId, $lineConfig);
         $this->initAdditionalData($externalRouteId, $externalCoverageId);
-        $this->initBlocks();
 
         return $this->stopTimetable;
     }

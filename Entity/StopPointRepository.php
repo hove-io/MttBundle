@@ -12,18 +12,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class StopPointRepository extends EntityRepository
 {
-    public function getBlocks($stopPoint, $stopTimetable)
-    {
-        $result = $this->getEntityManager()->getRepository('CanalTPMttBundle:Block')->findBy(
-            array(
-                'stopPoint' => $stopPoint->getId(),
-                'stopTimetable' => $stopTimetable->getId()
-            )
-        );
-
-        return $result;
-    }
-
     public function updatePdfGenerationInfos($externalStopPointId, $stopTimetable, $hash)
     {
         $stopPoint = $this->getStopPoint($externalStopPointId, $stopTimetable);
@@ -76,17 +64,15 @@ class StopPointRepository extends EntityRepository
 
     public function hasPdfUpToDate($stopPoint, $stopTimetable)
     {
-        $stopTimetableRepo = $this->getEntityManager()->getRepository('CanalTPMttBundle:StopTimetable');
-
         // no stop point
         // no pdf generated yet => return FALSE
         return (!$stopPoint->getPdfGenerationDate() == null ||
             // stopTimetable was modified after pdf generation
             ($this->isUpToDate(
                 $stopPoint->getPdfGenerationDate(),
-                $stopTimetableRepo->findBlocksByStopTimetableIdOnly($stopTimetable->getId())
+                $stopTimetable->getBlocks()
             ) &&
-            $this->isUpToDate($stopPoint->getPdfGenerationDate(), $stopPoint->getBlocks()))
+            $this->isUpToDate($stopPoint->getPdfGenerationDate(), $stopPoint->getStopTimetable()->getBlocks()))
         );
     }
 }

@@ -43,7 +43,7 @@ class ImgHandler extends AbstractHandler
         // }
     // }
 
-    public function process(Block $formBlock, $stopTimetable)
+    public function process(Block $formBlock, $timetable)
     {
         $file = $formBlock->getContent();
         // convert into png if a jpeg was given
@@ -56,12 +56,12 @@ class ImgHandler extends AbstractHandler
             imagedestroy($output);
             imagedestroy($input);
             $pngFile = new File($file->getRealPath() . '.png');
-            $media = $this->mediaManager->saveByStopTimetable($stopTimetable, $pngFile, $this->block->getDomId());
+            $media = $this->mediaManager->saveByStopTimetable($timetable, $pngFile, $this->block->getDomId());
         } else {
-            $media = $this->mediaManager->saveByStopTimetable($stopTimetable, $file, $this->block->getDomId());
+            $media = $this->mediaManager->saveByStopTimetable($timetable, $file, $this->block->getDomId());
         }
         // TODO: saved with domain, we should store without it. Waiting for mediaDataCollector to be updated
         $formBlock->setContent($this->mediaManager->getUrlByMedia($media) . '?' . time());
-        $this->saveBlock($formBlock, $stopTimetable);
+        $this->saveBlock($formBlock, $timetable);
     }
 }

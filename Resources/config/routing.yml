@@ -118,28 +118,35 @@ canal_tp_mtt_line_timetable_show_schedule:
 
 #StopTimetable
 canal_tp_mtt_stop_timetable_edit:
-    pattern: /stopTimetable/edit/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
-    defaults: { _controller: CanalTPMttBundle:StopTimetable:edit, externalStopPointId: null }
+    pattern: /stopTimetable/edit/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}
+    defaults: { _controller: CanalTPMttBundle:StopTimetable:edit }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
-        stopPoint: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        externalRouteId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
 
 canal_tp_mtt_stop_timetable_view:
-    pattern: /stopTimetable/view/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
-    defaults: { _controller: CanalTPMttBundle:StopTimetable:view, externalStopPointId: null }
+    pattern: /stopTimetable/view/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoint/{externalStopPointId}
+    defaults: { _controller: CanalTPMttBundle:StopTimetable:view }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
-        stopPoint: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        externalRouteId: -?[a-zA-Z0-9_\-:]*
+        externalStopPointId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
 
 canal_tp_mtt_stop_timetable_generate_pdf:
-    pattern: /pdf/generate/stopTimetable/{stopTimetableId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
-    defaults: { _controller: CanalTPMttBundle:Pdf:generate}
+    pattern: /pdf/generate/stopTimetable/{stopTimetableId}/networks/{externalNetworkId}/stopPoint/{externalStopPointId}
+    defaults: { _controller: CanalTPMttBundle:Pdf:generate }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        externalStopPointId: -?[a-zA-Z0-9_\-:]*
+        stopTimetableId: \d+
 
 canal_tp_mtt_stop_timetable_download_pdf:
-    pattern: /pdf/generate/routes/{externalRouteId}/stopPoints/{externalStopPointId}/lines/{lineConfigId}
-    defaults: { _controller: CanalTPMttBundle:Pdf:download}
+    pattern: /pdf/generate/line/{lineConfigId}/route/{externalRouteId}/stopPoint/{externalStopPointId}
+    defaults: { _controller: CanalTPMttBundle:Pdf:download }
     requirements:
         lineConfigId: \d+
         externalRouteId: -?[a-zA-Z0-9_\-:]*
@@ -147,20 +154,23 @@ canal_tp_mtt_stop_timetable_download_pdf:
 
 #Block
 canal_tp_mtt_block_edit:
-    # stop point must be the last param so it can be empty
-    pattern: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/stopTimetable/{stopTimetableId}/block_type/{block_type}/stop_point/{stop_point}
-    defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null }
+    pattern: /block/edit/networks/{externalNetworkId}/timetable/{timetableId}/blockType/{blockType}/domId/{domId}
+    defaults: { _controller: CanalTPMttBundle:Block:edit }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        timetableId: \d+
+        blockType: calendar|text|img
+        domId: -?[a-zA-Z0-9_\-:]*
     options:
         expose: true
 
 canal_tp_mtt_block_delete:
-    # stop point must be the last param so it can be empty
-    pattern: /block/delete/networks/{externalNetworkId}/stopTimetable/{stopTimetableId}/blockId/{blockId}
+    pattern: /block/delete/networks/{externalNetworkId}/timetable/{timetableId}/block/{blockId}
     defaults: { _controller: CanalTPMttBundle:Block:delete }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        timetableId: \d+
+        blockId: \d+
 
 #Calendar
 canal_tp_mtt_calendar_view:

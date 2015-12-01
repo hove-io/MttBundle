@@ -40,11 +40,6 @@ class Block extends AbstractEntity
     /**
      * @var Object
      */
-    private $stopPoint;
-
-    /**
-     * @var Object
-     */
     private $frequencies;
 
     public function __construct()
@@ -178,30 +173,6 @@ class Block extends AbstractEntity
     }
 
     /**
-     * Set stopPoint
-     *
-     * @param integer $stopPoint
-     *
-     * @return Block
-     */
-    public function setStopPoint($stopPoint)
-    {
-        $this->stopPoint = $stopPoint;
-
-        return $this;
-    }
-
-    /**
-     * Get stopPoint
-     *
-     * @return string
-     */
-    public function getStopPoint()
-    {
-        return $this->stopPoint;
-    }
-
-    /**
      * Set frequencies
      *
      * @param array $frequencies
@@ -258,8 +229,21 @@ class Block extends AbstractEntity
         return ($this->getTypeId() == BlockRepository::CALENDAR_TYPE);
     }
 
+    /**
+     * Getting the Timetable
+     */
+    public function getTimetable()
+    {
+        return $this->stopTimetable;
+    }
+
+    /**
+     * Checking the timetable is locked or not
+     */
     public function isLocked()
     {
-        return $this->getStopTimetable()->isLocked();
+        $timetable = $this->getTimetable();
+
+        return (!empty($timetable) && ($timetable->isLocked()));
     }
 }
