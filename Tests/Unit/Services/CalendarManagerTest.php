@@ -918,4 +918,51 @@ class CalendarManagerTest extends \PHPUnit_Framework_TestCase
 
         $calendarManager->getCalendarsForLine('coverage:1', 'network:1', 'line:1');
     }
+
+    public function testGetCalendarsWithNavitiaError()
+    {
+        $translator = $this->getMockBuilder('Symfony\Component\Translation\Translator')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $navitia = $this->getMockBuilder('CanalTP\MttBundle\Services\Navitia')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $navitia->expects($this->any())
+            ->method('getLineRoutes')
+            ->will($this->returnValue(self::$routes));
+
+        $navitia->expects($this->any())
+            ->method('getLineCalendars')
+            ->will($this->returnValue(self::$calendars));
+
+        $navitia->expects($this->once())
+            ->method('getRouteSchedulesByRouteAndCalendar')
+            ->will($this->throwException(new \Exception()));
+
+        $calendarManager = new CalendarManager($navitia, $translator);
+
+        $expected = json_decode('
+            {
+                "route:1": {
+                    "direction": "route_1",
+                    "calendars": {
+                        "calendar:1": {
+                            "route_schedules": {
+                                "columns": 0
+                            },
+                            "notes": [],
+                            "name": "calendar_1",
+                            "id": "calendar:1"
+                        }
+                    }
+                }
+            }
+        ', true);
+
+        $result = $calendarManager->getCalendarsForLine('coverage:1', 'network:1', 'line:1');
+
+        $this->assertEquals(json_decode(json_encode($result), true), $expected);
+    }
 }
