@@ -43,9 +43,9 @@ CanalTP\MttBundle\Entity\StopTimetable:
             cascade:
                 - remove
     manyToOne:
-        line_config:
+        lineConfig:
             targetEntity: LineConfig
-            inversedBy: timetables
+            inversedBy: stopTimetables
             joinColumn:
                 name: line_config_id
                 referencedColumnName: id

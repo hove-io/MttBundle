@@ -17,11 +17,6 @@ class LineTimetable extends Timetable
     private $id;
 
     /**
-     * @var LineConfig
-     */
-    private $lineConfig;
-
-    /**
      * @var Collection selectedStopPoints
      */
     private $selectedStopPoints;
@@ -43,29 +38,6 @@ class LineTimetable extends Timetable
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get lineConfig
-     *
-     * @return LineConfig
-     */
-    public function getLineConfig()
-    {
-        return $this->lineConfig;
-    }
-
-    /**
-     * Set lineConfig
-     *
-     * @param LineConfig $lineConfig
-     * @return Timetable
-     */
-    public function setLineConfig(LineConfig $lineConfig = null)
-    {
-        $this->lineConfig = $lineConfig;
-
-        return $this;
     }
 
     /**

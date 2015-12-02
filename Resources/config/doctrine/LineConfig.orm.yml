@@ -28,7 +28,7 @@ CanalTP\MttBundle\Entity\LineConfig:
     oneToMany:
         stopTimetables:
             targetEntity: StopTimetable
-            mappedBy: line_config
+            mappedBy: lineConfig
             cascade:
                 - remove
         lineTimetables:

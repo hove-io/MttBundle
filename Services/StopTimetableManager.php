@@ -98,7 +98,7 @@ class StopTimetableManager
     {
         return $this->repository->findOneBy(array(
             'externalRouteId' => $externalRouteId,
-            'line_config' => $lineConfig->getId(),
+            'lineConfig' => $lineConfig->getId(),
         ));
     }
 
@@ -112,7 +112,7 @@ class StopTimetableManager
     {
         return $this->repository->findOneBy(array(
             'externalRouteId' => $externalRouteId,
-            'line_config' => $lineConfigId
+            'lineConfig' => $lineConfigId
         ));
     }
 
