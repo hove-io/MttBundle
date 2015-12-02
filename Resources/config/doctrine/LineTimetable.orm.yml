@@ -34,3 +34,10 @@ CanalTP\MttBundle\Entity\LineTimetable:
             orderBy: { 'externalRouteId': 'ASC', 'rank': 'ASC' }
             orphanRemoval: true
             fetch: 'EXTRA_LAZY'
+        blocks:
+            targetEntity: Block
+            mappedBy: lineTimetable
+            orderBy:
+                rank: ASC
+            cascade: ['remove']
+            fetch: 'EXTRA_LAZY'
