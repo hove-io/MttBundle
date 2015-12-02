@@ -222,4 +222,41 @@ li.active .add-stop-point {
     background-color:#cccccc;
     min-height:30px;
 }
-
+/* Schedule view (LineTimetable) */
+.calendars-tab {
+    display:none;
+}
+.line-timetable-calendar {
+    width: 100%;
+}
+.line-timetable-calendar tr {
+    height:14px;
+    vertical-align:middle;
+    font-size:10px;
+}
+.line-timetable-calendar tr.pattern {
+    visibility:hidden;
+}
+.line-timetable-calendar tr.separator {
+    height:3px;
+    background-color:#343434;
+}
+.line-timetable-calendar tr.schedule td {
+    text-align:center;
+}
+.line-timetable-calendar tr.schedule td.first-hour {
+    font-weight:bold;
+}
+.line-timetable-calendar tr.schedule td.has-note {
+    background-color:#444;
+}
+.line-timetable-calendar tr.schedule:nth-child(odd) {
+    background-color:#eee;
+}
+.line-timetable-calendar tr.schedule:nth-child(even) {
+    background-color:inherit;
+}
+.line-timetable-calendar tr .empty-calendar {
+    font-weight:bold;
+    font-size:12px;
+}

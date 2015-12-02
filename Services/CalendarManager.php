@@ -9,7 +9,6 @@ namespace CanalTP\MttBundle\Services;
 
 use Navitia\Component\Exception\NotFound\UnknownObjectException;
 use Symfony\Component\Translation\TranslatorInterface;
-
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Season;
 
@@ -428,6 +427,181 @@ class CalendarManager
         } catch (UnknownObjectException $e) {
             return false;
         }
+
         return false;
+    }
+
+    /**
+     * Returning calendars for a line.
+     *
+     * @param string $externalCoverageId
+     * @param string $externalNetworkId
+     * @param string $externalLineId,
+     */
+    public function getCalendarsForLine(
+        $externalCoverageId,
+        $externalNetworkId,
+        $externalLineId
+    ) {
+        $routes = $this->navitia->getLineRoutes($externalCoverageId, $externalNetworkId, $externalLineId);
+        $calendars = $this->navitia->getLineCalendars($externalCoverageId, $externalNetworkId, $externalLineId);
+
+        $schedule = array();
+        foreach ($routes as $route) {
+            $externalRouteId = $route->id;
+            $schedule[$externalRouteId]['direction'] = $route->name;
+
+            foreach ($calendars as $calendar) {
+                try {
+                    $routeSchedules = $this->navitia->getRouteSchedulesByRouteAndCalendar(
+                        $externalCoverageId,
+                        $externalRouteId,
+                        $calendar->id,
+                        \DateTime::createFromFormat('Ymd', $calendar->validity_pattern->beginning_date)
+                    );
+                } catch(\Exception $e) {
+                    $schedule[$externalRouteId]['calendars'][$calendar->id] = $this->createEmptyLineCalendar($calendar);
+                    continue;
+                }
+
+                $this->prepareRouteSchedules($routeSchedules, $calendar);
+
+                if (count($routeSchedules->route_schedules) == 0) {
+                    throw new \Exception('No stop points found for the route : '.$externalRouteId);
+                }
+
+                $this->buildFullCalendar($routeSchedules);
+
+                unset($routeSchedules->headers, $routeSchedules->exceptions);
+
+                $schedule[$externalRouteId]['calendars'][$calendar->id] = $routeSchedules;
+            }
+        }
+
+        return $schedule;
+    }
+
+    private function createEmptyLineCalendar(&$calendar)
+    {
+        $data = new \stdClass;
+        $data->route_schedules = array('columns' => 0);
+        $data->notes = array();
+        $data->name = $calendar->name;
+        $data->id = $calendar->id;
+
+        return $data;
+    }
+
+    private function prepareRouteSchedules(&$routeSchedules, &$calendar)
+    {
+        $data = new \stdClass;
+        $data->route_schedules = $routeSchedules->route_schedules[0]->table->rows;
+        $data->headers = $routeSchedules->route_schedules[0]->table->headers;
+        $data->notes = isset($routeSchedules->notes) ? $routeSchedules->notes : array();
+        $data->exceptions = isset($routeSchedules->exceptions) ? $routeSchedules->exceptions : array();
+        $data->name = $calendar->name;
+        $data->id = $calendar->id;
+
+        $routeSchedules = $data;
+    }
+
+    /**
+     * Build full calendar.
+     *
+     * @param mixed &$schedule
+     *
+     * Building a full one-line calendar array.
+     * The calendar's structure in JSON is :
+     *  {
+     *      "stops": [
+     *          "0": {
+     *              "stopName": "",
+     *              "stopTimes": []
+     *          },
+     *      ],
+     *      "metadata": {
+     *          "0": {
+     *              "type": "trip",
+     *              "trip": "",
+     *              "firstHour": "",
+     *              "lastHour": "",
+     *              "departureStop": "",
+     *              "arrivalStop": "",
+     *              "note": ""
+     *          }
+     *      }
+     *  }
+     * The metadata describe columns information in the calendar.
+     * It's type is just "trip" at the end of the function but it
+     * can be replaced later by something else (frequency for example).
+     */
+    private function buildFullCalendar(&$schedule)
+    {
+        $calendar = array(
+            'columns' => count($schedule->route_schedules[0]->date_times),
+            'stops' => array(),
+            'metadata' => array()
+        );
+
+        foreach ($schedule->route_schedules as $lineNumber => $stop) {
+            $stopTimes = array();
+            $previousDatetime = null;
+            $dayOffset = false;
+            foreach ($stop->date_times as $columnNumber => $detail) {
+                if (empty($detail->date_time)) {
+                    if (!isset($calendar['metadata'][$columnNumber])) {
+                        $calendar['metadata'][$columnNumber] = null;
+                    }
+                    $stopTimes[] = null;
+                } else {
+                    // Detecting day change by hours comparison
+                    if ($previousDatetime && !$dayOffset && $previousDatetime > intVal($detail->date_time)) {
+                        $dayOffset = true;
+                    }
+
+                    $date = strtotime($detail->date_time);
+                    if ($dayOffset) {
+                        $date = strtotime('+1 day', $date);
+                    }
+
+                    $stopTimes[] = $date;
+
+                    if (!isset($calendar['metadata'][$columnNumber])) {
+                        $trip = null;
+                        if (!empty($detail->links)) {
+                            $tripInfo = array_filter(
+                                $detail->links,
+                                function ($link) {
+                                    return ($link->type == 'vehicle_journey');
+                                }
+                            );
+                            $trip = array_pop($tripInfo)->value;
+                        }
+
+                        $calendar['metadata'][$columnNumber] = array(
+                            'type' => 'trip',
+                            'firstHour' => $date,
+                            'lastHour' => $date,
+                            'trip' => $trip,
+                            'departureStop' => $stop->stop_point->name,
+                            'arrivalStop' => $stop->stop_point->name,
+                        );
+                    } else {
+                        $calendar['metadata'][$columnNumber]['lastHour'] = $date;
+                        $calendar['metadata'][$columnNumber]['arrivalStop'] = $stop->stop_point->name;
+                    }
+
+                    $previousDatetime = intVal($detail->date_time);
+                }
+            }
+
+            $calendar['stops'][$lineNumber] = array(
+                'stopName' => $stop->stop_point->name,
+                'stopExternalId' => $stop->stop_point->id,
+                'stopTimes' => $stopTimes,
+            );
+        }
+
+        $schedule->route_schedules = $calendar;
     }
 }
