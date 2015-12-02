@@ -5,7 +5,7 @@ namespace CanalTP\MttBundle\Entity;
 /**
  * StopTimetable
  */
-class StopTimetable extends AbstractEntity
+class StopTimetable extends Timetable
 {
     /**
      * @var integer
@@ -16,11 +16,6 @@ class StopTimetable extends AbstractEntity
      * @var string
      */
     private $externalRouteId;
-
-    /**
-     * @var Object
-     */
-    private $blocks;
 
     /**
      * @var Object
@@ -41,11 +36,6 @@ class StopTimetable extends AbstractEntity
      * @var string - non persistent
      */
     private $directionCity;
-
-    /**
-     * @var Object - non persistent
-     */
-    private $line_config;
 
     /**
      * Get id
@@ -78,29 +68,6 @@ class StopTimetable extends AbstractEntity
     public function getExternalRouteId()
     {
         return $this->externalRouteId;
-    }
-
-    /**
-     * Set blocks
-     *
-     * @param  array $blocks
-     * @return Line
-     */
-    public function setBlocks($blocks)
-    {
-        $this->blocks = $blocks;
-
-        return $this;
-    }
-
-    /**
-     * Get blocks
-     *
-     * @return array
-     */
-    public function getBlocks()
-    {
-        return $this->blocks;
     }
 
     /**
@@ -193,33 +160,5 @@ class StopTimetable extends AbstractEntity
     public function getNetwork()
     {
         return $this->network;
-    }
-
-     /**
-     * Set lineConfig
-     *
-     * @param LineConfig $lineConfig
-     * @return StopTimetable
-     */
-    public function setLineConfig($lineConfig)
-    {
-        $this->line_config = $lineConfig;
-
-        return $this;
-    }
-
-    /**
-     * Get lineConfig
-     *
-     * @return Object
-     */
-    public function getLineConfig()
-    {
-        return $this->line_config;
-    }
-
-    public function isLocked()
-    {
-        return $this->getLineConfig()->isLocked();
     }
 }

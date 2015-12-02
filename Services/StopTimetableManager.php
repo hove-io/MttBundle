@@ -7,6 +7,7 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use CanalTP\MttBundle\Entity\StopTimetable;
 
 class StopTimetableManager
@@ -46,7 +47,7 @@ class StopTimetableManager
         $stopTimetableBlocks = $this->repository->findBlocksByStopTimetableIdOnly($this->stopTimetable->getId());
 
         if (count($stopTimetableBlocks) > 0) {
-            $blocks = array();
+            $blocks = new ArrayCollection();
 
             foreach ($stopTimetableBlocks as $block) {
                 $blocks[$block->getDomId()] = $block;
@@ -97,7 +98,7 @@ class StopTimetableManager
     {
         return $this->repository->findOneBy(array(
             'externalRouteId' => $externalRouteId,
-            'line_config' => $lineConfig->getId(),
+            'lineConfig' => $lineConfig->getId(),
         ));
     }
 
@@ -111,7 +112,7 @@ class StopTimetableManager
     {
         return $this->repository->findOneBy(array(
             'externalRouteId' => $externalRouteId,
-            'line_config' => $lineConfigId
+            'lineConfig' => $lineConfigId
         ));
     }
 

@@ -59,7 +59,7 @@ class PdfGenCompletionLib
             $stopTimetable = $this->stopTimetableRepo->findOneBy(
                 array(
                     'externalRouteId' => $ack->getPayload()->stopTimetableParams->externalRouteId,
-                    'line_config' => $lineConfig->getId()
+                    'lineConfig' => $lineConfig->getId()
                 )
             );
         }
