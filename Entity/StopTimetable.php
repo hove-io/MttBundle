@@ -38,11 +38,6 @@ class StopTimetable extends Timetable
     private $directionCity;
 
     /**
-     * @var Object - non persistent
-     */
-    private $line_config;
-
-    /**
      * Get id
      *
      * @return integer
@@ -165,28 +160,5 @@ class StopTimetable extends Timetable
     public function getNetwork()
     {
         return $this->network;
-    }
-
-     /**
-     * Set lineConfig
-     *
-     * @param LineConfig $lineConfig
-     * @return StopTimetable
-     */
-    public function setLineConfig($lineConfig)
-    {
-        $this->line_config = $lineConfig;
-
-        return $this;
-    }
-
-    /**
-     * Get lineConfig
-     *
-     * @return Object
-     */
-    public function getLineConfig()
-    {
-        return $this->line_config;
     }
 }

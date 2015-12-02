@@ -22,7 +22,7 @@ class StopTimetableRepository extends EntityRepository
             $stopTimetable = $this->findOneBy(
                 array(
                     'externalRouteId' => $externalRouteId,
-                    'line_config' => $lineConfig->getId(),
+                    'lineConfig' => $lineConfig->getId(),
                 )
             );
         }

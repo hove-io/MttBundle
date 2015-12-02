@@ -25,6 +25,34 @@ class Timetable extends AbstractEntity
     protected $blocks;
 
     /**
+     * @var LineConfig
+     */
+    protected $lineConfig;
+
+    /**
+     * Get lineConfig
+     *
+     * @return LineConfig
+     */
+    public function getLineConfig()
+    {
+        return $this->lineConfig;
+    }
+
+    /**
+     * Set lineConfig
+     *
+     * @param LineConfig $lineConfig
+     * @return Timetable
+     */
+    public function setLineConfig(LineConfig $lineConfig)
+    {
+        $this->lineConfig = $lineConfig;
+
+        return $this;
+    }
+
+    /**
      * Get blocks
      *
      * @return Collection
