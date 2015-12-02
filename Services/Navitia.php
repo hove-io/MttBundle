@@ -84,6 +84,31 @@ class Navitia
         return $response->routes;
     }
 
+    /**
+     * Get line calendars.
+     *
+     * @param string $externalCoverageId
+     * @param string $externalNetworkId
+     * @param string $externalLineId
+     */
+    public function getLineCalendars(
+        $externalCoverageId,
+        $externalNetworkId,
+        $externalLineId
+    ) {
+         $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $externalCoverageId,
+                'path_filter' => 'networks/'.$externalNetworkId.'/lines/'.$externalLineId,
+                'action' => 'calendars'
+            ),
+        );
+        $response = $this->navitia_component->call($query);
+
+        return $response->calendars;
+    }
+
     public function getFirstLineAndRouteOfNetwork($externalCoverageId, $externalNetworkId)
     {
         $linesResponse = $this->navitia_sam->getLines($externalCoverageId, $externalNetworkId);
@@ -430,5 +455,32 @@ class Navitia
         $response->exceptions = isset($stop_schedulesResponse->exceptions) ? $stop_schedulesResponse->exceptions : array();
 
         return $response;
+    }
+
+    /**
+     * Returning route schedules by calendar
+     *
+     * @param string $externalCoverageId
+     * @param string $externalRouteId
+     * @param string $externalCalendarId
+     * @param Datetime $fromDatetime
+     */
+    public function getRouteSchedulesByRouteAndCalendar(
+        $externalCoverageId,
+        $externalRouteId,
+        $externalCalendarId,
+        $fromDatetime
+    ) {
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $externalCoverageId,
+                'action' => 'route_schedules',
+                'path_filter' => 'routes/' . $externalRouteId,
+                'parameters' => '?calendar=' . $externalCalendarId . '&show_codes=true&from_datetime=' . $fromDatetime->format('Ymd')
+            )
+        );
+
+        return $this->navitia_component->call($query);
     }
 }

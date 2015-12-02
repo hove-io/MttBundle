@@ -1,0 +1,73 @@
+{% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
+
+{% import "CanalTPMttBundle:Layouts:macros.html.twig" as macros %}
+{% import "CanalTPMttBundle::macros.html.twig" as rendering %}
+
+{% set externalRouteId = schedule|keys|first %}
+{% set columnsLimit = 15 %}
+
+{% block breadcrumb %}
+    <li>{{ 'menu.edit_timetables'|trans }}</li>
+{% endblock %}
+
+{% block main_content %}
+    <h1>{{ 'line_timetable.title.schedule'|trans({}, 'default') }} {{ rendering.lineNumber(externalLineData, false) }}</h1>
+    <br>
+    <div class="row top-menu">
+        <div class="col-md-2">
+            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-chevron-left"></span> {{ 'global.go_back'|trans }}
+            </a>
+        </div>
+        <div class="col-md-6">
+            <select id="select-route" class="form-control">
+                {% for routeId, route in schedule %}
+                    <option value="{{ loop.index }}" {% if routeId == externalRouteId %}"selected='selected'"{% endif %}>{{ route.direction }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    {% for routeId, route in schedule %}
+        <ul class="nav nav-tabs calendars-tab {{ loop.index }}">
+            {% for calendar in route.calendars %}
+                <li{% if loop.first %} class="active"{% endif %}>
+                    <a href="#{{ loop.parent.loop.index }}-calendar-{{ calendar.id }}" data-toggle="tab">{{ calendar.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="tab-content calendars-tab {{ loop.index }}">
+            {% for calendar in route.calendars %}
+                <div
+                    class="tab-pane fade row pad30t{% if loop.first %} in active{% endif %}"
+                    id="{{ loop.parent.loop.index }}-calendar-{{ calendar.id }}"
+                >
+                    <div class="panel-body clearfix">
+                        <table class="line-timetable-calendar">
+                            <tbody>
+                                {{ macros.lineSchedule(calendar.route_schedules, columnsLimit) }}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% else %}
+                <div class="panel-body clearfix">
+                    <p class="text-center">{{ 'calendar.empty'|trans({}, 'messages') }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        require(['jquery'], function($) {
+            $(document).on('change', '#select-route', function() {
+                $('.calendars-tab').hide();
+                $('.'+$(this).val()+'.calendars-tab').show();
+            });
+            $('#select-route').trigger('change');
+        });
+    </script>
+{% endblock %}

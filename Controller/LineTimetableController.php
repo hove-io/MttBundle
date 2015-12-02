@@ -166,4 +166,51 @@ class LineTimetableController extends AbstractController
             )
         );
     }
+
+    /**
+     * Displaying line schedule
+     *
+     * @param string $externalNetworkId
+     * @param string $externalLineId
+     */
+    public function showScheduleAction($externalNetworkId, $externalLineId)
+    {
+        $this->isGranted('BUSINESS_MANAGE_LINE_TIMETABLE');
+
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $this->getUser()->getCustomer(),
+            $externalNetworkId
+        );
+
+        $externalCoverageId = $perimeter->getExternalCoverageId();
+
+        $schedule = $this->get('canal_tp_mtt.calendar_manager')->getCalendarsForLine(
+            $externalCoverageId,
+            $externalNetworkId,
+            $externalLineId
+        );
+
+        $navitia = $this->get('canal_tp_mtt.navitia');
+        $line = $navitia->getLine(
+            $externalCoverageId,
+            $externalNetworkId,
+            $externalLineId
+        );
+
+        $externalLineData = array(
+            'code' => $line->code,
+            'color' => $line->color
+        );
+
+        return $this->render(
+            'CanalTPMttBundle:LineTimetable:schedule.html.twig',
+            array(
+                'externalNetworkId' => $externalNetworkId,
+                'externalLineId'    => $externalLineId,
+                'externalLineData'  => $externalLineData,
+                'navigationMode'    => 'lines',
+                'schedule'          => $schedule
+            )
+        );
+    }
 }
