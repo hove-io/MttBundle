@@ -109,6 +109,13 @@ canal_tp_mtt_line_timetable_select_stops:
     options:
         expose: true
 
+canal_tp_mtt_line_timetable_show_schedule:
+    pattern: /line-timetable/networks/{externalNetworkId}/line/{externalLineId}/show-schedule
+    defaults: { _controller: CanalTPMttBundle:LineTimetable:showSchedule }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+
 #StopTimetable
 canal_tp_mtt_stop_timetable_edit:
     pattern: /stopTimetable/edit/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
