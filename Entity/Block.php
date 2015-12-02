@@ -15,7 +15,7 @@ class Block extends AbstractEntity
     /**
      * @var string
      */
-    private $typeId;
+    private $type;
 
     /**
      * @var string
@@ -77,24 +77,24 @@ class Block extends AbstractEntity
     }
 
     /**
-     * Get typeId
+     * Get type
      *
      * @return string
      */
-    public function getTypeId()
+    public function getType()
     {
-        return $this->typeId;
+        return $this->type;
     }
 
     /**
-     * Set typeId
+     * Set type
      *
-     * @param  string $typeId
+     * @param  string $type
      * @return Block
      */
-    public function setTypeId($typeId)
+    public function setType($type)
     {
-        $this->typeId = $typeId;
+        $this->type = $type;
 
         return $this;
     }
@@ -363,7 +363,7 @@ class Block extends AbstractEntity
      */
     public function isImg()
     {
-        return ($this->getTypeId() == BlockRepository::IMG_TYPE);
+        return ($this->getType() == BlockRepository::IMG_TYPE);
     }
 
     /**
@@ -373,7 +373,7 @@ class Block extends AbstractEntity
      */
     public function isText()
     {
-        return ($this->getTypeId() == BlockRepository::TEXT_TYPE);
+        return ($this->getType() == BlockRepository::TEXT_TYPE);
     }
 
     /**
@@ -383,7 +383,7 @@ class Block extends AbstractEntity
      */
     public function isCalendar()
     {
-        return ($this->getTypeId() == BlockRepository::CALENDAR_TYPE);
+        return ($this->getType() == BlockRepository::CALENDAR_TYPE);
     }
 
     /**

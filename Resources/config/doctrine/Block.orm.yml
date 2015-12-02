@@ -8,9 +8,9 @@ CanalTP\MttBundle\Entity\Block:
             id: true
             generator:
                 strategy: IDENTITY
-        typeId:
+        type:
             type: string
-            column: type_id
+            column: type
         domId:
             type: string
             length: '128'

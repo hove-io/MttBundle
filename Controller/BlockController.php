@@ -36,8 +36,8 @@ class BlockController extends AbstractController
         );
 
         $data = array(
-            'dom_id' => $domId,
-            'type_id' => $blockType
+            'domId' => $domId,
+            'type'  => $blockType
         );
 
         $block = $stopTimetable->getBlockByDomId($domId);

@@ -355,7 +355,7 @@ class CalendarManager
         // calendar blocks are defined on route/stopTimetable level
         if (count($stopTimetable->getBlocks()) > 0) {
             foreach ($stopTimetable->getBlocks() as $block) {
-                if ($block->getTypeId() == 'calendar') {
+                if ($block->getType() == 'calendar') {
                     $calendar = $this->findCalendar($block->getContent(), $calendarsSorted);
                     $stopSchedulesData = $this->navitia->getCalendarStopSchedulesByRoute(
                         $externalCoverageId,
