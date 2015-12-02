@@ -57,6 +57,11 @@
                         </a>
                     </li>
                     {% endif %}
+                    <li>
+                        <a href="{{ path('canal_tp_mtt_line_timetable_show_schedule', {'externalNetworkId': externalNetworkId, 'externalLineId': externalLineId }) }}">
+                            <span class="glyphicon glyphicon-calendar"></span> {{ 'line_timetable.action.show_schedule'|trans({}, 'default') }}
+                        </a>
+                    </li>
                 </ul>
             </div>
         {% endif %}
