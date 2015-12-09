@@ -98,6 +98,15 @@ canal_tp_mtt_line_timetable_list:
         externalLineId: -?[a-zA-Z0-9_\-:]*
         seasonId: -?\d+
 
+canal_tp_mtt_line_timetable_render:
+    pattern: /line-timetable/render/networks/{externalNetworkId}/line/{externalLineId}/seasons/{seasonId}/mode/{mode}
+    defaults: { _controller: CanalTPMttBundle:LineTimetable:render }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        externalLineId: -?[a-zA-Z0-9_\-:]*
+        seasonId: \d+
+        mode: edit
+
 canal_tp_mtt_line_timetable_select_stops:
     pattern: /line-timetable/{lineTimetableId}/networks/{externalNetworkId}/season/{seasonId}/select-stops/route/{externalRouteId}
     defaults: { _controller: CanalTPMttBundle:LineTimetable:selectStops, externalRouteId: null }
@@ -115,6 +124,16 @@ canal_tp_mtt_line_timetable_show_schedule:
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         externalLineId: -?[a-zA-Z0-9_\-:]*
+
+canal_tp_mtt_line_timetable_load_calendar:
+    pattern: /line-timetable/networks/{externalNetworkId}/calendar/load/{blockId}/columns/{columnsLimit}
+    defaults: { _controller: CanalTPMttBundle:LineTimetable:loadCalendar }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        blockId: \d+
+        columnsLimit: \d+
+    options:
+        expose: true
 
 #StopTimetable
 canal_tp_mtt_stop_timetable_edit:
@@ -153,24 +172,42 @@ canal_tp_mtt_stop_timetable_download_pdf:
         externalStopPointId: -?[a-zA-Z0-9_\-:]*
 
 #Block
+canal_tp_mtt_block_add:
+    pattern: /block/edit/networks/{externalNetworkId}/timetable/{timetableId}/type/{type}/rank/{rank}
+    defaults: { _controller: CanalTPMttBundle:Block:add }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        type: line|stop
+        timetableId: \d+
+        rank: \d+
+    options:
+        expose: true
+
 canal_tp_mtt_block_edit:
-    pattern: /block/edit/networks/{externalNetworkId}/timetable/{timetableId}/blockType/{blockType}/domId/{domId}
-    defaults: { _controller: CanalTPMttBundle:Block:edit }
+    # stop point must be the last param so it can be empty
+    pattern: /block/edit/networks/{externalNetworkId}/timetable/{timetableId}/type/{type}/block/{blockId}/type/{blockType}/dom/{domId}/rank/{rank}
+    defaults: { _controller: CanalTPMttBundle:Block:edit, blockId: -1, rank: 0, domId: 0 }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         timetableId: \d+
+        type: line|stop
+        blockId: -?\d+
         blockType: calendar|text|img
         domId: -?[a-zA-Z0-9_\-:]*
+        rank: -?\d+
     options:
         expose: true
 
 canal_tp_mtt_block_delete:
-    pattern: /block/delete/networks/{externalNetworkId}/timetable/{timetableId}/block/{blockId}
+    pattern: /block/delete/networks/{externalNetworkId}/timetable/{timetableId}/type/{type}/block/{blockId}
     defaults: { _controller: CanalTPMttBundle:Block:delete }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         timetableId: \d+
+        type: line|stop
         blockId: \d+
+    options:
+        expose: true
 
 #Calendar
 canal_tp_mtt_calendar_view:

@@ -6,8 +6,9 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Validator\Constraints\NotBlank;
-
 use CanalTP\MttBundle\Form\Type\BlockType;
+use CanalTP\MttBundle\Entity\LineTimetable;
+use CanalTP\MttBundle\Entity\StopTimetable;
 
 class CalendarType extends BlockType
 {
@@ -15,38 +16,76 @@ class CalendarType extends BlockType
     private $externalCoverageId = null;
     private $blockInstance = null;
     private $choices = null;
+    private $navitia = null;
+    private $routeList = null;
 
-    public function __construct($calendarManager, $instance, $externalCoverageId)
+    public function __construct($calendarManager, $instance, $externalCoverageId, $navitia)
     {
         $this->calendarManager = $calendarManager;
         $this->blockInstance = $instance;
         $this->externalCoverageId = $externalCoverageId;
+        $this->navitia = $navitia;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $season = $this->blockInstance->getStopTimetable()->getLineConfig()->getSeason();
-        $calendars = $this->calendarManager->getCalendarsForRoute(
-            $this->externalCoverageId,
-            $this->blockInstance->getStopTimetable()->getExternalRouteId(),
-            $season->getStartDate(),
-            $season->getEndDate()
-        );
+        $season = $this->blockInstance->getTimetable()->getLineConfig()->getSeason();
+
+        if ($this->blockInstance->getTimetable() instanceof StopTimetable) {
+            $calendars = $this->calendarManager->getCalendarsForRoute(
+                $this->externalCoverageId,
+                $this->blockInstance->getStopTimetable()->getExternalRouteId(),
+                $season->getStartDate(),
+                $season->getEndDate()
+            );
+        } elseif ($this->blockInstance->getTimetable() instanceof LineTimetable) {
+            $calendars = $this->navitia->getLineCalendars(
+                $this->externalCoverageId,
+                $this->blockInstance->getLineTimetable()->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                $this->blockInstance->getExternalLineId()
+            );
+
+            $routes = $this->navitia->getLineRoutes(
+                $this->externalCoverageId,
+                $this->blockInstance->getLineTimetable()->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                $this->blockInstance->getExternalLineId()
+            );
+
+            $this->routeList = $this->getChoices($routes);
+            ;
+
+            $builder
+                ->add(
+                    'externalRouteId',
+                    'choice',
+                    array(
+                        'choices'       => $this->routeList,
+                        'disabled'      => $this->isDisabled($this->routeList),
+                        'label'         => 'block.calendar.labels.route',
+                        'constraints'   => array(
+                            new NotBlank()
+                        )
+                    )
+                );
+        } else {
+            throw new \Exception('Bad Timetable object');
+        }
+
         $this->choices = $this->getChoices($calendars);
 
         $builder
             ->add(
                 'title',
                 'text',
-                array('label' => 'block.calendar.labels.title',)
+                array('label' => 'block.calendar.labels.title', )
             )
             ->add(
                 'content',
                 'choice',
                 array(
-                    'choices'       => $this->choices,
-                    'disabled'      => $this->isDisabled(),
-                    'label'         => 'block.calendar.labels.content',
+                    'choices'   => $this->choices,
+                    'disabled'  => $this->isDisabled(),
+                    'label'     => 'block.calendar.labels.content',
                     'attr'      => array(
                         // attribute to tell javascript to fill automatically title
                         // when a change occurs on this field
@@ -66,11 +105,11 @@ class CalendarType extends BlockType
         return (count($this->choices) == 1 && $this->blockInstance->getContent() != null);
     }
 
-    private function getChoices($calendars)
+    private function getChoices($list)
     {
         $choices = array();
-        foreach ($calendars as $calendar) {
-            $choices[$calendar->id] = $calendar->name;
+        foreach ($list as $item) {
+            $choices[$item->id] = $item->name;
         }
 
         return $choices;

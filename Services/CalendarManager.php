@@ -7,6 +7,7 @@
  */
 namespace CanalTP\MttBundle\Services;
 
+use \Doctrine\Common\Collections\Collection;
 use Symfony\Component\Translation\TranslatorInterface;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Season;
@@ -427,11 +428,34 @@ class CalendarManager
     }
 
     /**
+     * Returning a calendar for a block
+     *
+     * @param string $externalCoverageId
+     * @param Block $block
+     * @param array $parameters
+     */
+    public function getCalendarForBlock(
+        $externalCoverageId,
+        Block $block,
+        $parameters = array()
+    ) {
+        $calendar = $this->navitia->getCalendar($externalCoverageId, $block->getContent())->calendars[0];
+
+        return $this->getRouteSchedules(
+            $externalCoverageId,
+            $block->getExternalRouteId(),
+            $calendar,
+            $parameters
+        );
+    }
+
+    /**
      * Returning calendars for a line.
      *
      * @param string $externalCoverageId
      * @param string $externalNetworkId
-     * @param string $externalLineId,
+     * @param string $externalLineId
+     * @param array $parameters
      */
     public function getCalendarsForLine(
         $externalCoverageId,
@@ -447,33 +471,56 @@ class CalendarManager
             $schedule[$externalRouteId]['direction'] = $route->name;
 
             foreach ($calendars as $calendar) {
-                try {
-                    $routeSchedules = $this->navitia->getRouteSchedulesByRouteAndCalendar(
-                        $externalCoverageId,
-                        $externalRouteId,
-                        $calendar->id,
-                        \DateTime::createFromFormat('Ymd', $calendar->validity_pattern->beginning_date)
-                    );
-                } catch(\Exception $e) {
-                    $schedule[$externalRouteId]['calendars'][$calendar->id] = $this->createEmptyLineCalendar($calendar);
-                    continue;
-                }
-
-                $this->prepareRouteSchedules($routeSchedules, $calendar);
-
-                if (count($routeSchedules->route_schedules) == 0) {
-                    throw new \Exception('No stop points found for the route : '.$externalRouteId);
-                }
-
-                $this->buildFullCalendar($routeSchedules);
-
-                unset($routeSchedules->headers, $routeSchedules->exceptions);
-
-                $schedule[$externalRouteId]['calendars'][$calendar->id] = $routeSchedules;
+                $schedule[$externalRouteId]['calendars'][$calendar->id] = $this->getRouteSchedules(
+                    $externalCoverageId,
+                    $externalRouteId,
+                    $calendar
+                );
             }
         }
 
         return $schedule;
+    }
+
+    /**
+     * Getting route schedules
+     *
+     * @param string $externalCoverageId
+     * @param string $externalRouteId
+     * @param mixed &$calendar
+     */
+    private function getRouteSchedules(
+        $externalCoverageId,
+        $externalRouteId,
+        &$calendar,
+        $parameters = array()
+    ) {
+        try {
+            $routeSchedules = $this->navitia->getRouteSchedulesByRouteAndCalendar(
+                $externalCoverageId,
+                $externalRouteId,
+                $calendar->id,
+                \DateTime::createFromFormat('Ymd', $calendar->validity_pattern->beginning_date)
+            );
+        } catch(\Exception $e) {
+            return $this->createEmptyLineCalendar($calendar);
+        }
+
+        $this->prepareRouteSchedules($routeSchedules, $calendar);
+
+        if (!empty($parameters['stopPoints'])) {
+            $this->filterStopPoints($routeSchedules->route_schedules, $parameters['stopPoints']);
+        }
+
+        if (count($routeSchedules->route_schedules) == 0) {
+            throw new \Exception('No stop points found for the route : '.$externalRouteId);
+        }
+
+        $this->buildFullCalendar($routeSchedules);
+
+        unset($routeSchedules->headers, $routeSchedules->exceptions);
+
+        return $routeSchedules;
     }
 
     private function createEmptyLineCalendar(&$calendar)
@@ -498,6 +545,27 @@ class CalendarManager
         $data->id = $calendar->id;
 
         $routeSchedules = $data;
+    }
+
+    /**
+     * Filtering selected stop points
+     *
+     * @param mixed $data
+     * @param Collection $filter
+     */
+    private function filterStopPoints(&$data, Collection $filter)
+    {
+        foreach ($data as $idx => $stopPoint) {
+            $selected = $filter->filter(
+                function($stop) use ($stopPoint) {
+                    return $stop->getExternalStopPointId() == $stopPoint->stop_point->id;
+                }
+            );
+
+            if ($selected->isEmpty()) {
+                unset($data[$idx]);
+            }
+        }
     }
 
     /**

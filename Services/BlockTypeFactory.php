@@ -31,18 +31,21 @@ class BlockTypeFactory
     private $externalCoverageId = null;
     private $oldData = array();
     private $instance = null;
+    private $navitia = null;
 
     public function __construct(
         Container $co,
         ObjectManager $om,
         FormFactoryInterface $formFactory,
-        MediaManager $mediaManager
+        MediaManager $mediaManager,
+        Navitia $navitia
     )
     {
         $this->co = $co;
         $this->om = $om;
         $this->mediaManager = $mediaManager;
         $this->formFactory = $formFactory;
+        $this->navitia = $navitia;
     }
 
     /**
@@ -73,7 +76,8 @@ class BlockTypeFactory
                 $objectType = new CalendarBlockType(
                     $this->co->get('canal_tp_mtt.calendar_manager'),
                     $this->instance,
-                    $this->externalCoverageId
+                    $this->externalCoverageId,
+                    $this->navitia
                 );
                 break;
             case BlockRepository::TEXT_TYPE:

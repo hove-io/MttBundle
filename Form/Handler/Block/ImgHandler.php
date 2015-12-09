@@ -6,11 +6,10 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use CanalTP\MttBundle\Services\MediaManager;
 use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MttBundle\Entity\Block;
-use CanalTP\MttBundle\Form\TYPE\Block\ImgType;
+use CanalTP\MttBundle\Form\Type\Block\ImgType;
 
 class ImgHandler extends AbstractHandler
 {
@@ -24,8 +23,7 @@ class ImgHandler extends AbstractHandler
         MediaManager $mediaManager,
         $block,
         $lastImgPath
-    )
-    {
+    ) {
         $this->co = $co;
         $this->om = $om;
         $this->mediaManager = $mediaManager;
@@ -55,11 +53,11 @@ class ImgHandler extends AbstractHandler
             imagepng($output, $file->getRealPath() . '.png');
             imagedestroy($output);
             imagedestroy($input);
-            $pngFile = new File($file->getRealPath() . '.png');
-            $media = $this->mediaManager->saveByStopTimetable($timetable, $pngFile, $this->block->getDomId());
-        } else {
-            $media = $this->mediaManager->saveByStopTimetable($timetable, $file, $this->block->getDomId());
+            $file = new File($file->getRealPath() . '.png');
         }
+
+        $media = $this->mediaManager->saveByTimetable($timetable, $file, $this->block->getDomId());
+
         // TODO: saved with domain, we should store without it. Waiting for mediaDataCollector to be updated
         $formBlock->setContent($this->mediaManager->getUrlByMedia($media) . '?' . time());
         $this->saveBlock($formBlock, $timetable);

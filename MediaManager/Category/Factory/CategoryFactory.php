@@ -6,6 +6,7 @@ use CanalTP\MediaManager\Category\Factory\CategoryFactoryInterface;
 use CanalTP\MttBundle\MediaManager\Category\CategoryType;
 use CanalTP\MttBundle\MediaManager\Category\NetworkCategory;
 use CanalTP\MttBundle\MediaManager\Category\RouteCategory;
+use CanalTP\MttBundle\MediaManager\Category\LineCategory;
 use CanalTP\MttBundle\MediaManager\Category\StopPointCategory;
 use CanalTP\MttBundle\MediaManager\Category\SeasonCategory;
 
@@ -24,6 +25,9 @@ class CategoryFactory implements CategoryFactoryInterface
                 break;
             case CategoryType::STOP_POINT:
                 $category = new StopPointCategory();
+                break;
+            case CategoryType::LINE:
+                $category = new LineCategory();
                 break;
             case CategoryType::SEASON:
                 $category = new SeasonCategory();

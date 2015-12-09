@@ -39,11 +39,14 @@ line_timetable:
     title:
         select_stops: Sélection des points d'arrêt
         schedule: Horaires de la ligne
+        edit: Edition
+        view: Prévisualisation
     action:
         select_stops: Choisir les arrêts
         select_all_stops: Ajouter tous les arrêts
         remove_all_stops: Vider la sélection des arrêts
         show_schedule: Voir les horaires
+        edit: Editer la fiche horaire
     label:
         way: vers
         available_stops: Arrêts disponibles

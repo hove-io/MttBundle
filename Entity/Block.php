@@ -312,6 +312,24 @@ class Block extends AbstractEntity
     }
 
     /**
+     * Set timetable
+     *
+     * @param Timetable
+     */
+    public function setTimetable(Timetable $timetable)
+    {
+        if ($timetable instanceof LineTimetable) {
+            $this->lineTimetable = $timetable;
+        } elseif ($timetable instanceof StopTimetable) {
+            $this->stopTimetable = $timetable;
+        } else {
+            throw new \Exception('Timetable object is not StopTimetable nor LineTimetable instance');
+        }
+
+        return $this;
+    }
+
+    /**
      * Get timetable
      *
      * @return LineTimetable or StopTimetable

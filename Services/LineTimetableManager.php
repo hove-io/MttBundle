@@ -26,6 +26,11 @@ class LineTimetableManager
         $this->repository = $this->om->getRepository('CanalTPMttBundle:LineTimetable');
     }
 
+    public function find($lineTimetableId)
+    {
+        return $this->repository->find($lineTimetableId);
+    }
+
     /**
      * Find or create LineTimetable
      *
@@ -34,7 +39,7 @@ class LineTimetableManager
      * @param $lineConfig
      * @return LineTimetable
      */
-    public function findOrCreateLineTimetable(LineConfig $lineConfig = null)
+    public function findOrCreateLineTimetable(LineConfig $lineConfig)
     {
         $lineTimetable = $this->repository->findOneBy(
             array(

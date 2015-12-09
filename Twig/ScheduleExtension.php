@@ -25,6 +25,7 @@ class ScheduleExtension extends \Twig_Extension
             'schedule'      => new \Twig_Filter_Method($this, 'scheduleFilter'),
             'footnote'      => new \Twig_Filter_Method($this, 'footnoteFilter'),
             'calendarMax'   => new \Twig_Filter_Method($this, 'calendarMax', array("is_safe" => array("html"))),
+            'findCalendar'  => new \Twig_Filter_Method($this, 'findCalendar'),
         );
     }
 
@@ -65,6 +66,23 @@ class ScheduleExtension extends \Twig_Extension
         }
 
         return $max > $min ? $max : $min;
+    }
+
+    /**
+     * Finding a calendar
+     *
+     * @param $array
+     * @param string $calendarId
+     * @param string $externalRouteId
+     *
+     * @return array | null
+     */
+    public function findCalendar($array, $calendarId, $externalRouteId) {
+        if (isset($array['routes'][$externalRouteId]['calendars'][$calendarId])) {
+            return $array['routes'][$externalRouteId]['calendars'][$calendarId];
+        }
+
+        return null;
     }
 
     public function getName()

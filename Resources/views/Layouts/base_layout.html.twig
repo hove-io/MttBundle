@@ -19,7 +19,7 @@
         ) }}">
             {{'menu.edit_timetables'|trans({}, 'messages')}}
         </a></li>
-        <li>{{ pageTitle|trans({}, 'default') }}</li>
+        <li>{{ pageTitle|trans }}</li>
     {% endif %}
 {% endblock %}
 
@@ -116,8 +116,8 @@
         %}
         </div>
     {% endif %}
-    <div id="layout-main-wrapper" class="wrapper-{{orientation}}{% if editable == true %} editable{% endif %}">
-        {% block stop_timetable_content %}{% endblock %}
+    <div id="layout-main-wrapper" class="wrapper-{{orientation}}{% if editable == true or mode == 'edit' %} editable{% endif %}">
+        {% block timetable_content %}{% endblock %}
     </div>
 
     {% block scripts %}{% endblock %}
