@@ -43,7 +43,9 @@ class BlockType extends AbstractType
                     'label' => 'block.labels.type',
                     'choices' => array(
                         BlockRepository::CALENDAR_TYPE => 'block.'.BlockRepository::CALENDAR_TYPE.'.labels.content',
-                        BlockRepository::TEXT_TYPE => 'block.'.BlockRepository::TEXT_TYPE.'.labels.content'
+                        BlockRepository::TEXT_TYPE => 'block.'.BlockRepository::TEXT_TYPE.'.labels.content',
+                        BlockRepository::IMG_TYPE => 'block.'.BlockRepository::IMG_TYPE.'.labels.content',
+                        BlockRepository::PAGE_BREAK_TYPE => 'block.'.BlockRepository::PAGE_BREAK_TYPE.'.labels.content'
                     ),
                     'required' => true
                 )

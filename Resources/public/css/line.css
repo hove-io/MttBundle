@@ -66,6 +66,14 @@
 .editable .block.empty {
     background-color:#eee;
 }
+.pagebreak {
+    height:25px;
+    min-height:25px;
+    text-align:center;
+    font-weight:bold;
+    font-size:12px;
+    position:relative;
+}
 /* main-content style */
 #main-content-wrapper {
     margin-top:5px;
@@ -161,6 +169,7 @@
     position:absolute;
     display:block;
     right:-4%;
+    top:0;
     z-index:1;
     font-size:13px;
 }

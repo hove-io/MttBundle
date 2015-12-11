@@ -3,6 +3,7 @@
 namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\BlockRepository;
 use CanalTP\MttBundle\Entity\Timetable;
@@ -97,6 +98,66 @@ class BlockController extends AbstractController
                 'form' => $form->createView(),
             )
         );
+    }
+
+    public function autoCreateAction(
+        Request $request,
+        $externalNetworkId,
+        $timetableId,
+        $type,
+        $blockType,
+        $domId,
+        $rank
+    ) {
+        $this->isGranted(
+            array(
+                'BUSINESS_MANAGE_LINE_TIMETABLE',
+                'BUSINESS_MANAGE_STOP_TIMETABLE'
+            )
+        );
+
+        $this->isPostAjax($request);
+
+        $timetableManager = $this->get(Timetable::$managers[$type]);
+        $timetable = $timetableManager->find($timetableId);
+
+        $perimeter = $this->get('nmm.perimeter_manager')->findOneByExternalNetworkId(
+            $this->getUser()->getCustomer(),
+            $externalNetworkId
+        );
+
+        // checking that the provided block is a calendar with data and is accessible via the network
+        if (empty($timetable)) {
+            return $this->prepareJsonResponse(
+                $this->get('translator')->trans(
+                    'line_timetable.error.block_not_linked',
+                    array('%blockId%' => 0)
+                ),
+                JsonResponse::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+        if ($timetable->getLineConfig()->getSeason()->getPerimeter() != $perimeter) {
+            return $this->prepareJsonResponse(
+                $this->get('translator')->trans(
+                    'line_timetable.error.bad_external_network',
+                    array('%externalNetworkId%' => $externalNetworkId)
+                ),
+                JsonResponse::HTTP_UNAUTHORIZED
+            );
+        }
+
+        $data = array(
+            'type'  => $blockType,
+            'rank'  => $rank,
+            'domId' => $domId
+        );
+
+        $blockManager = $this->get('canal_tp_mtt.block_manager');
+        $block = $blockManager->findOrCreate(-1, $timetable, $data);
+
+        $blockManager->save($block);
+
+        return new Response();
     }
 
     /**

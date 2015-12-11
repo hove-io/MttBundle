@@ -67,15 +67,15 @@ class BlockManager
      */
     public function save(Block $block, $blocksNumber = null)
     {
-        $this->synchronizeRanks($block, 'add', $blocksNumber);
+        if ($block->getRank() > 0) {
+            $this->synchronizeRanks($block, 'add', $blocksNumber);
 
-        if (!empty($blocksNumber) && $blocksNumber > 1)
-        {
-            for($i = 1; $i < $blocksNumber; $i++)
-            {
-                $newBlock = clone $block;
-                $newBlock->incRank($i);
-                $this->om->persist($newBlock);
+            if (!empty($blocksNumber) && $blocksNumber > 1) {
+                for ($i = 1; $i < $blocksNumber; $i++) {
+                    $newBlock = clone $block;
+                    $newBlock->incRank($i);
+                    $this->om->persist($newBlock);
+                }
             }
         }
 

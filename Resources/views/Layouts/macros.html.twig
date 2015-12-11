@@ -35,6 +35,24 @@
     </div>
 {% endmacro %}
 
+{% macro page_break(id, block, class, rank, mode) %}
+    {% if mode == "edit" %}
+        <div
+            id="{{ id }}"
+            class="pagebreak {% if not block %}auto-create{% endif %} {{ class }}"
+            data-id="{{ block.id|default(-1) }}"
+            data-rank="{{ block.rank|default(0) }}"
+            data-type="pagebreak"
+            data-icon="img"
+        >
+            --- Page Break ---
+            {% if block and block.rank > 0 %}
+                {{ _self.action_bar(block, {'delete': true}) }}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
 {# TODO: use macro text instead and add a boolean centered ? #}
 {% macro centered_text(id, block, class) %}
     <div
@@ -143,7 +161,7 @@
                     data-action-container="timegrid-container"
                     data-id="{{ block.id }}"
                     data-toggle="tooltip"
-                    title="{{ 'help.load_calendar'|trans }}">
+                    title="{{ 'help.load_data'|trans }}">
                     <span class="glyphicon glyphicon-refresh"></span>
                 </a>
             </li>
@@ -156,7 +174,7 @@
                     data-toggle="tooltip"
                     data-action-type="delete-calendar"
                     data-id="{{ block.id }}"
-                    title="{{'calendar.empty'|trans({}, 'default')}}">
+                    title="{{ 'help.delete_block'|trans }}">
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
             </li>

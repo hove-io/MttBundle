@@ -60,7 +60,8 @@ help:
     edit_block: Cliquez pour éditer ce bloc
     drop_here: Déposez les éléments ici
     add_block: Ajouter un ou plusieurs blocs
-    load_calendar: Charger les données du calendrier
+    load_data: Charger les données
+    delete_block: Supprimer le bloc
 
 calendar:
     start: Heure de début des calendriers
@@ -164,6 +165,9 @@ block:
         labels:
             title: Titre
             content: Texte
+    pagebreak:
+        labels:
+            content: Saut de page
     calendar:
         labels:
             title: Titre

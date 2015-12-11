@@ -183,6 +183,19 @@ canal_tp_mtt_block_add:
     options:
         expose: true
 
+canal_tp_mtt_block_auto_create:
+    pattern: /block/create/networks/{externalNetworkId}/timetable/{timetableId}/type/{type}/rank/{rank}/dom/{domId}/type/{blockType}
+    defaults: { _controller: CanalTPMttBundle:Block:autoCreate }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        type: line|stop
+        timetableId: \d+
+        rank: \d+
+        domId: -?[a-zA-Z0-9_\-:]*
+        blockType: calendar|text|img|pagebreak
+    options:
+        expose: true
+
 canal_tp_mtt_block_edit:
     # stop point must be the last param so it can be empty
     pattern: /block/edit/networks/{externalNetworkId}/timetable/{timetableId}/type/{type}/block/{blockId}/type/{blockType}/dom/{domId}/rank/{rank}
@@ -192,7 +205,7 @@ canal_tp_mtt_block_edit:
         timetableId: \d+
         type: line|stop
         blockId: -?\d+
-        blockType: calendar|text|img
+        blockType: calendar|text|img|pagebreak
         domId: -?[a-zA-Z0-9_\-:]*
         rank: -?\d+
     options:

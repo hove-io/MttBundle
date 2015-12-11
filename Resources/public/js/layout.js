@@ -12,6 +12,32 @@ define(['jquery', 'sf_routes'], function($) {
         _bind_add_block_listener();
         _bind_blocks_listeners();
         _bind_action_bar();
+        _bind_auto_create();
+
+    };
+
+    var _bind_auto_create = function()
+    {
+        $(document).ready(function() {
+            $(document).find(".auto-create").each(function() {
+                var params = {
+                    'rank'      : $(this).data('rank'),
+                    'domId'     : $(this).attr('id') === undefined ? '' : $(this).attr('id'),
+                    'blockType' : $(this).data('type'),
+                };
+                $.extend(params, global_params);
+
+                $.ajax({
+                    type: "POST",
+                    url: Routing.generate('canal_tp_mtt_block_auto_create', params),
+                    cache: false,
+                    error: function(data) {
+                        $loader.detach();
+                        $(this).html('<div class="alert alert-danger" role="alert">'+data.responseJSON+'</div>').show(1000);
+                    }
+                });
+            });
+        });
     };
 
     var _bind_add_block_listener = function()

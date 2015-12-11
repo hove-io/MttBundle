@@ -35,11 +35,12 @@
             </div>
             <div id="header-wrapper" class="clearfix">
                 <div id="left-blocks">
-                    {{ macros.season_validity('season_block', currentSeason, 'small-block') }}
+                    {{ macros.season_validity('season-block', currentSeason, 'small-block') }}
                     {{ macros.text('text-block', timetable.BlockByDomId('text-block'), 'small-block', 0, mode) }}
                 </div>
                 {{ macros.img('map-block', timetable.BlockByDomId('map-block'), 'map-img', 0, mode) }}
             </div>
+            {{ macros.page_break('page-break-block', timetable.BlockByDomId('page-break-block'), none, 0, mode) }}
 
             <div id="main-content-wrapper" class="clearfix">
                 {% for lblock in timetable.RankedBlocks %}
@@ -53,6 +54,8 @@
                     {% elseif lblock.type == 'calendar' %}
                         {% set calendar = calendars|findCalendar(lblock.content, lblock.externalRouteId) %}
                         {{ macros.line_calendar(lblock.domId, lblock, class, lblock.rank, mode, calendar, 26) }}
+                    {% elseif lblock.type == 'pagebreak' %}
+                        {{ macros.page_break(lblock.domId, lblock, class, lblock.rank, mode) }}
                     {% endif %}
                     {% if mode == 'edit' and loop.last %}
                         {{ macros.add_block(loop.index+1) }}
