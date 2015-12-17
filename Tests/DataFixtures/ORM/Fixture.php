@@ -16,12 +16,12 @@ use CanalTP\MttBundle\Entity\LayoutCustomer;
 
 class Fixture extends AbstractFixture implements OrderedFixtureInterface
 {
-    const EXTERNAL_COVERAGE_ID = 'fr-cen';
-    const EXTERNAL_NETWORK_ID = 'network:Filbleu';
-    const TOKEN = '46cadd8a-e385-4169-9cb8-c05766eeeecb';
-    const EXTERNAL_LINE_ID = 'line:TTR:Nav62';
-    const EXTERNAL_ROUTE_ID = 'route:TTR:Nav155';
-    const EXTERNAL_STOP_POINT_ID = 'stop_point:TTR:SP:STPGB-2';
+    const EXTERNAL_COVERAGE_ID = 'jdr';
+    const EXTERNAL_NETWORK_ID = 'network:JDR:2';
+    const TOKEN = 'e74598a0-239b-4d9f-92e3-18cfc120672b';
+    const EXTERNAL_LINE_ID = 'line:JDR:TT';
+    const EXTERNAL_ROUTE_ID = 'route:JDR:TT';
+    const EXTERNAL_STOP_POINT_ID = 'stop_point:JDR:SP:Chateaubriant-TT';
     const SEASON_ID = 1;
     const AREA_ID = 1;
     const EXTERNAL_LAYOUT_CONFIG_ID_1 = 1;
