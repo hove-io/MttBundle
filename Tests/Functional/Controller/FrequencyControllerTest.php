@@ -2,9 +2,11 @@
 
 namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
+use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
+
 class FrequencyControllerTest extends AbstractControllerTest
 {
-    private function getViewRoute($block)
+    private function getViewRoute($block, $externalStopPointId = Fixture::EXTERNAL_STOP_POINT_ID)
     {
         return $this->generateRoute(
             'canal_tp_mtt_stop_timetable_view',
@@ -12,7 +14,8 @@ class FrequencyControllerTest extends AbstractControllerTest
                 'externalNetworkId' => $block->getStopTimetable()->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
                 'externalLineId' 	=> $block->getStopTimetable()->getLineConfig()->getExternalLineId(),
                 'externalRouteId' 	=> $block->getStopTimetable()->getExternalRouteId(),
-                'seasonId' 			=> $block->getStopTimetable()->getLineConfig()->getSeason()->getId()
+                'seasonId' 			=> $block->getStopTimetable()->getLineConfig()->getSeason()->getId(),
+                'externalStopPointId' => $externalStopPointId
             )
         );
     }

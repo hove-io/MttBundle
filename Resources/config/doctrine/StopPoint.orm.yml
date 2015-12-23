@@ -31,10 +31,6 @@ CanalTP\MttBundle\Entity\StopPoint:
             gedmo:
                 timestampable:
                     on: update
-    oneToMany:
-        blocks:
-            targetEntity: Block
-            mappedBy: stopPoint
     manyToOne:
         stopTimetable:
             targetEntity: StopTimetable

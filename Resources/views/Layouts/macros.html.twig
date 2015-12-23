@@ -1,8 +1,44 @@
-{% macro img(id, block, class, level) %}
-    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="img" class="block {{ class }}">
-    {% if block %}
-        <img class="{{ class }}" src="{{ block.content }}" title="{{ block.title }}" alt="{{ block.title }}" />
-    {% endif %}
+{% macro img(id, block, class) %}
+    <div
+        id="{{ id }}"
+        class="block {{ class }}"
+        data-type="img"
+        data-icon="picture"
+    >
+        {% if block %}
+            <img class="{{ class }}" src="{{ block.content }}" title="{{ block.title }}" alt="{{ block.title }}" />
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro text(id, block, class) %}
+    <div
+        id="{{ id }}"
+        class="{{ class }}"
+        data-type="text"
+        data-icon="edit"
+    >
+        {% if block %}
+            <div class="title">{{ block.title }}</div>
+            <div class="content">{{ block.content|nl2br }}</div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{# TODO: use macro text instead and add a boolean centered ? #}
+{% macro centered_text(id, block, class) %}
+    <div
+        id="{{ id }}"
+        class="centered-text-block {{ class }}"
+        data-type="text"
+        data-icon="edit"
+    >
+        {% if block %}
+            <div class="title">{{ block.title }}</div>
+            <div class="relative">
+                <div class="content"><p>{{ block.content|nl2br }}</p></div>
+            </div>
+        {% endif %}
     </div>
 {% endmacro %}
 
@@ -13,15 +49,6 @@
         <span class="content">Repérez la période "Anis" ou "Cassis" à consulter, grâce à la couleur du jour de votre voyage indiquée sur le "Calendrier Voyageurs"</span>
     </div>
     <div id="flash_info_bottom"></div>
-{% endmacro %}
-
-{% macro text(id, block, level, class) %}
-    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text" class="{{ class }}">
-    {% if block %}
-        <div class="title">{{ block.title }}</div>
-        <div class="content">{{ block.content|nl2br }}</div>
-    {% endif %}
-    </div>
 {% endmacro %}
 
 {% macro season_validity(id, season, class) %}
@@ -38,50 +65,41 @@
     </div>
 {% endmacro %}
 
-{# params
-    string type    external code
-    string note    additional small text
-#}
 {% macro stop_point_code(id, stopPoint, class, title = null, type = 'external_code', note = null) %}
-    <div id="{{ id }}"  class="{{ class }}">
+    <div id="{{ id }}" class="{{ class }}">
         {% set blockTitle = title ? title : 'stop_point.block.code.title' %}
-        <div class="title">{{blockTitle|trans({}, 'default')}}</div>
-        {% if note is not null %}
-            <span class="note">{{note}}</span>
+        <div class="title">
+            {{ blockTitle|trans({}, 'default') }}
+        </div>
+        {% if note %}
+            <span class="note">{{ note }}</span>
         {% endif %}
         <div class="content">{% spaceless %}
             {% if stopPoint %}
-                {{'stop_point.block.code.content'|trans({'%code%':stopPoint.codes|code(type)}, 'default')}}
+                {{ 'stop_point.block.code.content'|trans({'%code%':stopPoint.codes|code(type)}, 'default') }}
             {% else %}
-                {{'stop_point.block.code.default'|trans({}, 'default')}}
+                {{ 'stop_point.block.code.default'|trans({}, 'default') }}
             {% endif %}
         {% endspaceless %}</div>
     </div>
 {% endmacro %}
 
 {% macro stop_point_pois(id, stopPoint, class, title) %}
-    <div id="{{ id }}"  class="{{ class }}">
+    <div id="{{ id }}" class="{{ class }}">
         {% set blockTitle = title ? title : 'stop_point.block.pois.title' %}
-        <div class="title">{{blockTitle|trans({}, 'default')}}</div>
-
+        <div class="title">
+            {{ blockTitle|trans({}, 'default') }}
+        </div>
         <div class="content">{% spaceless %}
             {% if stopPoint %}
-                {% for poi in stopPoint.getPois() %}
+                {# TODO: <ul><li> with some css instead of <br> ? #}
+                {% for poi in stopPoint.Pois %}
                     {{ poi.name }}<br>
                 {% endfor %}
             {% else %}
-                {{'stop_point.block.pois.default'|trans({}, 'default')}}
+                {{ 'stop_point.block.pois.default'|trans({}, 'default') }}
             {% endif %}
         {% endspaceless %}</div>
-    </div>
-{% endmacro %}
-
-{% macro centered_text(id, block, level, class) %}
-    <div id="{{ id }}" data-block-level="{{ level }}" data-block-type="text" class="centered-text-block {{ class }}">
-        <div class="title">{% if block %}{{ block.title }}{% endif %}</div>
-        <div class="relative">
-            <div class="content"><p>{% if block %}{{ block.content|nl2br }}{% endif %}</p></div>
-        </div>
     </div>
 {% endmacro %}
 
@@ -103,13 +121,13 @@
 {% endmacro %}
 
 {# params string colorAltern    how to style timegrid, color direction, line or column #}
-{% macro calendar(dom_id, stopPointLevel, externalNetworkId, stopTimetable, layout, block, calendar, notes, hours_range, linesMin, notesType, colorAltern = 'line') %}
+{% macro calendar(dom_id, externalNetworkId, stopTimetable, layout, block, calendar, notes, hours_range, linesMin, notesType, colorAltern = 'line') %}
     {% if linesMin is empty %}
         {% set loopMax = calendar|calendarMax %}
     {% else %}
         {% set loopMax = calendar|calendarMax(linesMin) %}
     {% endif %}
-    {% if stopPointLevel == false and block %}
+    {% if block %}
         <tr class="hidden-tr-4-dropdown">
             <td colspan="{{hours_range|length}}" class="text-center">
                 <div class="btn-group">
@@ -123,10 +141,10 @@
                                     'canal_tp_mtt_block_edit',
                                     {
                                         'externalNetworkId':externalNetworkId,
-                                        'stopTimetableId': stopTimetable.id,
-                                        'dom_id' : dom_id,
-                                        'blockId' : block.id,
-                                        'block_type' : 'calendar'
+                                        'timetableId': stopTimetable.id,
+                                        'domId': dom_id,
+                                        'blockId': block.id,
+                                        'blockType': 'calendar'
                                     }
                                 )
                             }}" data-target="#base-modal">
@@ -152,8 +170,8 @@
                                 path(
                                     'canal_tp_mtt_block_delete',
                                     {
-                                        'externalNetworkId':externalNetworkId,
-                                        'stopTimetableId': stopTimetable.id,
+                                        'externalNetworkId': externalNetworkId,
+                                        'timetableId': stopTimetable.id,
                                         'blockId': block.id
                                     }
                                 )

@@ -15,10 +15,9 @@ class BlockControllerTest extends AbstractControllerTest
             // fake params since we mock navitia
             array(
                 'externalNetworkId' => Fixture::EXTERNAL_NETWORK_ID,
-                'block_type' => $type,
-                'dom_id' => 'text_block_2',
-                'stopTimetableId' => 1,
-                'stop_point' => false
+                'blockType' => $type,
+                'domId' => 'text_block_2',
+                'timetableId' => 1
             )
         );
     }

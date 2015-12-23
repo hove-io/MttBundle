@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use CanalTP\MttBundle\Entity\Season;
 use CanalTP\MttBundle\Entity\LineConfig;
 use CanalTP\MttBundle\Entity\StopTimetable;
+use CanalTP\MttBundle\Entity\StopPoint;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\BlockRepository;
 use CanalTP\MttBundle\Entity\Layout;
@@ -67,6 +68,20 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return ($stopTimetable);
     }
 
+    private function createStopPoint(
+        ObjectManager $em,
+        StopTimetable $stopTimetable,
+        $externalId = self::EXTERNAL_STOP_POINT_ID)
+    {
+        $stopPoint = new StopPoint();
+        $stopPoint->setStopTimetable($stopTimetable);
+        $stopPoint->setExternalId($externalId);
+
+        $em->persist($stopPoint);
+
+        return $stopPoint;
+    }
+
     private function createBlock(ObjectManager $em, $stopTimetable, $typeId = BlockRepository::TEXT_TYPE)
     {
         $block = new Block();
@@ -119,6 +134,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
 
         $lineConfig = $this->createLineConfig($em, $season, $layoutConfig);
         $stopTimetable = $this->createStopTimetable($em, $lineConfig);
+        $stopPoint = $this->createStopPoint($em, $stopTimetable);
         $block = $this->createBlock($em, $stopTimetable);
 
         $this->assignLayoutToCustomer($em, $customer);

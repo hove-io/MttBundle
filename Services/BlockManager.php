@@ -24,17 +24,6 @@ class BlockManager
         $this->repo = $om->getRepository('CanalTPMttBundle:Block');
     }
 
-    public function getBlock($dom_id, $stopTimetableId, $stop_point = null)
-    {
-        if (empty($stop_point)) {
-            $block = $this->repo->findByStopTimetableAndDomId($stopTimetableId, $dom_id);
-        } else {
-            $block = $this->repo->findByStopTimetableAndStopPointAndDomId($stopTimetableId, $stop_point, $dom_id);
-        }
-
-        return $block;
-    }
-
     public function findBlock($blockId)
     {
         return $this->repo->find($blockId);
@@ -48,7 +37,7 @@ class BlockManager
      * @param  Object $destStopPoint
      * @return block
      */
-    public function copy($block, $destStopTimetable, $destStopPoint = false)
+    public function copy($block, $destStopTimetable)
     {
         $destSeason = $destStopTimetable->getLineConfig()->getSeason();
         if ($block->isCalendar() AND !$this->calendarManager->isIncluded($block->getContent(), $destSeason)) {
@@ -56,9 +45,7 @@ class BlockManager
         }
         $blockCloned = clone $block;
         $blockCloned->setStopTimetable($destStopTimetable);
-        if ($destStopPoint != false) {
-            $blockCloned->setStopPoint($destStopPoint);
-        }
+
         if ($block->isImg()) {
             $this->mediaManager->copy($block, $blockCloned, $destStopTimetable);
         }
