@@ -9,7 +9,13 @@ requirejs.config({
         'mtt/form/chooseLayout':            'bundles/canaltpmtt/js/form/chooseLayout',
         'mtt/form/validation/frequency':    'bundles/canaltpmtt/js/form/validation/frequency',
         'mtt/area':                         'bundles/canaltpmtt/js/area',
-        'mtt/line_timetable/select_stops':  'bundles/canaltpmtt/js/LineTimetable/select_stops'
+        'mtt/line_timetable/select_stops':  'bundles/canaltpmtt/js/LineTimetable/select_stops',
+        'mtt/line_timetable/edit':          'bundles/canaltpmtt/js/LineTimetable/edit'
+    },
+    shim: {
+        'mtt/layout': {
+            deps: ['sf_routes']
+        }
     },
     deps: ['utils', 'mtt/form']
 });

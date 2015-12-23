@@ -1,0 +1,85 @@
+{% import "CanalTPMttBundle:Layouts:macros.html.twig" as macros %}
+
+{% extends "CanalTPMttBundle:Layouts:base_layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" media="all" href="{{ asset('bundles/canaltpmtt/css/line.css') }}?{{ assets_version }}" />
+    {% image '@CanalTPMttBundle/Resources/public/img/ajax-loader.gif' %}
+        <img src="{{ asset_url }}" class="loading-indicator" style="display:none;"/>
+    {% endimage %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {% if pageTitle %}
+        <li>
+            <a href="{{ path('canal_tp_mtt_line_timetable_list',
+                {
+                    'externalNetworkId' : externalNetworkId,
+                    'externalLineId'    : externalLineId,
+                    'seasonId'          : currentSeason.id
+                }
+            ) }}">
+                {{ 'menu.edit_timetables'|trans }}
+            </a>
+        </li>
+        <li>{{ pageTitle|trans({}, 'default') }}</li>
+    {% endif %}
+{% endblock %}
+
+{% block timetable_content %}
+    <div id="layout-1-wrapper">
+        <div class="layout-container line-timetable">
+            <div id="header">
+                <h1>Fiche horaire de la ligne <span class="line-code" style="background-color:#{{ line.color }}">{{ line.code }}</span></h1>
+            </div>
+            <div id="header-wrapper" class="clearfix">
+                <div id="left-blocks">
+                    {{ macros.season_validity('season-block', currentSeason, 'small-block') }}
+                    {{ macros.text('text-block', timetable.BlockByDomId('text-block'), 'small-block', 0, mode) }}
+                </div>
+                {{ macros.img('map-block', timetable.BlockByDomId('map-block'), 'map-img', 0, mode) }}
+            </div>
+            {{ macros.page_break('page-break-block', timetable.BlockByDomId('page-break-block'), none, 0, mode) }}
+
+            <div id="main-content-wrapper" class="clearfix">
+                {% for lblock in timetable.RankedBlocks %}
+                    {% if mode == 'edit' %}
+                        {{ macros.add_block(loop.index) }}
+                    {% endif %}
+                    {% if lblock.type == 'text' %}
+                        {{ macros.text(lblock.domId, lblock, class, lblock.rank, mode) }}
+                    {% elseif lblock.type == 'img' %}
+                        {{ macros.img(lblock.domId, lblock, class, lblock.rank, mode) }}
+                    {% elseif lblock.type == 'calendar' %}
+                        {% set calendar = calendars|findCalendar(lblock.content, lblock.externalRouteId) %}
+                        {{ macros.line_calendar(lblock.domId, lblock, class, lblock.rank, mode, calendar, 26) }}
+                    {% elseif lblock.type == 'pagebreak' %}
+                        {{ macros.page_break(lblock.domId, lblock, class, lblock.rank, mode) }}
+                    {% endif %}
+                    {% if mode == 'edit' and loop.last %}
+                        {{ macros.add_block(loop.index+1) }}
+                    {% endif %}
+                {% else %}
+                    {% if mode == "edit" %}
+                        {{ macros.add_block() }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {%
+        include "CanalTPMttBundle:Layouts:common.html.twig"
+        with {
+            'mode'              : mode,
+            'externalNetworkId' : externalNetworkId,
+            'timetableId'       : timetable.id,
+            'type'              : 'line',
+            'selector'          : '#layout-1-wrapper'
+        }
+    %}
+{% endblock %}

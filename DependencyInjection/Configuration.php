@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('canal_tp_meth');
+        $rootNode = $treeBuilder->root('canal_tp_mtt');
 
         $rootNode
             ->children()
@@ -31,6 +31,11 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('server')->defaultValue(
                             'http://localhost'
                         )->end()
+                    ->end()
+                ->end()
+                ->scalarNode('hour_offset')
+                    ->info('Hour used for day switching in navitia route_schedules')
+                    ->defaultValue(4)
                 ->end()
             ->end()
         ;

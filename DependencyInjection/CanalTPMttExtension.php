@@ -28,6 +28,8 @@ class CanalTPMttExtension extends Extension implements ExtensionInterface
             new FileLocator(__DIR__.'/../Resources/config')
         );
 
+        $container->setParameter('canal_tp_mtt.hour_offset', $config['hour_offset']);
+
         $loader->load('services.yml');
         $loader->load('blocks.yml');
         $loader->load('permissions.yml');

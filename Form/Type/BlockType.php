@@ -11,8 +11,9 @@ class BlockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('dom_id', 'hidden', array('data' => $options['data']['dom_id']));
-        $builder->add('type_id', 'hidden', array('data' => $options['data']['type_id']));
+        $builder->add('rank', 'hidden', array('data' => $options['data']['rank']));
+        $builder->add('type', 'hidden', array('data' => $options['data']['type']));
+        $builder->add('domId', 'hidden', array('data' => $options['data']['domId']));
 
         $builder->addEventSubscriber(new SeasonLockedSubscriber());
     }

@@ -82,11 +82,11 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         return $stopPoint;
     }
 
-    private function createBlock(ObjectManager $em, $stopTimetable, $typeId = BlockRepository::TEXT_TYPE)
+    private function createBlock(ObjectManager $em, $stopTimetable, $type = BlockRepository::TEXT_TYPE)
     {
         $block = new Block();
         $block->setStopTimetable($stopTimetable);
-        $block->setTypeId($typeId);
+        $block->setType($type);
         $block->setDomId('timegrid_block_1');
         $block->setContent('test');
         $block->setTitle('title');

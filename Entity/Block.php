@@ -15,12 +15,27 @@ class Block extends AbstractEntity
     /**
      * @var string
      */
-    private $typeId;
+    private $type;
 
     /**
      * @var string
      */
     private $domId;
+
+    /**
+     * @var integer
+     */
+    private $rank;
+
+    /**
+     * @var string
+     */
+    private $externalLineId;
+
+    /**
+     * @var string
+     */
+    private $externalRouteId;
 
     /**
      * @var string
@@ -36,6 +51,11 @@ class Block extends AbstractEntity
      * @var Object
      */
     private $stopTimetable;
+
+    /**
+     * @var Object
+     */
+    private $lineTimetable;
 
     /**
      * @var Object
@@ -57,24 +77,24 @@ class Block extends AbstractEntity
     }
 
     /**
-     * Get typeId
+     * Get type
      *
      * @return string
      */
-    public function getTypeId()
+    public function getType()
     {
-        return $this->typeId;
+        return $this->type;
     }
 
     /**
-     * Set typeId
+     * Set type
      *
-     * @param  string $typeId
+     * @param  string $type
      * @return Block
      */
-    public function setTypeId($typeId)
+    public function setType($type)
     {
-        $this->typeId = $typeId;
+        $this->type = $type;
 
         return $this;
     }
@@ -100,6 +120,101 @@ class Block extends AbstractEntity
     public function getDomId()
     {
         return $this->domId;
+    }
+
+    /**
+     * Set rank
+     *
+     * @param  integer $rank
+     * @return Block
+     */
+    public function setRank($rank)
+    {
+        $this->rank = $rank;
+
+        return $this;
+    }
+
+    /**
+     * Get rank
+     *
+     * @return integer
+     */
+    public function getRank()
+    {
+        return $this->rank;
+    }
+
+    /**
+     * Incrementing the block's rank.
+     *
+     * @param integer $nb
+     */
+    public function incRank($nb = 1)
+    {
+        if ($nb >= 1) {
+            $this->rank += $nb;
+        } else {
+            $this->rank++;
+        }
+    }
+
+    /**
+     * Decrementing the block's rank.
+     *
+     * @param integer $nb
+     */
+    public function decRank($nb = 1)
+    {
+        if ($nb >= 1 && ($this->rank - $nb) > 0) {
+            $this->rank -= $nb;
+        }
+    }
+
+    /**
+     * Set externalLineId
+     *
+     * @param  string $externalLineId
+     * @return Block
+     */
+    public function setExternalLineId($externalLineId)
+    {
+        $this->externalLineId = $externalLineId;
+
+        return $this;
+    }
+
+    /**
+     * Get externalLineId
+     *
+     * @return string
+     */
+    public function getExternalLineId()
+    {
+        return $this->externalLineId;
+    }
+
+    /**
+     * Set externalRouteId
+     *
+     * @param  string $externalRouteId
+     * @return Block
+     */
+    public function setExternalRouteId($externalRouteId)
+    {
+        $this->externalRouteId = $externalRouteId;
+
+        return $this;
+    }
+
+    /**
+     * Get externalRouteId
+     *
+     * @return string
+     */
+    public function getExternalRouteId()
+    {
+        return $this->externalRouteId;
     }
 
     /**
@@ -149,6 +264,30 @@ class Block extends AbstractEntity
     }
 
     /**
+     * Get lineTimetable
+     *
+     * @return LineTimetable
+     */
+    public function getLineTimetable()
+    {
+        return $this->lineTimetable;
+    }
+
+    /**
+     * Set lineTimetable
+     *
+     * @param LineTimetable $lineTimetable
+     *
+     * @return Block
+     */
+    public function setLineTimetable(LineTimetable $lineTimetable)
+    {
+        $this->lineTimetable = $lineTimetable;
+
+        return $this;
+    }
+
+    /**
      * Set stopTimetable
      *
      * @param integer $stopTimetable
@@ -170,6 +309,42 @@ class Block extends AbstractEntity
     public function getStopTimetable()
     {
         return $this->stopTimetable;
+    }
+
+    /**
+     * Set timetable
+     *
+     * @param Timetable
+     */
+    public function setTimetable(Timetable $timetable)
+    {
+        if ($timetable instanceof LineTimetable) {
+            $this->lineTimetable = $timetable;
+        } elseif ($timetable instanceof StopTimetable) {
+            $this->stopTimetable = $timetable;
+        } else {
+            throw new \Exception('Timetable object is not StopTimetable nor LineTimetable instance');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get timetable
+     *
+     * @return LineTimetable or StopTimetable
+     */
+    public function getTimetable()
+    {
+        if ($this->stopTimetable !== null) {
+            return $this->stopTimetable;
+        }
+
+        if ($this->lineTimetable !== null) {
+            return $this->lineTimetable;
+        }
+
+        return null;
     }
 
     /**
@@ -206,7 +381,7 @@ class Block extends AbstractEntity
      */
     public function isImg()
     {
-        return ($this->getTypeId() == BlockRepository::IMG_TYPE);
+        return ($this->getType() == BlockRepository::IMG_TYPE);
     }
 
     /**
@@ -216,7 +391,7 @@ class Block extends AbstractEntity
      */
     public function isText()
     {
-        return ($this->getTypeId() == BlockRepository::TEXT_TYPE);
+        return ($this->getType() == BlockRepository::TEXT_TYPE);
     }
 
     /**
@@ -226,15 +401,7 @@ class Block extends AbstractEntity
      */
     public function isCalendar()
     {
-        return ($this->getTypeId() == BlockRepository::CALENDAR_TYPE);
-    }
-
-    /**
-     * Getting the Timetable
-     */
-    public function getTimetable()
-    {
-        return $this->stopTimetable;
+        return ($this->getType() == BlockRepository::CALENDAR_TYPE);
     }
 
     /**
