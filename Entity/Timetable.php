@@ -3,6 +3,7 @@
 namespace CanalTP\MttBundle\Entity;
 
 use \Doctrine\Common\Collections\Collection;
+use \Doctrine\Common\Collections\Criteria;
 
 /**
  * Class Timetable
@@ -73,6 +74,24 @@ class Timetable extends AbstractEntity
         $this->blocks = $blocks;
 
         return $this;
+    }
+
+    /**
+     * Get block by domId
+     *
+     * @param string $domId
+     * @return Block|null
+     */
+    public function getBlockByDomId($domId)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('domId', $domId))
+            ->setMaxResults(1)
+        ;
+
+        $blocks = $this->blocks->matching($criteria);
+
+        return $blocks->isEmpty() ? null : $blocks->first();
     }
 
     /**

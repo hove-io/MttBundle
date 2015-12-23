@@ -13,11 +13,16 @@ use Doctrine\ORM\EntityRepository;
 class StopTimetableRepository extends EntityRepository
 {
     /*
-     * init stopTimetable object, if not found in db create an entity
+     * Finding a StopTimetable in database using an externalRouteId.
+     * If the object doesn't exist, create it
+     *
+     * @param string $externalRouteId
+     * @param integer $lineConfig
      */
-    public function getStopTimetableByRouteExternalId($externalRouteId, $lineConfig)
+    public function findOrCreateStopTimetable($externalRouteId, $lineConfig)
     {
         $stopTimetable = null;
+
         if ($lineConfig != null) {
             $stopTimetable = $this->findOneBy(
                 array(
@@ -26,6 +31,7 @@ class StopTimetableRepository extends EntityRepository
                 )
             );
         }
+
         // not found then insert it
         if (empty($stopTimetable)) {
             $stopTimetable = new StopTimetable();
@@ -34,25 +40,10 @@ class StopTimetableRepository extends EntityRepository
 
             $this->getEntityManager()->persist($stopTimetable);
             $this->getEntityManager()->flush();
+            $this->getEntityManager()->refresh($stopTimetable);
         }
 
         return $stopTimetable;
-    }
-
-    /*
-     * Return blocks defined for this stopTimetable on route level
-     */
-    public function findBlocksByStopTimetableIdOnly($stopTimetableId)
-    {
-        $result = $this->getEntityManager()->getRepository('CanalTPMttBundle:Block')->findBy(
-            array(
-                'stopPoint' => null,
-                'stopTimetable' => $stopTimetableId
-            ),
-            array('domId' => 'ASC')
-        );
-
-        return $result;
     }
 
     /**

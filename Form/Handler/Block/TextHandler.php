@@ -13,8 +13,8 @@ class TextHandler extends AbstractHandler
         $this->block = $block;
     }
 
-    public function process(Block $formBlock, $stopTimetable)
+    public function process(Block $formBlock, $timetable)
     {
-        $this->saveBlock($formBlock, $stopTimetable);
+        $this->saveBlock($formBlock, $timetable);
     }
 }

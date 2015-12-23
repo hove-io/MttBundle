@@ -11,12 +11,12 @@
     <div id="layout-1-wrapper" class="{% block additionnal_wrapper_class %}{% endblock %}">
         <div class="layout-container">
             <div id="header" class="clearfix">
-                <div id="direction-title-wrapper" data-block-level="route" data-auto-filled="1">
+                <div id="direction-title-wrapper" data-auto-filled="1">
                     {% if stopTimetable.title is defined %}
                         {{ 'global.direction'|trans }} {{ stopTimetable.title }}
                     {% endif %}
                 </div>
-                <div id="stop-point-title-wrapper" data-block-level="stop_point" data-auto-filled="1">
+                <div id="stop-point-title-wrapper" data-auto-filled="1">
                     <div class="bold">{{'stop_point.label'|trans({}, 'default')}}:</div> {{ stopPoint.title }}
                 </div>
             </div>
@@ -25,17 +25,17 @@
                     {{ macros.stop_point_pois('text_block_3', stopPoint, 'small-block') }}
                     {{ macros.season_validity('text_block_1', currentSeason, 'small-block') }}
                     {{ macros.stop_point_code('text_block_4', stopPoint, 'small-block') }}
-                    {{ macros.text('text_block_2', attribute(stopTimetable.blocks, 'text_block_2'), 'route', 'small-block block') }}
+                    {{ macros.text('text_block_2', stopTimetable.BlockByDomId('text_block_2'), 'small-block block') }}
                 </div>
-                {{ macros.img('line_map_block', attribute(stopTimetable.blocks, 'line_map_block'), 'line_map_img', 'route') }}
+                {{ macros.img('line_map_block', stopTimetable.BlockByDomId('line_map_block'), 'line_map_img') }}
 
             </div>
             {% block stop_timetables_wrapper %}
                 <div id="stop-timetables-wrapper" class="clearfix">
                     {% for i in 1..2 %}
                         {% set id = 'timegrid_block_' ~ i %}
-                        {% set block = attribute(stopTimetable.blocks, id) %}
-                        <div {% if editable %}title="{{ 'help.edit_block'|trans }}"{% endif %} id="{{ id }}" data-block-level="route" data-block-type="calendar" class="timegrid-container block">
+                        {% set block = stopTimetable.BlockByDomId(id) %}
+                        <div {% if editable %}title="{{ 'help.edit_block'|trans }}"{% endif %} id="{{ id }}" data-type="calendar" data-icon="calendar" class="timegrid-container block">
                             <div class="timegrid-header">
                                 {% if block %}{{ block.title }}{% endif %}
                             </div>
@@ -56,7 +56,7 @@
                                             with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
                                         %}
                                     {% endif %}
-                                    {{ macros.calendar(id, stopPointLevel, externalNetworkId, stopTimetable, layout, block, calendar, notes, hours_range, null, notesType) }}
+                                    {{ macros.calendar(id, externalNetworkId, stopTimetable, layout, block, calendar, notes, hours_range, null, notesType) }}
                                 </table>
 
                                 {# position is specific to this layout ie i==1... #}
@@ -80,14 +80,12 @@
 
 {% block scripts %}
     {%
-        include "CanalTPMttBundle:Layouts:common.js.twig"
+        include "CanalTPMttBundle:Layouts:common.html.twig"
         with {
             'editable'          : editable,
-            'stopPointLevel'    : stopPointLevel,
             'externalNetworkId' : externalNetworkId,
-            'blockTypes'        : blockTypes,
-            'stopTimetable'     : stopTimetable,
-            'stopPoint'         : stopPoint,
-            'selector'          : '#layout-1-wrapper' }
+            'timetable'         : stopTimetable,
+            'selector'          : '#layout-1-wrapper'
+        }
     %}
 {% endblock %}
