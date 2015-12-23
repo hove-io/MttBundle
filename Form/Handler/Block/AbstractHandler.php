@@ -16,10 +16,11 @@ abstract class AbstractHandler implements HandlerInterface
 
             $this->block->setTitle($formBlock->getTitle());
             $this->block->setContent($formBlock->getContent());
-            $this->block->setTypeId($formBlock->getTypeId());
+            $this->block->setType($formBlock->getType());
             $this->block->setDomId($formBlock->getDomId());
+            $this->block->setRank($formBlock->getRank());
         }
-        $this->block->setStopTimetable($timetable);
+        $this->block->setTimetable($timetable);
 
         $this->om->persist($this->block);
         $this->om->flush();

@@ -1,10 +1,15 @@
-{% if editable == true %}
+{% if editable == true or mode == 'edit' %}
     <script>
+        var globalParameters = {
+            timetableId: "{{ timetableId|raw }}",
+            externalNetworkId: "{{ externalNetworkId|raw }}",
+            type: "{{ type|raw }}"
+        };
+
         require(['jquery', 'mtt/layout', 'bootstrap'], function($, Layout) {
             var layout = Layout.init(
                 $('{{ selector|raw }}'),
-                {{ timetable.id|raw }},
-                {{ externalNetworkId|json_encode()|raw }}
+                globalParameters
             );
         });
         require(['jquery', 'mtt/layout/validator', 'bootstrap'], function($, Validator){

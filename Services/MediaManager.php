@@ -10,12 +10,14 @@ use CanalTP\MttBundle\MediaManager\Category\CategoryType;
 use CanalTP\MttBundle\MediaManager\Category\Factory\CategoryFactory;
 
 use CanalTP\MttBundle\Entity\Block;
+use CanalTP\MttBundle\Entity\StopTimetable;
+use CanalTP\MttBundle\Entity\LineTimetable;
 
 class MediaManager
 {
     private $mediaDataCollector = null;
     private $categoryFactory = null;
-    const TIMETABLE_FILENAME = 'stopTimetable';
+    const TIMETABLE_FILENAME = '_timetable';
 
     public function __construct(MediaDataCollector $mediaDataCollector)
     {
@@ -23,16 +25,20 @@ class MediaManager
         $this->categoryFactory = new CategoryFactory();
     }
 
-    public function getSeasonCategory($networkCategoryValue, $routeCategoryValue, $seasonCategoryValue, $externalStopPointId = false)
-    {
+    public function getStopTimetableSeasonCategory(
+        $networkCategoryValue,
+        $routeCategoryValue,
+        $seasonCategoryValue,
+        $externalStopPointId = false
+    ) {
         $networkCategory = $this->categoryFactory->create(CategoryType::NETWORK);
         $networkCategory->setId($networkCategoryValue);
-        $routeCategory = $this->categoryFactory->create(CategoryType::ROUTE);
-        $routeCategory->setId($routeCategoryValue);
         $seasonCategory = $this->categoryFactory->create(CategoryType::SEASON);
         $seasonCategory->setId($seasonCategoryValue);
-
+        $routeCategory = $this->categoryFactory->create(CategoryType::ROUTE);
+        $routeCategory->setId($routeCategoryValue);
         $routeCategory->setParent($networkCategory);
+
         if ($externalStopPointId) {
             $stopPointCategory = $this->categoryFactory->create(CategoryType::STOP_POINT);
             $stopPointCategory->setId($externalStopPointId);
@@ -45,15 +51,43 @@ class MediaManager
         return $seasonCategory;
     }
 
+    public function getLineTimetableSeasonCategory(
+        $networkCategoryValue,
+        $seasonCategoryValue,
+        $lineCategoryValue
+    ) {
+        $networkCategory = $this->categoryFactory->create(CategoryType::NETWORK);
+        $networkCategory->setId($networkCategoryValue);
+        $seasonCategory = $this->categoryFactory->create(CategoryType::SEASON);
+        $seasonCategory->setId($seasonCategoryValue);
+        $lineCategory = $this->categoryFactory->create(CategoryType::LINE);
+        $lineCategory->setId($lineCategoryValue);
+
+        $lineCategory->setParent($networkCategory);
+        $seasonCategory->setParent($lineCategory);
+
+        return $seasonCategory;
+    }
+
     // prepare media regarding Mtt policy
-    private function getMedia($stopTimetable, $externalStopPointId = false)
+    private function getMedia($timetable, $externalStopPointId = false)
     {
-        $seasonCategory = $this->getSeasonCategory(
-            $stopTimetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
-            $stopTimetable->getExternalRouteId(),
-            $stopTimetable->getLineConfig()->getSeason()->getId(),
-            $externalStopPointId
-        );
+        if ($timetable instanceof StopTimetable) {
+            $seasonCategory = $this->getStopTimetableSeasonCategory(
+                $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                $timetable->getExternalRouteId(),
+                $timetable->getLineConfig()->getSeason()->getId(),
+                $externalStopPointId
+            );
+        } elseif ($timetable instanceof LineTimetable) {
+            $seasonCategory = $this->getLineTimetableSeasonCategory(
+                $timetable->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
+                $timetable->getLineConfig()->getExternalLineId(),
+                $timetable->getLineConfig()->getSeason()->getId()
+            );
+        } else {
+            throw new \Exception('Bad Timetable object');
+        }
 
         $media = new Media();
         $media->setCategory($seasonCategory);
@@ -75,17 +109,9 @@ class MediaManager
     public function getStopPointStopTimetableMedia($stopTimetable, $externalStopPointId)
     {
         $media = $this->getMedia($stopTimetable, $externalStopPointId);
-        $media->setFileName(self::TIMETABLE_FILENAME);
+        $media->setFileName('stop'.self::TIMETABLE_FILENAME);
 
         return $media;
-    }
-
-    public function findMediaPathByTimeTable($stopTimetable, $fileName)
-    {
-        $media = $this->getMedia($stopTimetable);
-        $media->setFileName($fileName);
-
-        return ($this->getPathByMedia($media));
     }
 
     public function saveStopPointStopTimetable($stopTimetable, $externalStopPointId, $path)
@@ -97,9 +123,17 @@ class MediaManager
         return ($media);
     }
 
-    public function saveByStopTimetable($stopTimetable, $file, $fileName)
+    public function findMediaPathByTimeTable($timetable, $fileName)
     {
-        $media = $this->getMedia($stopTimetable);
+        $media = $this->getMedia($timetable);
+        $media->setFileName($fileName);
+
+        return ($this->getPathByMedia($media));
+    }
+
+    public function saveByTimetable($timetable, $file, $fileName)
+    {
+        $media = $this->getMedia($timetable);
         $media->setFileName($fileName);
         $media->setFile($file);
         $this->mediaDataCollector->save($media);
@@ -115,12 +149,12 @@ class MediaManager
         $seasonCategory->delete($this->mediaDataCollector->getCompany(), true);
     }
 
-    public function copy(Block $origBlock, Block $destBlock, $destStopTimetable)
+    public function copy(Block $origBlock, Block $destBlock, $destTimetable)
     {
-        $origImgMediaPath = $this->findMediaPathByTimeTable($origBlock->getStopTimetable(), $origBlock->getDomId());
+        $origImgMediaPath = $this->findMediaPathByTimeTable($origBlock->getTimetable(), $origBlock->getDomId());
         if (!empty($origImgMediaPath)) {
             copy($origImgMediaPath, $origImgMediaPath . '.bak');
-            $destMedia = $this->saveByStopTimetable($destStopTimetable, new File($origImgMediaPath), $origBlock->getDomId());
+            $destMedia = $this->saveByTimetable($destTimetable, new File($origImgMediaPath), $origBlock->getDomId());
             $destBlock->setContent($this->mediaDataCollector->getUrlByMedia($destMedia));
             // no rename because of the NFS bug
             copy($origImgMediaPath . '.bak', $origImgMediaPath);

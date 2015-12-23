@@ -8,13 +8,24 @@ CanalTP\MttBundle\Entity\Block:
             id: true
             generator:
                 strategy: IDENTITY
-        typeId:
+        type:
             type: string
-            column: type_id
+            column: type
         domId:
             type: string
             length: '128'
             column: dom_id
+        rank:
+            type: integer
+            column: rank
+        externalLineId:
+            type: string
+            length: 255
+            column: external_line_id
+        externalRouteId:
+            type: string
+            length: 255
+            column: external_route_id
         content:
             type: text
             nullable: true
@@ -38,6 +49,11 @@ CanalTP\MttBundle\Entity\Block:
             targetEntity: StopTimetable
             joinColumn:
                 name: stop_timetable_id
+                referencedColumnName: id
+        lineTimetable:
+            targetEntity: LineTimetable
+            joinColumn:
+                name: line_timetable_id
                 referencedColumnName: id
     oneToMany:
         frequencies:
