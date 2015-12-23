@@ -52,7 +52,7 @@
                         {{ macros.img(lblock.domId, lblock, class, lblock.rank, mode) }}
                     {% elseif lblock.type == 'calendar' %}
                         {% set calendar = calendars|findCalendar(lblock.content, lblock.externalRouteId) %}
-                        {{ macros.line_calendar(lblock.domId, lblock, class, lblock.rank, mode, calendar) }}
+                        {{ macros.line_calendar(lblock.domId, lblock, class, lblock.rank, mode, calendar, 26) }}
                     {% endif %}
                     {% if mode == 'edit' and loop.last %}
                         {{ macros.add_block(loop.index+1) }}

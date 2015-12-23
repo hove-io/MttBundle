@@ -274,10 +274,14 @@ class LineTimetableController extends AbstractController
 
         $externalCoverageId = $perimeter->getExternalCoverageId();
 
+        $parameters = array();
+        $parameters['hourOffset'] = intVal($this->container->getParameter('canal_tp_mtt.hour_offset'));
+
         $schedule = $this->get('canal_tp_mtt.calendar_manager')->getCalendarsForLine(
             $externalCoverageId,
             $externalNetworkId,
-            $externalLineId
+            $externalLineId,
+            $parameters
         );
 
         $navitia = $this->get('canal_tp_mtt.navitia');
@@ -371,6 +375,12 @@ class LineTimetableController extends AbstractController
         if (!$selectedStopPoints->isEmpty()) {
             $parameters['stopPoints'] = $selectedStopPoints;
         }
+
+        $layoutConfig = $block->getLineTimetable()->getLineConfig()->getLayoutConfig();
+
+        $parameters['limits']['min'] = $layoutConfig->getCalendarStart();
+        $parameters['limits']['max'] = $layoutConfig->getCalendarEnd();
+        $parameters['hourOffset'] = intVal($this->container->getParameter('canal_tp_mtt.hour_offset'));
 
         $schedule = $this->get('canal_tp_mtt.calendar_manager')->getCalendarForBlock(
             $perimeter->getExternalCoverageId(),

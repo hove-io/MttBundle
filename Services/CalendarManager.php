@@ -437,9 +437,18 @@ class CalendarManager
     public function getCalendarForBlock(
         $externalCoverageId,
         Block $block,
-        $parameters = array()
+        $parameters
     ) {
         $calendar = $this->navitia->getCalendar($externalCoverageId, $block->getContent())->calendars[0];
+
+        if (empty($parameters['hourOffset'])) {
+            throw new \Exception('The hour offset have to be set');
+        }
+
+        $parameters['startProductionDate'] = $this->navitia->getStartProductionDate(
+            $externalCoverageId,
+            $parameters['hourOffset']
+        );
 
         return $this->getRouteSchedules(
             $externalCoverageId,
@@ -460,10 +469,20 @@ class CalendarManager
     public function getCalendarsForLine(
         $externalCoverageId,
         $externalNetworkId,
-        $externalLineId
+        $externalLineId,
+        $parameters
     ) {
         $routes = $this->navitia->getLineRoutes($externalCoverageId, $externalNetworkId, $externalLineId);
         $calendars = $this->navitia->getLineCalendars($externalCoverageId, $externalNetworkId, $externalLineId);
+
+        if (empty($parameters['hourOffset'])) {
+            throw new \Exception('The hour offset have to be set');
+        }
+
+        $parameters['startProductionDate'] = $this->navitia->getStartProductionDate(
+            $externalCoverageId,
+            $parameters['hourOffset']
+        );
 
         $schedule = array();
         foreach ($routes as $route) {
@@ -474,7 +493,8 @@ class CalendarManager
                 $schedule[$externalRouteId]['calendars'][$calendar->id] = $this->getRouteSchedules(
                     $externalCoverageId,
                     $externalRouteId,
-                    $calendar
+                    $calendar,
+                    $parameters
                 );
             }
         }
@@ -493,14 +513,14 @@ class CalendarManager
         $externalCoverageId,
         $externalRouteId,
         &$calendar,
-        $parameters = array()
+        $parameters
     ) {
         try {
             $routeSchedules = $this->navitia->getRouteSchedulesByRouteAndCalendar(
                 $externalCoverageId,
                 $externalRouteId,
                 $calendar->id,
-                \DateTime::createFromFormat('Ymd', $calendar->validity_pattern->beginning_date)
+                $parameters['startProductionDate']
             );
         } catch(\Exception $e) {
             return $this->createEmptyLineCalendar($calendar);
@@ -516,7 +536,25 @@ class CalendarManager
             throw new \Exception('No stop points found for the route : '.$externalRouteId);
         }
 
-        $this->buildFullCalendar($routeSchedules);
+        $this->buildFullCalendar($routeSchedules, $parameters['hourOffset']);
+
+        $stopTimesToDelete = array();
+
+        if (!empty($parameters['limits'])) {
+            $this->processTimeLimits(
+                $parameters['limits'],
+                $parameters['hourOffset'],
+                current($routeSchedules->route_schedules['metadata'])['firstHour']
+            );
+            $this->cutCalendar($routeSchedules->route_schedules, $parameters['limits'], $stopTimesToDelete);
+        }
+
+        if (count($stopTimesToDelete) > 0) {
+            $this->deleteStopTimes(
+                $routeSchedules->route_schedules,
+                $stopTimesToDelete
+            );
+        }
 
         unset($routeSchedules->headers, $routeSchedules->exceptions);
 
@@ -569,9 +607,10 @@ class CalendarManager
     }
 
     /**
-     * Build full calendar.
+     * Building full calendar.
      *
      * @param mixed &$schedule
+     * @param integer $hourOffset
      *
      * Building a full one-line calendar array.
      * The calendar's structure in JSON is :
@@ -598,7 +637,7 @@ class CalendarManager
      * It's type is just "trip" at the end of the function but it
      * can be replaced later by something else (frequency for example).
      */
-    private function buildFullCalendar(&$schedule)
+    private function buildFullCalendar(&$schedule, $hourOffset)
     {
         $calendar = array(
             'columns' => count($schedule->route_schedules[0]->date_times),
@@ -608,18 +647,22 @@ class CalendarManager
 
         foreach ($schedule->route_schedules as $lineNumber => $stop) {
             $stopTimes = array();
-            $previousDatetime = null;
+            $previousHour = null;
             $dayOffset = false;
             foreach ($stop->date_times as $columnNumber => $detail) {
+                $hour = intVal(substr($detail->date_time, 0, 2));
+
                 if (empty($detail->date_time)) {
                     if (!isset($calendar['metadata'][$columnNumber])) {
                         $calendar['metadata'][$columnNumber] = null;
                     }
                     $stopTimes[] = null;
                 } else {
-                    // Detecting day change by hours comparison
-                    if ($previousDatetime && !$dayOffset && $previousDatetime > intVal($detail->date_time)) {
-                        $dayOffset = true;
+                    // Detecting day / day+1 limit looking at hours and hourOffset
+                    if ($previousHour && !$dayOffset && $previousHour > $hour) {
+                        if ($previousHour > $hourOffset && $hour < $hourOffset) {
+                            $dayOffset = true;
+                        }
                     }
 
                     $date = strtotime($detail->date_time);
@@ -654,7 +697,7 @@ class CalendarManager
                         $calendar['metadata'][$columnNumber]['arrivalStop'] = $stop->stop_point->name;
                     }
 
-                    $previousDatetime = intVal($detail->date_time);
+                    $previousHour = $hour;
                 }
             }
 
@@ -666,5 +709,88 @@ class CalendarManager
         }
 
         $schedule->route_schedules = $calendar;
+    }
+
+    /**
+     * Processing time limits using a reference date and the first
+     * hour of the first trip in calendar
+     *
+     * @param array &$limits
+     * @param integer $hourOffset
+     * @param time $firstTrip
+     */
+    private function processTimeLimits(&$limits, $hourOffset, $firstTrip)
+    {
+        if (empty($limits['min']) || intVal($limits['min']) < 0) {
+            throw new \Exception('The low limit is invalid');
+        }
+
+        if (empty($limits['max']) || intVal($limits['max']) < 0) {
+            throw new \Exception('The high limit is invalid');
+        }
+
+        $referenceDate = new \Datetime(date('Y-m-d\TH:i:s', $firstTrip));
+
+        // The date is D-1 if the first hour is < hourOffset
+        if (intval($referenceDate->format('H')) < $hourOffset) {
+            $referenceDate->sub(new \DateInterval('P1D'));
+        }
+
+        $referenceDate = $referenceDate->format('Y-m-d');
+
+        foreach ($limits as $idx => $hour)
+        {
+            $hour = (int)$hour;
+            if ($hour > 24) {
+                $limits[$idx] = strtotime(
+                    "+1 day",
+                    strtotime($referenceDate." ".date('His', mktime($hour - 24, 0, 0)))
+                );
+            } else {
+                $limits[$idx] = strtotime($referenceDate." ".date('His', mktime($hour, 0, 0)));
+            }
+        }
+    }
+
+    /**
+     * Cutting calendar hours using limitations
+     *
+     * @param mixed &$schedule
+     * @param array $limits
+     * @param array &$stopTimesToDelete
+     */
+    private function cutCalendar(&$schedule, $limits, &$stopTimesToDelete)
+    {
+        foreach ($schedule['metadata'] as $columnNumber => $metadata)
+        {
+            if ($metadata['firstHour'] < $limits['min']
+                || $metadata['firstHour'] > $limits['max']
+            ) {
+                unset($schedule['metadata'][$columnNumber]);
+                $stopTimesToDelete[] = $columnNumber;
+                $schedule['columns'] -= 1;
+            }
+        }
+    }
+
+    /**
+     * Deleting stopTimes from stops in a calendar array.
+     * stopTimesToDelete contains the deleted stopTimes position.
+     *
+     * @param array $stops
+     * @param array $stopTimesToDelete
+     */
+    private function deleteStopTimes(&$schedule, $stopTimesToDelete)
+    {
+        $columnsToDelete = 0;
+        foreach ($schedule['stops'] as $key => $stop) {
+            foreach (array_keys($stop['stopTimes']) as $columnNumber) {
+                if (in_array($columnNumber, $stopTimesToDelete)) {
+                    unset($stop['stopTimes'][$columnNumber]);
+                    $columnsToDelete++;
+                }
+            }
+            $schedule['stops'][$key]['stopTimes'] = $stop['stopTimes'];
+        }
     }
 }

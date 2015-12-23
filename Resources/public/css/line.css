@@ -105,9 +105,11 @@
 /* line-timetable style */
 .line-timetable-calendar {
     width:100%;
+    font-family:ralewayregular;
 }
 .line-timetable-calendar tr {
     height:14px;
+    line-height:14px;
     vertical-align:middle;
     font-size:10px;
 }

@@ -283,7 +283,7 @@
             data-type="{{ block.type }}"
             data-rank="{{ rank|default(0) }}"
             data-icon="calendar"
-            data-columns="24"
+            data-columns="{{ columnsLimit }}"
         {% endif %}
     >
         {% if mode == 'edit' and block and block.rank > 0 %}
