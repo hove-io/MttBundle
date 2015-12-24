@@ -46,6 +46,7 @@ global:
     go_back: Retour
 
 error:
+    invalid_status_code: Le code utilisé est invalide.
     element_locked: Cet élément est verrouillé et ne peut être modifié.
     start_end_time_incoherent: Les heures de début et de fin ne sont pas cohérentes
     entities_overlapping: Les éléments n°%firstElement% et n°%secondElement% se chevauchent
@@ -58,6 +59,9 @@ error:
 help:
     edit_block: Cliquez pour éditer ce bloc
     drop_here: Déposez les éléments ici
+    add_block: Ajouter un ou plusieurs blocs
+    load_data: Charger les données
+    delete_block: Supprimer le bloc
 
 calendar:
     start: Heure de début des calendriers
@@ -114,12 +118,21 @@ line_timetable:
     message:
         save_stop_selection: Souhaitez-vous enregistrer les changements avant de changer de route ?
         empty_calendar: Aucune horaire présente dans ce calendrier.
+    error:
+        block_not_linked: Le bloc %blockId% n'est pas lié à une fiche horaire de ligne
+        bad_external_network: La fiche horaire n'est pas accessible via le réseau %externalNetworkId%
+        block_empty: Le bloc %blockId% ne contient pas de données
+        block_not_calendar: Le bloc %blockId% n'est pas de type calendrier
 
 frequency:
     labels:
         start_time: Heure de début
         end_time: Heure de fin
         content: Texte
+        columns: Colonnes occupées
+        time: Toutes les (minutes)
+    action:
+        check: Vérifier
 
 area:
     labels:
@@ -143,6 +156,11 @@ layout_model:
         archive_path: Chemin de l'archive
 
 block:
+    title:
+        add: Ajouter un bloc
+    labels:
+        type: Type de bloc
+        number: Nombre d'ajouts
     img:
         labels:
             title: Titre
@@ -151,10 +169,14 @@ block:
         labels:
             title: Titre
             content: Texte
+    pagebreak:
+        labels:
+            content: Saut de page
     calendar:
         labels:
             title: Titre
             content: Calendrier
+            route: Direction
 
 customer:
     layout_list: Liste des modèles

@@ -477,10 +477,35 @@ class Navitia
                 'region' => $externalCoverageId,
                 'action' => 'route_schedules',
                 'path_filter' => 'routes/' . $externalRouteId,
-                'parameters' => '?calendar=' . $externalCalendarId . '&show_codes=true&from_datetime=' . $fromDatetime->format('Ymd')
+                'parameters' => '?calendar=' . $externalCalendarId . '&show_codes=true&from_datetime=' . $fromDatetime->format('Ymd\tHis')
             )
         );
 
         return $this->navitia_component->call($query);
+    }
+
+    /**
+     * Getting first date of production from navitia data
+     *
+     * @param string $externalCoverageId
+     * @param integer $limit
+     */
+    public function getStartProductionDate($externalCoverageId, $hourOffset = null)
+    {
+        $query = array(
+            'api' => 'coverage',
+            'parameters' => array(
+                'region' => $externalCoverageId
+            )
+        );
+
+        $response = \DateTime::createFromFormat('Ymd', $this->navitia_component->call($query)->regions[0]->start_production_date);
+
+        $response->add(new \DateInterval('P1D'));
+        if (!empty($hourOffset)) {
+            $response->setTime($hourOffset, 0);
+        }
+
+        return $response;
     }
 }

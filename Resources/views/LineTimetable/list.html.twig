@@ -28,6 +28,12 @@
             </a>
         {% else %}
             <div class="btn-group pull-right marg10b" >
+                {% if lineTimetable.hasTemplateOfType('line') %}
+                    <a class="btn btn-primary{% if currentSeason.locked %} disabled{% endif %}" href="{{ path('canal_tp_mtt_line_timetable_render',
+                        {'externalNetworkId': externalNetworkId, 'externalLineId': externalLineId, 'seasonId': currentSeason.id, 'mode': 'edit'}) }}">
+                        <span class="glyphicon glyphicon-edit"></span> {{ 'line_timetable.action.edit'|trans({}, 'default') }}
+                    </a>
+                {% endif %}
                 <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">{{ 'global.actions'|trans }}
                     <span class="caret"></span>
                 </button>

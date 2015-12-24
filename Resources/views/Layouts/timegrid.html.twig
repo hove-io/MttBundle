@@ -25,9 +25,9 @@
             {% set params = { 'notes' : notes, 'computedNotes' : notes, 'calendar' : calendar } %}
         {% endif %}
         {% if not colorAltern %}
-            {{ macros.calendar(id, externalNetworkId, stopTimetable, layout, block, calendar, params.computedNotes, hours_range, nbLines) }}
+            {{ macros.stop_calendar(id, externalNetworkId, stopTimetable, layout, block, calendar, params.computedNotes, hours_range, nbLines) }}
         {% else %}
-            {{ macros.calendar(id, externalNetworkId, stopTimetable, layout, block, calendar, params.computedNotes, hours_range, nbLines, null, colorAltern) }}
+            {{ macros.stop_calendar(id, externalNetworkId, stopTimetable, layout, block, calendar, params.computedNotes, hours_range, nbLines, null, colorAltern) }}
         {% endif %}
         </table>
         {% if addNotes %}

@@ -91,7 +91,7 @@ class StopTimetableController extends AbstractController
                 'layout'                => $stopTimetable->getLineConfig()->getLayoutConfig(),
                 'editable'              => $editable,
                 'displayMenu'           => $displayMenu,
-                'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $stopTimetable->getLineConfig()->getLayoutConfig()->getLayout()->getId() . '/',
+                'templatePath'          => '@CanalTPMtt/Layouts/uploads/' . $layoutId . '/',
                 'imgPath'               => 'bundles/canaltpmtt/img/uploads/' . $layoutId . '/',
                 'cssPath'               => 'bundles/canaltpmtt/css/uploads/' . $layoutId . '/',
                 'externalStopPointId'   => $externalStopPointId

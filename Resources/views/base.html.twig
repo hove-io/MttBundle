@@ -17,7 +17,7 @@
 {{ parent() }}
 - TIMETABLE
     {% if pageTitle %}
-    - {{ pageTitle|trans }}
+    - {{ pageTitle|trans({}, 'default') }}
     {% endif %}
 {% endblock %}
 {% block navbar_brand %}<a href="{% if externalNetworkId %}{{ path('canal_tp_mtt_homepage', {'externalNetworkId':externalNetworkId }) }}{% else %}{{ path('canal_tp_mtt_homepage') }}{% endif %}">TIMETABLE</a>{% endblock %}
@@ -40,7 +40,7 @@
         {% endif %}
         {% block breadcrumb %}
             {% if pageTitle %}
-                <li>{{ pageTitle|trans }}</li>
+            <li>{{ pageTitle|trans({}, 'default') }}</li>
             {% endif %}
         {% endblock %}
     </ol>
