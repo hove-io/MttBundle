@@ -1,0 +1,7 @@
+{% from templatePath ~ "macros.html.twig" import line_schedule %}
+
+{% if not line_schedule %}
+    {% from "CanalTPMttBundle:Layouts:macros.html.twig" import line_schedule %}
+{% endif %}
+
+{{ line_schedule(schedule.route_schedules, columnsLimit, true) }}

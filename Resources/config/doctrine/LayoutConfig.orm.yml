@@ -32,6 +32,15 @@ CanalTP\MttBundle\Entity\LayoutConfig:
         notesType:
             type: string
             column: notes_type
+        horizontalMerge:
+            type: boolean
+            column: horizontal_merge
+        verticalMerge:
+            type: boolean
+            column: vertical_merge
+        verticalMergeOffset:
+            type: integer
+            column: vertical_merge_offset
         created:
             type: datetime
             gedmo:

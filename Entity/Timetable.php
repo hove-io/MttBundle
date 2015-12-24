@@ -95,6 +95,39 @@ class Timetable extends AbstractEntity
     }
 
     /**
+     * Get block by id
+     *
+     * @param integer $blockId
+     * @return Block|null
+     */
+    public function getBlockById($blockId)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('id', $blockId))
+            ->setMaxResults(1)
+        ;
+
+        $blocks = $this->blocks->matching($criteria);
+
+        return $blocks->isEmpty() ? null : $blocks->first();
+    }
+
+    /**
+     * Get ranked blocks
+     *
+     * @return Collection
+     */
+    public function getRankedBlocks()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->gt('rank', 0))
+            ->orderBy(array('rank' => Criteria::ASC))
+        ;
+
+        return $this->blocks->matching($criteria);
+    }
+
+    /**
      * Is locked
      *
      * @return boolean

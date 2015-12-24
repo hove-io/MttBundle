@@ -141,7 +141,7 @@ services:
        arguments: ['@doctrine.orm.entity_manager', '@canal_tp_mtt.navitia', '@jms_serializer']
     canal_tp_mtt.form.factory.block:
        class: %canal_tp_mtt.form.factory.class%
-       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canal_tp_mtt.media_manager']
+       arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canal_tp_mtt.media_manager', '@canal_tp_mtt.navitia']
     canal_tp_mtt.calendar_manager:
        class: %canal_tp_mtt.calendar_manager.class%
        arguments: ['@canal_tp_mtt.navitia', '@translator']

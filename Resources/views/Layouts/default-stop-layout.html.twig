@@ -7,7 +7,7 @@
     <link rel="stylesheet" media="all" href="{{ asset('bundles/canaltpmtt/css/stop.css') }}?{{ assets_version }}" />
 {% endblock %}
 
-{% block stop_timetable_content %}
+{% block timetable_content %}
     <div id="layout-1-wrapper" class="{% block additionnal_wrapper_class %}{% endblock %}">
         <div class="layout-container">
             <div id="header" class="clearfix">
@@ -25,7 +25,7 @@
                     {{ macros.stop_point_pois('text_block_3', stopPoint, 'small-block') }}
                     {{ macros.season_validity('text_block_1', currentSeason, 'small-block') }}
                     {{ macros.stop_point_code('text_block_4', stopPoint, 'small-block', null, 'totem') }}
-                    {{ macros.text('text_block_2', stopTimetable.BlockByDomId('text_block_2'), 'small-block block') }}
+                    {{ macros.text('text_block_2', stopTimetable.BlockByDomId('text_block_2'), 'small-block') }}
                 </div>
                 {{ macros.img('line_map_block', stopTimetable.BlockByDomId('line_map_block'), 'line_map_img') }}
 
@@ -35,7 +35,17 @@
                     {% for i in 1..2 %}
                         {% set id = 'timegrid_block_' ~ i %}
                         {% set block = stopTimetable.BlockByDomId(id) %}
-                        <div {% if editable %}title="{{ 'help.edit_block'|trans }}"{% endif %} id="{{ id }}" data-type="calendar" data-icon="calendar" class="timegrid-container block">
+                        <div
+                            {% if editable %}
+                            title="{{ 'help.edit_block'|trans }}"
+                            {% endif %}
+                            id="{{ id }}"
+                            class="timegrid-container block"
+                            data-type="calendar"
+                            data-icon="calendar"
+                            data-id="{{ block.id|default(-1) }}"
+                            data-rank={{ i }}
+                        >
                             <div class="timegrid-header">
                                 {% if block %}{{ block.title }}{% endif %}
                             </div>
@@ -50,13 +60,13 @@
                                 {% endif %}
                                     {% set hours_range = layout|calendarRange %}
                                     {{ macros.hours_thead(hours_range)}}
-                                    {% if block.frequencies|length > 0 and (calendar.schedules.additional_informations is empty) %}
+                                    {% if block.frequencies is not empty and (calendar.schedules.additional_informations is empty) %}
                                         {%
                                             include "CanalTPMttBundle:Layouts:display.html.twig"
                                             with { 'frequencies' : block.frequencies, 'hours_range' : hours_range }
                                         %}
                                     {% endif %}
-                                    {{ macros.calendar(id, externalNetworkId, stopTimetable, layout, block, calendar, notes, hours_range, null, notesType) }}
+                                    {{ macros.stop_calendar(id, externalNetworkId, stopTimetable, layout, block, calendar, notes, hours_range, null, notesType) }}
                                 </table>
 
                                 {% if i == 1 %}
@@ -77,7 +87,8 @@
         with {
             'editable'          : editable,
             'externalNetworkId' : externalNetworkId,
-            'timetable'         : stopTimetable,
+            'timetableId'       : stopTimetable.id,
+            'type'              : 'stop',
             'selector'          : '#layout-1-wrapper'
         }
     %}

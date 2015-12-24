@@ -15,24 +15,41 @@
     {{ form_errors(form) }}
     <div id="block_frequencies_wrapper" data-count="{{ form.frequencies|length }}">
         {% for frequency in form.frequencies %}
-            <div class="row">
-                <div class="col-lg-12">
-                    <h4 class="bold">
-                        {{'frequency.form.subtitle'|trans({}, 'default')}} <span class="count-label">{{ loop.index }}</span> -
-                        <button type="button" class="btn btn-danger btn-xs delete-item-collection-btn">
-                            <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans}}
-                        </button>
-                    </h4>
+            <div class="frequency-form" data-block-id="{{ block.id }}">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4 class="bold">
+                            {{'frequency.form.subtitle'|trans({}, 'default')}} <span class="count-label">{{ loop.index }}</span> -
+                            <button type="button" class="btn btn-danger btn-xs delete-item-collection-btn">
+                                <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans}}
+                            </button>
+                        </h4>
+                    </div>
+                    <div class="col-lg-2">
+                        {{ form_row(frequency.startTime) }}
+                    </div>
+                    <div class="col-lg-2">
+                        {{ form_row(frequency.endTime) }}
+                    </div>
+                    <div class="col-lg-5">
+                        {% set remaining_chars = frequency.content.vars.attr.maxlength - frequency.content.vars.data|length %}
+                        {{ form_row(frequency.content, {'attr': {'help_text' : 'global.remaining_chars'|trans({'%nb_chars%': remaining_chars}, 'messages')}}) }}
+                    </div>
+                    <div class="col-lg-3">
+                        {{ form_row(frequency.columns) }}
+                        {{ form_label(frequency.time) }}
+                        <div class="input-group">
+                            {{ form_widget(frequency.time) }}
+                            <span class="input-group-btn">
+                                {{ form_widget(frequency.check, {'attr': {
+                                    'class': 'btn btn-default btn-check'
+                                }} ) }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-2">
-                    {{ form_row(frequency.startTime) }}
-                </div>
-                <div class="col-lg-2">
-                    {{ form_row(frequency.endTime) }}
-                </div>
-                <div class="col-lg-8">
-                    {% set remaining_chars = frequency.content.vars.attr.maxlength - frequency.content.vars.data|length %}
-                    {{ form_row(frequency.content, {'attr': {'help_text' : 'global.remaining_chars'|trans({'%nb_chars%': remaining_chars}, 'messages')}}) }}
+                <div class="row">
+                    <div class="col-lg-10 col-lg-offset-1 check-frequency"></div>
                 </div>
             </div>
             <hr/>
@@ -57,8 +74,8 @@
     </button>
     {{ form_end(form) }}
     <script>
-        require(['mtt/form/validation/frequency'], function(frequencyForm){
-            frequencyForm.init();
+        require(['mtt/form/validation/frequency'], function(frequencyForm) {
+            frequencyForm.init("{{ externalNetworkId|raw }}");
         });
     </script>
 {% endblock %}

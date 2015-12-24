@@ -241,7 +241,7 @@ class TimetableControllerTest extends AbstractControllerTest
         $block->setTitle('Semaine scolaire');
         $block->setContent('idcalendar2');
         $block->setDomId('timegrid_block_2');
-        $block->setTypeId('calendar');
+        $block->setType('calendar');
         $block->setStopTimetable($tt);
 
         $this->getEm()->persist($block);

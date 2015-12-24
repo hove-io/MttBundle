@@ -79,6 +79,18 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
         $this->attachToCustomerCtp($colorStopLayout);
         $this->addReference('color-stop-layout', $colorStopLayout);
 
+        $defaultLineLayout = $this->createLayout(
+            array(
+                'label'         => 'Template ligne par défaut',
+                'previewPath'   => '/bundles/canaltpmtt/img/default-line-layout.png',
+                'orientation'   => Layout::ORIENTATION_PORTRAIT,
+                'notesModes'    => array(LayoutConfig::NOTES_MODE_DISPATCHED),
+                'cssVersion'    => 1
+            )
+        );
+        $this->attachToCustomerCtp($defaultLineLayout);
+        $this->addReference('default-line-layout', $defaultLineLayout);
+
         $layoutConfig = $this->createLayoutConfig(
             array(
                 'label'         => 'Template arrêt par défaut (exposant)',
@@ -99,6 +111,17 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
                 'notesType'     => LayoutConfig::NOTES_TYPE_COLOR
             ),
             $colorStopLayout
+        );
+
+        $layoutConfig = $this->createLayoutConfig(
+            array(
+                'label'         => 'Template ligne par défaut',
+                'calendarStart' => 5,
+                'calendarEnd'   => 22,
+                'notesMode'     => 1,
+                'notesType'    => LayoutConfig::NOTES_TYPE_EXPONENT
+            ),
+            $defaultLineLayout
         );
     }
 

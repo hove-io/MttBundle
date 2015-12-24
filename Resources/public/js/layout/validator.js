@@ -14,7 +14,7 @@ define(['jquery', 'utils', 'translations/default'], function($, utils) {
         var msg_added = false;
         // check if content is bigger than block wrapper
         $wrapper.find('*[data-validate-size="1"]').each(function(){
-            if ($(this).parents('.frequency-content').length != 0 &&
+            if ($(this).parents('.frequency-content').length !== 0 &&
                 ($(this).find('span').height() > $(this).height() || $(this).find('span').width() > $(this).width())
                 ) {
                 $(this).addClass('error');
@@ -42,4 +42,4 @@ define(['jquery', 'utils', 'translations/default'], function($, utils) {
     };
 
     return validator;
-})
+});

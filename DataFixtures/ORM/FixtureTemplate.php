@@ -50,6 +50,17 @@ class FixtureTemplate extends AbstractFixture implements OrderedFixtureInterface
         );
         $this->om->persist($colorStopLayout);
 
+        $defaultLineLayout = $this->getReference('default-line-layout');
+        $defaultLineLayout->addTemplate(
+            $this->createTemplate(
+                array(
+                    'type'          => 'line',
+                    'path'          => 'default-line-layout.html.twig'
+                )
+            )
+        );
+        $this->om->persist($defaultLineLayout);
+
         $this->om->flush();
     }
 

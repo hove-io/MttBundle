@@ -21,7 +21,7 @@ class LayoutConfigType extends AbstractType
     public function __construct($layouts)
     {
         $this->layouts = $layouts;
-        $this->hours = range(0, 23);
+        $this->hours = range(0, 29);
     }
 
     /**
@@ -52,7 +52,7 @@ class LayoutConfigType extends AbstractType
                     new NotBlank(),
                     new Range(array(
                             'min' => 0,
-                            'max' => 23
+                            'max' => 29
                         )
                     )
                 ),
@@ -121,7 +121,32 @@ class LayoutConfigType extends AbstractType
                 )
             )
         );
-
+        $builder
+            ->add(
+                'horizontalMerge',
+                'checkbox',
+                array(
+                    'label'     => 'layout_config.labels.horizontal_merge',
+                    'required'  => false
+                )
+            )
+            ->add(
+                'verticalMerge',
+                'checkbox',
+                array(
+                    'label'     => 'layout_config.labels.vertical_merge',
+                    'required'  => false
+                )
+            )
+            ->add(
+                'verticalMergeOffset',
+                'number',
+                array(
+                    'label'     => 'layout_config.labels.vertical_merge_offset',
+                    'required'  => false
+                )
+            )
+        ;
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
             if (is_null($event->getData())) {
                 $form = $event->getForm();

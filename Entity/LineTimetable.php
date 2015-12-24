@@ -123,4 +123,17 @@ class LineTimetable extends Timetable
 
         return $this->selectedStopPoints->matching($criteria);
     }
+
+    /**
+     * Has templateOfType
+     *
+     * @param $type
+     * @return boolean
+     */
+    public function hasTemplateOfType($type)
+    {
+        $template = $this->lineConfig->getLayoutConfig()->getLayout()->getTemplate($type);
+
+        return ($template !== null);
+    }
 }

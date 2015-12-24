@@ -217,15 +217,35 @@ li.active .add-stop-point {
     background-color:#cccccc;
     min-height:30px;
 }
+/* Frequency view (lineTimetable) */
+.check-frequency {
+    margin-top:20px;
+}
+.check-frequency .loading-indicator {
+    position:relative;
+    left:50%;
+    top:45%;
+}
+.line-timetable-calendar tr.schedule td.higher {
+    color:red;
+    font-weight:bold;
+}
+.line-timetable-calendar tr.header td {
+    text-align:center;
+    font-weight:bold;
+    background-color:#98AFC7;
+}
 /* Schedule view (LineTimetable) */
 .calendars-tab {
     display:none;
 }
 .line-timetable-calendar {
     width: 100%;
+    font-family:ralewayregular;
 }
 .line-timetable-calendar tr {
     height:14px;
+    line-height:14px;
     vertical-align:middle;
     font-size:10px;
 }

@@ -7,19 +7,16 @@
 {% endblock %}
 
 {% block modal_title %}
-    {{'block.get_form.title'|trans({}, 'default')}}
+    {{ 'block.title.add'|trans({}, 'default') }}
 {% endblock %}
-
 
 {% block modal_body %}
     {{ form_errors(form) }}
-
-    {{ form_row(form.title) }}
-    {{ form_row(form.content) }}
-
-    {% if form.externalRouteId %}
-        {{ form_row(form.externalRouteId) }}
-    {% endif %}
+    {{ form_row(form.type) }}
+    {{ form_row(form.number) }}
+    {{ form_row(form.externalLineId) }}
+    {{ form_row(form.rank) }}
+    {{ form_row(form.timetable) }}
 {% endblock %}
 
 {% block modal_actions %}
