@@ -121,7 +121,32 @@ class LayoutConfigType extends AbstractType
                 )
             )
         );
-
+        $builder
+            ->add(
+                'horizontalMerge',
+                'checkbox',
+                array(
+                    'label'     => 'layout_config.labels.horizontal_merge',
+                    'required'  => false
+                )
+            )
+            ->add(
+                'verticalMerge',
+                'checkbox',
+                array(
+                    'label'     => 'layout_config.labels.vertical_merge',
+                    'required'  => false
+                )
+            )
+            ->add(
+                'verticalMergeOffset',
+                'number',
+                array(
+                    'label'     => 'layout_config.labels.vertical_merge_offset',
+                    'required'  => false
+                )
+            )
+        ;
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
             if (is_null($event->getData())) {
                 $form = $event->getForm();

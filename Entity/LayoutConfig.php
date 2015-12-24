@@ -55,6 +55,21 @@ class LayoutConfig extends AbstractEntity
     private $file;
 
     /**
+     * @var boolean
+     */
+    private $horizontalMerge;
+
+    /**
+     * @var boolean
+     */
+    private $verticalMerge;
+
+    /**
+     * @var integer
+     */
+    private $verticalMergeOffset;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $lineConfigs;
@@ -367,6 +382,75 @@ class LayoutConfig extends AbstractEntity
     public function getNotesType()
     {
         return $this->notesType;
+    }
+
+    /**
+     * Getting horizontal merge
+     *
+     * @return boolean
+     */
+    public function hasHorizontalMerge()
+    {
+        return $this->horizontalMerge;
+    }
+
+    /**
+     * Setting horizontal merge
+     *
+     * @param boolean $horizontalMerge
+     * @return LayoutConfig
+     */
+    public function setHorizontalMerge($horizontalMerge)
+    {
+        $this->horizontalMerge = $horizontalMerge;
+
+        return $this;
+    }
+
+    /**
+     * Getting vertical merge
+     *
+     * @return boolean
+     */
+    public function hasVerticalMerge()
+    {
+        return $this->verticalMerge;
+    }
+
+    /**
+     * Setting vertical merge
+     *
+     * @param boolean $verticalMerge
+     * @return LayoutConfig
+     */
+    public function setVerticalMerge($verticalMerge)
+    {
+        $this->verticalMerge = $verticalMerge;
+
+        return $this;
+    }
+
+    /**
+     * Getting vertical merge offset
+     *
+     * @return integer
+     */
+    public function getVerticalMergeOffset()
+    {
+        return $this->verticalMergeOffset;
+    }
+
+    /**
+     * Setting vertical merge offset
+     *
+     * @param boolean $verticalMergeOffset
+     * @return LayoutConfig
+     */
+    public function setVerticalMergeOffset($verticalMergeOffset)
+    {
+        $this->verticalMergeOffset = $verticalMergeOffset;
+
+        return $this;
     }
 
     /**

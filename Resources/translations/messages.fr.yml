@@ -150,7 +150,9 @@ layout_config:
         notes_colors: Couleurs
         exponents: Exposants
         colors: Couleurs
-
+        horizontal_merge: Fusion des arrêts doublons
+        vertical_merge: Fusion des services proches
+        vertical_merge_offset: Nombre de secondes limitant la fusion de service
 layout_model:
     labels:
         archive_path: Chemin de l'archive
