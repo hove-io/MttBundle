@@ -50,6 +50,9 @@ class NotOverlappingValidator extends ConstraintValidator
         $endMethod = 'get' . $constraint->endField;
         for ($i = 0; $i < count($value); $i++) {
             $entity = $value[$i];
+            if (empty($entity)) {
+                continue;
+            }
 
             $startIdx = $this->getIndex($entity->$startMethod());
             $endIdx = $this->getIndex($entity->$endMethod());
@@ -61,6 +64,10 @@ class NotOverlappingValidator extends ConstraintValidator
             }
             for ($j = $i + 1; $j < count($value); $j++) {
                 $entityToCheck = $value[$j];
+                if (empty($entityToCheck)) {
+                    continue;
+                }
+
                 $startIdxToCheck = $this->getIndex($entityToCheck->$startMethod());
                 $endIdxToCheck = $this->getIndex($entityToCheck->$endMethod());
                 if ($this->idxIsInOtherEntity($startIdx, $startIdxToCheck, $endIdxToCheck) ||

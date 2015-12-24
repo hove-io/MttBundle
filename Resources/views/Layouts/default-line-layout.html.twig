@@ -53,7 +53,7 @@
                         {{ macros.img(lblock.domId, lblock, class, lblock.rank, mode) }}
                     {% elseif lblock.type == 'calendar' %}
                         {% set calendar = calendars|findCalendar(lblock.content, lblock.externalRouteId) %}
-                        {{ macros.line_calendar(lblock.domId, lblock, class, lblock.rank, mode, calendar, 26) }}
+                        {{ macros.line_calendar(lblock.domId, lblock, class, lblock.rank, mode, calendar, 24) }}
                     {% elseif lblock.type == 'pagebreak' %}
                         {{ macros.page_break(lblock.domId, lblock, class, lblock.rank, mode) }}
                     {% endif %}

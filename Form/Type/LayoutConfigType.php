@@ -21,7 +21,7 @@ class LayoutConfigType extends AbstractType
     public function __construct($layouts)
     {
         $this->layouts = $layouts;
-        $this->hours = range(0, 23);
+        $this->hours = range(0, 29);
     }
 
     /**
@@ -52,7 +52,7 @@ class LayoutConfigType extends AbstractType
                     new NotBlank(),
                     new Range(array(
                             'min' => 0,
-                            'max' => 23
+                            'max' => 29
                         )
                     )
                 ),

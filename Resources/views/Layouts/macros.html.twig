@@ -161,8 +161,23 @@
                     data-action-container="timegrid-container"
                     data-id="{{ block.id }}"
                     data-toggle="tooltip"
-                    title="{{ 'help.load_data'|trans }}">
+                    title="{{ 'help.load_data'|trans }}"
+                >
                     <span class="glyphicon glyphicon-refresh"></span>
+                </a>
+            </li>
+            {% endif %}
+            {% if options.frequency %}
+            <li>
+                <a
+                    href="#"
+                    class="action-button"
+                    data-action-type="edit-frequency"
+                    data-toggle="tooltip"
+                    data-id="{{ block.id }}"
+                    title="{{ 'help.edit_frequency_block'|trans }}"
+                >
+                    <span class="glyphicon glyphicon-barcode"></span>
                 </a>
             </li>
             {% endif %}
@@ -174,7 +189,8 @@
                     data-toggle="tooltip"
                     data-action-type="delete-calendar"
                     data-id="{{ block.id }}"
-                    title="{{ 'help.delete_block'|trans }}">
+                    title="{{ 'help.delete_block'|trans }}"
+                >
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
             </li>
@@ -305,7 +321,8 @@
         {% endif %}
     >
         {% if mode == 'edit' and block and block.rank > 0 %}
-            {{ _self.action_bar(block, {'data': block.content ? true : false, 'delete': true }) }}
+            {% set block_content = block.content ? true : false %}
+            {{ _self.action_bar(block, {'data': block_content, 'frequency': block_content, 'delete': true }) }}
         {% endif %}
         <div class="timegrid-header line {{ mode }}">
             {% if block %}{{ block.title|capitalize }}{% endif %}
@@ -320,6 +337,83 @@
 
 {# display a table with a line schedule, its hours for all the stop points on the route #}
 {% macro line_schedule(calendar, columnsLimit, emptyMessage) %}
+    {% set finalCalendar = calendar|cutCalendar(columnsLimit) %}
+
+    {% for calendar in finalCalendar %}
+        {# these lines are separators between calendars #}
+        {% if not loop.first %}
+            <tr>
+                <td colspan="{{ columnsLimit+1 }}"></td>
+            </tr>
+            <tr class="separator">
+                <td colspan="{{ columnsLimit+1 }}"></td>
+            </tr>
+        {% endif %}
+
+        {% set metadata = calendar.metadata %}
+        {% for stop in calendar.stops %}
+            {# select next stopTimes #}
+            {% set stopTimes = stop.stopTimes %}
+            {% if loop.first %}
+                <tr class="notes">
+                    <th></th>
+                    {%- for i in 0..columnsLimit-1 -%}
+                        <td>{{ metadata[i].note }}</td>
+                    {%- endfor -%}
+                </tr>
+            {% endif %}
+
+            <tr class="schedule">
+                <th>{{ stop.stopName }}</th>
+                {% for i, data in metadata %}
+                    {% set class = "" %}
+                    {% if data.type == "frequency" %}
+                        {%- if loop.parent.loop.first -%}
+                            <td
+                                colspan="{{ data.colspan }}"
+                                rowspan="{{ calendar.stops|length }}"
+                                class="frequency"
+                            >
+                                <div><p>{{ data.content }}</p></div>
+                            </td>
+                        {%- endif -%}
+                    {% else %}
+                        {% if data.firstHour == stopTimes[i] %}
+                            {% set class = "first-hour" %}
+                        {% endif %}
+                        {% if data.note %}
+                            {% set class = class ~ " has-note" %}
+                        {% endif %}
+
+                        <td data-toggle="ui-state-default" class="{{ class }}">
+                            {%- if stopTimes[i] -%}
+                                {{ stopTimes[i]|date('H:i') }}
+                            {%- elseif stopTimes|length > i -%}
+                                -
+                            {%- endif -%}
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% else %}
+        {% if emptyMessage %}
+            <tr><td>
+                <span class="empty-calendar">{{ 'line_timetable.message.empty_calendar'|trans }}</span>
+            </td></tr>
+        {% endif %}
+    {% endfor %}
+
+    {# this part force the table width to fit with the maximum number of columns #}
+    <tr class="pattern">
+        <th></th>
+        {%- for i in 1..columnsLimit -%}
+            <td>00:00</td>
+        {%- endfor -%}
+    </tr>
+{% endmacro %}
+
+{% macro line_schedule_check_frequency(calendar, columnsLimit, frequency) %}
     {% if calendar.columns > 0 %}
         {% set tableNumbers = (calendar.columns/columnsLimit)|round(0, 'ceil') - 1 %}
         {% for i in 0..tableNumbers %}
@@ -331,6 +425,9 @@
                 <tr class="separator">
                     <td colspan="{{ columnsLimit+1 }}"></td>
                 </tr>
+                <tr>
+                    <td colspan="{{ columnsLimit+1 }}"></td>
+                </tr>
             {% endif %}
 
             {# select next trips metadata #}
@@ -339,28 +436,27 @@
                 {# select next stopTimes #}
                 {% set stopTimes = stop.stopTimes|slice(i*columnsLimit, ((i+1)*columnsLimit)) %}
                 {% if loop.first %}
-                    <tr class="notes">
-                        <th></th>
-                        {%- for i in 0..columnsLimit-1 -%}
-                            <td>{{ metadata[i].note.code }}</td>
-                        {%- endfor -%}
+                    <tr class="header">
+                        <td></td>
+                        {% for i in 0..columnsLimit-1 %}
+                        <td>
+                            {% if metadata[i].firstHour %}
+                                {{ metadata[i].firstHour|date('H:i') }}
+                            {% endif %}
+                        </td>
+                        {% endfor %}
                     </tr>
                 {% endif %}
 
                 <tr class="schedule">
                     <th>{{ stop.stopName }}</th>
                     {% for i in 0..columnsLimit-1 %}
-                        {% set class = "" %}
-                        {% if metadata[i].firstHour == stopTimes[i] %}
-                            {% set class = "first-hour" %}
-                        {% endif %}
-                        {% if metadata[i].note %}
-                            {% set class = class ~ " has-note" %}
-                        {% endif %}
-
-                        <td data-toggle="ui-state-default" class="{{ class }}">
+                        <td
+                            data-toggle="ui-state-default"
+                            class="{% if stopTimes[i] > frequency %}higher{% endif %}"
+                        >
                             {%- if stopTimes[i] -%}
-                                {{ stopTimes[i]|date('H:i') }}
+                                {{ stopTimes[i]|date('H:i', false) }}
                             {%- elseif stopTimes|length > i -%}
                                 -
                             {%- endif -%}
@@ -377,8 +473,40 @@
                 <td>00:00</td>
             {%- endfor -%}
         </tr>
-    {% elseif emptyMessage %}
-        <tr><td><span class="empty-calendar">{{ 'line_timetable.message.empty_calendar'|trans }}</span></td></tr>
+    {% else %}
+        {% for line in calendar.lines %}
+            {% for stop in line.stops %}
+                {% if loop.index == 1 %}
+                    <tr class="separator">
+                        {% for hour in stop.stopTimes %}
+                        <td></td>
+                        {% endfor %}
+                    </tr>
+                    <tr class="line firstLine" data-linegroup={{ loop.parent.loop.index }}>
+                        <td></td>
+                        {% for key,hour in stop.stopTimes %}
+                        <td>
+                            {% if line.metadata[key].firstHour %}
+                                {{ line.metadata[key].firstHour|date('H:i') }}
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+
+                <tr class="line">
+                    <th>{{ stop.stopName }}</th>
+                    {% for hour in stop.stopTimes %}
+                        {% if hour %}
+                            {% set time = hour|date('H:i', false) %}
+                            <td{% if frequency < hour %} class="frequency-warning bold"{% endif %}>{{ time }}</td>
+                        {% else %}
+                            <td> - </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% endfor %}
     {% endif %}
 {% endmacro %}
 

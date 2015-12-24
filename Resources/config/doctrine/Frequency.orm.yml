@@ -16,6 +16,12 @@ CanalTP\MttBundle\Entity\Frequency:
             column: end_time
         content:
             type: text
+        time:
+            type: integer
+            column: time
+        columns:
+            type: integer
+            column: columns
         created:
             type: datetime
             gedmo:

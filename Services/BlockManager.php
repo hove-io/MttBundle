@@ -84,6 +84,16 @@ class BlockManager
     }
 
     /**
+     * Updating a block
+     * @param Block $block
+     */
+    public function update(Block $block)
+    {
+        $this->om->persist($block);
+        $this->om->flush();
+    }
+
+    /**
      * Delete Block
      * @param Block $block
      *

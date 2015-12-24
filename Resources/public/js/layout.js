@@ -138,6 +138,9 @@ define(['jquery', 'sf_routes'], function($) {
                     case 'delete-calendar':
                         _action_delete_calendar(action);
                         break;
+                    case 'edit-frequency':
+                        _action_edit_frequency(action);
+                        break;
                     default:
                         // do nothing
                 }
@@ -198,6 +201,25 @@ define(['jquery', 'sf_routes'], function($) {
                     console.log(data.content);
                 }
             });
+        });
+    };
+
+    var _action_edit_frequency = function(action) {
+        action.on('click', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var params = {
+                'blockId': $(this).data('id'),
+                'externalNetworkId': global_params.externalNetworkId
+            };
+
+            var url = Routing.generate(
+                'canal_tp_mtt_frequency_edit',
+                params
+            );
+
+            $('#base-modal').modal({remote: url});
         });
     };
 

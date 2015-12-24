@@ -129,6 +129,10 @@ frequency:
         start_time: Heure de début
         end_time: Heure de fin
         content: Texte
+        columns: Colonnes occupées
+        time: Toutes les (minutes)
+    action:
+        check: Vérifier
 
 area:
     labels:

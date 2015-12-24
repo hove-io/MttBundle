@@ -2,6 +2,9 @@
 
 namespace CanalTP\MttBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 /**
  * Block
  */
@@ -64,7 +67,7 @@ class Block extends AbstractEntity
 
     public function __construct()
     {
-        $this->frequencies = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->frequencies = new ArrayCollection();
     }
     /**
      * Get id
@@ -350,11 +353,10 @@ class Block extends AbstractEntity
     /**
      * Set frequencies
      *
-     * @param array $frequencies
-     *
+     * @param Collection $frequencies
      * @return Block
      */
-    public function setFrequencies($frequencies)
+    public function setFrequencies(Collection $frequencies)
     {
         $this->frequencies = $frequencies;
         foreach ($this->frequencies as $frequency) {
@@ -367,11 +369,25 @@ class Block extends AbstractEntity
     /**
      * Get frequencies
      *
-     * @return array
+     * @return Collection
      */
     public function getFrequencies()
     {
         return $this->frequencies;
+    }
+
+    /**
+     * Adding a frequency
+     *
+     * @param Frequency $frequency
+     * @return Block
+     */
+    public function addFrequency(Frequency $frequency)
+    {
+        $frequency->setBlock($this);
+        $this->frequencies->add($frequency);
+
+        return $this;
     }
 
     /**

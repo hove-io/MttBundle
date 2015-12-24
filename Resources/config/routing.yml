@@ -231,10 +231,22 @@ canal_tp_mtt_calendar_view:
 
 #Frequency
 canal_tp_mtt_frequency_edit:
-    pattern: /frequency/edit/networks/{externalNetworkId}/block/{blockId}/
-    defaults: { _controller: CanalTPMttBundle:Frequency:edit}
+    pattern: /frequency/edit/networks/{externalNetworkId}/block/{blockId}
+    defaults: { _controller: CanalTPMttBundle:Frequency:edit }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        blockId: \d+
+    options:
+        expose: true
+
+canal_tp_mtt_frequency_check:
+    pattern: /frequency/check/networks/{externalNetworkId}/block/{blockId}
+    defaults: { _controller: CanalTPMttBundle:Frequency:check }
+    requirements:
+        externalNetworkId: -?[a-zA-Z0-9_\-:]*
+        blockId: \d+
+    options:
+        expose: true
 
 #LayoutConfigs
 canal_tp_mtt_layout_config_list:

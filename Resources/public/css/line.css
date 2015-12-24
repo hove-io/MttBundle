@@ -137,6 +137,12 @@
 .line-timetable-calendar tr.schedule td.has-note {
     background-color:#444;
 }
+tr.schedule td.frequency:nth-child(odd) {
+    background-color:#aaa;
+}
+tr.schedule td.frequency:nth-child(even) {
+    background-color:#eee;
+}
 .line-timetable-calendar tr.schedule:nth-child(odd) {
     background-color:#eee;
 }

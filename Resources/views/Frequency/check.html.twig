@@ -1,0 +1,7 @@
+{% from "CanalTPMttBundle:Layouts:macros.html.twig" import line_schedule_check_frequency %}
+
+<table class="line-timetable-calendar">
+    <tbody>
+        {{ line_schedule_check_frequency(schedule.route_schedules, 15, frequency) }}
+    </tbody>
+</table>

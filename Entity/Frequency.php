@@ -28,6 +28,16 @@ class Frequency extends AbstractEntity
     private $content;
 
     /**
+     * @var integer
+     */
+    private $columns;
+
+    /**
+     * @var integer
+     */
+    private $time;
+
+    /**
      * @var Block
      */
     private $block;
@@ -112,9 +122,55 @@ class Frequency extends AbstractEntity
     }
 
     /**
+     * Set columns
+     *
+     * @param integer $columns
+     * @return Frequency
+     */
+    public function setColumns($columns)
+    {
+        $this->columns = $columns;
+
+        return $this;
+    }
+
+    /**
+     * Get columns
+     *
+     * @return integer
+     */
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+    /**
+     * Set time
+     *
+     * @param integer $time
+     * @return Frequency
+     */
+    public function setTime($time)
+    {
+        $this->time = $time;
+
+        return $this;
+    }
+
+    /**
+     * Get time
+     *
+     * @return integer
+     */
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    /**
      * Set block
      *
-     * @param  Object Block $block
+     * @param Block $block
      * @return Frequency
      */
     public function setBlock($block)
@@ -127,7 +183,7 @@ class Frequency extends AbstractEntity
     /**
      * Get block
      *
-     * @return Object
+     * @return Block
      */
     public function getBlock()
     {

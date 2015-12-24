@@ -378,9 +378,13 @@ class LineTimetableController extends AbstractController
 
         $layoutConfig = $block->getLineTimetable()->getLineConfig()->getLayoutConfig();
 
-        $parameters['limits']['min'] = $layoutConfig->getCalendarStart();
-        $parameters['limits']['max'] = $layoutConfig->getCalendarEnd();
+        $parameters['limits']['min'] = $layoutConfig->getFormatedCalendar('start');
+        $parameters['limits']['max'] = $layoutConfig->getFormatedCalendar('end');
         $parameters['hourOffset'] = intVal($this->container->getParameter('canal_tp_mtt.hour_offset'));
+
+        if (!$block->getFrequencies()->isEmpty()) {
+            $parameters['frequencies'] = $block->getFrequencies();
+        }
 
         $schedule = $this->get('canal_tp_mtt.calendar_manager')->getCalendarForBlock(
             $perimeter->getExternalCoverageId(),
@@ -388,7 +392,7 @@ class LineTimetableController extends AbstractController
             $parameters
         );
 
-        $layoutId = $block->getLineTimetable()->getLineConfig()->getLayoutConfig()->getLayout()->getId();
+        $layoutId = $layoutConfig->getLayout()->getId();
 
         return $this->render(
             'CanalTPMttBundle:LineTimetable:blockCalendar.html.twig',

@@ -149,6 +149,25 @@ class LayoutConfig extends AbstractEntity
     }
 
     /**
+     * Getting calendar limit with 'His' time format
+     *
+     * @param string $calendar
+     * @return 'His' string
+     */
+    public function getFormatedCalendar($calendar)
+    {
+        if ($calendar == 'start') {
+            $time = $this->calendarStart;
+        } else if ($calendar == 'end') {
+            $time = $this->calendarEnd;
+        } else {
+            return null;
+        }
+
+        return $time . '0000';
+    }
+
+    /**
      * Set notesMode
      *
      * @param  integer      $notesMode

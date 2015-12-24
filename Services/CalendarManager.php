@@ -539,14 +539,56 @@ class CalendarManager
         $this->buildFullCalendar($routeSchedules, $parameters['hourOffset']);
 
         $stopTimesToDelete = array();
+        $firstTrip = array_shift(array_values($routeSchedules->route_schedules['metadata']))['firstHour'];
 
         if (!empty($parameters['limits'])) {
             $this->processTimeLimits(
                 $parameters['limits'],
                 $parameters['hourOffset'],
-                current($routeSchedules->route_schedules['metadata'])['firstHour']
+                $firstTrip
             );
             $this->cutCalendar($routeSchedules->route_schedules, $parameters['limits'], $stopTimesToDelete);
+        }
+
+        if (!empty($parameters['frequencies'])) {
+            // TODO: Because the frequencies start_time and end_time are time type in database,
+            // we can't manage the 23:59+ times and can't add a frequency after midnight
+            foreach ($parameters['frequencies'] as $idx => $frequency) {
+                $limits = array(
+                    'min' => $frequency->getStartTime()->format('His'),
+                    'max' => $frequency->getEndTime()->format('His')
+                );
+
+                $this->processTimeLimits(
+                    $limits,
+                    $parameters['hourOffset'],
+                    $firstTrip
+                );
+
+                $newFrequency = true;
+                foreach ($routeSchedules->route_schedules['metadata'] as $columnNumber => $metadata) {
+                    if ($metadata['type'] === 'trip') {
+                        if ($metadata['firstHour'] >= $limits['min'] &&
+                            $metadata['firstHour'] <= $limits['max']
+                        ) {
+                            $stopTimesToDelete[] = $columnNumber;
+                            if ($newFrequency) {
+                                $newFrequency = false;
+                                $routeSchedules->route_schedules['metadata'][$columnNumber] = array(
+                                    "type"      => "frequency",
+                                    "colspan"   => $frequency->getColumns(),
+                                    "content"   => $frequency->getContent()
+                                );
+                                $routeSchedules->route_schedules['columns'] += $frequency->getColumns() - 1;
+                            } else {
+                                unset($routeSchedules->route_schedules['metadata'][$columnNumber]);
+                                $routeSchedules->route_schedules['columns']--;
+                            }
+                        }
+                    }
+                }
+                ksort($routeSchedules->route_schedules['metadata']);
+            }
         }
 
         if (count($stopTimesToDelete) > 0) {
@@ -556,11 +598,20 @@ class CalendarManager
             );
         }
 
+        if (!empty($parameters['checkFrequency'])) {
+            $this->transformHoursToFrequencies($routeSchedules->route_schedules);
+        }
+
         unset($routeSchedules->headers, $routeSchedules->exceptions);
 
         return $routeSchedules;
     }
 
+    /**
+     * Preparing empty response if something went wrong
+     *
+     * @param mixed &$calendar
+     */
     private function createEmptyLineCalendar(&$calendar)
     {
         $data = new \stdClass;
@@ -572,6 +623,13 @@ class CalendarManager
         return $data;
     }
 
+    /**
+     * Transforming route_schedules and calendar objects
+     * into something more adapted containing useful information
+     *
+     * @param mixed &$routeSchedules
+     * @param mixed &$calendar
+     */
     private function prepareRouteSchedules(&$routeSchedules, &$calendar)
     {
         $data = new \stdClass;
@@ -738,18 +796,31 @@ class CalendarManager
 
         $referenceDate = $referenceDate->format('Y-m-d');
 
-        foreach ($limits as $idx => $hour)
+        foreach ($limits as $idx => $time)
         {
-            $hour = (int)$hour;
-            if ($hour > 24) {
+            $time = (int)$time;
+            if ($time > 240000) {
                 $limits[$idx] = strtotime(
                     "+1 day",
-                    strtotime($referenceDate." ".date('His', mktime($hour - 24, 0, 0)))
+                    strtotime($referenceDate." ".$this->formatTime(($time - 240000), 6))
                 );
             } else {
-                $limits[$idx] = strtotime($referenceDate." ".date('His', mktime($hour, 0, 0)));
+                $limits[$idx] = strtotime($referenceDate." ".$this->formatTime($time, 6));
             }
         }
+    }
+
+    /**
+     * Formatting time
+     * @param integer $hour
+     * @param integer $length
+     * @return string
+     *
+     * Formating time from int to $length chars string.
+     */
+    private function formatTime($time, $length)
+    {
+        return str_repeat('0', ($length - strlen($time))).$time;
     }
 
     /**
@@ -792,5 +863,36 @@ class CalendarManager
             }
             $schedule['stops'][$key]['stopTimes'] = $stop['stopTimes'];
         }
+    }
+
+    /**
+     * Transforming hours into time diff between trips (frequencies)
+     *
+     * @param mixed &$schedule
+     */
+    private function transformHoursToFrequencies(&$schedule)
+    {
+        foreach ($schedule['stops'] as $line => $stop) {
+            $previousColumn = null;
+            foreach ($stop['stopTimes'] as $column => $stopTime) {
+                if ($previousColumn === null) {
+                    $previousColumn = $column;
+                    continue;
+                } else if (
+                    $schedule['stops'][$line]['stopTimes'][$previousColumn] !== null &&
+                    $stopTime !== null
+                ){
+                    $schedule['stops'][$line]['stopTimes'][$previousColumn] =
+                        $stopTime - $schedule['stops'][$line]['stopTimes'][$previousColumn];
+                }
+                else {
+                    $schedule['stops'][$line]['stopTimes'][$previousColumn] = null;
+                }
+                $previousColumn = $column;
+            }
+            array_pop($schedule['stops'][$line]['stopTimes']);
+        }
+        array_pop($schedule['metadata']);
+        $schedule['columns'] -= 1;
     }
 }
