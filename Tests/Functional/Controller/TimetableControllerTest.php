@@ -6,10 +6,15 @@ use CanalTP\MttBundle\Tests\DataFixtures\ORM\Fixture;
 
 class TimetableControllerTest extends AbstractControllerTest
 {
+    /**
+     * @var \Symfony\Component\BrowserKit\Client
+     */
+    protected $client;
+
     public function setUp($login = true)
     {
         parent::setUp($login);
-        $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
+        //$this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
     }
 
     private function getRoute($route, $seasonId, $externalStopPointId = Fixture::EXTERNAL_STOP_POINT_ID)
@@ -274,5 +279,45 @@ class TimetableControllerTest extends AbstractControllerTest
             $annotationNumber,
             'Some annotations are not present (Number: ' . $annotationNumber . ')'
         );
+    }
+
+    /**
+     * @test
+     * @group poc
+     */
+    public function itShouldGenerateADocumentWithNotesAndExceptions()
+    {
+        /** @var \Symfony\Component\Routing\Router $router */
+        $router = $this->client->getContainer()->get('router');
+        $timetableViewRoute = $router->generate('canal_tp_mtt_timetable_view', [
+            'externalNetworkId' => 'network:CGD',
+            'externalLineId' => 'line:CGD:81',
+            'externalRouteId' => 'route:CGD:82',
+            'seasonId' => 1,
+            'externalStopPointId' => 'stop_point:CGD:SP:1467']);
+
+        $this->client->request('GET', $timetableViewRoute);
+
+        /** @var \Symfony\Component\HttpFoundation\Response $response */
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+
+        $pdfGenerationRoute = $router->generate(
+            'canal_tp_mtt_timetable_generate_pdf',
+            [
+                'timetableId' => 1,
+                'externalNetworkId' => 'network:CGD',
+                'externalStopPointId' => 'stop_point:CGD:SP:1467',
+            ]
+        );
+        $this->client->followRedirects();
+        $crawler = $this->client->request('GET', $pdfGenerationRoute);
+
+        $mediaUri = $this->client->getRequest()->getUri();
+        var_dump($mediaUri);
+        $pdf = file_get_contents($mediaUri);
+        echo sha1($pdf);
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }
