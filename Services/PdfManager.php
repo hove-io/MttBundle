@@ -30,8 +30,7 @@ class PdfManager
         MediaManager $mediaManager,
         Container $co,
         PdfHashingLib $hashingLib
-    )
-    {
+    ) {
         $this->stopPoint = $om->getRepository('CanalTPMttBundle:StopPoint');
         $this->router = $router;
         $this->pdfGenerator = $pdfGenerator;

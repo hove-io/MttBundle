@@ -36,8 +36,7 @@ class PdfPayloadsGenerator
         LineManager $lineManager,
         Logger $logger,
         TranslatorInterface $translator
-    )
-    {
+    ) {
         $this->co = $co;
         $this->logger = $logger;
         $this->router = $router;
@@ -162,7 +161,8 @@ class PdfPayloadsGenerator
             }
         }
         if (empty($payloads)) {
-            throw new \Exception($this->translator->trans(
+            throw new \Exception(
+                $this->translator->trans(
                     'season.pdf.empty',
                     array('%seasonName%' => $season->getTitle()),
                     'default'
@@ -212,7 +212,8 @@ class PdfPayloadsGenerator
         }
 
         if (empty($payloads)) {
-            throw new \Exception($this->translator->trans(
+            throw new \Exception(
+                $this->translator->trans(
                     'area.pdf.empty',
                     array(
                         '%areaName%' => $area->getLabel(),
