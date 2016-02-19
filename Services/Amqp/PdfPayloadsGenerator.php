@@ -50,7 +50,7 @@ class PdfPayloadsGenerator
 
     private function generatePayloadUrl()
     {
-        if ($this->co->hasParameter('canal_tp_mtt.payload_host')) {
+        if ($this->co->hasParameter('canal_tp_mtt.payload_host') && !is_null($this->co->getParameter('canal_tp_mtt.payload_host'))) {
             $url = 'http://' . $this->co->getParameter('canal_tp_mtt.payload_host');
         } else {
             $url = $this->co->get('request')->getScheme() . '://';
