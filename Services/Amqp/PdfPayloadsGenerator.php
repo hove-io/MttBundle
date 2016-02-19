@@ -36,8 +36,7 @@ class PdfPayloadsGenerator
         LineManager $lineManager,
         Logger $logger,
         TranslatorInterface $translator
-    )
-    {
+    ) {
         $this->co = $co;
         $this->logger = $logger;
         $this->router = $router;
@@ -50,7 +49,7 @@ class PdfPayloadsGenerator
 
     private function generatePayloadUrl()
     {
-        if ($this->co->hasParameter('canal_tp_mtt.payload_host')) {
+        if ($this->co->hasParameter('canal_tp_mtt.payload_host') && !is_null($this->co->getParameter('canal_tp_mtt.payload_host'))) {
             $url = 'http://' . $this->co->getParameter('canal_tp_mtt.payload_host');
         } else {
             $url = $this->co->get('request')->getScheme() . '://';
@@ -162,7 +161,8 @@ class PdfPayloadsGenerator
             }
         }
         if (empty($payloads)) {
-            throw new \Exception($this->translator->trans(
+            throw new \Exception(
+                $this->translator->trans(
                     'season.pdf.empty',
                     array('%seasonName%' => $season->getTitle()),
                     'default'
@@ -212,7 +212,8 @@ class PdfPayloadsGenerator
         }
 
         if (empty($payloads)) {
-            throw new \Exception($this->translator->trans(
+            throw new \Exception(
+                $this->translator->trans(
                     'area.pdf.empty',
                     array(
                         '%areaName%' => $area->getLabel(),

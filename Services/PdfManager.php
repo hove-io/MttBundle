@@ -30,8 +30,7 @@ class PdfManager
         MediaManager $mediaManager,
         Container $co,
         PdfHashingLib $hashingLib
-    )
-    {
+    ) {
         $this->stopPoint = $om->getRepository('CanalTPMttBundle:StopPoint');
         $this->router = $router;
         $this->pdfGenerator = $pdfGenerator;
@@ -74,7 +73,7 @@ class PdfManager
     {
         $url = null;
 
-        if ($this->co->hasParameter('canal_tp_mtt.payload_host')) {
+        if ($this->co->hasParameter('canal_tp_mtt.payload_host') && !is_null($this->co->getParameter('canal_tp_mtt.payload_host'))) {
             $url = 'http://' . $this->co->getParameter('canal_tp_mtt.payload_host');
         } else {
             $url = $this->co->get('request')->getHttpHost();
