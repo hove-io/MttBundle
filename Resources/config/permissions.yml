@@ -28,11 +28,11 @@ parameters:
             label: Gérer des secteurs
             description: Permet d'éditer, créer, supprimer un secteur.
         BUSINESS_MANAGE_LAYOUT_CONFIG:
-            label: Gestion des fonds de fiche
+            label: Gestion des fonds de fiches
             description: Permet d'éditer, créer, supprimer un fond de fiche.
         BUSINESS_MANAGE_LAYOUT_MODEL:
-            label: Gestion des modèles de fond de fiche
-            description: Permet de lister, d'ajouter et mettre à jour des modèles de fond de fiche.
+            label: Gestion des modèles de fonds de fiches
+            description: Permet de lister, d'ajouter et mettre à jour des modèles de fonds de fiches.
         BUSINESS_ASSIGN_MODEL:
             label: Assignation de modèles aux clients
             description: Permet d'assigner des modèles aux clients.

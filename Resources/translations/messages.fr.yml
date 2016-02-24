@@ -78,7 +78,7 @@ menu:
     edit_timetables: Édition des fiches horaires
     networks_manage: Gestion des réseaux
     models_manage: Ajouter/Mettre à jour les modèles
-    layouts_manage: Configurer les fonds de fiche
+    layouts_manage: Configuration de fonds de fiches
     area_manage: Secteurs
     assign_models_to_customers: Assigner les modèles aux clients
 
