@@ -27,12 +27,12 @@ parameters:
         BUSINESS_MANAGE_AREA:
             label: Gérer des secteurs
             description: Permet d'éditer, créer, supprimer un secteur.
-        BUSINESS_LIST_LAYOUT_CONFIG:
-            label: Lister les fonds de fiche
-            description: Permet de lister les fonds de fiche
         BUSINESS_MANAGE_LAYOUT_CONFIG:
             label: Gestion des fonds de fiche
             description: Permet d'éditer, créer, supprimer un fond de fiche.
-        BUSINESS_MANAGE_CUSTOMER:
-            label: Administrer les clients
-            description: Donner des droits aux clients.
+        BUSINESS_MANAGE_LAYOUT_MODEL:
+            label: Gestion des modèles de fond de fiche
+            description: Permet de lister, d'ajouter et mettre à jour des modèles de fond de fiche.
+        BUSINESS_ASSIGN_MODEL:
+            label: Assignation de modèles aux clients
+            description: Permet d'assigner des modèles aux clients.

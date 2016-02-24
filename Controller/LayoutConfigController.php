@@ -13,7 +13,7 @@ class LayoutConfigController extends AbstractController
 {
     public function listAction($externalNetworkId)
     {
-        $this->isGranted(array('BUSINESS_LIST_LAYOUT_CONFIG', 'BUSINESS_MANAGE_LAYOUT_CONFIG'));
+        $this->isGranted('BUSINESS_MANAGE_LAYOUT_CONFIG');
         $layoutConfigRepo = $this->getDoctrine()->getRepository('CanalTPMttBundle:LayoutConfig');
 
         return $this->render(

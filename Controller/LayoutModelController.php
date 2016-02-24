@@ -9,7 +9,7 @@ class LayoutModelController extends AbstractController
 {
     public function listAction(Request $request, $externalNetworkId)
     {
-        $this->isGranted('BUSINESS_MANAGE_LAYOUT_CONFIG');
+        $this->isGranted('BUSINESS_MANAGE_LAYOUT_MODEL');
 
         return $this->render(
             'CanalTPMttBundle:LayoutModel:list.html.twig',
@@ -23,6 +23,7 @@ class LayoutModelController extends AbstractController
 
     public function uploadModelAction(Request $request, $externalNetworkId)
     {
+        $this->isGranted('BUSINESS_MANAGE_LAYOUT_MODEL');
         $id = $request->query->get('id');
 
         $layout = empty($id)

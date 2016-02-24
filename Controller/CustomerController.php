@@ -13,7 +13,7 @@ class CustomerController extends AbstractController
 {
     public function listAction($externalNetworkId)
     {
-        $this->isGranted('BUSINESS_MANAGE_CUSTOMER');
+        $this->isGranted('BUSINESS_ASSIGN_MODEL');
         $customerManager = $this->get('sam_core.customer');
         $customerApplications = $customerManager->findByCurrentApp();
         $layoutManager = $this->get('canal_tp_mtt.layout');
@@ -76,6 +76,7 @@ class CustomerController extends AbstractController
 
     public function assignLayoutAction(Request $request, $externalNetworkId, $customerId)
     {
+        $this->isGranted('BUSINESS_ASSIGN_MODEL');
         $form = $this->buildForm($customerId, $externalNetworkId);
         $render = $this->processForm($request, $form, $customerId, $externalNetworkId);
 
