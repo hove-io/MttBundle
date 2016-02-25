@@ -27,7 +27,6 @@ class FixturesRole extends AbstractFixture implements OrderedFixtureInterface
                 'BUSINESS_GENERATE_PDF',
                 'BUSINESS_LIST_AREA',
                 'BUSINESS_MANAGE_AREA',
-                'BUSINESS_LIST_LAYOUT_CONFIG',
                 'BUSINESS_MANAGE_LAYOUT_CONFIG'
             )
         ),
@@ -45,9 +44,9 @@ class FixturesRole extends AbstractFixture implements OrderedFixtureInterface
                 'BUSINESS_GENERATE_PDF',
                 'BUSINESS_LIST_AREA',
                 'BUSINESS_MANAGE_AREA',
-                'BUSINESS_LIST_LAYOUT_CONFIG',
+                'BUSINESS_MANAGE_LAYOUT_MODEL',
+                'BUSINESS_ASSIGN_MODEL',
                 'BUSINESS_MANAGE_LAYOUT_CONFIG',
-                'BUSINESS_MANAGE_CUSTOMER'
             )
         ),
         array(
