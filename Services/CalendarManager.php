@@ -7,6 +7,7 @@
  */
 namespace CanalTP\MttBundle\Services;
 
+use Navitia\Component\Exception\NotFound\UnknownObjectException;
 use Symfony\Component\Translation\TranslatorInterface;
 
 use CanalTP\MttBundle\Entity\Block;
@@ -416,12 +417,17 @@ class CalendarManager
     public function isIncluded($calendarId, Season $season)
     {
         $externalCoverageId = $season->getPerimeter()->getExternalCoverageId();
-        $calendarsData = $this->navitia->getCalendar($externalCoverageId, $calendarId);
-        $calendar = $calendarsData->calendars[0];
-        $calendarBeginDate = new \DateTime($calendar->active_periods[0]->begin);
-        $calendarEndDate = new \DateTime($calendar->active_periods[0]->end);
-        if (($season->getStartDate() < $calendarBeginDate && $calendarBeginDate < $season->getEndDate())  || ($season->getStartDate() < $calendarEndDate && $calendarEndDate < $season->getEndDate())) {
-            return true;
+
+        try {
+            $calendarsData = $this->navitia->getCalendar($externalCoverageId, $calendarId);
+            $calendar = $calendarsData->calendars[0];
+            $calendarBeginDate = new \DateTime($calendar->active_periods[0]->begin);
+            $calendarEndDate = new \DateTime($calendar->active_periods[0]->end);
+            if (($season->getStartDate() < $calendarBeginDate && $calendarBeginDate < $season->getEndDate())  || ($season->getStartDate() < $calendarEndDate && $calendarEndDate < $season->getEndDate())) {
+                return true;
+            }
+        } catch (UnknownObjectException $e) {
+            return false;
         }
         return false;
     }
