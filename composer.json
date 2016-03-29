@@ -15,17 +15,6 @@
             "email": "remy.abikhalil@canaltp.fr"
         }
     ],
-    "repositories": [
-
-        {
-            "type": "git",
-            "url": "git@github.com:CanalTP/MediaManagerBundle.git"
-        },
-        {
-            "type": "git",
-            "url": "git@github.com:CanalTP/MediaManagerComponent.git"
-        }
-    ],
     "require": {
         "php": ">=5.3.2",
         "braincrafted/bootstrap-bundle": "2.0.0",
@@ -43,7 +32,8 @@
         "willdurand/js-translation-bundle":"2.1.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.5.*"
+        "phpunit/phpunit": "4.5.*",
+        "canaltp/nmm-portal-bundle": "^1.0"
     },
     "autoload": {
         "psr-4": { "CanalTP\\MttBundle\\": "" }
