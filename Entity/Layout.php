@@ -11,6 +11,9 @@ class Layout extends AbstractEntity
 {
     const ORIENTATION_LANDSCAPE = 0;
     const ORIENTATION_PORTRAIT = 1;
+    const PAPER_SIZE_A3 = 'A3';
+    const PAPER_SIZE_A4 = 'A4';
+    const PAPER_SIZE_A5 = 'A5';
 
     /**
      * @var integer
@@ -36,6 +39,11 @@ class Layout extends AbstractEntity
      * @var array
      */
     private $orientation = self::ORIENTATION_LANDSCAPE;
+
+    /**
+     * @var string
+     */
+    private $paperSize = self::PAPER_SIZE_A4;
 
     /**
      * @var array
@@ -182,6 +190,48 @@ class Layout extends AbstractEntity
     public function getOrientation()
     {
         return $this->orientation;
+    }
+
+    /**
+     * Set paperSize
+     *
+     * @throws \InvalidArgumentException
+     * @param string $paperSize
+     * @return Layout
+     */
+    public function setPaperSize($paperSize)
+    {
+        $availablePaperSizes = [
+            self::PAPER_SIZE_A3,
+            self::PAPER_SIZE_A4,
+            self::PAPER_SIZE_A5,
+        ];
+
+        $formattedPaperSize = ucfirst(strtolower($paperSize));
+
+        if (!in_array($formattedPaperSize, $availablePaperSizes)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Invalid paperSize, "%s" given. Available paperSize are %s',
+                    $paperSize,
+                    implode(', ', $availablePaperSizes)
+                )
+            );
+        }
+
+        $this->paperSize = $formattedPaperSize;
+
+        return $this;
+    }
+
+    /**
+     * Get paperSize
+     *
+     * @return string
+     */
+    public function getPaperSize()
+    {
+        return $this->paperSize;
     }
 
     /**
