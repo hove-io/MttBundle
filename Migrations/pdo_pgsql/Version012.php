@@ -14,12 +14,12 @@ class Version012 extends AbstractMigration
 
     public function up(Schema $schema)
     {
-        $this->addSql('ALTER TABLE mtt.layout ADD paper_size VARCHAR(255) DEFAULT \'A4\' NOT NULL;');
+        $this->addSql('ALTER TABLE mtt.layout ADD page_size VARCHAR(255) DEFAULT \'A4\' NOT NULL;');
     }
 
     public function down(Schema $schema)
     {
-        $this->addSql('ALTER TABLE mtt.layout DROP paper_size;');
+        $this->addSql('ALTER TABLE mtt.layout DROP page_size;');
     }
 
     public function getName()
