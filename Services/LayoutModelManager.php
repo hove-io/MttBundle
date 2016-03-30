@@ -66,7 +66,8 @@ class LayoutModelManager
             $config['label'],
             'uploads/'.$id.'/'.$config['templateName'],
             '/bundles/canaltpmtt/img/uploads/'.$id.'/'.$config['previewFileName'],
-            $config['orientation']
+            $config['orientation'],
+            isset($config['page_size']) ? $config['page_size'] : Layout::PAGE_SIZE_A4
         );
     }
 
@@ -120,7 +121,7 @@ class LayoutModelManager
         return $layout->getId();
     }
 
-    protected function saveInDb($label, $twigPath, $previewPath, $orientation)
+    protected function saveInDb($label, $twigPath, $previewPath, $orientation, $pageSize = Layout::PAGE_SIZE_A4)
     {
         // Do not change the name if we update the layout
         if (null === $this->layout->getLabel()) {
@@ -129,6 +130,7 @@ class LayoutModelManager
         $this->layout->setPath($twigPath);
         $this->layout->setPreviewPath($previewPath);
         $this->layout->setOrientation($orientation);
+        $this->layout->setPageSize($pageSize);
         $this->layout->setNotesModes(array(0 => 1));
         $this->layout->setCssVersion(1);
         $this->layout->setUpdated(new \DateTime());
