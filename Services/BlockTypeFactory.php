@@ -36,8 +36,8 @@ class BlockTypeFactory
         ObjectManager $om,
         FormFactoryInterface $formFactory,
         MediaManager $mediaManager
-    )
-    {
+    ) {
+    
         $this->co = $co;
         $this->om = $om;
         $this->mediaManager = $mediaManager;

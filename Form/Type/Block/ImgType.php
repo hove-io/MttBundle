@@ -18,9 +18,10 @@ class ImgType extends BlockType
             ->add('title', 'text', array(
                     'label' => 'block.img.labels.title',
                     'required' => false
-                )
-            )
-            ->add('content', 'file',
+                ))
+            ->add(
+                'content',
+                'file',
                 array(
                     'data_class' => null,
                     'constraints' => array(

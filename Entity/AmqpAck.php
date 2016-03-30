@@ -105,5 +105,4 @@ class AmqpAck extends AbstractEntity
     {
         return $this->amqpTask;
     }
-
 }

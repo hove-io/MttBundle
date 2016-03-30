@@ -20,8 +20,8 @@ class UserManager
         ObjectManager $om,
         TranslatorInterface $translator,
         $container
-    )
-    {
+    ) {
+    
         $this->om = $om;
         $this->translator = $translator;
         $this->container = $container;

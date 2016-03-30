@@ -35,7 +35,7 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $season->setTitle('hiver 2014');
         $season->setStartDate(\DateTime::createFromFormat('d/m/Y', '21/12/2013'));
         $season->setEndDate(\DateTime::createFromFormat('d/m/Y', '21/03/2014'));
-        $season->setPublished(TRUE);
+        $season->setPublished(true);
 
         $em->persist($season);
 
@@ -114,7 +114,10 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $em)
     {
         $customer = $em->getRepository('CanalTPNmmPortalBundle:Customer')->findOneByNameCanonical('canaltp');
-        $season = $this->createSeason($em, $customer->getPerimeters()->filter(function($perimeter) { return ($perimeter->getExternalNetworkId() == self::EXTERNAL_NETWORK_ID); })->first());
+        $season = $this->createSeason($em, $customer->getPerimeters()->filter(function ($perimeter) {
+            return ($perimeter->getExternalNetworkId() == self::EXTERNAL_NETWORK_ID);
+
+        })->first());
         $layoutConfig = $em->getRepository('CanalTPMttBundle:LayoutConfig')->find(Fixture::EXTERNAL_LAYOUT_CONFIG_ID_1);
 
         $lineConfig = $this->createLineConfig($em, $season, $layoutConfig);

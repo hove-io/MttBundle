@@ -18,8 +18,8 @@ class PdfGenerator
     public function __construct(
         CurlProxy $curlProxy,
         $server
-    )
-    {
+    ) {
+    
         $this->curlProxy = $curlProxy;
         $this->serverUrl = $server;
     }

@@ -31,7 +31,6 @@ class Version007 extends AbstractMigration
             $statement->bindValue('id', $layout['id']);
             $statement->bindValue('label', $layout['label']);
             $statement->execute();
-
         }
 
         foreach ($this->layoutNetwork as $layoutConfigNetwork) {
@@ -72,7 +71,7 @@ class Version007 extends AbstractMigration
         $statement = $this->connection->prepare("SELECT (MAX(l.id) + 1) AS start_at FROM mtt.layout AS l");
         $statement->execute();
         $this->layoutConfigId = $statement->fetchAll();
-        $this->layoutConfigId[0]['start_at'] = ($this->layoutConfigId[0]['start_at'] == NULL) ? 1 : $this->layoutConfigId[0]['start_at'];
+        $this->layoutConfigId[0]['start_at'] = ($this->layoutConfigId[0]['start_at'] == null) ? 1 : $this->layoutConfigId[0]['start_at'];
     }
 
     public function up(Schema $schema)
@@ -85,8 +84,7 @@ class Version007 extends AbstractMigration
             stop_points TEXT NOT NULL,
             created TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
             updated TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-            PRIMARY KEY(id))'
-        );
+            PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_2E79A2FD34128B91 ON mtt.area (network_id)');
         $this->addSql("COMMENT ON COLUMN mtt.area.stop_points IS '(DC2Type:array)'");
         $this->addSql('CREATE UNIQUE INDEX network_area_idx ON mtt.area (label, network_id)');
@@ -97,8 +95,7 @@ class Version007 extends AbstractMigration
             generated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
             created TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
             updated TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-            PRIMARY KEY(id))'
-        );
+            PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_CF404A72BD0F409C ON mtt.area_pdf (area_id)');
         $this->addSql('CREATE INDEX IDX_CF404A724EC001D1 ON mtt.area_pdf (season_id)');
         $this->addSql('ALTER TABLE mtt.area ADD CONSTRAINT FK_2E79A2FD34128B91 FOREIGN KEY (network_id) REFERENCES mtt.network (id) NOT DEFERRABLE INITIALLY IMMEDIATE');

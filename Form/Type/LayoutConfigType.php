@@ -53,8 +53,7 @@ class LayoutConfigType extends AbstractType
                     new Range(array(
                             'min' => 0,
                             'max' => 23
-                        )
-                    )
+                        ))
                 ),
                 'label' => 'layout_config.labels.calendar_start'
             )
@@ -103,8 +102,7 @@ class LayoutConfigType extends AbstractType
                 'constraints' => array(
                     new File(array(
                             'maxSize' => '5M'
-                        )
-                    )
+                        ))
                 )
             )
         );

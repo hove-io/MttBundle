@@ -49,7 +49,6 @@ class ScheduleExtension extends \Twig_Extension
                 $colors[] = $this->getColor($notes, $noteIndex);
             }
             $exponents[] = $this->getExposent($noteIndex);
-
         }
 
         $colorizedMinute = $this->colorizeMminute($minute, $colors);
@@ -132,7 +131,7 @@ class ScheduleExtension extends \Twig_Extension
             return $minute;
         }
 
-        array_walk($cleanedExposents, function(&$value) {
+        array_walk($cleanedExposents, function (&$value) {
             $value = sprintf('<sup>%s</sup>', $value);
         });
 

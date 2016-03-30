@@ -5,6 +5,7 @@ namespace CanalTP\MttBundle\Controller;
 use CanalTP\MttBundle\Form\Type\FrequenciesType;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Frequency;
+
 /*
  * FrequencyController
  */

@@ -46,7 +46,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
-
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Invalid pageSize, "Invalid" given. Available pageSize are A3, A4, A5.

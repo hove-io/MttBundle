@@ -42,8 +42,7 @@ class FixtureLayout extends AbstractFixture implements OrderedFixtureInterface
             '#4460c5',
             '#0cc2dd',
             '#6ebf52',
-            '#bacd40')
-        );
+            '#bacd40'));
         $layoutConfig->setLayout($layout);
 
         $this->om->persist($layoutConfig);

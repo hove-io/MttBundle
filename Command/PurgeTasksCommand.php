@@ -19,7 +19,7 @@ class PurgeTasksCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-       $this
+        $this
             ->setName('mtt:amqp:purgeTasks')
             ->setDescription('Purge tasks and acks. Default period to keep is one month.')
             ->addArgument(

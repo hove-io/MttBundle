@@ -34,7 +34,8 @@ class CustomerType extends AbstractType
                 'empty_value' => 'global.please_choose'
             )
         )->addModelTransformer(new LayoutCustomerTransformer(
-            $options['em'], $this->customerId
+            $options['em'],
+            $this->customerId
         ));
 
         $builder->setAction($options['action']);

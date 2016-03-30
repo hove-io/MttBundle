@@ -121,7 +121,6 @@ class LayoutConfigController extends AbstractController
         $extLineIds = array();
         foreach ($layoutConfig->getLineConfigs() as $line) {
             $extLineIds[$line->getExternalLineId()] = $this->get('canal_tp_mtt.navitia')->getLineTitle($extCoverageId, $externalNetworkId, $line->getExternalLineId());
-
         }
 
         return $this->render(

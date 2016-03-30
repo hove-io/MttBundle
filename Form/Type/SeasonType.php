@@ -40,7 +40,7 @@ class SeasonType extends AbstractType
             array(
                 'label' => 'season.labels.title'
                 )
-            );
+        );
         $builder->add(
             'startDate',
             'datepicker',

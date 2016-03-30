@@ -51,7 +51,7 @@ class BlockManager
     public function copy($block, $destTimetable, $destStopPoint = false)
     {
         $destSeason = $destTimetable->getLineConfig()->getSeason();
-        if ($block->isCalendar() AND !$this->calendarManager->isIncluded($block->getContent(), $destSeason)) {
+        if ($block->isCalendar() and !$this->calendarManager->isIncluded($block->getContent(), $destSeason)) {
             return false;
         }
         $blockCloned = clone $block;

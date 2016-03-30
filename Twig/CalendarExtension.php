@@ -19,8 +19,9 @@ class CalendarExtension extends \Twig_Extension
     private function getIndex($searchedHour, $hours)
     {
         foreach ($hours as $index => $hour) {
-            if ($hour == $searchedHour)
+            if ($hour == $searchedHour) {
                 return $index;
+            }
         }
     }
 
@@ -38,11 +39,11 @@ class CalendarExtension extends \Twig_Extension
         );
         $elements = array();
         $diurnalMax = $rangeConfig['end'] > $rangeConfig['start'] ? $rangeConfig['end'] : 23;
-        for ($i = $rangeConfig['start'];$i <= $diurnalMax;$i++) {
+        for ($i = $rangeConfig['start']; $i <= $diurnalMax; $i++) {
             $elements[] = $i;
         }
         if ($diurnalMax != $rangeConfig['end']) {
-            for ($i = 0;$i <= $rangeConfig['end'];$i++) {
+            for ($i = 0; $i <= $rangeConfig['end']; $i++) {
                 $elements[] = $i;
             }
         }
