@@ -11,6 +11,9 @@ use Symfony\Component\Yaml\Yaml;
 
 class LayoutModelManager
 {
+    /**
+     * @var ObjectManager
+     */
     private $om;
     private $uploadDir = '/tmp/';
     private $layout;
@@ -45,30 +48,38 @@ class LayoutModelManager
         $zip->extractTo($tmpDir);
         $zip->close();
 
-        $id = $this->getUniqueId($layout);
         $config = $this->readConfiguration($tmpDir);
 
-        // Move the assets
-        $this->moveFiles(array('*.png', '*.jpg'), $tmpDir, $templateDir.'/img/'.$id);
-        $this->moveFiles('*.twig', $tmpDir, $templateDir.'/twig/'.$id);
-        $this->moveFiles('*.css', $tmpDir, $templateDir.'/css/'.$id, false);
+        $this->om->beginTransaction();
+        try {
+            $id = $this->getUniqueId($layout);
 
-        // If the layout has a fonts directory, we copy this directory to the css one.
-        if ($fontsDirs = $this->getDirectories($tmpDir, 'fonts')) {
-            $this->filesystem->remove($templateDir.'/css/'.$id.'/fonts');
-            $this->filesystem->rename(current($fontsDirs), $templateDir.'/css/'.$id.'/fonts', true);
+            $this->saveInDb(
+                $config['label'],
+                'uploads/' . $id . '/' . $config['templateName'],
+                '/bundles/canaltpmtt/img/uploads/' . $id . '/' . $config['previewFileName'],
+                $config['orientation'],
+                isset($config['page_size']) ? $config['page_size'] : Layout::PAGE_SIZE_A4
+            );
+
+            // Move the assets
+            $this->moveFiles(array('*.png', '*.jpg'), $tmpDir, $templateDir . '/img/' . $id);
+            $this->moveFiles('*.twig', $tmpDir, $templateDir . '/twig/' . $id);
+            $this->moveFiles('*.css', $tmpDir, $templateDir . '/css/' . $id, false);
+
+            // If the layout has a fonts directory, we copy this directory to the css one.
+            if ($fontsDirs = $this->getDirectories($tmpDir, 'fonts')) {
+                $this->filesystem->remove($templateDir . '/css/' . $id . '/fonts');
+                $this->filesystem->rename(current($fontsDirs), $templateDir . '/css/' . $id . '/fonts', true);
+            }
+
+            // Remove the tmp directory
+            $this->filesystem->remove($tmpDir);
+            $this->om->commit();
+        } catch (\Exception $e) {
+            $this->om->rollback();
+            throw $e;
         }
-
-        // Remove the tmp directory
-        $this->filesystem->remove($tmpDir);
-
-        $this->saveInDb(
-            $config['label'],
-            'uploads/'.$id.'/'.$config['templateName'],
-            '/bundles/canaltpmtt/img/uploads/'.$id.'/'.$config['previewFileName'],
-            $config['orientation'],
-            isset($config['page_size']) ? $config['page_size'] : Layout::PAGE_SIZE_A4
-        );
     }
 
     protected function getUploadDir()
