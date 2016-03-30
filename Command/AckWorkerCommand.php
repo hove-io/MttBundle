@@ -42,12 +42,12 @@ class AckWorkerCommand extends ContainerAwareCommand
                 $this->logger->info("StartCompleted for task n°" . $task->getId());
                 $pdfGenCompletionLib->completePdfGenTask($task);
             }
+            // acknowledge broker
+            $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
         } catch (\Exception $e) {
             $this->logger->error("ERROR during acking process. Ack body: " . print_r($msg->body));
             $this->logger->error($e->getMessage());
         }
-        // acknowledge broker
-        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
     }
 
     private function runProcess($ack_queue_name)
