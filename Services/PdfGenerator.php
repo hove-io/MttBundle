@@ -24,11 +24,12 @@ class PdfGenerator
         $this->serverUrl = $server;
     }
 
-    public function getPdf($url, $orientation)
+    public function getPdf($url, $orientation, $pageSize)
     {
         $params = array();
         $params['url'] = $url;
         $params['orientation'] = $orientation;
+        $params['page-size'] = $pageSize;
         // TODO: make these parameters configurable via layout?
         $params['zoom'] = '2';
         $params['margin'] = '0';
