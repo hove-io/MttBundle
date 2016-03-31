@@ -47,4 +47,37 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid pageSize, "Invalid" given. Available pageSize are A3, A4, A5.
+     */
+    public function testInvalidPageSizeShouldThrowException()
+    {
+        $layout = new Layout();
+
+        $layout->setPageSize('Invalid');
+    }
+
+    /**
+     * @dataProvider getPageSizes
+     */
+    public function testSetValidPageSize($actual, $expected)
+    {
+        $layout = new Layout();
+        $layout->setPageSize($actual);
+
+        $this->assertEquals($expected, $layout->getPageSize());
+    }
+
+    public function getPageSizes()
+    {
+        return [
+            ['a3', 'A3'],
+            ['A3', 'A3'],
+            ['a4', 'A4'],
+            ['A4', 'A4'],
+            ['a5', 'A5'],
+            ['A5', 'A5'],
+        ];
+    }
 }
