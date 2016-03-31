@@ -15,6 +15,11 @@ CanalTP\MttBundle\Entity\Layout:
         path:
             type: string
             length: 255
+        pageSize:
+            type: string
+            length: 255
+            nullable: false
+            column: page_size
         previewPath:
             type: string
             length: 255
