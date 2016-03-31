@@ -59,7 +59,7 @@ class LayoutModelManager
                 'uploads/' . $id . '/' . $config['templateName'],
                 '/bundles/canaltpmtt/img/uploads/' . $id . '/' . $config['previewFileName'],
                 $config['orientation'],
-                isset($config['page_size']) ? $config['page_size'] : Layout::PAGE_SIZE_A4
+                isset($config['pageSize']) ? $config['pageSize'] : Layout::PAGE_SIZE_A4
             );
 
             // Move the assets
