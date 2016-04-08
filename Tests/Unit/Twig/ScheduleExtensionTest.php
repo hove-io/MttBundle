@@ -42,8 +42,6 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests that schedule method adds superscript element when Note type isn't set
-     *
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::scheduleFilter
      */
     public function testThatSceduleAddsSuperscriptWhenNoteTypeIsNotSet()
     {
@@ -57,8 +55,6 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests that schedule method returns only minute string when links is empty
-     *
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::scheduleFilter
      */
     public function testThatScheduleRetrunsMinuteWhenJourneyDoesntContainLink()
     {
@@ -74,8 +70,6 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests that schedule method adds background color to the minute when Note type is set to "color"
-     *
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::scheduleFilter
      */
     public function testThatScheduleColorizesWhenNoteTypeIsSetToColor()
     {
@@ -91,6 +85,8 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
      * Tests that when note type is color and calendar is false, superscript element is added to the element
      *
      * @covers CanalTP\MttBundle\Twig\ScheduleExtension::findNoteIndex
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::linkIsDecorable
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::addFootNote
      */
     public function testFindNoteIndexForColorNoteTypeWithoutCalendar()
     {
@@ -107,6 +103,8 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
      * Tests that when note type is color and calendar correct, superscript element is added to the element
      *
      * @covers CanalTP\MttBundle\Twig\ScheduleExtension::findNoteIndex
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::linkIsDecorable
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::addFootNote
      */
     public function testFindNoteIndexForColorNoteTypeWithCorrectCalendar()
     {
@@ -122,6 +120,8 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
      * Tests that when note type is color and calendar id is wrong, superscript element is added to the element
      *
      * @covers CanalTP\MttBundle\Twig\ScheduleExtension::findNoteIndex
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::linkIsDecorable
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::addFootNote
      */
     public function testFindNoteIndexForColorNoteTypeWithWrongCalendar()
     {
@@ -216,6 +216,21 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $footnote = $this->extension->footnoteFilter(0);
         $this->assertEquals('a', $footnote);
+    }
+
+    /**
+     * Tests that when links are empty, minute string could not contain background color
+     *
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::linkIsDecorable
+     */
+    public function testThatWithoutLinksMinuteCouldntBeColorized()
+    {
+        $this->initDatasForSchedule();
+
+        $this->journey->links = [''];
+
+        $scheduleValue = $this->getScheduleValue();
+        $this->assertEquals($scheduleValue, $this->expectedMinute);
     }
 
     private function mockJourney()
