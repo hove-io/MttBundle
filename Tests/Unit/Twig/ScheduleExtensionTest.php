@@ -50,7 +50,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
         $this->initDatasForSchedule();
 
         $scheduleValue = $this->getScheduleValue();
-        $expected = sprintf('%s<sup>a</sup><sup></sup>', $this->expectedMinute);
+        $expected = sprintf('%s<sup>a</sup>', $this->expectedMinute);
 
         $this->assertEquals($expected, $scheduleValue);
     }
@@ -131,7 +131,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
         $this->calendar->id = null;
 
         $scheduleValue = $this->getScheduleValue();
-        $this->assertScheduleAddsColor($scheduleValue);
+        $this->assertEquals($this->expectedMinute, $scheduleValue);
     }
 
     /**
@@ -306,7 +306,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
     private function assertScheduleAddsColor($scheduleValue)
     {
-        $pattern = '<span style="background-color: %1$s"><span style="background-color: %1$s">%2$s</span></span>';
+        $pattern = '<span style="background-color: %s">%s</span>';
         $expected = sprintf($pattern, $this->noteColor, $this->expectedMinute);
 
         $this->assertEquals($expected, $scheduleValue);

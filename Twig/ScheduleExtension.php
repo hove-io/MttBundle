@@ -31,21 +31,104 @@ class ScheduleExtension extends \Twig_Extension
     public function scheduleFilter($journey, $notes, $notesType = LayoutConfig::NOTES_TYPE_EXPONENT, $calendar = false)
     {
         $value = date('i', $journey->date_time->getTimestamp());
-        if (count($journey->links) > 0) {
-            foreach ($journey->links as $link) {
-                if ($link->type == "notes" || $link->type == "exceptions") {
-                    if ($notesType == LayoutConfig::NOTES_TYPE_COLOR) {
-                        $value = '<span style="background-color: ' . $notes[$this->findNoteIndex($link->id, $notes, $calendar)]->color . '">' . $value . '</span>';
-                    } else {
-                        $value .= '<sup>' . $this->footnoteFilter(
-                            $this->findNoteIndex($link->id, $notes, $calendar)
-                        ) . '</sup>';
-                    }
-                }
+
+        if (count($journey->links) < 1) {
+            return $value;
+        }
+
+        foreach ($journey->links as $link) {
+            if ($this->linkIsDecorable($link)) {
+                $noteIndex = $this->findNoteIndex($link->id, $notes, $calendar);
+                $this->decorateMinute($notesType, $notes, $noteIndex, $value);
             }
         }
 
         return $value;
+    }
+
+    /**
+     * Decorates minute string with html elements
+     *
+     * (Adds superclase or/and background color)
+     *
+     * @param string  $notesType
+     * @param array   $notes
+     * @param integer $noteIndex
+     * @param string  $minute
+     *
+     * @return string
+     */
+    private function decorateMinute($notesType, $notes, $noteIndex, &$minute)
+    {
+        if ($notesType == LayoutConfig::NOTES_TYPE_COLOR) {
+            $minute = $this->decorateMinuteWithColor($notes, $noteIndex, $minute);
+        } else {
+            $minute.= $this->addFootNote($noteIndex);
+        }
+
+        return $minute;
+    }
+
+    /**
+     * Tests that $link is decorable
+     *
+     * (type property should be notes or exceptions)
+     *
+     * @param object $link
+     *
+     * @return boolean
+     */
+    private function linkIsDecorable($link)
+    {
+        if(!is_object($link) || !property_exists($link, 'type')) {
+            return false;
+        }
+
+        return $link->type == 'notes' || $link->type == 'exceptions';
+    }
+
+    /**
+     * Adds superscript element to $value if $index is not false
+     *
+     * @param integer $noteIndex
+     *
+     * @return string
+     */
+    private function addFootNote($noteIndex)
+    {
+        $footNote = $this->footnoteFilter($noteIndex);
+        if(empty($footNote)) {
+           return '';
+        }
+
+        return sprintf('<sup>%s</sup>', $footNote);
+    }
+
+    /**
+     * Adds background color to the $value if color could be found in $notes
+     *
+     * @param array $notes
+     * @param integer $noteIndex
+     * @param String $value
+     *
+     * @return String
+     */
+    private function decorateMinuteWithColor($notes, $noteIndex, $value)
+    {
+        if(!is_integer($noteIndex)) {
+            return $value;
+        }
+
+        if(!array_key_exists($noteIndex, $notes)) {
+            return $value;
+        }
+
+        $noteObj = $notes[$noteIndex];
+        if(!is_object($noteObj) || !property_exists($noteObj, 'color')) {
+            return $value;
+        }
+
+        return sprintf('<span style="background-color: %s">%s</span>', $noteObj->color, $value);
     }
 
     public function footnoteFilter($index)
