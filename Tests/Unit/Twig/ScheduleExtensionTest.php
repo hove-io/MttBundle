@@ -15,13 +15,24 @@ use CanalTP\MttBundle\Entity\LayoutConfig;
 
 class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var CanalTP\MttBundle\Twig\ScheduleExtension
      */
     private $extension;
 
+    /**
+     * Minute where superscript has to be added
+     *
+     * @var string
+     */
     private $expectedMinute = '26';
-    private $noteColor      = '#e44155';
+
+    private $journey;
+    private $calendar;
+    private $notes;
+    private $noteColor = '#e44155';
+    private $noteType;
 
     protected function setUp()
     {
@@ -36,11 +47,9 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function testThatSceduleAddsSuperscriptWhenNoteTypeIsNotSet()
     {
-        $journey    = $this->mockJourney();
-        $notes      = $this->mockNotes();
-        $calendar   = $this->mockCalendar();
+        $this->initDatasForSchedule();
 
-        $scheduleValue = $this->extension->scheduleFilter($journey, $notes, null, $calendar);
+        $scheduleValue = $this->getScheduleValue();
         $expected = sprintf('%s<sup>a</sup><sup></sup>', $this->expectedMinute);
 
         $this->assertEquals($expected, $scheduleValue);
@@ -53,13 +62,12 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function testThatScheduleRetrunsMinuteWhenJourneyDoesntContainLink()
     {
-        $journey = $this->mockJourney();
-        $journey->links = [];
+        $this->initDatasForSchedule();
 
-        $notes    = $this->mockNotes();
-        $calendar = $this->mockCalendar();
+        $this->journey->links = [];
+        $this->noteType = null;
 
-        $scheduleValue = $this->extension->scheduleFilter($journey, $notes, null, $calendar);
+        $scheduleValue = $this->getScheduleValue();
 
         $this->assertEquals($this->expectedMinute, $scheduleValue);
     }
@@ -71,16 +79,59 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function testThatScheduleColorizesWhenNoteTypeIsSetToColor()
     {
-        $journey    = $this->mockJourney();
-        $notes      = $this->mockNotes();
-        $calendar   = $this->mockCalendar();
+        $this->initDatasForSchedule();
 
-        $scheduleValue = $this->extension->scheduleFilter($journey, $notes, LayoutConfig::NOTES_TYPE_COLOR, $calendar);
+        $this->noteType = LayoutConfig::NOTES_TYPE_COLOR;
 
-        $pattern = '<span style="background-color: %1$s"><span style="background-color: %1$s">%2$s</span></span>';
-        $expected = sprintf($pattern, $this->noteColor, $this->expectedMinute);
+        $scheduleValue = $this->getScheduleValue();
+        $this->assertScheduleAddsColor($scheduleValue);
+    }
 
-        $this->assertEquals($expected, $scheduleValue);
+    /**
+     * Tests that when note type is color and calendar is false, superscript element is added to the element
+     *
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::findNoteIndex
+     */
+    public function testFindNoteIndexForColorNoteTypeWithoutCalendar()
+    {
+        $this->initDatasForSchedule();
+
+        $this->noteType = LayoutConfig::NOTES_TYPE_COLOR;
+        $this->calendar = false;
+
+        $scheduleValue = $this->getScheduleValue();
+        $this->assertScheduleAddsColor($scheduleValue);
+    }
+
+    /**
+     * Tests that when note type is color and calendar correct, superscript element is added to the element
+     *
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::findNoteIndex
+     */
+    public function testFindNoteIndexForColorNoteTypeWithCorrectCalendar()
+    {
+        $this->initDatasForSchedule();
+
+        $this->noteType = LayoutConfig::NOTES_TYPE_COLOR;
+
+        $scheduleValue = $this->getScheduleValue();
+        $this->assertScheduleAddsColor($scheduleValue);
+    }
+
+    /**
+     * Tests that when note type is color and calendar id is wrong, superscript element is added to the element
+     *
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::findNoteIndex
+     */
+    public function testFindNoteIndexForColorNoteTypeWithWrongCalendar()
+    {
+        $this->initDatasForSchedule();
+
+        $this->noteType = LayoutConfig::NOTES_TYPE_COLOR;
+        $this->calendar->id = null;
+
+        $scheduleValue = $this->getScheduleValue();
+        $this->assertScheduleAddsColor($scheduleValue);
     }
 
     /**
@@ -209,7 +260,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
           'id' => 'note:930833458516092538',
           'value' => 'c: du dimanche au mercredi ces horaires fonctionnent sur réservation au 02 98 34 42 22',
           'calendarId' => 'Y2FsZW5kYXI6NzIwMA',
-          'color' => '#e44155',
+          'color' => $this->noteColor,
         ];
 
         $jsonNote = json_decode(json_encode($note));
@@ -223,6 +274,42 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
         $json = file_get_contents($calendarMockPath);
 
         return json_decode($json);
+    }
+
+    /**
+     * Initializes parameters for Schedule method
+     */
+    private function initDatasForSchedule()
+    {
+        $this->journey  = $this->mockJourney();
+        $this->notes    = $this->mockNotes();
+        $this->noteType = LayoutConfig::NOTES_TYPE_EXPONENT;
+        $this->calendar = $this->mockCalendar();
+    }
+
+    /**
+     * Exxecutes Schedule method of twig extension with class properties
+     *
+     * properties used $journey, $notes, $noteType, calendar
+     *
+     * @return string
+     */
+    private function getScheduleValue()
+    {
+        return $this->extension->scheduleFilter(
+                    $this->journey,
+                    $this->notes,
+                    $this->noteType,
+                    $this->calendar
+                );
+    }
+
+    private function assertScheduleAddsColor($scheduleValue)
+    {
+        $pattern = '<span style="background-color: %1$s"><span style="background-color: %1$s">%2$s</span></span>';
+        $expected = sprintf($pattern, $this->noteColor, $this->expectedMinute);
+
+        $this->assertEquals($expected, $scheduleValue);
     }
 
 }
