@@ -138,16 +138,19 @@ class ScheduleExtension extends \Twig_Extension
 
     public function calendarMax($calendar, $min = 12)
     {
+        if (!isset($calendar->schedules->date_times)) {
+            return max([0, $min]);
+        }
+
         $max = 0;
-        if (isset($calendar->schedules->date_times)) {
-            foreach ($calendar->schedules->date_times as $HourDateTime) {
-                if (count($HourDateTime) > $max) {
-                    $max = count($HourDateTime);
-                }
+        foreach ($calendar->schedules->date_times as $HourDateTime) {
+            $dateTimesNb = count($HourDateTime);
+            if ($dateTimesNb > $max) {
+                $max = $dateTimesNb;
             }
         }
 
-        return $max > $min ? $max : $min;
+        return max([$min, $max]);
     }
 
     public function getName()
