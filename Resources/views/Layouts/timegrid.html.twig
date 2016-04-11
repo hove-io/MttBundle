@@ -25,15 +25,15 @@
             {% set params = { 'notes' : notes, 'computedNotes' : notes, 'calendar' : calendar } %}
         {% endif %}
         {% if not colorAltern %}
-            {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, params.computedNotes, hours_range, nbLines) }}
+            {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, params.computedNotes, hours_range, nbLines, notesType) }}
         {% else %}
-            {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, params.computedNotes, hours_range, nbLines, null, colorAltern) }}
+            {{ macros.calendar(id, stopPointLevel, externalNetworkId, timetable, layout, block, calendar, params.computedNotes, hours_range, nbLines, notesType, colorAltern) }}
         {% endif %}
         </table>
         {% if addNotes %}
             {%
                 include "CanalTPMttBundle:Layouts:notes.html.twig"
-                with params only
+                with params|merge({'notesType' : notesType}) only
             %}
         {% endif %}
     </div>

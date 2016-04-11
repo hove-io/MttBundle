@@ -114,7 +114,7 @@
                         <div class="notes-wrapper">
                             <div class="bold">{{ 'global.annotations'|trans({}, 'messages') }}</div>
                             {% for note in calendar.notes %}
-                                <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
+                                <div><span class="bold">{{ loop.index0|footnote(note, notesType)|raw }}</span>: {{ note.value|raw }}</div>
                             {% endfor %}
                             <hr/>
                         </div>

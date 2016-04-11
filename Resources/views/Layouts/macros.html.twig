@@ -95,7 +95,7 @@
             {% endfor %}
         {% else %}
             {% for note in notes %}
-                <div><span class="bold">{{ loop.index0|footnote|raw }}</span>: {{ note.value|raw }}</div>
+                <div><span class="bold">{{ loop.index0|footnote(note, notesType)|raw }}</span>: {{ note.value|raw }}</div>
             {% endfor %}
         {% endif %}
         </div>
