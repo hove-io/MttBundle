@@ -3,7 +3,7 @@
 namespace CanalTP\MttBundle\Tests\Twig;
 
 /**
- * Description courte de la classe ScheduleExtensionTest
+ * Test class for ScheduleExtension filters
  *
  * @copyright  Copyright (c) 2008-2016 CanalTP. (http://www.canaltp.fr/)
  * @author     Thomas Chevily <thomas.chevily@canaltp.fr>
@@ -83,10 +83,6 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests that when note type is color and calendar is false, superscript element is added to the element
-     *
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::findNoteIndex
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::linkIsDecorable
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::addFootNote
      */
     public function testFindNoteIndexForColorNoteTypeWithoutCalendar()
     {
@@ -101,10 +97,6 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests that when note type is color and calendar correct, superscript element is added to the element
-     *
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::findNoteIndex
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::linkIsDecorable
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::addFootNote
      */
     public function testFindNoteIndexForColorNoteTypeWithCorrectCalendar()
     {
@@ -118,10 +110,6 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests that when note type is color and calendar id is wrong, superscript element is added to the element
-     *
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::findNoteIndex
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::linkIsDecorable
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::addFootNote
      */
     public function testFindNoteIndexForColorNoteTypeWithWrongCalendar()
     {
@@ -136,8 +124,6 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests that extension name is correct
-     *
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::getName
      */
     public function testExtensionName()
     {
@@ -146,8 +132,6 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests that schedule extension filter list is correct
-     *
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::getFilters
      */
     public function testAvailableFilterList()
     {
@@ -197,13 +181,28 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that if calendar contains more than desired number of lines,
+     * number of this lines is returned
+     *
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::calendarMax
+     */
+    public function testCalendarLinesWithoutScheduleDates()
+    {
+        $calendar = $this->mockCalendar();
+        $calendar->schedules->date_times = null;
+
+        $linesPerHour = $this->extension->calendarMax($calendar);
+        $this->assertEquals(12, $linesPerHour);
+    }
+
+    /**
      * Tests that generated footnote is empty string when index is wrong
      *
      * @covers CanalTP\MttBundle\Twig\ScheduleExtension::footnoteFilter
      */
-    public function testThatFootnoteIsEmptyWhenIndexIsWrong()
+    public function testFootnoteLetterWhithWrongIndexInExponentMode()
     {
-        $footnote = $this->extension->footnoteFilter(false);
+        $footnote = $this->extension->footnoteFilter(false, null);
         $this->assertEquals('', $footnote);
     }
 
@@ -212,16 +211,38 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
      *
      * @covers CanalTP\MttBundle\Twig\ScheduleExtension::footnoteFilter
      */
-    public function testThatFootnoteIsLetterWhenIndexIsCorrect()
+    public function testFootnoteLetterWhenIndexExistsInExponentMode()
     {
-        $footnote = $this->extension->footnoteFilter(0);
+        $notesType = LayoutConfig::NOTES_TYPE_EXPONENT;
+
+        $plainFootnote = $this->extension->footnoteFilter(0, null, $notesType);
+        $this->assertEquals('a', $plainFootnote);
+
+        //in exponsnt mode even if node is used, response should be contain any color
+        $notes = $this->mockNotes();
+        $footnote = $this->extension->footnoteFilter(0, current($notes), $notesType);
         $this->assertEquals('a', $footnote);
     }
 
     /**
-     * Tests that when links are empty, minute string could not contain background color
+     * Tests that generated footnote is a letter when index is an integer
      *
-     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::linkIsDecorable
+     * @covers CanalTP\MttBundle\Twig\ScheduleExtension::footnoteFilter
+     */
+    public function testFootnoteLetterWhenIndexExistsInColorMode()
+    {
+        $notesType = LayoutConfig::NOTES_TYPE_COLOR;
+
+        $notes = $this->mockNotes();
+        $note = current($notes);
+        $footnote = $this->extension->footnoteFilter(0, current($notes), $notesType);
+
+        $expected = sprintf('<span style="background-color: %s" class="label">&nbsp;</span>',$note->color);
+        $this->assertEquals($expected, $footnote);
+    }
+
+    /**
+     * Tests that when links are empty, minute string could not contain background color
      */
     public function testThatWithoutLinksMinuteCouldntBeColorized()
     {
@@ -233,6 +254,11 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($scheduleValue, $this->expectedMinute);
     }
 
+    /**
+     * Mocks Journey object
+     *
+     * @return stdClass
+     */
     private function mockJourney()
     {
         $journey = [
@@ -240,22 +266,22 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
           'additional_informations' => [],
           'links' => [
             [
-              'internal' => true,
-              'type' => 'notes',
-              'id' => 'note:930833458516092538',
-              'rel' => 'notes',
+              'internal'=> true,
+              'type'    => 'notes',
+              'id'      => 'note:930833458516092538',
+              'rel'     => 'notes',
             ],
             [
-              'internal' => true,
-              'rel' => 'exceptions',
-              'type' => 'exceptions',
-              'id' => 'exception:120160328',
+              'internal'=> true,
+              'rel'     => 'exceptions',
+              'type'    => 'exceptions',
+              'id'      => 'exception:120160328',
             ],
             [
-              'type' => 'vehicle_journey',
-              'value' => 'vehicle_journey:BIB:2905-52-1_dst_1',
-              'rel' => 'vehicle_journeys',
-              'id' => 'vehicle_journey:BIB:2905-52-1_dst_1',
+              'type'    => 'vehicle_journey',
+              'value'   => 'vehicle_journey:BIB:2905-52-1_dst_1',
+              'rel'     => 'vehicle_journeys',
+              'id'      => 'vehicle_journey:BIB:2905-52-1_dst_1',
             ]
           ],
           'data_freshness' => 'base_schedule',
@@ -268,14 +294,19 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
         return $jsonObj;
     }
 
+    /**
+     * Mocks notes list
+     *
+     * @return array
+     */
     private function mockNotes()
     {
         $note = [
-          'type' => 'notes',
-          'id' => 'note:930833458516092538',
-          'value' => 'c: du dimanche au mercredi ces horaires fonctionnent sur réservation au 02 98 34 42 22',
-          'calendarId' => 'Y2FsZW5kYXI6NzIwMA',
-          'color' => $this->noteColor,
+          'type'        => 'notes',
+          'id'          => 'note:930833458516092538',
+          'value'       => 'c: du dimanche au mercredi ces horaires fonctionnent sur réservation au 02 98 34 42 22',
+          'calendarId'  => 'Y2FsZW5kYXI6NzIwMA',
+          'color'       => $this->noteColor,
         ];
 
         $jsonNote = json_decode(json_encode($note));
@@ -283,6 +314,11 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
         return [$jsonNote];
     }
 
+    /**
+     * Mocks calendar object
+     *
+     * @return stdClass
+     */
     private function mockCalendar()
     {
         $calendarMockPath = realpath((__DIR__) . '/../../DataFixtures/Navitia/calendar.exception.json');
@@ -319,6 +355,11 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
                 );
     }
 
+    /**
+     * Asserts that schedule filter return value contains background color
+     *
+     * @param string $scheduleValue
+     */
     private function assertScheduleAddsColor($scheduleValue)
     {
         $pattern = '<span style="background-color: %s">%s</span>';

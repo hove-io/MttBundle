@@ -164,7 +164,6 @@ class ScheduleExtension extends \Twig_Extension
 
     public function footnoteFilter($index, $note, $notesType = LayoutConfig::NOTES_TYPE_EXPONENT)
     {
-
         if($index === false) {
             return '';
         }
@@ -177,12 +176,12 @@ class ScheduleExtension extends \Twig_Extension
             return $this->getFootNote($index);
         }
 
-        return sprintf('<span style="background-color: %s" class="label"> </span> ',$note->color);
+        return sprintf('<span style="background-color: %s" class="label">&nbsp;</span>',$note->color);
     }
 
     public function calendarMax($calendar, $min = 12)
     {
-        if (!isset($calendar->schedules->date_times)) {
+        if (!isset($calendar->schedules->date_times) || count($calendar->schedules->date_times) == 0 ) {
             return max([0, $min]);
         }
 
