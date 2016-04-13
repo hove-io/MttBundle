@@ -46,9 +46,9 @@ class ScheduleExtension extends \Twig_Extension
             $noteIndex = $this->findNoteIndex($link->id, $notes, $calendar);
 
             if ($notesType == LayoutConfig::NOTES_TYPE_COLOR) {
-                $colors[]   = $this->getColor($notes, $noteIndex);
+                $colors[] = $this->getColor($notes, $noteIndex);
             }
-            $exponents[]= $this->getExposent($noteIndex);
+            $exponents[] = $this->getExposent($noteIndex);
 
         }
 
