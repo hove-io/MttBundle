@@ -17,21 +17,29 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var CanalTP\MttBundle\Twig\ScheduleExtension
+     * Color code of expected exception
+     *
+     * @var string
      */
-    private $extension;
+    const NOTE_COLOR = '#e44155';
 
     /**
      * Minute where superscript has to be added
      *
      * @var string
      */
-    private $expectedMinute = '26';
+    const EXPECTED_MINUTE = '26';
+
+    /**
+     * @var CanalTP\MttBundle\Twig\ScheduleExtension
+     */
+    private $extension;
+
 
     private $journey;
     private $calendar;
     private $notes;
-    private $noteColor = '#e44155';
+
     private $noteType;
 
     protected function setUp()
@@ -48,7 +56,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
         $this->initDatasForSchedule();
 
         $scheduleValue = $this->getScheduleValue();
-        $expected = sprintf('%s<sup>a</sup>', $this->expectedMinute);
+        $expected = sprintf('%s<sup>a</sup>', self::EXPECTED_MINUTE);
 
         $this->assertEquals($expected, $scheduleValue);
     }
@@ -65,7 +73,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
         $scheduleValue = $this->getScheduleValue();
 
-        $this->assertEquals($this->expectedMinute, $scheduleValue);
+        $this->assertEquals(self::EXPECTED_MINUTE, $scheduleValue);
     }
 
     /**
@@ -119,7 +127,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
         $this->calendar->id = null;
 
         $scheduleValue = $this->getScheduleValue();
-        $this->assertEquals($this->expectedMinute, $scheduleValue);
+        $this->assertEquals(self::EXPECTED_MINUTE, $scheduleValue);
     }
 
     /**
@@ -173,7 +181,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
         $maxLinesPerHour = 0;
         foreach ($dateTimes as $dateTime) {
             $dateTimePerHour = count($dateTime);
-            $maxLinesPerHour = $dateTimePerHour > $maxLinesPerHour ? $dateTimePerHour : $maxLinesPerHour;
+            $maxLinesPerHour = max([$dateTimePerHour, $maxLinesPerHour]);
         }
 
         $linesPerHour = $this->extension->calendarMax($calendar, 2);
@@ -233,11 +241,12 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $notesType = LayoutConfig::NOTES_TYPE_COLOR;
 
-        $notes = $this->mockNotes();
-        $note = current($notes);
-        $footnote = $this->extension->footnoteFilter(0, current($notes), $notesType);
+        $notes  = $this->mockNotes();
+        $note   = current($notes);
 
-        $expected = sprintf('<span style="background-color: %s" class="label">&nbsp;</span>',$note->color);
+        $footnote = $this->extension->footnoteFilter(0, $note, $notesType);
+
+        $expected = sprintf('<span style="background-color: %s" class="label">&nbsp;</span>', $note->color);
         $this->assertEquals($expected, $footnote);
     }
 
@@ -248,10 +257,10 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $this->initDatasForSchedule();
 
-        $this->journey->links = [''];
+        $this->journey->links = [];
 
         $scheduleValue = $this->getScheduleValue();
-        $this->assertEquals($scheduleValue, $this->expectedMinute);
+        $this->assertEquals($scheduleValue, self::EXPECTED_MINUTE);
     }
 
     /**
@@ -289,7 +298,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
 
         $jsonObj = json_decode(json_encode($journey));
         $jsonObj->date_time = new \DateTime('2016-04-07 00:00:00');
-        $jsonObj->date_time->setTime(23, $this->expectedMinute, 0);
+        $jsonObj->date_time->setTime(23, self::EXPECTED_MINUTE, 0);
 
         return $jsonObj;
     }
@@ -306,7 +315,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
           'id'          => 'note:930833458516092538',
           'value'       => 'c: du dimanche au mercredi ces horaires fonctionnent sur réservation au 02 98 34 42 22',
           'calendarId'  => 'Y2FsZW5kYXI6NzIwMA',
-          'color'       => $this->noteColor,
+          'color'       => self::NOTE_COLOR,
         ];
 
         $jsonNote = json_decode(json_encode($note));
@@ -348,11 +357,11 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
     private function getScheduleValue()
     {
         return $this->extension->scheduleFilter(
-                    $this->journey,
-                    $this->notes,
-                    $this->noteType,
-                    $this->calendar
-                );
+            $this->journey,
+            $this->notes,
+            $this->noteType,
+            $this->calendar
+        );
     }
 
     /**
@@ -363,9 +372,8 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
     private function assertScheduleAddsColor($scheduleValue)
     {
         $pattern = '<span style="background-color: %s">%s</span>';
-        $expected = sprintf($pattern, $this->noteColor, $this->expectedMinute);
+        $expected = sprintf($pattern, self::NOTE_COLOR, self::EXPECTED_MINUTE);
 
         $this->assertEquals($expected, $scheduleValue);
     }
-
 }
