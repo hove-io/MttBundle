@@ -36,10 +36,10 @@ class ScheduleExtension extends \Twig_Extension
             return $minute;
         }
 
-        $colors     = []; $exposents  = [];
+        $colors =  $exponents  = [];
 
         foreach ($journey->links as $link) {
-            if (!$this->linkIsDecorable($link)) {
+            if (!$this->isLinkDecorable($link)) {
                 continue;
             }
 
@@ -48,12 +48,12 @@ class ScheduleExtension extends \Twig_Extension
             if ($notesType == LayoutConfig::NOTES_TYPE_COLOR) {
                 $colors[]   = $this->getColor($notes, $noteIndex);
             }
-            $exposents[]= $this->getExposent($noteIndex);
+            $exponents[]= $this->getExposent($noteIndex);
 
         }
 
         $colorizedMinute = $this->colorizeMminute($minute, $colors);
-        return $this->addExposants($colorizedMinute, $exposents, $notesType);
+        return $this->addExponents($colorizedMinute, $exponents, $notesType);
     }
 
     /**
@@ -66,12 +66,12 @@ class ScheduleExtension extends \Twig_Extension
      */
     private function getColor(array $notes, $noteIndex)
     {
-        if(!is_integer($noteIndex) || !array_key_exists($noteIndex, $notes)) {
+        if (!is_integer($noteIndex) || !array_key_exists($noteIndex, $notes)) {
             return null;
         }
 
         $noteObj = $notes[$noteIndex];
-        if(!is_object($noteObj) || !property_exists($noteObj, 'color')) {
+        if (!is_object($noteObj) || !property_exists($noteObj, 'color')) {
             return null;
         }
 
@@ -87,8 +87,8 @@ class ScheduleExtension extends \Twig_Extension
     private function getExposent($noteIndex)
     {
         $footNote = $this->getFootNote($noteIndex);
-        if(empty($footNote)) {
-           return null;
+        if (empty($footNote)) {
+            return null;
         }
 
         return $footNote;
@@ -105,7 +105,7 @@ class ScheduleExtension extends \Twig_Extension
     {
         $cleanedColors = array_filter($colors);
 
-        if(empty($cleanedColors)) {
+        if (empty($cleanedColors)) {
             return $minute;
         }
 
@@ -114,21 +114,21 @@ class ScheduleExtension extends \Twig_Extension
     }
 
     /**
-     * Adds exposents to the minute string if note type isnot color
+     * Adds exponents to the minute string if note type isnot color
      *
      * @param string $minute
-     * @param array $exposents
-     * @param type $notesType
+     * @param array $exponents
+     * @param mixed $notesType
      *
      * @return String
      */
-    private function addExposants($minute = '', array $exposents = [], $notesType)
+    private function addExponents($minute = '', array $exponents = [], $notesType = null)
     {
-        $cleanedExposents = array_filter($exposents);
+        $cleanedExposents = array_filter($exponents);
 
         $exposantsNb = count($cleanedExposents);
 
-        if($notesType == LayoutConfig::NOTES_TYPE_COLOR && $exposantsNb < 2) {
+        if ($notesType == LayoutConfig::NOTES_TYPE_COLOR && $exposantsNb < 2) {
             return $minute;
         }
 
@@ -148,9 +148,9 @@ class ScheduleExtension extends \Twig_Extension
      *
      * @return boolean
      */
-    private function linkIsDecorable($link)
+    private function isLinkDecorable($link)
     {
-        if(!is_object($link) || !property_exists($link, 'type')) {
+        if (!is_object($link) || !property_exists($link, 'type')) {
             return false;
         }
 
@@ -164,33 +164,30 @@ class ScheduleExtension extends \Twig_Extension
 
     public function footnoteFilter($index, $note, $notesType = LayoutConfig::NOTES_TYPE_EXPONENT)
     {
-        if($index === false) {
+        if ($index === false) {
             return '';
         }
 
-        if(!is_object($note) || !property_exists($note, 'color')) {
+        if (!is_object($note) || !property_exists($note, 'color')) {
             return $this->getFootNote($index);
         }
 
-        if($notesType == LayoutConfig::NOTES_TYPE_EXPONENT) {
+        if ($notesType == LayoutConfig::NOTES_TYPE_EXPONENT) {
             return $this->getFootNote($index);
         }
 
-        return sprintf('<span style="background-color: %s" class="label">&nbsp;</span>',$note->color);
+        return sprintf('<span style="background-color: %s" class="label">&nbsp;</span>', $note->color);
     }
 
     public function calendarMax($calendar, $min = 12)
     {
-        if (!isset($calendar->schedules->date_times) || count($calendar->schedules->date_times) == 0 ) {
+        if (!isset($calendar->schedules->date_times) || count($calendar->schedules->date_times) == 0) {
             return max([0, $min]);
         }
 
         $max = 0;
-        foreach ($calendar->schedules->date_times as $HourDateTime) {
-            $dateTimesNb = count($HourDateTime);
-            if ($dateTimesNb > $max) {
-                $max = $dateTimesNb;
-            }
+        foreach ($calendar->schedules->date_times as $hourDateTime) {
+            $max = max([$max, count($hourDateTime)]);
         }
 
         return max([$min, $max]);
