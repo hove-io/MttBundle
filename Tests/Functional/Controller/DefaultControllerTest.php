@@ -17,7 +17,7 @@ class DefaultControllerTest extends AbstractControllerTest
         $route = $this->generateRoute(
             'canal_tp_mtt_menu',
             array(
-                'externalNetworkId' => 'network:Filbleu',
+                'externalNetworkId' => 'network:JDR:2',
                 'current_season' => 1
             )
         );
@@ -36,7 +36,7 @@ class DefaultControllerTest extends AbstractControllerTest
         $route = $this->generateRoute(
             'canal_tp_mtt_homepage',
             array(
-                'externalNetworkId' => 'network:Agglobus'
+                'externalNetworkId' => 'network:JDR:1'
             )
         );
         $crawler = $this->client->request('GET', $route);
