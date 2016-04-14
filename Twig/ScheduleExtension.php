@@ -30,41 +30,167 @@ class ScheduleExtension extends \Twig_Extension
 
     public function scheduleFilter($journey, $notes, $notesType = LayoutConfig::NOTES_TYPE_EXPONENT, $calendar = false)
     {
-        $value = date('i', $journey->date_time->getTimestamp());
-        if (count($journey->links) > 0) {
-            foreach ($journey->links as $link) {
-                if ($link->type == "notes" || $link->type == "exceptions") {
-                    if ($notesType == LayoutConfig::NOTES_TYPE_COLOR) {
-                        $value = '<span style="background-color: ' . $notes[$this->findNoteIndex($link->id, $notes, $calendar)]->color . '">' . $value . '</span>';
-                    } else {
-                        $value .= '<sup>' . $this->footnoteFilter(
-                            $this->findNoteIndex($link->id, $notes, $calendar)
-                        ) . '</sup>';
-                    }
-                }
-            }
+        $minute = date('i', $journey->date_time->getTimestamp());
+
+        if (count($journey->links) < 1) {
+            return $minute;
         }
 
-        return $value;
+        $colors =  $exponents  = [];
+
+        foreach ($journey->links as $link) {
+            if (!$this->isLinkDecorable($link)) {
+                continue;
+            }
+
+            $noteIndex = $this->findNoteIndex($link->id, $notes, $calendar);
+
+            if ($notesType == LayoutConfig::NOTES_TYPE_COLOR) {
+                $colors[] = $this->getColor($notes, $noteIndex);
+            }
+            $exponents[] = $this->getExposent($noteIndex);
+
+        }
+
+        $colorizedMinute = $this->colorizeMminute($minute, $colors);
+        return $this->addExponents($colorizedMinute, $exponents, $notesType);
     }
 
-    public function footnoteFilter($index)
+    /**
+     * Retrieves color for note index
+     *
+     * @param array $notes
+     * @param Integer $noteIndex
+     *
+     * @return string | Null
+     */
+    private function getColor(array $notes, $noteIndex)
+    {
+        if (!is_integer($noteIndex) || !array_key_exists($noteIndex, $notes)) {
+            return null;
+        }
+
+        $noteObj = $notes[$noteIndex];
+        if (!is_object($noteObj) || !property_exists($noteObj, 'color')) {
+            return null;
+        }
+
+        return $noteObj->color;
+    }
+
+    /**
+     * Retrieves exposent by note index
+     *
+     * @param Integer $noteIndex
+     * @return Sting | Null
+     */
+    private function getExposent($noteIndex)
+    {
+        $footNote = $this->getFootNote($noteIndex);
+        if (empty($footNote)) {
+            return null;
+        }
+
+        return $footNote;
+    }
+
+    /**
+     * Adds background color to the minute string
+     *
+     * @param string $minute
+     * @param array $colors
+     * @return String
+     */
+    private function colorizeMminute($minute = '', array $colors = [])
+    {
+        $cleanedColors = array_filter($colors);
+
+        if (empty($cleanedColors)) {
+            return $minute;
+        }
+
+        return sprintf('<span style="background-color: %s">%s</span>', current($cleanedColors), $minute);
+
+    }
+
+    /**
+     * Adds exponents to the minute string if note type isnot color
+     *
+     * @param string $minute
+     * @param array $exponents
+     * @param mixed $notesType
+     *
+     * @return String
+     */
+    private function addExponents($minute = '', array $exponents = [], $notesType = null)
+    {
+        $cleanedExposents = array_filter($exponents);
+
+        $exposantsNb = count($cleanedExposents);
+
+        if ($notesType == LayoutConfig::NOTES_TYPE_COLOR && $exposantsNb < 2) {
+            return $minute;
+        }
+
+        array_walk($cleanedExposents, function(&$value) {
+            $value = sprintf('<sup>%s</sup>', $value);
+        });
+
+        return $minute . join('', $cleanedExposents);
+    }
+
+    /**
+     * Tests that $link is decorable
+     *
+     * (type property should be notes or exceptions)
+     *
+     * @param object $link
+     *
+     * @return boolean
+     */
+    private function isLinkDecorable($link)
+    {
+        if (!is_object($link) || !property_exists($link, 'type')) {
+            return false;
+        }
+
+        return $link->type == 'notes' || $link->type == 'exceptions';
+    }
+
+    private function getFootNote($index)
     {
         return $index === false ? '' : chr($this->ascii_start + $index);
     }
 
-    public function calendarMax($calendar, $min = 12)
+    public function footnoteFilter($index, $note, $notesType = LayoutConfig::NOTES_TYPE_EXPONENT)
     {
-        $max = 0;
-        if (isset($calendar->schedules->date_times)) {
-            foreach ($calendar->schedules->date_times as $HourDateTime) {
-                if (count($HourDateTime) > $max) {
-                    $max = count($HourDateTime);
-                }
-            }
+        if ($index === false) {
+            return '';
         }
 
-        return $max > $min ? $max : $min;
+        if (!is_object($note) || !property_exists($note, 'color')) {
+            return $this->getFootNote($index);
+        }
+
+        if ($notesType == LayoutConfig::NOTES_TYPE_EXPONENT) {
+            return $this->getFootNote($index);
+        }
+
+        return sprintf('<span style="background-color: %s" class="label">&nbsp;</span>', $note->color);
+    }
+
+    public function calendarMax($calendar, $min = 12)
+    {
+        if (!isset($calendar->schedules->date_times) || count($calendar->schedules->date_times) == 0) {
+            return max([0, $min]);
+        }
+
+        $max = 0;
+        foreach ($calendar->schedules->date_times as $hourDateTime) {
+            $max = max([$max, count($hourDateTime)]);
+        }
+
+        return max([$min, $max]);
     }
 
     public function getName()
