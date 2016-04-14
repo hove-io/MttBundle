@@ -2,9 +2,13 @@
 
 This PR fixes/adds ...
 
-# JIRA
+# Issue (optionnal)
 
-Ticket link:
+Issue link:
+
+# Pull Request type (optionnal)
+
+This is a bug fix / new feature?
 
 # How to test
 
@@ -17,7 +21,3 @@ Here are the following steps to test this pull request:
 # Team reviewers (optionnal)
 
 Mention here the people who should review your PR
-
-# Pull Request type (optionnal)
-
-This is a bug fix / new feature?
