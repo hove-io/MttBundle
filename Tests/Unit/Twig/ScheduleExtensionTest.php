@@ -371,7 +371,7 @@ class ScheduleExtensionTest extends \PHPUnit_Framework_TestCase
      */
     private function assertScheduleAddsColor($scheduleValue)
     {
-        $pattern = '<span style="background-color: %s">%s</span>';
+        $pattern = '<span class="block-color" style="background-color: %s">%s</span>';
         $expected = sprintf($pattern, self::NOTE_COLOR, self::EXPECTED_MINUTE);
 
         $this->assertEquals($expected, $scheduleValue);
