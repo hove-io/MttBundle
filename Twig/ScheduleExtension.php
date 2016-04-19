@@ -109,7 +109,7 @@ class ScheduleExtension extends \Twig_Extension
             return $minute;
         }
 
-        return sprintf('<span style="background-color: %s">%s</span>', current($cleanedColors), $minute);
+        return sprintf('<span class="block-color" style="background-color: %s">%s</span>', current($cleanedColors), $minute);
 
     }
 

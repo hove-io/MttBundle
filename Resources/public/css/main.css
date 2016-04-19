@@ -196,3 +196,7 @@ li.ui-sortable-helper span {
     bottom: 10px;
     right: 0;
 }
+/* for schedule note type color */
+.block-color {
+    display: block;
+}
