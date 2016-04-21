@@ -1,6 +1,6 @@
 {% extends "CanalTPMttBundle::base.html.twig" %}
 {% set left_menu_html %}
-    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season': currentSeasonId })) }}
+    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'externalNetworkId': externalNetworkId, 'current_route': current_route|default, 'current_season': currentSeasonId|default })) }}
 {% endset %}
 {% block container %}
     <div class="row">

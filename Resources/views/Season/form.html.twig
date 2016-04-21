@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    {% if (form.seasonToClone is not null) %}
+        {% if (form.seasonToClone is defined) %}
         {{ form_row(form.seasonToClone) }}
         <div class="panel panel-default">
             <div class="panel-body">{{'season.clone_explanation'|trans|raw}}</div>

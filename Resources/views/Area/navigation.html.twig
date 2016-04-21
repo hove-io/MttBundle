@@ -4,7 +4,7 @@
             {% set cssClass = "collapsed" %}
             {% for line in lines %}
                 {% for route in line.routes %}
-                    {% if route.id == current_route %}
+                    {% if route.id == current_route|default %}
                         {% set cssClass = "" %}
                     {% endif %}
                 {% endfor %}
@@ -21,7 +21,7 @@
                         <!--span class="badge pull-right">{{ line.routes|length }}</span-->
                         <ul id="mode-{{loop.parent.loop.index0}}-lines-collapse-{{ loop.index0 }}" class="nav nav-pills nav-stacked collapse in">
                         {% for route in line.routes %}
-                            <li class="{% if route.id == current_route %}active {% endif %}area-route" data-ext-route-id="{{route.id}}" data-ext-network-id="{{externalNetworkId}}" data-ext-line-id="{{line.id}}" set="0">
+                            <li class="{% if route.id == current_route|default %}active {% endif %}area-route" data-ext-route-id="{{route.id}}" data-ext-network-id="{{externalNetworkId}}" data-ext-line-id="{{line.id}}" set="0">
                                 <a href="#" class="line-link-toggle" data-toggle="collapse" data-parent="mode-{{loop.parent.loop.parent.loop.index0}}-lines-collapse-{{ loop.parent.loop.index0 }}">
                                     <span class="glyphicon glyphicon-arrow-right"></span> {{ route.name }}
                                 </a>

@@ -45,7 +45,7 @@
                 </td>
                 <td class="action">
                     <div class="btn-group">
-                        <a class="btn btn-default{{disabledBtn}}" href="{{ path('canal_tp_mtt_customer_assign_layout', {'externalNetworkId': externalNetworkId, 'customerId': customer.id }) }}" data-toggle="modal" data-target="#base-modal">
+                        <a class="btn btn-default{{disabledBtn|default}}" href="{{ path('canal_tp_mtt_customer_assign_layout', {'externalNetworkId': externalNetworkId, 'customerId': customer.id }) }}" data-toggle="modal" data-target="#base-modal">
                             <span class="glyphicon glyphicon-edit"></span> {{'customer.actions.assign_twig'|trans({}, 'default')}}
                         </a>
                     </div>

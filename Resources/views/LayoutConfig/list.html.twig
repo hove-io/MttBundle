@@ -48,10 +48,10 @@
                 </td>
                 <td>
                     {% if (is_granted('BUSINESS_MANAGE_LAYOUT_CONFIG')) %}
-                        <a href="{{ path('canal_tp_mtt_layout_config_edit', {'externalNetworkId': externalNetworkId, 'layoutConfigId': layoutConfig.id }) }}" class="btn btn-default{{disabledBtn}}" data-toggle="modal" data-target="#base-modal">
+                        <a href="{{ path('canal_tp_mtt_layout_config_edit', {'externalNetworkId': externalNetworkId, 'layoutConfigId': layoutConfig.id }) }}" class="btn btn-default{{disabledBtn|default}}" data-toggle="modal" data-target="#base-modal">
                             <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
                         </a>
-                        <a data-toggle="modal" data-target="#base-modal" class="btn btn-danger{{disabledBtn}}" href="{{ path('canal_tp_mtt_layoutconfig_delete', {'externalNetworkId': externalNetworkId, 'layoutConfigId': layoutConfig.id }) }}">
+                        <a data-toggle="modal" data-target="#base-modal" class="btn btn-danger{{disabledBtn|default}}" href="{{ path('canal_tp_mtt_layoutconfig_delete', {'externalNetworkId': externalNetworkId, 'layoutConfigId': layoutConfig.id }) }}">
                             <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
                         </a>
                     {% endif %}
