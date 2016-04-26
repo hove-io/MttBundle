@@ -266,7 +266,7 @@ class Navitia
                 'path_filter' => 'stop_points/'.$stopPointId,
                 'parameters' => array(
                     'type' => array('poi'),
-                    'filter' => 'poi_type.id=poi_type:point_of_sale',
+                    'filter' => 'poi_type.id=poi_type:Pointsdevente',
                     'distance' => $distance,
                     'count' => 2,
                 ),
