@@ -95,7 +95,6 @@ class TaskTypeExtension extends \Twig_Extension
         $return = '';
         switch ($task->getTypeId()) {
             case AmqpTask::SEASON_PDF_GENERATION_TYPE:
-            default:
                 $seasonLink = $this->getSeasonLink($this->em->getRepository('CanalTPMttBundle:Season')->find($task->getObjectId()));
                 $return = $this->translator->trans(
                     'task.season_pdf_generation',
@@ -106,7 +105,6 @@ class TaskTypeExtension extends \Twig_Extension
                 );
                 break;
             case AmqpTask::AREA_PDF_GENERATION_TYPE:
-            default:
                 $areaPdf = $this->em->getRepository('CanalTPMttBundle:AreaPdf')->find($task->getObjectId());
                 $return = $this->translator->trans(
                     'task.area_pdf_generation',
@@ -117,6 +115,8 @@ class TaskTypeExtension extends \Twig_Extension
                     'default'
                 );
                 break;
+            default:
+                throw new \RuntimeException('Unknown task type ' . $task->getTypeId());
         }
 
         return $return;
