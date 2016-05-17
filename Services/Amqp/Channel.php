@@ -6,7 +6,7 @@
  */
 namespace CanalTP\MttBundle\Services\Amqp;
 
-use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class Channel
 {
@@ -25,7 +25,7 @@ class Channel
         $vhost
     )
     {
-        $this->connection = new AMQPConnection($amqpServerHost, $port, $user, $pass, $vhost);
+        $this->connection = new AMQPStreamConnection($amqpServerHost, $port, $user, $pass, $vhost);
 
     }
 

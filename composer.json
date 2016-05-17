@@ -28,7 +28,7 @@
         "oyejorge/less.php": "1.5.1.2",
         "symfony/dom-crawler": "~2.0",
         "twbs/bootstrap": "3.1.0",
-        "videlalvaro/php-amqplib": "2.2.6",
+        "php-amqplib/php-amqplib": "^2.6",
         "willdurand/js-translation-bundle":"2.1.4"
     },
     "require-dev": {
