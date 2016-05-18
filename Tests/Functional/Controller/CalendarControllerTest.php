@@ -33,8 +33,16 @@ class CalendarControllerTest extends AbstractControllerTest
         $route = $this->generateRoute('canal_tp_mtt_calendar_create');
 
         $crawler = $this->doRequestRoute($route);
+
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('h3')->count(), 'Expected h3 title.');
+
+        $formCrawler = $crawler->filter('form');
+        $this->assertCount(1, $formCrawler, 'Titre');
+        $this->assertCount(1, $formCrawler, 'Date de début');
+        $this->assertCount(1, $formCrawler, 'Date de fin');
+        $this->assertCount(1, $formCrawler, 'Jours de semaine (ex : 0000011, pour samedi et dimanche)');
+
     }
 
     public function testCalendarsPresentViewAction()

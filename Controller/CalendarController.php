@@ -5,12 +5,20 @@ namespace CanalTP\MttBundle\Controller;
 /*
  * CalendarController
  */
+use CanalTP\MttBundle\Entity\Calendar;
+use CanalTP\MttBundle\Form\Type\CalendarType;
+
 class CalendarController extends AbstractController
 {
 
     public function createAction()
     {
-        return $this->render('CanalTPMttBundle:Calendar:create.html.twig',[]);
+        $calendar = new Calendar();
+
+        $form = $this->createForm(new CalendarType(), $calendar);
+        $form->add('submit', 'submit', ['label' => 'global.validate', 'translation_domain' => 'messages']);
+
+        return $this->render('CanalTPMttBundle:Calendar:create.html.twig', ['form' => $form->createView()]);
     }
 
     public function viewAction($externalNetworkId, $externalRouteId, $externalStopPointId, $currentSeasonId)
@@ -40,17 +48,17 @@ class CalendarController extends AbstractController
         return $this->render(
             'CanalTPMttBundle:Calendar:view.html.twig',
             array(
-                'pageTitle'         => $this->get('translator')->trans(
+                'pageTitle'           => $this->get('translator')->trans(
                     'calendar.view_title',
                     array(),
                     'default'
                 ),
-                'externalNetworkId' => $externalNetworkId,
+                'externalNetworkId'   => $externalNetworkId,
                 'externalStopPointId' => $externalStopPointId,
-                'calendars'         => $calendars,
-                'current_route'     => $externalRouteId,
-                'currentSeason'     => $currentSeason,
-                'prevNextStopPoints'=> $prevNextStopPoints,
+                'calendars'           => $calendars,
+                'current_route'       => $externalRouteId,
+                'currentSeason'       => $currentSeason,
+                'prevNextStopPoints'  => $prevNextStopPoints,
             )
         );
     }
