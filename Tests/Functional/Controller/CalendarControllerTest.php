@@ -4,23 +4,40 @@ namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
 class CalendarControllerTest extends AbstractControllerTest
 {
+    const EXTERNAL_NETWORK_ID = 'network:JDR:2';
+
     private function getViewRoute()
     {
         return $this->generateRoute(
             'canal_tp_mtt_calendar_view',
             // fake params since we mock navitia
             array(
-                'externalNetworkId' => 'network:JDR:2',
+                'externalNetworkId' => self::EXTERNAL_NETWORK_ID,
                 'externalRouteId' => 'test',
                 'externalStopPointId' => 'test'
             )
         );
     }
 
-    public function setUp()
+    public function setUp($login = true)
     {
-        parent::setUp();
+        parent::setUp($login);
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
+    }
+
+    /**
+     * Tests that calendar creation page exists.
+     */
+    public function testCalendarsCreateAction()
+    {
+        $route = $this->generateRoute(
+            'canal_tp_mtt_calendar_create',
+            ['externalNetworkId' => self::EXTERNAL_NETWORK_ID]
+        );
+
+        $crawler = $this->doRequestRoute($route);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('h3')->count(), 'Expected h3 title.');
     }
 
     public function testCalendarsPresentViewAction()
