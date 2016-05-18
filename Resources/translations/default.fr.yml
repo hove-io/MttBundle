@@ -64,6 +64,7 @@ block:
 calendar:
     create:
         title: Création d'un calendrier
+        success: Le calendrier a été créé
         form:
           title: Titre
           start_date: Date de début

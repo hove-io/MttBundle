@@ -43,6 +43,16 @@ class CalendarControllerTest extends AbstractControllerTest
         $this->assertCount(1, $formCrawler, 'Date de fin');
         $this->assertCount(1, $formCrawler, 'Jours de semaine (ex : 0000011, pour samedi et dimanche)');
 
+        $form = $crawler->selectButton('Valider')->form();
+        $form['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $form['mtt_calendar[startDate]'] = '01/01/2016';
+        $form['mtt_calendar[endDate]'] = '01/06/2016';
+        $form['mtt_calendar[weeklyPattern]'] = '0000011';
+
+        $crawler = $this->client->submit($form);
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Le calendrier a été créé")')->count());
     }
 
     public function testCalendarsPresentViewAction()
