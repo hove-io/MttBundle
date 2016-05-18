@@ -32,3 +32,11 @@ CanalTP\MttBundle\Entity\Area:
             - NotBlank: ~
             - Length:
                 max: 255
+
+CanalTP\MttBundle\Entity\Calendar:
+    getters:
+        datesValid:
+            - "True": { message: "The start date must be before the end date" }
+    properties:
+        weeklyPattern:
+            - Regex: '/^(?=.*1)([01]{7})/'

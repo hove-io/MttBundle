@@ -149,4 +149,18 @@ class Calendar
 
         return $this;
     }
+
+    /**
+     * Validates that start date is less than end date
+     *
+     * @return boolean
+     */
+    public function isDatesValid()
+    {
+        if ($this->startDate >= $this->endDate) {
+            return false;
+        }
+
+        return ($this->endDate->diff($this->startDate)->days > 0);
+    }
 }
