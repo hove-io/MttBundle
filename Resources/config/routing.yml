@@ -1,67 +1,67 @@
 canal_tp_mtt_homepage:
-    pattern:  /{externalNetworkId}
+    path:  /{externalNetworkId}
     defaults: { _controller: CanalTPMttBundle:Default:index , externalNetworkId: null}
 
 canal_tp_mtt_menu:
-    pattern:  /navigation/networks/{externalNetworkId}/seasons/{current_season}/route/{current_route}
+    path:  /navigation/networks/{externalNetworkId}/seasons/{current_season}/route/{current_route}
     defaults: { _controller: CanalTPMttBundle:Default:navigation, current_route: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 #Season
 canal_tp_mtt_season_list:
-    pattern: /networks/{externalNetworkId}/seasons/list
+    path: /networks/{externalNetworkId}/seasons/list
     defaults: { _controller: CanalTPMttBundle:Season:list }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_mtt_season_edit:
-    pattern: /networks/{externalNetworkId}/edit/{season_id}
+    path: /networks/{externalNetworkId}/edit/{season_id}
     defaults: { _controller: CanalTPMttBundle:Season:edit, season_id: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_season_delete:
-    pattern: /networks/{externalNetworkId}/delete/{seasonId}
+    path: /networks/{externalNetworkId}/delete/{seasonId}
     defaults: { _controller: CanalTPMttBundle:Season:delete, season_id: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_season_ask_publish:
-    pattern: /networks/{externalNetworkId}/ask/publish/{seasonId}
+    path: /networks/{externalNetworkId}/ask/publish/{seasonId}
     defaults: { _controller: CanalTPMttBundle:Season:askPublish }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_season_publish:
-    pattern: /networks/{externalNetworkId}/publish/{seasonId}
+    path: /networks/{externalNetworkId}/publish/{seasonId}
     defaults: { _controller: CanalTPMttBundle:Season:publish }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_season_unpublish:
-    pattern: /networks/{externalNetworkId}/unpublish/{seasonId}
+    path: /networks/{externalNetworkId}/unpublish/{seasonId}
     defaults: { _controller: CanalTPMttBundle:Season:unpublish }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_season_generate_pdfs:
-    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/generatePdf
+    path: /networks/{externalNetworkId}/seasons/{seasonId}/generatePdf
     defaults: { _controller: CanalTPMttBundle:Season:generatePdf }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #StopPoint
 canal_tp_mtt_stop_point_list_defaults:
-    pattern: /networks/{externalNetworkId}/list/seasons/{seasonId}
+    path: /networks/{externalNetworkId}/list/seasons/{seasonId}
     defaults: { _controller: CanalTPMttBundle:StopPoint:list, seasonId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         seasonId: \d+
 
 canal_tp_mtt_stop_point_list:
-    pattern: /networks/{externalNetworkId}/line/{line_id}/route/{externalRouteId}/list/seasons/{seasonId}
+    path: /networks/{externalNetworkId}/line/{line_id}/route/{externalRouteId}/list/seasons/{seasonId}
     defaults: { _controller: CanalTPMttBundle:StopPoint:list, seasonId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         seasonId: \d+
 
 canal_tp_mtt_stop_point_list_json:
-    pattern: /stops/networks/{externalNetworkId}/line/{lineId}/route/{externalRouteId}/list
+    path: /stops/networks/{externalNetworkId}/line/{lineId}/route/{externalRouteId}/list
     defaults: { _controller: CanalTPMttBundle:StopPoint:jsonList }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
@@ -70,34 +70,34 @@ canal_tp_mtt_stop_point_list_json:
 
 #Line
 canal_tp_mtt_line_choose_layout:
-    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/line/{line_id}/choose_layout/route/{externalRouteId}
+    path: /networks/{externalNetworkId}/seasons/{seasonId}/line/{line_id}/choose_layout/route/{externalRouteId}
     defaults: { _controller: CanalTPMttBundle:Line:chooseLayout }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #Timetable
 canal_tp_mtt_timetable_edit:
-    pattern: /timetable/edit/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
+    path: /timetable/edit/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Timetable:edit, externalStopPointId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_mtt_timetable_view:
-    pattern: /timetable/view/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
+    path: /timetable/view/networks/{externalNetworkId}/line/{externalLineId}/route/{externalRouteId}/seasons/{seasonId}/stopPoints/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Timetable:view, externalStopPointId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
         stopPoint: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_mtt_timetable_generate_pdf:
-    pattern: /pdf/generate/timetable/{timetableId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
+    path: /pdf/generate/timetable/{timetableId}/networks/{externalNetworkId}/stopPoints/{externalStopPointId}
     defaults: { _controller: CanalTPMttBundle:Pdf:generate}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_mtt_timetable_download_pdf:
-    pattern: /pdf/generate/routes/{externalRouteId}/stopPoints/{externalStopPointId}/lines/{lineConfigId}
+    path: /pdf/generate/routes/{externalRouteId}/stopPoints/{externalStopPointId}/lines/{lineConfigId}
     defaults: { _controller: CanalTPMttBundle:Pdf:download}
     requirements:
         lineConfigId: \d+
@@ -107,7 +107,7 @@ canal_tp_mtt_timetable_download_pdf:
 #Block
 canal_tp_mtt_block_edit:
     # stop point must be the last param so it can be empty
-    pattern: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
+    path: /block/edit/networks/{externalNetworkId}/dom_id/{dom_id}/timetable/{timetableId}/block_type/{block_type}/stop_point/{stop_point}
     defaults: { _controller: CanalTPMttBundle:Block:edit, block_type: null, stop_point: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
@@ -116,61 +116,65 @@ canal_tp_mtt_block_edit:
 
 canal_tp_mtt_block_delete:
     # stop point must be the last param so it can be empty
-    pattern: /block/delete/networks/{externalNetworkId}/timetable/{timetableId}/blockId/{blockId}
+    path: /block/delete/networks/{externalNetworkId}/timetable/{timetableId}/blockId/{blockId}
     defaults: { _controller: CanalTPMttBundle:Block:delete }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #Calendar
+canal_tp_mtt_calendar_create:
+    path: /calendars/create
+    defaults: { _controller: CanalTPMttBundle:Calendar:create }
+
 canal_tp_mtt_calendar_view:
-    pattern: /calendars/view/networks/{externalNetworkId}/route/{externalRouteId}/stopPoints/{externalStopPointId}/seasons/{currentSeasonId}
+    path: /calendars/view/networks/{externalNetworkId}/route/{externalRouteId}/stopPoints/{externalStopPointId}/seasons/{currentSeasonId}
     defaults: { _controller: CanalTPMttBundle:Calendar:view, currentSeasonId: null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #Frequency
 canal_tp_mtt_frequency_edit:
-    pattern: /frequency/edit/networks/{externalNetworkId}/block/{blockId}/
+    path: /frequency/edit/networks/{externalNetworkId}/block/{blockId}/
     defaults: { _controller: CanalTPMttBundle:Frequency:edit}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #LayoutConfigs
 canal_tp_mtt_layout_config_list:
-    pattern: /layouts/networks/{externalNetworkId}/list
+    path: /layouts/networks/{externalNetworkId}/list
     defaults: { _controller: CanalTPMttBundle:LayoutConfig:list}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_layout_config_edit:
-    pattern: /layouts/networks/{externalNetworkId}/edit/{layoutConfigId}
+    path: /layouts/networks/{externalNetworkId}/edit/{layoutConfigId}
     defaults: { _controller: CanalTPMttBundle:LayoutConfig:edit, layoutConfigId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_mtt_model_list:
-    pattern: /layouts/networks/{externalNetworkId}/model/list
+    path: /layouts/networks/{externalNetworkId}/model/list
     defaults: { _controller: CanalTPMttBundle:LayoutModel:list }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_mtt_model_upload:
-    pattern: /layouts/networks/{externalNetworkId}/model/upload
+    path: /layouts/networks/{externalNetworkId}/model/upload
     defaults: { _controller: CanalTPMttBundle:LayoutModel:uploadModel }
 
 canal_tp_mtt_layoutconfig_delete:
-    pattern: /layouts/networks/{externalNetworkId}/delete/{layoutConfigId}
+    path: /layouts/networks/{externalNetworkId}/delete/{layoutConfigId}
     defaults: { _controller: CanalTPMttBundle:LayoutConfig:delete, layoutConfigId: null, confirm: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_layoutconfig_delete_confirm:
-    pattern: /layouts/networks/{externalNetworkId}/delete/{layoutConfigId}/{confirm}
+    path: /layouts/networks/{externalNetworkId}/delete/{layoutConfigId}/{confirm}
     defaults: { _controller: CanalTPMttBundle:LayoutConfig:delete, layoutConfigId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #Webservice
 canal_tp_mtt_WS_timetable:
-    pattern: /customers/{customerNameCanonical}/networks/{externalNetworkId}/routes/{externalRouteId}/stop_points/{externalStopPointId}/seasons
+    path: /customers/{customerNameCanonical}/networks/{externalNetworkId}/routes/{externalRouteId}/stop_points/{externalStopPointId}/seasons
     defaults: { _controller: CanalTPMttBundle:Webservice:getTimetableUrl}
     requirements:
         customerNameCanonical: -?[a-zA-Z0-9_\-]*
@@ -178,7 +182,7 @@ canal_tp_mtt_WS_timetable:
 
 #TODO: Remove this route when divia.fr updated (Refs #METH-420)
 canal_tp_mtt_WS_timetable_old:
-    pattern: /networks/{externalNetworkId}/routes/{externalRouteId}/stop_points/{externalStopPointId}/seasons
+    path: /networks/{externalNetworkId}/routes/{externalRouteId}/stop_points/{externalStopPointId}/seasons
     defaults: { _controller: CanalTPMttBundle:Webservice:getTimetableUrlOld}
     requirements:
         customerNameCanonical: -?[a-zA-Z0-9_\-]*
@@ -186,7 +190,7 @@ canal_tp_mtt_WS_timetable_old:
 
 # AMQP Tasks
 canal_tp_mtt_cancel_amqp_task:
-    pattern: /amqp/networks/{externalNetworkId}/task/{taskId}/cancel/
+    path: /amqp/networks/{externalNetworkId}/task/{taskId}/cancel/
     defaults: { _controller: CanalTPMttBundle:AmqpTask:cancel}
     requirements:
         taskId: -?[0-9]*
@@ -194,50 +198,50 @@ canal_tp_mtt_cancel_amqp_task:
 
 #Area
 canal_tp_mtt_area_list:
-    pattern: /areas/networks/{externalNetworkId}/list
+    path: /areas/networks/{externalNetworkId}/list
     defaults: { _controller: CanalTPMttBundle:Area:list}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_area_edit:
-    pattern: /areas/networks/{externalNetworkId}/edit/{areaId}
+    path: /areas/networks/{externalNetworkId}/edit/{areaId}
     defaults: { _controller: CanalTPMttBundle:Area:edit, areaId: null }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_area_edit_stops:
-    pattern: /areas/networks/{externalNetworkId}/edit/{areaId}/stops
+    path: /areas/networks/{externalNetworkId}/edit/{areaId}/stops
     defaults: { _controller: CanalTPMttBundle:Area:editStops }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_area_edit_stops_save:
-    pattern: /areas/networks/{externalNetworkId}/edit/{areaId}/stops/save
+    path: /areas/networks/{externalNetworkId}/edit/{areaId}/stops/save
     defaults: { _controller: CanalTPMttBundle:Area:save }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_area_remove:
-    pattern: /areas/networks/{externalNetworkId}/remove/{areaId}
+    path: /areas/networks/{externalNetworkId}/remove/{areaId}
     defaults: { _controller: CanalTPMttBundle:Area:remove }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_area_list_pdf:
-    pattern: /networks/{externalNetworkId}/areas/{areaId}/listPdf
+    path: /networks/{externalNetworkId}/areas/{areaId}/listPdf
     defaults: { _controller: CanalTPMttBundle:Area:listPdf}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_area_generate_pdfs:
-    pattern: /networks/{externalNetworkId}/seasons/{seasonId}/areas/{areaId}/generatePdf
+    path: /networks/{externalNetworkId}/seasons/{seasonId}/areas/{areaId}/generatePdf
     defaults: { _controller: CanalTPMttBundle:Area:generatePdf }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #Customer administration
 canal_tp_mtt_customer_list:
-    pattern: /networks/{externalNetworkId}/customer/list
+    path: /networks/{externalNetworkId}/customer/list
     defaults: { _controller: CanalTPMttBundle:Customer:list }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 canal_tp_mtt_customer_assign_layout:
-    pattern: /networks/{externalNetworkId}/customers/{customerId}/assign/layout
+    path: /networks/{externalNetworkId}/customers/{customerId}/assign/layout
     defaults: { _controller: CanalTPMttBundle:Customer:assignLayout }
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
