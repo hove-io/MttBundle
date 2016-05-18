@@ -7,6 +7,12 @@ namespace CanalTP\MttBundle\Controller;
  */
 class CalendarController extends AbstractController
 {
+
+    public function createAction()
+    {
+        return $this->render('CanalTPMttBundle:Calendar:create.html.twig',[]);
+    }
+
     public function viewAction($externalNetworkId, $externalRouteId, $externalStopPointId, $currentSeasonId)
     {
         $calendarManager = $this->get('canal_tp_mtt.calendar_manager');

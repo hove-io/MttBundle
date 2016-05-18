@@ -62,6 +62,8 @@ block:
         title: Éditer le bloc
 
 calendar:
+    create:
+        title: Création d'un calendrier
     view_title: Voir les horaires
     line_code: Ligne
     line_color: Couleur
