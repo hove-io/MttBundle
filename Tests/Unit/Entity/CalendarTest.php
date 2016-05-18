@@ -33,7 +33,15 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        if (version_compare(PHP_VERSION, '7.0.0') === 1 ) {
+            $this->markTestSkipped();
+        }
+
         $this->calendar = new Calendar();
+        $this->calendar
+            ->setTitle('CanalTP')
+            ->setStartDate(new \DateTime('2016-07-08'))
+            ->setEndDate(new \DateTime('2016-08-08'));
 
         $this->validator = Validation::createValidatorBuilder()
             ->addYamlMapping(self::$validatorPath)
@@ -73,7 +81,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests start date and end date validity
      *
-     * @dataProvider getPatterns
+     * @dataProvider getDates
      */
     public function testStartDateAndEndDateValidity(\DateTime $startDate, \DateTime $endDate, $errorsNumber)
     {
@@ -83,6 +91,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
         $errors = $this->validator->validate($this->calendar);
         $this->assertCount($errorsNumber, $errors);
     }
+
 
     /**
      * Data provider with dates
@@ -96,6 +105,33 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
           [new \DateTime('2016-08-07'), new \DateTime('2016-08-08'), 0],
           [new \DateTime('2016-07-08'), new \DateTime('2016-06-08'), 1],
           [new \DateTime('2016-06-08'), new \DateTime('2016-06-08'), 1],
+        ];
+    }
+
+   /**
+     * Tests that title is required and has a correct length
+     *
+     * @dataProvider getTitles
+     */
+    public function testTitleValidity($title, $errorsNumber)
+    {
+        $this->calendar->setTitle($title);
+
+        $errors = $this->validator->validate($this->calendar);
+        $this->assertCount($errorsNumber, $errors);
+    }
+
+    /**
+     * Data provider with dates
+     *
+     * @return array
+     */
+    public function getTitles()
+    {
+        return [
+          ['', 1],
+          [str_repeat('a', 256), 1],
+          [str_repeat('a', 254), 0],
         ];
     }
 }
