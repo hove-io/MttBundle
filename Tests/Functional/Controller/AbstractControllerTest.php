@@ -23,11 +23,6 @@ abstract class AbstractControllerTest extends SamBaseTestController
         $this->reloadMttFixtures();
     }
 
-    protected function logIn($userName, $userPass, $email, array $roles = array(), $sessionAppKey = 'sam_selected_application', $sessionAppValue = 'sam')
-    {
-        parent::logIn('mtt', 'mtt', 'mtt@canaltp.fr', array('ROLE_ADMIN'), 'sam_selected_application', 'mtt');
-    }
-
     public function setUp($login = true)
     {
         $this->client = parent::createClient(array('environment' => 'test_mtt'));
