@@ -122,6 +122,10 @@ canal_tp_mtt_block_delete:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #Calendar
+canal_tp_mtt_calendar_create:
+    pattern: /networks/{externalNetworkId}/calendars/create
+    defaults: { _controller: CanalTPMttBundle:Calendar:create }
+
 canal_tp_mtt_calendar_view:
     pattern: /calendars/view/networks/{externalNetworkId}/route/{externalRouteId}/stopPoints/{externalStopPointId}/seasons/{currentSeasonId}
     defaults: { _controller: CanalTPMttBundle:Calendar:view, currentSeasonId: null}

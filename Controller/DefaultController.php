@@ -6,23 +6,6 @@ use Doctrine\Common\Collections\Criteria;
 
 class DefaultController extends AbstractController
 {
-    private function findNetwork($externalNetworkId, $networks)
-    {
-        foreach ($networks as $network) {
-            if ($network->getExternalNetworkId() == $externalNetworkId) {
-                return $network;
-            }
-        }
-        throw new \Exception(
-            $this->get('translator')->trans(
-                'controller.default.network_not_found_4_user',
-                array(),
-                'exceptions'
-            )
-        );
-
-    }
-
     public function indexAction($externalNetworkId = null)
     {
         $perimeterManager = $this->get('canal_tp_mtt.perimeter_manager');

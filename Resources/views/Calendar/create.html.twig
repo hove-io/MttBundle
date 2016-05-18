@@ -1,0 +1,13 @@
+{% extends "CanalTPMttBundle::container_and_menu.html.twig" %}
+
+{% block left_menu %}
+    {{ render(controller('CanalTPMttBundle:Default:navigation', { 'externalNetworkId': externalNetworkId, 'current_route': current_route, 'current_season' : currentSeason.id })) }}
+{% endblock %}
+
+{% trans_default_domain "default" %}
+
+{% block main_content %}
+    <div>
+        <h3>{{ 'calendar.create.title'|trans }}</h3>
+    </div>
+{% endblock %}
