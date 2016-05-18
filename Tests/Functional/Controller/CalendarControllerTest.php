@@ -30,10 +30,7 @@ class CalendarControllerTest extends AbstractControllerTest
      */
     public function testCalendarsCreateAction()
     {
-        $route = $this->generateRoute(
-            'canal_tp_mtt_calendar_create',
-            ['externalNetworkId' => self::EXTERNAL_NETWORK_ID]
-        );
+        $route = $this->generateRoute('canal_tp_mtt_calendar_create');
 
         $crawler = $this->doRequestRoute($route);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());

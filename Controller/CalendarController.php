@@ -8,14 +8,9 @@ namespace CanalTP\MttBundle\Controller;
 class CalendarController extends AbstractController
 {
 
-    public function createAction($externalNetworkId)
+    public function createAction()
     {
-        return $this->render(
-            'CanalTPMttBundle:Calendar:create.html.twig',
-            [
-              'externalNetworkId' => $externalNetworkId,
-            ]
-        );
+        return $this->render('CanalTPMttBundle:Calendar:create.html.twig',[]);
     }
 
     public function viewAction($externalNetworkId, $externalRouteId, $externalStopPointId, $currentSeasonId)

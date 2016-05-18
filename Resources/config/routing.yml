@@ -123,7 +123,7 @@ canal_tp_mtt_block_delete:
 
 #Calendar
 canal_tp_mtt_calendar_create:
-    pattern: /networks/{externalNetworkId}/calendars/create
+    pattern: /calendars/create
     defaults: { _controller: CanalTPMttBundle:Calendar:create }
 
 canal_tp_mtt_calendar_view:
