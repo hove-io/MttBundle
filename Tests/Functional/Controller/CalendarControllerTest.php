@@ -4,23 +4,55 @@ namespace CanalTP\MttBundle\Tests\Functional\Controller;
 
 class CalendarControllerTest extends AbstractControllerTest
 {
+    const EXTERNAL_NETWORK_ID = 'network:JDR:2';
+
     private function getViewRoute()
     {
         return $this->generateRoute(
             'canal_tp_mtt_calendar_view',
             // fake params since we mock navitia
             array(
-                'externalNetworkId' => 'network:JDR:2',
+                'externalNetworkId' => self::EXTERNAL_NETWORK_ID,
                 'externalRouteId' => 'test',
                 'externalStopPointId' => 'test'
             )
         );
     }
 
-    public function setUp()
+    public function setUp($login = true)
     {
-        parent::setUp();
+        parent::setUp($login);
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
+    }
+
+    /**
+     * Tests that calendar creation page exists.
+     */
+    public function testCalendarsCreateAction()
+    {
+        $route = $this->generateRoute('canal_tp_mtt_calendar_create');
+
+        $crawler = $this->doRequestRoute($route);
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('h3')->count(), 'Expected h3 title.');
+
+        $formCrawler = $crawler->filter('form');
+        $this->assertCount(1, $formCrawler, 'Titre');
+        $this->assertCount(1, $formCrawler, 'Date de début');
+        $this->assertCount(1, $formCrawler, 'Date de fin');
+        $this->assertCount(1, $formCrawler, 'Jours de semaine (ex : 0000011, pour samedi et dimanche)');
+
+        $form = $crawler->selectButton('Valider')->form();
+        $form['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $form['mtt_calendar[startDate]'] = '01/01/2016';
+        $form['mtt_calendar[endDate]'] = '01/06/2016';
+        $form['mtt_calendar[weeklyPattern]'] = '0000011';
+
+        $crawler = $this->client->submit($form);
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Le calendrier a été créé")')->count());
     }
 
     public function testCalendarsPresentViewAction()
