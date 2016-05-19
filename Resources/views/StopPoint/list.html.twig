@@ -49,7 +49,7 @@
             </td>
             {% if lineConfig is not empty %}
             <td>
-                 {% if route.stop_point.pdfGenerationDate is not empty %}
+                 {% if route.stop_point.pdfGenerationDate is defined %}
                     {{ route.stop_point.pdfGenerationDate|date('d/m/Y - g:ia') }}
                 {% endif %}
             </td>
@@ -57,7 +57,7 @@
             <td class="action">
                 <div class="btn-group pull-right">
                     {% if lineConfig is not empty and lineConfig.layoutConfig is not null %}
-                        {% if route.stop_point.pdfGenerationDate is not empty %}
+                        {% if route.stop_point.pdfGenerationDate is defined %}
                         <button data-toggle="dropdown" type="button" class="btn btn-default dropdown-toggle{% if currentSeason.locked %} disabled{% endif %}">
                             {{'stop_point.action.header'|trans({}, 'default')}} <span class="caret"></span>
                         </button>

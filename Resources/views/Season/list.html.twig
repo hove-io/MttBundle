@@ -3,7 +3,7 @@
 {% block list_title -%}
     {{'season.list'|trans({}, 'default')}}
     -
-    <a href="{{ path('canal_tp_mtt_season_edit', {'coverage_id': coverageId, 'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
+    <a href="{{ path('canal_tp_mtt_season_edit', {'coverage_id': coverageId|default, 'externalNetworkId': externalNetworkId}) }}" data-toggle="modal" data-target="#base-modal" class="btn btn-success">
         <span class="glyphicon glyphicon-plus"></span> {{'season.create'|trans({}, 'default')}}
     </a>
 {% endblock %}

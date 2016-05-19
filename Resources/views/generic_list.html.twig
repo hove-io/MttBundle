@@ -1,4 +1,4 @@
-{% extends no_left_menu == true ? "CanalTPMttBundle::container.html.twig" : "CanalTPMttBundle::container_and_menu.html.twig" %}
+{% extends no_left_menu|default == true ? "CanalTPMttBundle::container.html.twig" : "CanalTPMttBundle::container_and_menu.html.twig" %}
 
 {% import "CanalTPSamEcoreUserManagerBundle::macros.html.twig" as macros %}
 
