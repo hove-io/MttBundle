@@ -29,6 +29,8 @@ class CalendarController extends AbstractController
             $em->persist($calendar);
             $em->flush();
             $this->addFlash('success', $translator->trans('calendar.create.success', [], 'default'));
+
+            return $this->redirectToRoute('canal_tp_mtt_calendar_create');
         }
 
         return $this->render('CanalTPMttBundle:Calendar:create.html.twig', ['form' => $form->createView()]);

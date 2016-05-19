@@ -50,6 +50,7 @@ class CalendarControllerTest extends AbstractControllerTest
         $form['mtt_calendar[weeklyPattern]'] = '0000011';
 
         $crawler = $this->client->submit($form);
+        $crawler = $this->client->followRedirect();
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertCount(1, $crawler->filter('html:contains("Le calendrier a été créé")'));
