@@ -33,7 +33,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        if (version_compare(PHP_VERSION, '7.0.0') === 1 ) {
+        if (1 === version_compare(PHP_VERSION, '7.0.0')) {
             $this->markTestSkipped();
         }
 
@@ -41,7 +41,8 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
         $this->calendar
             ->setTitle('CanalTP')
             ->setStartDate(new \DateTime('2016-07-08'))
-            ->setEndDate(new \DateTime('2016-08-08'));
+            ->setEndDate(new \DateTime('2016-08-08'))
+            ->setWeeklyPattern('0000011');
 
         $this->validator = Validation::createValidatorBuilder()
             ->addYamlMapping(self::$validatorPath)
@@ -89,6 +90,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
         $this->calendar->setEndDate($endDate);
 
         $errors = $this->validator->validate($this->calendar);
+        
         $this->assertCount($errorsNumber, $errors);
     }
 
