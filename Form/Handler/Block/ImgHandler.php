@@ -24,8 +24,8 @@ class ImgHandler extends AbstractHandler
         MediaManager $mediaManager,
         $block,
         $lastImgPath
-    )
-    {
+    ) {
+    
         $this->co = $co;
         $this->om = $om;
         $this->mediaManager = $mediaManager;

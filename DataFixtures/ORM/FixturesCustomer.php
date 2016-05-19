@@ -36,7 +36,7 @@ class FixturesCustomer extends AbstractFixture implements OrderedFixtureInterfac
 
         $this->addCustomerToApplication($om, 'app-mtt', 'customer-canaltp', $navitiaToken);
 
-        foreach($samFixturePerimeters as $key => $value) {
+        foreach ($samFixturePerimeters as $key => $value) {
             $this->addPerimeterToCustomer($om, $value['coverage'], $value['network'], 'customer-canaltp');
         }
         $om->flush();
@@ -49,5 +49,4 @@ class FixturesCustomer extends AbstractFixture implements OrderedFixtureInterfac
     {
         return 3;
     }
-
 }

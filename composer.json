@@ -34,7 +34,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "4.5.*",
-        "canaltp/nmm-portal-bundle": "^1.0"
+        "canaltp/nmm-portal-bundle": "^1.0",
+        "squizlabs/php_codesniffer": "^2.0"
     },
     "autoload": {
         "psr-4": { "CanalTP\\MttBundle\\": "" }

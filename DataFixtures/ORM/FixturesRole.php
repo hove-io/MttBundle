@@ -60,8 +60,8 @@ class FixturesRole extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $om)
     {
-         foreach ($this->roles as $role) {
-            $this->createApplicationRole($om,  $role);
+        foreach ($this->roles as $role) {
+            $this->createApplicationRole($om, $role);
         }
         $om->flush();
     }

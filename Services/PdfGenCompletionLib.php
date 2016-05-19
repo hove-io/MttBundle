@@ -30,8 +30,7 @@ class PdfGenCompletionLib
 
     private function getLineConfig($ack, $lineConfig)
     {
-        if (
-           $lineConfig == false ||
+        if ($lineConfig == false ||
             // check if this ack is for a different lineConfig than the previous one
             $lineConfig->getExternalLineId() != $ack->getPayload()->timetableParams->externalLineId
         ) {

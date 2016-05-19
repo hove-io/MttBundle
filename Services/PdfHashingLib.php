@@ -33,5 +33,4 @@ class PdfHashingLib
 
         return md5($htmlHash . $cssVersion);
     }
-
 }

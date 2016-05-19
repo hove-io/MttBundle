@@ -23,7 +23,6 @@ class GreaterThanFieldValidator extends ConstraintValidator
         $field = $this->context->getRoot()->get($constraint->field);
 
         if ($value <= $field->getData()) {
-
             $this->context->addViolation(
                 'error.greater_than_field',
                 array(

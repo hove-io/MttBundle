@@ -36,7 +36,7 @@ class CancelWorkerCommand extends ContainerAwareCommand
         }
     }
 
-    public function process_message($msg)
+    public function processMessage($msg)
     {
         $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
 
@@ -87,7 +87,7 @@ class CancelWorkerCommand extends ContainerAwareCommand
             false,
             false,
             false,
-            array($this, 'process_message'),
+            array($this, 'processMessage'),
             null,
             array('x-priority' => array('I', 100))
         );
@@ -112,7 +112,7 @@ class CancelWorkerCommand extends ContainerAwareCommand
 
     protected function configure()
     {
-       $this
+        $this
             ->setName('mtt:amqp:cancelTask')
             ->setDescription('Launch a amqp listener to get acknowledgements from pdf generation workers and log these into database')
             ->addArgument('routing_key', InputArgument::REQUIRED, 'Routing Key messages to cancel')

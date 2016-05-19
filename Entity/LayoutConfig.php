@@ -327,7 +327,7 @@ class LayoutConfig extends AbstractEntity
             $this->getUploadRootDir(),
             $this->getFile()->getClientOriginalName()
         );
-    $fileName = $this->getId() . '.' . $file->getExtension();
+        $fileName = $this->getId() . '.' . $file->getExtension();
         $file->move(
             $this->getUploadRootDir(),
             $fileName

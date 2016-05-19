@@ -133,7 +133,7 @@ class TimetableController extends AbstractController
         $lineManager = $this->get('canal_tp_mtt.line_manager');
         $customerId = $this->getRequest()->get('customerId');
 
-        if ($customerId == NULL) {
+        if ($customerId == null) {
             $customer = $this->getUser()->getCustomer();
         } else {
             $customer = $this->get('sam_core.customer')->find($customerId);
@@ -149,8 +149,9 @@ class TimetableController extends AbstractController
         );
 
         $displayMenu = $this->get('security.context')->getToken()->getUser() != 'anon.';
-        if ($displayMenu)
+        if ($displayMenu) {
             $displayMenu = $this->get('request')->get('timetableOnly', false) != true;
+        }
 
         return $this->renderLayout($timetable, $externalStopPointId, false, $displayMenu);
     }

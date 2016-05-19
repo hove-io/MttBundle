@@ -24,8 +24,8 @@ class PdfGenPublisher
         ObjectManager $om,
         $pdfGeneratorUrl,
         Channel $amqpChannelLib
-    )
-    {
+    ) {
+    
         $this->om = $om;
         $this->channelLib = $amqpChannelLib;
         $this->pdfGeneratorUrl = $pdfGeneratorUrl;

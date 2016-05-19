@@ -194,14 +194,16 @@ class CalendarControllerTest extends AbstractControllerTest
 
         $this->assertTrue(
             $crawler->filter(
-                'html:contains("au plus tard la veille du déplacement du lundi au vendredi de 9h à 12h30 et de 13h30 à 16h30.")')->count() == 1,
-                "the note value was found in html more than once."
+                'html:contains("au plus tard la veille du déplacement du lundi au vendredi de 9h à 12h30 et de 13h30 à 16h30.")'
+            )->count() == 1,
+            "the note value was found in html more than once."
         );
 
         $this->assertTrue(
             $crawler->filter(
-                '.tab-content > .tab-pane:first-child .notes-wrapper > div:not(:first-child)')->count() == 4,
-                "Expected 4 notes label, found " . $crawler->filter('.tab-content > .tab-pane:first-child .notes-wrapper > div:not(:first-child)')->count()
+                '.tab-content > .tab-pane:first-child .notes-wrapper > div:not(:first-child)'
+            )->count() == 4,
+            "Expected 4 notes label, found " . $crawler->filter('.tab-content > .tab-pane:first-child .notes-wrapper > div:not(:first-child)')->count()
         );
 
         $notesLabels = $crawler

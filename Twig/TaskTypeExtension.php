@@ -21,8 +21,8 @@ class TaskTypeExtension extends \Twig_Extension
         $em,
         $areaPdfManager,
         $navitiaManager
-        )
-    {
+    ) {
+    
         $this->router = $router;
         $this->areaPdfManager = $areaPdfManager;
         $this->translator = $translator;

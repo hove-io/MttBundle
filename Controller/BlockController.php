@@ -16,8 +16,8 @@ class BlockController extends AbstractController
         $timetableId,
         $block_type = 'text',
         $stop_point = null
-    )
-    {
+    ) {
+    
         $blockTypeFactory = $this->get('canal_tp_mtt.form.factory.block');
         $blockManager = $this->get('canal_tp_mtt.block_manager');
         $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
@@ -88,7 +88,8 @@ class BlockController extends AbstractController
             throw $this->createNotFoundException(
                 $this->get('translator')->trans(
                     'controller.block.delete.block_not_found',
-                    array('%blockid%'=>$blockId), 'exceptions'
+                    array('%blockid%'=>$blockId),
+                    'exceptions'
                 )
             );
         } else {

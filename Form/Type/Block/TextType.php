@@ -12,14 +12,12 @@ class TextType extends BlockType
             ->add('title', 'text', array(
                     'label' => 'block.text.labels.title',
                     'required' => false
-                )
-            )
+                ))
             ->add('content', 'textarea', array(
                     'attr' => array('rows' => 5),
                     'label' => 'block.text.labels.content',
                     'required' => false
-                )
-            )
+                ))
         ;
         parent::buildForm($builder, $options);
     }

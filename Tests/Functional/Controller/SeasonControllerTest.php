@@ -24,7 +24,7 @@ class SeasonControllerTest extends AbstractControllerTest
         );
     }
 
-    private function getEditForm($clone=false)
+    private function getEditForm($clone = false)
     {
         // Check if the form is correctly display
         $route = $this->getRoute('canal_tp_mtt_season_edit');
@@ -40,7 +40,7 @@ class SeasonControllerTest extends AbstractControllerTest
             $form['mtt_season[endDate]'] = $this->endDateClone;
             $seasonToClone = $this->getRepository('CanalTPMttBundle:Season')->findOneByTitle($title);
             $form['mtt_season[seasonToClone]']->select($seasonToClone->getId());
-        }else{
+        } else {
             $form['mtt_season[title]'] = $this->title;
             $form['mtt_season[startDate]'] = $this->startDate;
             $form['mtt_season[endDate]'] = $this->endDate;

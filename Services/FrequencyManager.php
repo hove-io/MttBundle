@@ -9,6 +9,7 @@ namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use CanalTP\MttBundle\Entity\Frequency;
+
 // use CanalTP\MttBundle\Entity\Block;
 
 class FrequencyManager

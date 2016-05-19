@@ -23,8 +23,8 @@ class Channel
         $pass,
         $port,
         $vhost
-    )
-    {
+    ) {
+    
         $this->connection = new AMQPConnection($amqpServerHost, $port, $user, $pass, $vhost);
 
     }

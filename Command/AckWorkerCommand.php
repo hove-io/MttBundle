@@ -21,7 +21,7 @@ class AckWorkerCommand extends ContainerAwareCommand
         $this->channel = $this->channelLib->getChannel();
     }
 
-    public function process_message($msg)
+    public function processMessage($msg)
     {
         try {
             $task = $this->amqpPdfGenPublisher->addAckToTask($msg);
@@ -61,7 +61,7 @@ class AckWorkerCommand extends ContainerAwareCommand
             false,
             false,
             false,
-            array($this, 'process_message')
+            array($this, 'processMessage')
         );
         while (count($this->channel->callbacks)) {
             $this->channel->wait();
@@ -70,7 +70,7 @@ class AckWorkerCommand extends ContainerAwareCommand
 
     protected function configure()
     {
-       $this
+        $this
             ->setName('mtt:amqp:waitForAcks')
             ->setDescription('Launch a amqp listener to get acknowledgements from pdf generation workers and log these into database')
             ->addArgument(

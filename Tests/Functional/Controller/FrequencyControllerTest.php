@@ -10,9 +10,9 @@ class FrequencyControllerTest extends AbstractControllerTest
             'canal_tp_mtt_timetable_view',
             array(
                 'externalNetworkId' => $block->getTimetable()->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
-                'externalLineId' 	=> $block->getTimetable()->getLineConfig()->getExternalLineId(),
-                'externalRouteId' 	=> $block->getTimetable()->getExternalRouteId(),
-                'seasonId' 			=> $block->getTimetable()->getLineConfig()->getSeason()->getId()
+                'externalLineId'    => $block->getTimetable()->getLineConfig()->getExternalLineId(),
+                'externalRouteId'   => $block->getTimetable()->getExternalRouteId(),
+                'seasonId'          => $block->getTimetable()->getLineConfig()->getSeason()->getId()
             )
         );
     }
@@ -23,7 +23,7 @@ class FrequencyControllerTest extends AbstractControllerTest
             'canal_tp_mtt_frequency_edit',
             array(
                 'externalNetworkId' => $block->getTimetable()->getLineConfig()->getSeason()->getPerimeter()->getExternalNetworkId(),
-                'blockId' 			=> $block->getId(),
+                'blockId'           => $block->getId(),
                 'layoutId'          => $block->getTimetable()->getLineConfig()->getLayoutConfig()->getId(),
             )
         );

@@ -168,7 +168,6 @@ class CalendarManager
         $exceptions = array();
 
         foreach ($navitiaExceptions as $exception) {
-
             $date = new \DateTime($exception->date);
 
             $exception->value = $this->translator->trans(
@@ -340,8 +339,8 @@ class CalendarManager
         $externalCoverageId,
         $timetable,
         $stopPointInstance
-    )
-    {
+    ) {
+    
         $notesComputed = array();
         $calendarsSorted = array();
         // indicates whether to aggregate or dispatch notes
@@ -431,6 +430,4 @@ class CalendarManager
         }
         return false;
     }
-
-
 }
