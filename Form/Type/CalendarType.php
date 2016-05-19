@@ -17,12 +17,12 @@ class CalendarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'text', ['label' => 'calendar.create.form.title'])
+            ->add('title', 'text', ['label' => 'calendar.form.title'])
             ->add(
                 'startDate',
                 'datepicker',
                 [
-                    'label' => 'calendar.create.form.start_date',
+                    'label' => 'calendar.form.start_date',
                     'attr' => [
                         'class' => 'datepicker'
                     ]
@@ -32,13 +32,23 @@ class CalendarType extends AbstractType
                 'endDate',
                 'datepicker',
                 [
-                    'label' => 'calendar.create.form.end_date',
+                    'label' => 'calendar.form.end_date',
                     'attr' => [
                         'class' => 'datepicker'
                     ]
                 ]
             )
-            ->add('weeklyPattern', 'text', ['label' => 'calendar.create.form.weekly_pattern']);
+            ->add(
+                'weeklyPattern',
+                'text',
+                [
+                    'label' => 'calendar.form.weekly_pattern',
+                    'attr' => [
+                        'maxlength' => 7,
+                        'placeholder' => '0000011'
+                    ]
+                ]
+            );
     }
 
     /**
@@ -49,7 +59,10 @@ class CalendarType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => 'CanalTP\MttBundle\Entity\Calendar',
-                'translation_domain' => 'default'
+                'translation_domain' => 'default',
+                'error_mapping' => [
+                    'datesValid' => 'endDate'
+                ]
             )
         );
     }

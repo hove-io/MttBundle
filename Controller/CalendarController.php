@@ -7,16 +7,31 @@ namespace CanalTP\MttBundle\Controller;
  */
 use CanalTP\MttBundle\Entity\Calendar;
 use CanalTP\MttBundle\Form\Type\CalendarType;
+use Symfony\Component\HttpFoundation\Request;
 
 class CalendarController extends AbstractController
 {
 
-    public function createAction()
+    public function createAction(Request $request)
     {
+        $em = $this->get('doctrine')->getManager();
+        $translator = $this->get('translator');
+
         $calendar = new Calendar();
 
         $form = $this->createForm(new CalendarType(), $calendar);
         $form->add('submit', 'submit', ['label' => 'global.validate', 'translation_domain' => 'messages']);
+
+        $form->handleRequest($request);
+
+        if ($request->isMethod('POST') && $form->isValid()) {
+            $calendar->setCustomer($this->getUser()->getCustomer());
+            $em->persist($calendar);
+            $em->flush();
+            $this->addFlash('success', $translator->trans('calendar.create.success', [], 'default'));
+
+            return $this->redirectToRoute('canal_tp_mtt_calendar_create');
+        }
 
         return $this->render('CanalTPMttBundle:Calendar:create.html.twig', ['form' => $form->createView()]);
     }

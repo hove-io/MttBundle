@@ -26,7 +26,7 @@ class CalendarControllerTest extends AbstractControllerTest
     }
 
     /**
-     * Tests that calendar creation page exists.
+     * Tests that calendar creation.
      */
     public function testCalendarsCreateAction()
     {
@@ -43,6 +43,68 @@ class CalendarControllerTest extends AbstractControllerTest
         $this->assertCount(1, $formCrawler, 'Date de fin');
         $this->assertCount(1, $formCrawler, 'Jours de semaine (ex : 0000011, pour samedi et dimanche)');
 
+        $form = $crawler->selectButton('Valider')->form();
+        $form['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $form['mtt_calendar[startDate]'] = '01/01/2016';
+        $form['mtt_calendar[endDate]'] = '01/06/2016';
+        $form['mtt_calendar[weeklyPattern]'] = '0000011';
+
+        $crawler = $this->client->submit($form);
+        $crawler = $this->client->followRedirect();
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertCount(1, $crawler->filter('html:contains("Le calendrier a été créé")'));
+    }
+
+    /**
+     * Tests error when creating a calendar.
+     */
+    public function testCalendarsFormErrors()
+    {
+        $route = $this->generateRoute('canal_tp_mtt_calendar_create');
+        $crawler = $this->doRequestRoute($route);
+
+        // Test all fields required
+        $form = $crawler->selectButton('Valider')->form();
+        $crawler = $this->client->submit($form);
+
+        $this->assertCount(4, $crawler->filter('.has-error'));
+
+        // Test start date < end date
+        $form['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $form['mtt_calendar[weeklyPattern]'] = '0000011';
+        $form['mtt_calendar[startDate]'] = '02/01/2016';
+        $form['mtt_calendar[endDate]'] = '01/01/2016';
+        $crawler = $this->client->submit($form);
+
+        $this->assertCount(1, $crawler->filter('.has-error'));
+
+        // Test end date - start date < 1 day
+        $form['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $form['mtt_calendar[weeklyPattern]'] = '0000011';
+        $form['mtt_calendar[startDate]'] = '01/01/2016';
+        $form['mtt_calendar[endDate]'] = '01/01/2016';
+        $crawler = $this->client->submit($form);
+
+        $this->assertCount(1, $crawler->filter('.has-error'));
+
+        // Test weekly pattern  > 7 characters
+        $form['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $form['mtt_calendar[weeklyPattern]'] = '00000111';
+        $form['mtt_calendar[startDate]'] = '01/01/2016';
+        $form['mtt_calendar[endDate]'] = '02/01/2016';
+        $crawler = $this->client->submit($form);
+
+        $this->assertCount(1, $crawler->filter('.has-error'));
+
+        // Test weekly pattern  not 0 or 1
+        $form['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $form['mtt_calendar[weeklyPattern]'] = '0050011';
+        $form['mtt_calendar[startDate]'] = '01/01/2016';
+        $form['mtt_calendar[endDate]'] = '02/01/2016';
+        $crawler = $this->client->submit($form);
+
+        $this->assertCount(1, $crawler->filter('.has-error'));
     }
 
     public function testCalendarsPresentViewAction()

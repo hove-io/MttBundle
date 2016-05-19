@@ -83,7 +83,7 @@ class Calendar
      *
      * @return Calendar
      */
-    public function setStartDate(\DateTime $startDate)
+    public function setStartDate(\DateTime $startDate = null)
     {
         $this->startDate = $startDate;
 
@@ -103,7 +103,7 @@ class Calendar
      *
      * @return Calendar
      */
-    public function setEndDate(\DateTime $endDate)
+    public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
 

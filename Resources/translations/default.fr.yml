@@ -64,11 +64,12 @@ block:
 calendar:
     create:
         title: Création d'un calendrier
-        form:
-          title: Titre
-          start_date: Date de début
-          end_date: Date de fin
-          weekly_pattern: Jours de semaine (ex : 0000011, pour samedi et dimanche)
+        success: Le calendrier a été créé
+    form:
+        title: Titre
+        start_date: Date de début
+        end_date: Date de fin
+        weekly_pattern: Jours de semaine (ex : 0000011, pour samedi et dimanche)
     view_title: Voir les horaires
     line_code: Ligne
     line_color: Couleur

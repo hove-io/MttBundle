@@ -36,7 +36,7 @@ CanalTP\MttBundle\Entity\Area:
 CanalTP\MttBundle\Entity\Calendar:
     getters:
         datesValid:
-            - "True": { message: "The start date must be before the end date" }
+            - "True": { message: 'calendar.error.dates_valid' }
     properties:
         title:
             - NotBlank: ~
@@ -49,4 +49,5 @@ CanalTP\MttBundle\Entity\Calendar:
             - NotBlank: ~
             - DateTime: ~
         weeklyPattern:
-            - Regex: '/^(?=.*1)([01]{7})/'
+            - NotBlank: ~
+            - Regex: '/^(?=.*1)([01]{7})$/'
