@@ -33,10 +33,6 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        if (1 === version_compare(PHP_VERSION, '7.0.0')) {
-            $this->markTestSkipped();
-        }
-
         $this->calendar = new Calendar();
         $this->calendar
             ->setTitle('CanalTP')
@@ -90,7 +86,7 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
         $this->calendar->setEndDate($endDate);
 
         $errors = $this->validator->validate($this->calendar);
-        
+
         $this->assertCount($errorsNumber, $errors);
     }
 
