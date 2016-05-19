@@ -45,7 +45,6 @@ class CalendarType extends AbstractType
                     'label' => 'calendar.form.weekly_pattern',
                     'attr' => [
                         'maxlength' => 7,
-                        'placeholder' => '0000011'
                     ]
                 ]
             );
