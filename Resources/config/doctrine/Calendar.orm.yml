@@ -1,0 +1,34 @@
+CanalTP\MttBundle\Entity\Calendar:
+    type: entity
+    table: mtt.calendar
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+            nullable: false
+            column: title
+        startDate:
+            type: datetime
+            nullable: false
+            column: start_date
+        endDate:
+            type: datetime
+            nullable: false
+            column: end_date
+        weeklyPattern:
+            type: string
+            length: 7
+            nullable: false
+            column: weekly_pattern
+    manyToOne:
+        customer:
+            targetEntity: CanalTP\NmmPortalBundle\Entity\Customer
+            joinColumn:
+                name: customer_id
+                referencedColumnName: cus_id

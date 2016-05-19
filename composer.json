@@ -27,6 +27,7 @@
         "itbz/fpdi": "1.4.4",
         "oyejorge/less.php": "1.5.1.2",
         "symfony/dom-crawler": "~2.0",
+        "symfony/validator": "^2.6",
         "twbs/bootstrap": "3.1.0",
         "videlalvaro/php-amqplib": "2.2.6",
         "willdurand/js-translation-bundle":"2.1.4"
