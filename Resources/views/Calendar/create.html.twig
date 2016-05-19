@@ -1,0 +1,29 @@
+{% extends "CanalTPMttBundle::container.html.twig" %}
+
+{% form_theme form 'CanalTPMttBundle:Form:fields.html.twig' %}
+
+{% trans_default_domain "default" %}
+
+{% block main_content %}
+    <div>
+        <h3>{{ 'calendar.create.title'|trans }}</h3>
+    </div>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block inline_javascripts %}
+    {{ parent() }}
+    <script>
+        require(['bootstrap/datepicker', 'bootstrap/datepicker/{{ app.request.locale }}'], function(){
+
+            $('input.datepicker ').datepicker({
+                language: '{{ app.request.locale }}',
+                startView: 1,
+                autoclose: true
+            });
+        });
+    </script>
+{% endblock %}

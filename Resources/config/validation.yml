@@ -32,3 +32,22 @@ CanalTP\MttBundle\Entity\Area:
             - NotBlank: ~
             - Length:
                 max: 255
+
+CanalTP\MttBundle\Entity\Calendar:
+    getters:
+        datesValid:
+            - "True": { message: 'calendar.error.dates_valid' }
+    properties:
+        title:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        startDate:
+            - NotBlank: ~
+            - DateTime: ~
+        endDate:
+            - NotBlank: ~
+            - DateTime: ~
+        weeklyPattern:
+            - NotBlank: ~
+            - Regex: '/^(?=.*1)([01]{7})$/'
