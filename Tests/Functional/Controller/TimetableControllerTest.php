@@ -51,7 +51,7 @@ class TimetableControllerTest extends AbstractControllerTest
 
 
     //List all stop-points default page
-    public function testStoppointsList()
+    public function testStopPointsList()
     {
         parent::setUp();
 
@@ -121,30 +121,16 @@ class TimetableControllerTest extends AbstractControllerTest
         );
     }
 
-    private function checkCodeBlockInTimetableViewPage($translator, $seasonId)
+    public function testStopPointCodeBlock()
     {
+        $translator = $this->client->getContainer()->get('translator');
+        $seasonId = $this->getSeason()->getId();
+
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_stop_timetable_view', $seasonId));
-
         $this->assertEquals(
-            '654895',
+            'CHVIN1',
             $crawler->filter('div#text_block_4 div.content')->text(),
-            "Stop point code totem not found in stop point timetable view page"
-        );
-
-        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_stop_timetable_edit', $seasonId, false));
-        $this->assertEquals(
-            $translator->trans('stop_point.block.code.default', array(), 'default'),
-            $crawler->filter('div#text_block_4 div.content')->text(),
-            "Stop point code (external code) not found in stop point timetable view page"
-        );
-    }
-
-    private function checkCodeBlockInTimetableEditPage($translator, $seasonId)
-    {
-        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_stop_timetable_view', $seasonId, null));
-        $this->assertNotEmpty(
-            $crawler->filter('div#text_block_4 div.content')->text(),
-            "Stop point code (external code) not found in stop point timetable view page"
+            "Stop point external code not found in stop point timetable view page"
         );
 
         $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_stop_timetable_edit', $seasonId, null));
@@ -155,53 +141,23 @@ class TimetableControllerTest extends AbstractControllerTest
         );
     }
 
-    public function testStopPointCodeBlock()
+    public function testStopPointPoisBlock()
     {
         $translator = $this->client->getContainer()->get('translator');
-        $season = $this->getSeason();
+        $seasonId = $this->getSeason()->getId();
 
-        $this->checkCodeBlockInTimetableViewPage($translator, $season->getId());
-        $this->checkCodeBlockInTimetableEditPage($translator, $season->getId());
-    }
-
-    private function checkPoisBlockInTimetableViewPage($translator, $seasonId)
-    {
-        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_stop_timetable_view', $seasonId, null));
+        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_stop_timetable_view', $seasonId));
         $this->assertNotEmpty(
             $crawler->filter('div#text_block_3 div.content')->text(),
             "Pois not found timetable view page"
         );
-
-        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_stop_timetable_edit', $seasonId, false));
-        $this->assertEquals(
-            $translator->trans('stop_point.block.pois.default', array(), 'default'),
-            $crawler->filter('div#text_block_3 div.content')->text(),
-            "Stop point pois default text not found in stop point timetable view page"
-        );
-    }
-
-    private function checkPoisBlockInTimetableEditPage($translator, $seasonId)
-    {
-        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_stop_timetable_view', $seasonId, null));
-        $this->assertNotEmpty(
-            $crawler->filter('div#text_block_3 div.content')->text(),
-            "Pois not found in stop point timetable view page"
-        );
-
-        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_stop_timetable_edit', $seasonId, false));
+        
+        $crawler = $this->doRequestRoute($this->getRoute('canal_tp_mtt_stop_timetable_edit', $seasonId));
         $this->assertEquals(
             $translator->trans('stop_point.block.pois.default', array(), 'default'),
             $crawler->filter('div#text_block_3 div.content')->text(),
             "Pois default text not found in stop point timetable view page"
         );
-    }
-    public function testStopPointPoisBlock()
-    {
-        $translator = $this->client->getContainer()->get('translator');
-        $season = $this->getSeason();
-
-        $this->checkPoisBlockInTimetableViewPage($translator, $season->getId());
-        $this->checkPoisBlockInTimetableEditPage($translator, $season->getId());
     }
 
     public function testPoiBlock()

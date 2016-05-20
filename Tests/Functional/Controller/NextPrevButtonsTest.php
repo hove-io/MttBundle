@@ -13,7 +13,7 @@ class NextPrevButtonsTest extends AbstractControllerTest
         $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
     }
 
-    private function getRoute($stopPointId = 'stop_point:TTR:SP:JUSTB-1')
+    private function getRoute($stopPointId = 'stop_point:JDR:SP:CHVIN1')
     {
         return $this->generateRoute(
             'canal_tp_mtt_calendar_view',
@@ -37,16 +37,14 @@ class NextPrevButtonsTest extends AbstractControllerTest
 
     public function testRandomStopTwoButtons()
     {
-        $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
-        $crawler = $this->doRequestRoute($this->getRoute('stop_point:TTR:SP:LENIB-1'));
+        $crawler = $this->doRequestRoute($this->getRoute('stop_point:JDR:SP:CHATE1'));
         $btn_count = $crawler->filter('#main-container > div.row > div.col-md-8 > div.row a')->count();
         $this->assertTrue($btn_count == 2, "Expected two buttons for random stop. Found :$btn_count");
     }
 
     public function testIsLastStopOnlyOnePrevButton()
     {
-        $this->setService('canal_tp_mtt.navitia', $this->getMockedNavitia());
-        $crawler = $this->doRequestRoute($this->getRoute('stop_point:TTR:SP:PADOB-1'));
+        $crawler = $this->doRequestRoute($this->getRoute('stop_point:JDR:SP:DENFE1'));
         $btn_count = $crawler->filter('#main-container > div.row > div.col-md-8 > div.row a')->count();
         $this->assertTrue($btn_count == 1, "Expected one button for first stop. Found :$btn_count");
         $btn_count = $crawler->filter('#main-container > div.row > div.col-md-8 > div.row a span.glyphicon-chevron-left')->count();

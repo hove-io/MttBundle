@@ -57,9 +57,8 @@ class LayoutModelManager
             $id = $this->getUniqueId($layout);
 
             $this->saveInDb(
-                'uploads/'.$id.'/',
                 $config['layout']['label'],
-               '/bundles/canaltpmtt/img/uploads/'.$id.'/'.$config['layout']['previewFileName'],
+                '/bundles/canaltpmtt/img/uploads/'.$id.'/'.$config['layout']['previewFileName'],
                 $config['layout']['orientation'],
                 $config['templates'],
                 isset($config['pageSize']) ? $config['pageSize'] : Layout::PAGE_SIZE_A4
@@ -135,8 +134,8 @@ class LayoutModelManager
         return $layout->getId();
     }
 
-(??)    protected function saveInDb($path, $label, $previewPath, $orientation, $templates)
-(??)    {
+    protected function saveInDb($label, $previewPath, $orientation, $templates, $pageSize = Layout::PAGE_SIZE_A4)
+    {
         // Do not change the name if we update the layout
         if (null === $this->layout->getLabel()) {
             $this->layout->setLabel($label);
