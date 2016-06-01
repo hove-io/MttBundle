@@ -125,12 +125,25 @@ class CalendarControllerTest extends AbstractControllerTest
 
         $this->assertTrue($crawler->filter('h1')->count() == 1, 'Expected h1 title.');
 
+        //assert that page title exists and is correct
         $translator = $this->client->getContainer()->get('translator');
         $expectedTitle = $translator->trans('calendar.list.title', [], 'default');
         $this->assertTrue(
             $crawler->filter('h1:contains("' . $expectedTitle. '")')->count() == 1,
             $expectedTitle . ' was expected as page title, but wasn\'t found'
         );
+
+        //assert that calendar create button exists and has correct URI
+        $createRoute = $this->generateRoute('canal_tp_mtt_calendars_create');
+        $createLabel = $translator->trans('calendar.list.create', [], 'default');
+
+        $this->assertTrue(
+            $crawler->filter('html:contains("' . $createLabel. '")')->count() == 1,
+            'The label "' . $createLabel . '" wasn\'t found'
+        );
+
+        $createUri = $crawler->filter('#calendar_create_btn')->link()->getUri();
+        $this->assertContains($createRoute, $createUri);
     }
 
     public function testCalendarsNamesViewAction()
