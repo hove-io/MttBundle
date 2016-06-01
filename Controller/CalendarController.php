@@ -77,4 +77,12 @@ class CalendarController extends AbstractController
             )
         );
     }
+
+    public function listAction()
+    {
+        return $this->render('CanalTPMttBundle:Calendar:list.html.twig', [
+          'no_left_menu' => true
+        ]);
+
+    }
 }
