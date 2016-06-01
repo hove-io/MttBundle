@@ -30,7 +30,7 @@ class CalendarControllerTest extends AbstractControllerTest
      */
     public function testCalendarsCreateAction()
     {
-        $route = $this->generateRoute('canal_tp_mtt_calendar_create');
+        $route = $this->generateRoute('canal_tp_mtt_calendars_create');
 
         $crawler = $this->doRequestRoute($route);
 
@@ -61,7 +61,7 @@ class CalendarControllerTest extends AbstractControllerTest
      */
     public function testCalendarsFormErrors()
     {
-        $route = $this->generateRoute('canal_tp_mtt_calendar_create');
+        $route = $this->generateRoute('canal_tp_mtt_calendars_create');
         $crawler = $this->doRequestRoute($route);
 
         // Test all fields required
@@ -120,7 +120,7 @@ class CalendarControllerTest extends AbstractControllerTest
      */
     public function testCalendarsListAction()
     {
-        $route = $this->generateRoute('canal_tp_mtt_calendar_list');
+        $route = $this->generateRoute('canal_tp_mtt_calendars_list');
         $crawler = $this->doRequestRoute($route);
 
         $this->assertTrue($crawler->filter('h1')->count() == 1, 'Expected h1 title.');
