@@ -68,7 +68,8 @@ calendar:
     list:
         title: Liste des calendriers
         create: Créer un calendrier
-        weekly_pattern: "Jours de semaine"
+        weekly_pattern: Jours de semaine
+        no_items: Aucun calendrier
     weekdays:
         monday:     Lundi
         tuesday:    Mardi

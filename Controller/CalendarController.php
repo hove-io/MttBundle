@@ -80,7 +80,7 @@ class CalendarController extends AbstractController
 
     /**
      * Displays calendar list
-     * 
+     *
      * @return type
      */
     public function listAction()

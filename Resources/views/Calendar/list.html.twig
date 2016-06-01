@@ -11,7 +11,7 @@
    </div>
 {% endblock %}
 
-{% block table_classes %}table-hover table-striped table-bordered{% endblock %}
+{% block table_classes %}table-hover table-striped{% endblock %}
 
 {% block table_head -%}
     <th>{{'calendar.form.title'|trans }}</th>
@@ -27,6 +27,14 @@
             <td>{{ calendar.startDate|date('Y-m-d') }}</td>
             <td>{{ calendar.endDate|date('Y-m-d') }}</td>
             <td>{{ calendar.weeklyPattern|toWeekDays }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">
+                <div class="alert alert-info fade in">
+                    {{'calendar.list.no_items'|trans}}
+                </div>
+            </td>
         </tr>
     {% endfor %}
 {% endblock %}
