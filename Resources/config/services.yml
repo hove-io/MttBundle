@@ -50,6 +50,7 @@ services:
             - { name: twig.extension }
     canal_tp_mtt.twig.calendar_extension:
         class: CanalTP\MttBundle\Twig\CalendarExtension
+        arguments: ['@translator']
         tags:
             - { name: twig.extension }
     canal_tp_mtt.twig.stop_point_extension:

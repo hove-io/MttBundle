@@ -3,16 +3,28 @@
 namespace CanalTP\MttBundle\Tests\Twig;
 
 use CanalTP\MttBundle\Twig\CalendarExtension;
+use Prophecy\Argument;
 
 class CalendarExtensionTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var CanalTP\MttBundle\Twig\CalendarExtension
+     */
+    private $extension;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $translatorProphecy = $this->getTranslatorProphecy();
+        $this->extension = new CalendarExtension($translatorProphecy->reveal());
+    }
+
     /**
      * @dataProvider getCases
      */
     public function testCalendarRange($layout, $expected)
     {
-        $extension = new CalendarExtension();
-        $result = $extension->calendarRange($layout);
+        $result = $this->extension->calendarRange($layout);
         $this->assertEquals($result, $expected);
     }
 
@@ -64,5 +76,55 @@ class CalendarExtensionTest extends \PHPUnit_Framework_TestCase
                 array(10,11,12,13,14,15,16,17,18,19,20,21,22,23,0,1,2,3,4,5,6)
             )
         );
+    }
+
+    /**
+     * @dataProvider getWeeklyPatterns
+     */
+    public function testToWeeklyPattern($pattern, $expected)
+    {
+        $result = $this->extension->toWeekDays($pattern);
+        $this->assertEquals($result, $expected);
+    }
+
+    /**
+     * Data provider for testToWeeklyPattern method
+     * @return array
+     */
+    public function getWeeklyPatterns()
+    {
+        return [
+          ['1',       'Lundi'],
+          ['010',     'Mardi'],
+          ['011',     'Mardi, Mercredi'],
+          ['0000001', 'Dimanche'],
+          ['0000000', ''],
+        ];
+    }
+
+
+    /**
+     * Get Translator
+     *
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    private function getTranslatorProphecy()
+    {
+        $weekDays = [
+          'monday'    => 'Lundi',
+          'tuesday'   => 'Mardi',
+          'wednesday' => 'Mercredi',
+          'thursday'  => 'Jeudi',
+          'friday'    => 'Vendredi',
+          'saturday'  => 'Samedi',
+          'sunday'    => 'Dimanche',
+        ];
+
+        $translatorProphecy = $this->prophesize('\Symfony\Component\Translation\Translator');
+        foreach ($weekDays as $key => $day) {
+            $translatorProphecy->trans("calendar.weekdays.$key", [], "default")->willReturn($day);
+        }
+
+        return $translatorProphecy;
     }
 }
