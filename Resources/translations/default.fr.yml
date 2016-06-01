@@ -67,6 +67,16 @@ calendar:
         success: Le calendrier a été créé
     list:
         title: Liste des calendriers
+        create: Créer un calendrier
+        weekly_pattern: "Jours de semaine"
+    weekdays:
+        monday:     Lundi
+        tuesday:    Mardi
+        wednesday:  Mercredi
+        thursday:   Jeudi
+        friday:     Vendredi
+        saturday:   Samedi
+        sunday:     Dimanche
     form:
         title: Titre
         start_date: Date de début

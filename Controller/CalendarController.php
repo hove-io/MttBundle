@@ -78,11 +78,23 @@ class CalendarController extends AbstractController
         );
     }
 
+    /**
+     * Displays calendar list
+     * 
+     * @return type
+     */
     public function listAction()
     {
-        return $this->render('CanalTPMttBundle:Calendar:list.html.twig', [
-          'no_left_menu' => true
-        ]);
+        $calendars = $this->getDoctrine()
+            ->getRepository('CanalTPMttBundle:Calendar')
+            ->findBy(
+                ['customer' => $this->getUser()->getCustomer()],
+                ['id'=>'desc']
+            );
 
+        return $this->render('CanalTPMttBundle:Calendar:list.html.twig', [
+          'no_left_menu' => true,
+          'calendars'    => $calendars
+        ]);
     }
 }

@@ -2,15 +2,28 @@
 
 namespace CanalTP\MttBundle\Twig;
 
+use Symfony\Component\Translation\TranslatorInterface;
+
 class CalendarExtension extends \Twig_Extension
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function getFilters()
     {
-        return array(
-            'calendarRange'     => new \Twig_Filter_Method($this, 'calendarRange'),
-            'hourIndex'         => new \Twig_Filter_Method($this, 'hourIndex'),
-            'isWithinFrequency' => new \Twig_Filter_Method($this, 'isWithinFrequency'),
-        );
+        return [
+          'calendarRange'     => new \Twig_Filter_Method($this, 'calendarRange'),
+          'hourIndex'         => new \Twig_Filter_Method($this, 'hourIndex'),
+          'isWithinFrequency' => new \Twig_Filter_Method($this, 'isWithinFrequency'),
+          'toWeekDays'        => new \Twig_Filter_Method($this, 'toWeekDays'),
+        ];
     }
 
     /**
@@ -33,11 +46,11 @@ class CalendarExtension extends \Twig_Extension
      */
     public function calendarRange($layout)
     {
-        $rangeConfig = array(
-            'start' => $layout->getCalendarStart(),
-            'end' => $layout->getCalendarEnd()
-        );
-        $elements = array();
+        $rangeConfig = [
+          'start' => $layout->getCalendarStart(),
+          'end' => $layout->getCalendarEnd()
+        ];
+        $elements = [];
         $diurnalMax = $rangeConfig['end'] > $rangeConfig['start'] ? $rangeConfig['end'] : 23;
         for ($i = $rangeConfig['start']; $i <= $diurnalMax; $i++) {
             $elements[] = $i;
@@ -83,6 +96,37 @@ class CalendarExtension extends \Twig_Extension
         $searchedHour = date('G', $datetime->getTimestamp());
 
         return $this->getIndex($searchedHour, $hours);
+    }
+
+    /**
+     * Converts weekly pattern to week days string
+     *
+     * @param type $pattern
+     *
+     * @return string List of weekdays separated  by comma
+     */
+    public function toWeekDays($pattern)
+    {
+        $weekDays = [
+          $this->translator->trans('calendar.weekdays.monday', [], 'default'),
+          $this->translator->trans('calendar.weekdays.tuesday', [], 'default'),
+          $this->translator->trans('calendar.weekdays.wednesday', [], 'default'),
+          $this->translator->trans('calendar.weekdays.thursday', [], 'default'),
+          $this->translator->trans('calendar.weekdays.friday', [], 'default'),
+          $this->translator->trans('calendar.weekdays.saturday', [], 'default'),
+          $this->translator->trans('calendar.weekdays.sunday', [], 'default'),
+        ];
+
+        $days = str_split($pattern);
+        $formatedDays = [];
+
+        foreach (str_split($pattern) as $key => $day) {
+            if (array_key_exists($day, $weekDays) && intval($day) === 1) {
+                $formatedDays[] = $weekDays[$key];
+            }
+        }
+
+        return join(', ', $formatedDays);
     }
 
     public function getName()

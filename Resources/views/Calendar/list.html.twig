@@ -3,3 +3,30 @@
 {% trans_default_domain "default" %}
 
 {% block list_title %}{{ 'calendar.list.title'|trans }}{% endblock %}
+{% block list_menu %}
+    <div class="text-right">
+        <a class="btn btn-default" href="{{ path('canal_tp_mtt_calendar_create') }}">
+            {{'calendar.list.create'|trans}}
+        </a>
+   </div>
+{% endblock %}
+
+{% block table_classes %}table-hover table-striped table-bordered{% endblock %}
+
+{% block table_head -%}
+    <th>{{'calendar.form.title'|trans }}</th>
+    <th>{{'calendar.form.start_date'|trans }}</th>
+    <th>{{'calendar.form.end_date'|trans }}</th>
+    <th>{{'calendar.list.weekly_pattern'|trans }}</th>
+{% endblock %}
+
+{% block table_body -%}
+    {% for calendar in calendars %}
+        <tr>
+            <td>{{ calendar.title }}</td>
+            <td>{{ calendar.startDate|date('Y-m-d') }}</td>
+            <td>{{ calendar.endDate|date('Y-m-d') }}</td>
+            <td>{{ calendar.weeklyPattern|toWeekDays }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
