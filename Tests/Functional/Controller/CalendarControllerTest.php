@@ -115,6 +115,24 @@ class CalendarControllerTest extends AbstractControllerTest
         $this->assertTrue($crawler->filter('.nav.nav-tabs > li')->count() == 4, 'Expected 4 calendars. Found ' . $crawler->filter('.nav.nav-tabs > li')->count());
     }
 
+    /**
+     * Tests calendar list page
+     */
+    public function testCalendarsListAction()
+    {
+        $route = $this->generateRoute('canal_tp_mtt_calendar_list');
+        $crawler = $this->doRequestRoute($route);
+
+        $this->assertTrue($crawler->filter('h1')->count() == 1, 'Expected h1 title.');
+
+        $translator = $this->client->getContainer()->get('translator');
+        $expectedTitle = $translator->trans('calendar.list.title', [], 'default');
+        $this->assertTrue(
+            $crawler->filter('h1:contains("' . $expectedTitle. '")')->count() == 1,
+            $expectedTitle . ' was expected as page title, but wasn\'t found'
+        );
+    }
+
     public function testCalendarsNamesViewAction()
     {
         $crawler = $this->doRequestRoute($this->getViewRoute());

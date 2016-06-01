@@ -15,11 +15,11 @@ stop_point:
     view_calendars: Voir les horaires
     block:
         code:
-            title: Code de cet arrêt :
+            title: "Code de cet arrêt :"
             content: %code%
             default: (Code du poteau d'arrêt)
         pois:
-            title: Proches points de vente :
+            title: "Proches points de vente :"
             default: (Points de vente de l'arrêt)
             empty: Il n'y a pas de point de vente à moins de %distance% mètres de cet arrêt
         stop:
@@ -65,11 +65,13 @@ calendar:
     create:
         title: Création d'un calendrier
         success: Le calendrier a été créé
+    list:
+        title: Liste des calendriers
     form:
         title: Titre
         start_date: Date de début
         end_date: Date de fin
-        weekly_pattern: Jours de semaine (ex : 0000011, pour samedi et dimanche)
+        weekly_pattern: "Jours de semaine (ex : 0000011, pour samedi et dimanche)"
     view_title: Voir les horaires
     line_code: Ligne
     line_color: Couleur
