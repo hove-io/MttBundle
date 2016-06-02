@@ -129,7 +129,7 @@ class CalendarExtension extends \Twig_Extension
      */
     private function getWeekDays()
     {
-        if(empty(self::$weekDays) && ($this->translator instanceof TranslatorInterface)) {
+        if (empty(self::$weekDays) && ($this->translator instanceof TranslatorInterface)) {
             self::$weekDays = [
                 $this->translator->trans('calendar.weekdays.monday', [], 'default'),
                 $this->translator->trans('calendar.weekdays.tuesday', [], 'default'),
