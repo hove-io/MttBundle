@@ -122,7 +122,7 @@ canal_tp_mtt_block_delete:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
 #Calendar
-canal_tp_mtt_calendar_create:
+canal_tp_mtt_calendars_create:
     path: /calendars/create
     defaults: { _controller: CanalTPMttBundle:Calendar:create }
 
@@ -132,7 +132,7 @@ canal_tp_mtt_calendar_view:
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 
-canal_tp_mtt_calendar_list:
+canal_tp_mtt_calendars_list:
     path: /calendars/list
     defaults: { _controller: CanalTPMttBundle:Calendar:list }
 

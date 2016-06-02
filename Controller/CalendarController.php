@@ -30,7 +30,7 @@ class CalendarController extends AbstractController
             $em->flush();
             $this->addFlash('success', $translator->trans('calendar.create.success', [], 'default'));
 
-            return $this->redirectToRoute('canal_tp_mtt_calendar_create');
+            return $this->redirectToRoute('canal_tp_mtt_calendars_create');
         }
 
         return $this->render('CanalTPMttBundle:Calendar:create.html.twig', ['form' => $form->createView()]);
@@ -78,11 +78,23 @@ class CalendarController extends AbstractController
         );
     }
 
+    /**
+     * Displays calendar list
+     *
+     * @return type
+     */
     public function listAction()
     {
-        return $this->render('CanalTPMttBundle:Calendar:list.html.twig', [
-          'no_left_menu' => true
-        ]);
+        $calendars = $this->getDoctrine()
+            ->getRepository('CanalTPMttBundle:Calendar')
+            ->findBy(
+                ['customer' => $this->getUser()->getCustomer()],
+                ['id'=>'desc']
+            );
 
+        return $this->render('CanalTPMttBundle:Calendar:list.html.twig', [
+          'no_left_menu' => true,
+          'calendars'    => $calendars
+        ]);
     }
 }
