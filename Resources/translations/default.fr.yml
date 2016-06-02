@@ -83,6 +83,7 @@ calendar:
         start_date: Date de début
         end_date: Date de fin
         weekly_pattern: "Jours de semaine (ex : 0000011, pour samedi et dimanche)"
+        label: Éditer le calendrier
     view_title: Voir les horaires
     line_code: Ligne
     line_color: Couleur
