@@ -11,7 +11,9 @@ class CalendarExtension extends \Twig_Extension
      */
     private $translator;
 
-    public function __construct(TranslatorInterface $translator)
+    private static $weekDays = [];
+
+    public function __construct($translator = null)
     {
         $this->translator = $translator;
     }
@@ -107,17 +109,8 @@ class CalendarExtension extends \Twig_Extension
      */
     public function toWeekDays($pattern)
     {
-        $weekDays = [
-          $this->translator->trans('calendar.weekdays.monday', [], 'default'),
-          $this->translator->trans('calendar.weekdays.tuesday', [], 'default'),
-          $this->translator->trans('calendar.weekdays.wednesday', [], 'default'),
-          $this->translator->trans('calendar.weekdays.thursday', [], 'default'),
-          $this->translator->trans('calendar.weekdays.friday', [], 'default'),
-          $this->translator->trans('calendar.weekdays.saturday', [], 'default'),
-          $this->translator->trans('calendar.weekdays.sunday', [], 'default'),
-        ];
+        $weekDays = $this->getWeekDays();
 
-        $days = str_split($pattern);
         $formatedDays = [];
 
         foreach (str_split($pattern) as $key => $day) {
@@ -127,6 +120,28 @@ class CalendarExtension extends \Twig_Extension
         }
 
         return join(', ', $formatedDays);
+    }
+
+    /**
+     * Singleton method to avoid multiple translate call
+     *
+     * @return array
+     */
+    private function getWeekDays()
+    {
+        if(empty(self::$weekDays) && ($this->translator instanceof TranslatorInterface)) {
+            self::$weekDays = [
+                $this->translator->trans('calendar.weekdays.monday', [], 'default'),
+                $this->translator->trans('calendar.weekdays.tuesday', [], 'default'),
+                $this->translator->trans('calendar.weekdays.wednesday', [], 'default'),
+                $this->translator->trans('calendar.weekdays.thursday', [], 'default'),
+                $this->translator->trans('calendar.weekdays.friday', [], 'default'),
+                $this->translator->trans('calendar.weekdays.saturday', [], 'default'),
+                $this->translator->trans('calendar.weekdays.sunday', [], 'default'),
+            ];
+        }
+
+        return self::$weekDays;
     }
 
     public function getName()
