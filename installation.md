@@ -77,7 +77,7 @@ Add bundle in your app/AppKernel.php
  	new CanalTP\MttBundle\CanalTPMttBundle(),
 	new CanalTP\MediaManagerBundle\CanalTPMediaManagerBundle(),
 
-<h4>3.Install PHP dependencies</h4>
+<h4>2.Install PHP dependencies</h4>
 
 	curl -sS https://getcomposer.org/installer | php
 
