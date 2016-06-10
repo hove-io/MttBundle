@@ -3,8 +3,40 @@ README
 
 What is MttBundle ?
 -----------------------------
+Timetable application's main goal is to generate timetable files which can be found at bus stops or other public transportation stop points.
 
-__Coming Soon__
+Requirements
+------
+
+ <h4>I.Language</h4>
+
+	php 5
+<h4>II.Extensions php5's</h4>
+ 
+	php5-curl (curl package should be installed first)
+	php5-intl
+	php5-ggsql
+
+
+<h4>III.Database</h4>
+ 
+	postgresql >= 9.0.0
+
+<h4>IV.RabbitMQ</h4>
+
+link to install rabiitmq: https://www.rabbitmq.com/download.html
+
+<h4>V.PdfGenrator</h4>
+follow this link if it's not  install in your machine.
+
+https://github.com/CanalTP/pdfGenerator
+
+
+<h4>VI.AMQP Mtt </h4>
+
+Clone this project in your machine and follow the intructions 
+
+https://github.com/CanalTP/AmqpMttWorkers
 
 
 Installation
