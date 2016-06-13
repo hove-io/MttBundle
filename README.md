@@ -7,6 +7,6 @@ Timetable application's main goal is to generate timetable files which can be fo
 
 
 ![Screenshot](screenshot_timetable.png  "main Timetable")
-<h2>Installation</h2>
+##Installation
 
 Please refer to [Timetable's installation](installation.md) 
