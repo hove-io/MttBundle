@@ -21,7 +21,7 @@ Requirements
 
 
 ####IV.project Navitia Mobility Manager
-You need  install the project : https://github.com/CanalTP/navitia-mobility-manager
+You need to install the project : https://github.com/CanalTP/navitia-mobility-manager
 
 
 ####V.RabbitMQ
@@ -77,13 +77,76 @@ Add bundle in your app/AppKernel.php
  	new CanalTP\MttBundle\CanalTPMttBundle(),
 	new CanalTP\MediaManagerBundle\CanalTPMediaManagerBundle(),
 
+You shoul add some configuration in `config.yml`
+ "import"  section
+
+```
+import:
+      -{ resource: config.media_manager.yml}
+
+```
+
+"assetic" section
+
+```
+assetic:
+	bundles:
+	...
+    	- CanalTPMttBundle
+```
+"braincrafted_bootstrap" section
+
+```
+customize:
+	bootstrap_template: CanalTPMttBundle:Bootstrap:bootstrap.less.twig
+
+```
+in docrtrine -->orm-->entity_manager-->default-->mapping
+
+````
+doctrine:
+	entity_manager:
+		...
+		default:
+			...
+			mapping:
+				...
+				CanalTPMttBundle: ~
+				
+
+````
+in your symfony project in `parameter.yml.dist` you should add 
+
+````
+    pdf_generator_url: ''
+    canal_tp_mtt.amqp_server_host: localhost
+    canal_tp_mtt.amqp_server_user: guest
+    canal_tp_mtt.amqp_server_pass: guest
+    canal_tp_mtt.amqp_server_vhost: /
+    canal_tp_mtt.amqp_server_port: '5672'
+
+````
+
+	
+
 ####2.Install PHP dependencies
 
 	curl -sS https://getcomposer.org/installer | php
 
 	composer.phar install --prefer-source
 
+in terminal run this command below to initialize your database
+````
+php app/console sam:database:reset
+````
 
+Install asset,translation,rounting
+
+	php app/console assets:install --symlink
+	php app/console braincrafted:bootstrap:generate
+	php app/console assetic:dump
+	php app/console bazinga:js-translation:dump
+	php app/console fos:js-routing:dump
 
 
 Contributing
