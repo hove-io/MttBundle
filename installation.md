@@ -5,36 +5,36 @@ Requirements
 ------
 
 
-#### I.Language
+#### I. Language
 
 	php 5
-####II.Extensions php5's
+#### II. php5 Extensions
  
 	php5-curl (curl package should be installed first)
 	php5-intl
-	php5-ggsql
+	php5-gsql
 
 
-####III.Database
+####III. Database
  
 	postgresql >= 9.0.0
 
 
-####IV.project Navitia Mobility Manager
+#### IV.  Navitia Mobility Manager project
 You need to install the project : https://github.com/CanalTP/navitia-mobility-manager
 
 
-####V.RabbitMQ
+#### V. RabbitMQ
 
 link to install rabitmq: https://www.rabbitmq.com/download.html
 
-####VI.PdfGenrator
-follow this link if it's not  install in your machine.
+#### VI. PdfGenrator
+follow this link if it's not install in your machine.
 
 https://github.com/CanalTP/pdfGenerator
 
 
-####VII.AMQP Mtt </h4>
+#### VII. AMQP Mtt Worker
 
 Clone this project in your machine and follow the intructions 
 
@@ -45,13 +45,19 @@ https://github.com/CanalTP/AmqpMttWorkers
 Installation
 ---------------
 
+#### I. Clone the repository
+
+`````	
+git clone git@github.com:CanalTP/MttBundle.git
+`````
+
 
 
 You need composer to install the MttBundle.
-####1 Configuration
+#### II. Configuration
 
 Create Yaml file `config.media_manager.yml` in app/config and add this code below
-```
+```yaml
 canal_tp_media_manager:
     configurations:
         mtt:
@@ -61,34 +67,36 @@ canal_tp_media_manager:
                 path:  #/tmp/pdf/
                 url:  #storage Url 
             strategy: CanalTP\MediaManager\Strategy\DefaultStrategy
-
 ```	
 
 Open your composer.json in your project and add :
 
-	"canaltp/mtt-bridge-bundle": "0.3.2",
-	"canaltp/mtt-bundle": "1.9.2"
+```json
+"canaltp/mtt-bridge-bundle": "0.3.2",
+"canaltp/mtt-bundle": "1.9.2"
+```
 
 you can find bundles in packagist: https://packagist.org/packages/canaltp/
 
 Add bundle in your app/AppKernel.php
 
-	new CanalTP\MttBridgeBundle\CanalTPMttBridgeBundle(),
- 	new CanalTP\MttBundle\CanalTPMttBundle(),
-	new CanalTP\MediaManagerBundle\CanalTPMediaManagerBundle(),
+````php
+new CanalTP\MttBridgeBundle\CanalTPMttBridgeBundle(),
+new CanalTP\MttBundle\CanalTPMttBundle(),
+new CanalTP\MediaManagerBundle\CanalTPMediaManagerBundle(),
+````
 
-You shoul add some configuration in `config.yml`
+You should add some configuration in `config.yml`
  "import"  section
 
-```
+```yaml
 import:
       -{ resource: config.media_manager.yml}
-
 ```
 
 "assetic" section
 
-```
+```yaml
 assetic:
 	bundles:
 	...
@@ -96,14 +104,14 @@ assetic:
 ```
 "braincrafted_bootstrap" section
 
-```
+```yaml
 customize:
 	bootstrap_template: CanalTPMttBundle:Bootstrap:bootstrap.less.twig
 
 ```
-in docrtrine -->orm-->entity_manager-->default-->mapping
+in "docrtrine -->orm-->entity_manager-->default-->mapping" section
 
-````
+````yaml
 doctrine:
 	entity_manager:
 		...
@@ -115,21 +123,20 @@ doctrine:
 				
 
 ````
-in your symfony project in `parameter.yml.dist` you should add 
+in your symfony project in `parameters.yml.dist` you should add 
 
-````
+````yaml
     pdf_generator_url: ''
     canal_tp_mtt.amqp_server_host: localhost
     canal_tp_mtt.amqp_server_user: guest
     canal_tp_mtt.amqp_server_pass: guest
     canal_tp_mtt.amqp_server_vhost: /
     canal_tp_mtt.amqp_server_port: '5672'
-
 ````
 
 	
 
-####2.Install PHP dependencies
+#### III. Install PHP dependencies
 
 	curl -sS https://getcomposer.org/installer | php
 
@@ -141,16 +148,10 @@ php app/console sam:database:reset
 ````
 
 Install asset,translation,rounting
-
-	php app/console assets:install --symlink
-	php app/console braincrafted:bootstrap:generate
-	php app/console assetic:dump
-	php app/console bazinga:js-translation:dump
-	php app/console fos:js-routing:dump
-
-
-Contributing
--------------
-
-1. Vincent Degroote - vincent.degroote@canaltp.fr
-2. Rémy Abi-Khalil - remy.abikhalil@canaltp.fr
+````
+php app/console assets:install --symlink
+php app/console braincrafted:bootstrap:generate
+php app/console assetic:dump
+php app/console bazinga:js-translation:dump
+php app/console fos:js-routing:dump
+````
