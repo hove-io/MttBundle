@@ -91,37 +91,32 @@ You should add some configuration in `config.yml`
 
 ```yaml
 import:
-      -{ resource: config.media_manager.yml}
+    -{ resource: config.media_manager.yml}
 ```
 
 "assetic" section
 
 ```yaml
 assetic:
-	bundles:
-	...
+    bundles:
     	- CanalTPMttBundle
 ```
 "braincrafted_bootstrap" section
 
 ```yaml
 customize:
-	bootstrap_template: CanalTPMttBundle:Bootstrap:bootstrap.less.twig
+    bootstrap_template: CanalTPMttBundle:Bootstrap:bootstrap.less.twig
 
 ```
 in "docrtrine -->orm-->entity_manager-->default-->mapping" section
 
 ````yaml
 doctrine:
-	entity_manager:
-		...
-		default:
-			...
-			mapping:
-				...
-				CanalTPMttBundle: ~
-				
-
+    orm:
+        entity_manager:
+            default:
+               mapping:
+                    CanalTPMttBundle: ~
 ````
 in your symfony project in `parameters.yml.dist` you should add 
 
