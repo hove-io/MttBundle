@@ -99,7 +99,7 @@ import:
 ```yaml
 assetic:
     bundles:
-    	- CanalTPMttBundle
+        - CanalTPMttBundle
 ```
 "braincrafted_bootstrap" section
 
