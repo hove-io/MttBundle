@@ -12,7 +12,7 @@ Requirements
  
 	php5-curl (curl package should be installed first)
 	php5-intl
-	php5-gsql
+	php5-pgsql
 
 
 ####III. Database
