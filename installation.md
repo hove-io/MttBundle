@@ -26,7 +26,7 @@ You need to install the project : https://github.com/CanalTP/navitia-mobility-ma
 
 #### V. RabbitMQ
 
-link to install rabitmq: https://www.rabbitmq.com/download.html
+link to install rabbitmq: https://www.rabbitmq.com/download.html
 
 #### VI. PdfGenrator
 follow this link if it's not install in your machine.
@@ -64,8 +64,8 @@ canal_tp_media_manager:
             name: MTT
             storage:
                 type: filesystem
-                path:  #/tmp/pdf/
-                url:  #storage Url 
+                path:  #/tmp/pdf/ this is a folder to store pdf files
+                url:  # url where it's possbile to access the path from a browser           
             strategy: CanalTP\MediaManager\Strategy\DefaultStrategy
 ```	
 
@@ -118,10 +118,11 @@ doctrine:
                mapping:
                     CanalTPMttBundle: ~
 ````
+####You need to add some configurations to generate  time card in pdf 
 in your symfony project in `parameters.yml.dist` you should add 
 
 ````yaml
-    pdf_generator_url: ''
+    pdf_generator_url: 'path/pdfGenerator/web'
     canal_tp_mtt.amqp_server_host: localhost
     canal_tp_mtt.amqp_server_user: guest
     canal_tp_mtt.amqp_server_pass: guest
@@ -129,6 +130,15 @@ in your symfony project in `parameters.yml.dist` you should add
     canal_tp_mtt.amqp_server_port: '5672'
 ````
 
+Launch acknowledge worker from navitia-mobility-manager console :
+`
+app/console mtt:amqp:waitForAcks
+ `
+add '&' to get background task
+
+`
+app/console mtt:amqp:waitForAcks &
+`
 	
 
 #### III. Install PHP dependencies
