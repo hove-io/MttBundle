@@ -26,7 +26,7 @@ You need to install the project : https://github.com/CanalTP/navitia-mobility-ma
 
 #### V. RabbitMQ
 
-link to install rabitmq: https://www.rabbitmq.com/download.html
+link to install rabbitmq: https://www.rabbitmq.com/download.html
 
 #### VI. PdfGenrator
 follow this link if it's not install in your machine.
@@ -64,8 +64,8 @@ canal_tp_media_manager:
             name: MTT
             storage:
                 type: filesystem
-                path:  #/tmp/pdf/
-                url:  #storage Url 
+                path:  #/tmp/pdf/ this is a folder to store pdf files
+                url:  #storage Url you need create  local DNS
             strategy: CanalTP\MediaManager\Strategy\DefaultStrategy
 ```	
 
