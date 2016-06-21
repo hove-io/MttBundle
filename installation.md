@@ -66,7 +66,7 @@ canal_tp_media_manager:
                 type: filesystem
                 path:  #/tmp/pdf/ this is a folder to store pdf files
                 url:  # url where it's possbile to access the path from a browser           
-                strategy: CanalTP\MediaManager\Strategy\DefaultStrategy
+            strategy: CanalTP\MediaManager\Strategy\DefaultStrategy
 ```	
 
 Open your composer.json in your project and add :
@@ -122,7 +122,7 @@ doctrine:
 in your symfony project in `parameters.yml.dist` you should add 
 
 ````yaml
-    pdf_generator_url: 'path/dfGenerator/web'
+    pdf_generator_url: 'path/pdfGenerator/web'
     canal_tp_mtt.amqp_server_host: localhost
     canal_tp_mtt.amqp_server_user: guest
     canal_tp_mtt.amqp_server_pass: guest
