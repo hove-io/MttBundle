@@ -130,10 +130,10 @@ in your symfony project in `parameters.yml.dist` you should add
     canal_tp_mtt.amqp_server_port: '5672'
 ````
 
-Launch acknowledge worker from navitia-mobility-manager console :
-`
-app/console mtt:amqp:waitForAcks
- `
+Launch acknowledge worker from navitia-mobility-manager console 
+
+`app/console mtt:amqp:waitForAcks`
+
 add '&' to get background task
 
 `
