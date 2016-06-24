@@ -139,12 +139,10 @@ add '&' to get background task
 `
 app/console mtt:amqp:waitForAcks &
 `
-in `AmqpMttWorkers` into  the folder web you can launch this worker with this commande below
+in `AmqpMttWorkers` into  the web folder you can launch this worker with this commande below
 
-``` php
-
-php pdfGenerationWorker.php name 1
-
+```
+php pdfGenerationWorker.php [file name log] [number of trials]
 ```
 #### III. Install PHP dependencies
 
