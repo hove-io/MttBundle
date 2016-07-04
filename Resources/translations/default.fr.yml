@@ -70,6 +70,7 @@ calendar:
         create: Créer un calendrier
         weekly_pattern: Jours de semaine
         no_items: Aucun calendrier
+        export: Exporter
     weekdays:
         monday:     Lundi
         tuesday:    Mardi

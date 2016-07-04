@@ -1,6 +1,7 @@
 CanalTP\MttBundle\Entity\Calendar:
     type: entity
     table: mtt.calendar
+    repositoryClass: CanalTP\MttBundle\Entity\CalendarRepository
     id:
         id:
             type: integer

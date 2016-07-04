@@ -5,9 +5,12 @@ namespace CanalTP\MttBundle\Controller;
 /*
  * CalendarController
  */
+use CanalTP\MttBundle\Calendar as CalendarCsv;
+use CanalTP\MttBundle\Calendar\CalendarArchiveGenerator;
 use CanalTP\MttBundle\Entity\Calendar;
 use CanalTP\MttBundle\Form\Type\CalendarType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CalendarController extends AbstractController
 {
@@ -96,5 +99,41 @@ class CalendarController extends AbstractController
           'no_left_menu' => true,
           'calendars'    => $calendars
         ]);
+    }
+
+    /**
+     * Export a zip with calendars
+     *
+     * @return Response
+     */
+    public function exportAction()
+    {
+        $applicationCanonicalName = $this->get('canal_tp_sam.application.finder')->getCurrentApp()->getCanonicalName();
+        $externalCoverageId = $this->getUser()->getCustomer()->getPerimeters()->first()->getExternalCoverageId();
+
+        $networks = $this->getDoctrine()->getRepository('CanalTPNmmPortalBundle:Perimeter')->findNetWorkIdsByExternalCoverageIdAndApplication($externalCoverageId, $applicationCanonicalName);
+        $calendars = $this->getDoctrine()->getRepository('CanalTPMttBundle:Calendar')->findCalendarByExternalCoverageIdAndApplication($externalCoverageId, $applicationCanonicalName);
+
+        $filename = 'export_calendars_'.date('YmdHis').'.zip';
+
+        if (!is_dir($folder = sys_get_temp_dir().'/'.$externalCoverageId)) {
+            mkdir($folder, 0777);
+        }
+
+        if (is_file($location = $folder.'/'.$filename)) {
+            unlink($location);
+        }
+        $calendarArchiveGenerator = new CalendarArchiveGenerator($location);
+        $calendarArchiveGenerator->addCsv(new CalendarCsv\GridCalendarsCsv($calendars));
+        $calendarArchiveGenerator->addCsv(new CalendarCsv\GridPeriodsCsv($calendars));
+        $calendarArchiveGenerator->addCsv(new CalendarCsv\GridNetworksAndLinesCsv($calendars, $networks));
+        $calendarArchiveGenerator->getArchive()->close();
+
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
+        $response->setContent(file_get_contents($location));
+
+        return $response;
     }
 }

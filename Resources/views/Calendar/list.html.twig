@@ -5,6 +5,9 @@
 {% block list_title %}{{ 'calendar.list.title'|trans }}{% endblock %}
 {% block list_menu %}
     <div class="text-right">
+        <a {% if not calendars %}disabled"{% endif %} id="calendar_export_btn" class="btn btn-primary" href="{{ path('canal_tp_mtt_calendars_export') }}">
+            {{'calendar.list.export'|trans}}
+        </a>
         <a id="calendar_create_btn" class="btn btn-default" href="{{ path('canal_tp_mtt_calendars_create') }}">
             {{'calendar.list.create'|trans}}
         </a>
