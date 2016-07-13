@@ -87,6 +87,119 @@ class CalendarControllerTest extends AbstractControllerTest
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertCount(1, $crawler->filter('html:contains("Le calendrier a été créé")'));
     }
+    
+    /**
+     *  @group editCalendar
+     */
+    public function testCalendarsEditAction(){
+        $route = $this->generateRoute('canal_tp_mtt_calendars_list');
+
+        $crawler = $this->doRequestRoute($route);
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+
+        // Assert that there is a calendar in the calendars list
+        $calendarsFirstRow = $crawler->filter('#main-container table tbody tr')->first();
+        $this->assertCount(1, $calendarsFirstRow);
+
+        // Assert that edit button exists for a calendar
+        $calendarsFirstRowEditButton = $calendarsFirstRow->filter('td a[href*="edit"]');
+        $this->assertCount(1, $calendarsFirstRowEditButton);
+
+        // Assert that edit button redirect to calendar edit page
+        $calendarsFirstRowEditLink = $calendarsFirstRowEditButton->link();
+        $crawler = $this->client->click($calendarsFirstRowEditLink);
+        $expectedUri = $calendarsFirstRowEditLink->getUri();
+        $this->assertEquals($calendarsFirstRowEditLink->getUri(), $this->client->getRequest()->getUri());
+
+        // Assert that edit form elements (label, input and submit button) are present
+        $this->assertCount(1, $crawler->filter('#main-container h3'), 'Expected h3 title.');
+
+        $formTitleLabelCrawler = $crawler->filter('form label[for="mtt_calendar_title"]');
+        $this->assertCount(1, $formTitleLabelCrawler, 'Titre');
+        $formTitleInputCrawler = $crawler->filter('form input[name="mtt_calendar[title]"]');
+        $this->assertCount(1, $formTitleInputCrawler, 'Champ Titre');
+
+        $formStartDateLabelCrawler = $crawler->filter('form label[for="mtt_calendar_startDate"]');
+        $this->assertCount(1, $formStartDateLabelCrawler, 'Date de début');
+        $formStartDateInputCrawler = $crawler->filter('form input[name="mtt_calendar[startDate]"]');
+        $this->assertCount(1, $formStartDateInputCrawler, 'Champ Date de début');
+
+        $formEndDateLabelCrawler = $crawler->filter('form label[for="mtt_calendar_endDate"]');
+        $this->assertCount(1, $formEndDateLabelCrawler, 'Date de fin');
+        $formEndDateInputCrawler = $crawler->filter('form input[name="mtt_calendar[endDate]"]');
+        $this->assertCount(1, $formEndDateInputCrawler, 'Champ Date de fin');
+
+        $formWeeklyPatternLabelCrawler = $crawler->filter('form label[for="mtt_calendar_weeklyPattern"]');
+        $this->assertCount(1, $formWeeklyPatternLabelCrawler, 'Jours de semaine');
+        $formWeeklyPatternInputCrawler = $crawler->filter('form input[name="mtt_calendar[weeklyPattern]"]');
+        $this->assertCount(1, $formWeeklyPatternInputCrawler, 'Jours de semaine');
+
+        $formButtonCrawler = $crawler->selectButton('mtt_calendar[submit]');
+        $this->assertCount(1, $formButtonCrawler, 'Bouton Valider');
+
+        $formCrawler = $formButtonCrawler->form();
+
+        // Assert form errors: all fields required
+        $formCrawler['mtt_calendar[title]'] = null;
+        $formCrawler['mtt_calendar[weeklyPattern]'] = null;
+        $formCrawler['mtt_calendar[startDate]'] = null;
+        $formCrawler['mtt_calendar[endDate]'] = null;
+        $crawler = $this->client->submit($formCrawler);
+
+        $this->assertCount(4, $crawler->filter('.has-error'));
+
+        // Assert form errors: start date < end date
+        $formCrawler['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $formCrawler['mtt_calendar[weeklyPattern]'] = '0000011';
+        $formCrawler['mtt_calendar[startDate]'] = '02/01/2016';
+        $formCrawler['mtt_calendar[endDate]'] = '01/01/2016';
+        $crawler = $this->client->submit($formCrawler);
+
+        $this->assertCount(1, $crawler->filter('.has-error'));
+
+        // Assert form errors: end date - start date < 1 day
+        $formCrawler['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $formCrawler['mtt_calendar[weeklyPattern]'] = '0000011';
+        $formCrawler['mtt_calendar[startDate]'] = '01/01/2016';
+        $formCrawler['mtt_calendar[endDate]'] = '01/01/2016';
+        $crawler = $this->client->submit($formCrawler);
+
+        $this->assertCount(1, $crawler->filter('.has-error'));
+
+        // Assert form errors: weekly pattern  > 7 characters
+        $formCrawler['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $formCrawler['mtt_calendar[weeklyPattern]'] = '00000111';
+        $formCrawler['mtt_calendar[startDate]'] = '01/01/2016';
+        $formCrawler['mtt_calendar[endDate]'] = '02/01/2016';
+        $crawler = $this->client->submit($formCrawler);
+
+        $this->assertCount(1, $crawler->filter('.has-error'));
+
+        // Assert form errors: weekly pattern not 0 or 1
+        $formCrawler['mtt_calendar[title]'] = 'Samedi et dimanche';
+        $formCrawler['mtt_calendar[weeklyPattern]'] = '0050011';
+        $formCrawler['mtt_calendar[startDate]'] = '01/01/2016';
+        $formCrawler['mtt_calendar[endDate]'] = '02/01/2016';
+        $crawler = $this->client->submit($formCrawler);
+
+        $this->assertCount(1, $crawler->filter('.has-error'));
+
+        // Assert calendar is updated
+        $formCrawler = $crawler->selectButton('mtt_calendar[submit]')->form();
+        $formCrawler['mtt_calendar[title]'] = 'Mardi et Samedi';
+        $formCrawler['mtt_calendar[startDate]'] = '01/02/2016';
+        $formCrawler['mtt_calendar[endDate]'] = '01/07/2016';
+        $formCrawler['mtt_calendar[weeklyPattern]'] = '0100010';
+        $crawler = $this->client->submit($formCrawler);
+
+        $crawler = $this->client->followRedirect();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertCount(1, $crawler->filter('html:contains("Le calendrier a été modifié")'));
+
+        $calendarsFirstRowData = $crawler->filter('#main-container table tbody tr td');
+        $this->assertEquals('Mardi et Samedi', $calendarsFirstRowData->first()->text());
+    }
 
     /**
      * Tests error when creating a calendar.

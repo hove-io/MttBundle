@@ -140,6 +140,12 @@ canal_tp_mtt_calendars_export:
     path: /calendars/export
     defaults: { _controller: CanalTPMttBundle:Calendar:export }
 
+canal_tp_mtt_calendar_edit:
+    path: /calendars/edit/{calendarId}
+    defaults: { _controller: CanalTPMttBundle:Calendar:edit, calendarId: null }
+    requirements:
+        calendarId: \d+
+
 #Frequency
 canal_tp_mtt_frequency_edit:
     path: /frequency/edit/networks/{externalNetworkId}/block/{blockId}/
