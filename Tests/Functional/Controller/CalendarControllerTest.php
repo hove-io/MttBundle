@@ -91,7 +91,8 @@ class CalendarControllerTest extends AbstractControllerTest
     /**
      *  @group editCalendar
      */
-    public function testCalendarsEditAction(){
+    public function testCalendarsEditAction()
+    {
         $route = $this->generateRoute('canal_tp_mtt_calendars_list');
 
         $crawler = $this->doRequestRoute($route);
@@ -107,9 +108,11 @@ class CalendarControllerTest extends AbstractControllerTest
         $this->assertCount(1, $calendarsFirstRowEditButton);
 
         // Assert that edit button redirect to calendar edit page
+        $expectedEditLink = $this->generateRoute('canal_tp_mtt_calendars_edit', array('calendarId' => 1));
+        $this->assertEquals($expectedEditLink, $calendarsFirstRowEditButton->attr('href'));
+
         $calendarsFirstRowEditLink = $calendarsFirstRowEditButton->link();
         $crawler = $this->client->click($calendarsFirstRowEditLink);
-        $expectedUri = $calendarsFirstRowEditLink->getUri();
         $this->assertEquals($calendarsFirstRowEditLink->getUri(), $this->client->getRequest()->getUri());
 
         // Assert that edit form elements (label, input and submit button) are present

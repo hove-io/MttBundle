@@ -140,7 +140,7 @@ canal_tp_mtt_calendars_export:
     path: /calendars/export
     defaults: { _controller: CanalTPMttBundle:Calendar:export }
 
-canal_tp_mtt_calendar_edit:
+canal_tp_mtt_calendars_edit:
     path: /calendars/edit/{calendarId}
     defaults: { _controller: CanalTPMttBundle:Calendar:edit, calendarId: null }
     requirements:

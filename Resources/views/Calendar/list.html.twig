@@ -32,7 +32,7 @@
             <td>{{ calendar.endDate|date('Y-m-d') }}</td>
             <td>{{ calendar.weeklyPattern|toWeekDays }}</td>
             <td>
-                <a class="btn btn-default" href="{{ path('canal_tp_mtt_calendar_edit', {'calendarId': calendar.id}) }}">
+                <a class="btn btn-default" href="{{ path('canal_tp_mtt_calendars_edit', {'calendarId': calendar.id}) }}">
                     <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
                 </a>
             </td>

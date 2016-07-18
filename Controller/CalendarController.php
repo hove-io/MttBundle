@@ -145,9 +145,19 @@ class CalendarController extends AbstractController
 
         $calendar = $this->getDoctrine()
             ->getRepository('CanalTPMttBundle:Calendar')
-            ->findOneBy(
-                ['customer' => $this->getUser()->getCustomer(),'id' => $calendarId]
-         );
+            ->findOneBy(['customer' => $this->getUser()->getCustomer(), 'id' => $calendarId]);
+
+        if (null === $calendar) {
+            throw $this->createNotFoundException(
+                'Calendar Not Found',
+                new \Exception(
+                    $this->translator->trans(
+                        'services.calendar_manager.calendar_not_found',
+                        array('%calendarId%' => $calendarId),
+                        'exceptions'
+                    ))
+            );
+        }
 
         $form = $this->createForm(new CalendarType(), $calendar);
         $form->add('submit', 'submit', ['label' => 'global.validate', 'translation_domain' => 'messages']);
@@ -155,7 +165,6 @@ class CalendarController extends AbstractController
         $form->handleRequest($request);
 
         if ($request->isMethod('POST') && $form->isValid()) {
-            $calendar->setCustomer($this->getUser()->getCustomer());
             $em->persist($calendar);
             $em->flush();
             $this->addFlash('success', $translator->trans('calendar.edit.success', [], 'default'));
