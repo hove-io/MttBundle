@@ -88,28 +88,22 @@ class CalendarControllerTest extends AbstractControllerTest
         $this->assertCount(1, $crawler->filter('html:contains("Le calendrier a été créé")'));
     }
     
-    /**
-     *  @group editCalendar
-     */
     public function testCalendarsEditAction()
     {
         $route = $this->generateRoute('canal_tp_mtt_calendars_list');
 
         $crawler = $this->doRequestRoute($route);
 
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-
         // Assert that there is a calendar in the calendars list
         $calendarsFirstRow = $crawler->filter('#main-container table tbody tr')->first();
         $this->assertCount(1, $calendarsFirstRow);
 
-        // Assert that edit button exists for a calendar
+        // Assert that edit button exists for a calendar in the calendars list
         $calendarsFirstRowEditButton = $calendarsFirstRow->filter('td a[href*="edit"]');
         $this->assertCount(1, $calendarsFirstRowEditButton);
 
         // Assert that edit button redirect to calendar edit page
-        $expectedEditLink = $this->generateRoute('canal_tp_mtt_calendars_edit', array('calendarId' => 1));
-        $this->assertEquals($expectedEditLink, $calendarsFirstRowEditButton->attr('href'));
+        $this->assertEquals('/mtt/calendars/edit/1', $calendarsFirstRowEditButton->attr('href'));
 
         $calendarsFirstRowEditLink = $calendarsFirstRowEditButton->link();
         $crawler = $this->client->click($calendarsFirstRowEditLink);
@@ -138,10 +132,20 @@ class CalendarControllerTest extends AbstractControllerTest
         $formWeeklyPatternInputCrawler = $crawler->filter('form input[name="mtt_calendar[weeklyPattern]"]');
         $this->assertCount(1, $formWeeklyPatternInputCrawler, 'Jours de semaine');
 
-        $formButtonCrawler = $crawler->selectButton('mtt_calendar[submit]');
-        $this->assertCount(1, $formButtonCrawler, 'Bouton Valider');
+        $formSubmitButtonCrawler = $crawler->filter('form button[type="submit"]');
+        $this->assertCount(1, $formSubmitButtonCrawler, 'Bouton Valider');
 
-        $formCrawler = $formButtonCrawler->form();
+        $formCancelButtonCrawler = $crawler->filter('a#calendar-edit-cancel');
+        $this->assertCount(1, $formCancelButtonCrawler, 'Bouton Annuler');
+
+        $formCrawler = $formSubmitButtonCrawler->form();
+
+        // Assert cancel editing calendar
+        $this->assertEquals('/mtt/calendars/list', $formCancelButtonCrawler->attr('href'));
+
+        // Assert editing calendar with bad id not found
+        $route = $this->generateRoute('canal_tp_mtt_calendars_edit', array('calendarId' => 1000));
+        $crawler = $this->doRequestRoute($route, 404);
 
         // Assert form errors: all fields required
         $formCrawler['mtt_calendar[title]'] = null;
@@ -189,7 +193,6 @@ class CalendarControllerTest extends AbstractControllerTest
         $this->assertCount(1, $crawler->filter('.has-error'));
 
         // Assert calendar is updated
-        $formCrawler = $crawler->selectButton('mtt_calendar[submit]')->form();
         $formCrawler['mtt_calendar[title]'] = 'Mardi et Samedi';
         $formCrawler['mtt_calendar[startDate]'] = '01/02/2016';
         $formCrawler['mtt_calendar[endDate]'] = '01/07/2016';

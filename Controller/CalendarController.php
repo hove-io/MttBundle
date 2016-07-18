@@ -149,19 +149,15 @@ class CalendarController extends AbstractController
 
         if (null === $calendar) {
             throw $this->createNotFoundException(
-                'Calendar Not Found',
-                new \Exception(
-                    $this->translator->trans(
-                        'services.calendar_manager.calendar_not_found',
-                        array('%calendarId%' => $calendarId),
-                        'exceptions'
-                    ))
+                $translator->trans(
+                    'services.calendar_manager.calendar_not_found',
+                    array('%calendarId%' => $calendarId),
+                    'exceptions'
+                )
             );
         }
 
         $form = $this->createForm(new CalendarType(), $calendar);
-        $form->add('submit', 'submit', ['label' => 'global.validate', 'translation_domain' => 'messages']);
-
         $form->handleRequest($request);
 
         if ($request->isMethod('POST') && $form->isValid()) {

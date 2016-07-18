@@ -11,6 +11,12 @@
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">
+        {{'global.validate'|trans({}, 'messages')}}
+    </button>
+    <a id="calendar-edit-cancel" class="btn btn-default" href="{{ path('canal_tp_mtt_calendars_list') }}">
+        {{'global.cancel'|trans({}, 'messages')}}
+    </a>
     {{ form_end(form) }}
 {% endblock %}
 
