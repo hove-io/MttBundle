@@ -5,7 +5,7 @@
 {% block list_title %}{{ 'calendar.list.title'|trans }}{% endblock %}
 {% block list_menu %}
     <div class="text-right">
-        <a {% if not calendars %}disabled"{% endif %} id="calendar_export_btn" class="btn btn-primary" href="{{ path('canal_tp_mtt_calendars_export') }}">
+        <a {% if not calendars %}disabled{% endif %} id="calendar_export_btn" class="btn btn-primary" href="{{ path('canal_tp_mtt_calendars_export') }}">
             {{'calendar.list.export'|trans}}
         </a>
         <a id="calendar_create_btn" class="btn btn-default" href="{{ path('canal_tp_mtt_calendars_create') }}">
@@ -40,4 +40,17 @@
             </td>
         </tr>
     {% endfor %}
+{% endblock %}
+
+{% block inline_javascripts %}
+    {{ parent() }}
+    <script>
+        require(['jquery'], function($) {
+            $("#calendar_export_btn").on("click", function(event){
+                if ($(this).is("[disabled]")) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
 {% endblock %}
