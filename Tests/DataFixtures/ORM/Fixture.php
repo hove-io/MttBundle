@@ -116,7 +116,6 @@ class Fixture extends AbstractFixture implements OrderedFixtureInterface
         $customer = $em->getRepository('CanalTPNmmPortalBundle:Customer')->findOneByNameCanonical('canaltp');
         $season = $this->createSeason($em, $customer->getPerimeters()->filter(function ($perimeter) {
             return ($perimeter->getExternalNetworkId() == self::EXTERNAL_NETWORK_ID);
-
         })->first());
         $layoutConfig = $em->getRepository('CanalTPMttBundle:LayoutConfig')->find(Fixture::EXTERNAL_LAYOUT_CONFIG_ID_1);
 

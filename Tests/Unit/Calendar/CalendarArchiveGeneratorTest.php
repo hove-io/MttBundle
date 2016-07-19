@@ -58,7 +58,6 @@ class CalendarArchiveGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, $archive->numFiles);
         $this->assertEquals('file.csv', $archive->statIndex(0)['name']);
-
     }
 
     public static function tearDownAfterClass()
