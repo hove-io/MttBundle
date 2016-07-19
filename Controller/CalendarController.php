@@ -120,9 +120,8 @@ class CalendarController extends AbstractController
             mkdir($folder, 0777);
         }
 
-        if (is_file($location = $folder.'/'.$filename)) {
-            unlink($location);
-        }
+        $location = $folder.'/'.$filename;
+
         $calendarArchiveGenerator = new CalendarArchiveGenerator($location);
         $calendarArchiveGenerator->addCsv(new CalendarCsv\GridCalendarsCsv($calendars));
         $calendarArchiveGenerator->addCsv(new CalendarCsv\GridPeriodsCsv($calendars));
@@ -133,6 +132,8 @@ class CalendarController extends AbstractController
         $response->headers->set('Content-Type', 'application/zip');
         $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
         $response->setContent(file_get_contents($location));
+
+        unlink($location);
 
         return $response;
     }

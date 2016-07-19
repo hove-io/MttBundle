@@ -13,7 +13,7 @@ class CalendarArchiveGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function zipProvider()
     {
-        if (!is_dir($folder = __DIR__.'/files')) {
+        if (!is_dir($folder = sys_get_temp_dir().'/calendars')) {
             mkdir($folder, 0777);
         }
         if (is_file($location = $folder.'/'.uniqid().'.zip')) {
@@ -63,7 +63,7 @@ class CalendarArchiveGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        static::unlinKDir(__DIR__.'/files');
+        static::unlinKDir(sys_get_temp_dir().'/calendars');
     }
 
     private static function unlinKDir($dir)
