@@ -35,11 +35,15 @@
                 <a class="btn btn-default" href="{{ path('canal_tp_mtt_calendars_edit', {'calendarId': calendar.id}) }}">
                     <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
                 </a>
+                <a onClick="javascript:return confirm('{{'calendar.confirm_delete'|trans({}, 'messages')}}')" class="btn btn-danger" href="{{ path('canal_tp_mtt_calendars_delete', {'id': calendar.id}) }}">
+                    <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
+                </a>
             </td>
+            
         </tr>
     {% else %}
         <tr>
-            <td colspan="4">
+            <td colspan="5">
                 <div class="alert alert-info fade in">
                     {{'calendar.list.no_items'|trans}}
                 </div>

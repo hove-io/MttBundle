@@ -60,6 +60,7 @@ calendar:
     start: Heure de début des calendriers
     end: Heure de fin des calendriers
     empty: Il n'y a pas de calendrier pour ce parcours
+    confirm_delete: Êtes-vous sûr de vouloir supprimer ce calendrier ?
     schedules:
         date_times:
             empty: Il n'y a pas d'horaires dans ce calendrier

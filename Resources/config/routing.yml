@@ -145,6 +145,12 @@ canal_tp_mtt_calendars_edit:
     defaults: { _controller: CanalTPMttBundle:Calendar:edit, calendarId: null }
     requirements:
         calendarId: \d+
+        
+canal_tp_mtt_calendars_delete:
+    path: /calendars/delete/{id}
+    defaults: { _controller: CanalTPMttBundle:Calendar:delete }
+    requirements:
+        calendarId: \d+
 
 #Frequency
 canal_tp_mtt_frequency_edit:
