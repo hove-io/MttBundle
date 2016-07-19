@@ -163,4 +163,18 @@ class Calendar
 
         return ($this->endDate->diff($this->startDate)->days > 0);
     }
+
+    /**
+     * @param int $numericDayOfTheWeek Numeric day of the week (0 to 6)
+     *
+     * @return bool
+     */
+    public function isCirculateTheDay($numericDayOfTheWeek)
+    {
+        if (!isset($this->weeklyPattern[$numericDayOfTheWeek])) {
+            throw new \OutOfBoundsException(sprintf('%d is not a numeric day of the week. It should be contained in 0 to 6'));
+        }
+
+        return (bool) $this->weeklyPattern[$numericDayOfTheWeek];
+    }
 }

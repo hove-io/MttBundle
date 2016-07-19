@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
+        "league/csv": "~7.0",
         "braincrafted/bootstrap-bundle": "2.0.0",
         "canaltp/media-manager-bundle": "0.0.11",
         "canaltp/navitia": "V1.0.0",
@@ -30,11 +31,11 @@
         "symfony/validator": "^2.6",
         "twbs/bootstrap": "3.1.0",
         "php-amqplib/php-amqplib": "^2.6",
-        "willdurand/js-translation-bundle":"2.1.4"
+        "willdurand/js-translation-bundle":"2.1.4",
+        "canaltp/nmm-portal-bundle": "^1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "4.5.*",
-        "canaltp/nmm-portal-bundle": "^1.0",
         "squizlabs/php_codesniffer": "^2.0"
     },
     "autoload": {

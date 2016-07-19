@@ -26,6 +26,38 @@ class CalendarControllerTest extends AbstractControllerTest
     }
 
     /**
+     * Tests empty list of calendar
+     */
+    public function testCalendarsEmptyListAction()
+    {
+        $route = $this->generateRoute('canal_tp_mtt_calendars_list');
+        $crawler = $this->doRequestRoute($route);
+
+        // Test title
+        $this->assertEquals('Liste des calendriers', $crawler->filter('h1')->text(), 'Wrong title.');
+
+        // Test link and text of create button
+        $createButton = $crawler->selectLink('Créer un calendrier');
+        $this->assertCount(1, $createButton, 'Wrong text for create button.');
+        $this->assertContains('/mtt/calendars/create', $createButton->link()->getUri());
+
+        // Test link and text of export button
+        $exportButton = $crawler->selectLink('Exporter');
+        $this->assertCount(1, $exportButton, 'Wrong text for export button.');
+        $this->assertContains('/mtt/calendars/export', $exportButton->link()->getUri());
+
+        // Test export button is disabled
+        $this->assertEquals('disabled', $exportButton->attr('disabled'), 'Export button should be disabled.');
+
+        // Test if there is no calendars
+        $this->assertCount(
+            1,
+            $crawler->filter('html:contains("Aucun calendrier")'),
+            'There should be 0 calendars.'
+        );
+    }
+
+    /**
      * Tests that calendar creation.
      */
     public function testCalendarsCreateAction()
@@ -116,34 +148,22 @@ class CalendarControllerTest extends AbstractControllerTest
     }
 
     /**
-     * Tests calendar list page
+     * Tests list of calendar
      */
     public function testCalendarsListAction()
     {
         $route = $this->generateRoute('canal_tp_mtt_calendars_list');
         $crawler = $this->doRequestRoute($route);
 
-        $this->assertTrue($crawler->filter('h1')->count() == 1, 'Expected h1 title.');
+        // Test link and text of export button
+        $exportButton = $crawler->selectLink('Exporter');
+        $this->assertCount(1, $exportButton, 'Wrong text for export button.');
+        $this->assertContains('/mtt/calendars/export', $exportButton->link()->getUri());
 
-        //assert that page title exists and is correct
-        $translator = $this->client->getContainer()->get('translator');
-        $expectedTitle = $translator->trans('calendar.list.title', [], 'default');
-        $this->assertTrue(
-            $crawler->filter('h1:contains("' . $expectedTitle. '")')->count() == 1,
-            $expectedTitle . ' was expected as page title, but wasn\'t found'
-        );
+        // Test export button is disabled
+        $this->assertNull($exportButton->attr('disabled'), 'Export button should not be disabled.');
 
-        //assert that calendar create button exists and has correct URI
-        $createRoute = $this->generateRoute('canal_tp_mtt_calendars_create');
-        $createLabel = $translator->trans('calendar.list.create', [], 'default');
-
-        $this->assertTrue(
-            $crawler->filter('html:contains("' . $createLabel. '")')->count() == 1,
-            'The label "' . $createLabel . '" wasn\'t found'
-        );
-
-        $createUri = $crawler->filter('#calendar_create_btn')->link()->getUri();
-        $this->assertContains($createRoute, $createUri);
+        $this->assertCount(1, $crawler->filter('tbody > tr'), 'There should be 1 calendar.');
     }
 
     public function testCalendarsNamesViewAction()
