@@ -12,6 +12,7 @@ services:
         no_data_for_this_route: Il n'y a aucune information pour la route %RouteId%
     calendar_manager:
         calendar_in_block_not_found: Le calendrier ayant pour id %calendarId% associé à un bloc ne peut être trouvé à cet arrêt.
+        calendar_not_found: Le calendrier ayant pour id %calendarId% ne peut être trouvé.
 
 webservice:
     no_season_found: Aucune saison n'a été trouvée pour la date %date%.

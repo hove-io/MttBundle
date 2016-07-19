@@ -137,4 +137,37 @@ class CalendarController extends AbstractController
 
         return $response;
     }
+
+    public function editAction(Request $request, $calendarId)
+    {
+        $em = $this->get('doctrine')->getManager();
+        $translator = $this->get('translator');
+
+        $calendar = $this->getDoctrine()
+            ->getRepository('CanalTPMttBundle:Calendar')
+            ->findOneBy(['customer' => $this->getUser()->getCustomer(), 'id' => $calendarId]);
+
+        if (null === $calendar) {
+            throw $this->createNotFoundException(
+                $translator->trans(
+                    'services.calendar_manager.calendar_not_found',
+                    array('%calendarId%' => $calendarId),
+                    'exceptions'
+                )
+            );
+        }
+
+        $form = $this->createForm(new CalendarType(), $calendar);
+        $form->handleRequest($request);
+
+        if ($request->isMethod('POST') && $form->isValid()) {
+            $em->persist($calendar);
+            $em->flush();
+            $this->addFlash('success', $translator->trans('calendar.edit.success', [], 'default'));
+    
+            return $this->redirectToRoute('canal_tp_mtt_calendars_list');
+        }
+
+        return $this->render('CanalTPMttBundle:Calendar:edit.html.twig', ['form' => $form->createView()]);
+    }
 }

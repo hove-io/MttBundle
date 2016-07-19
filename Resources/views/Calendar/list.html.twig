@@ -21,6 +21,7 @@
     <th>{{'calendar.form.start_date'|trans }}</th>
     <th>{{'calendar.form.end_date'|trans }}</th>
     <th>{{'calendar.list.weekly_pattern'|trans }}</th>
+    <th>{{'global.actions'|trans({}, 'messages')}}</th>
 {% endblock %}
 
 {% block table_body -%}
@@ -30,6 +31,11 @@
             <td>{{ calendar.startDate|date('Y-m-d') }}</td>
             <td>{{ calendar.endDate|date('Y-m-d') }}</td>
             <td>{{ calendar.weeklyPattern|toWeekDays }}</td>
+            <td>
+                <a class="btn btn-default" href="{{ path('canal_tp_mtt_calendars_edit', {'calendarId': calendar.id}) }}">
+                    <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
+                </a>
+            </td>
         </tr>
     {% else %}
         <tr>
