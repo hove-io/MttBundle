@@ -137,7 +137,7 @@ services:
        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@form.factory', '@canal_tp_mtt.media_manager']
     canal_tp_mtt.calendar_manager:
        class: %canal_tp_mtt.calendar_manager.class%
-       arguments: ['@canal_tp_mtt.navitia', '@translator', @doctrine.orm.entity_manager]
+       arguments: ['@canal_tp_mtt.navitia', '@translator']
     canal_tp_mtt.season_manager:
        class: %canal_tp_mtt.season.class%
        arguments: [@doctrine.orm.entity_manager, '@canal_tp_mtt.area_pdf_manager']

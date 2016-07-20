@@ -186,9 +186,7 @@ class CalendarController extends AbstractController
                 )
             );
         }
-        //$calendarManager = $this->get('canal_tp_mtt.calendar_manager');
-        //$calendarManager->remove($calendarId);
-        
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($calendar);
         $em->flush();
