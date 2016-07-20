@@ -200,6 +200,6 @@ class CalendarController extends AbstractController
             )
         );
         
-        return $this->redirectToRoute('canal_tp_mtt_calendars_list');         
+        return $this->redirectToRoute('canal_tp_mtt_calendars_list');
     }
-}            
+}

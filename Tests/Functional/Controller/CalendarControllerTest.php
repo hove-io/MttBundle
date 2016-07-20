@@ -255,7 +255,6 @@ class CalendarControllerTest extends AbstractControllerTest
         // Assert that there is not any calendar in the calendars list
         $calendarsFirstRow = $crawler->filter('#main-container table tbody tr td')->first();
         $this->assertEquals("Aucun calendrier", trim($calendarsFirstRow->text()));
-        
     }
 
     /**
