@@ -14,9 +14,9 @@ class CsvGeneratorTest extends \PHPUnit_Framework_TestCase
         $csvModelProphesize->getFilename()->willReturn('file.csv');
 
         $expected = <<<EOL
-header1;headers2;header3
-value1;value2;value3
-value4;value5;value6
+header1,headers2,header3
+value1,value2,value3
+value4,value5,value6
 
 EOL;
 
