@@ -172,24 +172,24 @@ class CalendarController extends AbstractController
         return $this->render('CanalTPMttBundle:Calendar:edit.html.twig', ['form' => $form->createView()]);
     }
 
-    public function deleteAction(Request $request, Calendar $calendarId = null)
+    public function deleteAction(Request $request, $calendarId = null)
     {
-        $calendarId = $this->getDoctrine()
+        $calendar = $this->getDoctrine()
             ->getRepository('CanalTPMttBundle:Calendar')
             ->findOneBy(['customer' => $this->getUser()->getCustomer(), 'id' => $calendarId]);
 
-        if (null === $calendarId) {
+        if (null === $calendar) {
             throw $this->createNotFoundException(
                 $this->get('translator')->trans(
                     'services.calendar_manager.calendar_not_found',
-                    array('%calendarId%' => $request->attributes->get('id')),
+                    array('%calendarId%' => $calendarId),
                     'exceptions'
                 )
             );
         }
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove($calendarId);
+        $em->remove($calendar);
         $em->flush();
         
         $this->get('session')->getFlashBag()->add(

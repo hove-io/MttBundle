@@ -35,7 +35,7 @@
                 <a class="btn btn-default" href="{{ path('canal_tp_mtt_calendars_edit', {'calendarId': calendar.id}) }}">
                     <span class="glyphicon glyphicon-edit"></span> {{'global.edit'|trans({}, 'messages')}}
                 </a>
-                <a onClick="javascript:return confirm('{{'calendar.confirm_delete'|trans({}, 'messages')}}')" class="btn btn-danger" href="{{ path('canal_tp_mtt_calendars_delete', {'id': calendar.id}) }}">
+                <a onClick="javascript:return confirm('{{'calendar.confirm_delete'|trans({}, 'messages')}}')" class="btn btn-danger" href="{{ path('canal_tp_mtt_calendars_delete', {'calendarId': calendar.id}) }}">
                     <span class="glyphicon glyphicon-trash"></span> {{'global.delete'|trans({}, 'messages')}}
                 </a>
             </td>

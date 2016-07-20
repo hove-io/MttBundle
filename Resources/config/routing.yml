@@ -21,7 +21,7 @@ canal_tp_mtt_season_edit:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_season_delete:
     path: /networks/{externalNetworkId}/delete/{seasonId}
-    defaults: { _controller: CanalTPMttBundle:Season:delete, season_id: null }
+    defaults: { _controller: CanalTPMttBundle:Season:delete, season_id: null}
     requirements:
         externalNetworkId: -?[a-zA-Z0-9_\-:]*
 canal_tp_mtt_season_ask_publish:
@@ -147,7 +147,7 @@ canal_tp_mtt_calendars_edit:
         calendarId: \d+
         
 canal_tp_mtt_calendars_delete:
-    path: /calendars/delete/{id}
+    path: /calendars/delete/{calendarId}
     defaults: { _controller: CanalTPMttBundle:Calendar:delete }
     requirements:
         calendarId: \d+

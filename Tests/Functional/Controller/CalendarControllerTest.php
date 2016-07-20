@@ -233,16 +233,20 @@ class CalendarControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($route);
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-        
+
         // Assert that delete button exists for a calendar in the calendars list
         $calendarsFirstRowDeleteButton = $crawler->filter('#main-container table tbody tr td a[href*="delete"]');
         $this->assertCount(1, $calendarsFirstRowDeleteButton);
-        
+
         // Assert that delete button containts delete link
         $this->assertEquals('/mtt/calendars/delete/1', $calendarsFirstRowDeleteButton->attr('href'));
-        
+
+        // Assert deleting calendar with bad id not found
+        $route = $this->generateRoute('canal_tp_mtt_calendars_delete', array('calendarId' => 1000));
+        $crawler = $this->doRequestRoute($route, 404);
+
         // Assert deleting calendar
-        $route = $this->generateRoute('canal_tp_mtt_calendars_delete', array('id' => 1));
+        $route = $this->generateRoute('canal_tp_mtt_calendars_delete', array('calendarId' => 1));
         $crawler = $this->doRequestRoute($route, 302);
 
         $crawler = $this->client->followRedirect();
