@@ -11,7 +11,7 @@ class CsvGenerator
     public static function generateCSV(CsvModelInterface $csvModel)
     {
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
-        $csv->setDelimiter(';');
+        $csv->setDelimiter(',');
         $csv->insertOne($csvModel->getHeaders());
         $csv->insertAll($csvModel->getRows());
 
