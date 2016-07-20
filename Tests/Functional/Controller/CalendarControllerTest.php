@@ -233,10 +233,6 @@ class CalendarControllerTest extends AbstractControllerTest
         $crawler = $this->doRequestRoute($route);
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-
-        // Assert that there is a calendar in the calendars list
-        $calendarsFirstRow = $crawler->filter('#main-container table tbody tr td')->first();
-        $this->assertEquals("Mardi et Samedi", $calendarsFirstRow->text());
         
         // Assert that delete button exists for a calendar in the calendars list
         $calendarsFirstRowDeleteButton = $crawler->filter('#main-container table tbody tr td a[href*="delete"]');
@@ -248,7 +244,7 @@ class CalendarControllerTest extends AbstractControllerTest
         // Assert deleting calendar
         $route = $this->generateRoute('canal_tp_mtt_calendars_delete', array('id' => 1));
         $crawler = $this->doRequestRoute($route, 302);
-        
+
         $crawler = $this->client->followRedirect();
         $this->assertCount(1, $crawler->filter('html:contains("Le calendrier a bien été supprimé")'));
         

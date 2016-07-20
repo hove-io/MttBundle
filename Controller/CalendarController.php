@@ -177,7 +177,11 @@ class CalendarController extends AbstractController
      */
     public function deleteAction(Request $request, Calendar $calendar = null)
     {
-        if (null === $calendar) {
+        $calendarId = $this->getDoctrine()
+            ->getRepository('CanalTPMttBundle:Calendar')
+            ->findOneBy(['customer' => $this->getUser()->getCustomer(), 'id' => $calendar]);
+
+        if (null === $calendarId) {
             throw $this->createNotFoundException(
                 $this->get('translator')->trans(
                     'services.calendar_manager.calendar_not_found',
@@ -188,7 +192,7 @@ class CalendarController extends AbstractController
         }
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove($calendar);
+        $em->remove($calendarId);
         $em->flush();
         
         $this->get('session')->getFlashBag()->add(
