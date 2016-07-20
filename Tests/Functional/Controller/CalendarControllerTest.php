@@ -207,6 +207,25 @@ class CalendarControllerTest extends AbstractControllerTest
         $this->assertEquals('Mardi et Samedi', $calendarsFirstRowData->first()->text());
     }
     
+    /**
+     * Tests list of calendar
+     */
+    public function testCalendarsListAction()
+    {
+        $route = $this->generateRoute('canal_tp_mtt_calendars_list');
+        $crawler = $this->doRequestRoute($route);
+
+        // Test link and text of export button
+        $exportButton = $crawler->selectLink('Exporter');
+        $this->assertCount(1, $exportButton, 'Wrong text for export button.');
+        $this->assertContains('/mtt/calendars/export', $exportButton->link()->getUri());
+
+        // Test export button is disabled
+        $this->assertNull($exportButton->attr('disabled'), 'Export button should not be disabled.');
+
+        $this->assertCount(1, $crawler->filter('tbody > tr'), 'There should be 1 calendar.');
+    }
+
     public function testCalendarsDeleteAction()
     {
         $route = $this->generateRoute('canal_tp_mtt_calendars_list');
@@ -296,25 +315,6 @@ class CalendarControllerTest extends AbstractControllerTest
 
         $this->assertTrue($crawler->filter('h3')->count() == 1, 'Expected h3 title.');
         $this->assertTrue($crawler->filter('.nav.nav-tabs > li')->count() == 4, 'Expected 4 calendars. Found ' . $crawler->filter('.nav.nav-tabs > li')->count());
-    }
-
-    /**
-     * Tests list of calendar
-     */
-    public function testCalendarsListAction()
-    {
-        $route = $this->generateRoute('canal_tp_mtt_calendars_list');
-        $crawler = $this->doRequestRoute($route);
-
-        // Test link and text of export button
-        $exportButton = $crawler->selectLink('Exporter');
-        $this->assertCount(1, $exportButton, 'Wrong text for export button.');
-        $this->assertContains('/mtt/calendars/export', $exportButton->link()->getUri());
-
-        // Test export button is disabled
-        $this->assertNull($exportButton->attr('disabled'), 'Export button should not be disabled.');
-
-        $this->assertCount(1, $crawler->filter('tbody > tr'), 'There should be 1 calendar.');
     }
 
     public function testCalendarsNamesViewAction()
