@@ -68,6 +68,7 @@ calendar:
     edit:
         title: Modication d'un calendier
         success: Le calendrier a été modifié
+    deleted: Le calendrier a bien été supprimé
     list:
         title: Liste des calendriers
         create: Créer un calendrier

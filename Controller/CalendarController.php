@@ -11,6 +11,7 @@ use CanalTP\MttBundle\Entity\Calendar;
 use CanalTP\MttBundle\Form\Type\CalendarType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class CalendarController extends AbstractController
 {
@@ -169,5 +170,37 @@ class CalendarController extends AbstractController
         }
 
         return $this->render('CanalTPMttBundle:Calendar:edit.html.twig', ['form' => $form->createView()]);
+    }
+
+    public function deleteAction(Request $request, $calendarId = null)
+    {
+        $calendar = $this->getDoctrine()
+            ->getRepository('CanalTPMttBundle:Calendar')
+            ->findOneBy(['customer' => $this->getUser()->getCustomer(), 'id' => $calendarId]);
+
+        if (null === $calendar) {
+            throw $this->createNotFoundException(
+                $this->get('translator')->trans(
+                    'services.calendar_manager.calendar_not_found',
+                    array('%calendarId%' => $calendarId),
+                    'exceptions'
+                )
+            );
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($calendar);
+        $em->flush();
+        
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $this->get('translator')->trans(
+                'calendar.deleted',
+                array(),
+                'default'
+            )
+        );
+        
+        return $this->redirectToRoute('canal_tp_mtt_calendars_list');
     }
 }
