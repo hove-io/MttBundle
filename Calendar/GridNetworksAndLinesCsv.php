@@ -8,16 +8,14 @@ use CanalTP\MttBundle\Entity\Calendar;
 class GridNetworksAndLinesCsv implements CsvModelInterface
 {
     private $calendars;
-    private $networks;
 
     /**
      * GridCalendarCsv constructor.
      * @param Calendar[] $calendars
      */
-    public function __construct(array $calendars, array $networks)
+    public function __construct(array $calendars)
     {
         $this->calendars = $calendars;
-        $this->networks = $networks;
     }
 
     /**
@@ -35,10 +33,10 @@ class GridNetworksAndLinesCsv implements CsvModelInterface
     {
         $rows = [];
         foreach ($this->calendars as $calendar) {
-            foreach ($this->networks as $network) {
+            foreach ($calendar->getCustomer()->getPerimeters() as $perimeter) {
                 $rows[] = [
                     $calendar->getId(),
-                    $network,
+                    $perimeter->getExternalNetworkId(),
                     ''
                 ];
             }

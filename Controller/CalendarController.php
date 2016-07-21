@@ -110,8 +110,6 @@ class CalendarController extends AbstractController
     {
         $applicationCanonicalName = $this->get('canal_tp_sam.application.finder')->getCurrentApp()->getCanonicalName();
         $externalCoverageId = $this->getUser()->getCustomer()->getPerimeters()->first()->getExternalCoverageId();
-
-        $networks = $this->getDoctrine()->getRepository('CanalTPNmmPortalBundle:Perimeter')->findNetWorkIdsByExternalCoverageIdAndApplication($externalCoverageId, $applicationCanonicalName);
         $calendars = $this->getDoctrine()->getRepository('CanalTPMttBundle:Calendar')->findCalendarByExternalCoverageIdAndApplication($externalCoverageId, $applicationCanonicalName);
 
         $filename = 'export_calendars_'.date('YmdHis').'.zip';
@@ -125,7 +123,7 @@ class CalendarController extends AbstractController
         $calendarArchiveGenerator = new CalendarArchiveGenerator($location);
         $calendarArchiveGenerator->addCsv(new CalendarCsv\GridCalendarsCsv($calendars));
         $calendarArchiveGenerator->addCsv(new CalendarCsv\GridPeriodsCsv($calendars));
-        $calendarArchiveGenerator->addCsv(new CalendarCsv\GridNetworksAndLinesCsv($calendars, $networks));
+        $calendarArchiveGenerator->addCsv(new CalendarCsv\GridNetworksAndLinesCsv($calendars));
         $calendarArchiveGenerator->getArchive()->close();
 
         $response = new Response();

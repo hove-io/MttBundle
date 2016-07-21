@@ -15,6 +15,6 @@ class CsvGenerator
         $csv->insertOne($csvModel->getHeaders());
         $csv->insertAll($csvModel->getRows());
 
-        return (string) $csv;
+        return $csv->__toString();
     }
 }
