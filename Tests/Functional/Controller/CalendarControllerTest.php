@@ -86,6 +86,14 @@ class CalendarControllerTest extends AbstractControllerTest
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertCount(1, $crawler->filter('html:contains("Le calendrier a été créé")'));
+        // Assert that button exist in create calendar page 
+        $BackButtonCrawler = $crawler->filter('a#back_button');
+        $this->assertCount(1, $BackButtonCrawler, 'Retour à la liste des calendriers');
+        $this->assertEquals('/mtt/calendars/list', $BackButtonCrawler->attr('href'));
+        // Assert that back button redirect to calendar list page
+        $calendarsBackButtonLink = $BackButtonCrawler->link();
+        $crawler = $this->client->click($calendarsBackButtonLink);
+        $this->assertEquals($calendarsBackButtonLink->getUri(), $this->client->getRequest()->getUri());
     }
     
     public function testCalendarsEditAction()
