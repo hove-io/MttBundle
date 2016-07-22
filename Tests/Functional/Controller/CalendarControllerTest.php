@@ -143,13 +143,13 @@ class CalendarControllerTest extends AbstractControllerTest
         $formSubmitButtonCrawler = $crawler->filter('form button[type="submit"]');
         $this->assertCount(1, $formSubmitButtonCrawler, 'Bouton Valider');
 
-        $formCancelButtonCrawler = $crawler->filter('a#calendar-edit-cancel');
-        $this->assertCount(1, $formCancelButtonCrawler, 'Bouton Annuler');
+        $formBackButtonCrawler = $crawler->filter('a#back_button');
+        $this->assertCount(1, $formBackButtonCrawler, 'Retour à la liste des calendriers');
 
         $formCrawler = $formSubmitButtonCrawler->form();
 
         // Assert cancel editing calendar
-        $this->assertEquals('/mtt/calendars/list', $formCancelButtonCrawler->attr('href'));
+        $this->assertEquals('/mtt/calendars/list', $formBackButtonCrawler->attr('href'));
 
         // Assert editing calendar with bad id not found
         $route = $this->generateRoute('canal_tp_mtt_calendars_edit', array('calendarId' => 1000));
