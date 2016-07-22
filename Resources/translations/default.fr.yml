@@ -65,6 +65,7 @@ calendar:
     create:
         title: Création d'un calendrier
         success: Le calendrier a été créé
+    back: Retour à la liste des calendriers
     edit:
         title: Modication d'un calendier
         success: Le calendrier a été modifié
