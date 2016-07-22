@@ -24,7 +24,6 @@ class CalendarController extends AbstractController
         $calendar = new Calendar();
 
         $form = $this->createForm(new CalendarType(), $calendar);
-        $form->add('submit', 'submit', ['label' => 'global.validate', 'translation_domain' => 'messages']);
 
         $form->handleRequest($request);
 
