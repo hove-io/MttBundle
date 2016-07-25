@@ -20,6 +20,6 @@ value4,value5,value6
 
 EOL;
 
-        $this->assertEquals(CsvGenerator::generateCSV($csvModelProphesize->reveal()), $expected);
+        $this->assertSame(str_replace("\r", '', $expected), CsvGenerator::generateCSV($csvModelProphesize->reveal()));
     }
 }
