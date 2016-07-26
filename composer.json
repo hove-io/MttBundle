@@ -32,7 +32,8 @@
         "twbs/bootstrap": "3.1.0",
         "php-amqplib/php-amqplib": "^2.6",
         "willdurand/js-translation-bundle":"2.1.4",
-        "canaltp/nmm-portal-bundle": "^1.0"
+        "canaltp/nmm-portal-bundle": "^1.0",
+        "guzzlehttp/guzzle": "~3.8"
     },
     "require-dev": {
         "phpunit/phpunit": "4.5.*",
