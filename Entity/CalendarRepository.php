@@ -18,10 +18,12 @@ class CalendarRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('cal');
         $qb
+            ->addSelect('cus')
+            ->addSelect('ne')
+            ->addSelect('per')
             ->leftJoin('cal.customer', 'cus')
             ->leftJoin('cus.navitiaEntity', 'ne')
-            ->leftJoin('ne.perimeters', 'per')
-            ->where('per.externalCoverageId=:externalCoverageId')
+            ->join('ne.perimeters', 'per', 'WITH', 'per.externalCoverageId=:externalCoverageId')
             ->leftJoin('cus.applications', 'ca', 'WITH', 'ca.isActive=True')
             ->leftJoin('ca.application', 'app')
             ->andWhere('app.canonicalName=:applicationCanonicalName')

@@ -33,7 +33,7 @@ class GridNetworksAndLinesCsv implements CsvModelInterface
     {
         $rows = [];
         foreach ($this->calendars as $calendar) {
-            foreach ($calendar->getCustomer()->getPerimeters() as $perimeter) {
+            foreach ($calendar->getCustomer()->getNavitiaEntity()->getPerimeters() as $perimeter) {
                 $rows[] = [
                     $calendar->getId(),
                     $perimeter->getExternalNetworkId(),
