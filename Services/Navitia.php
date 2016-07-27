@@ -387,15 +387,24 @@ class Navitia
         // cf http://jira.canaltp.fr/browse/METH-196
         $fromdatetime = new \DateTime('now');
         $fromdatetime->setTime(4, 0);
+
+        $parameters = [
+            'calendar' => $externalCalendarId,
+            'show_codes' => true,
+            'from_datetime' => $fromdatetime->format('Ymd\THis'),
+            'data_freshness' => 'base_schedule'
+        ];
+
         $query = array(
             'api' => 'coverage',
             'parameters' => array(
                 'region' => $externalCoverageId,
                 'action' => 'stop_schedules',
                 'path_filter' => 'routes/'.$externalRouteId.'/stop_points/'.$externalStopPointId,
-                'parameters' => '?calendar='.$externalCalendarId.'&show_codes=true&from_datetime='.$fromdatetime->format('Ymd\THis'),
+                'parameters' => '?'.http_build_query($parameters),
             ),
         );
+
         $stop_schedulesResponse = $this->navitia_component->call($query);
         // Since we give route id to navitia, only one route schedule is returned
         $response = new \stdClass();
