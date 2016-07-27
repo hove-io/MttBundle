@@ -199,6 +199,8 @@ class Navitia
     public function getRouteStopPoints($perimeter, $externalRouteId)
     {
         $pathFilter = 'networks/'.$perimeter->getExternalNetworkId().'/routes/'.$externalRouteId;
+        $fromdatetime = new \DateTime('now');
+        $fromdatetime->setTime(4, 0);
 
         $query = array(
             'api' => 'coverage',
@@ -206,7 +208,7 @@ class Navitia
                 'region' => $perimeter->getExternalCoverageId(),
                 'action' => 'route_schedules',
                 'path_filter' => $pathFilter,
-                'parameters' => '?depth=0',
+                'parameters' => '?depth=0&from_datetime='.$fromdatetime->format('Ymd\THis')
             ),
         );
 
