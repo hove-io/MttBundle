@@ -5,13 +5,13 @@ namespace CanalTP\MttBundle\Controller;
 /*
  * CalendarController
  */
-use CanalTP\MttBundle\Calendar as CalendarCsv;
-use CanalTP\MttBundle\Calendar\CalendarArchiveGenerator;
+
+use CanalTP\MttBundle\Calendar\CalendarExport;
 use CanalTP\MttBundle\Entity\Calendar;
 use CanalTP\MttBundle\Form\Type\CalendarType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Guzzle\Http\Message\MessageInterface as GuzzleHttpResponse;
 
 class CalendarController extends AbstractController
 {
@@ -112,28 +112,38 @@ class CalendarController extends AbstractController
         $externalCoverageId = $this->getUser()->getCustomer()->getPerimeters()->first()->getExternalCoverageId();
         $calendars = $this->getDoctrine()->getRepository('CanalTPMttBundle:Calendar')->findCalendarByExternalCoverageIdAndApplication($externalCoverageId, $applicationCanonicalName);
 
-        $filename = 'export_calendars_'.date('YmdHis').'.zip';
+        try {
+            $calendarExport = $this->get('canal_tp_mtt.calendar_export');
+            $response = $calendarExport->export($externalCoverageId, $calendars);
 
-        if (!is_dir($folder = sys_get_temp_dir().'/'.$externalCoverageId)) {
-            mkdir($folder, 0777);
+            if (!$response->isSuccessful()) {
+                throw new \RuntimeException($this->getMessageFromResponse($response));
+            }
+
+            $flashType  = 'success';
+            $message = $this->getMessageFromResponse($response);
+        } catch (\Exception $ex) {
+            $flashType  = 'danger';
+            $message = $ex->getMessage();
         }
 
-        $location = $folder.'/'.$filename;
+        $this->addFlash($flashType, $message);
 
-        $calendarArchiveGenerator = new CalendarArchiveGenerator($location);
-        $calendarArchiveGenerator->addCsv(new CalendarCsv\GridCalendarsCsv($calendars));
-        $calendarArchiveGenerator->addCsv(new CalendarCsv\GridPeriodsCsv($calendars));
-        $calendarArchiveGenerator->addCsv(new CalendarCsv\GridNetworksAndLinesCsv($calendars));
-        $calendarArchiveGenerator->getArchive()->close();
+        return $this->redirectToRoute('canal_tp_mtt_calendars_list');
+    }
 
-        $response = new Response();
-        $response->headers->set('Content-Type', 'application/zip');
-        $response->headers->set('Content-Disposition', 'attachment; filename="'.$filename.'"');
-        $response->setContent(file_get_contents($location));
+    /**
+     * Retrieves message from json body
+     *
+     * @param GuzzleHttpResponse $response
+     *
+     * @return string
+     */
+    private function getMessageFromResponse(GuzzleHttpResponse $response)
+    {
+        $jsonBody = $response->json(array('object' => true));
 
-        unlink($location);
-
-        return $response;
+        return $jsonBody['message'];
     }
 
     public function editAction(Request $request, $calendarId)

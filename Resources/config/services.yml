@@ -194,3 +194,11 @@ services:
         arguments: [@canal_tp_mtt.season_manager]
         tags:
             - { name: validator.constraint_validator, alias: not_overlapping_entity }
+
+    canal_tp_mtt.calendar_export:
+        class: CanalTP\MttBundle\Calendar\CalendarExport
+        arguments: ["@canal_tp_mtt.tartare_client"]
+
+    canal_tp_mtt.tartare_client:
+        class: Guzzle\Http\Client
+        arguments: ["%canal_tp_mtt.tartare_host%"]
