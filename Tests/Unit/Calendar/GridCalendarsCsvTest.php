@@ -27,7 +27,7 @@ class GridCalendarsCsvTest extends \PHPUnit_Framework_TestCase
     public function testGetHeaders($csvModel)
     {
         $expected = [
-            'grid_calendar_id',
+            'id',
             'name',
             'monday',
             'tuesday',
@@ -67,7 +67,7 @@ class GridCalendarsCsvTest extends \PHPUnit_Framework_TestCase
     public function testGenerateCsvContent($csvModel)
     {
         $expected = <<<EOL
-grid_calendar_id,name,monday,tuesday,wednesday,thursday,friday,saturday,sunday
+id,name,monday,tuesday,wednesday,thursday,friday,saturday,sunday
 1,calendarA1,1,1,1,1,1,0,0
 2,calendarB1,0,0,0,0,0,1,1
 

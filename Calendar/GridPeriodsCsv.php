@@ -23,7 +23,7 @@ class GridPeriodsCsv implements CsvModelInterface
      */
     public function getHeaders()
     {
-        return ['grid_calendar_id', 'start_date', 'end_date'];
+        return ['calendar_id', 'begin_date', 'end_date'];
     }
 
     /**
