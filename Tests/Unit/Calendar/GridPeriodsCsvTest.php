@@ -26,7 +26,7 @@ class GridPeriodsCsvTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHeaders($csvModel)
     {
-        $this->assertEquals(['grid_calendar_id', 'start_date', 'end_date'], $csvModel->getHeaders());
+        $this->assertEquals(['calendar_id', 'begin_date', 'end_date'], $csvModel->getHeaders());
     }
 
     /**
@@ -56,7 +56,7 @@ class GridPeriodsCsvTest extends \PHPUnit_Framework_TestCase
     public function testGenerateCsvContent($csvModel)
     {
         $expected = <<<EOL
-grid_calendar_id,start_date,end_date
+calendar_id,begin_date,end_date
 1,20160101,20160601
 2,20160201,20160301
 

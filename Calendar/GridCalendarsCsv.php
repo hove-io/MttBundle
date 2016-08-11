@@ -24,7 +24,7 @@ class GridCalendarsCsv implements CsvModelInterface
     public function getHeaders()
     {
         return [
-            'grid_calendar_id',
+            'id',
             'name',
             'monday',
             'tuesday',
