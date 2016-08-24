@@ -19,6 +19,6 @@
 }) }}
 <a id="back_button" class="btn btn-default" href="{{ path('canal_tp_mtt_calendars_list') }}">
     <span class="glyphicon glyphicon-arrow-left"></span>
-    {{'calendar.back'|trans }}
+    {{'calendar.back'|trans({}, 'default') }}
 </a>
 {{ form_end(form) }}
