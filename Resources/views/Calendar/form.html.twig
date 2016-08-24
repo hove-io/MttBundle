@@ -1,0 +1,24 @@
+{{ form_start(form) }}
+{{ form_row(form.title, {
+    'label': 'calendar.form.title'
+}) }}
+{{ form_row(form.startDate, {
+    'label': 'calendar.form.start_date',
+    'attr': {'class': 'datepicker'}
+}) }}
+{{ form_row(form.endDate, {
+    'label': 'calendar.form.end_date',
+    'attr': {'class': 'datepicker'}
+}) }}
+{{ form_row(form.weeklyPattern, {
+    'label': 'calendar.form.weekly_pattern'
+}) }}
+{{ form_row(form.save, {
+    'label': 'global.validate',
+    'translation_domain': 'messages'
+}) }}
+<a id="back_button" class="btn btn-default" href="{{ path('canal_tp_mtt_calendars_list') }}">
+    <span class="glyphicon glyphicon-arrow-left"></span>
+    {{'calendar.back'|trans({}, 'default') }}
+</a>
+{{ form_end(form) }}

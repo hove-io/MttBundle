@@ -50,4 +50,4 @@ CanalTP\MttBundle\Entity\Calendar:
             - DateTime: ~
         weeklyPattern:
             - NotBlank: ~
-            - Regex: '/^(?=.*1)([01]{7})$/'
+            - Regex: { pattern: '/^(?=.*1)([01]{7})$/', message: 'calendar.error.select_one_day' }
