@@ -72,6 +72,7 @@ calendar:
         content_higher_than_wrapper: Au moins un bloc dépasse la hauteur prévue
         no_calendars_found: Pas de calendrier trouvé pour cet arrêt et cette saison
         dates_valid: La date de fin doit être supérieure à la date de début d'au moins 1 jour
+        select_one_day: "Au moins un jour de validité doit être sélectionné"
 
 menu:
     networks: Réseaux

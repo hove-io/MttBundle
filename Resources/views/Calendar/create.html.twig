@@ -5,20 +5,8 @@
 {% trans_default_domain "default" %}
 
 {% block main_content %}
-    <div>
-        <h3>{{ 'calendar.create.title'|trans }}</h3>
-    </div>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary">
-        {{'global.validate'|trans({}, 'messages')}}
-    </button>
-    <a id="back_button" class="btn btn-default" href="{{ path('canal_tp_mtt_calendars_list') }}">
-    <span class="glyphicon glyphicon-arrow-left"></span>
-        {{'calendar.back'|trans }}
-    </a>
-    {{ form_end(form) }}
+    <h3>{{ 'calendar.create.title'|trans }}</h3>
+    {%  include "CanalTPMttBundle:Calendar:form.html.twig" %}
 {% endblock %}
 
 {% block inline_javascripts %}

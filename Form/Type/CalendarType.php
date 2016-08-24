@@ -3,11 +3,11 @@
 namespace CanalTP\MttBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use CanalTP\MttBundle\Form\DataTransformer\LayoutCustomerTransformer;
 
-class CalendarType extends AbstractType
+class CalendarType extends AbstractType implements DataTransformerInterface
 {
 
     /**
@@ -17,37 +17,82 @@ class CalendarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'text', ['label' => 'calendar.form.title'])
-            ->add(
-                'startDate',
-                'datepicker',
-                [
-                    'label' => 'calendar.form.start_date',
-                    'attr' => [
-                        'class' => 'datepicker'
-                    ]
-                ]
-            )
-            ->add(
-                'endDate',
-                'datepicker',
-                [
-                    'label' => 'calendar.form.end_date',
-                    'attr' => [
-                        'class' => 'datepicker'
-                    ]
-                ]
-            )
+            ->add('title', 'text')
+            ->add('startDate', 'datepicker')
+            ->add('endDate', 'datepicker')
             ->add(
                 'weeklyPattern',
-                'text',
+                'choice',
                 [
-                    'label' => 'calendar.form.weekly_pattern',
-                    'attr' => [
-                        'maxlength' => 7,
-                    ]
+                    'choices' => [
+                        'calendar.weekdays.monday',
+                        'calendar.weekdays.tuesday',
+                        'calendar.weekdays.wednesday',
+                        'calendar.weekdays.thursday',
+                        'calendar.weekdays.friday',
+                        'calendar.weekdays.saturday',
+                        'calendar.weekdays.sunday'
+                    ],
+                    'multiple' => true,
+                    'expanded' => true
                 ]
-            );
+            )
+            ->add('save', 'submit')
+        ;
+
+        $builder->get('weeklyPattern')->addModelTransformer($this);
+    }
+
+    /**
+     * Transform a weeklyPattern to checkbox values
+     * Ex: $weeklyPattern = "1010000"
+     * return [
+     *     0 => 0,
+     *     1 => 2
+     * ]
+     *
+     * The first and third checkbox will be selected
+     *
+     * @param string $weeklyPattern
+     *
+     * @return array
+     */
+    public function transform($weeklyPattern)
+    {
+        if (null === $weeklyPattern) {
+            return null;
+        }
+
+        $selectedDays = array_filter(str_split($weeklyPattern), function ($value) {
+            return $value == 1;
+        });
+
+        return array_keys($selectedDays);
+    }
+
+    /**
+     * Transform an array of checkbox values to a weeklyPattern
+     * Ex:
+     * $selectedValues = [
+     *     0 => 0,
+     *     1 => 2
+     * ]
+     * return "1010000"
+     *
+     * @param array $selectedDays
+     *
+     * @return string
+     */
+    public function reverseTransform($selectedDays)
+    {
+        if (null === $selectedDays) {
+            return null;
+        }
+
+        $alldDays = array_fill(0, 7, 0);
+        $selectedDays = array_fill_keys($selectedDays, 1);
+
+        return implode(array_replace($alldDays, $selectedDays));
     }
 
     /**
