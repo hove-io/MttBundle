@@ -10,6 +10,7 @@ use Guzzle\Http\ClientInterface;
 class CalendarExport
 {
     const EXPORT_API = '/grid_calendar';
+    const ENTRY_POINT = '/coverages';
     const EXPORT_FILENAME = 'export_calendars.zip';
 
     /**
@@ -50,22 +51,31 @@ class CalendarExport
         $calendarArchiveGenerator->addCsv(new CalendarCsv\GridNetworksAndLinesCsv($calendars));
         $calendarArchiveGenerator->getArchive()->close();
 
-        $response = $this->send($location);
+        $response = $this->sendCalendar($externalCoverageId, $location);
 
         unlink($location);
 
         return $response;
     }
 
-    public function send($location)
+    /**
+     * Post a calendar to tartare
+     *
+     * @param string $externalCoverageId External coverage Id
+     * @param string $location Calendar location
+     * @return Response Guzzle Response
+     */
+    public function sendCalendar($externalCoverageId, $location)
     {
         $client  = $this->httpClient;
+
         $request = $client->post(
-            rtrim($client->getBaseUrl(), '/') . self::EXPORT_API,
+            [self::ENTRY_POINT.'/{coverage}/'.self::EXPORT_API, ['coverage' => $externalCoverageId]],
             ['Content-Type => multipart/form-data'],
             null,
             ['exceptions' => false]
         );
+
         $request->addPostFile('file', $location);
 
         return $client->send($request);

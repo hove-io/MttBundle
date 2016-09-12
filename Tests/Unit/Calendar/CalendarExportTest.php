@@ -43,7 +43,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
         $httpClientProphecy->getBaseUrl()->shouldBeCalled();
         $httpClientProphecy
             ->post(
-                Argument::type('string'),
+                Argument::type('array'),
                 Argument::type('array'),
                 null,
                 Argument::type('array')
