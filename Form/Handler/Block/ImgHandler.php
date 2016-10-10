@@ -55,11 +55,12 @@ class ImgHandler extends AbstractHandler
             imagepng($output, $file->getRealPath() . '.png');
             imagedestroy($output);
             imagedestroy($input);
-            $pngFile = new File($file->getRealPath() . '.png');
-            $media = $this->mediaManager->saveByTimetable($timetable, $pngFile, $this->block->getDomId());
         } else {
-            $media = $this->mediaManager->saveByTimetable($timetable, $file, $this->block->getDomId());
+            // force extension png in lowercase
+            $file->move(sys_get_temp_dir(), $file->getRealPath() . '.png');
         }
+        $pngFile = new File($file->getRealPath() . '.png');
+        $media = $this->mediaManager->saveByTimetable($timetable, $pngFile, $this->block->getDomId());
         // TODO: saved with domain, we should store without it. Waiting for mediaDataCollector to be updated
         $formBlock->setContent($this->mediaManager->getUrlByMedia($media) . '?' . time());
         $this->saveBlock($formBlock, $timetable);
