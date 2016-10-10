@@ -102,11 +102,9 @@ class BlockTypeFactory
                 break;
             case BlockRepository::IMG_TYPE:
                 $handler = new ImgBlockHandler(
-                    $this->co,
                     $this->om,
                     $this->mediaManager,
-                    $this->instance,
-                    $this->oldData['content']
+                    $this->instance
                 );
                 break;
         }

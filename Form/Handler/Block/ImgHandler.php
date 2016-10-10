@@ -14,34 +14,17 @@ use CanalTP\MttBundle\Form\TYPE\Block\ImgType;
 
 class ImgHandler extends AbstractHandler
 {
-    private $co = null;
-    private $lastImgPath = null;
     private $mediaManager = null;
 
     public function __construct(
-        Container $co,
         ObjectManager $om,
         MediaManager $mediaManager,
-        $block,
-        $lastImgPath
+        Block $block
     ) {
-    
-        $this->co = $co;
         $this->om = $om;
         $this->mediaManager = $mediaManager;
         $this->block = $block;
-        $this->lastImgPath = $lastImgPath;
     }
-
-    // Remove previous file. Pb was: block->content already has new value
-    // private function removeOldImg(Filesystem $fs, $destDir)
-    // {
-        // $oldPath = $destDir . $this->lastImgPath;
-
-        // if ($fs->exists($oldPath)) {
-            // $fs->remove($oldPath);
-        // }
-    // }
 
     public function process(Block $formBlock, $timetable)
     {
@@ -56,10 +39,11 @@ class ImgHandler extends AbstractHandler
             imagedestroy($output);
             imagedestroy($input);
             $pngFile = new File($file->getRealPath() . '.png');
-            $media = $this->mediaManager->saveByTimetable($timetable, $pngFile, $this->block->getDomId());
         } else {
-            $media = $this->mediaManager->saveByTimetable($timetable, $file, $this->block->getDomId());
+            // force extension png in lowercase
+            $pngFile = $file->move($file->getPath(), $file->getRealPath() . '.png');
         }
+        $media = $this->mediaManager->saveByTimetable($timetable, $pngFile, $this->block->getDomId());
         // TODO: saved with domain, we should store without it. Waiting for mediaDataCollector to be updated
         $formBlock->setContent($this->mediaManager->getUrlByMedia($media) . '?' . time());
         $this->saveBlock($formBlock, $timetable);
