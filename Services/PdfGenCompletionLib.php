@@ -3,7 +3,6 @@
 namespace CanalTP\MttBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
 use CanalTP\MttBundle\Entity\StopPoint;
 use CanalTP\MttBundle\Entity\AmqpTask;
 

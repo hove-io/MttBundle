@@ -4,7 +4,6 @@ namespace CanalTP\MttBundle\Form\Type;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
-
 use CanalTP\MttBundle\Form\EventListener\SeasonLockedSubscriber;
 
 class BlockType extends AbstractType

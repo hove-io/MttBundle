@@ -8,7 +8,6 @@
 namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\Filesystem\Filesystem;
-
 use fpdi;
 
 class PdfGenerator
@@ -19,7 +18,6 @@ class PdfGenerator
         CurlProxy $curlProxy,
         $server
     ) {
-    
         $this->curlProxy = $curlProxy;
         $this->serverUrl = $server;
     }
@@ -60,11 +58,11 @@ class PdfGenerator
             if (file_exists($file)) {
                 $pageCount = $fpdi->setSourceFile($file);
                 for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-                     $tplIdx = $fpdi->ImportPage($pageNo);
-                     $s = $fpdi->getTemplatesize($tplIdx);
+                    $tplIdx = $fpdi->ImportPage($pageNo);
+                    $s = $fpdi->getTemplatesize($tplIdx);
                      // Landscape/Portrait?
                      $fpdi->AddPage($s['w'] > $s['h'] ? 'L' : 'P', array($s['w'], $s['h']));
-                     $fpdi->useTemplate($tplIdx);
+                    $fpdi->useTemplate($tplIdx);
                 }
             }
         }

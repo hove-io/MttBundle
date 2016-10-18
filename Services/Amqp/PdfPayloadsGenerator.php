@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Translation\TranslatorInterface;
-
 use CanalTP\MttBundle\Services\Navitia;
 use CanalTP\MttBundle\Services\TimetableManager;
 use CanalTP\MttBundle\Services\StopPointManager;

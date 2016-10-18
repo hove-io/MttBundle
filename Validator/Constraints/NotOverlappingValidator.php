@@ -4,7 +4,6 @@ namespace CanalTP\MttBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
-
 use CanalTP\MttBundle\Twig\CalendarExtension;
 
 /**

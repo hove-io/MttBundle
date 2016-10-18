@@ -54,7 +54,6 @@ class LineController extends AbstractController
         $seasonId,
         $externalRouteId
     ) {
-    
         $this->isGranted('BUSINESS_CHOOSE_LAYOUT');
         $perimeterManager = $this->get('nmm.perimeter_manager');
         $perimeter = $perimeterManager->findOneByExternalNetworkId(

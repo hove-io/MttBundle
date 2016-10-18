@@ -67,7 +67,7 @@ class CalendarArchiveGeneratorTest extends \PHPUnit_Framework_TestCase
 
     private static function unlinKDir($dir)
     {
-        $files = array_diff(scandir($dir), array('.','..'));
+        $files = array_diff(scandir($dir), array('.', '..'));
         foreach ($files as $file) {
             (is_dir("$dir/$file")) ? static::unlinKDir("$dir/$file") : unlink("$dir/$file");
         }

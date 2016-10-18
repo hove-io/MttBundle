@@ -54,14 +54,14 @@ class NotOverlappingEntityValidator extends ConstraintValidator
                 ($value->{$this->endFieldGetter}() >= $entity->{$this->startFieldGetter}() &&
                 $value->{$this->endFieldGetter}() <= $entity->{$this->endFieldGetter}())
                 )) {
-                    $this->context->addViolation(
-                        'error.seasons_overlapping',
-                        array(
+                $this->context->addViolation(
+                    'error.seasons_overlapping',
+                    array(
                         '%saison_title%' => $entity->getTitle(),
-                        )
-                    );
+                    )
+                );
 
-                    return false;
+                return false;
             }
         }
 

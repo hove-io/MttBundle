@@ -8,7 +8,6 @@ namespace CanalTP\MttBundle\Services\Amqp;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use PhpAmqpLib\Message\AMQPMessage;
-
 use CanalTP\MttBundle\Entity\AmqpTask;
 use CanalTP\MttBundle\Entity\AmqpAck;
 
@@ -25,7 +24,6 @@ class PdfGenPublisher
         $pdfGeneratorUrl,
         Channel $amqpChannelLib
     ) {
-    
         $this->om = $om;
         $this->channelLib = $amqpChannelLib;
         $this->pdfGeneratorUrl = $pdfGeneratorUrl;

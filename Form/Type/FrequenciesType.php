@@ -5,7 +5,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use CanalTP\MttBundle\Twig\CalendarExtension;
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Frequency;

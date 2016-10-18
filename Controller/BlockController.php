@@ -17,7 +17,6 @@ class BlockController extends AbstractController
         $block_type = 'text',
         $stop_point = null
     ) {
-    
         $blockTypeFactory = $this->get('canal_tp_mtt.form.factory.block');
         $blockManager = $this->get('canal_tp_mtt.block_manager');
         $timetableManager = $this->get('canal_tp_mtt.timetable_manager');
