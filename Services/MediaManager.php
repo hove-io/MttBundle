@@ -3,12 +3,10 @@
 namespace CanalTP\MttBundle\Services;
 
 use Symfony\Component\HttpFoundation\File\File;
-
 use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector;
 use CanalTP\MediaManagerBundle\Entity\Media;
 use CanalTP\MttBundle\MediaManager\Category\CategoryType;
 use CanalTP\MttBundle\MediaManager\Category\Factory\CategoryFactory;
-
 use CanalTP\MttBundle\Entity\Block;
 
 class MediaManager

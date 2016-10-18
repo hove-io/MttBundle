@@ -81,7 +81,6 @@ you can find bundles in packagist: https://packagist.org/packages/canaltp/
 Add bundle in your app/AppKernel.php
 
 ````php
-new CanalTP\MttBridgeBundle\CanalTPMttBridgeBundle(),
 new CanalTP\MttBundle\CanalTPMttBundle(),
 new CanalTP\MediaManagerBundle\CanalTPMediaManagerBundle(),
 ````

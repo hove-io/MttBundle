@@ -202,3 +202,76 @@ services:
     canal_tp_mtt.tartare_client:
         class: Guzzle\Http\Client
         arguments: ["%canal_tp_mtt.tartare_host%"]
+
+    sam.business_module.mtt:
+        class: CanalTP\MttBundle\Permission\BusinessPermissionModule
+        arguments: ['%mtt.permissions%']
+        public: false
+
+    sam.business_permission_manager.mtt:
+        class: CanalTP\MttBundle\Permission\BusinessPermissionManager
+        arguments: ['@sam.business_module.mtt']
+        public: false
+
+    sam.business_perimeter_manager.mtt:
+        class: CanalTP\MttBundle\Perimeter\BusinessPerimeterManager
+        arguments: ['@canal_tp_mtt.perimeter_manager']
+        public: false
+
+    sam.menu_manager.mtt:
+        class: CanalTP\MttBundle\Menu\MenuManager
+        arguments: ['@canal_tp_mtt.user', @service_container]
+        public: false
+
+    sam.business_component.mtt:
+        class: CanalTP\MttBundle\Component\BusinessComponent
+        arguments: ['@sam.business_permission_manager.mtt', '@sam.business_perimeter_manager.mtt', @sam.menu_manager.mtt]
+        public: false
+        tags:
+            -  { name: sam.app_business_component, canonical_app_name: mtt }
+
+    # Monitoring
+    sam.business_monitoring.mtt:
+        class: CanalTP\MttBundle\Monitoring\Component
+
+    mtt.service_monitoring.database.pgsql:
+        class: "%sam.service_monitoring.database.pgsql.class%"
+        arguments: [%database_host%, %database_port%, %database_name%, %database_user%, %database_password%]
+        tags:
+            - { name: service_monitoring, category: Tech }
+
+    mtt.service_monitoring.supervisord:
+        class: "%sam.service_monitoring.http.rest.class%"
+        arguments: [%monitoring.sam.supervisord.url%, 'Supervisord']
+        tags:
+            - { name: service_monitoring, category: Tech }
+
+    mtt.service_monitoring.pdf_generator:
+        class: "%sam.service_monitoring.http.rest.class%"
+        arguments: [%monitoring.sam.pdf_generator.url%, 'Pdf Generator']
+        tags:
+            - { name: service_monitoring, category: Tech }
+
+    mtt.service_monitoring.login:
+        class: "%sam.service_monitoring.http.rest.class%"
+        arguments: [%monitoring.sam.host%, 'TimeTable Application', 302]
+        tags:
+            - { name: service_monitoring, category: Business }
+
+    mtt.service_monitoring.rabbit_mq:
+        class: "%sam.service_monitoring.message_broker.rabbit_mq.class%"
+        arguments: [%canal_tp_mtt.amqp_server_host%, %canal_tp_mtt.amqp_server_port%, %canal_tp_mtt.amqp_server_vhost%, %canal_tp_mtt.amqp_server_user%, %canal_tp_mtt.amqp_server_pass%]
+        tags:
+            - { name: service_monitoring, category: Tech }
+
+    mtt.service_monitoring.media_manager:
+        class: "%sam.service_monitoring.media_manager.class%"
+        arguments: [%monitoring.mtt.media_manager.path%]
+        tags:
+            - { name: service_monitoring, category: Tech }
+
+    mtt.service_monitoring.navitia:
+        class: "%sam.service_monitoring.http.rest.class%"
+        arguments: [%config.navitia.url%, 'Navitia']
+        tags:
+            - { name: service_monitoring, category: Tech }

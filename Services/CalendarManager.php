@@ -9,7 +9,6 @@ namespace CanalTP\MttBundle\Services;
 
 use Navitia\Component\Exception\NotFound\UnknownObjectException;
 use Symfony\Component\Translation\TranslatorInterface;
-
 use CanalTP\MttBundle\Entity\Block;
 use CanalTP\MttBundle\Entity\Season;
 
@@ -340,7 +339,6 @@ class CalendarManager
         $timetable,
         $stopPointInstance
     ) {
-    
         $notesComputed = array();
         $calendarsSorted = array();
         // indicates whether to aggregate or dispatch notes

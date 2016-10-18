@@ -5,7 +5,6 @@ namespace CanalTP\MttBundle\Tests\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-
 use CanalTP\MttBundle\Entity\Season;
 use CanalTP\MttBundle\Entity\LineConfig;
 use CanalTP\MttBundle\Entity\Timetable;

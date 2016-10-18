@@ -21,7 +21,6 @@ class UserManager
         TranslatorInterface $translator,
         $container
     ) {
-    
         $this->om = $om;
         $this->translator = $translator;
         $this->container = $container;

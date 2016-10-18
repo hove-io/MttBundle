@@ -6,7 +6,6 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Serializer\Serializer;
-
 use CanalTP\MttBundle\Normalizer\BlockNormalizer;
 use CanalTP\MttBundle\Entity\BlockRepository;
 // Text Block
@@ -37,7 +36,6 @@ class BlockTypeFactory
         FormFactoryInterface $formFactory,
         MediaManager $mediaManager
     ) {
-    
         $this->co = $co;
         $this->om = $om;
         $this->mediaManager = $mediaManager;

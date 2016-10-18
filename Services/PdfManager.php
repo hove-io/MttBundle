@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use CanalTP\MttBundle\Entity\StopPoint;
 use CanalTP\MttBundle\Entity\Timetable;
 

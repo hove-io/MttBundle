@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
-
 use CanalTP\MttBundle\Entity\LayoutConfig;
 
 class LayoutConfigType extends AbstractType

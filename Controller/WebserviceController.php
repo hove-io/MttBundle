@@ -3,7 +3,6 @@
 namespace CanalTP\MttBundle\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use CanalTP\MediaManagerBundle\Entity\Media;
 
 class WebserviceController extends AbstractController

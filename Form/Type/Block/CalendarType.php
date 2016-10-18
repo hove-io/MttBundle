@@ -6,7 +6,6 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Validator\Constraints\NotBlank;
-
 use CanalTP\MttBundle\Form\Type\BlockType;
 
 class CalendarType extends BlockType
@@ -38,7 +37,7 @@ class CalendarType extends BlockType
             ->add(
                 'title',
                 'text',
-                array('label' => 'block.calendar.labels.title',)
+                array('label' => 'block.calendar.labels.title', )
             )
             ->add(
                 'content',

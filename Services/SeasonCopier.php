@@ -21,7 +21,6 @@ class SeasonCopier
         BlockManager $blockManager,
         FrequencyManager $frequencyManager
     ) {
-    
         $this->om = $om;
         $this->lineManager = $lineManager;
         $this->timetableManager = $timetableManager;

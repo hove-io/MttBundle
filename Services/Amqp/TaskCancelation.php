@@ -7,7 +7,6 @@
 namespace CanalTP\MttBundle\Services\Amqp;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
 use CanalTP\MttBundle\Entity\AmqpTask;
 
 class TaskCancelation

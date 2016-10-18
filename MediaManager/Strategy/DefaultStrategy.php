@@ -33,7 +33,6 @@ class DefaultStrategy extends AbstractStrategy
         CompanyInterface $company,
         CategoryInterface $category
     ) {
-    
         $path = $company->getStorage()->getPath();
         $path .= $company->getName() . '/';
 
@@ -46,7 +45,6 @@ class DefaultStrategy extends AbstractStrategy
         CompanyInterface $company,
         CategoryInterface $category
     ) {
-    
         $path = $company->getName() . '/';
 
         $path .= $this->buildPath("", $category);
@@ -58,7 +56,6 @@ class DefaultStrategy extends AbstractStrategy
         CompanyInterface $company,
         CategoryInterface $category
     ) {
-    
         $path = $company->getStorage()->getPath();
         $path .= $category->getName() . '/';
         $path .= $category->getRessourceId();
@@ -86,7 +83,6 @@ class DefaultStrategy extends AbstractStrategy
         CategoryInterface $category,
         $mediaId
     ) {
-    
         $path = $company->getStorage()->getPath();
         $path .= $company->getName() . '/';
         $path .= $this->buildPath("", $category);
