@@ -72,7 +72,6 @@ canal_tp_media_manager:
 Open your composer.json in your project and add :
 
 ```json
-"canaltp/mtt-bridge-bundle": "0.3.2",
 "canaltp/mtt-bundle": "1.9.2"
 ```
 
