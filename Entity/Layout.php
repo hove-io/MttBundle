@@ -328,7 +328,7 @@ class Layout extends AbstractEntity
 
     public function __toString()
     {
-        return $this->label;
+        return (string) $this->label;
     }
 
     public function getFile()
