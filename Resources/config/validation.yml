@@ -36,7 +36,7 @@ CanalTP\MttBundle\Entity\Area:
 CanalTP\MttBundle\Entity\Calendar:
     getters:
         datesValid:
-            - "True": { message: 'calendar.error.dates_valid' }
+            - "IsTrue": { message: 'calendar.error.dates_valid' }
     properties:
         title:
             - NotBlank: ~
