@@ -9,4 +9,9 @@ Timetable application's main goal is to generate timetable files which can be fo
 ![Screenshot](screenshot_timetable.png  "main Timetable")
 ##Installation
 
-Please refer to [Timetable's installation](installation.md) 
+Please refer to [Timetable's installation](installation.md)
+
+License
+-------
+
+This library is under [MIT](LICENSE). 
