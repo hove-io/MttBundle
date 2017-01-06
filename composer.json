@@ -27,7 +27,7 @@
         "craue/formflow-bundle": "~2.1",
         "eternicode/bootstrap-datepicker": "1.3.0",
         "friendsofsymfony/jsrouting-bundle": "1.5.3",
-        "guzzlehttp/guzzle": "~3.8",
+        "guzzle/guzzle": "^3.8.1",
         "itbz/fpdi": "1.4.4",
         "oyejorge/less.php": "1.5.1.2",
         "php-amqplib/php-amqplib": "^2.6",
