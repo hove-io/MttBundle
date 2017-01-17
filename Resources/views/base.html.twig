@@ -8,12 +8,11 @@
     {% endstylesheets %}
  {% endblock %}
 
-{% if app.request.query.get('timetableOnly') %}
-    {% block head_analytics %}
-    {% endblock %}
-    {% block body_analytics %}
-    {% endblock %}
-{% endif %}
+{% block head_analytics %}
+    {% if not app.request.query.get('timetableOnly') %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
 
 {% block head_config %}
     {{ parent() }}
@@ -27,6 +26,13 @@
     - {{ pageTitle|trans }}
     {% endif %}
 {% endblock %}
+
+{% block body_analytics %}
+    {% if not app.request.query.get('timetableOnly') %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
 {% block navbar_brand %}<a href="{% if externalNetworkId %}{{ path('canal_tp_mtt_homepage', {'externalNetworkId':externalNetworkId }) }}{% else %}{{ path('canal_tp_mtt_homepage') }}{% endif %}">TIMETABLE</a>{% endblock %}
 
 {% block root_breadcrumb %}
