@@ -20,6 +20,7 @@
     - {{ pageTitle|trans }}
     {% endif %}
 {% endblock %}
+
 {% block navbar_brand %}<a href="{% if externalNetworkId %}{{ path('canal_tp_mtt_homepage', {'externalNetworkId':externalNetworkId }) }}{% else %}{{ path('canal_tp_mtt_homepage') }}{% endif %}">TIMETABLE</a>{% endblock %}
 
 {% block root_breadcrumb %}

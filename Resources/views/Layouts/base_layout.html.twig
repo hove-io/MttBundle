@@ -6,6 +6,18 @@
     <link rel="stylesheet" media="all" href="{{ asset('bundles/canaltpmtt/css/print.css') }}?{{ assets_version }}" />
 {% endblock %}
 
+{% block head_analytics %}
+    {% if not app.request.query.get('timetableOnly') %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block body_analytics %}
+    {% if not app.request.query.get('timetableOnly') %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
 {% block breadcrumb %}
     {% if pageTitle %}
         <li><a href="{{ path(
