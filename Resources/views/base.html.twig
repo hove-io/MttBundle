@@ -8,6 +8,13 @@
     {% endstylesheets %}
  {% endblock %}
 
+{% if app.request.query.get('timetableOnly') %}
+    {% block head_analytics %}
+    {% endblock %}
+    {% block body_analytics %}
+    {% endblock %}
+{% endif %}
+
 {% block head_config %}
     {{ parent() }}
     {% include 'CanalTPMttBundle::config.js.html.twig' %}
