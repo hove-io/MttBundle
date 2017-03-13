@@ -25,7 +25,8 @@ abstract class AbstractControllerTest extends SamBaseTestController
 
     public function setUp($login = true)
     {
-        $this->client = parent::createClient(array('environment' => 'test_mtt'));
+        // Set the test environment and a fake IP to avoid the exception in security.yml
+        $this->client = parent::createClient(array('environment' => 'test_mtt'), array("REMOTE_ADDR" => "1.2.3.4"));
         parent::setUp();
 
         if (self::$mockDb === true) {
