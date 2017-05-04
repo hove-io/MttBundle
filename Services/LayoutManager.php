@@ -24,7 +24,7 @@ class LayoutManager
 
     public function findAll()
     {
-        return ($this->repository->findBy(array(),array('created' => 'DESC')));
+        return ($this->repository->findBy(array(), array('created' => 'DESC')));
     }
 
     public function findByCustomer(Customer $customer)
