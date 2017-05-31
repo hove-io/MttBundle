@@ -65,6 +65,7 @@ class PdfPayloadsGenerator
         $payload['pdfHash'] = isset($stopPoint->pdfHash) ? $stopPoint->pdfHash : '';
         $payload['layoutParams'] = array(
             'orientation' => $lineConfig->getLayoutConfig()->getLayout()->getOrientationAsString(),
+            'pageSize' => $lineConfig->getLayoutConfig()->getLayout()->getPageSize(),
         );
         $payload['cssVersion'] = $lineConfig->getLayoutConfig()->getLayout()->getCssVersion();
         $payload['url'] = $this->generatePayloadUrl();
