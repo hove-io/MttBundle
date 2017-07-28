@@ -26,10 +26,12 @@ class LayoutModelController extends AbstractController
         $this->isGranted('BUSINESS_MANAGE_LAYOUT_MODEL');
         $id = $request->query->get('id');
 
-        $layout = empty($id)
-            ? new \CanalTP\MttBundle\Entity\Layout()
-            : $this->get('canal_tp_mtt.layout')->findById($id);
-
+        if (!empty($id)) {
+            $layout = $this->get('canal_tp_mtt.layout')->findById($id);
+            opcache_reset();
+        } else {
+            $layout = new \CanalTP\MttBundle\Entity\Layout();
+        }
 
         $form = $this->createForm(
             new LayoutModelType(),
