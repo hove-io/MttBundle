@@ -35,6 +35,11 @@ class Version014 extends AbstractMigration
             FOREIGN KEY (perimeter_id)
             REFERENCES public.t_perimeter_per(per_id)
         ' . $sqlEnding);
+        $this->addSql('ALTER TABLE mtt.season DROP CONSTRAINT fk_9c6252ce77570a4c,
+            ADD CONSTRAINT fk_9c6252ce77570a4c
+            FOREIGN KEY (perimeter_id)
+            REFERENCES public.t_perimeter_per(per_id)
+        ' . $sqlEnding);
         $this->addSql('ALTER TABLE mtt.area_pdf DROP CONSTRAINT fk_cf404a72bd0f409c,
             ADD CONSTRAINT fk_cf404a72bd0f409c
             FOREIGN KEY (area_id)
