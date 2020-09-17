@@ -1,6 +1,10 @@
+canal_tp_mtt_default:
+    path:  /
+    defaults: { _controller: CanalTPMttBundle:Default:index }
+
 canal_tp_mtt_homepage:
     path:  /{externalNetworkId}
-    defaults: { _controller: CanalTPMttBundle:Default:index , externalNetworkId: null}
+    defaults: { _controller: CanalTPMttBundle:Default:index }
 
 canal_tp_mtt_menu:
     path:  /navigation/networks/{externalNetworkId}/seasons/{current_season}/route/{current_route}
