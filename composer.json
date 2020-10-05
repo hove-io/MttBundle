@@ -38,7 +38,7 @@
         "symfony/security": "^2.6",
         "symfony/translation": "^2.6",
         "symfony/validator": "^2.6",
-        "twbs/bootstrap": "3.1.0",
+        "twbs/bootstrap": "3.*",
         "willdurand/js-translation-bundle":"^2.1",
         "twig/twig": "^1.26"
     },
