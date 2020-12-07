@@ -242,7 +242,7 @@ services:
 
     mtt.service_monitoring.supervisord:
         class: "%sam.service_monitoring.http.rest.class%"
-        arguments: [%monitoring.sam.supervisord.url%, 'Supervisord']
+        arguments: [%monitoring.sam.supervisord.url%, 'Supervisord', %monitoring.sam.supervisord.http_code%]
         tags:
             - { name: service_monitoring, category: Tech }
 
