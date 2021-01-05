@@ -240,12 +240,6 @@ services:
         tags:
             - { name: service_monitoring, category: Tech }
 
-    mtt.service_monitoring.supervisord:
-        class: "%sam.service_monitoring.http.rest.class%"
-        arguments: [%monitoring.sam.supervisord.url%, 'Supervisord']
-        tags:
-            - { name: service_monitoring, category: Tech }
-
     mtt.service_monitoring.pdf_generator:
         class: "%sam.service_monitoring.http.rest.class%"
         arguments: [%monitoring.sam.pdf_generator.url%, 'Pdf Generator']
